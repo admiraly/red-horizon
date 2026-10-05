@@ -4,12 +4,30 @@
   "legacy": true,
   "crowd_module_present": false,
   "library_sha256": "23f291754a6b08c7005e84d5e196d03ad69276f27581e0ffa04bf9152438829d",
-  "oracle_sha256": "b845789f4cb36cd4562612c723523cf7f1b9f9dd8ecba490e8355d5ed2e05901",
+  "oracle_sha256": "09278e209485ca404e8a297d79d14abd12fe88145ffb0f633f6ed2276eab47b6",
   "footprint_radii_m": [
     0.55,
-    2.5,
-    2.0
+    3.55,
+    4.49
   ],
+  "vehicle_geometry": {
+    "1": {
+      "maximum_baked_radius": 3.549956655395831,
+      "lod0_dimensions": [
+        3.5417513847351074,
+        2.6203088760375977,
+        6.048255205154419
+      ]
+    },
+    "2": {
+      "maximum_baked_radius": 4.488728521483626,
+      "lod0_dimensions": [
+        5.055217266082764,
+        3.1998021602630615,
+        7.084345102310181
+      ]
+    }
+  },
   "controlled_encounters": [
     {
       "name": "held_infantry",
@@ -189,10 +207,10 @@
       "arrival_error": {
         "0": 0.0
       },
-      "initial_minimum_gap": 10.0,
-      "minimum_swept_gap": -5.0,
-      "final_minimum_gap": 20.0,
-      "overlapping_pair_ticks": 20,
+      "initial_minimum_gap": 7.8999999999999995,
+      "minimum_swept_gap": -7.1,
+      "final_minimum_gap": 17.9,
+      "overlapping_pair_ticks": 30,
       "samples": [
         {
           "tick": 30,
@@ -241,34 +259,34 @@
     },
     {
       "name": "held_artillery",
-      "ticks": 240,
+      "ticks": 360,
       "initial": {
         "0": [
           1000.0,
           2000.0
         ],
         "1": [
-          1008.0,
+          1012.0,
           2000.0
         ]
       },
       "final": {
         "0": [
-          1020.0,
+          1035.0,
           2000.0
         ],
         "1": [
-          1008.0,
+          1012.0,
           2000.0
         ]
       },
       "arrival_error": {
         "0": 0.0
       },
-      "initial_minimum_gap": 4.0,
-      "minimum_swept_gap": -4.0,
-      "final_minimum_gap": 8.0,
-      "overlapping_pair_ticks": 40,
+      "initial_minimum_gap": 3.0199999999999996,
+      "minimum_swept_gap": -8.98,
+      "final_minimum_gap": 14.019999999999998,
+      "overlapping_pair_ticks": 90,
       "samples": [
         {
           "tick": 30,
@@ -278,7 +296,7 @@
               2000.0
             ],
             "1": [
-              1008.0,
+              1012.0,
               2000.0
             ]
           }
@@ -287,32 +305,32 @@
           "tick": 120,
           "poses": {
             "0": [
-              1020.0,
+              1024.00146484375,
               2000.0
             ],
             "1": [
-              1008.0,
+              1012.0,
               2000.0
             ]
           }
         },
         {
-          "tick": 240,
+          "tick": 360,
           "poses": {
             "0": [
-              1020.0,
+              1035.0,
               2000.0
             ],
             "1": [
-              1008.0,
+              1012.0,
               2000.0
             ]
           }
         }
       ],
-      "physical_trace_sha256": "3aab1bb8cfe2acdcb0aac6580d9c5c70f37bbc0c684457dc6660f2db54bfe483",
-      "ground_pose_trace_sha256": "c69d978daf97143bcac2c8ebc272e4f7b1be7a13f72ab4134934a969c2d6f983",
-      "checksum": "90e58c9d76002a39",
+      "physical_trace_sha256": "c26af4b09ea6259706d4b98e7d1106efc5f6fe03c0c62e78ed5a76314b438706",
+      "ground_pose_trace_sha256": "c6fad3cc5efbe573b81fc77024b14587d3544e42dd8667f82ebd2becaf063f58",
+      "checksum": "16f8e30f102d5799",
       "source_generation_change_tick": null
     },
     {
@@ -401,19 +419,19 @@
           2000.0
         ],
         "1": [
-          994.0,
+          992.0,
           2000.0
         ],
         "2": [
-          988.0,
+          984.0,
           2000.0
         ],
         "3": [
-          982.0,
+          976.0,
           2000.0
         ],
         "4": [
-          976.0,
+          968.0,
           2000.0
         ]
       },
@@ -446,10 +464,10 @@
         "3": 0.0,
         "4": 0.0
       },
-      "initial_minimum_gap": 1.0,
-      "minimum_swept_gap": -5.0,
-      "final_minimum_gap": -5.0,
-      "overlapping_pair_ticks": 940,
+      "initial_minimum_gap": 0.9000000000000004,
+      "minimum_swept_gap": -7.1,
+      "final_minimum_gap": -7.1,
+      "overlapping_pair_ticks": 870,
       "samples": [
         {
           "tick": 30,
@@ -459,19 +477,19 @@
               2000.0
             ],
             "1": [
-              1009.0,
+              1007.0,
               2000.0
             ],
             "2": [
-              1003.0,
+              999.0,
               2000.0
             ],
             "3": [
-              997.0,
+              991.0,
               2000.0
             ],
             "4": [
-              991.0,
+              983.0,
               2000.0
             ]
           }
@@ -484,19 +502,19 @@
               2000.0
             ],
             "1": [
-              1054.0,
+              1052.0,
               2000.0
             ],
             "2": [
-              1048.0,
+              1044.0,
               2000.0
             ],
             "3": [
-              1042.0,
+              1036.0,
               2000.0
             ],
             "4": [
-              1036.0,
+              1028.0,
               2000.0
             ]
           }
@@ -527,9 +545,9 @@
           }
         }
       ],
-      "physical_trace_sha256": "07dd0a75c9a273f1714847b1cd61df4ece73c60992a6ccf6f9cfc4c485c6ad35",
-      "ground_pose_trace_sha256": "353daeeff5ed1e2a4d9a1731d467e3838dfcf2df36f4e646967ef0f8e852f9b6",
-      "checksum": "79a7d90ecf78ac91",
+      "physical_trace_sha256": "a3b7c4abc0dea29d1b6c66912fb7f84f3cd01321859557caec3022fc84af99cd",
+      "ground_pose_trace_sha256": "0fa8ec3172ba6c305d0ad816e353b7b91de1f93b9edf60900372a6aefc951378",
+      "checksum": "bf65fdf304118d71",
       "source_generation_change_tick": null
     },
     {
@@ -558,10 +576,10 @@
       "arrival_error": {
         "0": 0.0
       },
-      "initial_minimum_gap": 17.0,
-      "minimum_swept_gap": -5.0,
-      "final_minimum_gap": 25.0,
-      "overlapping_pair_ticks": 20,
+      "initial_minimum_gap": 14.899999999999999,
+      "minimum_swept_gap": -7.1,
+      "final_minimum_gap": 22.9,
+      "overlapping_pair_ticks": 30,
       "samples": [
         {
           "tick": 30,
@@ -634,10 +652,10 @@
       "arrival_error": {
         "0": 0.0
       },
-      "initial_minimum_gap": 203.1730049742281,
-      "minimum_swept_gap": -0.8178820901304773,
-      "final_minimum_gap": 203.1730049742281,
-      "overlapping_pair_ticks": 12,
+      "initial_minimum_gap": 201.07300497422807,
+      "minimum_swept_gap": -2.917882090130477,
+      "final_minimum_gap": 201.07300497422807,
+      "overlapping_pair_ticks": 24,
       "samples": [
         {
           "tick": 30,
@@ -850,10 +868,10 @@
       "arrival_error": {
         "0": 0.0
       },
-      "initial_minimum_gap": 1.9500000000000002,
-      "minimum_swept_gap": -3.05,
-      "final_minimum_gap": 3.95,
-      "overlapping_pair_ticks": 52,
+      "initial_minimum_gap": 0.9000000000000004,
+      "minimum_swept_gap": -4.1,
+      "final_minimum_gap": 2.9000000000000004,
+      "overlapping_pair_ticks": 69,
       "samples": [
         {
           "tick": 30,
@@ -984,14 +1002,14 @@
       "initialized_entities": 8192,
       "ticks": 120,
       "initial": {
-        "near_pairs": 439,
-        "overlapping_pairs": 42,
-        "minimum_gap": -3.0
+        "near_pairs": 1890,
+        "overlapping_pairs": 110,
+        "minimum_gap": -7.98
       },
       "final": {
-        "near_pairs": 1382,
-        "overlapping_pairs": 199,
-        "minimum_gap": -4.815729617041575
+        "near_pairs": 1812,
+        "overlapping_pairs": 439,
+        "minimum_gap": -7.9935498046875
       },
       "surviving_ground_actors_moved": 6804,
       "final_alive": [
@@ -1008,14 +1026,14 @@
       "initialized_entities": 8192,
       "ticks": 120,
       "initial": {
-        "near_pairs": 2229,
-        "overlapping_pairs": 23,
-        "minimum_gap": -3.0
+        "near_pairs": 2810,
+        "overlapping_pairs": 315,
+        "minimum_gap": -7.98
       },
       "final": {
-        "near_pairs": 2758,
-        "overlapping_pairs": 437,
-        "minimum_gap": -4.97526456633452
+        "near_pairs": 3595,
+        "overlapping_pairs": 954,
+        "minimum_gap": -7.635514009340866
       },
       "surviving_ground_actors_moved": 6658,
       "final_alive": [

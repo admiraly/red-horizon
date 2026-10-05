@@ -32,9 +32,16 @@ try:
 except ValueError:
     enabled = None
 assert a.legacy or enabled is not None, 'candidate must expose production crowd_enabled'
-# Physical collision contract; neither mesh silhouettes nor rendered widths are evidence.
-RADII = (.55, 2.5, 2.0)
+# Vehicle discs conservatively enclose the scale-one authored mesh radius;
+# infantry uses a torso steering footprint, not its full animated weapon envelope.
+RADII = (.55, 3.55, 4.49)
 SPEED = (.12, .5, .2)
+bake=Path(__file__).resolve().parents[1]/'content/models/bake-report.json'
+mesh_records=json.loads(bake.read_text())['meshes']
+vehicle_geometry={str(kind):{'maximum_baked_radius':max(m['radius'] for m in mesh_records if m['role']==kind),
+                            'lod0_dimensions':next(m['dimensions'] for m in mesh_records if m['role']==kind and m['lod']==0)}
+                  for kind in (1,2)}
+assert all(RADII[kind]>=vehicle_geometry[str(kind)]['maximum_baked_radius'] for kind in (1,2))
 boxes = [tuple((C.c_float*40).in_dll(lib,'terrain_obstacles')[i*8:i*8+4]) for i in range(5)]
 
 
@@ -142,9 +149,9 @@ cases=[
  ('held_infantry',[(0,1000,2000,0,0,(1012,2000)),(1,1005,2000,0,1,None)],240,False,()),
  ('generation_reuse',[(0,1000,2000,0,0,(1012,2000)),(1,1005,2000,0,1,None)],240,False,()),
  ('held_armor',[(0,1000,2000,1,0,(1040,2000)),(1,1015,2000,1,1,None)],240,False,()),
- ('held_artillery',[(0,1000,2000,2,0,(1020,2000)),(1,1008,2000,2,1,None)],240,False,()),
+ ('held_artillery',[(0,1000,2000,2,0,(1035,2000)),(1,1012,2000,2,1,None)],360,False,()),
  ('approaching_pair',[(0,1000,2000,0,0,(1012,2000)),(1,1012,2000,0,1,(1000,2000))],240,False,()),
- ('convoy',[(i,1000-i*6,2000,1,0,(1060,2000)) for i in range(5)],240,False,()),
+ ('convoy',[(i,1000-i*8,2000,1,0,(1060,2000)) for i in range(5)],240,False,()),
  ('wall_edge_pass',[(0,3978,1094,1,0,(4030,1094)),(1,4000,1094,1,1,None)],240,False,()),
  ('wall_route',[(0,3970,1300,1,0,(4030,1300)),(1,4000,1094,1,1,None)],1600,False,()),
  ('initial_overlap',[(i,1000+i*.5,2000,0,0,(1020,2000)) for i in range(5)],400,True,()),
@@ -175,8 +182,8 @@ def close_pairs(count):
         e=entities[i]
         if not e.hp or e.kind>=3 or drivers[i]!=-1: continue
         key=(int(e.x//8),int(e.z//8))
-        for dx in (-1,0,1):
-            for dz in (-1,0,1):
+        for dx in (-2,-1,0,1,2):
+            for dz in (-2,-1,0,1,2):
                 for j in bins.get((key[0]+dx,key[1]+dz),()):
                     other=entities[j]
                     gap=math.dist(pos(e),pos(other))-RADII[e.kind]-RADII[other.kind]
@@ -207,7 +214,7 @@ for mode,name in ((2,'scale-front'),(3,'scale-hotspot')):
 report={'suite':'crowd-outcomes','passed':True,'legacy':a.legacy,'crowd_module_present':enabled is not None,
         'library_sha256':hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),
         'oracle_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        'footprint_radii_m':RADII,'controlled_encounters':reports,'dense':dense_reports,
+        'footprint_radii_m':RADII,'vehicle_geometry':vehicle_geometry,'controlled_encounters':reports,'dense':dense_reports,
         'deterministic_replay':True,'physical_label_swap':True,
         'scope':'Production sim_tick navigation/terrain at real role speeds; controlled friendly deployments exclude weapons, player driving and full operation acceptance'}
 if a.report: Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
