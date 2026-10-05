@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Development-only XTest input against the actual client on its private display."""
-import ctypes as C,ctypes.util,json,os,pathlib,re,subprocess,sys,time
+import ctypes as C,ctypes.util,json,os,pathlib,re,subprocess,sys,time,signal,struct
 exe=pathlib.Path(sys.argv[1]).resolve()
 x=C.CDLL(ctypes.util.find_library('X11'));xt=C.CDLL(ctypes.util.find_library('Xtst'))
 x.XOpenDisplay.argtypes=[C.c_char_p];x.XOpenDisplay.restype=C.c_void_p
@@ -18,7 +18,7 @@ xt.XTestFakeButtonEvent.argtypes=[C.c_void_p,C.c_uint,C.c_int,C.c_ulong]
 xt.XTestFakeMotionEvent.argtypes=[C.c_void_p,C.c_int,C.c_int,C.c_int,C.c_ulong]
 display=x.XOpenDisplay(None);assert display,'private display unavailable'
 process=subprocess.Popen([str(exe),'--tactical'],cwd=exe.parent,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
-window=0
+window=0;memory=None
 try:
     def title(win):
         name=C.c_char_p()
@@ -37,6 +37,18 @@ try:
     assert window,'client window did not map'
     x.XRaiseWindow(display,window);x.XSetInputFocus(display,window,2,0);x.XFlush(display);time.sleep(.2)
     first_title=title(window)
+    # Development-only initial player placement at the actual allied base.
+    # Keep the full army, real input/ticks/combat and normal HP/ammo unchanged;
+    # this focused magazine fixture must not redeploy mid-assertion.
+    symbols={parts[2]:int(parts[0],16) for line in subprocess.check_output(['nm','-n',str(exe)],text=True).splitlines() if len(parts:=line.split())==3}
+    memory=os.open(f'/proc/{process.pid}/mem',os.O_RDWR)
+    player=symbols['sim_players']
+    os.kill(process.pid,signal.SIGSTOP)
+    _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+    generation=struct.unpack('<I',os.pread(memory,4,player+60))[0]
+    os.pwrite(memory,struct.pack('<f',1000.),player)
+    os.pwrite(memory,struct.pack('<f',1300.),player+8)
+    os.kill(process.pid,signal.SIGCONT)
     def key(symbol,hold=.12):
         code=x.XKeysymToKeycode(display,symbol);assert code
         xt.XTestFakeKeyEvent(display,code,1,0);x.XFlush(display);time.sleep(hold)
@@ -57,13 +69,17 @@ try:
     key(0xffbf) # F2 -> front1
     click(788,368);click(0,0) # valid waypoint, then outside world
     key(0xff09) # return to FPS
+    before_w=struct.unpack('<fff',os.pread(memory,12,player))
     key(ord('w'),.25)
+    after_w=struct.unpack('<fff',os.pread(memory,12,player))
+    assert abs(after_w[0]-before_w[0])+abs(after_w[2]-before_w[2])>.2,'W movement did not contribute'
     button(True);until(lambda t:'rifle 0/30' in t);button(False)
     key(ord('r'));until(lambda t:'RELOADING' in t,2)
     button(True);time.sleep(.35)
     assert 'rifle 0/30 RELOADING' in title(window),'reload failed to block fire'
     button(False);until(lambda t:'rifle 30/30' in t and 'RELOADING' not in t,4)
     button(True);time.sleep(.35);button(False);time.sleep(.1)
+    assert struct.unpack('<I',os.pread(memory,4,player+60))[0]==generation,'focused input fixture redeployed'
     last_title=title(window);key(0xff1b) # Escape
     stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
     shots=int(re.search(r'shots=(\d+)',stdout).group(1))
@@ -76,11 +92,12 @@ try:
     cx,cz=map(float,camera.groups())
     start=re.search(r'start_player_x=([\d.]+) start_player_z=([\d.]+)',stdout);assert start,stdout
     sx,sz=map(float,start.groups())
-    assert abs(cx-sx)+abs(cz-sz)>.2,'W movement did not contribute'
-    print(json.dumps({'suite':'controls','passed':True,'shots':shots,'ammo':ammo,'reloads':reloads,'front':front,'waypoint_orders':orders,'goal':[gx,gz],'first_title':first_title,'last_title':last_title}))
+    assert abs(cx-after_w[0])+abs(cz-after_w[2])<2.,'camera did not follow actual movement'
+    print(json.dumps({'suite':'controls','passed':True,'shots':shots,'ammo':ammo,'reloads':reloads,'front':front,'waypoint_orders':orders,'goal':[gx,gz],'first_title':first_title,'last_title':last_title,'fixture':'initial player relocation to allied base; full army retained; generation unchanged','actual_W_displacement':[after_w[0]-before_w[0],after_w[2]-before_w[2]]}))
 finally:
     if process.poll() is None:
         process.terminate()
         try:process.wait(timeout=5)
         except subprocess.TimeoutExpired:process.kill();process.wait(timeout=5)
+    if memory is not None:os.close(memory)
     x.XCloseDisplay(display)
