@@ -343,6 +343,7 @@ def main():
         if suite in ('all','headless','fast','simulation','ordnance'):
             execute([sys.executable,'tests/test_ordnance_admission.py'])
             execute([sys.executable,'tests/test_ordnance_fairness.py',str(library)])
+            if getattr(args,'extended',False): execute([sys.executable,'tests/test_ordnance_fairness.py',str(library),'--legacy'])
         if suite in ('all','headless','fast','simulation','hazards'):
             hazard_probe=BUILD/'hazard_steering_probe.o'
             hazard_library=BUILD/'libhazards.so'
