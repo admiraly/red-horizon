@@ -5,6 +5,8 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'
 RUNS=ROOT/'runs'
 SCENARIOS={'scale-open':8192,'scale-front':8192,'scale-hotspot':8192,'scale-stretch':16384,'air-battle':8192}
+CLIENT_SCENARIOS=('scale-open','air-battle','scale-front','scale-hotspot')
+LOCAL_SCENARIOS=('air-battle','scale-front','scale-hotspot')
 def revision():
     sha=os.environ.get('RED_HORIZON_SOURCE_COMMIT') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     # Hash actual authored inputs too, including uncommitted sources.
@@ -93,11 +95,13 @@ def build_locked(target,objects_only=False):
     result={'target':target,'revision':rev,'assembled':assembled,'assembled_sources':assembled_sources,'seconds':time.perf_counter()-start,'executable':str(frozen)}
     atomic(BUILD/(target+'-build.json'),result); print(json.dumps(result)); return frozen
 def run_headless(args,benchmark=False):
-    exe=build('headless'); scenario=args.scenario
-    if scenario in ('scale-front','scale-hotspot'):
-        raise RuntimeError(f'{scenario} fixture not implemented; refusing to relabel scale-open')
-    cmd=[str(exe),'--units',str(args.units or SCENARIOS[scenario]),'--ticks',str(args.ticks),'--seed',str(args.seed)]
-    if scenario=='air-battle': cmd+=['--scenario','air-battle']
+    scenario=args.scenario
+    units=args.units if args.units is not None else SCENARIOS[scenario]
+    if scenario in ('scale-front','scale-hotspot') and units<8192:
+        raise RuntimeError(f'{scenario} requires at least 8192 units')
+    exe=build('headless')
+    cmd=[str(exe),'--units',str(units),'--ticks',str(args.ticks),'--seed',str(args.seed)]
+    if scenario in LOCAL_SCENARIOS: cmd+=['--scenario',scenario]
     if args.realtime: cmd.append('--realtime')
     memory_path=RUNS/('memory-'+uuid.uuid4().hex[:10]+'.txt'); RUNS.mkdir(exist_ok=True)
     timer=pathlib.Path('/usr/bin/time')
@@ -107,18 +111,25 @@ def run_headless(args,benchmark=False):
     if memory_path.exists(): memory_path.unlink()
     try: metrics=json.loads(r.stdout)
     except json.JSONDecodeError: raise RuntimeError('Runtime did not emit valid JSON: '+r.stdout[:1000])
-    result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':metrics.get('navigation',{}).get('pending','unmeasured'),'network_bandwidth':'not implemented'}}
+    result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':metrics.get('navigation',{}).get('pending','unmeasured'),'network_bandwidth':'unmeasured in CPU-only headless benchmark'}}
     path=RUNS/('bench-'+uuid.uuid4().hex[:10]+'.json'); atomic(path,result); print(json.dumps(result,indent=2)); print('Report: '+str(path))
 def client_view_args(args):
     return [value for name in ('width','height','fov','sensitivity') if getattr(args,name,None) is not None
             for value in ('--'+name,str(getattr(args,name)))]
+def client_scenario_args(args):
+    if args.scenario not in CLIENT_SCENARIOS:
+        raise RuntimeError('Client scenarios implemented only for '+', '.join(CLIENT_SCENARIOS))
+    if args.connect and args.scenario in LOCAL_SCENARIOS:
+        raise RuntimeError(f'{args.scenario} initial cohort fixture is local-only')
+    if args.units not in (None,8192):
+        raise RuntimeError('Client currently has a fixed 8192-unit scenario')
+    return ['--scenario',args.scenario] if args.scenario in LOCAL_SCENARIOS else []
 def gpu_benchmark(args):
     if not os.environ.get('DISPLAY'):
         raise RuntimeError('Hardware GPU benchmark requires an accessible X11/XWayland DISPLAY')
     if args.connect:
         raise RuntimeError('Hardware GPU benchmark currently measures local solo only')
-    if args.scenario not in ('scale-open','air-battle'):
-        raise RuntimeError('Client GPU fixtures implemented only for scale-open and air-battle')
+    scenario_args=client_scenario_args(args)
     if args.units not in (None,8192) or args.seed!=42:
         raise RuntimeError('Client currently has a fixed 8192-unit seed42 scenario; use --seed 42')
     frames=args.frames or 600
@@ -134,18 +145,22 @@ def gpu_benchmark(args):
     screenshot=folder/'final.ppm'; cmd=[str(exe),'--frames',str(frames),'--screenshot',str(screenshot),*client_view_args(args)]
     if args.tactical: cmd.append('--tactical')
     if args.weather: cmd+=['--weather',args.weather]
-    if args.scenario=='air-battle':cmd+=['--scenario','air-battle']
+    cmd+=scenario_args
     started=time.perf_counter(); run=subprocess.run(cmd,cwd=exe.parent,env=env,capture_output=True,text=True,timeout=max(60,frames/10),check=True)
     (folder/'client.log').write_text(run.stdout+run.stderr)
     metrics=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_metrics"')]
     if len(metrics)!=1 or metrics[0]['gpu_samples']==0:
         raise RuntimeError('Client did not report completed GPU timer samples')
-    result={'scenario':('local-solo-air-battle' if args.scenario=='air-battle' else 'local-solo-initial-view'),'revision':exe.parent.name,'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),
+    battle_metrics=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"battle_metrics"')]
+    if len(battle_metrics)>1:
+        raise RuntimeError('Client reported multiple battle_metrics rows')
+    result={'scenario':('local-solo-'+args.scenario if args.scenario in LOCAL_SCENARIOS else 'local-solo-initial-view'),'revision':exe.parent.name,'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),
             'hardware':platform.platform(),'context':context,'resolution':[args.width or 1280,args.height or 720],'seed':42,
             'vertical_fov_degrees':args.fov if args.fov is not None else 'legacy projection1.05/1.87','mouse_sensitivity':args.sensitivity if args.sensitivity is not None else .002,'units_at_start':8192,'view':'tactical' if args.tactical else 'first-person','weather':args.weather or 'clear',
             'requested_frames':frames,'wall_seconds':time.perf_counter()-started,'metrics':metrics[0],
             'screenshot':str(screenshot),'screenshot_sha256':hashlib.sha256(screenshot.read_bytes()).hexdigest(),
-            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('initial authored air-battle view; not SCALE-HOTSPOT acceptance' if args.scenario=='air-battle' else 'initial idle view only; not dense hotspot/front coverage')}}
+            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','audio_playback':'physical output and listening unverified','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('initial authored '+args.scenario+' view; density acceptance requires measured engagement and visible actors' if args.scenario in LOCAL_SCENARIOS else 'initial idle view only; not dense hotspot/front coverage')}}
+    if battle_metrics: result['battle_metrics']=battle_metrics[0]
     atomic(folder/'result.json',result); print(json.dumps(result,indent=2)); print('Report: '+str(folder/'result.json'))
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
@@ -213,14 +228,13 @@ def main():
         if args.command=='bench' and args.client:
             gpu_benchmark(args)
         elif args.client:
+            scenario_args=client_scenario_args(args)
             exe=build('client'); cmd=[str(exe),*client_view_args(args)];
             if args.frames: cmd+=['--frames',str(args.frames)]
             if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
             if args.tactical: cmd+=['--tactical']
             if args.weather: cmd+=['--weather',args.weather]
-            if args.scenario=='air-battle':cmd+=['--scenario','air-battle']
-            elif args.scenario!='scale-open':raise RuntimeError('Client scenario is implemented only for scale-open and air-battle')
-            if args.connect and args.scenario=='air-battle':raise RuntimeError('air-battle initial cohort fixture is local-only')
+            cmd+=scenario_args
             if args.connect: cmd+=['--connect',args.connect,'--port',str(args.port)]
             subprocess.run(cmd,cwd=exe.parent,check=True)
         else: run_headless(args,args.command=='bench')
@@ -270,7 +284,9 @@ def main():
             if (ROOT/'tests/test_net_projectiles.py').exists():execute([sys.executable,'tests/test_net_projectiles.py',str(library),str(server)])
             if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])
             if (ROOT/'tests/test_coop_combat.py').exists(): execute([sys.executable,'tests/test_coop_combat.py',str(server),str(library)])
-        if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
+        if suite in ('all','headless','tools'):
+            execute([sys.executable,'tests/test_dense_driver.py'])
+            if (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
         if suite in ('all','headless','fast'):
             execute([sys.executable,'tools/assets.py'])
             if (ROOT/'tools/audio_assets.py').exists(): execute([sys.executable,'tools/audio_assets.py'])
