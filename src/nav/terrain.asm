@@ -197,12 +197,30 @@ terrain_move:
  je .step
  lea rbx,[terrain_obstacles]
  mov dword [rsp+32],0
+ mov qword [rsp+48],0
+ movss xmm0,[one]
+ movss [rsp+56],xmm0
 .corridor:
  mov rdi,rsp
  mov rsi,rbx
  call slab
  test eax,eax
  jz .next_obstacle
+ ; Slab returns entry fraction in XMM6. Table order must not choose
+ ; a distant wall before a nearer bunker on the same corridor.
+ comiss xmm6,[rsp+56]
+ ja .next_obstacle
+ movss [rsp+56],xmm6
+ mov [rsp+48],rbx
+.next_obstacle:
+ add rbx,32
+ inc dword [rsp+32]
+ mov eax,[rsp+32]
+ cmp eax,[terrain_obstacle_count]
+ jb .corridor
+ mov rbx,[rsp+48]
+ test rbx,rbx
+ jz .step
  ; Go around a consistent upper/lower edge, then across its far corner.
  movss xmm0,[rsp+20]
  movss xmm1,[rbx+4]
@@ -244,12 +262,6 @@ terrain_move:
 .corner:
  movss [rsp+12],xmm2
  jmp .step
-.next_obstacle:
- add rbx,32
- inc dword [rsp+32]
- mov eax,[rsp+32]
- cmp eax,[terrain_obstacle_count]
- jb .corridor
 .step:
  movss xmm2,[rsp+12]
  subss xmm2,[rsp]
@@ -279,14 +291,16 @@ terrain_move:
  movaps xmm0,xmm2
  movaps xmm1,xmm3
  mov edi,[rsp+28]
- call terrain_blocked
+ mov rdx,rsp
+ call move_blocked
  test eax,eax
  jz .accepted
  ; Bounded collision recovery: try each component slide before holding.
  movss xmm0,[rsp+40]
  movss xmm1,[rsp+8]
  mov edi,[rsp+28]
- call terrain_blocked
+ mov rdx,rsp
+ call move_blocked
  test eax,eax
  jnz .slide_z
  movss xmm0,[rsp+40]
@@ -296,7 +310,8 @@ terrain_move:
  movss xmm0,[rsp]
  movss xmm1,[rsp+44]
  mov edi,[rsp+28]
- call terrain_blocked
+ mov rdx,rsp
+ call move_blocked
  test eax,eax
  jnz .stay
  movss xmm0,[rsp]
@@ -311,6 +326,42 @@ terrain_move:
  movss xmm1,[rsp+8]
 .out:
  add rsp,64
+ pop rbx
+ ret
+; Internal candidate query: XMM0/1 endpoint, EDI role, RDX start record.
+; Returns EAX1 for invalid endpoint or a swept ground-solid intersection.
+; Preserves RBX and all other SysV nonvolatile registers; bounded five boxes.
+move_blocked:
+ push rbx
+ sub rsp,32
+ mov rbx,rdx
+ movss [rsp+12],xmm0
+ movss [rsp+20],xmm1
+ mov [rsp+24],edi
+ call terrain_blocked
+ test eax,eax
+ jnz .done
+ cmp dword [rsp+24],3
+ je .done
+ mov eax,[rbx]
+ mov [rsp],eax
+ mov eax,[rbx+8]
+ mov [rsp+8],eax
+ mov dword [rsp+4],0x41f00000
+ mov dword [rsp+16],0x41f00000
+ lea rsi,[terrain_obstacles]
+ xor edx,edx
+.loop:
+ mov rdi,rsp
+ call slab
+ test eax,eax
+ jnz .done
+ add rsi,32
+ inc edx
+ cmp edx,[terrain_obstacle_count]
+ jb .loop
+.done:
+ add rsp,32
  pop rbx
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits

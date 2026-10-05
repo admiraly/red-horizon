@@ -116,6 +116,18 @@ try:
         clear=captures['clear'];values=[clear[(600*1280+x)*3] for x in range(200,500)]
         assert max(values)-min(values)>10,('texture detail missing',min(values),max(values))
         X.XRaiseWindow(display,window);X.XSetInputFocus(display,window,2,0);X.XFlush(display);time.sleep(.1)
+        # Freeze only simulation scheduling while real weather transitions and
+        # F4 input run. Never patch player health, shaders or framebuffer.
+        def stop():
+            os.kill(process.pid,signal.SIGSTOP)
+            _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+        def u32(name):return struct.unpack('<I',os.pread(memory,4,symbols[name]))[0]
+        stop()
+        os.pwrite(memory,struct.pack('<d',1e30),symbols['thirty'])
+        os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+        before_frame=u32('frame_count');os.kill(process.pid,signal.SIGCONT)
+        until(lambda:u32('frame_count')>=before_frame+3,5)
+        frozen_ticks=u32('local_sim_ticks')
         initial=player();weather_address=symbols['environment_weather']
         def weather():return struct.unpack('<4f',os.pread(memory,16,weather_address))
         assert struct.unpack('<I',os.pread(memory,4,symbols['environment_preset']))[0]==0
@@ -127,20 +139,12 @@ try:
         key(0xffc1);until(lambda:'WEATHER fog (F4 cycle)' in title(window))
         key(0xffc1);until(lambda:'WEATHER clear (F4 cycle)' in title(window))
         final=player()
+        assert u32('local_sim_ticks')==frozen_ticks,'authority tick advanced during F4 isolation'
         assert (initial['x'],initial['z'],initial['hp'],initial['ammo'],initial['shots'],initial['generation'])==(final['x'],final['z'],final['hp'],final['ammo'],final['shots'],final['generation']),(initial,final)
-        # Development rendering fixture only: freeze this child's simulation and
-        # animation clocks. Never patch shaders, source textures or framebuffer.
-        def stop():
-            os.kill(process.pid,signal.SIGSTOP)
-            _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
-        def u32(name):return struct.unpack('<I',os.pread(memory,4,symbols[name]))[0]
+        # Then freeze cosmetic clocks for paired rain-phase screenshots.
         stop()
-        os.pwrite(memory,struct.pack('<d',1e30),symbols['thirty'])
-        os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
         os.pwrite(memory,struct.pack('<d',0),symbols['maxdt'])
-        before_frame=u32('frame_count');os.kill(process.pid,signal.SIGCONT)
-        until(lambda:u32('frame_count')>=before_frame+3,5)
-        frozen_ticks=u32('local_sim_ticks')
+        os.kill(process.pid,signal.SIGCONT)
         def pose(y,heading=0.,look=0.):
             stop()
             os.pwrite(memory,struct.pack('<3f',2000.,y,2200.),player_address)

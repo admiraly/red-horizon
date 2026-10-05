@@ -1,0 +1,48 @@
+{
+  "scenario": "scale-stretch",
+  "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-37e5e5e195f903a4",
+  "seed": 1,
+  "wall_seconds": 3.636073826000029,
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "realtime": false,
+  "runtime": {
+    "units": 16384,
+    "ticks": 600,
+    "seed": 1,
+    "alive": [
+      6885,
+      6391
+    ],
+    "engaged": 2351,
+    "checksum": "64e1e3e02fb45347",
+    "tick_mean_ms": 6.055087,
+    "tick_p95_ms": 6.540342,
+    "operation_state": 0,
+    "requisition": [
+      880,
+      460
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 444,
+    "projectile_peak": 480,
+    "projectile_dropped": 90988
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 3404,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": "not implemented",
+    "network_bandwidth": "not implemented"
+  }
+}

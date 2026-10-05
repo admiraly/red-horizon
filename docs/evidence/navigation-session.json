@@ -1,0 +1,1480 @@
+{
+  "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-37e5e5e195f903a4",
+  "hardware": {
+    "platform": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+    "machine": "x86_64",
+    "cpu": "Intel(R) Core(TM) i7-14700K",
+    "python": "3.14.7",
+    "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-37e5e5e195f903a4",
+    "display": ":0",
+    "remote": "origin\thttps://github.com/admiraly/red-horizon (fetch)\norigin\thttps://github.com/admiraly/red-horizon (push)",
+    "runtime_language": "NASM x86-64",
+    "license": "pending owner approval",
+    "gcc": "/usr/bin/gcc",
+    "make": "/usr/bin/make",
+    "ninja": "/usr/bin/ninja",
+    "gh": "/usr/bin/gh",
+    "glxinfo": "/usr/bin/glxinfo",
+    "nasm": "NASM version 2.16.03 compiled on Oct  5 2026",
+    "writable_project": true,
+    "recorded_rifle_available": true,
+    "gpu_probe": {
+      "exit_code": 0,
+      "details": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 36012 MB, largest block: 36012 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 36012 MB, largest block: 36012 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 36012 MB, largest block: 36012 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20"
+    }
+  },
+  "runtime_changes": [
+    "Nearest intersecting static obstacle chosen by segment entry fraction",
+    "Full proposed ground movement and component slides swept against all five authored boxes"
+  ],
+  "source_sha256": {
+    "src/nav/terrain.asm": "fd5a598af5acd436e50eba0f078e98c4621bc16a89a152e077f70f8eb1bff0e1",
+    "tests/test_terrain.py": "370df208bba8b106941fd54bb0d5293f13e2e87f66a2e9c9b1df691d61414f1e",
+    "tests/test_client_environment.py": "781f70ca142786d7c4bec859dc980b952157c0bb50f9e366d0161115dae85246"
+  },
+  "regression": {
+    "passed": true,
+    "seed": 731,
+    "random_clear_start_cases": 1997,
+    "arrival_route_steps": 64973,
+    "step_sizes_metres": [
+      0.12,
+      0.2,
+      0.5,
+      1000
+    ],
+    "nearest_obstacle_endpoint": [
+      5234,
+      1604
+    ],
+    "independent_oracle": "double-precision segment/rectangle intersection"
+  },
+  "original_assembly_negative_control": {
+    "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8",
+    "exit_code": 1,
+    "failure": "Original movement crosses bunker despite clear endpoint",
+    "start": [
+      5243.89013671875,
+      1564.114990234375
+    ],
+    "goal": [
+      3125.11279296875,
+      5204.44287109375
+    ],
+    "step_metres": 1000,
+    "original_endpoint": [
+      4808.64111328125,
+      2464.42529296875
+    ],
+    "build": "git show HEAD:src/nav/terrain.asm assembled into temporary shared library with current other simulation objects; temporary artifacts removed"
+  },
+  "focused_verification": {
+    "terrain": "passed",
+    "fast_before_new_regressions": "passed",
+    "final_fast": "passed"
+  },
+  "paired_cpu_comparison": {
+    "context": "Sequential single-thread runs during active frozen extended verification; same seed/ticks and all modules except terrain identical",
+    "seed": 1,
+    "ticks": 600,
+    "runs": [
+      {
+        "terrain": "original",
+        "units": 8192,
+        "repeat": 0,
+        "runtime": {
+          "units": 8192,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            3442,
+            3135
+          ],
+          "engaged": 1048,
+          "checksum": "9c321f3715473e13",
+          "tick_mean_ms": 2.988977,
+          "tick_p95_ms": 3.328037,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 446,
+          "projectile_peak": 480,
+          "projectile_dropped": 35031
+        }
+      },
+      {
+        "terrain": "swept",
+        "units": 8192,
+        "repeat": 0,
+        "runtime": {
+          "units": 8192,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            3442,
+            3135
+          ],
+          "engaged": 1048,
+          "checksum": "9c321f3715473e13",
+          "tick_mean_ms": 3.075829,
+          "tick_p95_ms": 3.312798,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 446,
+          "projectile_peak": 480,
+          "projectile_dropped": 35031
+        }
+      },
+      {
+        "terrain": "original",
+        "units": 8192,
+        "repeat": 1,
+        "runtime": {
+          "units": 8192,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            3442,
+            3135
+          ],
+          "engaged": 1048,
+          "checksum": "9c321f3715473e13",
+          "tick_mean_ms": 2.928184,
+          "tick_p95_ms": 3.184326,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 446,
+          "projectile_peak": 480,
+          "projectile_dropped": 35031
+        }
+      },
+      {
+        "terrain": "swept",
+        "units": 8192,
+        "repeat": 1,
+        "runtime": {
+          "units": 8192,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            3442,
+            3135
+          ],
+          "engaged": 1048,
+          "checksum": "9c321f3715473e13",
+          "tick_mean_ms": 3.0474,
+          "tick_p95_ms": 3.29291,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 446,
+          "projectile_peak": 480,
+          "projectile_dropped": 35031
+        }
+      },
+      {
+        "terrain": "original",
+        "units": 16384,
+        "repeat": 0,
+        "runtime": {
+          "units": 16384,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            6885,
+            6391
+          ],
+          "engaged": 2351,
+          "checksum": "64e1e3e02fb45347",
+          "tick_mean_ms": 5.794656,
+          "tick_p95_ms": 6.316379,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 444,
+          "projectile_peak": 480,
+          "projectile_dropped": 90988
+        }
+      },
+      {
+        "terrain": "swept",
+        "units": 16384,
+        "repeat": 0,
+        "runtime": {
+          "units": 16384,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            6885,
+            6391
+          ],
+          "engaged": 2351,
+          "checksum": "64e1e3e02fb45347",
+          "tick_mean_ms": 6.094812,
+          "tick_p95_ms": 6.631717,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 444,
+          "projectile_peak": 480,
+          "projectile_dropped": 90988
+        }
+      },
+      {
+        "terrain": "original",
+        "units": 16384,
+        "repeat": 1,
+        "runtime": {
+          "units": 16384,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            6885,
+            6391
+          ],
+          "engaged": 2351,
+          "checksum": "64e1e3e02fb45347",
+          "tick_mean_ms": 5.748079,
+          "tick_p95_ms": 6.215116,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 444,
+          "projectile_peak": 480,
+          "projectile_dropped": 90988
+        }
+      },
+      {
+        "terrain": "swept",
+        "units": 16384,
+        "repeat": 1,
+        "runtime": {
+          "units": 16384,
+          "ticks": 600,
+          "seed": 1,
+          "alive": [
+            6885,
+            6391
+          ],
+          "engaged": 2351,
+          "checksum": "64e1e3e02fb45347",
+          "tick_mean_ms": 6.001041,
+          "tick_p95_ms": 6.439651,
+          "operation_state": 0,
+          "requisition": [
+            880,
+            460
+          ],
+          "supply": [
+            600,
+            600
+          ],
+          "projectiles": 444,
+          "projectile_peak": 480,
+          "projectile_dropped": 90988
+        }
+      }
+    ]
+  },
+  "jobs": [
+    {
+      "job_id": "0127cce3a666",
+      "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-37e5e5e195f903a4",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/0127cce3a666/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "failed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/0127cce3a666/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/0127cce3a666/result.json",
+      "pid": 155468,
+      "exit_code": 1,
+      "seconds": 86.05112573600036
+    },
+    {
+      "job_id": "55cbb18fa108",
+      "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-37e5e5e195f903a4",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/55cbb18fa108/source",
+      "command": [
+        "bench",
+        "--scenario",
+        "scale-open",
+        "--ticks",
+        "600",
+        "--seed",
+        "1"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/55cbb18fa108/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/55cbb18fa108/result.json",
+      "pid": 155725,
+      "exit_code": 0,
+      "seconds": 2.023522684999989
+    },
+    {
+      "job_id": "c2a0a1db3cdb",
+      "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-37e5e5e195f903a4",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c2a0a1db3cdb/source",
+      "command": [
+        "bench",
+        "--scenario",
+        "scale-stretch",
+        "--ticks",
+        "600",
+        "--seed",
+        "1"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c2a0a1db3cdb/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c2a0a1db3cdb/result.json",
+      "pid": 155731,
+      "exit_code": 0,
+      "seconds": 3.783801450000283
+    },
+    {
+      "job_id": "fa24ffc6de29",
+      "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-83c907baf5791512",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/fa24ffc6de29/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/fa24ffc6de29/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/fa24ffc6de29/result.json",
+      "pid": 162283,
+      "exit_code": 0,
+      "seconds": 126.68745366299981
+    }
+  ],
+  "limitations": [
+    "Five static authored boxes only; no hierarchical path search, terrain slope limits, unit collision or dynamic obstacle edits",
+    "Large query steps are API stress coverage, not accelerated game movement",
+    "Headless scale renders and replicates zero actors; GPU/audio budgets unmeasured",
+    "Comparative timings are two sequential samples per version/count during active extended verification, not isolated statistical performance acceptance",
+    "Existing 480 AI shell saturation and 32 human reserve unchanged"
+  ],
+  "checkpoint_failure": {
+    "job_id": "0127cce3a666",
+    "test": "tests/test_client_environment.py",
+    "cause": "Live enemy combat changed HP70 to50 during F4 authority comparison; simulation was frozen only after the comparison",
+    "resolution": "Move existing test-only simulation scheduling freeze ahead of the F4 check and assert authority tick unchanged; no health, combat or weather runtime patch"
+  },
+  "sweep_removal_negative_control": {
+    "passed": true,
+    "seed": 991,
+    "case": 685,
+    "start": [
+      4006.96044921875,
+      1035.4256591796875
+    ],
+    "goal": [
+      4076.8056640625,
+      6650.63916015625
+    ],
+    "step_metres": 8000,
+    "endpoint_without_sweep": [
+      3984,
+      1504
+    ],
+    "safe_endpoint_with_sweep": [
+      3984.0,
+      1035.4256591796875
+    ],
+    "diagnosis": "Even nearest-obstacle corner steering can propose a diagonal across the wall; swept candidate rejects it and accepts a clear x component slide",
+    "method": "Temporary assembly build replaces calls to move_blocked with terrain_blocked; actual corrected assembly independently queried; temporary artifacts removed"
+  },
+  "weather_focused_verification": {
+    "suite": "client-environment",
+    "passed": true,
+    "preset_sky_rgb": {
+      "clear": [
+        68.33675555555556,
+        113.59782222222222,
+        154.4044
+      ],
+      "overcast": [
+        96.32026666666667,
+        115.56271111111111,
+        130.7148
+      ],
+      "rain": [
+        120.88726666666666,
+        133.50248888888888,
+        141.89553333333333
+      ],
+      "fog": [
+        84.50677777777778,
+        109.27675555555555,
+        129.96093333333334
+      ]
+    },
+    "preset_ground_rgb": {
+      "clear": [
+        127.8163,
+        114.35083333333333,
+        89.1883
+      ],
+      "overcast": [
+        113.43146666666667,
+        101.4971,
+        79.2647
+      ],
+      "rain": [
+        74.2183,
+        66.95373333333333,
+        53.47983333333333
+      ],
+      "fog": [
+        116.39963333333333,
+        105.47573333333334,
+        84.1407
+      ]
+    },
+    "source_ground_range": [
+      115,
+      141
+    ],
+    "actual_F4_all_presets": true,
+    "player_authority_unchanged": true,
+    "frozen_fixture_rain_motion": [
+      {
+        "view": "forward",
+        "visible_pixels": [
+          500,
+          488
+        ],
+        "moved_pixels": 968
+      },
+      {
+        "view": "side",
+        "visible_pixels": [
+          449,
+          701
+        ],
+        "moved_pixels": 1150
+      }
+    ],
+    "off_corridor_grass": "/tmp/rh-weather-off-corridor-grass.ppm",
+    "screenshots": [
+      "/tmp/rh-weather-clear.ppm",
+      "/tmp/rh-weather-overcast.ppm",
+      "/tmp/rh-weather-rain.ppm",
+      "/tmp/rh-weather-fog.ppm"
+    ]
+  },
+  "weather_focus_iteration": {
+    "first_attempt": "Freezing maxdt before F4 also froze cosmetic transitions; rain transition timed out",
+    "correction": "Freeze simulation tick threshold and accumulator before F4; freeze cosmetic maxdt only after the transition and authority assertions"
+  },
+  "final_revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-83c907baf5791512",
+  "objects_only_client_assembly": {
+    "target": "client",
+    "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-83c907baf5791512",
+    "objects_only": true,
+    "assembled": 11,
+    "assembled_sources": [
+      "src/render/shaders.asm",
+      "src/render/mesh_shaders.asm",
+      "src/render/effects.asm",
+      "src/render/mesh_assets.asm",
+      "src/render/meshes.asm",
+      "src/render/environment.asm",
+      "src/render/metrics.asm",
+      "src/audio/audio.asm",
+      "src/audio/emitters.asm",
+      "src/platform/linux/client.asm",
+      "src/net/client.asm"
+    ],
+    "seconds": 0.10592743600000176,
+    "executable": null,
+    "limitation": "Assembly check only; linking and GLSL checked separately by full frozen graphics run"
+  },
+  "source_frozen_consistency": {
+    "src/nav/terrain.asm": true,
+    "tests/test_terrain.py": true,
+    "tests/test_client_environment.py": true
+  },
+  "full_extended_verification": {
+    "job_id": "fa24ffc6de29",
+    "exit_code": 0,
+    "revision": "e60a16b51246f88d0eb5cf63a59354038480f1d8-83c907baf5791512",
+    "seconds": 126.68745366299981,
+    "status": "passed"
+  },
+  "all_jobs_reconciled": true,
+  "full_checkpoint_log_sha256": "06997f9dff5882d966e769ed92b3a21f5edca7bc92ec49763c3a71f1a0d10dcf",
+  "full_checkpoint_suites": [
+    {
+      "suite": "fast-combat",
+      "passed": true,
+      "fixture_units": 128,
+      "checks": [
+        "roles/fronts",
+        "physical combat/counts",
+        "same-run replay",
+        "side-swap symmetry",
+        "invalid-state preservation",
+        "guarded damage",
+        "CLI",
+        "fixed-tick pacing"
+      ],
+      "scale_coverage": false
+    },
+    {
+      "suite": "terrain-swept-movement",
+      "passed": true,
+      "seed": 731,
+      "random_clear_start_cases": 1997,
+      "arrival_route_steps": 64973,
+      "nearest_obstacle_endpoint": [
+        5234.0,
+        1604.0
+      ],
+      "role_steps_metres": [
+        0.12,
+        0.2,
+        0.5,
+        1000
+      ],
+      "oracle": "independent double-precision segment/rectangle intersection"
+    },
+    {
+      "suite": "tactics-default-motion",
+      "passed": true,
+      "evidence": [
+        {
+          "units": 8192,
+          "tick": 30,
+          "mean_ground_metres_by_front": [
+            5.104,
+            5.087,
+            5.089,
+            5.072,
+            5.066,
+            5.075
+          ],
+          "player_bubble_ground": 417,
+          "player_bubble_moving": 417
+        },
+        {
+          "units": 8192,
+          "tick": 120,
+          "mean_ground_metres_by_front": [
+            20.365,
+            20.376,
+            20.34,
+            20.385,
+            20.476,
+            20.482
+          ],
+          "player_bubble_ground": 439,
+          "player_bubble_moving": 439
+        },
+        {
+          "units": 8192,
+          "tick": 300,
+          "mean_ground_metres_by_front": [
+            50.895,
+            50.81,
+            50.148,
+            51.068,
+            50.655,
+            51.06
+          ],
+          "player_bubble_ground": 474,
+          "player_bubble_moving": 474
+        },
+        {
+          "units": 16384,
+          "tick": 30,
+          "mean_ground_metres_by_front": [
+            5.103,
+            5.095,
+            5.085,
+            5.062,
+            5.065,
+            5.064
+          ],
+          "player_bubble_ground": 845,
+          "player_bubble_moving": 845
+        },
+        {
+          "units": 16384,
+          "tick": 120,
+          "mean_ground_metres_by_front": [
+            20.278,
+            20.38,
+            20.299,
+            20.33,
+            20.409,
+            20.383
+          ],
+          "player_bubble_ground": 890,
+          "player_bubble_moving": 890
+        },
+        {
+          "units": 16384,
+          "tick": 300,
+          "mean_ground_metres_by_front": [
+            50.072,
+            50.542,
+            50.209,
+            50.366,
+            50.69,
+            50.818
+          ],
+          "player_bubble_ground": 976,
+          "player_bubble_moving": 976
+        }
+      ]
+    },
+    {
+      "suite": "vehicles",
+      "passed": true,
+      "actual_drive_metres_per_second": 18,
+      "exclusive_ownership": true,
+      "generation_cleanup": true,
+      "safe_exit": true,
+      "persistent_cannon_ammo": true,
+      "swept_shell_damage": true,
+      "single_destruction_event": true,
+      "fixtures": "real assembly; development-only initial state setup"
+    },
+    {
+      "suite": "effects-frame-independence",
+      "passed": true,
+      "actual_impacts": 1,
+      "repeated_render_updates": 360,
+      "authority_unchanged": true
+    },
+    {
+      "suite": "reload",
+      "cases": 19,
+      "passed": true,
+      "build_and_test_seconds": 0.043688
+    },
+    {
+      "suite": "audio",
+      "checks": {
+        "legacy_groups": 16,
+        "spatial_blocks": 17,
+        "invalid_sources": 9,
+        "invalid_listeners": 4,
+        "recorded_waveform_frames": 800,
+        "profile_voices": 128,
+        "profile_frames": 800,
+        "profile_blocks": 20,
+        "mix_mean_ms": 0.094032,
+        "mix_p95_ms": 0.095118
+      },
+      "passed": true,
+      "build_and_test_seconds": 0.027683
+    },
+    {
+      "suite": "audio-emitters",
+      "passed": true,
+      "checks": [
+        "actual recorded spatial waveform",
+        "local exclusion",
+        "generation and frame dedup",
+        "disconnected baseline",
+        "vehicle exclusion",
+        "distance cull",
+        "snapshot collapse"
+      ]
+    },
+    {
+      "suite": "network",
+      "packets": 45,
+      "passed": true,
+      "build_and_test_seconds": 2.021727
+    },
+    {
+      "suite": "cooperative-world",
+      "passed": true,
+      "server": {
+        "ticks": 180,
+        "simulated": 8192,
+        "bytes_in": 69228,
+        "bytes_out": 646100,
+        "entity_records": 12352,
+        "rejected": 13,
+        "disconnects": 2,
+        "distinct_client_entity_pairs": 10902,
+        "nearby_interest": 8192,
+        "unseen_interest": 1962
+      },
+      "combat": {
+        "death": true,
+        "safe_redeployment": true,
+        "fixture_writes": "entity positions only"
+      },
+      "faults": [
+        {
+          "received": 231,
+          "dropped": 11,
+          "reordered": 32,
+          "accepted_inputs": 28,
+          "one_way_delay_ms": 0,
+          "jitter_ms": 10
+        },
+        {
+          "received": 216,
+          "dropped": 10,
+          "reordered": 29,
+          "accepted_inputs": 13,
+          "one_way_delay_ms": 50,
+          "jitter_ms": 10
+        },
+        {
+          "received": 206,
+          "dropped": 10,
+          "reordered": 28,
+          "accepted_inputs": 9,
+          "one_way_delay_ms": 100,
+          "jitter_ms": 10
+        },
+        {
+          "received": 211,
+          "dropped": 10,
+          "reordered": 29,
+          "accepted_inputs": 6,
+          "one_way_delay_ms": 150,
+          "jitter_ms": 10
+        }
+      ]
+    },
+    {
+      "suite": "network-events",
+      "passed": true,
+      "malformed_cases": 15,
+      "whole_packet_validation": true,
+      "deduplication": true,
+      "pool_wrap": true,
+      "vehicle_state_validation": true,
+      "fixtures": "wire payloads; real assembly adapter"
+    },
+    {
+      "suite": "co-op-combat",
+      "passed": true,
+      "board_drive_fire_exit": true,
+      "exclusive_ownership": true,
+      "replicated_launch_and_impact": true,
+      "assembly_adapter_events": true,
+      "max_packet": 1196,
+      "fixture_writes": "positions only; own server"
+    },
+    {
+      "suite": "tools",
+      "passed": true,
+      "checks": [
+        "cold/incremental",
+        "single module invalidation",
+        "shader isolation",
+        "transitive includes",
+        "source preservation",
+        "failed build preserves previous objects",
+        "fast real-core suite",
+        "immutable background source",
+        "revision identity",
+        "failed assembly reported",
+        "job collection"
+      ]
+    },
+    {
+      "suite": "baked-model-assets",
+      "passed": true,
+      "bytes": 11328032,
+      "meshes": 16,
+      "clips": 22,
+      "geometry": [
+        {
+          "role": 0,
+          "lod": 0,
+          "triangles": 903,
+          "frames": 46,
+          "clip_semantics": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "changing_clips": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "role": 0,
+          "lod": 1,
+          "triangles": 93,
+          "frames": 46,
+          "clip_semantics": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "changing_clips": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "role": 1,
+          "lod": 0,
+          "triangles": 1322,
+          "frames": 10,
+          "clip_semantics": [
+            1
+          ],
+          "changing_clips": [
+            1
+          ]
+        },
+        {
+          "role": 1,
+          "lod": 1,
+          "triangles": 96,
+          "frames": 10,
+          "clip_semantics": [
+            1
+          ],
+          "changing_clips": [
+            1
+          ]
+        },
+        {
+          "role": 2,
+          "lod": 0,
+          "triangles": 1362,
+          "frames": 10,
+          "clip_semantics": [
+            1
+          ],
+          "changing_clips": [
+            1
+          ]
+        },
+        {
+          "role": 2,
+          "lod": 1,
+          "triangles": 96,
+          "frames": 10,
+          "clip_semantics": [
+            1
+          ],
+          "changing_clips": [
+            1
+          ]
+        },
+        {
+          "role": 3,
+          "lod": 0,
+          "triangles": 322,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 3,
+          "lod": 1,
+          "triangles": 88,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 4,
+          "lod": 0,
+          "triangles": 920,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 4,
+          "lod": 1,
+          "triangles": 85,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 5,
+          "lod": 0,
+          "triangles": 108,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 5,
+          "lod": 1,
+          "triangles": 86,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 6,
+          "lod": 0,
+          "triangles": 919,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 6,
+          "lod": 1,
+          "triangles": 88,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 7,
+          "lod": 0,
+          "triangles": 1377,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        },
+        {
+          "role": 7,
+          "lod": 1,
+          "triangles": 88,
+          "frames": 1,
+          "clip_semantics": [
+            0
+          ],
+          "changing_clips": []
+        }
+      ]
+    },
+    {
+      "suite": "baked-terrain-assets",
+      "passed": true,
+      "bytes": 4194336,
+      "layers": 4,
+      "sha256": "9abd8af59d55a19fb123f5d5a64dd9a16f27e653c908ac342c192d1cfaf836bc"
+    },
+    {
+      "suite": "mesh-assets",
+      "passed": true,
+      "actual_bytes": 11328032,
+      "actual_meshes": 16,
+      "malformed_rejected": 23
+    },
+    {
+      "suite": "texture-assets",
+      "passed": true,
+      "actual_bytes": 4194336,
+      "malformed_missing_rejected": 13,
+      "smooth_weather_state": true
+    },
+    {
+      "suite": "graphics",
+      "passed": true,
+      "renderer": "software",
+      "modes": 2,
+      "entities_submitted": 8192,
+      "report": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/fa24ffc6de29/source/runs/headless-graphics-6c6d91cb2c/result.json"
+    },
+    {
+      "suite": "client-environment",
+      "passed": true,
+      "preset_sky_rgb": {
+        "clear": [
+          68.28342222222223,
+          113.6514,
+          154.5664
+        ],
+        "overcast": [
+          96.3028,
+          115.62266666666666,
+          130.8546888888889
+        ],
+        "rain": [
+          120.96246666666667,
+          133.612,
+          142.0405111111111
+        ],
+        "fog": [
+          84.38822222222223,
+          109.24764444444445,
+          130.02715555555557
+        ]
+      },
+      "preset_ground_rgb": {
+        "clear": [
+          127.8163,
+          114.35083333333333,
+          89.1883
+        ],
+        "overcast": [
+          113.43146666666667,
+          101.4971,
+          79.2647
+        ],
+        "rain": [
+          74.2183,
+          66.95373333333333,
+          53.47983333333333
+        ],
+        "fog": [
+          116.39963333333333,
+          105.47573333333334,
+          84.1407
+        ]
+      },
+      "source_ground_range": [
+        115,
+        141
+      ],
+      "actual_F4_all_presets": true,
+      "player_authority_unchanged": true,
+      "frozen_fixture_rain_motion": [
+        {
+          "view": "forward",
+          "visible_pixels": [
+            500,
+            488
+          ],
+          "moved_pixels": 968
+        },
+        {
+          "view": "side",
+          "visible_pixels": [
+            449,
+            701
+          ],
+          "moved_pixels": 1150
+        }
+      ],
+      "off_corridor_grass": "/tmp/rh-weather-off-corridor-grass.ppm",
+      "screenshots": [
+        "/tmp/rh-weather-clear.ppm",
+        "/tmp/rh-weather-overcast.ppm",
+        "/tmp/rh-weather-rain.ppm",
+        "/tmp/rh-weather-fog.ppm"
+      ]
+    },
+    {
+      "suite": "animated-source-meshes",
+      "passed": true,
+      "idle_frames": [
+        7,
+        9
+      ],
+      "idle_changed_pixels": 217,
+      "walk_frame": 29,
+      "walk_blend": 0.9074459075927734,
+      "actual_actor_moved_metres": 1.6787237906948678,
+      "stationary_tracks_frozen": true,
+      "source_meshes": 16,
+      "initial_lod_counts": [
+        68,
+        2549,
+        5575
+      ],
+      "stdout": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":141,\"gpu_samples\":132,\"cpu_frame_mean_ms\":23.705003,\"cpu_frame_p95_ms\":26.321383,\"gpu_draw_mean_ms\":2.651138,\"gpu_draw_p95_ms\":4.017061}\nmeshes loaded=16 high=2 low=0 markers=7932 source_triangles=34913 animation_frame=6\nclient frames=140 submitted_entities=8192 screenshot=(none)\ncamera_x=2000.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=0\noperation state=0 req=178 supply=600 waypoint_orders=1\nselected_goal_x=1997.812 selected_goal_z=4000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n"
+    },
+    {
+      "suite": "rendered-shell-lifecycle",
+      "passed": true,
+      "fixture": "development-only pose/pool writes; real GL renderer; simulation clock frozen",
+      "inactive_damage": 80,
+      "active_horizontal_pixels": 700,
+      "active_vertical_pixels": 700,
+      "horizontal_extent": [
+        62,
+        12
+      ],
+      "vertical_extent": [
+        12,
+        62
+      ],
+      "deactivated_gold_pixels": 0,
+      "screenshots": [
+        "/home/levy/optane-tmp/red-horizon-shell-baseline.ppm",
+        "/home/levy/optane-tmp/red-horizon-shell-inactive-damage80.ppm",
+        "/home/levy/optane-tmp/red-horizon-shell-active-horizontal.ppm",
+        "/home/levy/optane-tmp/red-horizon-shell-active-vertical.ppm",
+        "/home/levy/optane-tmp/red-horizon-shell-deactivated.ppm"
+      ]
+    },
+    {
+      "suite": "rendered-tracer",
+      "passed": true,
+      "shots": 3,
+      "tracers": 1,
+      "yellow_pixels": 157,
+      "screenshot": "/tmp/red-horizon-tracer.ppm",
+      "shell_source": 12,
+      "impact_pixels": 13,
+      "impact_events": 35,
+      "event_sequence": 600,
+      "actual_launch": [
+        2000.0,
+        19.00979995727539,
+        3860.0,
+        1,
+        0,
+        52,
+        18.0,
+        588
+      ],
+      "actual_impact": [
+        2000.0,
+        17.000492095947266,
+        3979.982421875,
+        3,
+        0,
+        63,
+        18.0,
+        600
+      ],
+      "drive_metres": 6.0009765625,
+      "cannon_launch": [
+        2000.0,
+        19.00897789001465,
+        3866.0009765625,
+        1,
+        0,
+        87,
+        18.0,
+        601
+      ],
+      "cannon_hud_pixel": [
+        255,
+        168,
+        51
+      ],
+      "fixture": "development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL",
+      "observer_enemy_metres": 200,
+      "pool_before_encounter": 384,
+      "control_terrain_orange_pixels": 170965,
+      "paired_changed_pixels": 246,
+      "paired_render_authority_unchanged": true,
+      "paired_acquired_effects_restored": true
+    },
+    {
+      "suite": "authoritative-client-gameplay",
+      "passed": true,
+      "spawn": {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 0,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 1
+      },
+      "moved_metres": 2.0009765625,
+      "final": {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 0,
+        "generation": 2
+      },
+      "rendered_health_title": true,
+      "accepted_hits": 1,
+      "redeploy_pixel": [
+        230,
+        56,
+        41
+      ],
+      "damaged": {
+        "x": 2000.0,
+        "y": 17.80500030517578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 30,
+        "ammo": 26,
+        "reload": 0,
+        "cooldown": 2,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 5,
+        "generation": 1
+      },
+      "dead": {
+        "x": 2000.0,
+        "y": 17.80500030517578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 0,
+        "ammo": 26,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 30,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 43,
+        "generation": 1
+      },
+      "redeployed": {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 0,
+        "generation": 2
+      },
+      "stdout": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":542,\"gpu_samples\":533,\"cpu_frame_mean_ms\":18.599664,\"cpu_frame_p95_ms\":26.839492,\"gpu_draw_mean_ms\":2.206195,\"gpu_draw_p95_ms\":3.341200}\nmeshes loaded=16 high=0 low=0 markers=7188 source_triangles=0 animation_frame=16\nclient frames=541 submitted_entities=8192 screenshot=(none)\ncamera_x=3780.00 camera_z=3900.00 shots=34 hits=1 last_order=0\nweapon ammo=30 reloads=1 front=1\noperation state=0 req=490 supply=600 waypoint_orders=0\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=3900.000\n"
+    },
+    {
+      "suite": "graphical-coop",
+      "passed": true,
+      "port": 55796,
+      "starts": [
+        {
+          "x": 3780.0,
+          "y": 30.543399810791016,
+          "z": 1300.0,
+          "yaw": 0.0,
+          "pitch": -0.03999999910593033,
+          "hp": 100,
+          "ammo": 30,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 0,
+          "connected": 1,
+          "shots": 0,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 1
+        },
+        {
+          "x": 3780.0,
+          "y": 26.903400421142578,
+          "z": 3900.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "hp": 100,
+          "ammo": 30,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 1,
+          "connected": 1,
+          "shots": 0,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 1
+        }
+      ],
+      "remote_player_pixels": [
+        33,
+        35
+      ],
+      "final": [
+        {
+          "x": 3780.0,
+          "y": 30.543399810791016,
+          "z": 1300.0,
+          "yaw": 0.0,
+          "pitch": -0.03999999910593033,
+          "hp": 100,
+          "ammo": 30,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 0,
+          "connected": 1,
+          "shots": 4,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 2
+        },
+        {
+          "x": 3776.888671875,
+          "y": 26.834165573120117,
+          "z": 3906.265625,
+          "yaw": 0.0,
+          "pitch": -0.03999999910593033,
+          "hp": 50,
+          "ammo": 26,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 1,
+          "connected": 1,
+          "shots": 4,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 1
+        }
+      ],
+      "cost": 5,
+      "rejected_ack_preserved_goal": true,
+      "network_gui_board_drive_cannon_exit": true,
+      "recorded_spatial_audio_live_routing": true,
+      "owned_goal": [
+        4994.375,
+        3904.444091796875
+      ],
+      "dead": {
+        "x": 2000.0,
+        "y": 17.80500030517578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 0,
+        "ammo": 26,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 30,
+        "front": 0,
+        "connected": 1,
+        "shots": 4,
+        "hits": 0,
+        "suppression": 34,
+        "generation": 1
+      },
+      "recovered": {
+        "x": 3780.0,
+        "y": 30.543399810791016,
+        "z": 1300.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 0,
+        "connected": 1,
+        "shots": 4,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 2
+      },
+      "client_stdout": [
+        "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":687,\"gpu_samples\":678,\"cpu_frame_mean_ms\":16.305352,\"cpu_frame_p95_ms\":28.357742,\"gpu_draw_mean_ms\":3.463319,\"gpu_draw_p95_ms\":6.748317}\nmeshes loaded=16 high=0 low=0 markers=111 source_triangles=0 animation_frame=2\nclient frames=686 submitted_entities=8192 screenshot=(none)\ncamera_x=3780.00 camera_z=1300.00 shots=4 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=0\noperation state=0 req=519 supply=600 waypoint_orders=1\nselected_goal_x=4994.375 selected_goal_z=3904.444\nplayer id=0 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=1300.000\nnetwork connected=1 player=0 front=0 server_tick=339 known_living=109 local_sim_ticks=0\n",
+        "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":551,\"gpu_samples\":542,\"cpu_frame_mean_ms\":20.681841,\"cpu_frame_p95_ms\":26.763867,\"gpu_draw_mean_ms\":3.650597,\"gpu_draw_p95_ms\":7.059120}\nmeshes loaded=16 high=81 low=2257 markers=62 source_triangles=338215 animation_frame=18\nclient frames=550 submitted_entities=8192 screenshot=(none)\ncamera_x=3776.89 camera_z=3906.27 shots=4 hits=0 last_order=0\nweapon ammo=26 reloads=0 front=1\noperation state=0 req=519 supply=600 waypoint_orders=1\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=1 hp=50 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\nnetwork connected=1 player=1 front=1 server_tick=348 known_living=2400 local_sim_ticks=0\n"
+      ]
+    }
+  ],
+  "full_checkpoint_plain_results": [
+    "PASS: baseline/stretch replay, counts, roles, fronts, orders, casualties, bounds, local fire, side-swap symmetry, realtime pacing and CLI",
+    "PASS: real occupancy capture/contest, connectivity cut/restoration, income/spend bounds, victory, final defense/defeat and operation replay",
+    "PASS: finite/bounded goals, side/front isolation, correct speed, exact arrival/hold and world-tick physical site capture",
+    "PASS: analytic height, swept wall LOS, elevated rays, bounded detour, actual army collision/LOS and safe massive spawns",
+    "PASS: player validation, fixed-tick movement, rifle LOS/cadence/reload, suppression/death, safe redeployment and replay state",
+    "PASS: physical scouting/support, real obstacle/defender defeat/capture, flank approach, observed-threat retreat, supply withdrawal, explicit override, wall recovery and default 8k/16k motion/replay",
+    "PASS: moving tank/artillery shells, swept ground/wall/actor contact, enemy-only bounded blast, pool saturation, cosmetic ring/reset and authoritative replay"
+  ]
+}
