@@ -72,7 +72,7 @@ Status vocabulary: **Verified slice** means the stated implemented behavior has 
 | ID | Requirement | Evidence / gap |
 |---|---|---|
 | 6a | Responsive aim, configurable sensitivity/FOV, sprint/crouch/jump/vault/reload/swap/interact/contextual command, grounded movement | **Partial:** E4/E7 mouse, walk/sprint/reload/interact. Baseline lacks crouch/jump/vault/swap and persisted sensitivity/FOV/remap settings. Concurrent root work is not acceptance here. |
-| 6b | Server authoritative damage/movement validation with local prediction | **Partial:** E4/E6 authority and input validation verified; local movement prediction and correction missing. |
+| 6b | Server authoritative damage/movement validation with local prediction | **Partial:** E4/E6 authority and input validation verified; bounded one-tick visual XZ preview and camera correction exist in client.asm; timestamped prediction/resimulation and robust latency acceptance remain missing. |
 | 6c | Assault rifle/LMG/shotgun/marksman/anti-armor/grenades/designator, distinct data recoil/reload/spread/audio/muzzle/hit policy/penetration/damage | **Partial:** rifle only; tests establish its fixed cadence/ammo/reload/LOS and cosmetics. No complete data-driven roster or penetration/material policy. |
 | 6d | Immediate fire, recoil recovery, hit feedback, material impacts, suppression and strong near-field audio; weapon appropriate tracers | **Partial:** E4/E7 rifle response/recoil/HUD/tracer cadence and E10 sound. Cosmetic recoil does not modify aim, material-specific impact sets and complete near-field craft missing. |
 | 6e | Friendly direct fire off, explicit configurable large-friendly-explosion policy consistently applied | **Verified slice:** rifle/shell/bomb enemy-only tests. Configurable documented player-facing policy and coverage across future weapons remain missing. |
@@ -296,3 +296,7 @@ These tasks remain useful without licensing/publication/human-feedback authoriza
 - **Human craft/engagement/readability:** actual user/player feedback needed to accept enjoyment/spectacle. Produce representative reviewable operation footage/audio and concrete scenarios first; don't use automated pixel checks as that approval.
 
 Section26 startup workflow is ongoing: canonical spec/instructions, preserved repo, isolated workers, source-frozen jobs and honest continuation points already exist. Its directive is sustained validated implementation, not acceptance from a plan or this ledger.
+
+## Player-experience continuation supplement
+
+The audit above retains its716bbd0baseline. The later1383caf continuation implements authoritative crouch/jump, strict startup resolution/FOV/sensitivity, and an actual CC0 recorded footstep starter bank. Scoped final acceptance evidence is recorded in docs/evidence/player-experience-session.json. These improve6a/6b/12/13/17/23 but do not complete them: vault, swap, remapping/persistence, full prediction/resimulation, complete audio categories/surfaces, Windows parity and dense-hotspot performance remain outstanding. No full-spec acceptance is inferred from this supplement.

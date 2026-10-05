@@ -1,4 +1,4 @@
-# Actual authoritative cooperative world transport (UDP v5)
+# Actual authoritative cooperative world transport (UDP v6)
 
 This path links the dedicated server to the same assembly army, operation,
 terrain, AI and four-player modules used locally. The server alone advances the
@@ -25,13 +25,13 @@ army intelligence is absent from this slice, and the client keeps nonreceived
 army health zero. No fabricated full army is displayed in network mode.
 
 The 40-byte header is ten little-endian u32 fields: magic `0x52484332`, version
-`5`, schema fingerprint, content fingerprint, type, player ID, command sequence,
+`6`, schema fingerprint, content fingerprint, type, player ID, command sequence,
 server tick, payload bytes, and session generation. The canonical field layouts
 are in `src/net/schema.txt`, with assembly constants in `src/net/protocol.inc`.
 The schema fingerprint is the first 32 bits of SHA256 of that canonical file:
-`07000f87e8a3a5a3f5ddbf5cbba848b21077b6abfa9b6e203a97365a572d0749`.
+`6d6a1299060d73c70dc36592815d66d86bd55d2de1cea1c4cc03349615225c97`.
 The content fingerprint comes from SHA256 of `content/asset-manifest.json`:
-`6ca8c37c9700426bae1ffde54c986c9eeddec81f22bca128c7eb62c9dbbad944`.
+`b2e7c728e6587c3e1cc3e874816d932c3653beccc02a5cd34b0293c07e36a2b9`.
 These truncated compatibility hashes are not authentication or cryptography.
 Version/hash mismatches are rejected before gameplay payload parsing; compatible
 changes must deliberately update the pinned canonical data and constants.
@@ -52,7 +52,7 @@ primary orders. Orders validate ownership, mode and finite `0..8000` goals,
 reject ground-solid destinations, then synchronously charge five allied requisition and apply army mode/waypoint.
 Clients never submit health, position, damage, hit or resource claims. Inputs
 are validated by the common authoritative player module. Unknown button bits
-are rejected; FIRE/RELOAD/SPRINT/ENTER/EXIT are accepted; ENTER/EXIT edges are applied by the authoritative vehicle module.
+are rejected; FIRE/RELOAD/SPRINT/ENTER/EXIT/CROUCH/JUMP are accepted; ENTER/EXIT edges are applied by the authoritative vehicle module.
 
 Commands use stop-and-wait sequencing. The next valid authenticated sequence is
 consumed even if its payload is rejected; duplicates replay the cached status
@@ -183,3 +183,5 @@ resurrect them. Live co-op vehicle/event tests passed; maximum datagram remained
 1196 bytes. Full integrated UDP faults and graphics remain separate checkpoints.
 
 UDPv5 adds type104 moving projectile records and the renderer uses a separate cosmetic pool. See [network-projectiles](network-projectiles.md) for exact fields, prediction, validation and loss limits. The real two-client GL check observes an authoritative cannon shell, then freezes its cosmetic clock and compares visible/hidden draws with unchanged authority. Short-lived aerial rounds can be missed by10Hz sampling; no damage is predicted client-side.
+
+UDPv6 adds input bits32crouch/64jump and updates the licensed-content fingerprint. Every layer rejects unknown bits128andabove before mutation. Existing fixed player64/entity32/state848 and1196byte packet cap remain. The dedicated movement test uses actual server/client UDP without pose writes; rendered co-op exercises Ctrl/Space and verifies authoritative pose, camera height and held-jump landing against real server ticks. The startup diagnostic now prints NET_VERSION directly.

@@ -189,3 +189,5 @@ measured 128 rifle voices × 800 stereo frames over 20 blocks: mean 0.250468 ms,
 p95 0.259123 ms on this host (single test sample, not an audio latency claim).
 No physical-device listening/capture, explosion travel delay, occlusion,
 aircraft-engine loop, or distinct bomb/artillery/tank samples is established.
+
+The current preloaded mixer has three banks:0rifle,1explosion,2recorded footstep. All share128physical voices. Footsteps derive from actual grounded player displacement, are silent during stationary/dead/boarded/airborne/teleported phases, and reset across generation changes. Network-only poses use consecutive narrow terrain-relative stance checks when the private motion sidecar is unavailable. One hard-surface CC0 recording is a starter asset, not the required complete terrain/layered audio pack. Null-device routing and waveform tests do not establish audible quality. Exact source/license/waveform evidence: [footsteps](verification/footsteps.md).
