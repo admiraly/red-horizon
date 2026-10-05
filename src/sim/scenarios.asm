@@ -8,6 +8,7 @@ section .bss
 global scenario_air_selected,scenario_ground_selected
 scenario_air_selected: resd 2
 scenario_ground_selected: resd 2
+scenario_mode: resd 1
 section .rodata
 column_step: dd 40.0
 ground_step: dd 20.0
@@ -23,16 +24,29 @@ minus: dd -1.0
 player_x: dd 3500.0
 player_z: dd 2000.0
 eye: dd 1.8
+dense_x: dd 3200.0
+; Front: 64x20 broad lines; hotspot: 64x30 compact lines.
+dense_spacing_x: dd 10.0,8.0
+dense_spacing_z: dd 8.0,6.0
+dense_z: dd 2400.0,2580.0,2400.0,2610.0
+dense_player_x: dd 3515.0,3452.0
+dense_player_z: dd 2280.0,2300.0
 section .text
 global sim_scenario
-; EDI0 default unchanged;1 air-battle. Only a fresh >=2048-actor world is valid.
+; EDI0 unchanged;1 air-battle;2 scale-front;3 scale-hotspot.
+; Nonzero modes require a fresh world; dense modes retain >=8192 actors.
 ; Returns0/-1; invalid calls preserve authority. No weapon/event/pool writes.
 sim_scenario:
  test edi,edi
  jz .unchanged
+ cmp edi,3
+ ja .invalid
+ mov eax,2048
  cmp edi,1
- jne .invalid
- cmp dword [sim_count],2048
+ je .minimum
+ mov eax,8192
+.minimum:
+ cmp dword [sim_count],eax
  jb .invalid
  cmp dword [sim_tick_count],0
  jne .invalid
@@ -41,6 +55,7 @@ sim_scenario:
  push r12
  push r13
  sub rsp,8
+ mov [scenario_mode],edi
  mov qword [scenario_air_selected],0
  mov qword [scenario_ground_selected],0
  xor r12d,r12d
@@ -118,6 +133,8 @@ sim_scenario:
 .ground:
  lea rdx,[scenario_ground_selected]
  mov eax,[rdx+r13*4]
+ cmp dword [scenario_mode],1
+ jne .dense_ground
  cmp eax,128
  jae .next
  inc dword [rdx+r13*4]
@@ -133,6 +150,34 @@ sim_scenario:
  lea rdx,[ground_z]
  addss xmm1,[rdx+r13*4]
  movss [rbx+ENTITY_Z],xmm1
+ jmp .next
+.dense_ground:
+ mov ecx,1280
+ cmp dword [scenario_mode],2
+ je .dense_limit
+ mov ecx,1920
+.dense_limit:
+ cmp eax,ecx
+ jae .next
+ inc dword [rdx+r13*4]
+ mov ecx,[scenario_mode]
+ sub ecx,2
+ mov edx,eax
+ and edx,63
+ cvtsi2ss xmm0,edx
+ lea rdx,[dense_spacing_x]
+ mulss xmm0,[rdx+rcx*4]
+ addss xmm0,[dense_x]
+ movss [rbx+ENTITY_X],xmm0
+ shr eax,6
+ cvtsi2ss xmm1,eax
+ lea rdx,[dense_spacing_z]
+ mulss xmm1,[rdx+rcx*4]
+ shl ecx,1
+ add ecx,r13d
+ lea rdx,[dense_z]
+ addss xmm1,[rdx+rcx*4]
+ movss [rbx+ENTITY_Z],xmm1
 .next:
  inc r12d
  add rbx,ENTITY_STRIDE
@@ -146,6 +191,15 @@ sim_scenario:
  je .playernext
  movss xmm0,[player_x]
  movss xmm1,[player_z]
+ mov eax,[scenario_mode]
+ cmp eax,1
+ je .playerpose
+ sub eax,2
+ lea rdx,[dense_player_x]
+ movss xmm0,[rdx+rax*4]
+ lea rdx,[dense_player_z]
+ movss xmm1,[rdx+rax*4]
+.playerpose:
  movss [rbx+PLAYER_X],xmm0
  movss [rbx+PLAYER_Z],xmm1
  call terrain_height
