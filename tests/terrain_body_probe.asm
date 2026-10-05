@@ -15,13 +15,18 @@ test_body_blocked: jmp terrain_body_blocked
 test_body_path: jmp terrain_body_path_clear
 section .note.GNU-stack noalloc noexec nowrite progbits
 section .text
-global test_body_hash,test_body_abi
+global test_body_hash,test_body_abi,test_body_step_abi
 extern terrain_body_hash
 test_body_hash:
  mov rax,rdi
  mov r8,rsi
  jmp terrain_body_hash
+test_body_step_abi:
+ mov eax,1
+ jmp test_body_abi.common
 test_body_abi:
+ xor eax,eax
+.common:
  push rbx
  push rbp
  push r12
@@ -29,13 +34,20 @@ test_body_abi:
  push r14
  push r15
  sub rsp,8
+ mov [rsp],eax
  mov ebx,0x11223344
  mov ebp,0x22334455
  mov r12d,0x33445566
  mov r13d,0x44556677
  mov r14d,0x55667788
  mov r15d,0x66778899
+ cmp dword [rsp],0
+ jne .step
  call terrain_body_move
+ jmp .compare
+.step:
+ call terrain_body_step
+.compare:
  xor eax,eax
  cmp rbx,0x11223344
  jne .out
@@ -58,4 +70,17 @@ test_body_abi:
  pop r12
  pop rbp
  pop rbx
+ ret
+
+section .text
+global test_body_step
+extern terrain_body_step
+test_body_step:
+ sub rsp,8
+ call terrain_body_step
+ add rsp,8
+ movd eax,xmm0
+ movd edx,xmm1
+ shl rdx,32
+ or rax,rdx
  ret

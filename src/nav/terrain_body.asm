@@ -19,7 +19,7 @@ align 16
 abs_mask: dd 0x7fffffff,0,0,0
 section .text
 global terrain_body_init, terrain_body_blocked, terrain_body_path_clear
-global terrain_body_move, terrain_body_hash
+global terrain_body_move, terrain_body_step, terrain_body_hash
 terrain_body_init:
  mov dword [terrain_body_enabled],1
  ret
@@ -203,7 +203,12 @@ terrain_body_path_clear:
  add rsp,32
  pop rbx
  ret
+terrain_body_step:
+ mov eax,1
+ jmp terrain_body_move.common
 terrain_body_move:
+ xor eax,eax
+.common:
  push rbx
  sub rsp,80
  movss [rsp],xmm0
@@ -212,6 +217,7 @@ terrain_body_move:
  movss [rsp+12],xmm3
  movss [rsp+16],xmm4
  mov [rsp+20],edi
+ mov [rsp+64],eax ; derived mode: 0 autonomous routing, 1 controller step
  call validate
  jc .stay
  movss [rsp+24],xmm5
@@ -248,6 +254,8 @@ terrain_body_move:
  maxss xmm0,xmm5
  minss xmm0,xmm6
  movss [rsp+12],xmm0
+ cmp dword [rsp+64],0
+ jne .step
  mov qword [rsp+32],0
  movss xmm0,[one]
  movss [rsp+40],xmm0

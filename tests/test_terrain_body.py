@@ -12,10 +12,12 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
     subprocess.run(['gcc','-shared','-Wl,-Bsymbolic',*objs,'-o',str(library)],check=True)
     lib=C.CDLL(str(library))
     lib.test_body_move.argtypes=[C.c_float]*5+[C.c_uint];lib.test_body_move.restype=C.c_uint64
+    lib.test_body_step.argtypes=[C.c_float]*5+[C.c_uint];lib.test_body_step.restype=C.c_uint64
     lib.test_body_blocked.argtypes=[C.c_float]*2+[C.c_uint]
     lib.test_body_path.argtypes=[C.c_float]*4+[C.c_uint]
     lib.test_body_hash.argtypes=[C.c_uint64,C.c_uint64];lib.test_body_hash.restype=C.c_uint64
     lib.test_body_abi.argtypes=[C.c_float]*5+[C.c_uint]
+    lib.test_body_step_abi.argtypes=[C.c_float]*5+[C.c_uint]
     lib.terrain_body_init()
     enabled=C.c_uint.in_dll(lib,'terrain_body_enabled')
     raw=(C.c_float*40).in_dll(lib,'terrain_obstacles');before=bytes(raw)
@@ -23,6 +25,7 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
     radii=(.55,3.55,4.49,0)
     def f(v):return C.c_float(v).value
     def move(p,g,s,k):return struct.unpack('<ff',struct.pack('<Q',lib.test_body_move(*p,*g,s,k)))
+    def controller(p,g,s,k):return struct.unpack('<ff',struct.pack('<Q',lib.test_body_step(*p,*g,s,k)))
     def blocked(p,k):
         r=radii[k]
         return not all(r<=v<=8000-r for v in p) or (k!=3 and any(a-r<=p[0]<=c+r and b-r<=p[1]<=d+r for a,b,c,d in boxes))
@@ -79,9 +82,41 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
         assert move((3900,1300),(4050,1300),step,1)==(3900,1300)
     assert lib.test_body_blocked(3900,1300,4)==1
     assert move((3900,1300),(4050,1300),.5,4)==(3900,1300)
+    # Real controller direction must remain commanded even while touching walls.
+    controller_ticks=0
+    for k,s in ((0,.3),(1,.6)):
+        p=(3980.,1300.)
+        for _ in range(90):
+            q=controller(p,(p[0]+5,p[1]),s,k)
+            assert q[1]==1300.,('uncommanded controller Z',k,p,q)
+            assert not blocked(q,k) and not any(hit(p,q,b,radii[k]) for b in boxes)
+            assert 0<=q[0]-p[0]<=s+.001
+            p=q;controller_ticks+=1
+        assert p[0]>3980 and p[0]<3988-radii[k]
+        p=(3980.,1300.)
+        slid=False
+        for _ in range(90):
+            q=controller(p,(p[0]+5,p[1]+5),s,k)
+            assert not blocked(q,k) and not any(hit(p,q,b,radii[k]) for b in boxes)
+            assert math.dist(p,q)<=s+.001
+            assert q[0]>=p[0] and q[1]>=p[1]
+            assert q[1]-p[1]<=s/math.sqrt(2)+.001
+            if q[0]==p[0] and q[1]>p[1]:slid=True
+            p=q;controller_ticks+=1
+        assert slid and p[1]>1310
+        p=tuple(map(f,(radii[k]+1,radii[k]+1)))
+        for _ in range(20):
+            q=controller(p,(0,p[1]),s,k)
+            assert q[1]==p[1] and not blocked(q,k)
+            p=q;controller_ticks+=1
+        for bad in (float('nan'),float('inf'),-1,8001):
+            assert controller((3980,1300),(bad,1300),s,k)==(3980,1300)
+        assert controller((3980,1300),(4000,1300),float('nan'),k)==(3980,1300)
     # Control proves formerly point-clear footprint penetration.
     assert lib.test_body_blocked(3986,1300,1)==1
     enabled.value=0
+    for k in range(4):
+        assert controller((3980,1300),(4050,1300),.6,k)==move((3980,1300),(4050,1300),.6,k)
     assert lib.test_body_blocked(3986,1300,1)==0
     seed=14695981039346656037;prime=1099511628211
     def fnv(data):
@@ -93,6 +128,7 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
     assert lib.test_body_hash(seed,prime)==fnv(struct.pack('<I',1))
     for k in range(4):
         assert lib.test_body_abi(3950,1300,4050,1300,.6,k)==1
+        assert lib.test_body_step_abi(3950,1300,4050,1300,.6,k)==1
     # Nominal tangent is conservatively rejected; 2mm clearance remains passable.
     for k,r in enumerate(radii[:3]):
         assert lib.test_body_path(3970,1100-r,4030,1100-r,k)==0
@@ -103,4 +139,4 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
             if math.dist(p,(4030,1100-r-.002))<.001:break
         assert math.dist(p,(4030,1100-r-.002))<.001
     assert bytes(raw)==before
-    print(json.dumps({'suite':'terrain-body','passed':True,'seed':19381,'random_sweeps':samples,'route_ticks':routes,'radii':radii,'invalid_start_policy':'safe hold','geometry':'expanded AABBs'}))
+    print(json.dumps({'suite':'terrain-body','passed':True,'seed':19381,'random_sweeps':samples,'route_ticks':routes,'controller_ticks':controller_ticks,'radii':radii,'invalid_start_policy':'safe hold','geometry':'expanded AABBs'}))
