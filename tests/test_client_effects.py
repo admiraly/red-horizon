@@ -86,6 +86,28 @@ try:
         memory = os.open(f'/proc/{process.pid}/mem', os.O_RDWR)
         player_address = symbols['sim_players']
 
+        def stop():
+            os.kill(process.pid,signal.SIGSTOP)
+            _,status=os.waitpid(process.pid,os.WUNTRACED)
+            assert os.WIFSTOPPED(status), 'client did not stop'
+
+        # Development-only encounter isolation: preserve every living army
+        # record's HP/kind/side/generation, stocks, shell pool and event ring.
+        # Relocate the background cohorts into distant hold areas so default
+        # 8192-unit combat cannot exhaust the480 AI shell slots during this
+        # focused renderer/input fixture. Actual tick/AI/contact remains live.
+        stop()
+        army_count=struct.unpack('<I',os.pread(memory,4,symbols['sim_count']))[0]
+        cohort=bytearray(os.pread(memory,army_count*32,symbols['sim_entities']))
+        for i in range(army_count):
+            side=struct.unpack_from('<I',cohort,i*32+12)[0]
+            struct.pack_into('<ff',cohort,i*32,1000. if side==0 else 7000.,7000.)
+        os.pwrite(memory,cohort,symbols['sim_entities'])
+        for slot in range(6):
+            os.pwrite(memory,struct.pack('<I',1),symbols['orders']+slot*4)
+            os.pwrite(memory,struct.pack('<I',1),symbols['ai_fronts']+slot*64+24)
+        os.kill(process.pid,signal.SIGCONT)
+
         def player():
             values = struct.unpack('<5f11I', os.pread(memory, 64, player_address))
             return dict(zip(('x','y','z','yaw','pitch','hp','ammo','reload','cooldown','respawn','front','connected','shots','hits','suppression','generation'), values))
@@ -105,7 +127,7 @@ try:
         button(True)
         until(lambda:u32('effects_tracers')==1,2)
         button(False);time.sleep(.025)
-        os.kill(process.pid,signal.SIGSTOP)
+        stop()
         records=struct.unpack('<512f',os.pread(memory,2048,symbols['effects_records']))
         alive=sum(records[i*8+3]>0 for i in range(64));assert alive>0,alive
         image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
@@ -126,20 +148,36 @@ try:
         assert u32('effects_tracers')==total,'repeated render frames duplicated shot effect'
         pool=os.pread(memory,2048,symbols['effects_records'])
         assert all(struct.unpack_from('<f',pool,i*32+12)[0]<=0 for i in range(64) if struct.unpack_from('<I',pool,i*32+28)[0]==1),'tracers did not expire'
+        # Let pre-isolation shots leave the real pool naturally; never fabricate
+        # empty slots. A240tick TTL bounds old-flight drain to8seconds.
+        until(lambda:u32('sim_projectile_count')<480,9)
+        pool_before_encounter=u32('sim_projectile_count')
         # Position an actual shell-capable source and opposite living target.
         # Real AI targeting/world ticks launch the shell; no event/pool writes.
         entities=struct.unpack('<'+('ff6I'*u32('sim_count')),os.pread(memory,32*u32('sim_count'),symbols['sim_entities']))
         tank=next(i for i in range(u32('sim_count')) if entities[i*8+2]>0 and entities[i*8+3]==0 and entities[i*8+4]==1)
         opponent=next(i for i in range(u32('sim_count')) if entities[i*8+2]>0 and entities[i*8+3]==1 and entities[i*8+4]==0)
+        stop()
         os.pwrite(memory,struct.pack('<ff',2000.,3860.),symbols['sim_entities']+tank*32)
         os.pwrite(memory,struct.pack('<ff',2000.,3980.),symbols['sim_entities']+opponent*32)
-        os.pwrite(memory,struct.pack('<fff',2000.,17.805,3900.),player_address)
+        # Observe200m from the opponent, outside its real160m player threat.
+        # The former80m observer died in10ticks before a12tick tank flight.
+        os.pwrite(memory,struct.pack('<fff',2000.,17.8242,3780.),player_address)
         for i in (tank,opponent):
             front=entities[i*8+5];side=entities[i*8+3]
             os.pwrite(memory,struct.pack('<I',1),symbols['orders']+(side*3+front)*4)
             os.pwrite(memory,struct.pack('<I',1),symbols['ai_fronts']+(side*3+front)*64+24)
         before_impacts=u32('effects_impacts');before_events=u32('sim_event_sequence')
-        until(lambda:u32('sim_projectile_count')>0,3)
+        os.kill(process.pid,signal.SIGCONT)
+        def matching_launch():
+            ring=os.pread(memory,8192,symbols['sim_events'])
+            for slot in range(256):
+                event=struct.unpack_from('<fffIIIfI',ring,slot*32)
+                if event[7]>before_events and event[3]==1 and event[4]==0 and abs(event[0]-2000)<.1 and abs(event[2]-3860)<.1:return event
+            return None
+        actual_launch=until(matching_launch,5)
+        assert u32('sim_projectile_count')>0, 'launch produced no real pooled shell'
+
         def matching_impact():
             ring=os.pread(memory,8192,symbols['sim_events'])
             for slot in range(256):
@@ -147,10 +185,12 @@ try:
                 if event[7]>before_events and event[3]==3 and event[4]==0 and abs(event[0]-2000)<10 and 3960<event[2]<3990:return event
             return None
         actual_impact=until(matching_impact,5)
+        assert actual_impact[5]>actual_launch[5] and actual_impact[7]>actual_launch[7], 'impact was not delayed after launch'
+        assert player()['hp']==100, 'isolated observer entered enemy player-threat range'
         until(lambda:u32('effects_event_cursor')>=actual_impact[7] and u32('effects_impacts')>before_impacts,2)
         impact_frame=u32('frame_count')
         until(lambda:u32('frame_count')>=impact_frame+2,1)
-        os.kill(process.pid,signal.SIGSTOP)
+        stop()
         image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
         orange=0;rgb=bytearray()
         for y in range(720):
@@ -189,7 +229,7 @@ try:
             return None
         cannon_launch=until(actual_cannon_launch,2)
         view_frame=u32('frame_count');until(lambda:u32('frame_count')>=view_frame+2,1)
-        os.kill(process.pid,signal.SIGSTOP)
+        stop()
         image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
         pixel=X.XGetPixel(image,1056,637);red,green,blue=(pixel>>16)&255,(pixel>>8)&255,pixel&255
         assert red>180 and green>80 and blue<100,('cannon HUD pixel',red,green,blue)
@@ -210,7 +250,7 @@ try:
         until(lambda:'ON FOOT | E board Q exit' in title(window),2)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_impact':actual_impact,'drive_metres':drive_distance,'cannon_launch':cannon_launch,'cannon_hud_pixel':[red,green,blue]}))
+        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_launch':actual_launch,'actual_impact':actual_impact,'drive_metres':drive_distance,'cannon_launch':cannon_launch,'cannon_hud_pixel':[red,green,blue],'fixture':'development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL','observer_enemy_metres':200,'pool_before_encounter':pool_before_encounter}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:
