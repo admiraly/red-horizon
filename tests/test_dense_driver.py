@@ -22,7 +22,7 @@ spec.loader.exec_module(dev)
 def arguments(scenario, **overrides):
     values = dict(scenario=scenario, units=None, ticks=3, seed=42, realtime=False,
                   connect=None, frames=30, screenshot=None, tactical=False, weather=None,
-                  width=None, height=None, fov=None, sensitivity=None, port=7777)
+                  width=None, height=None, fov=None, sensitivity=None, port=7777, census=False)
     values.update(overrides)
     return SimpleNamespace(**values)
 
@@ -37,6 +37,7 @@ class DriverChecks(unittest.TestCase):
         self.calls = []
         self.reports = []
         self.battle_rows = []
+        self.census_output = None
         for handle in (patch.object(dev, 'build', return_value=self.exe),
                        patch.object(dev, 'RUNS', self.folder/'runs'),
                        patch.object(dev, 'atomic', side_effect=lambda path, data: self.reports.append((path, data))),
@@ -57,6 +58,7 @@ class DriverChecks(unittest.TestCase):
             output += ''.join(json.dumps(row)+'\n' for row in self.battle_rows)
         else:
             output = json.dumps({'submitted_entities': 8192, 'navigation': {'pending': 7}})
+        if self.census_output is not None: output += '\n'+self.census_output+'\n'
         return subprocess.CompletedProcess(cmd, 0, output, '')
 
     def test_headless_dense_names_units_and_seed_forward(self):
@@ -146,6 +148,92 @@ class DriverChecks(unittest.TestCase):
         self.battle_rows *= 2
         with self.assertRaisesRegex(RuntimeError, 'multiple battle_metrics'):
             dev.gpu_benchmark(arguments('scale-front'))
+
+    def census_row(self, **changes):
+        row=dict(visibility_census=True,width=1920,height=1080,visible_actors=1030,
+                 visible_high=200,visible_low=800,visible_markers=30,
+                 individually_detailed_actors=1000,source_tick=72,invalid_codes=0,
+                 readback_reduce_ms=3.5)
+        row.update(changes)
+        return row
+
+    def test_census_gpu_forwarding_and_exact_pixel_report(self):
+        self.census_output=json.dumps(self.census_row())
+        dev.gpu_benchmark(arguments('scale-hotspot',census=True,width=1920,height=1080))
+        cmd=next(call[0] for call in reversed(self.calls) if call[0][0]==str(self.exe))
+        self.assertIn('--census',cmd)
+        report=self.reports[-1][1]
+        self.assertEqual(report['visibility_census'],self.census_row())
+        self.assertEqual(report['coverage']['visible_individual_count'],1030)
+        self.assertEqual(report['coverage']['individually_detailed_actors'],1000)
+        self.assertEqual(report['coverage']['detailed_counts'],dict(high=200,low=800,markers=30))
+        self.assertIn('one frame, not peak',report['coverage']['visibility_scope'])
+        self.assertIn('excluded',report['coverage']['census_timing_scope'])
+
+    def test_census_bench_default_frames_bounded(self):
+        self.census_output=json.dumps(self.census_row())
+        dev.gpu_benchmark(arguments('scale-front',census=True,frames=None,width=1920,height=1080))
+        cmd=next(call[0] for call in reversed(self.calls) if call[0][0]==str(self.exe))
+        self.assertEqual(cmd[cmd.index('--frames')+1],'600')
+
+    def test_census_run_forwards_and_checks_report(self):
+        self.census_output=json.dumps(self.census_row())
+        with patch.object(sys,'argv',['dev.py','run','--client','--census','--frames','30',
+                                      '--width','1920','--height','1080']):
+            self.assertEqual(dev.main(),0)
+        self.assertIn('--census',self.calls[-1][0])
+        self.assertTrue(self.calls[-1][1]['capture_output'])
+        self.census_output=''
+        with patch.object(sys,'argv',['dev.py','run','--client','--census','--frames','30']):
+            with self.assertRaisesRegex(RuntimeError,'exactly one'):
+                dev.main()
+
+    def test_census_invalid_scope_and_unbounded_run_rejected_before_build(self):
+        for argv in (['run','--census'],['server','--census'],['bench','--census'],
+                     ['run','--client','--headless','--census','--frames','30'],
+                     ['run','--client','--census'],['run','--client','--census','--frames','0'],
+                     ['run','--client','--census','--frames','-1'],
+                     ['run','--client','--census','--frames','10001']):
+            with patch.object(sys,'argv',['dev.py',*argv]):
+                with self.assertRaisesRegex(RuntimeError,'--census requires'):
+                    dev.main()
+        with self.assertRaisesRegex(RuntimeError,'--census requires --client'):
+            dev.run_headless(arguments('scale-front',census=True))
+        dev.build.assert_not_called()
+        self.assertEqual(self.calls,[])
+
+    def test_census_missing_malformed_duplicate_and_invalid_reports_rejected(self):
+        args=arguments('scale-front',census=True,width=1920,height=1080)
+        valid=json.dumps(self.census_row())
+        for output in ('',valid+'\n'+valid,'{"visibility_census":',
+                       valid.replace('"source_tick": 72','"source_tick": 72, "source_tick": 73'),
+                       json.dumps(self.census_row(visibility_census=1))):
+            with self.subTest(output=output):
+                with self.assertRaises(RuntimeError): dev.visibility_report(output,args)
+        bad_changes=[dict(width=1280),dict(height=True),dict(visible_actors=1031),
+                     dict(visible_high=-1),dict(visible_low=1.5),dict(visible_markers=True),
+                     dict(visible_actors=32769),dict(individually_detailed_actors=999),
+                     dict(source_tick=-1),dict(source_tick=0x100000000),dict(source_tick=True),
+                     dict(invalid_codes=1),dict(readback_reduce_ms=-1),
+                     dict(readback_reduce_ms=float('nan')),dict(readback_reduce_ms=float('inf')),
+                     dict(readback_reduce_ms='3.5')]
+        for changes in bad_changes:
+            with self.subTest(changes=changes):
+                with self.assertRaises(RuntimeError):
+                    dev.visibility_report(json.dumps(self.census_row(**changes)),args)
+        for name in self.census_row():
+            row=self.census_row(); del row[name]
+            with self.subTest(missing=name):
+                with self.assertRaises(RuntimeError): dev.visibility_report(json.dumps(row),args)
+
+    def test_census_valid_empty_and_extra_context_preserved(self):
+        args=arguments('scale-open',census=True,width=1920,height=1080)
+        row=self.census_row(visible_actors=0,visible_high=0,visible_low=0,visible_markers=0,
+                            individually_detailed_actors=0,source_tick=0,readback_reduce_ms=0,
+                            renderer_context='fixture')
+        # Formatting does not own validity; additional capture context is retained.
+        output='unrelated telemetry\n'+json.dumps(row, separators=(', ', ': '))
+        self.assertEqual(dev.visibility_report(output,args),row)
 
     def test_gpu_invalid_requests_rejected_before_build(self):
         for args in (arguments('scale-stretch'), arguments('scale-front', units=16384),

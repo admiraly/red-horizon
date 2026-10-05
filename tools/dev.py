@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Development orchestration only. Game simulation lives in NASM objects."""
-import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shlex,shutil,subprocess,sys,tarfile,time,uuid
+import argparse,math,fcntl,datetime,hashlib,json,os,pathlib,platform,shlex,shutil,subprocess,sys,tarfile,time,uuid
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'
 RUNS=ROOT/'runs'
@@ -95,6 +95,7 @@ def build_locked(target,objects_only=False):
     result={'target':target,'revision':rev,'assembled':assembled,'assembled_sources':assembled_sources,'seconds':time.perf_counter()-start,'executable':str(frozen)}
     atomic(BUILD/(target+'-build.json'),result); print(json.dumps(result)); return frozen
 def run_headless(args,benchmark=False):
+    if getattr(args,'census',False): raise RuntimeError('--census requires --client')
     scenario=args.scenario
     units=args.units if args.units is not None else SCENARIOS[scenario]
     if scenario in ('scale-front','scale-hotspot') and units<8192:
@@ -124,7 +125,59 @@ def client_scenario_args(args):
     if args.units not in (None,8192):
         raise RuntimeError('Client currently has a fixed 8192-unit scenario')
     return ['--scenario',args.scenario] if args.scenario in LOCAL_SCENARIOS else []
+def census_requested(args):
+    return bool(getattr(args,'census',False))
+def validate_census_request(args,benchmark=False):
+    if not census_requested(args): return
+    if not getattr(args,'client',True) or getattr(args,'headless',False):
+        raise RuntimeError('--census requires --client without --headless')
+    frames=args.frames if args.frames is not None else (600 if benchmark else None)
+    if frames is None or not 1<=frames<=10000:
+        raise RuntimeError('--census requires bounded --frames 1..10000 (GPU bench defaults to600)')
+def visibility_report(stdout,args):
+    """Validate actual final-frame ID capture; submitted instance counts are separate."""
+    def unique_fields(pairs):
+        result={}
+        for key,value in pairs:
+            if key in result: raise ValueError('duplicate field '+key)
+            result[key]=value
+        return result
+    rows=[]
+    for line in stdout.splitlines():
+        if '"visibility_census"' not in line: continue
+        try: row=json.loads(line,object_pairs_hook=unique_fields)
+        except (json.JSONDecodeError,ValueError) as error:
+            raise RuntimeError('Client reported malformed visibility_census JSON') from error
+        rows.append(row)
+    if len(rows)!=1:
+        raise RuntimeError('Client must report exactly one visibility_census row')
+    row=rows[0]
+    if not isinstance(row,dict) or row.get('visibility_census') is not True:
+        raise RuntimeError('Client reported invalid visibility_census marker')
+    dimensions=(args.width or 1280,args.height or 720)
+    for name,expected in zip(('width','height'),dimensions):
+        if type(row.get(name)) is not int or row[name]!=expected:
+            raise RuntimeError('visibility_census framebuffer dimensions do not match request')
+    for name in ('visible_actors','visible_high','visible_low','visible_markers','individually_detailed_actors'):
+        if type(row.get(name)) is not int or not 0<=row[name]<=32768:
+            raise RuntimeError('visibility_census invalid actor count: '+name)
+    if row['visible_actors']!=sum(row[name] for name in ('visible_high','visible_low','visible_markers')):
+        raise RuntimeError('visibility_census visible group counts do not sum to actors')
+    if row['individually_detailed_actors']!=row['visible_high']+row['visible_low']:
+        raise RuntimeError('visibility_census detailed count does not match high/low models')
+    if row['visible_actors']>dimensions[0]*dimensions[1]:
+        raise RuntimeError('visibility_census actor count exceeds framebuffer pixels')
+    for name in ('source_tick','invalid_codes'):
+        if type(row.get(name)) is not int or not 0<=row[name]<=0xffffffff:
+            raise RuntimeError('visibility_census invalid '+name)
+    if row['invalid_codes']!=0:
+        raise RuntimeError('visibility_census framebuffer contains invalid actor codes')
+    cost=row.get('readback_reduce_ms')
+    if type(cost) not in (int,float) or not math.isfinite(cost) or cost<0:
+        raise RuntimeError('visibility_census invalid readback/reduction timing')
+    return row
 def gpu_benchmark(args):
+    validate_census_request(args,benchmark=True)
     if not os.environ.get('DISPLAY'):
         raise RuntimeError('Hardware GPU benchmark requires an accessible X11/XWayland DISPLAY')
     if args.connect:
@@ -132,7 +185,7 @@ def gpu_benchmark(args):
     scenario_args=client_scenario_args(args)
     if args.units not in (None,8192) or args.seed!=42:
         raise RuntimeError('Client currently has a fixed 8192-unit seed42 scenario; use --seed 42')
-    frames=args.frames or 600
+    frames=args.frames if args.frames is not None else 600
     if not 30<=frames<=10000:
         raise RuntimeError('GPU benchmark frames must be30..10000 (bounded profiler capacity)')
     if not shutil.which('glxinfo'):
@@ -143,6 +196,7 @@ def gpu_benchmark(args):
         raise RuntimeError('GPU benchmark requires a verified accelerated GL context; software rendering is a separate graphics test')
     exe=build('client'); folder=RUNS/('gpu-bench-'+uuid.uuid4().hex[:10]); folder.mkdir(parents=True)
     screenshot=folder/'final.ppm'; cmd=[str(exe),'--frames',str(frames),'--screenshot',str(screenshot),*client_view_args(args)]
+    if census_requested(args): cmd.append('--census')
     if args.tactical: cmd.append('--tactical')
     if args.weather: cmd+=['--weather',args.weather]
     cmd+=scenario_args
@@ -161,6 +215,14 @@ def gpu_benchmark(args):
             'screenshot':str(screenshot),'screenshot_sha256':hashlib.sha256(screenshot.read_bytes()).hexdigest(),
             'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','audio_playback':'physical output and listening unverified','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('initial authored '+args.scenario+' view; density acceptance requires measured engagement and visible actors' if args.scenario in LOCAL_SCENARIOS else 'initial idle view only; not dense hotspot/front coverage')}}
     if battle_metrics: result['battle_metrics']=battle_metrics[0]
+    if census_requested(args):
+        census=visibility_report(run.stdout,args)
+        result['visibility_census']=census
+        result['coverage'].update(visible_individual_count=census['visible_actors'],
+            individually_detailed_actors=census['individually_detailed_actors'],
+            detailed_counts={'high':census['visible_high'],'low':census['visible_low'],'markers':census['visible_markers']},
+            visibility_scope='unique actor IDs with surviving final-frame pixels in opaque world depth including weapon occlusion before translucent effects/HUD; high/low models individually detailed; markers separate; one frame, not peak',
+            census_timing_scope='separate final-frame allocation/draw/readback/reduction; excluded from ordinary CPU/GPU frame timing')
     atomic(folder/'result.json',result); print(json.dumps(result,indent=2)); print('Report: '+str(folder/'result.json'))
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
@@ -215,11 +277,12 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
+    if args.command in ('run','server','bench'): validate_census_request(args,benchmark=args.command=='bench' and args.client)
     if getattr(args,'background',False): background(args); return 0
     if args.command in ('doctor','configure'): doctor()
     elif args.command=='build': build(args.target,args.objects_only)
@@ -231,12 +294,17 @@ def main():
             scenario_args=client_scenario_args(args)
             exe=build('client'); cmd=[str(exe),*client_view_args(args)];
             if args.frames: cmd+=['--frames',str(args.frames)]
+            if census_requested(args): cmd.append('--census')
             if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
             if args.tactical: cmd+=['--tactical']
             if args.weather: cmd+=['--weather',args.weather]
             cmd+=scenario_args
             if args.connect: cmd+=['--connect',args.connect,'--port',str(args.port)]
-            subprocess.run(cmd,cwd=exe.parent,check=True)
+            if census_requested(args):
+                run=subprocess.run(cmd,cwd=exe.parent,check=True,capture_output=True,text=True)
+                print(run.stdout,end=''); print(run.stderr,end='',file=sys.stderr)
+                visibility_report(run.stdout,args)
+            else: subprocess.run(cmd,cwd=exe.parent,check=True)
         else: run_headless(args,args.command=='bench')
     elif args.command=='coop':
         exe=build('coop'); execute([str(exe),'--port',str(args.port),'--ticks',str(args.ticks),'--units',str(args.units)],capture_output=False)
