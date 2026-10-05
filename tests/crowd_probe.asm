@@ -2,9 +2,10 @@
 default rel
 extern crowd_move,crowd_hash
 section .bss align=64
-global sim_entities,sim_count
+global sim_entities,sim_count,sim_tick_count
 sim_entities: resb ENTITY_CAPACITY*ENTITY_STRIDE
 sim_count: resd 1
+sim_tick_count: resd 1
 global vehicle_entity_driver
 vehicle_entity_driver: resd ENTITY_CAPACITY
 section .text

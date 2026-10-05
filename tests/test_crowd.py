@@ -16,6 +16,7 @@ lib=C.CDLL(str(so))
 class E(C.Structure):
     _fields_=[('x',C.c_float),('z',C.c_float)]+[(k,C.c_uint) for k in ('hp','side','kind','front','target','gen')]
 entities=(E*32768).in_dll(lib,'sim_entities'); count=C.c_uint.in_dll(lib,'sim_count')
+tick_count=C.c_uint.in_dll(lib,'sim_tick_count')
 enabled=C.c_uint.in_dll(lib,'crowd_enabled'); metrics=(C.c_uint64*8).in_dll(lib,'crowd_metrics')
 drivers=(C.c_int*32768).in_dll(lib,'vehicle_entity_driver')
 lib.test_move.argtypes=[C.c_uint,C.POINTER(C.c_float)];lib.test_move.restype=C.c_int
@@ -24,7 +25,7 @@ R=(.55,3.55,4.49); S=(.12,.5,.2)
 verify_readonly=True
 def reset(rows):
     C.memset(C.addressof(entities),0,C.sizeof(entities));C.memset(C.addressof(drivers),255,C.sizeof(drivers))
-    count.value=len(rows)
+    count.value=len(rows);tick_count.value=0
     for i,row in enumerate(rows):
         x,z,*kind=row;k=kind[0] if kind else 0
         entities[i]=E(x,z,100,i%2,k,0,0,i+1)
@@ -36,6 +37,7 @@ def move(i,goal,step=None):
     if verify_readonly:assert bytes(entities)==before,'kernel wrote authoritative entities'
     return a[0],a[1]
 def tick(goals):
+    tick_count.value+=1
     lib.crowd_begin()
     old={i:(entities[i].x,entities[i].z) for i in goals}
     points={i:move(i,g) for i,g in goals.items()}
@@ -110,6 +112,25 @@ def head_on(mirror=False,reverse=False):
     return bytes(entities[:2]) if False else ((entities[0].x,entities[0].z),(entities[1].x,entities[1].z),gap)
 a=head_on();assert a[2]>=1.0998 and a[0][0]>1011.5 and a[1][0]<998.5,a
 assert head_on(True)==a and head_on(False,True)==a
+# Initial coincident allied flank elements recover onto their real opposing
+# approach corridors, rather than swapping sides and blocking each other's goal.
+reset([(3500,1300),(3500,1300)])
+for _ in range(89):tick({0:(5000,700),1:(5000,1900)})
+flank_positions=[(entities[0].x,entities[0].z),(entities[1].x,entities[1].z)]
+assert flank_positions[0][0]>3500 and flank_positions[0][1]<1300
+assert flank_positions[1][0]>3500 and flank_positions[1][1]>1300
+# Reverse the real flank intentions: physical priority must not swap corridors.
+reset([(3500,1300),(3500,1300)])
+for _ in range(89):tick({0:(5000,1900),1:(5000,700)})
+reverse_flank_positions=[(entities[0].x,entities[0].z),(entities[1].x,entities[1].z)]
+assert reverse_flank_positions[0][0]>3500 and reverse_flank_positions[0][1]>1300
+assert reverse_flank_positions[1][0]>3500 and reverse_flank_positions[1][1]<1300
+# Exact coincident explicit held allies at either physical ID do not starve movers.
+for mover in (0,1):
+    reset([(1000,1000),(1000,1000)])
+    for _ in range(50):tick({mover:(1010,1000)})
+    assert entities[mover].x>1004
+    assert (entities[1-mover].x,entities[1-mover].z)==(1000,1000)
 # Actual vehicle mesh-sized circles, including artillery, must pass head-on.
 vehicle_pairs=[]
 for kind,ticks in ((1,120),(2,230)):
@@ -125,6 +146,18 @@ reset([(1000,1000),(1000,1000)])
 for t in range(40):tick({0:(1010,1000),1:(1010,1000)})
 coincident_gap=math.dist((entities[0].x,entities[0].z),(entities[1].x,entities[1].z))
 assert coincident_gap>=1.0998,coincident_gap
+# Larger exact coincident moving cohorts must actually split, with every
+# simultaneous relative sweep preserving any separation already recovered.
+coincident_cohorts=[]
+verify_readonly=False
+for n in (3,5,8):
+    reset([(1000,1000) for _ in range(n)])
+    for _ in range(160):tick({i:(1030,1000) for i in range(n)})
+    gaps=[math.dist((entities[i].x,entities[i].z),(entities[j].x,entities[j].z)) for i in range(n) for j in range(i)]
+    assert min(gaps)>=1.0998,(n,min(gaps),[(e.x,e.z) for e in entities[:n]])
+    assert all(math.dist((e.x,e.z),(1000,1000))>1 for e in entities[:n])
+    coincident_cohorts.append({'actors':n,'ticks':160,'minimum_gap':min(gaps),'all_moved':True})
+verify_readonly=True
 # Partial overlap must genuinely increase simultaneous radial separation.
 reset([(1000,1000),(1000,1000.4)])
 for t in range(30):tick({0:(1010,1000),1:(1010,1000)})
@@ -171,8 +204,8 @@ for n in (128,8192):
     assert metrics[6]==0 and metrics[7]<=512,list(metrics)
     bench.append({'actors':n,'ticks':30,'kernel_ms_mean':sum(times)/len(times),'kernel_ms_p95':sorted(times)[28],
                   'inspected':metrics[2],'maximum_inspected_query':metrics[7],'truncated':metrics[6]})
-print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,
-                  'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,
+print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,'coincident_cohorts':coincident_cohorts,
+                  'coincident_flank_positions':flank_positions,'reverse_flank_positions':reverse_flank_positions,'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,
                   'limitations':['512 inspected neighbors per query; denser 3x3 infantry or 5x5 vehicle cell chains conservatively yield',
                   'ground AI only; driven bodies included but source driver control not changed',
                   'initial overlap recovery is gradual, crowded unsatisfiable layouts may yield',

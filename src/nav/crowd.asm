@@ -6,7 +6,7 @@ default rel
 %define GRID_SIZE (GRID_SIDE*GRID_SIDE)
 %define SNAP_SIZE 32
 %define LIMIT 512
-extern sim_entities,sim_count,terrain_move,terrain_path_clear,vehicle_entity_driver
+extern sim_entities,sim_count,sim_tick_count,terrain_move,terrain_path_clear,vehicle_entity_driver
 section .rodata align=16
 zero: dd 0.0
 one: dd 1.0
@@ -40,6 +40,7 @@ heads: resd GRID_SIZE
 occupied: resd ENTITY_CAPACITY
 occupied_count: resd 1
 snap_count: resd 1
+snap_phase: resd 1
 ; x,z,radius,maxstep,kind,generation,next,reserved
 snaps: resb SNAP_SIZE*ENTITY_CAPACITY
 section .text
@@ -61,6 +62,9 @@ crowd_init:
  rep stosq
  ret
 crowd_begin:
+ mov eax,[sim_tick_count]
+ and eax,1
+ mov [snap_phase],eax
  push rbx
  push r12
  push r13
@@ -278,6 +282,7 @@ crowd_move:
  xor r14d,r14d
  mov dword [rsp+68],0
  mov dword [rsp+92],0
+ mov dword [rsp+112],0
 .cell_z:
  mov eax,[rsp+76]
  add eax,[rsp+80]
@@ -329,14 +334,21 @@ crowd_move:
  ja .next_neighbor
  ucomiss xmm0,[epsilon]
  ja .no_coincident
- cmp dword [rsp+92],0
- jne .no_coincident
- mov eax,1
+ mov dword [rsp+92],1
+ ; Exact coincidence has no separation vector. One physical-ID priority
+ ; actor follows its actual intent; the other yields for this tick only.
+ ; Alternating authoritative tick parity avoids permanently starving a
+ ; moving actor whose coincident neighbor is an explicit held obstacle.
+ cmp dword [snap_phase],0
+ jne .lower_priority
  cmp r12d,ebp
- jb .coincident_sign
- mov eax,-1
-.coincident_sign:
- mov [rsp+92],eax
+ jb .coincident_yield
+ jmp .no_coincident
+.lower_priority:
+ cmp r12d,ebp
+ jbe .no_coincident
+.coincident_yield:
+ mov dword [rsp+112],1
 .no_coincident:
  mov [rsp+128+r14*4],ebp
  inc r14d
@@ -357,11 +369,10 @@ crowd_move:
  cmp [rsp+80],eax
  jle .cell_z
  call .account
- cmp dword [rsp+92],0
+ cmp dword [rsp+112],0
  je .desired_direction
- mov dword [rsp+28],0
- cvtsi2ss xmm0,dword [rsp+92]
- movss [rsp+32],xmm0
+ inc qword [crowd_metrics+32]
+ jmp .unchanged
 .desired_direction:
  xor r15d,r15d
 .candidate:
@@ -407,8 +418,6 @@ crowd_move:
  movss xmm4,[rsp+8]
  test r15d,r15d
  jnz .steering_goal
- cmp dword [rsp+92],0
- jne .steering_goal
  ; Preserve terrain's long-corridor routing for the uncorrected direction.
  ; A one-step pseudo-goal can otherwise alternate against a wall forever.
  movss xmm2,[rsp+20]

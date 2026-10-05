@@ -36,8 +36,12 @@ outward/tangent movement is allowed rather than freezing everyone.
 
 Existing overlaps recover gradually. Noncoincident pairs require a genuine
 outward radial component and no deeper swept overlap; merely moving parallel in
-lockstep cannot count as recovery. Exactly coincident bodies break symmetry using
-an antisymmetric physical ID choice in a fixed world direction. No side labels,
+lockstep cannot count as recovery. Exactly coincident moving bodies use their actual navigation intent. Physical-ID
+priority allows one actor to begin separating while its peer yields that tick;
+priority alternates using immutable authoritative tick parity so a coincident
+explicit held neighbor cannot starve either physical ID forever. The cached parity
+is derived from `sim_tick_count` at begin and is already represented by the world
+checksum; no private future commitments are introduced. No side labels,
 camera state, random stream, HP/order/ammo writes or teleportation enter steering.
 No future-affecting commitments exist: `crowd_hash` includes only the enabled
 policy word; derived snapshots, index and cumulative metrics are excluded.
@@ -102,8 +106,8 @@ Two causes are corrected in the worker kernel. The uncorrected forward candidate
 now supplies the caller's actual long navigation/hazard goal to `terrain_move`,
 preserving its corridor/corner route rather than substituting a short pseudo-goal
 that repeatedly alternated against the wall. Its actual returned endpoint remains
-subject to the same swept body tests. Exactly coincident ID recovery remains a
-short directed goal. For corrected sidesteps, a bounded production
+subject to the same swept body tests. In that intermediate revision exactly coincident recovery still used a short
+fixed-direction goal; the intent correction below supersedes that tie policy. For corrected sidesteps, a bounded production
 `terrain_path_clear` query screens the next12 m in the proposed direction before
 accepting the short terrain-safe endpoint. This rejects wall-facing detours when
 the other side of a held body is open. Ten candidate directions remain bounded;
@@ -117,3 +121,49 @@ inspections and zero truncations. Whole-world acceptance still belongs to root's
 independent integration oracle. The12 m corrected-direction screen is conservative:
 complex local mazes with body obstruction may still require richer route recovery;
 these two fixtures do not prove universal navigation convergence.
+
+## Preserve cooperative intent during coincident recovery
+
+The intermediate fixed-world-direction tie caused an actual existing tactics
+regression: allied flank actors1/17 started together at3500,1300. Their real first
+navigation goals were5000,700 and5000,1900, then cached corridors3984,1096 and
+3984,1504. The old lower-ID +Z/higher-ID −Z tie immediately placed them on opposite
+sides from their assigned goals and body constraints blocked their subsequent
+crossing. After89 ticks they remained at3510.3691,1300.5844 and
+3510.3691,1299.4156, respectively. Reversing a fixed handedness passed this one
+fixture but did not solve reversed real intents, so that trial was superseded.
+
+The final coincident policy follows actual navigation goals and uses deterministic
+physical-ID priority solely to decide which actor first moves away. Each begin
+snapshots authoritative tick parity: one phase allows the highest coincident ID,
+the other allows the lowest. Other coincident actors yield unchanged. Once any
+positive separation exists, the existing strictly outward radial and relative
+swept checks govern gradual overlap recovery. Alternation prevents an explicitly
+held coincident actor at either ID from permanently blocking its moving peer.
+All state derives from already-hashed world tick, living generation-safe body
+snapshots, and actual caller intent. Snapshot phase, lists and diagnostics remain
+read-only derived data; private hash still covers only the enabled word.
+
+The final actual NASM/terrain oracle passes both original and reversed divergent
+flank goals, shared-goal coincident recovery (gap1.3199664 m after40 ticks), and
+moving-vs-held coincidence at either ID (>4 m progress in50 ticks, held record
+unchanged). Exact coincident cohorts of3/5/8 actors recover in160 ticks to minimum
+center gaps1.2459924/1.2460523/1.2460523 m; every small-cohort relative sweep retains
+already-recovered separation and all actors move more than1 m. The noncoincident
+five-actor partial-overlap chain remains at minimum1.2222231 m, with existing
+outward-only body rules unchanged. Wall regressions still reach their original
+240/1600-tick goals exactly. Final isolated8192 mean3.542698 ms/p953.589564 ms,
+max143 inspections/query and zero truncation; timing varies with concurrent work.
+
+A development shadow library copied the16 already-built root integration objects
+at root e95c5225708b46571a2477497d706243dbc5d196, replacing only the crowd object
+with the worker's final source. Both the entire unchanged `tests/test_tactics.py`
+and `tests/test_crowd_outcomes.py` passed. Tactics includes physical scouting,
+opaque-wall reconnaissance/capture, opposing real flank corridors, firing bounds,
+observed-threat/supply retreat, explicit holds, replay, and default8192/16384
+army movement. The ≥95% per-front distance gates and ≥90% forward progress at300
+ticks were retained. Actual initial player-bubble moving counts were415/415,
+435/435,468/468 at8k ticks30/120/300 and846/846,883/883,949/949 at16k. The whole-world
+crowd oracle retained all11 encounters, dense outcomes, physical label swap and
+replay. This isolated replacement evidence does not substitute for root's required
+source-matched full frozen integration checkpoint.
