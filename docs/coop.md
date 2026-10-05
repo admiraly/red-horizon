@@ -107,7 +107,43 @@ regional records, and no autonomous local simulation tick. The latest final
 interest census was taken only from active slots. These are headless automated
 outcomes, not graphical playtest evidence.
 Physical two-client graphical play, interpolated remote actors, dense-front
-bandwidth/latency budgets, network emulation matrix, reconnect state continuation,
+bandwidth/latency budgets, reconnect state continuation,
 world join chunk completion, public security, Windows, and full-game acceptance
 remain separate evidence requirements. This limited regional replication path
 must not be described as full 8192-record replication per client.
+
+
+Extended verification (`--extended`) now passes actual network death/redeployment
+and the real UDP delay/loss/reorder matrix. The development driver pauses its own
+server child and positions existing army records: allies move away from the
+fixture threat, and one living armoured enemy moves 80m from the authoritative
+player. It writes only entity positions, never player position, HP, damage,
+respawn or timers. Normal shared simulation and player combat then produce
+HP0, a nonzero redeployment delay, a safe new position and increased player
+generation, observed entirely in UDP snapshots. This is a controlled developer
+fixture, not evidence of normal-scenario difficulty or pacing. It requires Linux
+`/proc/PID/mem` access to the test's own child and `nm` symbols; failure is explicit.
+No production encounter flag or client-authorized damage path was added.
+
+The development-only UDP relay runs at 0/50/100/150ms nominal one-way delay,
+with +/-10ms jitter, every 20th received datagram dropped, and every 7th forwarded
+datagram given an extra 60ms to reorder arrivals. Actual measurements:
+
+| One-way delay (ms) | Datagram count | Dropped | Delayed for reorder | Accepted inputs |
+| --- | --- | --- | --- | --- |
+| 0 | 203 | 10 | 28 | 24 |
+| 50 | 204 | 10 | 28 | 14 |
+| 100 | 197 | 9 | 27 | 9 |
+| 150 | 196 | 9 | 27 | 7 |
+
+All four fixtures preserved join and authoritative movement through retries.
+The finite observed drop fractions are 4.6–4.9%; every 20th rule approaches 5%.
+Higher RTT reduces command throughput under the current stop-and-wait policy;
+held authoritative intent still advances at 30Hz. This verifies recovery in these
+bounded headless scenarios, not smooth graphical prediction, all possible network
+faults, production congestion control, or target-machine bandwidth/latency goals.
+All subprocesses and relay threads are reconciled before the driver exits.
+
+```sh
+python3 tests/test_coop.py --server build/coop-server --extended
+```
