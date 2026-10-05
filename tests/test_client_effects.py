@@ -191,16 +191,76 @@ try:
         impact_frame=u32('frame_count')
         until(lambda:u32('frame_count')>=impact_frame+2,1)
         stop()
-        image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
-        orange=0;rgb=bytearray()
-        for y in range(720):
-            for x in range(1280):
-                pixel=X.XGetPixel(image,x,y);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
-                rgb.extend((r,g,b))
-                if 250<x<1030 and 180<y<610 and r>130 and g>70 and b<100 and r>g:orange+=1
-        X.XDestroyImage(image)
+        # Paired GL control: freeze only cosmetic/render elapsed time and the
+        # private process clock. Retain the actual acquired impact unchanged.
+        # Let any already-entered fixed tick finish before taking the snapshot.
+        old_maxdt=os.pread(memory,8,symbols['maxdt'])
+        old_accum=os.pread(memory,8,symbols['accum'])
+        os.pwrite(memory,struct.pack('<d',0),symbols['maxdt'])
+        os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+        freeze_frame=u32('frame_count')
+        os.kill(process.pid,signal.SIGCONT)
+        until(lambda:u32('frame_count')>=freeze_frame+3,2)
+        stop()
+        actual_effects=os.pread(memory,2048,symbols['effects_records'])
+        impact_slots=[]
+        for slot in range(64):
+            record=struct.unpack_from('<7fI',actual_effects,slot*32)
+            if record[7]==2 and record[3]>0 and math.dist(record[:3],actual_impact[:3])<.1:
+                impact_slots.append(slot)
+        assert impact_slots, 'actual acquired impact flash already absent before paired render'
+
+        def authority_snapshot():
+            # No writes to these records or stocks during the control render.
+            return tuple(os.pread(memory,size,symbols[name]) for name,size in
+                         (('sim_players',256),('sim_entities',army_count*32),
+                          ('sim_projectiles',32768),('sim_events',8192),
+                          ('sim_shell_ammo',army_count*4),('sim_shell_cooldown',army_count*4),
+                          ('sim_tick_count',4),('sim_alive',8)))
+
+        def screen_rgb():
+            image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+            pixels=bytearray()
+            for y in range(720):
+                for x in range(1280):
+                    pixel=X.XGetPixel(image,x,y)
+                    pixels.extend(((pixel>>16)&255,(pixel>>8)&255,pixel&255))
+            X.XDestroyImage(image)
+            return bytes(pixels)
+
+        authority_before=authority_snapshot()
+        rgb=screen_rgb()
+        hidden_effects=bytearray(actual_effects)
+        # Disable only the actual event's acquired flash and smoke TTLs; no new
+        # event, projectile, impact position, radius or damage is manufactured.
+        for slot in range(64):
+            record=struct.unpack_from('<7fI',actual_effects,slot*32)
+            if record[7]in(2,3) and math.dist(record[:3],actual_impact[:3])<.1:
+                struct.pack_into('<f',hidden_effects,slot*32+12,0)
+        os.pwrite(memory,hidden_effects,symbols['effects_records'])
+        control_frame=u32('frame_count')
+        os.kill(process.pid,signal.SIGCONT)
+        until(lambda:u32('frame_count')>=control_frame+3,2)
+        stop()
+        control_rgb=screen_rgb()
+        assert authority_snapshot()==authority_before,'paired cosmetic render changed authority'
+        assert os.pread(memory,2048,symbols['effects_records'])==hidden_effects,'frozen cosmetics changed during control'
+        os.pwrite(memory,actual_effects,symbols['effects_records'])
+        assert os.pread(memory,2048,symbols['effects_records'])==actual_effects,'actual effects not restored intact'
+        os.pwrite(memory,old_maxdt,symbols['maxdt'])
+        os.pwrite(memory,old_accum,symbols['accum'])
+        orange=0;control_orange=0;changed_pixels=0
+        for y in range(180,610):
+            for x in range(250,1030):
+                i=(y*1280+x)*3;r,g,b=rgb[i:i+3];cr,cg,cb=control_rgb[i:i+3]
+                is_orange=r>130 and g>70 and b<100 and r>g
+                if cr>130 and cg>70 and cb<100 and cr>cg:control_orange+=1
+                if max(abs(r-cr),abs(g-cg),abs(b-cb))>12:
+                    changed_pixels+=1
+                    if is_orange and r>cr+10:orange+=1
         pathlib.Path('/tmp/red-horizon-shell-impact.ppm').write_bytes(b'P6\n1280 720\n255\n'+rgb)
-        assert orange>3,('no actual impact pixels',orange)
+        pathlib.Path('/tmp/red-horizon-shell-impact-control.ppm').write_bytes(b'P6\n1280 720\n255\n'+control_rgb)
+        assert orange>3,('no independently acquired impact pixels above same-scene control',orange,control_orange,changed_pixels)
         events=u32('sim_event_sequence');impacts=u32('effects_impacts')
         assert events>before_events
         os.kill(process.pid,signal.SIGCONT)
@@ -250,7 +310,7 @@ try:
         until(lambda:'ON FOOT | E board Q exit' in title(window),2)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_launch':actual_launch,'actual_impact':actual_impact,'drive_metres':drive_distance,'cannon_launch':cannon_launch,'cannon_hud_pixel':[red,green,blue],'fixture':'development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL','observer_enemy_metres':200,'pool_before_encounter':pool_before_encounter}))
+        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_launch':actual_launch,'actual_impact':actual_impact,'drive_metres':drive_distance,'cannon_launch':cannon_launch,'cannon_hud_pixel':[red,green,blue],'fixture':'development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL','observer_enemy_metres':200,'pool_before_encounter':pool_before_encounter,'control_terrain_orange_pixels':control_orange,'paired_changed_pixels':changed_pixels,'paired_render_authority_unchanged':True,'paired_acquired_effects_restored':True}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:
