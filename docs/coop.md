@@ -1,4 +1,4 @@
-# Actual authoritative cooperative world transport (UDP v4)
+# Actual authoritative cooperative world transport (UDP v5)
 
 This path links the dedicated server to the same assembly army, operation,
 terrain, AI and four-player modules used locally. The server alone advances the
@@ -25,13 +25,13 @@ army intelligence is absent from this slice, and the client keeps nonreceived
 army health zero. No fabricated full army is displayed in network mode.
 
 The 40-byte header is ten little-endian u32 fields: magic `0x52484332`, version
-`4`, schema fingerprint, content fingerprint, type, player ID, command sequence,
+`5`, schema fingerprint, content fingerprint, type, player ID, command sequence,
 server tick, payload bytes, and session generation. The canonical field layouts
 are in `src/net/schema.txt`, with assembly constants in `src/net/protocol.inc`.
 The schema fingerprint is the first 32 bits of SHA256 of that canonical file:
-`4a0d236bc5c980b81967160388b4002e638137cf70e25ba1c05f3e6b9dd1f636`.
+`07000f87e8a3a5a3f5ddbf5cbba848b21077b6abfa9b6e203a97365a572d0749`.
 The content fingerprint comes from SHA256 of `content/asset-manifest.json`:
-`5e4bc68ba407972644412450eff2257ecee1e97026cf1223f863d1f7bffe3d0c`.
+`6ca8c37c9700426bae1ffde54c986c9eeddec81f22bca128c7eb62c9dbbad944`.
 These truncated compatibility hashes are not authentication or cryptography.
 Version/hash mismatches are rejected before gameplay payload parsing; compatible
 changes must deliberately update the pinned canonical data and constants.
@@ -62,7 +62,7 @@ per slot per tick, and at least fifteen ticks between successful orders. ACK
 status: zero success, one malformed/invalid input, five ownership, six resources,
 seven scheduling rate. The adapter retries the exact pending datagram every
 100 ms when polled. It sends only one pending command, so callers must retain
-and retry an order while the API returns busy. Outbound cap is five snapshot
+and retry an order while the API returns busy. Outbound cap is six snapshot
 packets per client per three ticks plus bounded ACK responses.
 
 Endpoint ownership expires after 90 authoritative ticks without valid traffic.
@@ -181,3 +181,5 @@ were rejected without partial entity/sidecar publication. HP-zero death records
 cleared AIR_ACTIVE, and same-tick sparse or stale aircraft records could not
 resurrect them. Live co-op vehicle/event tests passed; maximum datagram remained
 1196 bytes. Full integrated UDP faults and graphics remain separate checkpoints.
+
+UDPv5 adds type104 moving projectile records and the renderer uses a separate cosmetic pool. See [network-projectiles](network-projectiles.md) for exact fields, prediction, validation and loss limits. The real two-client GL check observes an authoritative cannon shell, then freezes its cosmetic clock and compares visible/hidden draws with unchanged authority. Short-lived aerial rounds can be missed by10Hz sampling; no damage is predicted client-side.

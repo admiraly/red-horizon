@@ -1,0 +1,65 @@
+{
+  "scenario": "scale-stretch",
+  "revision": "276ff6f99de92814219ed9cea42a6bdd493746e5-cc4c81b645db1b0b",
+  "seed": 42,
+  "wall_seconds": 6.926751344000877,
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "realtime": false,
+  "runtime": {
+    "units": 16384,
+    "ticks": 900,
+    "seed": 42,
+    "alive": [
+      7118,
+      5888
+    ],
+    "engaged": 3415,
+    "checksum": "f4ad9c3d8cd415ee",
+    "tick_mean_ms": 7.688909,
+    "tick_p95_ms": 8.744961,
+    "operation_state": 0,
+    "requisition": [
+      1270,
+      640
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 416,
+    "projectile_peak": 480,
+    "projectile_dropped": 133572,
+    "navigation": {
+      "pending": 0,
+      "completed": 4029,
+      "overflow": 2810427,
+      "cache_hits": 2655165,
+      "stuck_replans": 0,
+      "cover_choices": 0,
+      "processed_last_tick": 0,
+      "processed_max": 8
+    },
+    "air_events": {
+      "bomb_launches": 58,
+      "bomb_impacts": 48,
+      "gun_bursts": 9691,
+      "aircraft_destroyed": 352,
+      "overwritten_unobserved": 0
+    }
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 10068,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": 0,
+    "network_bandwidth": "not implemented"
+  }
+}

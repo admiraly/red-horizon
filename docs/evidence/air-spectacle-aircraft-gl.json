@@ -1,0 +1,69 @@
+{
+  "suite": "rendered-aircraft",
+  "passed": true,
+  "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+  "bomber_pixels": 8908,
+  "normalized_silhouette_iou": 0.6224,
+  "bank_changed_pixels": 12052,
+  "trail_changed_pixels": 24,
+  "trail_authority_unchanged": true,
+  "bomb_pixels": 2196,
+  "air_round_pixels": 1196,
+  "actual_bomb_launch": [
+    2169.998291015625,
+    127.34989929199219,
+    1999.5015869140625,
+    6,
+    0,
+    34,
+    36.0,
+    1
+  ],
+  "actual_bomb_impact": [
+    2881.189697265625,
+    15.261004447937012,
+    1996.1678466796875,
+    7,
+    0,
+    176,
+    36.0,
+    2
+  ],
+  "actual_air_gun": [
+    2006.994384765625,
+    157.0974884033203,
+    2499.719970703125,
+    8,
+    0,
+    1,
+    0.0,
+    1
+  ],
+  "actual_air_destroyed": [
+    2345.005615234375,
+    156.0974884033203,
+    2499.706298828125,
+    9,
+    1,
+    15,
+    2.0,
+    11
+  ],
+  "actual_impact_effect_pixels": 2043,
+  "actual_destroy_effect_pixels": 409,
+  "mid_distant_map_absolute_y": true,
+  "stale_generation_fallback": true,
+  "screenshots": [
+    "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+    "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm"
+  ]
+}

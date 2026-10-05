@@ -46,5 +46,7 @@ travel/replay, rendered authority encounters and dedicated-server self-contained
 pose updates have separate tests. Exact final checkpoints are recorded in
 `docs/evidence/air-navigation-session.json`. Spectacle and human play quality
 remain unaccepted. No flight simulator,
-formation escorts, aerodynamic stalls, evasive maneuvers or runway operations
+formation escorts, aerodynamic stalls or runway operations
 are claimed.
+
+The2026-10-05 continuation adds actual surviving-damage fighter jink/climb and bomber abort/egress. Commitments are finite and repeated hits cannot renew them; map safety retains priority. Production gun contact, generation reset, invalid/zero damage, checksum replay and reacquisition are verified. Direction is deterministic by actor index, without shooter-direction or incoming-projectile perception. Latest900tick seed42 counts are68/62/4950/168 at8192 and58/48/9691/352 at16384. See [air defense evidence](verification/air-defense.md) and docs/evidence/air-spectacle-session.json for the superseding integration.

@@ -1,0 +1,43 @@
+{
+  "scenario": "local-solo-air-battle",
+  "revision": "e059d0f84c3f4a5551d4d41c55513e52ed0c58c5-b74f43e175eed6f8",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "context": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 32096 MB, largest block: 32096 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 32096 MB, largest block: 32096 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 32096 MB, largest block: 32096 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "resolution": [
+    1280,
+    720
+  ],
+  "seed": 42,
+  "units_at_start": 8192,
+  "view": "first-person",
+  "weather": "clear",
+  "requested_frames": 1200,
+  "wall_seconds": 7.14243710700066,
+  "metrics": {
+    "client_metrics": true,
+    "cpu_samples": 1200,
+    "gpu_samples": 1192,
+    "cpu_frame_mean_ms": 5.831025,
+    "cpu_frame_p95_ms": 9.37009,
+    "cpu_frame_p99_ms": 11.608229,
+    "gpu_draw_mean_ms": 0.32301,
+    "gpu_draw_p95_ms": 0.349218,
+    "gpu_draw_p99_ms": 0.861979
+  },
+  "screenshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/366ed2da7fda/source/runs/gpu-bench-e51baac649/final.ppm",
+  "screenshot_sha256": "e0372d4589bdb474a134957d84ac15b85fb10ae74bc9c7e2234cd7c0ebe4353a",
+  "telemetry": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":1200,\"gpu_samples\":1192,\"cpu_frame_mean_ms\":5.831025,\"cpu_frame_p95_ms\":9.370090,\"cpu_frame_p99_ms\":11.608229,\"gpu_draw_mean_ms\":0.323010,\"gpu_draw_p95_ms\":0.349218,\"gpu_draw_p99_ms\":0.861979}\nmeshes loaded=18 high=3 low=762 markers=6805 source_triangles=107796 animation_frame=25\nclient frames=1200 submitted_entities=8192 screenshot=/mnt/titan_nv3/projects/red-horizon/runs/jobs/366ed2da7fda/source/runs/gpu-bench-e51baac649/final.ppm\ncamera_x=3501.33 camera_z=2025.46 shots=10 hits=0 last_order=0\nweapon ammo=20 reloads=0 front=1\noperation state=0 req=373 supply=600 waypoint_orders=0\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=0 hp=80 suppression=32 respawn=0 generation=1\nstart_player_x=3500.000 start_player_z=2000.000\n",
+  "coverage": {
+    "replicated": 0,
+    "audio_device": "ALSA null",
+    "visible_individual_count": "unmeasured",
+    "detailed_counts": "final mesh telemetry only",
+    "threads": 1,
+    "vsync": true,
+    "warmup_excluded": false,
+    "resolution_limit": "Current fixed client window1280x720; not1080p acceptance",
+    "gpu_timing_scope": "draws; excludes presentation; last8 pending queries may be omitted",
+    "camera": "initial authored air-battle view; not SCALE-HOTSPOT acceptance"
+  }
+}

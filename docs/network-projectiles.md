@@ -58,3 +58,5 @@ about2.9 seconds at the current10Hz snapshot rate. Lost impact records may leave
 bounded cosmetic prediction until TTL/horizon expires; clients never infer
 server damage from the predicted path. Final content fingerprint is reconciled
 with the integrated licensed asset manifest.
+
+The integrated renderer now uploads `net_projectiles` in co-op and calls its cosmetic update after polling with actual render time. The two-client actual GL test acquires an authoritative driven-armor shell, pauses the owned server, freezes only cosmetic prediction and compares visible/hidden draws:9changed shell pixels with exact client authority bytes unchanged in the focused run. The superseding check also restores visibility and requires the same changed gold pixels within12pixels of the projected real sample; it does not assume a minimum apparent shell size. The full checkpoint records its own result separately. Development draw/clock flags default to ordinary rendering/prediction and have no player-facing control.

@@ -58,3 +58,5 @@ The complete report is [air-vfx-gl.json](evidence/air-vfx-gl.json), with authent
 [aircraft destruction](evidence/air-vfx-aircraft-destruction.png) captures.
 Software GL does not establish target-GPU frame budgets or human art/readability
 acceptance.
+
+Integrated client now calls and uploads the separate trail pool. The final actual GL paired draw check observes24changed pixels while preserving entity/aircraft/projectile/event authority bytes. Frozen simulation emission remains deduplicated. Latest integrated evidence supersedes worker-only hook limitations above; see docs/evidence/air-spectacle-session.json.

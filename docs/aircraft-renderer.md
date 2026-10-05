@@ -10,25 +10,19 @@ axis bank, nose-up pitch, then world heading. Ground entities retain zero pitch
 and bank. `mesh_aircraft_pose` reports the last actual generated aircraft
 instance for development checks and does not affect authority.
 
-Bombers use the existing twelve metre Kenney Space Kit winged craft surrogate.
-Fighters adapt that same sourced mesh to 70% width, 75% height and 85% length,
-with a lighter team tint. These are distinct visual roles, not new military
-models. The existing asset manifest's space-craft limitation still applies.
+Bombers now use Captain_Ahab_62's CC0 F-111 tactical fighter-bomber at22metres; fighters use the distinct Eurofighter at16metres. Each has authored high/low static geometry and its own role selection. Existing Space Kit craft records remain in the pack for provenance, but these flight roles select the military meshes. These are static models without wing/landing animation. See content/licenses/Captain-Ahab-Fighter-Jets.txt and content/model-sources.json.
 
 The existing full 512-slot authoritative projectile upload renders kind 3 bombs
 as dark, thicker velocity-oriented bodies and kind 4 air rounds as short bright
 streaks behind the actual moving projectile position. Inactive records stay
-hidden. No decorative dogfight shot generator exists. The existing client skips
-projectile upload in network mode, so this patch does not claim remote-client
-bomb/round replication.
+hidden. No decorative dogfight shot generator exists. Network mode now uploads the separate generation-validated cosmetic trajectory pool described in [network-projectiles](network-projectiles.md).
 
 The 64-slot cosmetic pool consumes actual events 6–9 in addition to existing
 vehicle events. Launches and air gun events produce small flashes; launches,
 impacts and aircraft destruction produce smoke, with destruction also producing
-a timed cosmetic debris billboard. Event sequence matching, 700 metre observer
+four timed cosmetic debris billboards and impact dust. Event sequence matching, 700 metre observer
 range, ring capacity and actual event age remain enforced. Late events cannot
-restart expired flashes. Cosmetics never write gameplay records. Debris is a
-single analytic cosmetic sprite, not collision-bearing physical fragments.
+restart expired flashes. Cosmetics never write gameplay records. Debris remains analytic cosmetic sprites without physical collision. A separate128slot trail pool emits engine wisps and wounded-aircraft smoke from actual generation-validated moving poses; frozen simulation ticks cannot emit new samples.
 
 Verification: objects-only client assembly passed; modified `mesh.vert` and
 `battle.vert` passed vertex validation and shader-pair interface linking with
@@ -53,10 +47,10 @@ pixel counts may vary across renderers.
 Screenshots were captured under `/home/levy/optane-tmp/red-horizon-aircraft-`,
 including `level-bomber`, `banked`, `pitch-heading`, `fighter`, `raised`,
 `falling-bomb`, `air-round`, `actual-bomb-impact`, and
-`actual-aircraft-destruction` (PPM). The sourced space-craft surrogate remains
-visually evident. Complete military art, layered debris, smoke trails, and
-spectacular art-quality acceptance remain future work.
+`actual-aircraft-destruction` (PPM). These earlier captures used the space-craft surrogate. The current military meshes, layered debris and smoke trails supersede that implementation; human visual-quality acceptance remains pending.
 
 Final integrated encounter moves the initial ground cohort to2,900m so it lies within the actual updated bomber acquisition band. Only initial actor state is arranged; flight, launches, damage and effects come from production authority. Authentic PNG captures are retained in docs/evidence/aircraft-{banked,actual-bomb-impact,actual-aircraft-destruction}.png.
 
 Final frozen extended checkpoint337dc75f48ab passes all these checks at0aa1e5c112262e48812589c54f16ae5530f24fd1-2dd0b9232e31b986; its authentic screenshots and complete report are in docs/evidence/air-navigation-session.json.
+
+2026-10-05 integration supersedes the historical surrogate/pixel results below: production damage now invokes evasive flight; the final wounded20HP fighter fixture is genuinely destroyed at tick15, while a separate200HP gun-contact fixture proves surviving damage starts evasion. Paired software GL checks report24trail pixels with unchanged authority,2,043impact pixels and409destruction pixels. Role silhouette normalized IoU is0.6224. The full army air-battle capture shows production encounters without recording-time state writes. Exact latest evidence is in docs/evidence/air-spectacle-session.json; software GL is not visual-quality or GPU budget acceptance.

@@ -1,0 +1,29 @@
+{
+  "suite": "air-battle-recording",
+  "passed": true,
+  "scenario": "air-battle",
+  "army": 8192,
+  "revision": "e059d0f84c3f4a5551d4d41c55513e52ed0c58c5-b74f43e175eed6f8",
+  "software_rendered": true,
+  "audio": "ALSA null; silent capture",
+  "fixture": "authored initial320actor encounter; remaining full army retained; no recording-time state writes",
+  "context": "name of display: :1\ndisplay: :1  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Mesa (0xffffffff)\n    Device: llvmpipe (LLVM 22.1.8, 256 bits) (0xffffffff)\n    Version: 26.2.3\n    Accelerated: no\n    Video memory: 47909MB\n    Unified memory: yes\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 0 MB, largest block: 0 MB\n    VBO free aux. memory - total: 32071 MB, largest block: 32071 MB\n    Texture free memory - total: 0 MB, largest block: 0 MB\n    Texture free aux. memory - total: 32071 MB, largest block: 32071 MB\n    Renderbuffer free memory - total: 0 MB, largest block: 0 MB\n    Renderbuffer free aux. memory - total: 32071 MB, largest block: 32071 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 0 MB\n    Total available memory: 47909 MB\n    Currently available dedicated video memory: 0 MB\nOpenGL vendor string: Mesa\nOpenGL renderer string: llvmpipe (LLVM 22.1.8, 256 bits)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "telemetry": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":435,\"gpu_samples\":426,\"cpu_frame_mean_ms\":28.211445,\"cpu_frame_p95_ms\":36.825069,\"cpu_frame_p99_ms\":41.176877,\"gpu_draw_mean_ms\":5.335212,\"gpu_draw_p95_ms\":8.717471,\"gpu_draw_p99_ms\":10.337245}\nmeshes loaded=18 high=0 low=770 markers=6329 source_triangles=104476 animation_frame=28\nclient frames=434 submitted_entities=8192 screenshot=(none)\ncamera_x=3500.00 camera_z=2000.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=568 supply=600 waypoint_orders=0\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=0 hp=60 suppression=0 respawn=0 generation=1\nstart_player_x=3500.000 start_player_z=2000.000\n",
+  "video": "/mnt/titan_nv3/projects/red-horizon/runs/air-battle-demo-final.mp4",
+  "sha256": "cf7d8722a513dfb29f61415906bda64bc5510dc862daef23f654d173a8dcebc0",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "360"
+      }
+    ],
+    "format": {
+      "duration": "12.000000"
+    }
+  }
+}

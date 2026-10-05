@@ -47,3 +47,5 @@ wingman tactics, terrain-ahead planning, or target-GPU visual verification is
 implemented or claimed by this change. The maneuver has a deterministic actor
 index based direction rather than a shooter-informed turn. Full scale/network/
 graphics checkpoint verification remains the integrator's responsibility.
+
+Integration: `sim_air_damage` now calls `air_hit` after positive surviving aircraft damage. Zero damage preserves authority; production gun contact triggers a bounded defensive turn and climb on a surviving200HP aircraft. Focused aircraft and fast suites pass. Full integration evidence is recorded separately in docs/evidence/air-spectacle-session.json.
