@@ -1,0 +1,25 @@
+; Actual gameplay UDP v2. Change both version/fingerprints on incompatible edits.
+%define NET_MAGIC 0x52484332
+%define NET_VERSION 2
+%define NET_SCHEMA 0x78e4e670
+%define NET_CONTENT 0x180de74f
+%define NET_HEADER 40
+%define NET_MTU 1200
+%define NET_JOIN 1
+%define NET_ACK 2
+%define NET_INPUT 3
+%define NET_ORDER 4
+%define NET_LEAVE 5
+%define NET_STATE 100
+%define NET_ENTITIES 101
+%define NET_STATE_SIZE 704
+%define NET_TIMEOUT 90
+%define NET_RECORD 48
+%define SLOT_ENDPOINT 0
+%define SLOT_SEQUENCE 16
+%define SLOT_LASTSEEN 20
+%define SLOT_GENERATION 24
+%define SLOT_CURSOR 28
+%define SLOT_INPUTTICK 32
+%define SLOT_ORDERTICK 36
+%define SLOT_ACKSTATUS 40
