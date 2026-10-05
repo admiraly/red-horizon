@@ -59,9 +59,11 @@ try:
             side=struct.unpack_from('<I',data,i*32+12)[0]
             os.pwrite(memory,struct.pack('<2f',1000.0 if side==0 else 7000.0,2000.0),addresses['sim_entities']+i*32)
         os.pwrite(memory,struct.pack('<2f',x+2,z),addresses['sim_entities']+armor*32)
-        # Second human shares this encounter; only positions are fixtures.
-        os.pwrite(memory,struct.pack('<f',x+4),addresses['sim_players']+64)
-        os.pwrite(memory,struct.pack('<f',z),addresses['sim_players']+64+8)
+        # Second human remains within8m boarding range, with clear hull/body
+        # separation beside the lane rather than2m inside the driven tank.
+        # Only positions are fixtures; ownership/damage/ammo stay authoritative.
+        os.pwrite(memory,struct.pack('<f',x+2),addresses['sim_players']+64)
+        os.pwrite(memory,struct.pack('<f',z+6),addresses['sim_players']+64+8)
     finally:os.kill(host.pid,signal.SIGCONT)
     until(lambda:peer.state['player_vehicle'][0]==armor,buttons=8)
     until(lambda:mapping[0]==armor and struct.unpack_from('<8I',remote,0)[3]==1)
