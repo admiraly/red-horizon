@@ -120,10 +120,11 @@ def jobs(job=None):
         if (folder/'result.json').exists(): data.update(json.loads((folder/'result.json').read_text()))
         print(json.dumps(data,indent=2))
 def package():
-    server=build('headless'); client=build('client'); rev=client.parent.name
-    if server.parent.name!=rev: raise RuntimeError('Sources changed between package builds; rerun package')
+    server=build('headless'); client=build('client'); coop=build('coop') if (ROOT/'src/net/coop_server.asm').exists() else None; rev=client.parent.name
+    if server.parent.name!=rev or (coop and coop.parent.name!=rev): raise RuntimeError('Sources changed between package builds; rerun package')
     stage=BUILD/'packages'/rev; stage.mkdir(parents=True,exist_ok=True)
     shutil.copy2(server,stage/server.name); shutil.copy2(client,stage/client.name)
+    if coop: shutil.copy2(coop,stage/coop.name)
     for folder in ('content','docs'):
         shutil.copytree(ROOT/folder,stage/folder,dirs_exist_ok=True)
     for name in ('README.md','THIRD_PARTY.md'): shutil.copy2(ROOT/name,stage/name)
@@ -141,7 +142,8 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
@@ -154,8 +156,11 @@ def main():
             if args.frames: cmd+=['--frames',str(args.frames)]
             if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
             if args.tactical: cmd+=['--tactical']
+            if args.connect: cmd+=['--connect',args.connect,'--port',str(args.port)]
             subprocess.run(cmd,cwd=exe.parent,check=True)
         else: run_headless(args,args.command=='bench')
+    elif args.command=='coop':
+        exe=build('coop'); execute([str(exe),'--port',str(args.port),'--ticks',str(args.ticks),'--units',str(args.units)],capture_output=False)
     elif args.command=='package': package()
     elif args.command=='jobs': jobs()
     elif args.command=='collect': jobs(args.job_id)
@@ -173,9 +178,21 @@ def main():
         if suite in ('all','headless','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
         if suite in ('all','headless','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
         if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
+        if suite in ('all','headless','network') and (ROOT/'tests/test_coop.py').exists():
+            server=build('coop')
+            build('headless')
+            adapter=BUILD/'net_client_test.o'; library=BUILD/'libcoopclient.so'
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/net/client.asm'),'-o',str(adapter)])
+            objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
+            execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library)])
         if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
         if suite in ('all','headless'): execute([sys.executable,'tools/assets.py'])
-        if suite in ('all','graphics'): execute([sys.executable,'tests/test_graphics.py',str(build('client'))])
+        if suite in ('all','graphics'):
+            client=build('client')
+            execute([sys.executable,'tests/test_graphics.py',str(client)])
+            if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
+            if (ROOT/'tests/test_client_coop.py').exists(): execute([sys.executable,'tests/test_client_coop.py',str(client),str(build('coop'))])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())
