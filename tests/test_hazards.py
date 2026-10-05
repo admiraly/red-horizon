@@ -97,6 +97,18 @@ if hasattr(lib,'test_query_los'):
     assert unchanged_query()==-1
     assert lib.test_query_los(0,1000,ground+2,1300)<=8
     blocked.value=0
+# Controlled blocked LOS forces the full eight-candidate cost. All8,192
+# actors remain initialized while the authoritative LOS budget caps at1,024.
+if hasattr(lib,'los_blocked'):
+    reset();count.value=8192
+    for e in entities[:8192]:
+        e.x,e.z,e.hp,e.side,e.kind,e.generation=1000,1300,100,0,0,1
+    for i in range(8):explosive(i)
+    blocked=C.c_uint.in_dll(lib,'los_blocked');blocked.value=1
+    lib.hazard_tick() # initialize every generation before observation
+    tick.value=1;before=metrics[5];lib.hazard_tick()
+    assert metrics[5]-before==1024 and metrics[6]>=896
+    blocked.value=0
 # Generation/death/aircraft/driving invalidate read-only goal access.
 reset();e=entities[0]
 e.x,e.z,e.hp,e.side,e.kind,e.generation=1000,1300,100,0,0,21
