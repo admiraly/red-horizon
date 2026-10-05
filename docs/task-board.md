@@ -1,4 +1,4 @@
-# Task graph and ready queue — initial session
+# Task graph and ready queue — current integration
 | Task | Owner | Dependency | State / acceptance evidence |
 |---|---|---|---|
 | Canonical spec, ABI, isolated worktrees | integrator | repository | committed |
@@ -15,11 +15,14 @@
 | CPU/GPU client profiling | integrator | GL renderer |bounded timer ring hooked; CPU/GPU samples observed headlessly |
 | Local packaging | integrator | client/content |archive with hashes built; final revision package below session reports |
 | Public GitHub | integrator | explicit authorization |repo created and first validated snapshot pushed |
-| GitHub Actions | integrator |workflow credential scope |credential scope restored; workflow publishing, first remote result pending |
+| GitHub Actions | integrator |workflow credential scope |credential scope restored; baseline remote Actions run37305579434 passed |
 | Windows parity | ready/unassigned | platform ABI |pending |
-| Hierarchical navigation/cover/intelligence | next ready | spatial/world |pending |
-| Authoritative gameplay co-op | next ready | UDP/world |pending |
+| Shared terrain/LOS/local detours and observed tactics | simulation worker | spatial/world |physical wall rejection, scout→defender defeat→capture, flank bounds, observed/supply retreat and override tests pass |
+| Hierarchical navigation/cover selection/strategic pacing | next ready | terrain/controller |pending |
+| Authoritative players and shared-world co-op | integrator + workers | terrain/player/UDP |four real slots, movement/fire/order authority, duplicate spending, snapshots and disconnect recovery pass; combined graphical co-op verification in progress |
 | Ground vehicles,artillery,VFX,licensed sound pack | next ready | world/render/audio |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
+
+Current local FPS health/suppression/death/redeployment also passes actual XTest and GL HUD pixel checks.
 
 No milestone completion claim: M0 needs live host reload/jobs diagnostics and Windows; M1 needs quality/action/art/audio performance evidence; M2–M5 acceptance remains largely outstanding. No percentages. Keep one integrator owning contracts and worker patches isolated. Reconcile launched jobs before handoff.

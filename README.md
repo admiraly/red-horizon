@@ -4,7 +4,7 @@
 
 **Command the offensive. Fight inside it.**
 
-An assembly-first cooperative FPS/RTS under active development. The target is an 8 km battlefield with 4,096 real units on each side, three fronts, combined arms, command, logistics and recorded audio. This repository currently contains an early Linux prototype and verified scale/reload/audio foundations. It is **not the completed game**.
+An assembly-first cooperative FPS/RTS under active development. The target is an 8 km battlefield with 4,096 real units on each side, three fronts, combined arms, command, logistics and recorded audio. This repository currently contains an early Linux prototype with terrain-aware army tactics, authoritative FPS combat and a shared-world co-op server. It is **not the completed game**.
 
 All project-authored CPU runtime code is NASM x86-64 assembly; GPU code is GLSL. Python and shell are development tools only. Read [the canonical specification](docs/spec.txt), [current evidence and gaps](docs/status.md), and [ABI](docs/interfaces.md).
 
@@ -22,17 +22,20 @@ python3 tools/dev.py server --headless --ticks 300 --realtime
 python3 tools/dev.py reload
 python3 tools/dev.py build --target client
 python3 tools/dev.py run --client
+# Direct-IP/LAN hosting and joining (in separate terminals):
+python3 tools/dev.py coop --port 7777
+python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
 ```
 
-The `server` command currently runs the shared **local headless simulation**, not a network server. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot are reserved and fail explicitly until implemented. Headless metrics do not establish GPU frame rate or complete army intelligence.
+The `server` command runs the shared local headless simulation. `coop` hosts the actual shared-world UDP server; its default runs until interrupted, and `--ticks N` makes a finite test run. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot are reserved and fail explicitly until implemented. Headless metrics do not establish GPU frame rate or complete army intelligence.
 
-Client controls: WASD, Shift sprint, mouse aim/fire, Tab tactical view, 1/2/3 advance/hold/retreat for allied front0, Escape quit. Placeholder silhouettes represent real simulation entities. Recorded rifle PCM is pumped through ALSA; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
+Client controls: WASD, Shift sprint, mouse aim/fire, R reload, Tab tactical view, F1/F2/F3 front selection, 1/2/3 advance/hold/retreat, tactical click destination, Escape quit. Health, suppression, death and safe redeployment are authoritative. Network slots0–2 own their matching fronts; slot3 supports front0. Placeholder silhouettes represent real simulation entities. Recorded rifle PCM is pumped through ALSA; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
 
 Slow checks can append `--background`. A job receives a frozen source copy, revision/hash, log and result path. Use `python3 tools/dev.py jobs` and `collect JOB_ID` to reconcile results. Build outputs and evidence remain under ignored `build/` and `runs/`.
 
 ## Development status
 
-Linux scale combat, same-build replay, front advance/defend/retreat orders, guarded local damage, compatible module reload proof and a 128-voice recorded PCM mixer have tests. Windows, playable co-op, navigation, full audiovisual production and complete operation acceptance are still pending. See [task board](docs/task-board.md), [simulation](docs/simulation.md), [reload](docs/reload.md), and [audio](docs/audio.md).
+Linux scale combat, same-build replay, physical terrain/obstacle LOS and detours, observed-intelligence scouting/flank bounds/withdrawal, player vulnerability and recovery, authoritative UDP world replication, compatible module reload proof and a128-voice recorded PCM mixer have tests. Windows, hierarchical navigation, full audiovisual production, human gameplay balance and complete operation acceptance remain pending. Network entity replication is capped to nearby records; it does not send the full army each snapshot. See [task board](docs/task-board.md), [simulation](docs/simulation.md), [reload](docs/reload.md), and [audio](docs/audio.md), [terrain/tactics](docs/tactics.md), [players](docs/player.md), and [co-op protocol](docs/coop.md).
 
 ## Licences
 

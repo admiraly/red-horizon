@@ -44,6 +44,11 @@ assert lib.player_leave(1)==0 and lib.player_leave(1)==-1
 for args in [(0,8,0,0,0,0),(4,0,0,0,0,0),(0,0,float('nan'),0,0,0),(0,0,0,0,float('inf'),0),(0,0,0,0,0,2),(0,0,2,0,0,0)]:
     before=bytes(players)
     assert lib.player_input(*args)==-1 and bytes(players)==before
+for field in range(4):
+    for value in (float('nan'),float('inf'),float('-inf')):
+        floats=[0.,0.,0.,0.];floats[field]=value
+        before=bytes(players)
+        assert lib.player_input(0,0,*floats)==-1 and bytes(players)==before
 x=p.x
 assert lib.player_input(0,0,1,0,0,0)==0
 for _ in range(30):lib.player_tick()
