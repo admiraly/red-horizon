@@ -149,6 +149,9 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
     if not a.legacy and mode!='army' and not invalid:
         assert math.dist(start,end)>1,(name,'controller frozen before physical obstruction',start,end)
         if name.endswith('_diagonal_wall'):assert contact_slide_steps>0,(name,'diagonal contact failed requested legal slide',end)
+        if '_diagonal_' in name and not name.endswith('_diagonal_wall'):
+            free_axis=0 if '_z_edge' in name else 1
+            assert abs(end[free_axis]-start[free_axis])>5,(name,'map contact failed useful requested free-axis advance',end)
     return {'name':name,'mode':mode,'kind':kind,'radius_m':RADII[kind],'ticks':ticks,'start':start,'goal':goal,
             'final':end,'final_goal_error':None if goal is None else math.dist(end,goal),
             'body_collision_ticks':collision_ticks,'maximum_penetration_m':maximum_penetration,
@@ -177,6 +180,18 @@ cases=[
  ('driven_tank_diagonal_wall',1,(3980,1300),90,None,'driver',(0,1,1)),
  ('player_edge',0,(5,2000),90,None,'player',(4,-1,0)),
  ('driven_tank_edge',1,(10,2000),90,None,'driver',(0,-1,0)),
+ ('player_diagonal_lower_x_edge',0,(0.8, 2000),50,None,'player',(4,-0.70710678,0.70710678)),
+ ('player_diagonal_upper_x_edge',0,(7999.2, 2000),50,None,'player',(4,0.70710678,0.70710678)),
+ ('player_diagonal_lower_z_edge',0,(2000, 0.8),50,None,'player',(4,0.70710678,-0.70710678)),
+ ('player_diagonal_upper_z_edge',0,(2000, 7999.2),50,None,'player',(4,0.70710678,0.70710678)),
+ ('player_diagonal_lower_corner',0,(0.8, 0.8),50,None,'player',(4,-0.70710678,0.70710678)),
+ ('player_diagonal_upper_corner',0,(7999.2, 7999.2),50,None,'player',(4,0.70710678,-0.70710678)),
+ ('driven_tank_diagonal_lower_x_edge',1,(3.8, 2000),50,None,'driver',(0,-0.70710678,0.70710678)),
+ ('driven_tank_diagonal_upper_x_edge',1,(7996.2, 2000),50,None,'driver',(0,0.70710678,0.70710678)),
+ ('driven_tank_diagonal_lower_z_edge',1,(2000, 3.8),50,None,'driver',(0,0.70710678,-0.70710678)),
+ ('driven_tank_diagonal_upper_z_edge',1,(2000, 7996.2),50,None,'driver',(0,0.70710678,0.70710678)),
+ ('driven_tank_diagonal_lower_corner',1,(3.8, 3.8),50,None,'driver',(0,-0.70710678,0.70710678)),
+ ('driven_tank_diagonal_upper_corner',1,(7996.2, 7996.2),50,None,'driver',(0,0.70710678,-0.70710678)),
  ('player_initial_invalid',0,(3987.8,1300),60,None,'player',(4,1,0),False,True),
 ]
 reports=[]

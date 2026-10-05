@@ -50,17 +50,22 @@ controller progress up to obstruction, preservation of each commanded input
 component, legal diagonal contact sliding, no invalid-overlap deepening, exact replay
 and faction invariance, and no natural clear-start reentry.
 
-The21-case observer records unrequested/reversed/amplified controller components
+The33-case observer records unrequested/reversed/amplified controller components
 for legacy as diagnostics and rejects them in candidate mode. PureX inputs must
 retainZ exactly at every tick. RealX+Z diagonal wall contacts must retain permitted
 positiveZ sliding afterX is obstructed; each movement component remains bounded by
 the normalized actual input and the role/controller speed. Crouch uses its actual
-0.083333m/tick speed bound. The autonomous army route path remains distinct from
-manual controller stepping.
+0.083333m/tick speed bound. Twelve additional50-tick fixtures cover lower/upperX andZ map edges and
+lower/upper corners for both sprinting humans and driven tanks. They request
+normalized diagonal input with one outward component and one legal free/inward
+component. The free axis must advance over5m while each original component stays
+bounded, including the first partially clamped step. This catches renormalization
+after goal clamping, which would amplify the remaining requested component.
+The autonomous army route path remains distinct from manual controller stepping.
 
 Historical baseline evidence is `docs/evidence/terrain-body-worker-baseline.json`.
-The refreshed21-case baseline uses the original pre-body worker library; it
-replaces the earlier19-case record after adding the input-fidelity criteria. Its
+The refreshed33-case baseline uses the original pre-body worker library; it
+replaces the earlier19/21-case records after adding wall and map-edge input-fidelity criteria. Its
 library and oracle SHA-256 values identify the measured executable and observer.
 Straight/diagonal human wall approaches that were already body-safe remain safety
 controls, and legacy input drift remains explicitly reported.

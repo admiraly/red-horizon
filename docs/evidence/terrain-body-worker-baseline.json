@@ -4,7 +4,7 @@
   "legacy": true,
   "terrain_body_module_present": false,
   "library_sha256": "53503ff36aaab56ff2f9e2c6353ff53929396916c128955ef76df8fe1aa27606",
-  "oracle_sha256": "7dba1175da7c0d7a095540f3ff98f75b0911d631557055799aea379a0fcb4420",
+  "oracle_sha256": "80efdc3b451f0df29913d0d02994183d1ac23451eac03964e81c9b4133bc9cf8",
   "expanded_rectangle_radii_m": [
     0.55,
     3.55,
@@ -1003,6 +1003,546 @@
       ],
       "physical_trace_sha256": "e7b1e78ee503cf84cc5ae959875e80425caedb001bd755a4c5454d0c580380db",
       "checksum": "e2d236caa350bab4"
+    },
+    {
+      "name": "player_diagonal_lower_x_edge",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 50,
+      "start": [
+        0.8,
+        2000
+      ],
+      "goal": null,
+      "final": [
+        0.0,
+        2010.60791015625
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 49,
+      "maximum_penetration_m": 0.55,
+      "input": [
+        4,
+        -0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 46,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            0.0,
+            2006.36474609375
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            0.0,
+            2010.60791015625
+          ]
+        }
+      ],
+      "physical_trace_sha256": "4ddb13910a937d55c7b12477747ccff9639ed607ddce4f8f74420701157b529b",
+      "checksum": "4d4dda379437a0d2"
+    },
+    {
+      "name": "player_diagonal_upper_x_edge",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 50,
+      "start": [
+        7999.2,
+        2000
+      ],
+      "goal": null,
+      "final": [
+        8000.0,
+        2010.60791015625
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 49,
+      "maximum_penetration_m": 0.5500000000001819,
+      "input": [
+        4,
+        0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 46,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            8000.0,
+            2006.36474609375
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            8000.0,
+            2010.60791015625
+          ]
+        }
+      ],
+      "physical_trace_sha256": "5cf0c96977200cdbde174381621abce23741a6975af550f68cb5234770c660a0",
+      "checksum": "8ce3e83c5d57cd43"
+    },
+    {
+      "name": "player_diagonal_lower_z_edge",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 50,
+      "start": [
+        2000,
+        0.8
+      ],
+      "goal": null,
+      "final": [
+        2010.60791015625,
+        0.0
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 49,
+      "maximum_penetration_m": 0.55,
+      "input": [
+        4,
+        0.70710678,
+        -0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            2006.36474609375,
+            0.0
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            2010.60791015625,
+            0.0
+          ]
+        }
+      ],
+      "physical_trace_sha256": "f130b3cb7cd1de45d4d8cd0e540de0d604cba387a8a1306e5444bb76f2933d10",
+      "checksum": "ace968a7801d4af5"
+    },
+    {
+      "name": "player_diagonal_upper_z_edge",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 50,
+      "start": [
+        2000,
+        7999.2
+      ],
+      "goal": null,
+      "final": [
+        2010.60791015625,
+        8000.0
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 49,
+      "maximum_penetration_m": 0.5500000000001819,
+      "input": [
+        4,
+        0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            2006.36474609375,
+            8000.0
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            2010.60791015625,
+            8000.0
+          ]
+        }
+      ],
+      "physical_trace_sha256": "884b67be3368f7e2feade621ccd516bdfaac7c893647497e4e90d6e1f8968322",
+      "checksum": "892936e31699976c"
+    },
+    {
+      "name": "player_diagonal_lower_corner",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 50,
+      "start": [
+        0.8,
+        0.8
+      ],
+      "goal": null,
+      "final": [
+        0.0,
+        11.406607627868652
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 49,
+      "maximum_penetration_m": 0.55,
+      "input": [
+        4,
+        -0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 46,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            0.0,
+            7.163959980010986
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            0.0,
+            11.406607627868652
+          ]
+        }
+      ],
+      "physical_trace_sha256": "7cee9355ccd89ba2e5177110c53f47d041a88ad3c185a70117e7326e5bc687ea",
+      "checksum": "86a6b4352bc9e203"
+    },
+    {
+      "name": "player_diagonal_upper_corner",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 50,
+      "start": [
+        7999.2,
+        7999.2
+      ],
+      "goal": null,
+      "final": [
+        8000.0,
+        7988.6044921875
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 49,
+      "maximum_penetration_m": 0.5500000000001819,
+      "input": [
+        4,
+        0.70710678,
+        -0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 46,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            8000.0,
+            7992.8427734375
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            8000.0,
+            7988.6044921875
+          ]
+        }
+      ],
+      "physical_trace_sha256": "1c566781f8b9d79a8cad208737baec8b19bdafb0c56c2099a19e855c2d4849bd",
+      "checksum": "4aba4c04539e40af"
+    },
+    {
+      "name": "driven_tank_diagonal_lower_x_edge",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 50,
+      "start": [
+        3.8,
+        2000
+      ],
+      "goal": null,
+      "final": [
+        0.0,
+        2021.2158203125
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 50,
+      "maximum_penetration_m": 3.55,
+      "input": [
+        0,
+        -0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 41,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            0.0,
+            2012.7294921875
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            0.0,
+            2021.2158203125
+          ]
+        }
+      ],
+      "physical_trace_sha256": "ad8e05cd6ed0dd290cd3e8e9f2233a82d34a8d782b7c527de87a17fc01a8cfc6",
+      "checksum": "e21feca9b0d4bc0c"
+    },
+    {
+      "name": "driven_tank_diagonal_upper_x_edge",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 50,
+      "start": [
+        7996.2,
+        2000
+      ],
+      "goal": null,
+      "final": [
+        8000.0,
+        2021.2158203125
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 50,
+      "maximum_penetration_m": 3.550000000000182,
+      "input": [
+        0,
+        0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 41,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            8000.0,
+            2012.7294921875
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            8000.0,
+            2021.2158203125
+          ]
+        }
+      ],
+      "physical_trace_sha256": "481949944be8da6af583b576739d1756e3dd0907461878725e64362dbbbb9a28",
+      "checksum": "c12a607057ff3ea6"
+    },
+    {
+      "name": "driven_tank_diagonal_lower_z_edge",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 50,
+      "start": [
+        2000,
+        3.8
+      ],
+      "goal": null,
+      "final": [
+        2021.2158203125,
+        0.0
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 50,
+      "maximum_penetration_m": 3.55,
+      "input": [
+        0,
+        0.70710678,
+        -0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            2012.7294921875,
+            0.0
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            2021.2158203125,
+            0.0
+          ]
+        }
+      ],
+      "physical_trace_sha256": "27e700b58567aaf4cbcfd21fbceabd4a6b6411f7f1b1674c5ad7b51a6619846e",
+      "checksum": "57dfbe60fcbe091f"
+    },
+    {
+      "name": "driven_tank_diagonal_upper_z_edge",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 50,
+      "start": [
+        2000,
+        7996.2
+      ],
+      "goal": null,
+      "final": [
+        2021.2158203125,
+        8000.0
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 50,
+      "maximum_penetration_m": 3.550000000000182,
+      "input": [
+        0,
+        0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            2012.7294921875,
+            8000.0
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            2021.2158203125,
+            8000.0
+          ]
+        }
+      ],
+      "physical_trace_sha256": "45be9b0a984f8b1841f9f7988bb8ffc87ffd2dcc90a74ba33ccfe263f4356a90",
+      "checksum": "3cd090ed9ff4b7c5"
+    },
+    {
+      "name": "driven_tank_diagonal_lower_corner",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 50,
+      "start": [
+        3.8,
+        3.8
+      ],
+      "goal": null,
+      "final": [
+        0.0,
+        25.01321792602539
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 50,
+      "maximum_penetration_m": 3.55,
+      "input": [
+        0,
+        -0.70710678,
+        0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 41,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            0.0,
+            16.52791976928711
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            0.0,
+            25.01321792602539
+          ]
+        }
+      ],
+      "physical_trace_sha256": "a2eb8baf57d58c20262108d1f5292e58089065cbda840eb352a738ebe5161ad0",
+      "checksum": "839a652d11570939"
+    },
+    {
+      "name": "driven_tank_diagonal_upper_corner",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 50,
+      "start": [
+        7996.2,
+        7996.2
+      ],
+      "goal": null,
+      "final": [
+        8000.0,
+        7974.984375
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 50,
+      "maximum_penetration_m": 3.550000000000182,
+      "input": [
+        0,
+        0.70710678,
+        -0.70710678
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 41,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            8000.0,
+            7983.470703125
+          ]
+        },
+        {
+          "tick": 50,
+          "pose": [
+            8000.0,
+            7974.984375
+          ]
+        }
+      ],
+      "physical_trace_sha256": "f60794fef4a99103bf06ce6d82b3e952c4f4fda6fe2c2d7b2d0b956f6f36a98a",
+      "checksum": "167cfb5bebb02b68"
     },
     {
       "name": "player_initial_invalid",
