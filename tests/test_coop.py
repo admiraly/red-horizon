@@ -131,11 +131,12 @@ def verify(server, client_lib=None):
         status, balance, blocked_tick = a.command(4, struct.pack('<IIff', a.front, 0, 4000, 1300))
         assert status == 1
         assert balance == budget_before + 39 * (blocked_tick//30-budget_tick//30), 'solid destination consumed requisition'
-        assert a.request(4, struct.pack('<IIff', a.front, 0, 4000, 1300))[1] == balance, 'blocked destination charged money'
+        blocked_retry = a.request(4, struct.pack('<IIff', a.front, 0, 4000, 1300))
+        assert blocked_retry[0] == 1 and blocked_retry[1] == balance + 39 * (blocked_retry[2]//30-blocked_tick//30), 'blocked destination charged money'
         status, before, tick = a.command(4, struct.pack('<IIff', a.front, 0, 3900, 1400), lose_ack=True)
         assert status == 0
         duplicated = a.request(4, struct.pack('<IIff', a.front, 0, 3900, 1400))
-        assert duplicated[0] == 0 and duplicated[1] == before, 'duplicate charged requisition twice'
+        assert duplicated[0] == 0 and duplicated[1] == before + 39 * (duplicated[2]//30-tick//30), 'duplicate charged requisition twice'
         assert a.command(4, struct.pack('<IIff', a.front, 0, float('inf'), 1400))[0] in (1, 7)
         # Oversized/short/hash-mismatch datagrams cannot modify authoritative state.
         for data in (b'', b'x'*39, b'x'*1201, b'x'*65000,
