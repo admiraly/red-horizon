@@ -168,3 +168,16 @@ more than 18 nearby planes receive lower refresh frequencies; the cap includes
 dead aircraft records that propagate authoritative HP zero. Loss and reorder
 can increase the interval. This bounded budget does not establish smooth dense
 air rendering.
+
+The self-contained air64 focused network suite passed on source snapshot
+`579d1aa5d04e33b0bd0c553c71fa6ca3477d6819-76ac9d27c8bd0277` with actual aircraft
+and recorded-audio manifest dependencies. Over 180 ticks, the 8192-unit server
+sent 3240 air64 records and 11520 sparse entity records, using 903344 outbound
+bytes across its clients. Fixtures verified 1195 successive real air X/Z
+refreshes against the fixed-tick speed bound, while the actual assembly adapter
+applied valid aircraft sidecars. Type103-only wire fixtures warmed up unknown
+planes and moved their X/Z without type101 chunks. Forty-seven malformed cases
+were rejected without partial entity/sidecar publication. HP-zero death records
+cleared AIR_ACTIVE, and same-tick sparse or stale aircraft records could not
+resurrect them. Live co-op vehicle/event tests passed; maximum datagram remained
+1196 bytes. Full integrated UDP faults and graphics remain separate checkpoints.
