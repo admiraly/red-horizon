@@ -31,6 +31,7 @@ edge: dd 7350.0
 centre: dd 4000.0
 homes: dd 1000.0,7000.0
 range2: dd 562500.0
+bomber_range2: dd 1440000.0
 cone: dd 0.985
 bomb_cross: dd 28.0
 release_margin: dd 18.0
@@ -149,7 +150,12 @@ air_tick:
  movss xmm0,[rcx+rax*4]
 .egress_goal:
  cmp dword [rbp+AIR_PASS_TICKS],0
+ jne .egress
+ cmp dword [rbp+AIR_AMMO],0
  je .target
+ mov dword [rbp+AIR_MODE],AIR_PATROL
+ jmp .target
+.egress:
  dec dword [rbp+AIR_PASS_TICKS]
  ; Egress follows current forward vector rather than reversing above the victim.
  movss xmm0,[rbx+ENTITY_X]
@@ -322,19 +328,51 @@ air_combat_tick:
  je .next
  cmp dword [rbx+ENTITY_KIND],3
  jne .next
+ mov eax,[rbp+AIR_TARGET]
+ mov [rsp+36],eax
  mov dword [rbp+AIR_TARGET],-1
  cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
  je .fighter
- ; Bomber's ground observation comes from the authoritative bounded LOS grid.
+ ; Keep a pass only while its previously observed victim remains in real LOS.
+ mov r13d,[rsp+36]
+ cmp r13d,[sim_count]
+ jb .ground_candidate
+.acquire_ground:
  mov r13d,[rbx+ENTITY_TARGET]
  cmp r13d,[sim_count]
  jae .next
+.ground_candidate:
  mov eax,r13d
  shl eax,5
  lea r14,[sim_entities]
  add r14,rax
+ cmp dword [r14+ENTITY_HP],0
+ je .next
  cmp dword [r14+ENTITY_KIND],3
  je .next
+ mov eax,[r14+ENTITY_SIDE]
+ cmp eax,[rbx+ENTITY_SIDE]
+ je .next
+ movss xmm0,[r14+ENTITY_X]
+ subss xmm0,[rbx+ENTITY_X]
+ mulss xmm0,xmm0
+ movss xmm1,[r14+ENTITY_Z]
+ subss xmm1,[rbx+ENTITY_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ comiss xmm0,[bomber_range2]
+ ja .next
+ mov edi,r13d
+ call sim_entity_height
+ movaps xmm4,xmm0
+ movss xmm0,[rbx+ENTITY_X]
+ movss xmm1,[rbp+AIR_Y]
+ movss xmm2,[rbx+ENTITY_Z]
+ movss xmm3,[r14+ENTITY_X]
+ movss xmm5,[r14+ENTITY_Z]
+ call terrain_los
+ test eax,eax
+ jz .next
  jmp .observed
 .fighter:
  call .cell
@@ -391,11 +429,26 @@ air_combat_tick:
  subss xmm1,[rbx+ENTITY_Z]
  mulss xmm1,xmm1
  addss xmm0,xmm1
+ movss [rsp+28],xmm0
+ call sim_entity_height
+ movss [rsp+40],xmm0
+ subss xmm0,[rbp+AIR_Y]
+ mulss xmm0,xmm0
+ addss xmm0,[rsp+28]
+ comiss xmm0,[range2]
+ ja .sn
+ mov edi,[rsp+24]
+ mov eax,edi
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ cmp dword [rcx+rax+AIR_ROLE],AIR_FIGHTER
+ jne .priority_score
+ mulss xmm0,[half]
+.priority_score:
  comiss xmm0,[rsp+8]
  ja .sn
  movss [rsp+28],xmm0
- call sim_entity_height
- movaps xmm4,xmm0
+ movss xmm4,[rsp+40]
  mov edi,[rsp+24]
  mov eax,edi
  shl eax,5
@@ -431,6 +484,7 @@ air_combat_tick:
  lea r14,[sim_entities]
  add r14,rax
 .observed:
+ mov dword [rbp+AIR_MODE],AIR_ATTACK
  mov [rbp+AIR_TARGET],r13d
  mov [rbx+ENTITY_TARGET],r13d
  cmp dword [rbp+AIR_AMMO],0

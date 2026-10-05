@@ -20,6 +20,12 @@ def reset():
 def actor(i,x,z,side,kind=3):
  e[i].x,e[i].z,e[i].side,e[i].kind,e[i].front,e[i].hp=x,z,side,kind,0,200
  e[i].target=-1;alive[side]+=1
+# Invalid ordnance requests cannot manufacture shells or read an invalid target.
+reset();actor(31,2000,2500,0);lib.air_tick()
+hash_before=lib.sim_checksum()
+for source,kind in ((31,3),(31,4),(64,4),(31,0),(0,3)):
+ assert lib.projectile_air_launch(source,kind)==-1
+ assert lib.sim_checksum()==hash_before
 # Holds mean airborne orbit, never frozen or instantaneous heading reversal.
 reset();actor(15,2000,2000,0)
 last=None
@@ -33,8 +39,13 @@ for _ in range(500):
   assert abs(diff)<=.02501
  last=a[15].heading
  assert 0<=e[15].x<=8000 and 0<=e[15].z<=8000
+# Boundary steering keeps continuously flying aircraft inside the operation.
+reset();actor(15,7300,4000,0)
+for _ in range(2000):
+ lib.sim_tick()
+ assert 0<=e[15].x<=8000 and 0<=e[15].z<=8000
 # Aligned observed ground target produces inherited moving bombs and delayed damage.
-reset();actor(15,2000,2000,0);actor(32,2740,2000,1,0)
+reset();actor(15,2000,2000,0);actor(32,2900,2000,1,0)
 e[32].hp=100
 launched=False;impacted=False
 for t in range(240):
@@ -60,6 +71,16 @@ for t in range(500):
  if (e[31].hp,e[63].hp)!=hp:damaged=True
  assert a[31].ammo<=180 and a[63].ammo<=180
 assert observed and fired and damaged,(observed,fired,damaged,e[31].hp,e[63].hp)
+# Looking away from an observed enemy never invents forward-cone shots.
+reset();actor(31,2000,2500,0);actor(63,2450,2500,1)
+lib.air_tick();a[31].heading=-math.pi/2;a[63].heading=math.pi/2
+for _ in range(10):lib.sim_tick()
+assert a[31].ammo==a[63].ammo==180
+assert not any(s.active and s.kind==4 for s in p)
+# Fighters prioritize an observed fighter over a closer bomber.
+reset();actor(31,2000,2500,0);actor(47,2300,2500,1);actor(63,2370,2500,1)
+lib.sim_tick()
+assert a[31].target==63,a[31].target
 # Hidden distant enemies cannot be acquired.
 reset();actor(31,1000,1000,0);actor(63,7000,7000,1)
 for _ in range(20):lib.sim_tick()
@@ -72,3 +93,14 @@ for _ in range(2):
  h.append(lib.sim_checksum())
 assert h[0]==h[1]
 print('PASS: continuous held flight, bounded yaw/bank, aligned gravity bombing/delayed damage, finite stores, aerial intercept/swept gun damage, limited perception and replay')
+
+class Event(C.Structure):
+ _fields_=[(n,C.c_float)for n in('x','y','z')]+[(n,C.c_uint)for n in('kind','side','tick')]+[('radius',C.c_float),('sequence',C.c_uint)]
+ev=(Event*256).in_dll(lib,'sim_events');counts={6:0,7:0,8:0,9:0}
+assert lib.sim_init(8192,42)==0
+for t in range(1,901):
+ lib.sim_tick()
+ for v in ev:
+  if v.tick==t and v.kind in counts:counts[v.kind]+=1
+assert min(counts.values())>0,counts
+print('Default8192 actual air events over900 ticks:',counts)

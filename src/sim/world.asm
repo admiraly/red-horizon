@@ -31,7 +31,7 @@ health: dd 100,400,160,200
 speed: dd 0.12,0.5,0.2,5.0
 default_goals: dd 5000.0,1300.0,5000.0,3900.0,5000.0,6500.0
                dd 3000.0,1300.0,3000.0,3900.0,3000.0,6500.0
-range2: dd 57600.0,202500.0,422500.0,562500.0
+range2: dd 57600.0,202500.0,422500.0,1440000.0
 power: dd 3,10,15,6
 zero: dd 0.0
 maximum: dd 8000.0
@@ -39,6 +39,7 @@ cell_scale: dd 0.004
 eye_height: dd 2.0
 air_height: dd 90.0
 retreat_distance: dd 100.0
+bomber_min_range2: dd 562500.0
 section .text
 global sim_init, sim_tick, sim_checksum, sim_order
 ; Accept even counts 2..32768; invalid calls leave state unchanged.
@@ -407,7 +408,12 @@ sim_tick:
  shr eax,4
  test eax,1
  jnz .attack_next
- mov dword [rsp+72],3
+ ; New bombing passes need approach distance; acquisition is staggered.
+ mov eax,[sim_tick_count]
+ add eax,r12d
+ test eax,3
+ jnz .attack_next
+ mov dword [rsp+72],5
 .search_radius:
  mov r13d,[rsp+72]
  neg r13d
@@ -460,6 +466,11 @@ sim_tick:
  addss xmm0,xmm1
  comiss xmm0,xmm6
  ja .chain
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .candidate_range
+ comiss xmm0,[bomber_min_range2]
+ jb .chain
+.candidate_range:
  ; Only physically visible candidates can become authoritative targets.
  movss [rsp+32],xmm4
  movss [rsp+36],xmm5
@@ -969,18 +980,17 @@ sim_air_damage:
  cmp dword [rdx+ENTITY_KIND],3
  jne .kill
  push rdx
- mov edi,[rdx+ENTITY_SIDE]
- mov esi,edi
+ mov rdi,rdx
+ lea rax,[sim_entities]
+ sub rdi,rax
+ shr edi,5
+ call sim_entity_height
+ movaps xmm1,xmm0
+ mov rdx,[rsp]
+ mov esi,[rdx+ENTITY_SIDE]
  mov edi,EVENT_AIR_DESTROYED
  movss xmm0,[rdx+ENTITY_X]
  movss xmm2,[rdx+ENTITY_Z]
- mov rax,rdx
- lea rcx,[sim_entities]
- sub rax,rcx
- shr eax,5
- shl eax,6
- lea rcx,[sim_aircraft]
- movss xmm1,[rcx+rax+AIR_Y]
  movss xmm3,[eye_height]
  call combat_event
  pop rdx

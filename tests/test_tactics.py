@@ -123,6 +123,8 @@ evidence=[]
 def default_run(count, record=False):
     assert lib.sim_init(count,42)==0 and lib.player_join(0,1)==0
     initial=[(e.x,e.z) for e in entities[:count]]
+    # Measure the original deployment bubble; real bombing may kill/redeploy the player.
+    bubble=(players[0].x,players[0].z)
     for tick in range(1,301):
         lib.sim_tick()
         if tick not in (30,120,300):continue
@@ -139,7 +141,7 @@ def default_run(count, record=False):
                     assert sum(p>10 for p in progress)>=len(actors)*.90
                 assert all(lib.terrain_blocked(e.x,e.z,e.kind)==0 for _,e in actors)
                 rows.append(round(sum(distance)/len(distance),3))
-        near=[(i,e) for i,e in enumerate(entities[:count]) if e.hp and e.kind!=3 and e.front==1 and math.hypot(e.x-players[0].x,e.z-players[0].z)<256]
+        near=[(i,e) for i,e in enumerate(entities[:count]) if e.hp and e.kind!=3 and e.front==1 and math.hypot(e.x-bubble[0],e.z-bubble[1])<256]
         moved=sum(math.hypot(e.x-initial[i][0],e.z-initial[i][1])>1 for i,e in near)
         assert len(near)>100 and moved>=len(near)*.95
         if record:evidence.append(dict(units=count,tick=tick,mean_ground_metres_by_front=rows,player_bubble_ground=len(near),player_bubble_moving=moved))

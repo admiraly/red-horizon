@@ -189,6 +189,6 @@ for _ in range(180):
         if prior and prior[0]==p.generation:
             assert max(abs(p.x-prior[1]-prior[4]),abs(p.y-prior[2]-prior[5]),abs(p.z-prior[3]-prior[6]))<.002
             travel[p.kind]+=1
-assert min(travel[k] for k in (1,2))>20,travel
+assert min(travel.values())>20,travel
 print('Default-world retained flight samples:',travel)
 print('PASS: moving tank/artillery shells, swept ground/wall/actor contact, enemy-only bounded blast, pool saturation, cosmetic ring/reset and authoritative replay')

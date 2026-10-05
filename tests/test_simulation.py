@@ -36,13 +36,14 @@ for count in (8192, 16384):
         for front in range(3):
             assert lib.sim_order(side, front, 1) == 0
     lib.sim_tick()
-    assert original == [(e.x, e.z) for e in entities[:count]]
+    assert all(original[i]==(e.x,e.z) for i,e in enumerate(entities[:count]) if e.kind!=3)
+    assert all(original[i]!=(e.x,e.z) for i,e in enumerate(entities[:count]) if e.kind==3)
     for side in (0, 1):
         for front in range(3):
             assert lib.sim_order(side, front, 2) == 0
     lib.sim_tick()
     assert all(e.x < original[i][0] if e.side == 0 else e.x > original[i][0]
-               for i, e in enumerate(entities[:count]) if e.hp > 0)
+               for i, e in enumerate(entities[:count]) if e.hp > 0 and e.kind!=3)
     assert lib.sim_init(count, 7) == 0
     lib.sim_tick()
     assert any((e.x, e.z) != original[i] for i, e in enumerate(entities[:count]))
@@ -64,6 +65,9 @@ fixture_count = 8192
 outcomes = []
 for swapped in (False, True):
     assert lib.sim_init(fixture_count, 19) == 0
+    # Ground hold symmetry is isolated from side-dependent aircraft approach goals.
+    for entity in entities[:fixture_count]:
+        if entity.kind==3:entity.kind=0
     if swapped:
         for entity in entities[:fixture_count]:
             entity.side ^= 1

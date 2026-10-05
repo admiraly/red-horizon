@@ -12,11 +12,15 @@ climb/descent of 0.5 m per tick, and bank/pitch driven by actual steering. Map
 edges trigger inward turns 650 m ahead. Stable aircraft groups alternate roles.
 
 Bombers acquire actual opposing ground actors through range-limited terrain LOS
-and the bounded ground spatial reservoir. An aligned pass releases a real bomb
+and the bounded ground spatial reservoir. New approach targets lie 750–1200 m
+away; acquisition is staggered every four ticks and inspects at most 121 cells
+with 24 samples each. An observed victim stays attached to the pass only while
+revalidated in LOS/range every tick. An aligned pass releases a real bomb
 with inherited aircraft velocity; gravity, swept walls/ground/actor contact and
 36 m enemy-only LOS blast apply later. After a release they egress for 210 ticks.
 Fighters use a separate linear-built air index, at most 72 candidates per local
-query, physically observe opposing aircraft within 750 m, steer with short lead,
+query, physically observe opposing aircraft within 750 m in 3D, prioritize fighters,
+steer with short lead,
 and fire only inside the forward cone and altitude tolerance. Their real moving
 rounds sweep contacts and damage the contacted opposing actor without a blast.
 Automatic infantry, tanks and artillery do not target aircraft. Explicit cannon
@@ -33,7 +37,10 @@ Verified locally: fast core suite, focused combat and waypoints; the dedicated
 aircraft fixture proves continuous held flight, bounded yaw, aligned moving bomb
 and delayed ground damage, no ammo regeneration, physical fighter acquisition,
 aerial gun travel/damage, distant-enemy rejection and seeded 8192-unit replay.
-Full default-world bombing frequency, target GPU spectacle and final integrated
-network/render behavior require integration verification. No flight simulator,
+Default 8192-unit seed42 actual events over 900 ticks: 61 bomb launches,
+61 bomb impacts, 5826 air-gun launches and 201 aircraft destructions. Default
+180-tick retained travel samples include all four projectile classes; ordinary
+unit movement/replay still pass at 8192 and 16384. Target GPU spectacle and final
+integrated network/render behavior require integration verification. No flight simulator,
 formation escorts, aerodynamic stalls, evasive maneuvers or runway operations
 are claimed.

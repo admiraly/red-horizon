@@ -557,8 +557,6 @@ projectile_air_launch:
  jb .bad
  cmp esi,4
  ja .bad
- cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32
- jae .dropped
  push rbx
  push rbp
  push r12
@@ -574,6 +572,46 @@ projectile_air_launch:
  je .failed
  cmp dword [rbp+ENTITY_KIND],3
  jne .failed
+ mov eax,r12d
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ add rcx,rax
+ test dword [rcx+AIR_FLAGS],AIR_ACTIVE
+ jz .failed
+ mov eax,[rbp+ENTITY_GENERATION]
+ cmp [rcx+AIR_GENERATION],eax
+ jne .failed
+ cmp dword [rcx+AIR_AMMO],0
+ je .failed
+ cmp dword [rcx+AIR_COOLDOWN],0
+ jne .failed
+ cmp r13d,PROJECTILE_BOMB
+ jne .validate_gun
+ cmp dword [rcx+AIR_ROLE],AIR_BOMBER
+ jne .failed
+ jmp .validated
+.validate_gun:
+ cmp dword [rcx+AIR_ROLE],AIR_FIGHTER
+ jne .failed
+ mov eax,[rcx+AIR_TARGET]
+ cmp eax,[sim_count]
+ jae .failed
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_HP],0
+ je .failed
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .failed
+ mov eax,[rdx+ENTITY_SIDE]
+ cmp eax,[rbp+ENTITY_SIDE]
+ je .failed
+.validated:
+ cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32
+ jb .capacity_ok
+ inc dword [sim_projectile_dropped]
+ jmp .failed
+.capacity_ok:
  mov ebx,[cursor]
  mov ecx,PROJECTILE_CAPACITY
 .find:
