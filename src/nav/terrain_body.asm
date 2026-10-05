@@ -13,6 +13,8 @@ zero: dd 0.0
 one: dd 1.0
 half: dd 0.5
 maximum: dd 8000.0
+local_minimum: dd -8000.0
+local_maximum: dd 16000.0
 corner_near: dd 0.1
 clearance: dd 0.5
 align 16
@@ -223,8 +225,25 @@ terrain_body_move:
  movss [rsp+24],xmm5
  movaps xmm0,xmm2
  movaps xmm1,xmm3
+ cmp dword [rsp+64],0
+ jne .local_goal
  call validate
  jc .stay
+ jmp .goal_valid
+.local_goal:
+ ; Controllers pass their actual desired direction, including bounded off-map
+ ; endpoints. Clamping a goal before normalization amplifies its free axis.
+ ucomiss xmm0,[local_minimum]
+ jp .stay
+ jb .stay
+ ucomiss xmm0,[local_maximum]
+ ja .stay
+ ucomiss xmm1,[local_minimum]
+ jp .stay
+ jb .stay
+ ucomiss xmm1,[local_maximum]
+ ja .stay
+.goal_valid:
  movss xmm4,[rsp+16]
  ucomiss xmm4,[zero]
  jp .stay
@@ -242,7 +261,9 @@ terrain_body_move:
  call terrain_body_blocked
  test eax,eax
  jnz .stay
- ; Clamp goal to body map inset. A blocked obstacle goal is approached safely.
+ cmp dword [rsp+64],0
+ jne .step
+ ; Autonomous goals plan against the inset; controller direction remains raw.
  movss xmm5,[rsp+24]
  movss xmm6,[maximum]
  subss xmm6,xmm5
@@ -254,8 +275,6 @@ terrain_body_move:
  maxss xmm0,xmm5
  minss xmm0,xmm6
  movss [rsp+12],xmm0
- cmp dword [rsp+64],0
- jne .step
  mov qword [rsp+32],0
  movss xmm0,[one]
  movss [rsp+40],xmm0
@@ -378,6 +397,17 @@ terrain_body_move:
  mulss xmm3,xmm4
  addss xmm2,[rsp]
  addss xmm3,[rsp+4]
+ cmp dword [rsp+64],0
+ je .candidate
+ ; Clip only the normalized actual endpoint, preserving requested components.
+ movss xmm5,[rsp+24]
+ movss xmm6,[maximum]
+ subss xmm6,xmm5
+ maxss xmm2,xmm5
+ minss xmm2,xmm6
+ maxss xmm3,xmm5
+ minss xmm3,xmm6
+.candidate:
  movss [rsp+48],xmm2
  movss [rsp+52],xmm3
  call .check

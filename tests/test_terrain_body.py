@@ -109,15 +109,55 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
             q=controller(p,(0,p[1]),s,k)
             assert q[1]==p[1] and not blocked(q,k)
             p=q;controller_ticks+=1
-        for bad in (float('nan'),float('inf'),-1,8001):
+        for bad in (float('nan'),float('inf'),-8001,16001):
             assert controller((3980,1300),(bad,1300),s,k)==(3980,1300)
         assert controller((3980,1300),(4000,1300),float('nan'),k)==(3980,1300)
+    # Normalize real direction before clipping endpoints at every map edge.
+    edge_ticks=0
+    for k,s in ((0,.3),(1,.6)):
+        r=radii[k]
+        for axis in (0,1):
+            for sign in (-1,1):
+                for free in (-1,0,1):
+                    p=[2000.,2000.];p[axis]=r+.25 if sign<0 else 8000-r-.25
+                    p=tuple(map(f,p))
+                    for _ in range(30):
+                        direction=[free,free];direction[axis]=sign
+                        g=tuple(p[i]+direction[i] for i in range(2))
+                        q=controller(p,g,s,k)
+                        norm=math.hypot(*direction)
+                        for i in range(2):
+                            delta=q[i]-p[i]
+                            assert abs(delta)<=s*abs(direction[i])/norm+.001,('amplified edge axis',k,p,q,direction)
+                            assert delta*direction[i]>=-.00001
+                            if direction[i]==0:assert delta==0
+                        assert math.dist(p,q)<=s+.001 and not blocked(q,k)
+                        p=q;edge_ticks+=1
+                    assert abs(p[axis]-(r+.001 if sign<0 else 8000-r-.001))<.001
+        for sx in (-1,1):
+            for sz in (-1,1):
+                p=tuple(map(f,(r+.25 if sx<0 else 8000-r-.25,r+.25 if sz<0 else 8000-r-.25)))
+                for _ in range(10):
+                    q=controller(p,(p[0]+sx,p[1]+sz),s,k)
+                    assert not blocked(q,k) and math.dist(p,q)<=s+.001
+                    for i,sgn in enumerate((sx,sz)):
+                        assert (q[i]-p[i])*sgn>=-.00001
+                        assert abs(q[i]-p[i])<=s/math.sqrt(2)+.001
+                    p=q;edge_ticks+=1
+        # Exact local goal outside map is accepted; non-finite/absurd is not.
+        p=tuple(map(f,(r+.1,2000.)))
+        q=controller(p,(-1,2000),s,k)
+        assert q[0]<p[0] and q[1]==p[1] and not blocked(q,k)
     # Control proves formerly point-clear footprint penetration.
     assert lib.test_body_blocked(3986,1300,1)==1
     enabled.value=0
     for k in range(4):
         assert controller((3980,1300),(4050,1300),.6,k)==move((3980,1300),(4050,1300),.6,k)
     assert lib.test_body_blocked(3986,1300,1)==0
+    for k,s in ((0,.3),(1,.6)):
+        p=(radii[k]+.25,2000.)
+        expected=p[1]+s/math.hypot(-1-p[0],1)
+        assert math.isclose(controller(p,(-1,2001),s,k)[1],expected,abs_tol=.001)
     seed=14695981039346656037;prime=1099511628211
     def fnv(data):
         h=seed
@@ -139,4 +179,4 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
             if math.dist(p,(4030,1100-r-.002))<.001:break
         assert math.dist(p,(4030,1100-r-.002))<.001
     assert bytes(raw)==before
-    print(json.dumps({'suite':'terrain-body','passed':True,'seed':19381,'random_sweeps':samples,'route_ticks':routes,'controller_ticks':controller_ticks,'radii':radii,'invalid_start_policy':'safe hold','geometry':'expanded AABBs'}))
+    print(json.dumps({'suite':'terrain-body','passed':True,'seed':19381,'random_sweeps':samples,'route_ticks':routes,'controller_ticks':controller_ticks,'controller_edge_ticks':edge_ticks,'radii':radii,'invalid_start_policy':'safe hold','geometry':'expanded AABBs'}))

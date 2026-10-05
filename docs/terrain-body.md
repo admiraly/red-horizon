@@ -61,8 +61,8 @@ to 4,302/1,043/2,614/870, while retaining independent swept clearance on every
 step and every other route/random/ABI/hash/input check. This is isolated module
 evidence, not a measured full-world performance claim.
 
-`terrain_body_step` supplies controller movement with the same input validation,
-map inset, normalized step bound, complete swept-body checks, component slides,
+`terrain_body_step` supplies controller movement with the same source/role/step
+validation, map inset, normalized step bound, complete swept-body checks, component slides,
 invalid-start holding and legacy control. It skips autonomous corner routing:
 pure X or Z commands cannot introduce the other axis, and diagonal commands may
 slide only along their requested components. Its mode is stack scratch, not new
@@ -72,3 +72,15 @@ slides along the wall, and map-edge approach preserves the uncommanded axis.
 Both APIs pass callee-saved ABI checks; disabled controller calls match legacy
 point movement exactly. Existing route/random sweeps remain green. Production
 controller wiring and world outcomes still require root integration checks.
+
+Controller map-edge correction: local goals accept finite coordinates in
+[-8000,16000] while sources retain [0,8000] validation. Controller direction is
+normalized against the actual goal before the resulting endpoint is clipped to
+the footprint inset; the autonomous API continues to plan against its clamped
+goal. This prevents map-edge clipping from amplifying the free axis. An
+additional 800 actual controller ticks cover both axes, both map sides, free-axis
+signs and all four corners, with non-reversal, unchanged uncommanded axes,
+component speed bounds, safe clearance and inset arrival. Disabled controller
+movement passes the original finite off-map goal to legacy point terrain, whose
+normalized free-axis movement is checked independently. Non-finite and goals
+outside the bounded local range safely hold.
