@@ -1,8 +1,10 @@
 ; Allocation-free cosmetic pool. Reads authority; never modifies gameplay records.
 default rel
 %include "schemas/player.inc"
+%include "schemas/combat.inc"
 global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor
 extern sim_players,sinf,cosf
+extern sim_player_vehicle
 extern sim_events,sim_event_sequence,sim_tick_count
 section .rodata
 zero: dd 0.0
@@ -73,6 +75,9 @@ effects_update:
  je .baseline
  cmp eax,[rdx+r12*4]
  jne .baseline
+ lea rdx,[sim_player_vehicle]
+ cmp dword [rdx+r12*4],0
+ jge .baseline
  mov eax,[r13+PLAYER_SHOTS]
  cmp eax,[rcx+r12*4]
  jbe .baseline
@@ -188,7 +193,7 @@ effects_update:
  shl eax,5
  lea rbx,[sim_events]
  add rbx,rax
- cmp [rbx+28],r13d
+ cmp [rbx+EVENT_SEQUENCE],r13d
  jne .eventloop
  movss xmm0,[rbx]
  subss xmm0,[view_x]
@@ -200,17 +205,17 @@ effects_update:
  ucomiss xmm0,[view_range2]
  ja .eventloop
  mov eax,[sim_tick_count]
- sub eax,[rbx+20]
+ sub eax,[rbx+EVENT_TICK]
  cmp eax,60
  ja .eventloop
- mov eax,[rbx+12]
- cmp eax,3
+ mov eax,[rbx+EVENT_KIND]
+ cmp eax,EVENT_TANK_IMPACT
  jb .eventloop
- cmp eax,5
+ cmp eax,EVENT_VEHICLE_DESTROYED
  ja .eventloop
  ; Age effects from the actual event tick: late packets never reignite a flash.
  mov eax,[sim_tick_count]
- sub eax,[rbx+20]
+ sub eax,[rbx+EVENT_TICK]
  cvtsi2ss xmm2,eax
  divss xmm2,[ticks_per_second]
  movss xmm0,[flash_life]
@@ -246,7 +251,7 @@ effects_update:
  mov eax,[rbx+8]
  mov [rdi+8],eax
  movss [rdi+12],xmm0
- movss xmm1,[rbx+24]
+ movss xmm1,[rbx+EVENT_RADIUS]
  maxss xmm1,[min_radius]
  minss xmm1,[max_radius]
  movss [rdi+16],xmm1

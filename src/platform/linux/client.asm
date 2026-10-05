@@ -1,6 +1,7 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
 default rel
 %include "schemas/player.inc"
+%include "schemas/combat.inc"
 global main
 extern effects_update,effects_records,effects_tracers,effects_active
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
@@ -9,7 +10,7 @@ extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_count,sim_entities
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state,sim_waypoint,sim_waypoints
 extern player_join,player_input,sim_players
-extern sim_projectiles
+extern sim_player_vehicle,sim_vehicles,sim_projectiles
 extern net_client_open,net_client_poll,net_client_input,net_client_order,net_client_close
 extern net_connected,net_player_id,net_front,net_server_tick,net_last_status,net_pending
 extern terrain_height,terrain_move,terrain_obstacles,terrain_obstacle_count
@@ -35,7 +36,7 @@ map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -54,6 +55,9 @@ weapon_name: db 'weaponState',0
 operation_name: db 'operationInfo',0
 goal_name: db 'selectedGoal',0
 health_name: db 'playerHealth',0
+vehicle_name: db 'vehicleState',0
+vehicle_fmt: db 'ARMOR #%u CANNON %u COOLDOWN %u HULL %u | Q exit',0
+onfoot_text: db 'ON FOOT | E board Q exit',0
 local_name: db 'localPlayer',0
 write_mode: db 'wb',0
 ppm_header: db 'P6',10,'1280 720',10,'255',10
@@ -63,7 +67,7 @@ shader_error: db 'Shader/program error:',0
 metrics: db 'camera_x=%.2f camera_z=%.2f shots=%u hits=%u last_order=%u',10,0
 summary: db 'client frames=%u submitted_entities=%u screenshot=%s',10,0
 no_shot: db '(none)',0
-title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | REQ %u SUP %u | %s | HP %u SUPPRESS %u REDEPLOY %u | TAB map/click F1-F3 front R reload',0
+title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | REQ %u SUP %u | %s | HP %u SUPPRESS %u REDEPLOY %u | %s | TAB map/click F1-F3 front R reload',0
 state_ongoing: db 'OPERATION ACTIVE',0
 state_victory: db 'VICTORY',0
 state_defeat: db 'DEFEAT',0
@@ -130,6 +134,8 @@ operation_loc: resd 1
 goal_loc: resd 1
 health_loc: resd 1
 local_loc: resd 1
+vehicle_loc: resd 1
+vehicle_buf: resb 160
 local_player: resd 1
 connect_address: resq 1
 network_mode: resd 1
@@ -408,6 +414,7 @@ main:
  UNIFORM goal_name,goal_loc
  UNIFORM health_name,health_loc
  UNIFORM local_name,local_loc
+ UNIFORM vehicle_name,vehicle_loc
  mov edi,1
  lea rsi,[vao]
  call glGenVertexArrays
@@ -530,6 +537,25 @@ main:
  mov edi,[tactical_loc]
  mov esi,[tactical]
  call glUniform1i
+ mov edi,[vehicle_loc]
+ mov eax,[local_player]
+ lea rdx,[sim_player_vehicle]
+ mov ecx,[rdx+rax*4]
+ pxor xmm0,xmm0
+ pxor xmm1,xmm1
+ pxor xmm2,xmm2
+ pxor xmm3,xmm3
+ test ecx,ecx
+ js .vehicleuniform
+ movss xmm0,[fone]
+ shl eax,5
+ lea rdx,[sim_vehicles]
+ cvtsi2ss xmm1,[rdx+rax+VEHICLE_AMMO]
+ cvtsi2ss xmm2,[rdx+rax+VEHICLE_COOLDOWN]
+ inc ecx
+ cvtsi2ss xmm3,ecx
+.vehicleuniform:
+ call glUniform4f
  mov edi,[terrain_loc]
  mov esi,1
  call glUniform1i
@@ -661,7 +687,7 @@ main:
  call glUniform1i
  mov edi,4
  xor esi,esi
- mov edx,258
+ mov edx,264
  call glDrawArrays
  cmp dword [tactical],0
  je .restoredepth
@@ -994,7 +1020,34 @@ update_input:
  je .title
  call tactical_click
 .title:
- sub rsp,64
+ mov eax,[local_player]
+ lea rdx,[sim_player_vehicle]
+ mov ecx,[rdx+rax*4]
+ test ecx,ecx
+ js .onfoottitle
+ shl eax,5
+ lea rdx,[sim_vehicles]
+ mov r8d,[rdx+rax+VEHICLE_AMMO]
+ mov r9d,[rdx+rax+VEHICLE_COOLDOWN]
+ lea rdi,[vehicle_buf]
+ mov esi,160
+ lea rdx,[vehicle_fmt]
+ sub rsp,16
+ mov eax,ecx
+ shl eax,5
+ lea r10,[sim_entities]
+ mov eax,[r10+rax+8]
+ mov [rsp],rax
+ xor eax,eax
+ call snprintf
+ add rsp,16
+ lea rbx,[vehicle_buf]
+ jmp .havevehicletitle
+.onfoottitle:
+ lea rbx,[onfoot_text]
+.havevehicletitle:
+ sub rsp,80
+ mov [rsp+64],rbx
  mov eax,[selected_front]
  mov [rsp],rax
  mov eax,[order_mode]
@@ -1047,7 +1100,7 @@ update_input:
 .alive_title:
  xor eax,eax
  call snprintf
- add rsp,64
+ add rsp,80
  cmp dword [network_mode],0
  je .localtitle
  sub rsp,32
@@ -1199,6 +1252,16 @@ collect_intent:
  jz .trigger
  or dword [intent_buttons],INPUT_RELOAD
 .trigger:
+ KEY 69
+ test eax,eax
+ jz .exitvehicle
+ or dword [intent_buttons],INPUT_ENTER
+.exitvehicle:
+ KEY 81
+ test eax,eax
+ jz .firevehicle
+ or dword [intent_buttons],INPUT_EXIT
+.firevehicle:
  cmp dword [tactical],0
  jne .return
  mov rdi,[window]
@@ -1465,7 +1528,16 @@ sync_player:
  movss [visual_target],xmm0
  movss [visual_target+8],xmm1
  call terrain_height
+ mov eax,[local_player]
+ lea rdx,[sim_player_vehicle]
+ cmp dword [rdx+rax*4],0
+ jl .previewfoot
+ ; Preserve the authoritative armor eye height during this one-tick preview.
+ movss xmm0,[rbx+PLAYER_Y]
+ jmp .previewheight
+.previewfoot:
  addss xmm0,[eyes]
+.previewheight:
  movss [visual_target+4],xmm0
 .noprediction:
  mov eax,[rbx+PLAYER_HP]

@@ -164,9 +164,53 @@ try:
         events=u32('sim_event_sequence');impacts=u32('effects_impacts')
         assert events>before_events
         os.kill(process.pid,signal.SIGCONT)
+        # Actual E/Q vehicle controls: place only the human near the existing tank.
+        tank_x,tank_z=struct.unpack('<ff',os.pread(memory,8,symbols['sim_entities']+tank*32))
+        terrain_y=12+(tank_x-4000)**2*.000001+(tank_z-4000)**2*.0000005+max(0,1-abs(tank_x-4000)/800)*18
+        os.pwrite(memory,struct.pack('<fff',tank_x-2,terrain_y+1.8,tank_z),player_address)
+        vehicle_address=symbols['sim_player_vehicle']
+        def attached():return struct.unpack('<i',os.pread(memory,4,vehicle_address))[0]
+        key(ord('e'));until(lambda:attached()==tank,2)
+        until(lambda:f'ARMOR #{tank} CANNON' in title(window) and ' HULL ' in title(window),2)
+        position=player();key(ord('w'),.35);driven=player()
+        drive_distance=math.hypot(driven['x']-position['x'],driven['z']-position['z'])
+        assert drive_distance>.5,(position,driven)
+        vehicle=symbols['sim_vehicles']
+        ammo_before=struct.unpack('<I',os.pread(memory,4,vehicle+16))[0]
+        until(lambda:struct.unpack('<I',os.pread(memory,4,vehicle+20))[0]==0,2)
+        cannon_seq=u32('sim_event_sequence');rifle_shots=player()['shots']
+        button(True);until(lambda:struct.unpack('<I',os.pread(memory,4,vehicle+16))[0]<ammo_before,2);button(False)
+        assert player()['shots']==rifle_shots,'cannon trigger consumed infantry rifle rounds'
+        def actual_cannon_launch():
+            ring=os.pread(memory,8192,symbols['sim_events'])
+            for slot in range(256):
+                event=struct.unpack_from('<fffIIIfI',ring,slot*32)
+                if event[7]>cannon_seq and event[3]==1 and event[4]==0 and abs(event[0]-driven['x'])<15 and abs(event[2]-driven['z'])<15:return event
+            return None
+        cannon_launch=until(actual_cannon_launch,2)
+        view_frame=u32('frame_count');until(lambda:u32('frame_count')>=view_frame+2,1)
+        os.kill(process.pid,signal.SIGSTOP)
+        image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+        pixel=X.XGetPixel(image,1056,637);red,green,blue=(pixel>>16)&255,(pixel>>8)&255,pixel&255
+        assert red>180 and green>80 and blue<100,('cannon HUD pixel',red,green,blue)
+        bright_sky=0
+        for sky_x in (400,640,880):
+            for sky_y in (140,200,260):
+                sky=X.XGetPixel(image,sky_x,sky_y);sr,sg,sb=(sky>>16)&255,(sky>>8)&255,sky&255
+                bright_sky+=sr>180 and sg>130 and sb<100
+        assert bright_sky<3,('near-camera cannon geometry covered sky',bright_sky)
+        rgb=bytearray()
+        for y in range(720):
+            for x in range(1280):
+                pixel=X.XGetPixel(image,x,y);rgb.extend(((pixel>>16)&255,(pixel>>8)&255,pixel&255))
+        X.XDestroyImage(image)
+        pathlib.Path('/tmp/red-horizon-vehicle-hud.ppm').write_bytes(b'P6\n1280 720\n255\n'+rgb)
+        os.kill(process.pid,signal.SIGCONT)
+        key(ord('q'));until(lambda:attached()==-1,2)
+        until(lambda:'ON FOOT | E board Q exit' in title(window),2)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_impact':actual_impact}))
+        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_impact':actual_impact,'drive_metres':drive_distance,'cannon_launch':cannon_launch,'cannon_hud_pixel':[red,green,blue]}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:
