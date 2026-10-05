@@ -4,6 +4,7 @@ import argparse
 import ctypes
 import hashlib
 import json
+import math
 import pathlib
 import select
 import os
@@ -14,7 +15,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 3, 0x3d7ce8be, 0x99af0be8
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 4, 0xbb315959, 0x99af0be8
 HEADER = struct.Struct('<10I')
 
 
@@ -28,6 +29,7 @@ class Peer:
         self.state = None
         self.entities = {}
         self.events = {}
+        self.aircraft = {}
         self.max_packet = 0
         self.bytes_received = 0
 
@@ -70,8 +72,17 @@ class Peer:
             assert count<=32 and len(raw)==44+count*32
             for offset in range(44,len(raw),32):
                 event=struct.unpack_from('<3f3IfI',raw,offset)
-                assert 1<=event[3]<=5 and event[4]<=1 and event[5]<=header[7]
+                assert 1<=event[3]<=9 and event[4]<=1 and event[5]<=header[7]
                 self.events[event[7]]=event
+        elif header[4] == 103:
+            count=struct.unpack_from('<I',raw,40)[0]
+            assert count<=32 and len(raw)==44+count*36
+            for offset in range(44,len(raw),36):
+                index,generation,y,heading,pitch,bank,speed,role,mode=struct.unpack_from('<II5fII',raw,offset)
+                assert index<32768 and generation>0 and all(map(math.isfinite,(y,heading,pitch,bank,speed)))
+                assert -100<=y<=1200 and abs(heading)<=6.4 and abs(pitch)<=1.6 and abs(bank)<=1.6
+                assert 0<=speed<=10 and role<=1 and mode<=3
+                self.aircraft[index]=(generation,y,heading,pitch,bank,speed,role,mode)
         return header, raw[40:]
 
     def request(self, kind, payload=b'', lose_ack=False, sequence=None):
@@ -117,7 +128,7 @@ def verify(server, client_lib=None):
     peers = []
     try:
         ready = json.loads(process.stdout.readline())
-        assert ready['units'] == 8192 and ready['protocol'] == 3
+        assert ready['units'] == 8192 and ready['protocol'] == VERSION
         address = ('127.0.0.1', ready['port'])
         a, b = Peer(address), Peer(address)
         peers.extend([a, b])
@@ -197,6 +208,12 @@ def verify(server, client_lib=None):
         assert report['entity_records'] > 0 and report['disconnects'] >= 2
         assert report['bytes_out'] < 4*180*1200*3, 'outbound cap broken'
         assert report['rejected'] >= 7
+        assert report['aircraft_records'] > 0, 'actual server never sent aircraft state'
+        assert any(peer.aircraft for peer in peers), 'no real aircraft packets received'
+        for peer in peers:
+            for index, air in peer.aircraft.items():
+                entity=peer.entities.get(index)
+                assert entity is not None and entity[4]==3 and entity[7]==air[0]
         return report
     finally:
         for peer in peers:

@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v3
-little-endian u32 header[10]: magic=0x52484332 version=3 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v4
+little-endian u32 header[10]: magic=0x52484332 version=4 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -13,4 +13,7 @@ site32 x:f32 z:f32 owner:u32 progress:i32 kind:u32 connected:u32 hp:u32 flags:u3
 MTU1200; sequence stop-and-wait; reject version/schema/content mismatches; state ticks reject stale; entity generation monotonic; session generation binds slot reuse.
 vehicle32 entity_index:u32 entity_generation:u32 driver_id:u32 active:u32 ammo:u32 cooldown:u32 generation:u32 flags:u32; player_vehicle is entity index or -1
 events=102 payload4+32*n n:u32 records(event32)[n<=32]; cosmetic unreliable nearby ring, no damage claims
-event32 x:f32 y:f32 z:f32 kind:u32 side:u32 tick:u32 radius:f32 sequence:u32; kinds1tank_launch2artillery_launch3tank_impact4artillery_impact5vehicle_destroyed; slot=sequence&255
+event32 x:f32 y:f32 z:f32 kind:u32 side:u32 tick:u32 radius:f32 sequence:u32; kinds1tank_launch2artillery_launch3tank_impact4artillery_impact5vehicle_destroyed6bomb_launch7bomb_impact8air_gun9air_destroyed; slot=sequence&255
+aircraft=103 payload4+36*n n:u32 records(index:u32 generation:u32 y:f32 heading:f32 pitch:f32 bank:f32 speed:f32 role:u32 mode:u32)[n<=32]; one additional bounded nearby packet per snapshot, independent fair cursor
+aircraft64 sidecar indexed by entity ID; entity32/state848 unchanged; kind3 live known entity and exact generation required; stale sidecar ticks rejected; missing entity chunk skips record until later refresh
+aircraft speed metres/fixed30Hz tick 0..10; y -100..1200; abs heading<=6.4; abs pitch/bank<=1.6; role0bomber1fighter; mode0patrol1attack2egress3return; whole packet finite/bounds validation before mutation

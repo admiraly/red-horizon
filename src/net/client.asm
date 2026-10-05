@@ -1,7 +1,9 @@
 ; Actual gameplay network adapter. SysV x86-64; fixed bounded buffers.
 default rel
 %include "schemas/player.inc"
+%include "schemas/aircraft.inc"
 %include "src/net/protocol.inc"
+extern sim_aircraft
 extern inet_pton, sim_init, player_init, reset_event_ring
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
@@ -13,6 +15,11 @@ zero: dd 0.0
 minimum_y: dd -1000.0
 maximum_y: dd 2000.0
 maximum_radius: dd 2000.0
+air_min_y: dd -100.0
+air_max_y: dd 1200.0
+air_heading: dd 6.4
+air_angle: dd 1.6
+air_speed: dd 10.0
 section .data
 global net_connected, net_player_id, net_front, net_server_tick, net_last_status
 net_connected: dd 0
@@ -37,6 +44,7 @@ last_send: resq 1
 last_receive: resq 1
 state_tick: resd 1
 entity_tick: resd 32768
+air_tick: resd 32768
 section .text
 global net_client_open, net_client_poll, net_client_input, net_client_order, net_client_close
 ; open(RDI=IPv4 text,ESI=port)->0 queued join/-1. Connected set only on ACK.
@@ -91,6 +99,12 @@ net_client_open:
  xor eax,eax
  mov ecx,32768
  rep stosd
+ lea rdi,[air_tick]
+ mov ecx,32768
+ rep stosd
+ lea rdi,[sim_aircraft]
+ mov ecx,32768*AIR_STRIDE/8
+ rep stosq
  mov dword [sequence],1
  mov dword [generation],0
  mov dword [state_tick],0
@@ -263,6 +277,8 @@ net_client_poll:
  je .state
  cmp dword [incoming+16],NET_ENTITIES
  je .entities
+ cmp dword [incoming+16],NET_AIRCRAFT
+ je .aircraft
  cmp dword [incoming+16],NET_EVENTS
  je .events
  jmp .next
@@ -455,6 +471,110 @@ net_client_poll:
  add r15,36
  dec r14d
  jmp .records
+; Whole packet validation precedes every sidecar write. Missing/reordered entity
+; chunks are skipped; independent server cursor eventually refreshes aircraft.
+.aircraft:
+ cmp dword [incoming+32],4
+ jb .next
+ mov r14d,[incoming+40]
+ cmp r14d,32
+ ja .next
+ imul eax,r14d,36
+ add eax,4
+ cmp eax,[incoming+32]
+ jne .next
+ lea r15,[incoming+44]
+.validateair:
+ test r14d,r14d
+ jz .airvalid
+ mov eax,[r15]
+ cmp eax,[sim_count]
+ jae .next
+ cmp dword [r15+4],0
+ je .next
+ lea rsi,[r15+8]
+ mov ecx,5
+.finiteair:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ add rsi,4
+ loop .finiteair
+ movss xmm0,[r15+8]
+ ucomiss xmm0,[air_min_y]
+ jb .next
+ ucomiss xmm0,[air_max_y]
+ ja .next
+ mov eax,[r15+12]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[air_heading]
+ ja .next
+ mov eax,[r15+16]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[air_angle]
+ ja .next
+ mov eax,[r15+20]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[air_angle]
+ ja .next
+ movss xmm0,[r15+24]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[air_speed]
+ ja .next
+ cmp dword [r15+28],AIR_FIGHTER
+ ja .next
+ cmp dword [r15+32],AIR_RETURN
+ ja .next
+ add r15,36
+ dec r14d
+ jmp .validateair
+.airvalid:
+ mov r14d,[incoming+40]
+ lea r15,[incoming+44]
+.applyair:
+ test r14d,r14d
+ jz .accepted
+ mov eax,[r15]
+ lea rdx,[entity_tick]
+ cmp dword [rdx+rax*4],0
+ je .nextair
+ mov ecx,[incoming+28]
+ cmp ecx,[rdx+rax*4]
+ jb .nextair
+ mov edx,eax
+ shl edx,5
+ lea rdi,[sim_entities]
+ add rdi,rdx
+ cmp dword [rdi+16],3
+ jne .nextair
+ cmp dword [rdi+8],0
+ je .nextair
+ mov ecx,[r15+4]
+ cmp ecx,[rdi+28]
+ jne .nextair
+ lea rdx,[air_tick]
+ mov ecx,[incoming+28]
+ cmp ecx,[rdx+rax*4]
+ jb .nextair
+ mov [rdx+rax*4],ecx
+ shl eax,6
+ lea rdi,[sim_aircraft]
+ add rdi,rax
+ mov eax,[r15+4]
+ mov [rdi+AIR_GENERATION],eax
+ mov dword [rdi+AIR_FLAGS],AIR_ACTIVE
+ lea rsi,[r15+8]
+ mov ecx,7
+ rep movsd
+.nextair:
+ add r15,36
+ dec r14d
+ jmp .applyair
 ; Validate the complete bounded event packet before publishing any ring slot.
 .events:
  cmp dword [incoming+32],4
@@ -498,7 +618,7 @@ net_client_poll:
  ja .next
  mov eax,[r15+12]
  dec eax
- cmp eax,4
+ cmp eax,8
  ja .next
  cmp dword [r15+16],1
  ja .next

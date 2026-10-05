@@ -1,6 +1,8 @@
 default rel
 %include "schemas/player.inc"
+%include "schemas/aircraft.inc"
 %include "src/net/protocol.inc"
+extern sim_aircraft
 extern strcmp, printf, fflush
 extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
@@ -12,8 +14,8 @@ section .rodata
 f_port: db '--port',0
 f_ticks: db '--ticks',0
 f_units: db '--units',0
-ready_fmt: db '{"port":%u,"protocol":3,"units":%u}',10,0
-report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u}',10,0
+ready_fmt: db '{"port":%u,"protocol":4,"units":%u}',10,0
+report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u,"aircraft_records":%lu}',10,0
 interest2: dd 1440000.0
 maximum: dd 8000.0
 zero: dd 0.0
@@ -34,10 +36,12 @@ slots: resb 4*NET_RECORD
 bytes_in: resq 1
 bytes_out: resq 1
 entity_records: resq 1
+aircraft_records: resq 1
 rejections: resd 1
 disconnects: resd 1
 budget: resd 1
 event_cursors: resd 4
+air_cursors: resd 4
 replicated: resb 4*32768
 distinct_pairs: resq 1
 interest_counts: resd 4
@@ -222,6 +226,8 @@ main:
  add eax,[unseen_counts+8]
  add eax,[unseen_counts+12]
  mov [rsp+32],rax
+ mov rax,[aircraft_records]
+ mov [rsp+40],rax
  mov eax,[rejections]
  mov [rsp],rax
  mov eax,[disconnects]
@@ -366,6 +372,8 @@ handle_packet:
  xor eax,eax
  mov ecx,32768
  rep stosb
+ lea rdx,[air_cursors]
+ mov dword [rdx+r12*4],0
  mov dword [r13+SLOT_CURSOR],0
  mov dword [r13+SLOT_INPUTTICK],-1
  mov dword [r13+SLOT_ORDERTICK],-15
@@ -722,6 +730,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_events
+ mov edi,r12d
+ mov rsi,r13
+ call send_aircraft
 .nextslot:
  add r13,NET_RECORD
  inc r12d
@@ -804,6 +815,106 @@ send_events:
  mov [output+40],r15d
  mov esi,r15d
  shl esi,5
+ add esi,44
+ lea eax,[rsi-NET_HEADER]
+ mov [output+32],eax
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,8
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret
+; One bounded independent aircraft packet per client snapshot; only already
+; replicated nearby live aircraft, preserving the entity32 ownership contract.
+send_aircraft:
+ push rbp
+ mov rbp,rsp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,8
+ mov r12d,edi
+ mov r13,rsi
+ mov eax,edi
+ shl eax,6
+ lea rbx,[sim_players]
+ add rbx,rax
+ mov edi,NET_AIRCRAFT
+ mov esi,r12d
+ mov edx,4
+ call header
+ xor r14d,r14d
+ xor r15d,r15d
+.scan:
+ lea r8,[air_cursors]
+ mov eax,[r8+r12*4]
+ cmp eax,[sim_count]
+ jb .index
+ xor eax,eax
+.index:
+ mov r9d,eax
+ inc eax
+ mov [r8+r12*4],eax
+ inc r15d
+ lea rdx,[sim_entities]
+ mov eax,r9d
+ shl eax,5
+ add rdx,rax
+ cmp dword [rdx+16],3
+ jne .skip
+ cmp dword [rdx+8],0
+ je .skip
+ mov eax,r12d
+ shl eax,15
+ add eax,r9d
+ lea r8,[replicated]
+ cmp byte [r8+rax],0
+ je .skip
+ movss xmm0,[rdx]
+ subss xmm0,[rbx+PLAYER_X]
+ mulss xmm0,xmm0
+ movss xmm1,[rdx+4]
+ subss xmm1,[rbx+PLAYER_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[interest2]
+ ja .skip
+ mov eax,r9d
+ shl eax,6
+ lea rsi,[sim_aircraft]
+ add rsi,rax
+ test dword [rsi+AIR_FLAGS],AIR_ACTIVE
+ jz .skip
+ mov eax,[rdx+28]
+ cmp eax,[rsi+AIR_GENERATION]
+ jne .skip
+ imul edi,r14d,36
+ lea r8,[output+44]
+ add rdi,r8
+ mov [rdi],r9d
+ mov [rdi+4],eax
+ add rdi,8
+ mov ecx,7
+ rep movsd
+ inc r14d
+.skip:
+ cmp r14d,32
+ jae .finish
+ cmp r15d,[sim_count]
+ jb .scan
+.finish:
+ test r14d,r14d
+ jz .done
+ add [aircraft_records],r14
+ mov [output+40],r14d
+ imul esi,r14d,36
  add esi,44
  lea eax,[rsi-NET_HEADER]
  mov [output+32],eax

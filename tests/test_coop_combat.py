@@ -11,7 +11,7 @@ import struct
 import subprocess
 import sys
 import time
-from test_coop import Peer, server_addresses
+from test_coop import Peer, server_addresses, VERSION
 
 server, library = (pathlib.Path(p).resolve() for p in sys.argv[1:3])
 lib=C.CDLL(str(library))
@@ -22,7 +22,7 @@ for name in ('net_client_open','net_client_poll','net_client_input'):
 host=subprocess.Popen([str(server),'--port','0','--units','128'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
 peer=None; memory=None
 try:
-    ready=json.loads(host.stdout.readline());assert ready['protocol']==3
+    ready=json.loads(host.stdout.readline());assert ready['protocol']==VERSION
     peer=Peer(('127.0.0.1',ready['port']));assert peer.request(1)[0]==0
     assert lib.net_client_open(b'127.0.0.1',ready['port'])==0
     connected=C.c_uint.in_dll(lib,'net_connected')

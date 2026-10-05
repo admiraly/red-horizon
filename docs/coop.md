@@ -1,4 +1,4 @@
-# Actual authoritative cooperative world transport (UDP v3)
+# Actual authoritative cooperative world transport (UDP v4)
 
 This path links the dedicated server to the same assembly army, operation,
 terrain, AI and four-player modules used locally. The server alone advances the
@@ -25,11 +25,11 @@ army intelligence is absent from this slice, and the client keeps nonreceived
 army health zero. No fabricated full army is displayed in network mode.
 
 The 40-byte header is ten little-endian u32 fields: magic `0x52484332`, version
-`3`, schema fingerprint, content fingerprint, type, player ID, command sequence,
+`4`, schema fingerprint, content fingerprint, type, player ID, command sequence,
 server tick, payload bytes, and session generation. The canonical field layouts
 are in `src/net/schema.txt`, with assembly constants in `src/net/protocol.inc`.
 The schema fingerprint is the first 32 bits of SHA256 of that canonical file:
-`3d7ce8beb50ffc6c6d9b5a14e51313edb2ab885221ea2e6d6a566954a40bd4d6`.
+`bb315959fd2e712f33722db6a3225c110444cdaffef05f09f944e63f716f3b86`.
 The content fingerprint comes from SHA256 of `content/asset-manifest.json`:
 `99af0be8365d168fb5a5e488861cbba374e100167ee94a719158b57c7ea3a507`.
 These truncated compatibility hashes are not authentication or cryptography.
@@ -62,7 +62,7 @@ per slot per tick, and at least fifteen ticks between successful orders. ACK
 status: zero success, one malformed/invalid input, five ownership, six resources,
 seven scheduling rate. The adapter retries the exact pending datagram every
 100 ms when polled. It sends only one pending command, so callers must retain
-and retry an order while the API returns busy. Outbound cap is four snapshot
+and retry an order while the API returns busy. Outbound cap is five snapshot
 packets per client per three ticks plus bounded ACK responses.
 
 Endpoint ownership expires after 90 authoritative ticks without valid traffic.
@@ -147,3 +147,19 @@ All subprocesses and relay threads are reconciled before the driver exits.
 ```sh
 python3 tools/dev.py test --suite network --extended
 ```
+
+Aircraft packet `103` adds at most one 1196-byte packet per client snapshot.
+Its independent cursor examines at most the simulated entity count and sends
+at most 32 already-replicated, live kind 3 actors within 1200 m. Records carry
+index/generation, height, heading, pitch, bank, speed, role and mode. Speed is
+metres per fixed 30 Hz tick (`0..10`), preserving the simulation convention.
+Entity32 and state848 remain unchanged.
+
+Clients validate the entire packet for finite values, bounds and enums before
+applying any sidecar field. Exact entity generation and a known living kind 3
+record are required. Aircraft packets arriving ahead of entity chunks are
+skipped until a later refresh. Per-aircraft ticks and entity ticks reject stale
+poses; session guards apply as for all snapshots. Kinds `6..9` add cosmetic bomb
+launch/impact, air gun and aircraft destruction events. Damage remains
+server-authoritative. The dedicated report includes transmitted aircraft record
+count, separate from entity records.
