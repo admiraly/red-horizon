@@ -102,7 +102,12 @@ try:
         def actor():return struct.unpack('<ff6I',os.pread(memory,32,symbols['sim_entities']))
         def selected():return u32('mesh_selected_frames')
         def capture(path):
+            # Selected-pose telemetry is written before drawing/presentation.
+            # Let several complete frames present before reading X's frontbuffer.
+            start=u32('frame_count')
+            until(lambda:u32('frame_count')>=start+3,3)
             os.kill(process.pid,signal.SIGSTOP)
+            _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
             image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
             rgb=bytearray();region=bytearray()
             for y in range(720):
@@ -127,7 +132,8 @@ try:
         until(lambda:u32('mesh_high_instances')>0)
         assert u32('mesh_high_instances')<=256
         before=actor();image_a,frame_a,blend_a=capture('/tmp/red-horizon-soldier-idle-a.ppm')
-        until(lambda:selected()!=frame_a,2)
+        phase_a=struct.unpack('<f',os.pread(memory,4,symbols['mesh_clock']))[0]
+        until(lambda:struct.unpack('<f',os.pread(memory,4,symbols['mesh_clock']))[0]>=phase_a+.25 and selected()!=frame_a,2)
         image_b,frame_b,blend_b=capture('/tmp/red-horizon-soldier-idle-b.ppm')
         assert before[:2]==actor()[:2],'held actor moved during idle comparison'
         pack=pathlib.Path('content/models/battle.rham').read_bytes() if pathlib.Path('content/models/battle.rham').exists() else (EXE.parent/'content/models/battle.rham').read_bytes()
