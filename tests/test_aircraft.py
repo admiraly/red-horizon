@@ -85,6 +85,79 @@ assert a[31].target==63,a[31].target
 reset();actor(31,1000,1000,0);actor(63,7000,7000,1)
 for _ in range(20):lib.sim_tick()
 assert a[31].target==-1 and a[63].target==-1 and a[31].ammo==180
+# Focused air_hit ABI probe. Production damage wiring is owned by the integrator.
+# The sole event input is the damaged stable actor; no shooter coordinate is passed.
+def defense_run(index,hit):
+ reset();actor(index,3000,3000,0);lib.air_tick()
+ a[index].heading=0;a[index].vx=0;a[index].vz=a[index].speed
+ start=(e[index].x,e[index].z,a[index].y)
+ before=lib.sim_checksum()
+ if hit:
+  lib.air_hit(index)
+  assert lib.sim_checksum()!=before,'private commitment omitted from checksum'
+ length=48 if a[index].role else 90
+ peak_bank=0;turn=0;old=a[index].heading
+ for t in range(length):
+  if hit:lib.air_hit(index) # repeated hits must not renew bounded commitment
+  oldxz=(e[index].x,e[index].z);oldy=a[index].y
+  lib.air_tick();lib.air_combat_tick()
+  delta=(a[index].heading-old+math.pi)%(2*math.pi)-math.pi
+  assert abs(delta)<=(.04001 if a[index].role else .02501)
+  assert abs(a[index].y-oldy)<=.5001
+  assert abs(math.dist(oldxz,(e[index].x,e[index].z))-a[index].speed)<.001
+  assert a[index].ammo==(180 if a[index].role else 8)
+  assert 0<=e[index].x<=8000 and 0<=e[index].z<=8000
+  if hit and t<length-1:assert a[index].target==-1 and a[index].mode==2
+  peak_bank=max(peak_bank,abs(a[index].bank));turn+=abs(delta);old=a[index].heading
+ result=(e[index].x,e[index].z,a[index].y,peak_bank,turn,a[index].heading)
+ if hit:
+  assert a[index].mode!=2,'repeated hits extended maneuver indefinitely'
+  assert result[2]-start[2]>=length*.5-.001
+ return result
+metrics={}
+for index,name in ((31,'fighter'),(15,'bomber')):
+ control=defense_run(index,False);defended=defense_run(index,True)
+ separation=math.dist(control[:2],defended[:2])
+ assert separation>40,(name,separation)
+ assert defended[3]>.4
+ metrics[name]={'xz_separation_m':round(separation,3),'climb_m':24 if index==31 else 45,
+                'absolute_turn_rad':round(defended[4],3),'peak_bank_rad':round(defended[3],3)}
+# Invalid, dead, nonair and mismatched generations cannot create a commitment.
+reset();actor(31,3000,3000,0);lib.air_tick()
+for index in (-1,64,32768):
+ before=lib.sim_checksum();lib.air_hit(index);assert lib.sim_checksum()==before
+for field,value in (('hp',0),('kind',0),('generation',e[31].generation+1)):
+ previous=getattr(e[31],field);setattr(e[31],field,value)
+ before=lib.sim_checksum();lib.air_hit(31);assert lib.sim_checksum()==before
+ setattr(e[31],field,previous)
+# Reuse initializes both commitment and recovery, and permits a new real hit.
+lib.air_hit(31);e[31].generation+=1;lib.air_tick()
+assert a[31].mode==0
+before=lib.sim_checksum();lib.air_hit(31);assert lib.sim_checksum()!=before
+# Boundary safety overrides jink and retains role speed even during repeated hits.
+for index in (15,31):
+ reset();actor(index,7340,4000,0);lib.air_tick()
+ a[index].heading=math.pi/2
+ for t in range(400):
+  if t%150==0:lib.air_hit(index)
+  old=(e[index].x,e[index].z);lib.air_tick();lib.air_combat_tick()
+  assert 0<=e[index].x<=8000 and 0<=e[index].z<=8000
+  assert abs(math.dist(old,(e[index].x,e[index].z))-a[index].speed)<.001
+# Following the finite break, fighters reacquire an independently observed enemy.
+reset();actor(31,3000,3000,0);actor(63,3300,3000,1);lib.air_tick();lib.air_hit(31)
+for t in range(48):lib.air_tick();lib.air_combat_tick()
+assert a[31].target==63 and a[31].mode==1
+# Same explicit hit schedule produces identical private-state checksums.
+hits=[]
+for _ in range(2):
+ reset();actor(31,3000,3000,0);lib.air_tick()
+ for t in range(240):
+  if t in (0,20,160):lib.air_hit(31)
+  lib.air_tick();lib.air_combat_tick()
+ hits.append(lib.sim_checksum())
+assert hits[0]==hits[1]
+print('Focused damage-hook maneuver probe:',metrics,'bounded repeat/reuse/boundary/reacquisition/replay passed')
+
 # Exact authoritative state replay includes air control/store fields.
 h=[]
 for _ in range(2):

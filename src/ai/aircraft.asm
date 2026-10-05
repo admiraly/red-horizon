@@ -7,6 +7,8 @@ extern sinf,cosf,atan2f,projectile_air_launch
 section .bss align=64
 global sim_aircraft
 sim_aircraft: resb ENTITY_CAPACITY*AIR_STRIDE
+; Private fixed state: remaining maneuver and refractory ticks, indexed by stable ID.
+air_defense: resd ENTITY_CAPACITY*2
 air_counts: resd 1024
 air_samples: resd 1024*8
 section .rodata
@@ -41,7 +43,7 @@ lead_ticks: dd 8.0
 align 16
 abs_mask: dd 0x7fffffff,0,0,0
 section .text
-global air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
+global air_init,air_tick,air_combat_tick,air_hash,sim_entity_height,air_hit
 sim_entity_height:
  mov eax,edi
  shl eax,5
@@ -81,6 +83,50 @@ air_init:
  xor eax,eax
  mov ecx,ENTITY_CAPACITY*AIR_STRIDE/4
  rep stosd
+ lea rdi,[air_defense]
+ mov ecx,ENTITY_CAPACITY*2
+ rep stosd
+ ret
+; Genuine surviving damage hook: EDI stable actor index, no shooter information.
+; Repeated hits cannot extend the commitment or reset its recovery window.
+air_hit:
+ cmp edi,[sim_count]
+ jae .done
+ cmp edi,ENTITY_CAPACITY
+ jae .done
+ mov eax,edi
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_HP],0
+ je .done
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .done
+ mov eax,edi
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ add rcx,rax
+ mov eax,[rdx+ENTITY_GENERATION]
+ cmp eax,[rcx+AIR_GENERATION]
+ jne .done
+ test dword [rcx+AIR_FLAGS],AIR_ACTIVE
+ jz .done
+ lea rdx,[air_defense]
+ cmp dword [rdx+rdi*8+4],0
+ jne .done
+ mov eax,48
+ mov esi,150
+ cmp dword [rcx+AIR_ROLE],AIR_FIGHTER
+ je .commit
+ mov eax,90
+ mov esi,210
+.commit:
+ mov [rdx+rdi*8],eax
+ mov [rdx+rdi*8+4],esi
+ mov dword [rcx+AIR_TARGET],-1
+ mov dword [rcx+AIR_PASS_TICKS],0
+ mov dword [rcx+AIR_MODE],AIR_EGRESS
+.done:
  ret
 ; Each aircraft keeps flying even under formation hold. Turn rate is bounded.
 air_tick:
@@ -102,6 +148,8 @@ air_tick:
  test dword [rbp+AIR_FLAGS],AIR_ACTIVE
  jnz .ready
 .init:
+ lea rcx,[air_defense]
+ mov qword [rcx+r12*8],0
  mov [rbp+AIR_GENERATION],eax
  mov dword [rbp+AIR_FLAGS],AIR_ACTIVE
  mov eax,r12d
@@ -133,10 +181,18 @@ air_tick:
  addss xmm0,[rcx+rax*4]
  movss [rbp+AIR_Y],xmm0
 .ready:
+ lea rcx,[air_defense]
+ cmp dword [rcx+r12*8+4],0
+ je .cooldown
+ dec dword [rcx+r12*8+4]
+.cooldown:
  cmp dword [rbp+AIR_COOLDOWN],0
  je .goal
  dec dword [rbp+AIR_COOLDOWN]
 .goal:
+ lea rcx,[air_defense]
+ cmp dword [rcx+r12*8],0
+ jne .defense_goal
  mov eax,[rbx+ENTITY_SIDE]
  imul eax,3
  add eax,[rbx+ENTITY_FRONT]
@@ -155,6 +211,14 @@ air_tick:
  je .target
  mov dword [rbp+AIR_MODE],AIR_PATROL
  jmp .target
+.defense_goal:
+ mov dword [rbp+AIR_MODE],AIR_EGRESS
+ mov dword [rbp+AIR_TARGET],-1
+ movss xmm0,[rbx+ENTITY_X]
+ addss xmm0,[rbp+AIR_VX]
+ movss xmm1,[rbx+ENTITY_Z]
+ addss xmm1,[rbp+AIR_VZ]
+ jmp .boundary
 .egress:
  dec dword [rbp+AIR_PASS_TICKS]
  ; Egress follows current forward vector rather than reversing above the victim.
@@ -184,6 +248,7 @@ air_tick:
  mulss xmm2,[lead_ticks]
  addss xmm1,xmm2
 .boundary:
+ mov dword [rsp+48],0
  movss xmm2,[rbx+ENTITY_X]
  comiss xmm2,[margin]
  jb .centre
@@ -195,6 +260,7 @@ air_tick:
  comiss xmm2,[edge]
  jbe .steer
 .centre:
+ mov dword [rsp+48],1
  movss xmm0,[centre]
  movaps xmm1,xmm0
 .steer:
@@ -212,6 +278,30 @@ air_tick:
  jae .bounded
  addss xmm0,[tau]
 .bounded:
+ ; Boundary steering always wins over the damage-driven break.
+ cmp dword [rsp+48],0
+ jne .turn_limit
+ lea rcx,[air_defense]
+ mov eax,[rcx+r12*8]
+ test eax,eax
+ jz .turn_limit
+ movss xmm0,[one]
+ test r12d,1
+ jz .defense_direction
+ mulss xmm0,[negative]
+.defense_direction:
+ cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
+ jne .bomber_break
+ cmp eax,24
+ ja .turn_limit
+ ; Reverse the bank halfway through a short fighter jink.
+ mulss xmm0,[negative]
+ jmp .turn_limit
+.bomber_break:
+ cmp eax,45
+ ja .turn_limit
+ xorps xmm0,xmm0 ; sustain the new egress heading after the initial break
+.turn_limit:
  mov eax,[rbp+AIR_ROLE]
  lea rcx,[turns]
  movss xmm1,[rcx+rax*4]
@@ -258,6 +348,19 @@ air_tick:
  jae .height
  call sim_entity_height
 .height:
+ lea rcx,[air_defense]
+ cmp dword [rcx+r12*8],0
+ je .height_delta
+ ; Physical climb at the existing half-metre/tick vertical limit.
+ movss xmm0,[rbp+AIR_Y]
+ addss xmm0,[climb]
+ dec dword [rcx+r12*8]
+ jnz .height_delta
+ mov dword [rbp+AIR_MODE],AIR_PATROL
+ cmp dword [rbp+AIR_AMMO],0
+ jne .height_delta
+ mov dword [rbp+AIR_MODE],AIR_RETURN
+.height_delta:
  subss xmm0,[rbp+AIR_Y]
  minss xmm0,[climb]
  maxss xmm0,[minus_climb]
@@ -328,6 +431,13 @@ air_combat_tick:
  je .next
  cmp dword [rbx+ENTITY_KIND],3
  jne .next
+ lea rcx,[air_defense]
+ cmp dword [rcx+r12*8],0
+ je .combat_ready
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbp+AIR_MODE],AIR_EGRESS
+ jmp .next
+.combat_ready:
  mov eax,[rbp+AIR_TARGET]
  mov [rsp+36],eax
  mov dword [rbp+AIR_TARGET],-1
@@ -599,5 +709,18 @@ air_hash:
  inc rsi
  dec ecx
  jnz .bytes
-.done: ret
+.done:
+ lea rsi,[air_defense]
+ mov ecx,[sim_count]
+ shl ecx,3
+ test ecx,ecx
+ jz .return
+.defense_bytes:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .defense_bytes
+.return: ret
 section .note.GNU-stack noalloc noexec nowrite progbits
