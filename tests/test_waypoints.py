@@ -74,6 +74,13 @@ lib.sim_tick()
 for kind,expected in enumerate((0.12,0.5,0.2,5.0)):
     actor = entities[kind]
     assert math.isclose(math.hypot(actor.x-1000,actor.z-1000),expected,abs_tol=0.0001)
+# Explicit advance is a movement command even while a visible target survives.
+reset()
+a=unit(0,3500,1000,0,0)
+enemy=unit(16,3600,1000,1,0)
+assert lib.sim_order(1,0,1)==0
+for _ in range(20):lib.sim_tick()
+assert enemy.hp>0 and a.target==16 and math.hypot(a.x-3500,a.z-1000)>2.3
 # Real infantry movement reaches a hostile site, then hold completes a
 # physical twenty-second capture while another formation keeps moving.
 reset()

@@ -265,15 +265,7 @@ sim_tick:
  je .insert
  cmp eax,2
  je .retreat
- ; Advance holds a firing position while its last target is alive.
- mov edx,[rbx+ENTITY_TARGET]
- cmp edx,-1
- je .toward_goal
- mov ecx,edx
- imul rcx,ENTITY_STRIDE
- lea rsi,[sim_entities]
- cmp dword [rsi+rcx+ENTITY_HP],0
- jne .insert
+ ; Explicit advance continues toward its goal while combat stays LOS gated.
 .toward_goal:
  lea rsi,[sim_waypoints]
  movss xmm2,[rsi+rdi*8]

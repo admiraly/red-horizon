@@ -256,7 +256,7 @@ ai_tick:
  lea rdx,[sim_supply]
  cmp dword [rdx+r13*4],100
  jb .withdraw
- ; A scout's completed visible survey enables the main formation.
+ ; Survey records reconnaissance completion, never a movement permission.
  cmp dword [rbx+52],0
  je .scout
  mov dword [rbx+16],1
@@ -300,26 +300,31 @@ ai_entity_goal:
  movss xmm1,[rdx+48]
  cmp dword [rdx+16],2
  je .retreat
- cmp dword [rdx+16],0
- jne .advance
+ ; Scouts lead directly; support approaches even before the remote site is
+ ; surveyed. Enemy coordinates never supply these authored movement goals.
  cmp dword [rsi+ENTITY_KIND],3
  je .move
  test edi,15
- jnz .hold
- xor eax,eax
- ret
+ jz .move
 .advance:
- ; Two alternating squad groups advance/cover in 90-tick bounds.
- mov ecx,edi
- shr ecx,4
- and ecx,1
+ mov r10d,edi
+ shr r10d,4
+ and r10d,1
+ ; Short, staggered firing dwells only when this actor acquired a LOS target.
+ ; Twelve ticks out of120 per squad replace indefinite scout-stage holding.
+ cmp dword [rsi+ENTITY_TARGET],-1
+ je .flank
  mov eax,[sim_tick_count]
+ mov ecx,r10d
+ imul ecx,60
+ add eax,ecx
  xor edx,edx
- mov r9d,90
+ mov r9d,120
  div r9d
- and eax,1
- cmp eax,ecx
- jne .hold
+ cmp edx,12
+ jb .hold
+.flank:
+ mov ecx,r10d
  movss xmm2,[rsi+ENTITY_X]
  subss xmm2,xmm0
  andps xmm2,[abs_mask]
