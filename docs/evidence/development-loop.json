@@ -1,0 +1,43 @@
+{
+  "revision": "f9e012274d3577b258b011aea1358a23207f15ff-4c5bc06e7799c120",
+  "routine_checks": [
+    {
+      "suite": "fast",
+      "seconds": 0.6005562519967498,
+      "passed": true
+    },
+    {
+      "suite": "fast",
+      "seconds": 0.5423395300022094,
+      "passed": true
+    },
+    {
+      "suite": "fast",
+      "seconds": 0.589844763999281,
+      "passed": true
+    },
+    {
+      "suite": "player",
+      "seconds": 0.14939709000100265,
+      "passed": true
+    }
+  ],
+  "warm_build": {
+    "target": "headless",
+    "revision": "f9e012274d3577b258b011aea1358a23207f15ff-4c5bc06e7799c120",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.04816700599985779,
+    "executable": "/home/levy/.t3/projects/red-horizon/build/revisions/f9e012274d3577b258b011aea1358a23207f15ff-4c5bc06e7799c120/red-horizon-server"
+  },
+  "baseline_full_extended_seconds": 97.78833854199911,
+  "coverage_note": "Fast/focused checks intentionally omit scale, UDP and graphical coverage. Full extended verification remains required at publication checkpoints. Timing collected while a separate full validation job was active.",
+  "full_extended_verification": {
+    "job_id": "fc32437a65c6",
+    "exit_code": 0,
+    "revision": "f9e012274d3577b258b011aea1358a23207f15ff-4c5bc06e7799c120",
+    "seconds": 94.61860722299753,
+    "status": "passed"
+  },
+  "runtime_source_changes": false
+}
