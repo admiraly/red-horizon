@@ -215,9 +215,16 @@ def main():
             if (ROOT/'tests/test_coop_combat.py').exists(): execute([sys.executable,'tests/test_coop_combat.py',str(server),str(library)])
         if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
         if suite in ('all','headless','fast'): execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','headless','fast') and (ROOT/'tests/test_mesh_assets.py').exists():
+            mesh_object=BUILD/'mesh_asset_test.o'; mesh_library=BUILD/'libmeshassets.so'
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/mesh_assets.asm'),'-o',str(mesh_object)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(mesh_library),str(mesh_object)])
+            execute([sys.executable,'tests/test_mesh_assets.py',str(mesh_library),str(ROOT/'content/models/battle.rham')])
         if suite in ('all','graphics'):
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])
+            if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
             if (ROOT/'tests/test_client_effects.py').exists(): execute([sys.executable,'tests/test_client_effects.py',str(client)])
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
             if (ROOT/'tests/test_client_coop.py').exists(): execute([sys.executable,'tests/test_client_coop.py',str(client),str(build('coop'))])

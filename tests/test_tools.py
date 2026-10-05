@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
     player_build=json.loads(dev('build'))
     assert set(player_build['assembled_sources'])=={'src/game/player.asm','src/game/vehicles.asm'},player_build
     client_build=json.loads(dev('build','--target','client','--objects-only'))
-    assert set(client_build['assembled_sources'])=={'src/platform/linux/client.asm','src/net/client.asm','src/render/effects.asm','src/audio/emitters.asm'},client_build
+    assert set(client_build['assembled_sources'])=={'src/platform/linux/client.asm','src/net/client.asm','src/render/effects.asm','src/render/meshes.asm','src/audio/emitters.asm'},client_build
     inputs={str(p.relative_to(root)):p.read_bytes() for folder in ('src','shaders','schemas') for p in (root/folder).rglob('*') if p.is_file()}
     fast=dev('test','--suite','fast')
     assert '"suite": "fast-combat"' in fast
