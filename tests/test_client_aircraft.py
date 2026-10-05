@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Development-only GL aircraft pose/role/altitude regression on a private X server.
 Writes fixture records into a private client process; this verifies rendering,
-not authoritative flight, weapon spawning or playable combat outcomes.
+Includes production authority encounters after development-only initial setup.
 """
 import ctypes as C
 import ctypes.util
@@ -140,9 +140,9 @@ try:
             os.kill(process.pid,signal.SIGCONT)
             return rgb,str(path),pose
 
-        def changed(a,b):
+        def changed(a,b,threshold=35):
             return {(x,y) for y in range(170,550) for x in range(260,1020)
-                    if max(abs(a[(y*1280+x)*3+c]-b[(y*1280+x)*3+c]) for c in range(3))>35}
+                    if max(abs(a[(y*1280+x)*3+c]-b[(y*1280+x)*3+c]) for c in range(3))>threshold}
 
         frozen_ticks=u32('local_sim_ticks')
         fixture(visible=False);background,bgpath,_=capture('background')
@@ -184,12 +184,100 @@ try:
         assert bombmask!=roundmask
         ordnance(4,0,(8.,0.,0.));cleared,_,_=capture('inactive-air-round')
         assert len(changed(ordnance_background,cleared))<8
+        # Real authority encounter: only initial actor poses/cohorts are fixtures.
+        # The flight AI, projectiles, impacts, damage and event records run normally.
+        def encounter(fighters=False):
+            stop()
+            os.pwrite(memory,bytes(64*32),symbols['sim_entities'])
+            os.pwrite(memory,bytes(64*64),symbols['sim_aircraft'])
+            os.pwrite(memory,bytes(32768),symbols['sim_projectiles'])
+            os.pwrite(memory,bytes(8192),symbols['sim_events'])
+            os.pwrite(memory,bytes(2048),symbols['effects_records'])
+            for name in ('sim_event_sequence','effects_event_cursor','sim_tick_count','sim_projectile_count'):
+                os.pwrite(memory,struct.pack('<I',0),symbols[name])
+            os.pwrite(memory,struct.pack('<I',64),symbols['sim_count'])
+            os.pwrite(memory,struct.pack('<2I',1,1),symbols['sim_alive'])
+            os.pwrite(memory,struct.pack('<6I',*[1]*6),symbols['orders'])
+            actors=((31,2000.,2500.,0,3,200),(63,2450.,2500.,1,3,200)) if fighters else ((15,2000.,2000.,0,3,200),(32,2740.,2000.,1,0,100))
+            for i,x,z,side,kind,hp in actors:
+                os.pwrite(memory,struct.pack('<2f6I',x,z,hp,side,kind,0,0xffffffff,1),symbols['sim_entities']+i*32)
+            view=(2200.,160.,2200.,0.,0.) if fighters else (2300.,150.,1900.,1.34,-.26)
+            os.pwrite(memory,struct.pack('<5f',*view),player_address)
+            os.pwrite(memory,struct.pack('<f',view[3]),symbols['yaw'])
+            os.pwrite(memory,struct.pack('<f',view[4]),symbols['pitch'])
+            os.pwrite(memory,struct.pack('<I',0),symbols['tactical'])
+            os.pwrite(memory,struct.pack('<d',1./30.),symbols['thirty'])
+            os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+            os.kill(process.pid,signal.SIGCONT)
+
+        def events():
+            result=[]
+            sequence=u32('sim_event_sequence')
+            ring=os.pread(memory,8192,symbols['sim_events'])
+            for offset in range(0,8192,32):
+                record=struct.unpack_from('<3f3IfI',ring,offset)
+                if record[7] and record[7]<=sequence:result.append(record)
+            return result
+
+        encounter()
+        actual_launch=until(lambda:next((e for e in events() if e[3]==6),None),10)
+        actual_impact=until(lambda:next((e for e in events() if e[3]==7),None),10)
+        until(lambda:u32('effects_event_cursor')>=actual_impact[7],2)
+        stop()
+        records=[struct.unpack_from('<7fI',os.pread(memory,2048,symbols['effects_records']),i*32)for i in range(64)]
+        assert any(r[7] in (2,3) and r[3]>0 and all(abs(r[c]-actual_impact[c])<.001 for c in range(3)) for r in records),('real bomb impact produced no matching active cosmetic',actual_impact)
+        # Place a development observer near the acquired real impact after freezing.
+        view=(actual_impact[0],actual_impact[1]+15.,actual_impact[2]-80.,0.,-.185)
+        os.pwrite(memory,struct.pack('<5f',*view),player_address)
+        os.pwrite(memory,struct.pack('<f',0.),symbols['yaw']);os.pwrite(memory,struct.pack('<f',view[4]),symbols['pitch'])
+        os.pwrite(memory,struct.pack('<d',1e30),symbols['thirty']);os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+        os.kill(process.pid,signal.SIGCONT)
+        start=u32('frame_count');until(lambda:u32('frame_count')>=start+3,3)
+        frozen_ticks=u32('local_sim_ticks')
+        impactrgb,impactpath,_=capture('actual-bomb-impact')
+        stop();acquired_effects=os.pread(memory,2048,symbols['effects_records'])
+        authority_names=(('sim_entities',64*32),('sim_aircraft',64*64),('sim_projectiles',32768),('sim_events',8192))
+        acquired_authority=tuple(os.pread(memory,size,symbols[name])for name,size in authority_names)
+        os.pwrite(memory,bytes(2048),symbols['effects_records']);os.kill(process.pid,signal.SIGCONT)
+        controlrgb,_,_=capture('actual-bomb-impact-control')
+        impact_changed=len(changed(impactrgb,controlrgb,10));assert impact_changed>8,impact_changed
+        stop()
+        assert acquired_authority==tuple(os.pread(memory,size,symbols[name])for name,size in authority_names),'paired cosmetic control changed authority'
+        os.pwrite(memory,acquired_effects,symbols['effects_records']);os.kill(process.pid,signal.SIGCONT)
+        encounter(fighters=True)
+        actual_gun=until(lambda:next((e for e in events() if e[3]==8),None),18)
+        until(lambda:u32('effects_event_cursor')>=actual_gun[7],2)
+        actual_destroy=until(lambda:next((e for e in events() if e[3]==9),None),18)
+        until(lambda:u32('effects_event_cursor')>=actual_destroy[7],2)
+        stop()
+        records=[struct.unpack_from('<7fI',os.pread(memory,2048,symbols['effects_records']),i*32)for i in range(64)]
+        assert any(r[7]==4 and r[3]>0 and all(abs(r[c]-actual_destroy[c])<.001 for c in range(3))for r in records),('real aircraft destruction produced no debris',actual_destroy)
+        view=(actual_destroy[0],actual_destroy[1],actual_destroy[2]-80.,0.,0.)
+        os.pwrite(memory,struct.pack('<5f',*view),player_address)
+        os.pwrite(memory,struct.pack('<f',0.),symbols['yaw']);os.pwrite(memory,struct.pack('<f',0.),symbols['pitch'])
+        os.pwrite(memory,struct.pack('<d',1e30),symbols['thirty']);os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+        os.kill(process.pid,signal.SIGCONT)
+        start=u32('frame_count');until(lambda:u32('frame_count')>=start+3,3)
+        frozen_ticks=u32('local_sim_ticks')
+        destroyrgb,destroypath,_=capture('actual-aircraft-destruction')
+        stop();acquired_effects=os.pread(memory,2048,symbols['effects_records'])
+        authority_names=(('sim_entities',64*32),('sim_aircraft',64*64),('sim_projectiles',32768),('sim_events',8192))
+        acquired_authority=tuple(os.pread(memory,size,symbols[name])for name,size in authority_names)
+        os.pwrite(memory,bytes(2048),symbols['effects_records']);os.kill(process.pid,signal.SIGCONT)
+        controlrgb,_,_=capture('actual-aircraft-destruction-control')
+        destroy_changed=len(changed(destroyrgb,controlrgb,10));assert destroy_changed>8,destroy_changed
+        stop()
+        assert acquired_authority==tuple(os.pread(memory,size,symbols[name])for name,size in authority_names),'paired cosmetic control changed authority'
+        os.pwrite(memory,acquired_effects,symbols['effects_records']);os.kill(process.pid,signal.SIGCONT)
         print(json.dumps({'suite':'rendered-aircraft','passed':True,
-                          'fixture':'development-only entity/aircraft pose writes; real sourced meshes and GL; simulation frozen',
+                          'fixture':'development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority',
                           'bomber_pixels':len(levelmask),'bank_changed_pixels':len(bankmask),
                           'bomb_pixels':len(bombmask),'air_round_pixels':len(roundmask),
+                          'actual_bomb_launch':actual_launch,'actual_bomb_impact':actual_impact,
+                          'actual_air_gun':actual_gun,'actual_air_destroyed':actual_destroy,
+                          'actual_impact_effect_pixels':impact_changed,'actual_destroy_effect_pixels':destroy_changed,
                           'mid_distant_map_absolute_y':True,'stale_generation_fallback':True,
-                          'screenshots':[bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath]}))
+                          'screenshots':[bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath,impactpath,destroypath]}))
 
 finally:
     if memory is not None: os.close(memory)

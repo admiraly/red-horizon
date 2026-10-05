@@ -30,12 +30,29 @@ range, ring capacity and actual event age remain enforced. Late events cannot
 restart expired flashes. Cosmetics never write gameplay records. Debris is a
 single analytic cosmetic sprite, not collision-bearing physical fragments.
 
-Verification before integration: objects-only client assembly passed; modified
-`mesh.vert` and `battle.vert` passed `glslangValidator -S vert`. These checks do
-not establish linking, actual driver rendering, aircraft behaviour or visual
-quality. `tests/test_client_aircraft.py` supplies explicitly development-only
-pose fixtures to a real client with its simulation clock frozen, and checks
-actual GL pixel changes for heading/pitch/bank, role silhouette and altitude,
-plus near/mid/distant/map instance height and recycled-generation fallback.
-Its execution and screenshots require the integrated aircraft simulation;
-actual event rendering proof remains required at integration.
+Verification: objects-only client assembly passed; modified `mesh.vert` and
+`battle.vert` passed vertex validation and shader-pair interface linking with
+`glslangValidator`. Linked client GL execution passed on private Xvfb with Mesa
+software rendering against production aircraft commit `7209e8f` and renderer
+commits `5f5d3db` / `4cb4186` (coherent local worktree commit `ffc0f94`, unchanged
+runtime). This is not Arc A770 performance or visual-quality acceptance.
+
+`tests/test_client_aircraft.py` uses explicitly development-only pose fixtures
+with simulation frozen to verify real GL heading/pitch/bank, role silhouette,
+altitude, near/mid/distant/map instance height and generation fallback. It then
+runs production authority bombing and fighter encounters from initial fixture
+cohorts, without writing weapon/event records during gameplay. Observed bomb
+launch event 6 at tick 1, physical impact event 7 at tick 143; air gun event 8 at
+tick 1 and aircraft destruction event 9 at tick 29. Actual impact/destruction
+positions matched live cosmetic pool records. Paired cosmetic-only controls
+preserved entity, aircraft, projectile and event state byte-for-byte, and changed
+1,696 / 382 rendered pixels respectively (RGB difference above 10). Pose fixture
+pixels: bomber 14,590; bank change 18,330; bomb 2,196; air round 1,196. Timing and
+pixel counts may vary across renderers.
+
+Screenshots were captured under `/home/levy/optane-tmp/red-horizon-aircraft-`,
+including `level-bomber`, `banked`, `pitch-heading`, `fighter`, `raised`,
+`falling-bomb`, `air-round`, `actual-bomb-impact`, and
+`actual-aircraft-destruction` (PPM). The sourced space-craft surrogate remains
+visually evident. Complete military art, layered debris, smoke trails, and
+spectacular art-quality acceptance remain future work.
