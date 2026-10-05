@@ -46,7 +46,7 @@ try:
     def air(index=12,generation=5,y=130.0,heading=.3,pitch=.05,bank=.7,speed=7.0,role=1,mode=1):
         return struct.pack('<II5fII',index,generation,y,heading,pitch,bank,speed,role,mode)
     def entity(index=12,generation=5,kind=3):
-        return struct.pack('<I2f6I',index,3800.,1300.,120,0,kind,0,0xffffffff,generation)
+        return struct.pack('<I2f6I',index,100.,100.,120,0,kind,0,0xffffffff,generation)
     # Sidecar arriving before entity is ignored, then eventually refreshed.
     send(103,packet(air()),12)
     assert struct.unpack_from('<I',aircraft,12*64+60)[0]==0
