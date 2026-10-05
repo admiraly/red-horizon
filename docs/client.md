@@ -1,6 +1,6 @@
 # Linux client prototype
 
-Build `src/platform/linux/client.asm` and `src/render/shaders.asm` using NASM ELF64 from the repository root (shader sources are embedded with `incbin`). Link the simulation assembly object with libc, libm, libGL and libglfw.so.3. GLFW 3.4+ is required. The build-tool integrator owns the exact CLI.
+Build `src/platform/linux/client.asm` and `src/render/shaders.asm` using NASM ELF64 from the repository root (shader sources are embedded with `incbin`). Link the simulation assembly object with libc, libm, libGL and libglfw.so.3. GLFW 3.3+ is required; explicit X11 selection is used on 3.4+, while 3.3 uses its compiled platform. The build-tool integrator owns the exact CLI.
 
 Controls: WASD ground movement, left Shift sprint, mouse aim, left mouse single shot, Tab tactical overview, 1 advance / 2 hold / 3 retreat for allied front **0**, Escape exit. Window title reports mode and last command. Tactical mode does not pause simulation. Startup seeds mouse state after the first event poll to avoid cursor-capture orientation jumps.
 
@@ -19,3 +19,5 @@ Both `--frames 30 --screenshot /tmp/red-horizon-first-person.ppm` and `--frames 
 A development-only Python/Xlib test sent events to the specifically named client window: held W, pressed 2, clicked left mouse, then Escape. Process exited 0; camera position changed; `shots=1`, `hits=1`, `last_order=1` were observed in the final run. `hits` increments only when guarded `sim_fire` returns success, verifying one accepted mouse-selected damage request. Input was synthetic, not a human engagement playtest. No test processes remain running.
 
 Invalid `--frames 0` and nonexistent screenshot directory returned 1. Audio is integrated independently by the integrator; this worker test linked no audio implementation. All runtime CPU source in this change is NASM. Full game, art quality, intelligent behaviour, hardware performance and co-op remain unverified.
+
+Integrator follow-up: recorded rifle PCM audio hooks are linked via -lasound, initialization is nonfatal, and frame-loop pumping/shutdown are active. Ground movement was corrected to5m/s and9m/s sprint. GLFW version guarding allows3.3 without the3.4-specific platform hint; 3.3 still awaits an actual library smoke.

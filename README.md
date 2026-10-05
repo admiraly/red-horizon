@@ -20,9 +20,13 @@ python3 tools/dev.py bench --scenario scale-open --ticks 600
 python3 tools/dev.py bench --scenario scale-stretch --ticks 600
 python3 tools/dev.py server --headless --ticks 300 --realtime
 python3 tools/dev.py reload
+python3 tools/dev.py build --target client
+python3 tools/dev.py run --client
 ```
 
 The `server` command currently runs the shared **local headless simulation**, not a network server. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot are reserved and fail explicitly until implemented. Headless metrics do not establish GPU frame rate or complete army intelligence.
+
+Client controls: WASD, Shift sprint, mouse aim/fire, Tab tactical view, 1/2/3 advance/hold/retreat for allied front0, Escape quit. Placeholder silhouettes represent real simulation entities. Recorded rifle PCM is pumped through ALSA; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
 
 Slow checks can append `--background`. A job receives a frozen source copy, revision/hash, log and result path. Use `python3 tools/dev.py jobs` and `collect JOB_ID` to reconcile results. Build outputs and evidence remain under ignored `build/` and `runs/`.
 

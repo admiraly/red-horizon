@@ -1,6 +1,8 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
 default rel
 global main
+extern audio_init,audio_shot,audio_update,audio_shutdown
+extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_fire,sim_count,sim_entities
 extern battle_vertex_source,battle_fragment_source
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
@@ -45,8 +47,8 @@ height_15: dd 15.0
 height_5: dd 5.0
 eye_height: dd 1.8
 fone: dd 1.0
-speed: dd 45.0
-sprint: dd 160.0
+speed: dd 5.0
+sprint: dd 9.0
 sensitivity: dd 0.002
 pitch_max: dd 1.3
 pitch_min: dd -1.3
@@ -99,6 +101,7 @@ height_temp: resd 1
 source_ptr: resq 1
 log: resb 4096
 title_buf: resb 256
+glfw_version: resd 3
 pixels: resb 2764800
 section .text
 main:
@@ -158,9 +161,19 @@ main:
  call sim_init
  test eax,eax
  jnz .fail
+ lea rdi,[glfw_version]
+ lea rsi,[glfw_version+4]
+ lea rdx,[glfw_version+8]
+ call glfwGetVersion
+ cmp dword [glfw_version],3
+ jne .fail
+ cmp dword [glfw_version+4],3
+ jb .fail
+ je .glfw_default
  mov edi,0x50003 ; GLFW 3.4 platform selection: X11/GLX (XWayland supported)
  mov esi,0x60004
  call glfwInitHint
+.glfw_default:
  call glfwInit
  test eax,eax
  jz .fail
@@ -285,7 +298,9 @@ main:
  call glfwGetCursorPos
  call glfwGetTime
  movsd [last_time],xmm0
+ call audio_init
 .loop:
+ call audio_update
  call glfwPollEvents
  call update_input
  test eax,eax
@@ -422,6 +437,9 @@ main:
  call puts
  mov eax,1
 .exit:
+ mov ebx,eax
+ call audio_shutdown
+ mov eax,ebx
  add rsp,8
  pop r15
  pop r14
@@ -692,6 +710,7 @@ fire_weapon:
  push rbx
  push r12
  push r13
+ call audio_shot
  lea rbx,[sim_entities]
  xor r12d,r12d
  mov r13d,-1
