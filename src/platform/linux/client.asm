@@ -4,6 +4,8 @@ default rel
 %include "schemas/combat.inc"
 global main
 extern effects_update,effects_records,effects_tracers,effects_active
+extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
+extern mesh_asset_count
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
@@ -46,6 +48,7 @@ net_queue_text: db 'ORDER QUEUED',0
 net_busy_text: db 'ORDER BUSY: WAIT FOR SERVER ACK',0
 net_sent_text: db 'ORDER ACCEPTED: COST 5',0
 net_reject_text: db 'SERVER REJECTED REQUEST',0
+mesh_metrics: db 'meshes loaded=%u high=%u low=%u markers=%u source_triangles=%u animation_frame=%u',10,0
 net_metrics: db 'network connected=%u player=%u front=%u server_tick=%u known_living=%u local_sim_ticks=%u',10,0
 cam_name: db 'camera',0
 angle_name: db 'angle',0
@@ -463,6 +466,16 @@ main:
  call glfwGetCursorPos
  call glfwGetTime
  movsd [last_time],xmm0
+ call meshes_init
+ test eax,eax
+ jnz .destroyfail
+ mov edi,[program]
+ call glUseProgram
+ mov edi,[vao]
+ call glBindVertexArray
+ mov edi,0x8892
+ mov esi,[vbo]
+ call glBindBuffer
  call audio_init
  call metrics_init
 .loop:
@@ -574,14 +587,29 @@ main:
  xor esi,esi
  mov edx,98304
  call glDrawArrays
- mov edi,[terrain_loc]
- xor esi,esi
- call glUniform1i
- mov edi,4
- xor esi,esi
- mov edx,72
- mov ecx,[sim_count]
- call glDrawArraysInstanced
+ mov edi,[tactical]
+ mov esi,[local_player]
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ movss xmm3,[yaw]
+ movss xmm4,[pitch]
+ addss xmm4,[recoil]
+ movss xmm5,[frame_delta]
+ movss xmm6,[recoil]
+ movss xmm7,[reload_progress]
+ call meshes_draw
+ mov edi,[program]
+ call glUseProgram
+ mov edi,[vao]
+ call glBindVertexArray
+ mov edi,0x8892
+ mov esi,[vbo]
+ call glBindBuffer
+ mov edi,32
+ call set_instance_layout
+ cmp dword [tactical],0
+ je .worldmodelsdone
  mov edi,0x8892
  mov esi,384
  lea rdx,[sim_sites]
@@ -595,38 +623,9 @@ main:
  mov edx,72
  mov ecx,12
  call glDrawArraysInstanced
- mov edi,0x8892
- mov esi,[terrain_obstacle_count]
- shl esi,5
- lea rdx,[terrain_obstacles]
- mov ecx,0x88e0
- call glBufferData
- mov edi,[terrain_loc]
- mov esi,5
- call glUniform1i
- mov edi,4
- xor esi,esi
- mov edx,36
- mov ecx,[terrain_obstacle_count]
- call glDrawArraysInstanced
+.worldmodelsdone:
  mov edi,64
  call set_instance_layout
- mov edi,0x8892
- mov esi,256
- lea rdx,[sim_players]
- mov ecx,0x88e0
- call glBufferData
- mov edi,[local_loc]
- mov esi,[local_player]
- call glUniform1i
- mov edi,[terrain_loc]
- mov esi,6
- call glUniform1i
- mov edi,4
- xor esi,esi
- mov edx,72
- mov ecx,4
- call glDrawArraysInstanced
  cmp dword [network_mode],0
  jne .skipprojectiles
  mov edi,0x8892
@@ -738,6 +737,19 @@ main:
 .done:
  call metrics_frame_end
  call metrics_report
+ sub rsp,16
+ lea rdi,[mesh_metrics]
+ mov esi,[mesh_asset_count]
+ mov edx,[mesh_high_instances]
+ mov ecx,[mesh_low_instances]
+ mov r8d,[mesh_marker_instances]
+ ; printf's sixth argument is triangles in R9, animation is the first stack arg.
+ mov r9d,[mesh_source_triangles]
+ mov eax,[mesh_animation_sample]
+ mov [rsp],rax
+ xor eax,eax
+ call printf
+ add rsp,16
  lea rdi,[summary]
  mov esi,[frame_count]
  mov edx,[sim_count]
@@ -1486,9 +1498,23 @@ set_instance_layout:
  mov edi,2
  mov esi,1
  call glVertexAttribDivisor
+ mov edi,3
+ call glEnableVertexAttribArray
+ mov edi,3
+ mov esi,4
+ mov edx,0x1406
+ xor ecx,ecx
+ mov r8d,64
+ mov r9d,48
+ call glVertexAttribPointer
+ mov edi,3
+ mov esi,1
+ call glVertexAttribDivisor
  jmp .done
 .disable:
  mov edi,2
+ call glDisableVertexAttribArray
+ mov edi,3
  call glDisableVertexAttribArray
 .done:
  pop rbx
