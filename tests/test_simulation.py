@@ -28,9 +28,11 @@ for edge_count in (2, 32768):
     assert sum(alive) <= edge_count
 for count in (8192, 16384):
     assert lib.sim_init(count, 7) == 0
-    # Exact order-direction checks isolate imminent danger interruptions.
-    # The following fresh default-world replay keeps danger enabled.
+    # Isolate the exact manual-order direction from danger interrupts and
+    # physical body deflection/yielding in this densely initialized world.
+    # The following fresh default-world replay restores both default policies.
     C.c_uint.in_dll(lib,'hazard_enabled').value=0
+    C.c_uint.in_dll(lib,'crowd_enabled').value=0
     original = [(e.x, e.z) for e in entities[:count]]
     assert set(e.kind for e in entities[:count]) == {0, 1, 2, 3}
     assert set(e.front for e in entities[:count]) == {0, 1, 2}

@@ -5,6 +5,7 @@ default rel
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
+extern crowd_init,crowd_begin,crowd_move,crowd_hash
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
@@ -134,6 +135,7 @@ sim_init:
  call projectile_init
  call ordnance_init
  call vehicle_init
+ call crowd_init
  call air_init
  call hazard_init
  add rsp,8
@@ -232,6 +234,7 @@ sim_tick:
  call nav_tick
  call air_tick
  call hazard_tick
+ call crowd_begin
  call ordnance_begin
  add rsp,8
  mov dword [sim_engaged],0
@@ -331,9 +334,9 @@ sim_tick:
 .physical_step:
  movss xmm0,[rbx+ENTITY_X]
  movss xmm1,[rbx+ENTITY_Z]
- mov edi,[rbx+ENTITY_KIND]
+ mov edi,r12d
  sub rsp,8
- call terrain_move
+ call crowd_move
  add rsp,8
  movss [rbx+ENTITY_X],xmm0
  movss [rbx+ENTITY_Z],xmm1
@@ -674,6 +677,7 @@ sim_checksum:
  call vehicle_hash
  call air_hash
  call nav_hash
+ call crowd_hash
  call hazard_hash
  add rsp,8
  jmp player_hash
