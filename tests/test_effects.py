@@ -19,7 +19,11 @@ for side in (0,1):
     for front in range(3):assert lib.sim_order(side,front,1)==0
 assert lib.player_join(0,0)==0
 player=(C.c_float*16).in_dll(lib,'sim_players');player[0],player[1],player[2]=3500.,22.8,2000.
+cooldown=(C.c_uint*32768).in_dll(lib,'sim_shell_cooldown')
+# Initial one-tick cooldown reserves this explicit shell while building the grid.
+cooldown[12]=1
 lib.sim_tick();lib.effects_update(0,.01)
+assert cooldown[12]==0
 assert lib.projectile_spawn(12,16)==0
 for _ in range(25):lib.sim_tick()
 assert any(e.kind==3 and e.sequence for e in events)
