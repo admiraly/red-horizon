@@ -26,7 +26,7 @@ with the actual rendered eye position and set this uniform before drawing the
 HUD. The indicator remains visible in the tactical map for a living player.
 The actor visibility census excludes HUD rendering as before.
 
-Worker verification: `python3 tests/test_hazard_warning.py --nasm PATH` compiles
+Adapter verification: `python3 tests/test_hazard_warning.py --nasm PATH` compiles
 and executes the actual assembly adapter against a perception stub. It checks
 query coordinates/side, cardinal and behind-camera bearings, finite guards,
 bounds, absence/death/disconnect reset, slot guards, success-only cosmetic
@@ -41,3 +41,25 @@ recorded sound asset in this change. Weapon-specific spotting/designation and
 blast-area world overlays remain separate work. Production hazard and paired
 visible/hidden OpenGL evidence must be recorded by integration before claiming
 player-facing warnings work end to end.
+
+Production GL verification is provided separately by
+`python3 tests/test_hazard_warning_gl.py PATH_TO_FROZEN_CLIENT --artifacts DIR`.
+The development-only preload resets a 32-entity fixture through `sim_init`,
+places one living artillery source behind a living player's actual eye, invokes
+`projectile_launch` and four physical `projectile_tick` steps, then rebuilds
+predictions with `hazard_tick`. It does not write the hazard cache or HUD flag.
+Only fixed fixture poses and private cosmetic pools are controlled; actual
+production launch, trajectory, prediction, local query, wrapper and GLSL execute.
+A matching friendly-shell run must produce a zero HUD vector. Both frozen
+render runs must preserve `sim_checksum` and fixed tick counters. The pixel
+oracle rejects changes outside the compact HUD strip and retains paired raw PPMs
+plus the exact binary hash in its report when `--artifacts` is supplied.
+
+On the worker's frozen integration draft, this oracle passed with 2,284 changed
+pixels confined to x461–818/y57–90 at 1280×720. The enemy vector was
+`[1, 0.500004828, 0.433333337, 35]`, versus all zeros for the friendly shell.
+The eye was `[3500, 22.7999992, 2000]`. Within each run the authoritative hash
+and simulation/local tick counters were unchanged. This is an end-to-end
+software-OpenGL warning proof, not target-GPU performance, warning network
+replication, incoming audio, or a production battlefield quality judgement.
+The final integrator must rerun the oracle against its own frozen checkpoint.
