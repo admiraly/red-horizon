@@ -1,0 +1,106 @@
+{
+  "objective_status": "active; complete specification not achieved",
+  "source_commit": "a0d2a8c756a638c695c6f5f3003352535890abf2",
+  "jobs": {
+    "extended": {
+      "job_id": "a87c322acfd7",
+      "result": {
+        "job_id": "a87c322acfd7",
+        "exit_code": 0,
+        "revision": "a0d2a8c756a638c695c6f5f3003352535890abf2-4ad0c46d5ba5dfef",
+        "seconds": 224.8289968279987,
+        "status": "passed"
+      },
+      "log_sha256": "1b15742dd216a58958d6195d53c284b1c76c21230f7206e640aa91f47bb93a72",
+      "authored_input_count": 120,
+      "all_authored_inputs_match_checkout": true
+    },
+    "front_cpu": {
+      "job_id": "35ef749ead17",
+      "result": {
+        "job_id": "35ef749ead17",
+        "exit_code": 0,
+        "revision": "a0d2a8c756a638c695c6f5f3003352535890abf2-4ad0c46d5ba5dfef",
+        "seconds": 3.1376891449999675,
+        "status": "passed"
+      },
+      "log_sha256": "05d1b822334aa0bd5ae394ca4513d18e35cc0a7cad8ae648a7bc252100169e13",
+      "authored_input_count": 120,
+      "all_authored_inputs_match_checkout": true
+    },
+    "hotspot_cpu": {
+      "job_id": "1fc457f9874b",
+      "result": {
+        "job_id": "1fc457f9874b",
+        "exit_code": 0,
+        "revision": "a0d2a8c756a638c695c6f5f3003352535890abf2-4ad0c46d5ba5dfef",
+        "seconds": 2.8310997299995506,
+        "status": "passed"
+      },
+      "log_sha256": "f40c071fd797efbb2acc79ea99deb6d14cfa474f942b9c726181db2fc6b628be",
+      "authored_input_count": 120,
+      "all_authored_inputs_match_checkout": true
+    },
+    "hotspot_gpu": {
+      "job_id": "1b6ddac82f8c",
+      "result": {
+        "job_id": "1b6ddac82f8c",
+        "exit_code": 0,
+        "revision": "a0d2a8c756a638c695c6f5f3003352535890abf2-4ad0c46d5ba5dfef",
+        "seconds": 3.903996928998822,
+        "status": "passed"
+      },
+      "log_sha256": "32d665f71654e8d6e26e848e40bc58def4dfa7ab602013599de97c1b9939be43",
+      "authored_input_count": 120,
+      "all_authored_inputs_match_checkout": true
+    },
+    "front_gpu": {
+      "job_id": "6718dda3bc94",
+      "result": {
+        "job_id": "6718dda3bc94",
+        "exit_code": 0,
+        "revision": "a0d2a8c756a638c695c6f5f3003352535890abf2-4ad0c46d5ba5dfef",
+        "seconds": 3.813288000999819,
+        "status": "passed"
+      },
+      "log_sha256": "7ffa051d408cdf7b0403f9bf6b94320cfabc506426c09a6f2898fcea23ecf815",
+      "authored_input_count": 120,
+      "all_authored_inputs_match_checkout": true
+    }
+  },
+  "extended_json_suite_reports": 40,
+  "worker_patches": {
+    "scenario": "f00ef3fc8cfdc176909a23fbd6be86ec9aa11314",
+    "cli": "0ad0512",
+    "driver": "6431797",
+    "independent_oracle": "d800a64"
+  },
+  "all_workers_reconciled": true,
+  "routine_checks": {
+    "fast_exit_code": 0,
+    "dense_client_exit_code": 0,
+    "battle_metrics_exit_code": 0,
+    "dense_driver_cases": 9
+  },
+  "artifact_sha256": {
+    "dense-front_cpu.json": "d4bac43156648f4f1c45f23264876252723bd0133b08e6c1240eb36c9abbba3f",
+    "dense-hotspot_gpu.png": "fdce0a5caaefc2e522866fbe1d07a103586ed9e1ba869386cf0dc517863f114d",
+    "dense-extended-suites.json": "c008be32b754c510f7751d984b7b583866b26b4b7c3d4fc69ab424c0fa30cd40",
+    "dense-hotspot_gpu.json": "098051f5717cd17cf71c095b064e9961b1adab4f61442b7504c399bd3452b80b",
+    "dense-front_gpu.png": "f268f32cba82791d337679cd4fe3b8840af0de139fb1e7b32da8424e670734bf",
+    "dense-projectile-pressure.json": "3ac6628f3052f16371b6de1c1da8b2015ded375eaf25892ab96feeeb5c730fd2",
+    "dense-front_gpu.json": "dffcbcc25dca49559148ecd37ea5af729052b69618c17d3649190d627e690674",
+    "dense-hotspot_cpu.json": "20025eaa5d36add8dd8015f39aea8e73dd8ce64ba4fd1da986be9566b3dc36c0"
+  },
+  "limits": [
+    "Initial concentration only; regional engagement fluctuates and casualties reduce load",
+    "Actual pixel-visible and individually detailed actor census remains unmeasured",
+    "Submitted high/low/markers and independent peaks are not simultaneous visibility proof",
+    "Null ALSA routes real samples but physical listening is unverified",
+    "Cosmetic pools saturate at64effects/128trails/128audio voices; projectile pool rejects real launches",
+    "No four-rendered-client stress, Windows parity, native-thread budget, streamed world or full-operation acceptance",
+    "Hardware runs include concurrent verification and source geometry remains prototype quality; no human spectacle/fun acceptance",
+    "No remote publication; project code licence pending owner approval"
+  ],
+  "image_review": "Both real hardware final1920x1080 screenshots visually inspected: ground armor/infantry silhouettes, multiple sourced aircraft, projectiles/impacts and HUD visible. No actor-count or quality acceptance from inspection."
+}

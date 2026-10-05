@@ -28,6 +28,7 @@
 | Recorded battle explosion bank | audio worker + integrator | combat events/audio provenance | two banks share128voices; real event routing, bounded dedup, exact waveform and14asset hashes pass; log-drum/reverb surrogate, physical listening and distinct engines pending |
 | Military aircraft art, damage defense, trails, moving co-op ordnance and air-battle | four isolated workers + integrator | aircraft/render/network contracts | focused real damage, immutable cosmetics, actual GL trails and network shell, source/license and full-army scenario replay checks pass; integrated checkpoint recorded in docs/evidence/air-spectacle-session.json |
 | Crouch/jump, configurable Linux view and recorded footsteps | four isolated workers + integrator | player/input/renderer/audio contracts | real core, strict view CLI/GL and actual wire/GUI movement/audio routing checks; final frozen verification recorded in docs/evidence/player-experience-session.json |
+| Physical dense front/hotspot fixtures and frame diagnostics | four isolated workers + integrator | scenario/client contracts | frozen extendeda87c322acfd7 passed224.83s; fivejobs120matchedinputs; real regionaltargets2560/3837 and actual GL concurrentcombat/audio;1024pixel-visible census remains pending |
 | Wider vehicles, layered recorded sound pack, production art/effects | next ready | current combat batch |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
 
@@ -37,7 +38,7 @@ No milestone completion claim: M0 needs live host reload/jobs diagnostics and Wi
 
 The full requirement ledger and dependency-ready streams are in docs/spec-acceptance.md. Next high-value batches: weapon roster/data with support warnings, dynamic wreck/terrain cover with hazard responses, credible commander/squad plans and intelligence, complete production/recovery operation, streamed navigation, real runtime jobs/reload/snapshot, Windows and dense-front/hotspot4-client performance. Owner licence and human craft/playtest gates do not block independent implementation.
 
-Dense encounter continuation in progress: integrator owns contracts/integration,
+Dense encounter implementation integrated; final extended checkpoint recorded in docs/evidence/dense-encounter-session.json: integrator owns contracts/integration,
 `work/dense-scenarios` owns initial real layouts and core replay,
 `work/dense-cli` owns Linux mode parsing,
 `work/dense-driver` owns development forwarding/report scope,
@@ -46,3 +47,5 @@ Modes0/1 retain default/air-battle;2/3 are fresh8192+ front/hotspot initial layo
 Integrator adds read-only frame diagnostic peaks and real GL smoke.
 Full hotspot pixel-visible census, four-rendered-client and sustained dense battle
 acceptance remain required independently of the initial layout or model submissions.
+
+Measured next combat task: instrument launch refusals by side/role and distinguish legitimate target/loss differences from bounded-pool allocation starvation. Dense120tick actual pool records are in docs/evidence/dense-projectile-pressure.json. Both sides produce bombs/guns; some dense samples have no side1 tank rounds. No fairness/causal claim is accepted from these samples alone.

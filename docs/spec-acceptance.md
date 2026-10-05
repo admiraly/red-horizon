@@ -300,3 +300,29 @@ Section26 startup workflow is ongoing: canonical spec/instructions, preserved re
 ## Player-experience continuation supplement
 
 The audit above retains its716bbd0baseline. The later1383caf continuation implements authoritative crouch/jump, strict startup resolution/FOV/sensitivity, and an actual CC0 recorded footstep starter bank. Scoped final acceptance evidence is recorded in docs/evidence/player-experience-session.json. These improve6a/6b/12/13/17/23 but do not complete them: vault, swap, remapping/persistence, full prediction/resimulation, complete audio categories/surfaces, Windows parity and dense-hotspot performance remain outstanding. No full-spec acceptance is inferred from this supplement.
+
+## Dense encounter integration supplement
+
+The later dense scenario continuation adds production modes2/3 and independently
+checks living, physically target-valid regional ground actors in the preserved
+8192army. Initial regional engagement reaches2560front/3837hotspot; later samples
+fall and fluctuate, so this accepts an initial concentrated encounter, not a
+sustained intelligent offensive. Exact evidence is recorded separately in
+`docs/evidence/dense-encounter-session.json` after integration verification.
+
+R03/§4 gain actual named dense paths and scoped CPU/GPU diagnostics. Frame peaks
+measure submitted high/low/marker models, real projectile pools, cosmetic records
+and audio voices. A separate count tracks positive projectile/effect/audio
+co-occurrence in a frame. Peaks are independent; submissions do not prove visible
+or individually detailed pixels. The required1024visible hotspot census,
+four-rendered-client SCALE-NET, complete operation, native-thread budgets,
+physical listening and human quality/playtesting are still not accepted.
+
+Next renderer measurement must count depth-tested actor IDs from actual final
+geometry at a specified frame/camera using a separate optional ID pass. It must
+preserve authoritative state, normal geometry/LOD transforms, terrain/prop
+occlusion and normal screenshot output; classify actual source/LOD detail, avoid
+counting decorative geometry, exclude readback from the ordinary frame budget,
+and record that additional pass cost separately. Frustum eligibility alone is
+insufficient. The current mesh instance identity already contains stable actor ID,
+side and role, so no shared entity/network layout change is needed.

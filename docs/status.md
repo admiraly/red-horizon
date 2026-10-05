@@ -1,5 +1,64 @@
 # Status — Linux shared-world prototype,2026-10-05
 
+Dense encounter continuation2026-10-05: full specification goal remains active and
+unachieved. Integrated source checkpoint `a0d2a8c` adds distinct local
+`scale-front`/`scale-hotspot` fixtures, strict Linux CLI/development forwarding,
+independent real-combat oracles, read-only per-frame diagnostic reductions and
+actual GL smoke. Every fixture retains8192 real entities,4096per side and the
+unchanged role mix. Initial physical layouts concentrate2560/3840ground actors
+plus64aircraft, with normal production targeting, movement, firing and damage.
+The independent oracle counts2560/3837living regional attackers with living enemy
+ground targets inside role range and terrain LOS at tick1. Later front samples
+fall to2012/1849/1047 and hotspot to974/772/2182 at ticks8/16/30. These are initial
+concentration fixtures, not sustained intelligent offensive acceptance.
+
+Read-only battle diagnostics sample actual living/engaged/projectile counts,
+submitted high/low/marker models, effects/trails and audio voices. Independent
+peaks need not coincide; a separate frame counter requires positive projectile,
+effect and voice counts together. Actual pixel-visible or individually detailed
+actor counts remain unmeasured. The two real softwareGL120frame smoke runs use
+no runtime pose/damage writes and observe actual combat, source geometry, trails,
+impacts and recorded-bank routing. Physical audio and human craft remain unverified.
+
+Seed42 900tick headless measurements on i7-14700K report frontmean/p95
+3.218/4.245ms and hotspot2.882/4.016ms, alongside verification. Final living counts
+are2713/1953front and2428/1519hotspot, with actual attrition reducing later load;
+final engaged834/601. Projectile peak480 refuses42095/43121launch requests;
+nav pending0, repeatedfallback510100/504115 and cover choices0. Hotspot's dense
+bounded event ring loses53unobserved air events, front0; this is a measured limit.
+Neither throughput average establishes a sustained initial-density budget.
+A separate actual120tick pool census in docs/evidence/dense-projectile-pressure.json
+checks both sides producing bombs/guns and shows unequal tank occupancy in some
+samples. Target/loss differences and allocation ordering need causal tests before
+claiming either fairness or an allocation defect.
+
+ArcA770/Mesa26.2.3 actual600frame1920x1080 frontCPUmean/p95/p99
+5.585/7.707/8.545ms and hotspot5.653/7.475/8.438ms. GPUdrawmean/p95/p99 is
+0.691/0.729/1.423ms front and0.787/0.837/1.548ms hotspot. Both initial idle players
+remain alive at their authored encounter positions; no shots or host input were
+recorded. Hardware runs overlap independent verification; one thread, no excluded
+warmup, and GPUtiming excludes presentation. Actual model submission peaks are
+high70/low2777front andhigh87/low3950hotspot; these are not1024visible actor proof.
+Effects64/trails128/voices128 saturate;583front/545hotspot frames have positive
+projectile/effect/audio activity together. NullALSA verifies routing only.
+
+Frozen full extended checkpointa87c322acfd7 passed224.83s at
+`a0d2a8c756a638c695c6f5f3003352535890abf2-4ad0c46d5ba5dfef`. Its40JSONsuite
+reports include existing8k/16k replay/motion, realGL aircraft/weather/source
+animation/input/vehicle/death/redeploy, actual two-rendered-client movement/audio
+and0/50/100/150ms+jitter/loss/reorder UDP coverage, plus independent dense
+physical combat, realGL dense smoke and diagnostic/driver checks. All120authored
+runtime/content/shader/schema/tool/test inputs match this checkout and each of
+the five frozen job snapshots byte-for-byte. All five jobs passed, all four
+clean isolated workers and rootPTY checks are reconciled. Exact checksums,
+reports, artefact hashes and limits are in
+`docs/evidence/dense-encounter-session.json`.
+No remote publication in this continuation; code licence remains owner-pending.
+Next ready work: actual depth-tested actor/detail census; complete dense four-client
+operation; sparse remote aircraft interpolation; commander/hazard/crowd behavior;
+weapon/vehicle roster; streamed world, live runtime jobs/reload and Windows parity.
+Earlier paragraphs below retain historical evidence and scope.
+
 The persistent full-game goal remains active and unachieved. The complete requirement ledger is now docs/spec-acceptance.md, coveringR01–R10, specificationsections3–25, named scenarios/commands and final acceptance gates. The current continuation implements authoritative crouch/jump, configurable Linux resolution/FOV/sensitivity and actual recorded footsteps; it does not close the full operation, Windows, streamed world, live reload, weapon roster, intelligence or human playtest requirements.
 
 Ctrl crouch lowers eye to1.1m and moves2.5m/s, overriding sprint. Space triggers a grounded6m/s jump with9.8m/s² gravity, finite landing and held-key suppression. Private4x32motion state participates in replay, with generation/death/boarding resets and unchanged player64/entity32. UDPv6 acceptsbits32/64 across every layer and keeps1196byte packet cap. Genuine64actor dedicated/client movement test observes peak eye offset3.731m, exact grounded crouch and actual2.397m/s under sparse snapshots; no pose writes. Two rendered co-op clients exercise real Ctrl/Space and camera height, and verify landing plus15further server ticks while held. The one-tick visual XZ preview now preserves serverY and respects crouch speed; full timestamped input resimulation remains pending.

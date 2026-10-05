@@ -1,0 +1,187 @@
+{
+  "source_commit": "a0d2a8c756a638c695c6f5f3003352535890abf2",
+  "authority": "real assembly120ticks seed42 without players; no injected poses/events beyond named initial scenario",
+  "record_fields": "projectile.side+28 kind+32 active+52 stride64 capacity512",
+  "scope": "Independent side/kind peaks do not coincide; count actual active projectiles, not firing attempts. No damage balance/fairness acceptance.",
+  "scenarios": [
+    {
+      "scenario": "scale-front",
+      "samples": [
+        {
+          "tick": 1,
+          "active_by_side_kind": {
+            "(0, 4)": 9,
+            "(1, 4)": 20
+          }
+        },
+        {
+          "tick": 8,
+          "active_by_side_kind": {
+            "(0, 4)": 32,
+            "(1, 4)": 48,
+            "(0, 2)": 131,
+            "(1, 2)": 98,
+            "(0, 3)": 12,
+            "(0, 1)": 121,
+            "(1, 1)": 28,
+            "(1, 3)": 7
+          }
+        },
+        {
+          "tick": 16,
+          "active_by_side_kind": {
+            "(0, 4)": 69,
+            "(1, 4)": 39,
+            "(0, 3)": 22,
+            "(0, 2)": 127,
+            "(1, 2)": 92,
+            "(0, 1)": 104,
+            "(1, 1)": 13,
+            "(1, 3)": 7
+          }
+        },
+        {
+          "tick": 30,
+          "active_by_side_kind": {
+            "(0, 4)": 208,
+            "(1, 4)": 37,
+            "(0, 3)": 22,
+            "(0, 2)": 87,
+            "(1, 2)": 47,
+            "(0, 1)": 51,
+            "(1, 1)": 5,
+            "(1, 3)": 7
+          }
+        },
+        {
+          "tick": 60,
+          "active_by_side_kind": {
+            "(1, 4)": 109,
+            "(0, 4)": 226,
+            "(0, 3)": 23,
+            "(0, 2)": 12,
+            "(1, 3)": 8,
+            "(0, 1)": 32,
+            "(1, 2)": 2
+          }
+        },
+        {
+          "tick": 120,
+          "active_by_side_kind": {
+            "(0, 2)": 102,
+            "(0, 4)": 94,
+            "(0, 3)": 23,
+            "(0, 1)": 66,
+            "(1, 4)": 79,
+            "(1, 2)": 19,
+            "(1, 3)": 8
+          }
+        }
+      ],
+      "independent_side_kind_peaks": {
+        "(0, 4)": 264,
+        "(1, 4)": 141,
+        "(0, 2)": 132,
+        "(1, 2)": 98,
+        "(0, 3)": 23,
+        "(0, 1)": 123,
+        "(1, 1)": 28,
+        "(1, 3)": 8
+      },
+      "projectile_dropped": 8100,
+      "final_checksum": "0xe7311202cf49cb6"
+    },
+    {
+      "scenario": "scale-hotspot",
+      "samples": [
+        {
+          "tick": 1,
+          "active_by_side_kind": {
+            "(0, 4)": 9,
+            "(1, 4)": 20,
+            "(1, 3)": 2
+          }
+        },
+        {
+          "tick": 8,
+          "active_by_side_kind": {
+            "(0, 4)": 34,
+            "(1, 4)": 49,
+            "(1, 3)": 10,
+            "(0, 2)": 162,
+            "(1, 2)": 139,
+            "(0, 3)": 9,
+            "(0, 1)": 76
+          }
+        },
+        {
+          "tick": 16,
+          "active_by_side_kind": {
+            "(0, 4)": 46,
+            "(1, 4)": 42,
+            "(1, 3)": 10,
+            "(0, 2)": 156,
+            "(1, 2)": 133,
+            "(0, 3)": 15,
+            "(0, 1)": 76
+          }
+        },
+        {
+          "tick": 30,
+          "active_by_side_kind": {
+            "(0, 4)": 174,
+            "(1, 4)": 48,
+            "(1, 3)": 10,
+            "(0, 2)": 107,
+            "(1, 2)": 78,
+            "(0, 3)": 15,
+            "(0, 1)": 33
+          }
+        },
+        {
+          "tick": 60,
+          "active_by_side_kind": {
+            "(1, 4)": 110,
+            "(0, 4)": 234,
+            "(1, 3)": 10,
+            "(0, 2)": 14,
+            "(1, 2)": 5,
+            "(0, 1)": 43,
+            "(0, 3)": 15
+          }
+        },
+        {
+          "tick": 120,
+          "active_by_side_kind": {
+            "(1, 4)": 123,
+            "(0, 4)": 107,
+            "(0, 1)": 54,
+            "(1, 3)": 10,
+            "(0, 2)": 86,
+            "(0, 3)": 17,
+            "(1, 2)": 8
+          }
+        }
+      ],
+      "independent_side_kind_peaks": {
+        "(0, 4)": 250,
+        "(1, 4)": 126,
+        "(1, 3)": 10,
+        "(0, 2)": 162,
+        "(1, 2)": 139,
+        "(0, 3)": 17,
+        "(0, 1)": 166,
+        "(1, 1)": 12
+      },
+      "projectile_dropped": 10148,
+      "final_checksum": "0xbe46e325ab257799"
+    }
+  ],
+  "kind_legend": {
+    "1": "tank shell",
+    "2": "artillery shell",
+    "3": "air bomb",
+    "4": "air gun round"
+  },
+  "finding": "Both sides produce real bomb and gun rounds. At selected dense ticks side1 tank shells are absent while side0 occupies tank slots; unequal targets/losses and stable allocation order are possible causes. This observation does not establish unbiased allocation or identify a causal defect."
+}
