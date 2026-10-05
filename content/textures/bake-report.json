@@ -1,0 +1,35 @@
+{
+  "format": "RHTX v1",
+  "width": 512,
+  "height": 512,
+  "layers": [
+    {
+      "filename": "leafy_grass_diff_1k.jpg",
+      "layer": 0,
+      "original_sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "layer_sha256": "e9edfa6a59e19e4eb75bef9fa827cf127e4d3864f108c468d9750d53e424e44e"
+    },
+    {
+      "filename": "brown_mud_diff_1k.jpg",
+      "layer": 1,
+      "original_sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417",
+      "layer_sha256": "bdf46cbada9c9a1aa35c56d60f0067c01d8849dddfc5c25ec94ed87e23bada6f"
+    },
+    {
+      "filename": "gravel_ground_01_diff_1k.jpg",
+      "layer": 2,
+      "original_sha256": "c3a12b0e3a9399913158dd5cfa1d67ede066970acd1f99e5b89969ac13f89089",
+      "layer_sha256": "51631ef162de2033dd75e41075163465e321d4a3daf40afd226ab68d578b2cad"
+    },
+    {
+      "filename": "rocky_terrain_diff_1k.jpg",
+      "layer": 3,
+      "original_sha256": "429315865fd89c150272592f6d93def174c6f69804a565ff08e53627a885579b",
+      "layer_sha256": "6042cd385e2998dd154ac91ad1137fe5964ae5221cdac1d07bee9285db361ded"
+    }
+  ],
+  "encoding": "bottom-up RGBA8, original sRGB source color, opaque alpha",
+  "processing": "Pillow RGBA conversion; 1024 to512 Lanczos resize; vertical flip; no procedural replacement or recoloring",
+  "bytes": 4194336,
+  "sha256": "9abd8af59d55a19fb123f5d5a64dd9a16f27e653c908ac342c192d1cfaf836bc"
+}

@@ -1,0 +1,180 @@
+{
+  "version": 1,
+  "retrieved_utc": "2026-10-05T14:51:35.068629+00:00",
+  "purpose": "Original author diffuse inputs for offline terrain bake. No generated texture, PBR archive or code change.",
+  "sources": [
+    {
+      "layer": 0,
+      "id": "leafy_grass",
+      "title": "Leafy Grass",
+      "author": "Charlotte Baglioni",
+      "authors": {
+        "Charlotte Baglioni": "All"
+      },
+      "source_url": "https://polyhaven.com/a/leafy_grass",
+      "info_api_url": "https://api.polyhaven.com/info/leafy_grass",
+      "files_api_url": "https://api.polyhaven.com/files/leafy_grass",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_diff_1k.jpg",
+      "source_filename": "leafy_grass_diff_1k.jpg",
+      "filename": "leafy_grass_diff_1k.jpg",
+      "original_sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "bytes": 1195394,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "JPEG RGB",
+      "map": "Diffuse",
+      "resolution": "1k",
+      "api_md5": "0dbc071e91d6905edfcfbe8eb785a1ab",
+      "api_dimensions": [
+        2000,
+        2000
+      ],
+      "api_scale": null,
+      "license": "CC0-1.0",
+      "license_url": "https://polyhaven.com/license",
+      "license_legal_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author license page states all site assets (including textures) licensed CC0; website/API terms are distinct from asset license.",
+      "license_evidence_file": "Poly-Haven-license.html",
+      "license_evidence_sha256": "6f4f617c936d14d5a80db6a2ebec145c79277a760672501eef51bff7a0d4cbba",
+      "info_evidence_file": "leafy_grass-info.json",
+      "info_evidence_sha256": "809329078b38b9a32c5eecd9eeda8fa336cd1e4c150fb94510513b35208ff16f",
+      "files_evidence_file": "leafy_grass-files.json",
+      "files_evidence_sha256": "0eee6a1fc5d3faac3071a6c3403a0f74ade7eb33f45873a1b565d21788733299",
+      "verification": "API bytecount and MD5 match; original JPEG decodes1024x1024; visually inspected original diffuse map",
+      "palette": "Actual thin green grass blades and leafy plants with muted brown leaf litter/soil; no green tint introduced",
+      "selection_note": "Replaces rejected yellow moss/rock aerial_grass_rock. Author API classifies this source Ground & Terrain/Grass & Vegetation/Lush & Green Grass."
+    },
+    {
+      "layer": 1,
+      "id": "brown_mud",
+      "title": "Brown Mud",
+      "author": "Rob Tuytel",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "source_url": "https://polyhaven.com/a/brown_mud",
+      "info_api_url": "https://api.polyhaven.com/info/brown_mud",
+      "files_api_url": "https://api.polyhaven.com/files/brown_mud",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/brown_mud/brown_mud_diff_1k.jpg",
+      "source_filename": "brown_mud_diff_1k.jpg",
+      "filename": "brown_mud_diff_1k.jpg",
+      "original_sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417",
+      "sha256": "df3f135c899f10a3b018738343b222cbc67d13e7c76c5d8da834a3d34c984417",
+      "bytes": 501955,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "JPEG RGB",
+      "map": "Diffuse",
+      "resolution": "1k",
+      "api_md5": "b141af27b413db140818d0a4998c394c",
+      "api_dimensions": [
+        1299.996018409729,
+        1299.996018409729
+      ],
+      "api_scale": "1,3",
+      "license": "CC0-1.0",
+      "license_url": "https://polyhaven.com/license",
+      "license_legal_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author license page states all site assets (including textures) licensed CC0; website/API terms are distinct from asset license.",
+      "license_evidence_file": "Poly-Haven-license.html",
+      "license_evidence_sha256": "6f4f617c936d14d5a80db6a2ebec145c79277a760672501eef51bff7a0d4cbba",
+      "info_evidence_file": "brown_mud-info.json",
+      "info_evidence_sha256": "98c21ee85a8a40b1e44a996961da2bdd13b295d63d167893672f747c7a502a1e",
+      "files_evidence_file": "brown_mud-files.json",
+      "files_evidence_sha256": "0b2e9749418a2718e6060de1587d7263fcd214eefca5ce9edf6a9f45383805ba",
+      "verification": "API bytecount and MD5 match; original JPEG decodes1024x1024; visually inspected original diffuse map",
+      "palette": "muted gray/brown dirt"
+    },
+    {
+      "layer": 2,
+      "id": "gravel_ground_01",
+      "title": "Gravel Ground 01",
+      "author": "Rob Tuytel",
+      "authors": {
+        "Rob Tuytel": "All"
+      },
+      "source_url": "https://polyhaven.com/a/gravel_ground_01",
+      "info_api_url": "https://api.polyhaven.com/info/gravel_ground_01",
+      "files_api_url": "https://api.polyhaven.com/files/gravel_ground_01",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/gravel_ground_01/gravel_ground_01_diff_1k.jpg",
+      "source_filename": "gravel_ground_01_diff_1k.jpg",
+      "filename": "gravel_ground_01_diff_1k.jpg",
+      "original_sha256": "c3a12b0e3a9399913158dd5cfa1d67ede066970acd1f99e5b89969ac13f89089",
+      "sha256": "c3a12b0e3a9399913158dd5cfa1d67ede066970acd1f99e5b89969ac13f89089",
+      "bytes": 954257,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "JPEG RGB",
+      "map": "Diffuse",
+      "resolution": "1k",
+      "api_md5": "ee99ef89fb50cfeb198db369bb7151f0",
+      "api_dimensions": [
+        3000,
+        3000
+      ],
+      "api_scale": "3x3m",
+      "license": "CC0-1.0",
+      "license_url": "https://polyhaven.com/license",
+      "license_legal_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author license page states all site assets (including textures) licensed CC0; website/API terms are distinct from asset license.",
+      "license_evidence_file": "Poly-Haven-license.html",
+      "license_evidence_sha256": "6f4f617c936d14d5a80db6a2ebec145c79277a760672501eef51bff7a0d4cbba",
+      "info_evidence_file": "gravel_ground_01-info.json",
+      "info_evidence_sha256": "9e3b3cd08921c50379568fdba9ee569a1fd767c52599cdec9b289733ed2986ab",
+      "files_evidence_file": "gravel_ground_01-files.json",
+      "files_evidence_sha256": "548ad06e792d9ebbe62e5851a7fe941491ffa2dbd8a4c8ec2a86d744f2a6c61e",
+      "verification": "API bytecount and MD5 match; original JPEG decodes1024x1024; visually inspected original diffuse map",
+      "palette": "gray/tan aggregate"
+    },
+    {
+      "layer": 3,
+      "id": "rocky_terrain",
+      "title": "Rocky Terrain",
+      "author": "Amal Kumar",
+      "authors": {
+        "Amal Kumar": "All"
+      },
+      "source_url": "https://polyhaven.com/a/rocky_terrain",
+      "info_api_url": "https://api.polyhaven.com/info/rocky_terrain",
+      "files_api_url": "https://api.polyhaven.com/files/rocky_terrain",
+      "download_url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/rocky_terrain/rocky_terrain_diff_1k.jpg",
+      "source_filename": "rocky_terrain_diff_1k.jpg",
+      "filename": "rocky_terrain_diff_1k.jpg",
+      "original_sha256": "429315865fd89c150272592f6d93def174c6f69804a565ff08e53627a885579b",
+      "sha256": "429315865fd89c150272592f6d93def174c6f69804a565ff08e53627a885579b",
+      "bytes": 905179,
+      "dimensions": [
+        1024,
+        1024
+      ],
+      "format": "JPEG RGB",
+      "map": "Diffuse",
+      "resolution": "1k",
+      "api_md5": "306ae62c38ab1942a63e831a534875ab",
+      "api_dimensions": [
+        90000,
+        90000
+      ],
+      "api_scale": null,
+      "license": "CC0-1.0",
+      "license_url": "https://polyhaven.com/license",
+      "license_legal_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author license page states all site assets (including textures) licensed CC0; website/API terms are distinct from asset license.",
+      "license_evidence_file": "Poly-Haven-license.html",
+      "license_evidence_sha256": "6f4f617c936d14d5a80db6a2ebec145c79277a760672501eef51bff7a0d4cbba",
+      "info_evidence_file": "rocky_terrain-info.json",
+      "info_evidence_sha256": "4cb061acef45561910b40e6cc04684fb347bba66e527586b651ce21d2e24574e",
+      "files_evidence_file": "rocky_terrain-files.json",
+      "files_evidence_sha256": "c05d8c65965982bad66a5028bb5834b54559d8e4d677bbeb9ab522f93397aaa3",
+      "verification": "API bytecount and MD5 match; original JPEG decodes1024x1024; visually inspected original diffuse map",
+      "palette": "earth brown rock with mossy green patches"
+    }
+  ]
+}

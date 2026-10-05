@@ -2,12 +2,13 @@
 """Validate distributed asset hashes and generate explicit credits."""
 import hashlib,json,pathlib
 from models import validate
+from textures import validate as validate_textures
 root=pathlib.Path(__file__).resolve().parents[1]
 manifest=json.loads((root/'content/asset-manifest.json').read_text())
 lines=['# Asset credits','']
 notices=['# Third-party notices','',
     'NASM 2.16.03 is a development dependency under the BSD 2-clause licence (see upstream archive LICENSE). GCC, glibc, GLFW and OpenGL are system/toolchain dependencies, not vendored project runtime code.',
-    'Asset licences are separate from the pending project code licence. The following notices are generated from content/asset-manifest.json. Raw model sources are not distributed; the game contains the baked derivative. Pack-specific model grant evidence and downloaded licences are in content/licenses/.','']
+    'Asset licences are separate from the pending project code licence. The following notices are generated from content/asset-manifest.json. Raw model and texture sources are not distributed; the game contains baked derivatives. Pack-specific model grant evidence and downloaded licences are in content/licenses/.','']
 for a in manifest['assets']:
     p=root/a['destination']
     assert p.is_file(),p
@@ -31,4 +32,5 @@ if (root/'content/model-sources.json').exists():
         source=next(s for s in sources if s['filename']==mesh['file'])
         assert mesh['source_sha256']==source['sha256'] and mesh['role']==source['role']
     print(json.dumps({'suite':'baked-model-assets','passed':True,**validate(root/'content/models/battle.rham')}))
+if (root/'content/texture-sources.json').exists(): print(json.dumps(validate_textures(root)))
 print(f'Validated {len(manifest["assets"])} asset(s)')

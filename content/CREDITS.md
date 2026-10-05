@@ -35,3 +35,19 @@ Licence: https://creativecommons.org/publicdomain/zero/1.0/
 Structure_1.blend from Toon Shooter Game Kit by Quaternius (CC0-1.0), simplified and baked for RED HORIZON. Credit provided voluntarily.
 Source: https://quaternius.com/packs/toonshootergamekit.html
 Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Leafy Grass by Charlotte Baglioni via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/leafy_grass
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Brown Mud by Rob Tuytel via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/brown_mud
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Gravel Ground 01 by Rob Tuytel via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/gravel_ground_01
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Rocky Terrain by Amal Kumar via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/rocky_terrain
+Licence: https://creativecommons.org/publicdomain/zero/1.0/

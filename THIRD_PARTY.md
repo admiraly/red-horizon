@@ -1,7 +1,7 @@
 # Third-party notices
 
 NASM 2.16.03 is a development dependency under the BSD 2-clause licence (see upstream archive LICENSE). GCC, glibc, GLFW and OpenGL are system/toolchain dependencies, not vendored project runtime code.
-Asset licences are separate from the pending project code licence. The following notices are generated from content/asset-manifest.json. Raw model sources are not distributed; the game contains the baked derivative. Pack-specific model grant evidence and downloaded licences are in content/licenses/.
+Asset licences are separate from the pending project code licence. The following notices are generated from content/asset-manifest.json. Raw model and texture sources are not distributed; the game contains baked derivatives. Pack-specific model grant evidence and downloaded licences are in content/licenses/.
 
 Gunshot recording by Vincent Sevedge (Tabasco), CC-BY-3.0, edited for RED HORIZON.
 Source: https://opengameart.org/content/gunshot-sounds
@@ -37,4 +37,20 @@ Licence: https://creativecommons.org/publicdomain/zero/1.0/
 
 Structure_1.blend from Toon Shooter Game Kit by Quaternius (CC0-1.0), simplified and baked for RED HORIZON. Credit provided voluntarily.
 Source: https://quaternius.com/packs/toonshootergamekit.html
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Leafy Grass by Charlotte Baglioni via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/leafy_grass
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Brown Mud by Rob Tuytel via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/brown_mud
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Gravel Ground 01 by Rob Tuytel via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/gravel_ground_01
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Rocky Terrain by Amal Kumar via Poly Haven (CC0-1.0), resized and packed for RED HORIZON. Credit provided voluntarily.
+Source: https://polyhaven.com/a/rocky_terrain
 Licence: https://creativecommons.org/publicdomain/zero/1.0/
