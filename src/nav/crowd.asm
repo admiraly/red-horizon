@@ -369,6 +369,7 @@ crowd_move:
  mov eax,[rsp+100]
  cmp [rsp+80],eax
  jle .cell_z
+ mov edi,[rsp+68]
  call .account
  cmp dword [rsp+112],0
  je .desired_direction
@@ -550,12 +551,14 @@ crowd_move:
  movss xmm1,[rsp+40]
  jmp .out
 .truncated:
+ mov edi,[rsp+68]
  call .account
  inc qword [crowd_metrics+48]
  inc qword [crowd_metrics+32]
  jmp .unchanged
 .account:
- mov eax,[rsp+76]
+ ; Explicit inspected-record argument; CALL shifts the caller frame by8.
+ mov eax,edi
  add [crowd_metrics+16],rax
  cmp rax,[crowd_metrics+56]
  jbe .account_done

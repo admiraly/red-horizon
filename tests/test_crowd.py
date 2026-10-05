@@ -189,6 +189,13 @@ for start,goal,blocker,ticks in (((3978,1094),(4030,1094),(4000,1094),240),
 reset([(1000,1000),(1001.3,1000)])
 entities[1].gen+=1
 assert move(0,(1010,1000))[0]>1000.11
+# Counter accounting depends on inspected records, never the grid coordinate.
+# Same relative query translated over three unrelated grid rows has exactly2
+# inspected records (one nearby body and one distant record in an adjacent cell).
+for z in (80,1000,7200):
+    reset([(1000,z),(1006,z),(1008,z+8)])
+    before=list(metrics);move(0,(1010,z))
+    assert metrics[2]-before[2]==2 and metrics[7]==2,(z,list(metrics))
 # Saturated local query: bounded inspection and explicit conservative yield.
 reset([(1000,1000) for _ in range(32768)])
 p=move(0,(1010,1000));assert p==(1000,1000)
