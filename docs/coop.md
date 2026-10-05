@@ -31,7 +31,7 @@ are in `src/net/schema.txt`, with assembly constants in `src/net/protocol.inc`.
 The schema fingerprint is the first 32 bits of SHA256 of that canonical file:
 `bb315959fd2e712f33722db6a3225c110444cdaffef05f09f944e63f716f3b86`.
 The content fingerprint comes from SHA256 of `content/asset-manifest.json`:
-`99af0be8365d168fb5a5e488861cbba374e100167ee94a719158b57c7ea3a507`.
+`5e4bc68ba407972644412450eff2257ecee1e97026cf1223f863d1f7bffe3d0c`.
 These truncated compatibility hashes are not authentication or cryptography.
 Version/hash mismatches are rejected before gameplay payload parsing; compatible
 changes must deliberately update the pinned canonical data and constants.

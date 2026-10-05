@@ -4,6 +4,7 @@
 default rel
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los, terrain_blocked
+extern nav_init,nav_tick,nav_entity_goal,nav_hash
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern player_init, player_tick, player_hash
 extern combat_event
@@ -126,6 +127,7 @@ sim_init:
  call operation_init
  call player_init
  call ai_init
+ call nav_init
  call projectile_init
  call vehicle_init
  call air_init
@@ -222,6 +224,7 @@ sim_tick:
  inc dword [sim_tick_count]
  sub rsp,8
  call ai_tick
+ call nav_tick
  call air_tick
  add rsp,8
  mov dword [sim_engaged],0
@@ -292,6 +295,18 @@ sim_tick:
  movss xmm3,[rbx+ENTITY_Z]
  movaps xmm4,xmm1
 .terrain_step:
+ ; Shared squad corridor supplies an intermediate goal, then the existing
+ ; swept local steering enforces actual role speed and collision safety.
+ movss [rsp+72],xmm4
+ movaps xmm0,xmm2
+ movaps xmm1,xmm3
+ mov edi,r12d
+ sub rsp,8
+ call nav_entity_goal
+ add rsp,8
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ movss xmm4,[rsp+72]
  movss xmm0,[rbx+ENTITY_X]
  movss xmm1,[rbx+ENTITY_Z]
  mov edi,[rbx+ENTITY_KIND]
@@ -607,6 +622,7 @@ sim_checksum:
  call projectile_hash
  call vehicle_hash
  call air_hash
+ call nav_hash
  add rsp,8
  jmp player_hash
 section .note.GNU-stack noalloc noexec nowrite progbits

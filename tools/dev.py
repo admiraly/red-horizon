@@ -219,6 +219,7 @@ def main():
     elif args.command=='jobs': jobs()
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
+        os.environ.setdefault('RED_HORIZON_NASM',nasm())
         suite='reload' if args.command=='reload' else args.suite
         if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects'):
             exe=build('headless'); library=BUILD/'libsim.so'
@@ -238,6 +239,7 @@ def main():
         if suite in ('all','headless','fast','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_emitters.py').exists(): execute([sys.executable,'tests/test_audio_emitters.py','--nasm',nasm()])
+        if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_battle.py').exists(): execute([sys.executable,'tests/test_audio_battle.py','--nasm',nasm()])
         if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
         if suite in ('all','headless','network') and (ROOT/'tests/test_coop.py').exists():
             server=build('coop')
@@ -250,7 +252,9 @@ def main():
             if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])
             if (ROOT/'tests/test_coop_combat.py').exists(): execute([sys.executable,'tests/test_coop_combat.py',str(server),str(library)])
         if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
-        if suite in ('all','headless','fast'): execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','headless','fast'):
+            execute([sys.executable,'tools/assets.py'])
+            if (ROOT/'tools/audio_assets.py').exists(): execute([sys.executable,'tools/audio_assets.py'])
         if suite in ('all','headless','fast') and (ROOT/'tests/test_mesh_assets.py').exists():
             mesh_object=BUILD/'mesh_asset_test.o'; mesh_library=BUILD/'libmeshassets.so'
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/mesh_assets.asm'),'-o',str(mesh_object)])

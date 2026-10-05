@@ -5,26 +5,12 @@ root=pathlib.Path(__file__).resolve().parents[1]
 a=argparse.ArgumentParser();a.add_argument('--nasm',required=True);args=a.parse_args()
 with tempfile.TemporaryDirectory(prefix='rh-audio-battle-') as directory:
  w=pathlib.Path(directory)
- fixture=w/'authority.asm';fixture.write_text('''section .bss
-global sim_players,sim_player_vehicle,sim_entities,sim_count,sim_tick_count
-sim_players: resb 256
-sim_player_vehicle: resb 16
-sim_entities: resb 1048576
-sim_count: resd 1
-sim_tick_count: resd 1
-section .text
-global sim_blast,sim_shell_contact,terrain_height,terrain_los
-sim_blast:
-sim_shell_contact:
-terrain_height:
-terrain_los:
- ret
-section .note.GNU-stack noalloc noexec nowrite progbits
-''')
  objects=[]
- for i,path in enumerate((root/'src/audio/audio.asm',root/'src/audio/emitters.asm',root/'src/sim/projectiles.asm',fixture)):
+ sources=[root/'src/audio/audio.asm',root/'src/audio/emitters.asm']
+ sources += [path for folder in ('sim','nav','ai','game') for path in (root/'src'/folder).glob('*.asm')]
+ for i,path in enumerate(sources):
   obj=w/f'{i}.o';objects.append(str(obj));subprocess.run([args.nasm,'-f','elf64','-I',str(root)+'/',str(path),'-o',str(obj)],check=True)
- shared=w/'battle.so';subprocess.run(['cc','-shared','-Wl,-Bsymbolic','-o',str(shared),*objects,'-lasound'],check=True)
+ shared=w/'battle.so';subprocess.run(['cc','-shared','-Wl,-Bsymbolic','-o',str(shared),*objects,'-lasound','-lm'],check=True)
  lib=C.CDLL(str(shared))
  lib.audio_load.argtypes=[C.c_char_p];lib.audio_load_kind.argtypes=[C.c_uint,C.c_char_p]
  lib.audio_emit_kind.argtypes=[C.c_uint]+[C.c_float]*4

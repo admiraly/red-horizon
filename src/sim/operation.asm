@@ -103,6 +103,9 @@ operation_tick:
  jae .capture
  cmp dword [rsi+ENTITY_HP],0
  je .next_entity
+ ; Airborne passes cannot occupy, contest or capture ground sites.
+ cmp dword [rsi+ENTITY_KIND],3
+ je .next_entity
  movss xmm0,[rsi+ENTITY_X]
  subss xmm0,[rbx]
  mulss xmm0,xmm0
