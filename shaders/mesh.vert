@@ -5,6 +5,7 @@ layout(location=2) in vec4 scale; // instance scale xyz,reserved
 layout(location=3) in vec4 identity; // actor ID,side(2 human),role,absolute-y flag
 layout(std430,binding=3) readonly buffer BakedSourceVertices { vec4 sourceVertex[]; };
 uniform vec3 camera;
+uniform vec4 weather;
 uniform vec2 angle;
 uniform ivec2 meshGeometry; // base vec4 offset,vertices per source frame
 uniform float meshScale;
@@ -28,7 +29,7 @@ void main(){
  vec3 world=vec3(cy*local.x+sy*local.z,local.y,-sy*local.x+cy*local.z)+pose.xyz;
  normal=vec3(cy*normal.x+sy*normal.z,normal.y,-sy*normal.x+cy*normal.z);
  if(identity.w==0)world.y+=height(pose.xz);
- float light=.35+.65*max(0.,dot(normal,normalize(vec3(.35,.85,-.2))));
+ float light=mix(.35,.58,weather.y)+mix(.65,.22,weather.y)*max(0.,dot(normal,normalize(vec3(.35,.85,-.2))));
  colour=mix(material,team,.22)*light;
  if(identity.y==2)colour=mix(material,team,.35)*light;
  if(meshMode==1)colour=team;

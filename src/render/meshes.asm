@@ -2,6 +2,7 @@
 default rel
 %include "schemas/entity.inc"
 %include "schemas/player.inc"
+extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
@@ -263,6 +264,8 @@ meshes_draw:
  call .update_motion
  mov edi,[mesh_program]
  call glUseProgram wrt ..plt
+ mov edi,[mesh_program]
+ call environment_apply
  mov edi,[mesh_vao]
  call glBindVertexArray wrt ..plt
  mov edi,0x8892

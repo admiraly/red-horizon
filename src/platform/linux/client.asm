@@ -3,6 +3,7 @@ default rel
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
 global main
+extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
 extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
@@ -32,13 +33,15 @@ extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
 title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3 advance/hold/retreat | ESC quit',0
+weather_opt: db '--weather',0
+weather_suffix: db '%s | WEATHER %s (F4 cycle)',0
 frames_opt: db '--frames',0
 shot_opt: db '--screenshot',0
 map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -200,6 +203,8 @@ cos_yaw: resd 1
 shader_status: resd 1
 source_ptr: resq 1
 log: resb 4096
+weather_down: resd 1
+weather_title_buf: resb 768
 title_buf: resb 384
 net_title_buf: resb 640
 glfw_version: resd 3
@@ -272,7 +277,7 @@ main:
  lea rsi,[port_opt]
  call strcmp
  test eax,eax
- jnz .helparg
+ jnz .weatherarg
  inc ebx
  cmp ebx,r12d
  jge .fail
@@ -283,6 +288,23 @@ main:
  cmp eax,65535
  ja .fail
  mov [server_port],eax
+ jmp .nextarg
+.weatherarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[weather_opt]
+ call strcmp
+ test eax,eax
+ jnz .helparg
+ inc ebx
+ cmp ebx,r12d
+ jge .fail
+ mov rdi,[r13+rbx*8]
+ call environment_parse
+ test eax,eax
+ js .fail
+ mov edi,eax
+ mov esi,1
+ call environment_select
  jmp .nextarg
 .helparg:
  mov rdi,[r13+rbx*8]
@@ -466,6 +488,9 @@ main:
  call glfwGetCursorPos
  call glfwGetTime
  movsd [last_time],xmm0
+ call environment_init
+ test eax,eax
+ jnz .destroyfail
  call meshes_init
  test eax,eax
  jnz .destroyfail
@@ -525,6 +550,10 @@ main:
  subss xmm5,xmm4
  movaps xmm4,xmm5
  call audio_scene_update
+ movss xmm0,[frame_delta]
+ call environment_step
+ mov edi,[program]
+ call environment_apply
  call update_visual
  mov edi,[local_player]
  movss xmm0,[frame_delta]
@@ -580,6 +609,20 @@ main:
  cvtsi2ss xmm3,ecx
 .vehicleuniform:
  call glUniform4f
+ cmp dword [tactical],0
+ jne .skyskip
+ mov edi,0xb71
+ call glDisable
+ mov edi,[terrain_loc]
+ mov esi,9
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,3
+ call glDrawArrays
+ mov edi,0xb71
+ call glEnable
+.skyskip:
  mov edi,[terrain_loc]
  mov esi,1
  call glUniform1i
@@ -664,6 +707,16 @@ main:
  mov edx,6
  mov ecx,64
  call glDrawArraysInstanced
+ cmp dword [tactical],0
+ jne .rainskip
+ mov edi,[terrain_loc]
+ mov esi,10
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,3072
+ call glDrawArrays
+.rainskip:
  mov edi,1
  call glDepthMask
  mov edi,0xbe2
@@ -918,6 +971,17 @@ update_input:
 .tabup:
  mov dword [tab_down],0
 .orders:
+ KEY 293
+ test eax,eax
+ jz .weatherup
+ cmp dword [weather_down],0
+ jne .weatherdone
+ call environment_cycle
+ mov dword [weather_down],1
+ jmp .weatherdone
+.weatherup:
+ mov dword [weather_down],0
+.weatherdone:
  mov ebx,290
 .frontloop:
  mov rdi,[window]
@@ -1146,12 +1210,12 @@ update_input:
  add rsp,32
  mov rdi,[window]
  lea rsi,[net_title_buf]
- call glfwSetWindowTitle
+ call set_weather_title
  jmp .titlereturn
 .localtitle:
  mov rdi,[window]
  lea rsi,[title_buf]
- call glfwSetWindowTitle
+ call set_weather_title
 .titlereturn:
  xor eax,eax
  pop rbx
@@ -1754,3 +1818,27 @@ screenshot:
  pop rbx
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits
+
+section .text
+; Append cosmetic preset name without changing gameplay/UI state.
+set_weather_title:
+ push rbx
+ push r12
+ sub rsp,8
+ mov rbx,rdi
+ mov r12,rsi
+ call environment_name
+ mov r8,rax
+ mov rcx,r12
+ lea rdi,[weather_title_buf]
+ mov esi,768
+ lea rdx,[weather_suffix]
+ xor eax,eax
+ call snprintf
+ mov rdi,rbx
+ lea rsi,[weather_title_buf]
+ call glfwSetWindowTitle
+ add rsp,8
+ pop r12
+ pop rbx
+ ret
