@@ -11,7 +11,7 @@ root=pathlib.Path(__file__).resolve().parents[1]
 a=argparse.ArgumentParser();a.add_argument('--nasm',required=True);args=a.parse_args()
 with tempfile.TemporaryDirectory(prefix='rh-audio-routing-') as directory:
     work=pathlib.Path(directory)
-    fixture=work/'records.asm';fixture.write_text('section .bss\nglobal sim_players,sim_player_vehicle\nsim_players: resb 256\nsim_player_vehicle: resb 16\nsection .note.GNU-stack noalloc noexec nowrite progbits\n')
+    fixture=work/'records.asm';fixture.write_text('section .bss\nglobal sim_players,sim_player_vehicle,sim_events,sim_event_sequence,sim_tick_count\nsim_players: resb 256\nsim_player_vehicle: resb 16\nsim_events: resb 8192\nsim_event_sequence: resd 1\nsim_tick_count: resd 1\nsection .note.GNU-stack noalloc noexec nowrite progbits\n')
     objects=[]
     for i,path in enumerate((root/'src/audio/audio.asm',root/'src/audio/emitters.asm',fixture)):
         obj=work/f'{i}.o';objects.append(str(obj));subprocess.run([args.nasm,'-f','elf64','-I',str(root)+'/',str(path),'-o',str(obj)],check=True)

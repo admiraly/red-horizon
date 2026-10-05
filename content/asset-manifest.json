@@ -20,6 +20,25 @@
       "recorded": true
     },
     {
+      "id": "explosion-surrogate",
+      "source_url": "https://opengameart.org/content/muffled-distant-explosion",
+      "download_url": "https://opengameart.org/sites/default/files/NenadSimic%20-%20Muffled%20Distant%20Explosion.wav",
+      "title": "Muffled Distant Explosion",
+      "author": "NenadSimic",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author asset page explicitly identifies NenadSimic and CC0; description says low pitched log drum hit with delayed reverberation. See content/licenses/explosion-license-evidence.json.",
+      "required_attribution": "Muffled Distant Explosion by NenadSimic (CC0-1.0), trimmed/resampled for RED HORIZON. Recorded log-drum explosion surrogate, not a detonation field recording. Credit provided voluntarily.",
+      "original_sha256": "13a0bf75af94ec6d332bc71cba489b573466e05c4b17288158b3d683b41de39f",
+      "derived_sha256": "975d72b65599e40a3d25cc43de012050b4568959f110b67c290ad5c00c7ed547",
+      "source_file": "content/audio/sources/muffled-distant-explosion.wav",
+      "processing": "ffmpeg -i source.wav -t 4 -ac 1 -ar 48000 -af volume=0.8,afade=t=out:st=3.5:d=0.5 -f s16le explosion.pcm; tools/audio_assets.py offline reproducibility",
+      "destination": "content/audio/explosion.pcm",
+      "format": "signed16 little-endian mono 48000 Hz",
+      "recorded": true,
+      "limitation": "Recording-derived log-drum effect with author reverberation; not actual bomb/tank/artillery/aircraft destruction recording. All explosion roles currently share one surrogate."
+    },
+    {
       "id": "model-infantry",
       "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
       "download_url": "https://drive.google.com/uc?export=download&id=1slT5WT-qgNgfogjEDd8EsJ4Mk9gSeQJh",

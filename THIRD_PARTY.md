@@ -7,6 +7,10 @@ Gunshot recording by Vincent Sevedge (Tabasco), CC-BY-3.0, edited for RED HORIZO
 Source: https://opengameart.org/content/gunshot-sounds
 Licence: https://creativecommons.org/licenses/by/3.0/
 
+Muffled Distant Explosion by NenadSimic (CC0-1.0), trimmed/resampled for RED HORIZON. Recorded log-drum explosion surrogate, not a detonation field recording. Credit provided voluntarily.
+Source: https://opengameart.org/content/muffled-distant-explosion
+Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
 Character_Soldier.blend from Toon Shooter Game Kit by Quaternius (CC0-1.0), simplified and baked for RED HORIZON. Credit provided voluntarily.
 Source: https://quaternius.com/packs/toonshootergamekit.html
 Licence: https://creativecommons.org/publicdomain/zero/1.0/

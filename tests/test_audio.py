@@ -171,6 +171,7 @@ def verify(lib, work):
     # Synthetic test data, not a claim of recorded sound quality.
     content = work / 'content/audio'
     content.mkdir(parents=True)
+    (content / 'explosion.pcm').write_bytes((ROOT / 'content/audio/explosion.pcm').read_bytes())
     (content / 'rifle.pcm').write_bytes(struct.pack('<1000h', *([200] * 1000)))
     previous_cwd = pathlib.Path.cwd()
     previous_device = os.environ.get('RH_AUDIO_DEVICE')
@@ -216,6 +217,9 @@ def verify(lib, work):
         os.environ['RH_AUDIO_DEVICE'] = 'red_horizon_missing_device'
         assert lib.audio_init() == 2, 'unavailable device is nonfatal'
         lib.audio_update()
+        lib.audio_shutdown()
+        (content / 'explosion.pcm').unlink()
+        assert lib.audio_init() == 1, 'missing explosion content is explicit failure'
         lib.audio_shutdown()
         (content / 'rifle.pcm').unlink()
         assert lib.audio_init() == 1, 'missing content is nonfatal'

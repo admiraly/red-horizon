@@ -2,12 +2,14 @@
 ; Fixed preload storage, 128 rotating voices, no hot-path allocation/file loading.
 default rel
 %define MAX_SAMPLES 192000
+%define BANK_BYTES (MAX_SAMPLES*2+2)
 %define VOICES 128
 %define BLOCK 800
 extern snd_pcm_open, snd_pcm_set_params, snd_pcm_writei, snd_pcm_close
 extern snd_pcm_avail_update, snd_pcm_recover, getenv
 section .rodata
 sample_path: db 'content/audio/rifle.pcm',0
+explosion_path: db 'content/audio/explosion.pcm',0
 device_env: db 'RH_AUDIO_DEVICE',0
 default_device: db 'default',0
 zero: dd 0.0
@@ -26,8 +28,9 @@ section .data align=16
 listener: dd 0.0,0.0,0.0
 listener_right: dd 1.0,0.0
 section .bss align=16
-samples: resb MAX_SAMPLES*2+2
-sample_count: resq 1
+samples: resb BANK_BYTES*2
+sample_count: resq 2
+voice_bank: resd VOICES
 positions: resd VOICES
 next_voice: resd 1
 voice_spatial: resd VOICES
@@ -49,11 +52,20 @@ mix_buffer: resw BLOCK*2
 section .text
 global audio_init, audio_shot, audio_update, audio_shutdown
 global audio_load, audio_mix, audio_active
-global audio_listener, audio_emit, audio_mix_stereo
+global audio_listener, audio_emit, audio_emit_kind, audio_load_kind, audio_mix_stereo
 ; audio_load(RDI=path) -> EAX 0 success / 1 invalid/unreadable.
 ; Preload only, calls prohibited while mixer executes. Invalid load disables shots.
 audio_load:
-    mov qword [sample_count],0
+    mov rsi,rdi
+    xor edi,edi
+; audio_load_kind(EDI bank0/1,RSI path), preload resets voice pool.
+audio_load_kind:
+    cmp edi,1
+    ja .bad
+    mov r10d,edi
+    mov rdi,rsi
+    lea rax,[sample_count]
+    mov qword [rax+r10*8],0
     mov qword [pending],0
     mov eax,2
     xor esi,esi
@@ -67,7 +79,10 @@ audio_load:
     xor eax,eax
     mov rdi,r8
     lea rsi,[samples]
+    imul rax,r10,BANK_BYTES
+    add rsi,rax
     add rsi,r9
+    xor eax,eax
     mov edx,MAX_SAMPLES*2+2
     sub rdx,r9
     syscall
@@ -87,7 +102,8 @@ audio_load:
     test r9b,1
     jnz .bad
     shr r9,1
-    mov [sample_count],r9
+    lea rax,[sample_count]
+    mov [rax+r10*8],r9
     lea rdi,[positions]
     mov eax,-1
     mov ecx,VOICES
@@ -115,6 +131,11 @@ audio_init:
     sub rsp,24
     lea rdi,[sample_path]
     call audio_load
+    test eax,eax
+    jnz .done
+    mov edi,1
+    lea rsi,[explosion_path]
+    call audio_load_kind
     test eax,eax
     jnz .done
     lea rdi,[device_env]
@@ -161,6 +182,8 @@ audio_shot:
     push rbp
     mov rbp,rsp
     call allocate_voice
+    lea rdx,[voice_bank]
+    mov dword [rdx+rax*4],0
     lea rdx,[voice_spatial]
     mov dword [rdx+rax*4],0
     lea rdx,[gain_left]
@@ -178,10 +201,14 @@ allocate_voice:
     mov ecx,[rdx+rax*4]
     test ecx,ecx
     js .free
-    cmp rcx,[sample_count]
+    lea rdx,[voice_bank]
+    mov r11d,[rdx+rax*4]
+    lea rdx,[sample_count]
+    cmp rcx,[rdx+r11*8]
     jae .free
     inc qword [audio_replaced]
 .free:
+    lea rdx,[positions]
     inc qword [audio_submitted]
     mov dword [rdx+rax*4],0
     lea ecx,[rax+1]
@@ -245,10 +272,14 @@ audio_listener:
     pop rbp
     ret
 ; emit(XMM0=x,XMM1=y,XMM2=z,XMM3=gain)->0 submitted/1 culled/-1 invalid.
-; Fixed recorded rifle only. No travel-delay/occlusion/material effect is implied.
+; Bank0 rifle / bank1 recorded explosion surrogate. No travel delay/occlusion.
 audio_emit:
+    xor edi,edi
+audio_emit_kind:
     push rbp
     mov rbp,rsp
+    cmp edi,1
+    ja .bad
     call valid_position
     test eax,eax
     jnz .bad
@@ -257,7 +288,8 @@ audio_emit:
     jb .bad
     ucomiss xmm3,[one]
     ja .bad
-    cmp qword [sample_count],0
+    lea rax,[sample_count]
+    cmp qword [rax+rdi*8],0
     je .bad
     movaps xmm4,xmm0
     subss xmm4,[listener]
@@ -275,6 +307,8 @@ audio_emit:
     ucomiss xmm3,[minimum_gain]
     jb .cull
     call allocate_voice
+    lea rdx,[voice_bank]
+    mov [rdx+rax*4],edi
     lea rdx,[voice_spatial]
     mov dword [rdx+rax*4],1
     lea rdx,[voice_x]
@@ -308,7 +342,10 @@ prepare_gains:
     mov eax,[r8+r10*4]
     test eax,eax
     js .next
-    cmp rax,[sample_count]
+    lea rdx,[voice_bank]
+    mov ecx,[rdx+r10*4]
+    lea rdx,[sample_count]
+    cmp rax,[rdx+rcx*8]
     jae .next
     cmp dword [r9+r10*4],0
     je .next ; legacy local shot remains full gain in both channels
@@ -407,8 +444,14 @@ audio_mix_stereo:
     mov eax,[r8+r10*4]
     test eax,eax
     js .next
-    cmp rax,[sample_count]
+    lea r9,[voice_bank]
+    mov r9d,[r9+r10*4]
+    lea rdx,[sample_count]
+    cmp rax,[rdx+r9*8]
     jae .retire
+    imul r9,r9,BANK_BYTES
+    lea rdx,[samples]
+    add r9,rdx
     inc dword [r8+r10*4]
     lea rdx,[gain_left]
     mov ecx,[rdx+r10*4]
@@ -478,8 +521,16 @@ audio_mix:
     mov eax,[r8+r10*4]
     test eax,eax
     js .next
-    cmp rax,[sample_count]
+    lea r9,[voice_bank]
+    mov r9d,[r9+r10*4]
+    lea r8,[sample_count]
+    cmp rax,[r8+r9*8]
+    lea r8,[positions]
     jae .retire
+    imul r9,r9,BANK_BYTES
+    lea r8,[samples]
+    add r9,r8
+    lea r8,[positions]
     movsx eax,word [r9+rax*2]
     add edx,eax
     inc dword [r8+r10*4]
@@ -517,7 +568,10 @@ audio_active:
     mov esi,[rdx+rcx*4]
     test esi,esi
     js .next
-    cmp rsi,[sample_count]
+    lea r8,[voice_bank]
+    mov r8d,[r8+rcx*4]
+    lea r9,[sample_count]
+    cmp rsi,[r9+r8*8]
     jae .next
     inc eax
 .next:
@@ -582,6 +636,7 @@ audio_shutdown:
 .done:
     mov qword [pcm],0
     mov qword [sample_count],0
+    mov qword [sample_count+8],0
     mov qword [pending],0
     pop rbp
     ret

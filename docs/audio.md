@@ -15,7 +15,7 @@ Client ABI, Linux SysV AMD64:
   samples; other ALSA errors request native recovery. Call before shutdown.
 - `audio_shutdown() -> void`: close device, disable shots, discard pending output.
 
-The module preloads `content/audio/rifle.pcm`: raw signed 16-bit little-endian,
+The module preloads `content/audio/rifle.pcm` and `content/audio/explosion.pcm`: raw signed 16-bit little-endian,
 mono, 48 kHz. It rejects empty, odd-length, unreadable, and over-384000-byte files.
 The maximum is 192000 samples (four seconds). This raw format has no header:
 conversion and rate/channel verification belong to the development content tool.
@@ -38,8 +38,8 @@ These functions preserve SysV nonvolatile registers. Do not preload while mixing
 
 Mixing sums each active signed16 sample into a signed32 accumulator, advances
 independent voice positions, and clamps the final sample to `[-32768,32767]`.
-The pool capacity bounds the accumulator. Memory is static: 384002 bytes of
-sample storage, 4096 bytes of voice metadata/gains, and a 3200-byte stereo output buffer.
+The pool capacity bounds the accumulator. Memory is static: 768004 bytes of
+sample storage, 4608 bytes of voice metadata/gains, and a 3200-byte stereo output buffer.
 There are no pointers into temporary sample storage or dynamic voice allocations.
 
 Verify with the development-only Python driver:
@@ -60,7 +60,7 @@ quality or audible output on a physical device.
 
 Limitations: no physical-device capture/listening test yet; no terrain occlusion,
 travel delay, voice prioritization,
-streaming, per-voice gain, fades, effects, or measured callback/device latency.
+streaming, fades, effects, or measured callback/device latency.
 Hard voice replacement and clipping can be audible under saturation. The fixed
 800-frame pump requires adequate scheduling frequency; long client stalls can
 underrun. ALSA recovery is implemented, but forced underrun/EAGAIN/partial-write
@@ -127,3 +127,65 @@ Wider recorded content categories, occlusion, travel delay, fades, prioritizatio
 streaming, physical listening, and Windows output remain incomplete.
 
 `src/audio/emitters.asm` routes actual remote rifle shot-counter changes to spatial voices. `audio_scene_update(EDI=localplayer,XMM0..4=listenerXYZ,rightXZ)` establishes join/redeployment baselines, excludes the local weapon and boarded cannon users, collapses skipped snapshots to at most one current shot per remote player/frame, and never writes gameplay records. Unit routing tests use the licensed recorded PCM and verify panning, generation/frame deduplication, disconnected baselines and culling. The graphical client calls this after camera reconciliation; actual rendered co-op tests check local recorded submissions and distant remote culling. broader tank/artillery/engine recordings remain absent.
+
+
+## Battle audio banks and authoritative routing (2026-10-06)
+
+There remains one shared physical pool of 128 voices. Each voice selects one of
+two preloaded banks, with its cursor, retirement, active count, and replacement
+check based on that bank's length. Both the mono reference and stereo spatial
+mixers use the selector; no file/device/allocation calls occur in either mixer.
+`audio_emit` and `audio_shot` preserve the rifle ABI and always select bank 0.
+`audio_emit_kind(EDI=bank, XMM0/1/2=xyz, XMM3=gain)` selects bank 0 rifle or bank 1
+explosion, returning the same 0 submitted / 1 culled / -1 invalid-or-missing result.
+Invalid bank IDs fail. `audio_load_kind(EDI=bank, RSI=path)` is a development/preload
+interface; each successful preload resets the shared voice pool and diagnostics.
+Failed preload disables only that bank. Never call a preload while mixing.
+`audio_init` now requires both files; missing or malformed explosion content
+returns 1 before opening a device. There is no fallback pretending content loaded.
+
+The explosion bank is NenadSimic's CC0 **Muffled Distant Explosion**, sourced from
+[OpenGameArt](https://opengameart.org/content/muffled-distant-explosion). The author
+describes a low-pitched log-drum hit with delayed reverberation. It is a
+recording-derived explosion surrogate, **not a field recording of a detonation**.
+The source WAV is retained in `content/audio/sources/`; author/license/description,
+source hash and conversion version are in `content/licenses/explosion-license-evidence.json`.
+`python3 tools/audio_assets.py` reproduces the 4-second mono 48-kHz signed16 bank
+from the source offline using ffmpeg and checks both manifest hashes.
+All impact/destruction roles share this one sample. Aircraft guns use the existing
+licensed rifle recording as a surrogate, not a recorded aircraft cannon.
+
+`audio_scene_update` consumes actual `sim_events` records of kinds 3/4/5 (tank and
+artillery impact, vehicle destroyed), 7 (bomb impact), and 9 (aircraft destroyed)
+into bank 1, and kind 8 (air gun) into bank 0. Launch events remain silent.
+It checks exact sequence identity, consumes at most the latest 256 records per
+frame, ignores records older than 15 simulation ticks (0.5 seconds at 30 Hz),
+rejects future ticks, deduplicates repeated render frames, and baselines sequence
+resets. It never writes simulation/player records. Sources additionally pass the
+existing finite-world/gain/distance checks. `audio_battle_events` and
+`audio_airgun_events` count successful event submissions; `audio_event_cursor`
+exposes the consumed authority sequence. None of these counters measure audible
+physical-device output.
+
+Verified with actual assembly/shared linking and ALSA null, alongside existing
+rifle and remote-player tests:
+
+```sh
+python3 tests/test_audio.py --nasm .tools/nasm/nasm
+python3 tests/test_audio_emitters.py --nasm .tools/nasm/nasm
+python3 tests/test_audio_battle.py --nasm .tools/nasm/nasm
+python3 tools/audio_assets.py
+python3 tools/assets.py
+```
+
+The battle test verifies exact 800-frame source-derived bank waveforms,
+mono/stereo overlap without bank crosstalk, bank-length retirement/replacement,
+shared 128-voice saturation, malformed/missing banks, real assembly `combat_event`
+ring routing, 360 repeated-frame deduplication, authority immutability,
+stale/future/overwritten event rejection, distance culling, a 300-event backlog
+limited to the latest 256, and reset recovery. Synthetic amplitudes are test
+fixtures only; distributed playback is sourced PCM. Existing audio profiling
+measured 128 rifle voices × 800 stereo frames over 20 blocks: mean 0.250468 ms,
+p95 0.259123 ms on this host (single test sample, not an audio latency claim).
+No physical-device listening/capture, explosion travel delay, occlusion,
+aircraft-engine loop, or distinct bomb/artillery/tank samples is established.
