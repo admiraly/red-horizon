@@ -30,7 +30,10 @@ rebuild behavior, not a stale-snapshot API rejection (which needs a kernel probe
 Aircraft continue their own production flight; label invariance checks only ground
 movement because the faction patrol policy differs. This companion case is weaker
 than the isolated kernel proof that an overhead aircraft never enters the body grid.
-Each case runs twice identically plus a physical label swap.
+Each case runs twice identically plus a physical label swap. Complete per-tick
+ground pose trace hashes must match across that swap, not merely final endpoints.
+The legacy control must reproduce body traversal in all ten body fixtures and
+stacked final convoy/cohort outcomes, rather than only print diagnostics.
 
 Both actual dense scenario modes are measured: mode2 `scale-front`, mode3
 `scale-hotspot`, 8,192 initialized entities, seed42, 120 production ticks by default,

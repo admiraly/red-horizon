@@ -5,6 +5,7 @@ import ctypes as C
 import hashlib
 import json
 import math
+import struct
 from pathlib import Path
 
 p = argparse.ArgumentParser()
@@ -87,6 +88,7 @@ def encounter(name,records,ticks,mirror=False,overlap=False,ignore=()):
     violations=0
     progress=[]
     trace=hashlib.sha256()
+    ground_trace=hashlib.sha256()
     for tick in range(ticks):
         before={i:pos(entities[i]) for i in ids}
         if name=='generation_reuse' and tick==60:
@@ -96,6 +98,7 @@ def encounter(name,records,ticks,mirror=False,overlap=False,ignore=()):
             e=entities[i]
             trace.update(bytes(e))
             if e.kind==3: continue  # Aircraft have their own continuous production controller.
+            ground_trace.update(struct.pack("<ff",e.x,e.z))
             assert e.hp==100, (name,'combat polluted friendly movement fixture',i,e.hp)
             assert math.dist(before[i],pos(e))<=SPEED[e.kind]+.0015,(name,'speed',tick,i,before[i],pos(e))
             assert 0<=e.x<=8000 and 0<=e.z<=8000
@@ -120,6 +123,7 @@ def encounter(name,records,ticks,mirror=False,overlap=False,ignore=()):
             'initial_minimum_gap':initial_separation,'minimum_swept_gap':minimum,
             'final_minimum_gap':final_gap,'overlapping_pair_ticks':violations,
             'samples':progress,'physical_trace_sha256':trace.hexdigest(),
+            'ground_pose_trace_sha256':ground_trace.hexdigest(),
             'checksum':f'{lib.sim_checksum():016x}',
             'source_generation_change_tick':61 if name=='generation_reuse' else None}
     if not a.legacy:
@@ -156,8 +160,11 @@ for name,records,ticks,overlap,ignore in cases:
     assert row==replay,(name,'same build replay mismatch')
     mirror=encounter(name,records,ticks,True,overlap,ignore)
     ground_ids=[str(r[0]) for r in records if r[3]<3]
-    assert all(row['final'][i]==mirror['final'][i] for i in ground_ids) and row['minimum_swept_gap']==mirror['minimum_swept_gap'],(name,'label-dependent ground movement',row,mirror)
+    assert row['ground_pose_trace_sha256']==mirror['ground_pose_trace_sha256'] and all(row['final'][i]==mirror['final'][i] for i in ground_ids) and row['minimum_swept_gap']==mirror['minimum_swept_gap'],(name,'label-dependent ground movement',row,mirror)
     reports.append(row)
+if a.legacy:
+    assert all(row['overlapping_pair_ticks']>0 for row in reports if row['name']!='air_exclusion'), 'old movement stopped exposing traversal fault'
+    assert all(row['final_minimum_gap']<-.002 for row in reports if row['name'] in ('convoy','initial_overlap'))
 
 
 def close_pairs(count):

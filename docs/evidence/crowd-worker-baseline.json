@@ -4,7 +4,7 @@
   "legacy": true,
   "crowd_module_present": false,
   "library_sha256": "23f291754a6b08c7005e84d5e196d03ad69276f27581e0ffa04bf9152438829d",
-  "oracle_sha256": "a3634a078cd19ba737a40e096fe426d4d2d47e1abb624c33c07c879fcfbe298e",
+  "oracle_sha256": "b845789f4cb36cd4562612c723523cf7f1b9f9dd8ecba490e8355d5ed2e05901",
   "footprint_radii_m": [
     0.55,
     2.5,
@@ -83,6 +83,7 @@
         }
       ],
       "physical_trace_sha256": "99ac3b781efcfca6acf9c72dc7a2f3e0570b6f7ea27f25a7fc04dd9a2f9fd58e",
+      "ground_pose_trace_sha256": "b787082e7cac7d3ec1410ba238e88c0b046b286b8066ff9ac862dac581eb8f9c",
       "checksum": "b01f921c0ae31438",
       "source_generation_change_tick": null
     },
@@ -158,6 +159,7 @@
         }
       ],
       "physical_trace_sha256": "91117ba55b68b7668f07d2278750102675e54b84891eab7fc1bed046ba656b25",
+      "ground_pose_trace_sha256": "b787082e7cac7d3ec1410ba238e88c0b046b286b8066ff9ac862dac581eb8f9c",
       "checksum": "3f06e40f6bb02a65",
       "source_generation_change_tick": 61
     },
@@ -233,6 +235,7 @@
         }
       ],
       "physical_trace_sha256": "e987a1668333184fe73c7bc81d0410035964918227fcf97cfe7355e6a9a74620",
+      "ground_pose_trace_sha256": "0e4827689ed1e4629e5e119a88a550081019c6c6ef084492da3343564fb8ea05",
       "checksum": "113796ee71a4971c",
       "source_generation_change_tick": null
     },
@@ -308,6 +311,7 @@
         }
       ],
       "physical_trace_sha256": "3aab1bb8cfe2acdcb0aac6580d9c5c70f37bbc0c684457dc6660f2db54bfe483",
+      "ground_pose_trace_sha256": "c69d978daf97143bcac2c8ebc272e4f7b1be7a13f72ab4134934a969c2d6f983",
       "checksum": "90e58c9d76002a39",
       "source_generation_change_tick": null
     },
@@ -384,6 +388,7 @@
         }
       ],
       "physical_trace_sha256": "f280d84c27f3a3f6b46097e050daf0ec3ec5323dcdc31f53ae8f0079df8a83bc",
+      "ground_pose_trace_sha256": "af15129126c01697c642530252f8cbd5e76338a24b9fba98faab53ec40c1b58c",
       "checksum": "c3ab2b699a5a9317",
       "source_generation_change_tick": null
     },
@@ -523,6 +528,7 @@
         }
       ],
       "physical_trace_sha256": "07dd0a75c9a273f1714847b1cd61df4ece73c60992a6ccf6f9cfc4c485c6ad35",
+      "ground_pose_trace_sha256": "353daeeff5ed1e2a4d9a1731d467e3838dfcf2df36f4e646967ef0f8e852f9b6",
       "checksum": "79a7d90ecf78ac91",
       "source_generation_change_tick": null
     },
@@ -598,6 +604,7 @@
         }
       ],
       "physical_trace_sha256": "f8756f633031394b73bf13b6ab847f187feea440b03aef35c2aeb67c3b0436b2",
+      "ground_pose_trace_sha256": "020e584003546b3e25a42d7a77943f7570a3ade4a5623b0122ce69e5771cf1c9",
       "checksum": "fb36b450c01fdd2e",
       "source_generation_change_tick": null
     },
@@ -673,6 +680,7 @@
         }
       ],
       "physical_trace_sha256": "20c2a9bdf2146a184d5b80145fffc449c02523cd98005cb2dae4c9328ec63231",
+      "ground_pose_trace_sha256": "65b45d8f7c156a5058de4109ef2348546cb06b570eb23e2704338e1dc62882b4",
       "checksum": "31a6bb7a79f3a95c",
       "source_generation_change_tick": null
     },
@@ -812,6 +820,7 @@
         }
       ],
       "physical_trace_sha256": "162900aa2c07c56790d10f5abac414b9fcbc83f5760c58ec6ea0bfe5cc75f663",
+      "ground_pose_trace_sha256": "1cff08749f43f9ca77f3e90d2b5513ce9a6e99fcb011728b436716d68f7f936d",
       "checksum": "2ecf10ad648c6468",
       "source_generation_change_tick": null
     },
@@ -887,6 +896,7 @@
         }
       ],
       "physical_trace_sha256": "9b655e529cd52ba68ba093809432559be7466328749109ad50bdae647b088b6e",
+      "ground_pose_trace_sha256": "b369d07f827f06890e51e67756011c23c6ef8ee38cae9313ad7c4b01ceb83447",
       "checksum": "06e9f543f67c055b",
       "source_generation_change_tick": null
     },
@@ -962,6 +972,7 @@
         }
       ],
       "physical_trace_sha256": "a543daaf32ad4fda3f9c26f39da7787634fe61488410b93f0ddf3d9ffec3237f",
+      "ground_pose_trace_sha256": "94e22bccf4444a91825a0dce0a953d37218f6b5b99ef23c501881b7db977a41f",
       "checksum": "27765fdd50847ca5",
       "source_generation_change_tick": null
     }
