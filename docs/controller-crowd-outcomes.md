@@ -58,3 +58,26 @@ The census checks controller-to-army pairs, not every army mutual pair or every
 rendered mesh vertex. Planar circles do not establish limb, oriented hull, vertical,
 slope, suspension or realistic steering acceptance. Four-player rendered/co-op
 collision and target-GPU performance require separate integration evidence.
+
+Independent first-candidate review used the root's immutable
+`/tmp/rh-controller-candidate-first.so`, source snapshot
+`6944b87-1783c72d59f967f3`, library SHA256
+db19dcea2400339f6f14dc38fa9339d7f0858a71663d8f3a228cdcaffdd21c41.
+The29 controlled scenarios, four intersection arrangements and two placement
+controls passed. Both scale cases had zero new controller/army or
+controller/controller swept overlaps:219/218 near-army checks,360 controller-pair
+checks each,199/200 moving-controller ticks, and570/660 real army deaths. Slot
+physical trace invariance was false for humans and drivers; exact same-slot replay,
+input fidelity, safety and useful motion passed in both assignments. Sequential
+controller ordering is therefore a measured limitation, not a symmetry claim.
+
+A direct-public-API malformed-state negative then changed `sim_count` from32 to
+32769 after valid initialization/player join, rebuilt derived snapshots, and
+requested human source32768 to step from(3500,2000) toward(3501,2000) by0.3m.
+The first candidate returnedX3500.300048828125 rather than holdingX3500. This test
+does not run `sim_tick` or scan past entity storage. The negative establishes a
+missing fail-closed invalid-count check on the human source path; army sources
+and occupancy already rejected this count. Exact evidence is retained in
+`docs/evidence/controller-crowd-invalid-count-negative.log`. Final acceptance must
+rerun against the corrected immutable library; the first-candidate results do
+not establish malformed-count acceptance.
