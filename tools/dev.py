@@ -348,6 +348,7 @@ def main():
             for test in ('hazards','hazard_steering','hazard_outcomes'):
                 execute([sys.executable,'tests/test_'+test+'.py',str(hazard_library)])
             execute([sys.executable,'tests/test_hazard_warning.py','--nasm',nasm()])
+            execute([sys.executable,'tests/test_hazard_budget.py','--nasm',nasm()])
         if suite in ('all','headless','fast','effects') and (ROOT/'tests/test_effects.py').exists():
             effects=BUILD/'effects_test.o'; effects_library=BUILD/'libeffects.so'
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/effects.asm'),'-o',str(effects)])
