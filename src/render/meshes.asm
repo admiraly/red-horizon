@@ -2,11 +2,12 @@
 default rel
 %include "schemas/entity.inc"
 %include "schemas/player.inc"
+%include "schemas/aircraft.inc"
 extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
-extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites
+extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glUseProgram
@@ -15,6 +16,7 @@ extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
 extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUniform1f
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
+ global mesh_aircraft_pose
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
@@ -41,6 +43,7 @@ air_height: dd 90.0
 align 16
 tree_positions: dd 1900.,3720.,2100.,3740.,1800.,4150.,2250.,4100.,3450.,3500.,3550.,3530.,3650.,3520.,4500.,3700.,4600.,3730.,5500.,1300.,5520.,1330.,5500.,6500.,3000.,6100.,3020.,6120.,3300.,1700.,3370.,1730.
 section .bss
+mesh_aircraft_pose: resd 16 ; last actual aircraft instance, development diagnostics
 mesh_program: resd 1
 mesh_vao: resd 1
 instance_vbo: resd 1
@@ -503,6 +506,7 @@ meshes_draw:
  cvtsi2ss xmm0,[rbx+ENTITY_KIND]
  movss [rdi+56],xmm0
  mov dword [rdi+60],0
+ call .air_pose
  inc r15d
 .armynext:
  add rbx,32
@@ -526,6 +530,47 @@ meshes_draw:
  mov [rdi+36],eax
  mov [rdi+40],eax
  mov dword [rdi+44],0
+ ret
+; R14 stable entity index, RBX live entity, RDI finished render instance.
+; A mismatched generation must never reuse a destroyed/recycled aircraft pose.
+.air_pose:
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .air_return
+ mov eax,r14d
+ shl eax,6
+ lea rdx,[sim_aircraft]
+ add rdx,rax
+ mov eax,[rbx+ENTITY_GENERATION]
+ cmp eax,[rdx+AIR_GENERATION]
+ jne .air_done
+ test dword [rdx+AIR_FLAGS],AIR_ACTIVE
+ jz .air_done
+ mov eax,[rdx+AIR_Y]
+ mov [rdi+4],eax
+ mov eax,[rdx+AIR_HEADING]
+ mov [rdi+12],eax
+ mov eax,[rdx+AIR_PITCH]
+ mov [rdi+28],eax
+ mov eax,[rdx+AIR_BANK]
+ mov [rdi+44],eax
+ mov dword [rdi+60],0x3f800000 ; absolute aircraft height
+ cmp dword [rdx+AIR_ROLE],AIR_FIGHTER
+ jne .air_done
+ ; Existing sourced winged craft adapted to a compact interceptor silhouette.
+ mov dword [rdi+32],0x3f333333 ; .70 width
+ mov dword [rdi+36],0x3f400000 ; .75 height
+ mov dword [rdi+40],0x3f59999a ; .85 length
+ mov dword [rdi+56],0x40800000 ; role4 fighter tint/glyph
+.air_done:
+ movups xmm0,[rdi]
+ movups [mesh_aircraft_pose],xmm0
+ movups xmm0,[rdi+16]
+ movups [mesh_aircraft_pose+16],xmm0
+ movups xmm0,[rdi+32]
+ movups [mesh_aircraft_pose+32],xmm0
+ movups xmm0,[rdi+48]
+ movups [mesh_aircraft_pose+48],xmm0
+.air_return:
  ret
 .animation:
  ; Preserve authored clip frames; mode chosen from actual observed motion.
@@ -920,6 +965,7 @@ meshes_draw:
  movss [rdi+52],xmm0
  cvtsi2ss xmm0,[rbx+ENTITY_KIND]
  movss [rdi+56],xmm0
+ call .air_pose
  inc r15d
 .markernext:
  add rbx,32

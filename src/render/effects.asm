@@ -2,6 +2,7 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
+%include "schemas/aircraft.inc"
 global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor
 extern sim_players,sinf,cosf
 extern sim_player_vehicle
@@ -211,7 +212,7 @@ effects_update:
  mov eax,[rbx+EVENT_KIND]
  cmp eax,EVENT_TANK_IMPACT
  jb .eventloop
- cmp eax,EVENT_VEHICLE_DESTROYED
+ cmp eax,EVENT_AIR_DESTROYED
  ja .eventloop
  ; Age effects from the actual event tick: late packets never reignite a flash.
  mov eax,[sim_tick_count]
@@ -225,10 +226,19 @@ effects_update:
  mov edx,2
  call .impact
 .smoke:
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_GUN
+ je .countimpact
  movss xmm0,[smoke_life]
  subss xmm0,xmm2
  mov edx,3
  call .impact
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_DESTROYED
+ jne .countimpact
+ movss xmm0,[smoke_life]
+ subss xmm0,xmm2
+ mov edx,4
+ call .impact
+.countimpact:
  inc dword [effects_impacts]
  jmp .eventloop
 .reset:
@@ -254,6 +264,13 @@ effects_update:
  movss xmm1,[rbx+EVENT_RADIUS]
  maxss xmm1,[min_radius]
  minss xmm1,[max_radius]
+ cmp dword [rbx+EVENT_KIND],EVENT_BOMB_LAUNCH
+ je .launch_radius
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_GUN
+ jne .radius_ready
+.launch_radius:
+ movss xmm1,[min_radius] ; release/muzzle smoke cannot resemble a ground impact
+.radius_ready:
  movss [rdi+16],xmm1
  mov dword [rdi+20],0
  mov dword [rdi+24],0

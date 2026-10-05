@@ -1,7 +1,7 @@
 #version 450 core
 layout(location=0) in vec4 pose; // x,y,z,heading
-layout(location=1) in vec4 animation; // source frameA,frameB,blend,reserved
-layout(location=2) in vec4 scale; // instance scale xyz,reserved
+layout(location=1) in vec4 animation; // source frameA,frameB,blend,aircraft pitch
+layout(location=2) in vec4 scale; // instance scale xyz,aircraft bank
 layout(location=3) in vec4 identity; // actor ID,side(2 human),role,absolute-y flag
 layout(std430,binding=3) readonly buffer BakedSourceVertices { vec4 sourceVertex[]; };
 uniform vec3 camera;
@@ -25,6 +25,13 @@ void main(){
   normal=normalize(mix(sourceVertex[a+1].xyz,sourceVertex[b+1].xyz,animation.z)/max(scale.xyz,vec3(.0001)));
   material=mix(sourceVertex[a+2].rgb,sourceVertex[b+2].rgb,animation.z);
  }
+ // Bank about authored forward +Z, then nose-up pitch, then heading.
+ // Nonair instances keep these fields zero, preserving their source clips.
+ float cb=cos(scale.w),sb=sin(scale.w),cpAir=cos(animation.w),spAir=sin(animation.w);
+ mat3 bank=mat3(cb,sb,0,-sb,cb,0,0,0,1);
+ mat3 pitchAir=mat3(1,0,0,0,cpAir,-spAir,0,spAir,cpAir);
+ local=pitchAir*bank*local;normal=pitchAir*bank*normal;
+ if(identity.z==4.)team=mix(team,vec3(.8,.86,.9),.22);
  float cy=cos(pose.w),sy=sin(pose.w);
  vec3 world=vec3(cy*local.x+sy*local.z,local.y,-sy*local.x+cy*local.z)+pose.xyz;
  normal=vec3(cy*normal.x+sy*normal.z,normal.y,-sy*normal.x+cy*normal.z);
