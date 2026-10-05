@@ -81,3 +81,30 @@ and occupancy already rejected this count. Exact evidence is retained in
 `docs/evidence/controller-crowd-invalid-count-negative.log`. Final acceptance must
 rerun against the corrected immutable library; the first-candidate results do
 not establish malformed-count acceptance.
+
+The later full-checkpoint co-op death/redeployment failure was reproduced on
+immutable source snapshot`d70896e5fe72f59ba9fb5f92b2ca776be38bda19-9690f7ac5be055f4`,
+server SHA2567cff00b80d68a163c06755a1fba776f20621dcbf7591d598fce8ce7a6689e799
+and library SHA2561eed8319f49cedacfa0c4d41dc0e48ced9817cf7dc27dc8f366d230912cc15ca.
+The test's position-only setup collapsed all4,096 allied actorX positions onto
+X1000, which is also every owned rear deployment site'sX coordinate. During
+failed respawn attempts those sites were body-occupied. The three ownedX3000
+sites were body-clear but actual enemy aircraft inside160m had clear LOS; private
+inspection copied current aircraft state and used production`sim_entity_height`
+and`terrain_los`. Deployment correctly rejected those unsafe choices. A rear
+site eventually cleared near tick265, while the next respawn attempt was tick280,
+outside the original9-second observation window. Increasing that window would
+hide the fixture's conflicting physical assumptions.
+
+Replacing only the position write`X=1000` with a coherent`X=oldX-1800` translation
+preserves allied pair separation and distances the unrelated army from the one
+fixture threat. For initialseed42 all4,096 actors translate toX1600..2111;
+all3,840 ground bodies remain static-terrain-valid, and the nearest ground body
+is601.52m from a rear deployment site. Three independent realUDP/server runs of
+the original death/redeployment function with this single position-write change
+passed its unchanged9-second assertions and exited naturally at330ticks. HP,
+damage, respawn timers, generations, site ownership/resources and runtime code
+were unchanged. Exact condensed diagnostic snapshots and repeat results are in
+`docs/evidence/controller-crowd-coop-death-fixture-diagnosis.json`. This proposes
+a geometry correction to the integration fixture; it does not prove general
+operation recovery under every army/air threat arrangement.

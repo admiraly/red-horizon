@@ -1,0 +1,2865 @@
+{
+  "source_snapshot": "d70896e5fe72f59ba9fb5f92b2ca776be38bda19-9690f7ac5be055f4",
+  "server_sha256": "7cff00b80d68a163c06755a1fba776f20621dcbf7591d598fce8ce7a6689e799",
+  "library_sha256": "1eed8319f49cedacfa0c4d41dc0e48ced9817cf7dc27dc8f366d230912cc15ca",
+  "scope": "Private realUDP/server reproduction. Position-only fixture mutations; diagnostic SIGSTOP snapshots copied to same-build library for exact body/static/LOS classification; actual aircraft state and sim_entity_height included. Diagnostic servers killed after9s classification, separate positive verification runs natural330tick exit.",
+  "initial_geometry": {
+    "allied_actors": 4096,
+    "ground_actors": 3840,
+    "translated_x_range": [
+      1600,
+      2111
+    ],
+    "original_static_invalid": 0,
+    "translated_static_invalid": 0,
+    "nearest_ground_distance_to_x1000_owned_site_m": 601.5197419869111
+  },
+  "observations": {
+    "collapsed": [
+      {
+        "tick": 8,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 100,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 28,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 90,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 48,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 70,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 67,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 60,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 85,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 50,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 103,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 40,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 121,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 30,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 139,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 20,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4767,
+                3,
+                3153.242919921875,
+                1310.3131103515625
+              ],
+              [
+                4959,
+                3,
+                3113.52294921875,
+                1272.0562744140625
+              ],
+              [
+                5631,
+                3,
+                3120.1884765625,
+                1305.733642578125
+              ]
+            ],
+            "visible_enemy_count_at_least": 6
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4447,
+                3,
+                3093.7255859375,
+                3888.851806640625
+              ],
+              [
+                5119,
+                3,
+                3119.957763671875,
+                3905.157958984375
+              ],
+              [
+                5983,
+                3,
+                3146.25146484375,
+                3955.12646484375
+              ]
+            ],
+            "visible_enemy_count_at_least": 4
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4607,
+                3,
+                3119.060546875,
+                6499.22314453125
+              ],
+              [
+                5279,
+                3,
+                3153.404052734375,
+                6489.05224609375
+              ],
+              [
+                6143,
+                3,
+                3119.0791015625,
+                6501.07568359375
+              ]
+            ],
+            "visible_enemy_count_at_least": 4
+          }
+        ]
+      },
+      {
+        "tick": 157,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 10,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4767,
+                3,
+                3027.528564453125,
+                1301.8526611328125
+              ],
+              [
+                4959,
+                3,
+                2991.11328125,
+                1301.8992919921875
+              ],
+              [
+                5439,
+                3,
+                3068.35791015625,
+                1290.0048828125
+              ]
+            ],
+            "visible_enemy_count_at_least": 11
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4255,
+                3,
+                3039.4404296875,
+                3906.59765625
+              ],
+              [
+                4447,
+                3,
+                2969.105224609375,
+                3906.48779296875
+              ],
+              [
+                4927,
+                3,
+                3133.379638671875,
+                3845.41015625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4415,
+                3,
+                3082.27978515625,
+                6518.39892578125
+              ],
+              [
+                4607,
+                3,
+                2993.06494140625,
+                6500.05224609375
+              ],
+              [
+                5087,
+                3,
+                3092.443359375,
+                6492.5703125
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 175,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 15,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4191,
+                3,
+                3101.708984375,
+                1313.6116943359375
+              ],
+              [
+                4383,
+                3,
+                3046.5927734375,
+                1308.616943359375
+              ],
+              [
+                4575,
+                3,
+                3050.78173828125,
+                1279.1348876953125
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4255,
+                3,
+                2922.241455078125,
+                3865.306884765625
+              ],
+              [
+                4351,
+                3,
+                3123.85693359375,
+                3895.3134765625
+              ],
+              [
+                4447,
+                3,
+                2871.57568359375,
+                3981.93310546875
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4223,
+                3,
+                3119.21826171875,
+                6439.91796875
+              ],
+              [
+                4415,
+                3,
+                2958.701171875,
+                6495.0712890625
+              ],
+              [
+                4607,
+                3,
+                2878.90478515625,
+                6546.6513671875
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 193,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 27,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4191,
+                3,
+                2977.12109375,
+                1295.24609375
+              ],
+              [
+                4383,
+                3,
+                2928.752685546875,
+                1268.3585205078125
+              ],
+              [
+                4479,
+                3,
+                3125.222412109375,
+                1297.7099609375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4159,
+                3,
+                3123.66845703125,
+                3860.441162109375
+              ],
+              [
+                4351,
+                3,
+                2997.94921875,
+                3900.07763671875
+              ],
+              [
+                4543,
+                3,
+                2935.060791015625,
+                3889.968505859375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4175,
+                3,
+                3147.61474609375,
+                6485.19482421875
+              ],
+              [
+                4223,
+                3,
+                3006.698974609375,
+                6496.6240234375
+              ],
+              [
+                4319,
+                3,
+                3147.32958984375,
+                6456.3837890625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 211,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 9,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4191,
+                3,
+                2877.708251953125,
+                1222.300537109375
+              ],
+              [
+                4287,
+                3,
+                3088.269775390625,
+                1316.64892578125
+              ],
+              [
+                4335,
+                3,
+                3086.058349609375,
+                1296.0870361328125
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4159,
+                3,
+                3003.658203125,
+                3898.829833984375
+              ],
+              [
+                4351,
+                3,
+                2885.253662109375,
+                3950.114990234375
+              ],
+              [
+                4495,
+                3,
+                3121.87060546875,
+                3888.14111328125
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4127,
+                3,
+                3050.65576171875,
+                6491.609375
+              ],
+              [
+                4175,
+                3,
+                3058.06298828125,
+                6494.17724609375
+              ],
+              [
+                4223,
+                3,
+                2884.969482421875,
+                6516.8115234375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 229,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 21,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4287,
+                3,
+                2964.063232421875,
+                1296.01220703125
+              ],
+              [
+                4335,
+                3,
+                2996.150634765625,
+                1300.1751708984375
+              ],
+              [
+                4479,
+                3,
+                2874.919189453125,
+                1313.124755859375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4159,
+                3,
+                2886.4990234375,
+                3942.44482421875
+              ],
+              [
+                4303,
+                3,
+                3091.492431640625,
+                3903.950439453125
+              ],
+              [
+                4495,
+                3,
+                3032.29248046875,
+                3896.857666015625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4127,
+                3,
+                2925.6748046875,
+                6498.8828125
+              ],
+              [
+                4175,
+                3,
+                2968.9140625,
+                6505.748046875
+              ],
+              [
+                4319,
+                3,
+                2902.4814453125,
+                6501.59228515625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 247,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 3,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4143,
+                3,
+                3075.30712890625,
+                1265.683837890625
+              ],
+              [
+                4287,
+                3,
+                2848.8271484375,
+                1248.7064208984375
+              ],
+              [
+                4335,
+                3,
+                2908.546142578125,
+                1283.142822265625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4111,
+                3,
+                3102.527099609375,
+                3926.4541015625
+              ],
+              [
+                4303,
+                3,
+                3001.575927734375,
+                3900.068115234375
+              ],
+              [
+                4495,
+                3,
+                2942.704833984375,
+                3897.344482421875
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4175,
+                3,
+                2890.06103515625,
+                6547.5439453125
+              ],
+              [
+                4271,
+                3,
+                3102.6142578125,
+                6509.84033203125
+              ],
+              [
+                4463,
+                3,
+                3072.01904296875,
+                6481.19921875
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 265,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 15,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4143,
+                3,
+                2993.35986328125,
+                1302.88818359375
+              ],
+              [
+                4239,
+                3,
+                3109.242919921875,
+                1289.3116455078125
+              ],
+              [
+                4431,
+                3,
+                3059.49462890625,
+                1310.677490234375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4111,
+                3,
+                3015.379150390625,
+                3903.968017578125
+              ],
+              [
+                4303,
+                3,
+                2915.233154296875,
+                3877.496826171875
+              ],
+              [
+                4399,
+                3,
+                3147.9560546875,
+                3921.0263671875
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 1,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4271,
+                3,
+                3013.02734375,
+                6501.24951171875
+              ],
+              [
+                4463,
+                3,
+                2984.768798828125,
+                6503.20166015625
+              ],
+              [
+                4655,
+                3,
+                2938.068115234375,
+                6530.44921875
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      }
+    ],
+    "translated": [
+      {
+        "tick": 8,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 100,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 27,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 90,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 46,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 80,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 64,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 60,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 82,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 50,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 100,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 40,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 118,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 30,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          }
+        ]
+      },
+      {
+        "tick": 136,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 20,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4959,
+                3,
+                3140.23974609375,
+                1283.1927490234375
+              ],
+              [
+                5631,
+                3,
+                3141.53564453125,
+                1317.0760498046875
+              ],
+              [
+                6495,
+                3,
+                3113.532958984375,
+                1323.126953125
+              ]
+            ],
+            "visible_enemy_count_at_least": 4
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4447,
+                3,
+                3117.080078125,
+                3847.65771484375
+              ],
+              [
+                5119,
+                3,
+                3144.672607421875,
+                3883.89111328125
+              ],
+              [
+                6655,
+                3,
+                3145.418701171875,
+                3860.500244140625
+              ]
+            ],
+            "visible_enemy_count_at_least": 3
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4607,
+                3,
+                3142.72412109375,
+                6476.41064453125
+              ],
+              [
+                6143,
+                3,
+                3143.22998046875,
+                6478.17333984375
+              ],
+              [
+                7007,
+                3,
+                3122.8193359375,
+                6448.32275390625
+              ]
+            ],
+            "visible_enemy_count_at_least": 3
+          }
+        ]
+      },
+      {
+        "tick": 154,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 10,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4767,
+                3,
+                3050.639892578125,
+                1330.083251953125
+              ],
+              [
+                4959,
+                3,
+                3019.47412109375,
+                1308.7027587890625
+              ],
+              [
+                5439,
+                3,
+                3089.689697265625,
+                1277.9825439453125
+              ]
+            ],
+            "visible_enemy_count_at_least": 9
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4255,
+                3,
+                3070.383544921875,
+                3874.605224609375
+              ],
+              [
+                4447,
+                3,
+                3032.95458984375,
+                3756.905029296875
+              ],
+              [
+                5119,
+                3,
+                3028.511474609375,
+                3836.066650390625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4415,
+                3,
+                3141.042236328125,
+                6458.01025390625
+              ],
+              [
+                4607,
+                3,
+                3034.659423828125,
+                6415.62548828125
+              ],
+              [
+                5087,
+                3,
+                3115.009521484375,
+                6487.265625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      },
+      {
+        "tick": 172,
+        "player": {
+          "xyz": [
+            3780.0,
+            30.543399810791016,
+            1300.0
+          ],
+          "hp": 0,
+          "respawn": 18,
+          "shots": 0,
+          "generation": 1
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4191,
+                3,
+                3133.9111328125,
+                1274.4395751953125
+              ],
+              [
+                4575,
+                3,
+                3059.454833984375,
+                1209.2913818359375
+              ],
+              [
+                4767,
+                3,
+                2937.6953125,
+                1275.8193359375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4255,
+                3,
+                2963.443359375,
+                3812.88916015625
+              ],
+              [
+                4543,
+                3,
+                3098.1181640625,
+                3798.75390625
+              ],
+              [
+                4735,
+                3,
+                3089.80859375,
+                3775.84619140625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4703,
+                3,
+                3131.251708984375,
+                6572.13623046875
+              ],
+              [
+                4895,
+                3,
+                3116.221923828125,
+                6459.58544921875
+              ],
+              [
+                5087,
+                3,
+                2991.70703125,
+                6487.916015625
+              ]
+            ],
+            "visible_enemy_count_at_least": 11
+          }
+        ]
+      },
+      {
+        "tick": 190,
+        "player": {
+          "xyz": [
+            1000.0,
+            26.44499969482422,
+            1300.0
+          ],
+          "hp": 100,
+          "respawn": 0,
+          "shots": 0,
+          "generation": 2
+        },
+        "sites": [
+          {
+            "site": 0,
+            "xy": [
+              1000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 1,
+            "xy": [
+              3000.0,
+              1300.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4191,
+                3,
+                3045.77978515625,
+                1188.092041015625
+              ],
+              [
+                4527,
+                3,
+                3141.590087890625,
+                1350.3685302734375
+              ],
+              [
+                4575,
+                3,
+                2945.663330078125,
+                1156.7135009765625
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 4,
+            "xy": [
+              1000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 5,
+            "xy": [
+              3000.0,
+              3900.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4543,
+                3,
+                2980.974365234375,
+                3756.81201171875
+              ],
+              [
+                4735,
+                3,
+                2965.799560546875,
+                3780.026611328125
+              ],
+              [
+                4831,
+                3,
+                3124.96240234375,
+                3819.95458984375
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          },
+          {
+            "site": 8,
+            "xy": [
+              1000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [],
+            "visible_enemy_count_at_least": 0
+          },
+          {
+            "site": 9,
+            "xy": [
+              3000.0,
+              6500.0
+            ],
+            "occupied": 0,
+            "terrain": 0,
+            "visible_enemy_examples": [
+              [
+                4223,
+                3,
+                3042.775634765625,
+                6499.763671875
+              ],
+              [
+                4511,
+                3,
+                3100.251220703125,
+                6571.23095703125
+              ],
+              [
+                4703,
+                3,
+                3011.408447265625,
+                6601.14453125
+              ]
+            ],
+            "visible_enemy_count_at_least": 12
+          }
+        ]
+      }
+    ]
+  },
+  "positive_repeats": [
+    {
+      "repeat": 1,
+      "result": {
+        "death": true,
+        "safe_redeployment": true,
+        "fixture_writes": "entity positions only"
+      }
+    },
+    {
+      "repeat": 2,
+      "result": {
+        "death": true,
+        "safe_redeployment": true,
+        "fixture_writes": "entity positions only"
+      }
+    },
+    {
+      "repeat": 3,
+      "result": {
+        "death": true,
+        "safe_redeployment": true,
+        "fixture_writes": "entity positions only"
+      }
+    }
+  ]
+}
