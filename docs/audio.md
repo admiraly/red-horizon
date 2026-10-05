@@ -1,6 +1,6 @@
 # Linux recorded PCM mixer and ALSA pump
 
-`src/audio/audio.asm` implements a fixed 128-voice mixer and Linux ALSA playback.
+`src/audio/audio.asm` implements a fixed 128-voice mono reference mixer, stereo spatial mixer, and Linux ALSA playback.
 Project-authored runtime logic is NASM; the external platform service is libasound.
 Link the client object with `-lasound`.
 
@@ -38,8 +38,8 @@ These functions preserve SysV nonvolatile registers. Do not preload while mixing
 
 Mixing sums each active signed16 sample into a signed32 accumulator, advances
 independent voice positions, and clamps the final sample to `[-32768,32767]`.
-The pool capacity bounds the accumulator. Memory is static: approximately 384 KiB
-sample storage, 512 bytes of voice positions, and a 1600-byte output buffer.
+The pool capacity bounds the accumulator. Memory is static: 384002 bytes of
+sample storage, 4096 bytes of voice metadata/gains, and a 3200-byte stereo output buffer.
 There are no pointers into temporary sample storage or dynamic voice allocations.
 
 Verify with the development-only Python driver:
@@ -58,10 +58,70 @@ unavailable device, and missing content. Fixtures are synthetic test samples;
 this result verifies the mixer and null device integration, not recorded audio
 quality or audible output on a physical device.
 
-Limitations: no physical-device capture/listening test yet; no stereo spatial
-panning, distance/occlusion, travel delay, virtual emitters, prioritization,
+Limitations: no physical-device capture/listening test yet; no terrain occlusion,
+travel delay, voice prioritization,
 streaming, per-voice gain, fades, effects, or measured callback/device latency.
 Hard voice replacement and clipping can be audible under saturation. The fixed
 800-frame pump requires adequate scheduling frequency; long client stalls can
 underrun. ALSA recovery is implemented, but forced underrun/EAGAIN/partial-write
 fault injection is not yet verified. Windows WASAPI remains future work.
+
+
+Stereo spatial rifle API (Linux SysV, SSE2):
+
+- `audio_listener(XMM0=x,XMM1=y,XMM2=z,XMM3=right_x,XMM4=right_z)` returns
+  EAX zero on success, minus one on invalid coordinates/vector. It normalizes
+  the horizontal right vector; rejected input preserves the previous listener.
+- `audio_emit(XMM0=x,XMM1=y,XMM2=z,XMM3=gain)` submits the existing licensed
+  recorded rifle sample. EAX zero means submitted, one means distance/gain
+  culled, minus one means invalid input or missing PCM. It is a rifle event API;
+  do not label this sample as recorded tank fire, artillery, or explosions.
+- `audio_mix_stereo(RDI=int16_interleaved_destination*,RSI=frames)` returns
+  frames for 0..800, or minus one on invalid bounds. Output needs frames*4 bytes.
+  Left/right samples alternate. No allocation, file, device or libc call occurs
+  inside this routine or its gain preparation.
+
+Positions accept finite x/z in 0..8000 and y in -1000..2000. Event gain is 0..1;
+right-vector squared length is 0.25..4 before normalization. Distance is 3D,
+with attenuation `gain/(1+distance/25m)` and a hard 1500m cutoff. Pan is the
+source direction projected onto listener right, limited to [-1,+1]. Linear
+channel gains are `attenuation*(1-pan)/2` and `attenuation*(1+pan)/2`. A
+coincident spatial source splits equally between channels. Legacy `audio_shot`
+remains full gain in both channels for the immediate local weapon; the legacy
+`audio_mix` remains an unweighted mono reference and shares voice cursors, so
+call either mono or stereo for a given output block, not both.
+
+Stereo gains are recomputed once per block for at most 128 voices. Multiplication
+uses signed32 Q15 gains, sums in signed32, then clamps each signed16 channel.
+A source beyond cutoff or below 1/256 attenuation becomes a virtual voice:
+its cursor advances without reading recorded sample memory. Listener movement
+can make it audible again at the correct progressed sample. Completed virtual
+voices retire naturally. Newly submitted events beyond 1500m or below 1/256 base
+gain are culled without consuming a voice. Pool saturation replaces the oldest
+submitted slot, with no dynamic memory or additional logical emitter pool.
+
+ALSA output is now stereo signed16 at 48kHz. The nonblocking pump retains partial
+writes with four bytes per frame. `audio_load` resets diagnostic counters on a
+successful preload. Read-only exported diagnostics are cumulative u64
+`audio_submitted`, `audio_culled`, `audio_replaced`, and u32
+`audio_virtualized` (active muted spatial voices at the latest stereo block's
+start). All operations remain on one frame thread, with no callback concurrency.
+
+Updated verification on 2026-10-05, Intel i7-1355U, Linux 7.2.6, NASM 2.16.03 and
+GCC 16.2.1: legacy 16 check groups passed, plus 17 spatial mix blocks, 9 invalid
+source cases and 4 invalid listener cases. Tests check near/far and vertical
+attenuation, gain, left/right pan and listener rotation/normalization, culling,
+virtual advancement/retirement, 128-voice saturation/replacement counters, zero/
+maximum/oversized guarded stereo output, unchanged listener after rejection,
+and actual stereo ALSA null pumping. The recorded PCM's manifest SHA256 is
+verified; 800 actual recorded waveform frames match the expected centered stereo
+samples exactly, and the recorded event drains through ALSA null. Synthetic
+signals are used only for deterministic numerical checks.
+
+A 20-block local measurement mixing 800 frames with 128 active recorded spatial
+voices observed mean 0.127436ms and p95 0.132983ms per authored mixer call,
+including gain preparation and Python ctypes call overhead. Total assembly/link,
+verification and this measurement took 0.043020s. These are local observations,
+not reference-machine guarantees, physical-device latency or audio-quality claims.
+Wider recorded content categories, occlusion, travel delay, fades, prioritization,
+streaming, physical listening, and Windows output remain incomplete.
