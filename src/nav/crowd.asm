@@ -13,8 +13,9 @@ one: dd 1.0
 maximum: dd 8000.0
 cell_scale: dd 0.125
 near_sq: dd 64.0
+vehicle_near_sq: dd 256.0
 epsilon: dd 0.000001
-radii: dd 0.55,2.5,2.0
+radii: dd 0.55,3.55,4.49
 steps: dd 0.12,0.5,0.2
 driver_step: dd 0.6
 ; Forward, right/left30,60,90,135, and backwards. Goal-relative handedness
@@ -186,6 +187,8 @@ crowd_move:
  cmp eax,2
  ja .unchanged
  mov [rsp+4],eax
+ cmp dword [rbx+ENTITY_GENERATION],0
+ je .unchanged
  ; All supplied coordinates finite and map-valid. Maxstep finite and positive.
  xor ecx,ecx
 .validate:
@@ -201,6 +204,10 @@ crowd_move:
  ucomiss xmm4,[zero]
  jp .unchanged
  jbe .unchanged
+ movd edx,xmm4
+ and edx,0x7f800000
+ cmp edx,0x7f800000
+ je .unchanged
  lea rcx,[steps]
  minss xmm4,[rcx+rax*4]
  movss [rsp+8],xmm4
@@ -256,7 +263,17 @@ crowd_move:
  cvttss2si edx,xmm1
  mov [rsp+72],eax
  mov [rsp+76],edx
- mov dword [rsp+80],-1
+ mov dword [rsp+100],1
+ movss xmm0,[near_sq]
+ cmp dword [rsp+4],0
+ je .query_span
+ mov dword [rsp+100],2
+ movss xmm0,[vehicle_near_sq]
+.query_span:
+ movss [rsp+96],xmm0
+ mov eax,[rsp+100]
+ neg eax
+ mov [rsp+80],eax
  xor r14d,r14d
  mov dword [rsp+68],0
  mov dword [rsp+92],0
@@ -267,7 +284,9 @@ crowd_move:
  jae .next_z
  imul eax,GRID_SIDE
  mov [rsp+88],eax
- mov dword [rsp+84],-1
+ mov eax,[rsp+100]
+ neg eax
+ mov [rsp+84],eax
 .cell_x:
  mov eax,[rsp+72]
  add eax,[rsp+84]
@@ -305,7 +324,7 @@ crowd_move:
  mulss xmm0,xmm0
  mulss xmm1,xmm1
  addss xmm0,xmm1
- ucomiss xmm0,[near_sq]
+ ucomiss xmm0,[rsp+96]
  ja .next_neighbor
  ucomiss xmm0,[epsilon]
  ja .no_coincident
@@ -328,11 +347,13 @@ crowd_move:
  jmp .chain
 .next_x:
  inc dword [rsp+84]
- cmp dword [rsp+84],1
+ mov eax,[rsp+100]
+ cmp [rsp+84],eax
  jle .cell_x
 .next_z:
  inc dword [rsp+80]
- cmp dword [rsp+80],1
+ mov eax,[rsp+100]
+ cmp [rsp+80],eax
  jle .cell_z
  call .account
  cmp dword [rsp+92],0

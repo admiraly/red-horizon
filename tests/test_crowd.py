@@ -20,7 +20,7 @@ enabled=C.c_uint.in_dll(lib,'crowd_enabled'); metrics=(C.c_uint64*8).in_dll(lib,
 drivers=(C.c_int*32768).in_dll(lib,'vehicle_entity_driver')
 lib.test_move.argtypes=[C.c_uint,C.POINTER(C.c_float)];lib.test_move.restype=C.c_int
 lib.test_hash.argtypes=[C.c_uint64,C.c_uint64];lib.test_hash.restype=C.c_uint64
-R=(.55,2.5,2.0); S=(.12,.5,.2)
+R=(.55,3.55,4.49); S=(.12,.5,.2)
 verify_readonly=True
 def reset(rows):
     C.memset(C.addressof(entities),0,C.sizeof(entities));C.memset(C.addressof(drivers),255,C.sizeof(drivers))
@@ -57,7 +57,7 @@ def tick(goals):
 reset([(1000,1000)])
 p=move(0,(1010,1000),100);assert math.dist(p,(1000,1000))<=.1201 and p[0]>1000.11
 assert move(0,(1000,1000))==(1000,1000)
-for step in (0,-1,float('nan')):assert move(0,(1010,1000),step)==(1000,1000)
+for step in (0,-1,float('nan'),float('inf')):assert move(0,(1010,1000),step)==(1000,1000)
 for goal in ((float('nan'),1000),(1000,float('inf')),(-1,1000),(8001,1000)):
     assert move(0,goal)==(1000,1000)
 a=(C.c_float*5)(float('nan'),float('inf'),1010,1000,.12)
@@ -82,15 +82,15 @@ for t in range(130):
     minimum=min(minimum,math.dist((entities[0].x,entities[0].z),(entities[1].x,entities[1].z)))
 assert minimum>=1.0998 and entities[0].x>1009.5,(minimum,entities[0].x,entities[0].z)
 held_end=(entities[0].x,entities[0].z)
-# Real role-sized held driven tank, infantry must pass beyond its 3.05 m footprint.
+# Real role-sized held driven tank, infantry must pass beyond its 4.10 m footprint.
 reset([(1000,1000),(1005,1000,1)]);drivers[1]=0
 minimum=100
 for t in range(200):
     tick({0:(1012,1000)})
     minimum=min(minimum,math.dist((entities[0].x,entities[0].z),(entities[1].x,entities[1].z)))
-assert minimum>=3.0498 and entities[0].x>1011.5,(minimum,entities[0].x,entities[0].z)
+assert minimum>=4.0998 and entities[0].x>1011.5,(minimum,entities[0].x,entities[0].z)
 # A genuine finite-width lane between held vehicle footprints remains usable.
-reset([(1000,1000),(1006,996.3,1),(1006,1003.7,1)])
+reset([(1000,1000),(1006,995.25,1),(1006,1004.75,1)])
 for t in range(130):tick({0:(1012,1000)})
 assert entities[0].x>1011.5 and abs(entities[0].z-1000)<.001
 # Legacy terrain-only control really enters a held ally body on the same route.
@@ -110,6 +110,16 @@ def head_on(mirror=False,reverse=False):
     return bytes(entities[:2]) if False else ((entities[0].x,entities[0].z),(entities[1].x,entities[1].z),gap)
 a=head_on();assert a[2]>=1.0998 and a[0][0]>1011.5 and a[1][0]<998.5,a
 assert head_on(True)==a and head_on(False,True)==a
+# Actual vehicle mesh-sized circles, including artillery, must pass head-on.
+vehicle_pairs=[]
+for kind,ticks in ((1,120),(2,230)):
+    reset([(1000,1000,kind),(1020,1000,kind)])
+    gap=100
+    for _ in range(ticks):
+        tick({0:(1025,1000),1:(995,1000)})
+        gap=min(gap,math.dist((entities[0].x,entities[0].z),(entities[1].x,entities[1].z)))
+    assert gap>=2*R[kind]-.003 and entities[0].x>1024 and entities[1].x<996,(kind,gap,[(e.x,e.z) for e in entities[:2]])
+    vehicle_pairs.append({'kind':kind,'minimum_gap':gap,'source_x':entities[0].x,'opponent_x':entities[1].x})
 # Coincident pair breaks a symmetry without teleport or remaining stacked forever.
 reset([(1000,1000),(1000,1000)])
 for t in range(40):tick({0:(1010,1000),1:(1010,1000)})
@@ -153,8 +163,8 @@ for n in (128,8192):
     bench.append({'actors':n,'ticks':30,'kernel_ms_mean':sum(times)/len(times),'kernel_ms_p95':sorted(times)[28],
                   'inspected':metrics[2],'maximum_inspected_query':metrics[7],'truncated':metrics[6]})
 print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,
-                  'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,
-                  'limitations':['512 inspected neighbors per query; denser 3x3-cell chains conservatively yield',
+                  'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,
+                  'limitations':['512 inspected neighbors per query; denser 3x3 infantry or 5x5 vehicle cell chains conservatively yield',
                   'ground AI only; driven bodies included but source driver control not changed',
                   'initial overlap recovery is gradual, crowded unsatisfiable layouts may yield',
                   'isolated kernel benchmark is not complete army performance']}))
