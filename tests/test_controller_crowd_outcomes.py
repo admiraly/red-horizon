@@ -81,17 +81,20 @@ def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=Fals
  if mode=='driver':assert pos(P[0])==pos(source),(name,'boarded duplicate/driver detached')
  return dict(name=name,mode=mode,obstacle=obstacle,ticks=120,start=start,final=pos(source),swept_overlap_ticks=faults,initial_overlap_ticks=initial,minimum_relative_distance=minimum,progress_m=progress,trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 
+def checked(*args,**kwargs):
+ r=fixture(*args,**kwargs);assert r==fixture(*args,**kwargs),'deterministic production replay differs';return r
+
 rows=[]
 for mode in ('human','driver'):
  for obstacle in ('infantry','tank','artillery','human'):
   for diagonal in (False,True):
    kw=dict(mode=mode,obstacle=obstacle,diagonal=diagonal);r=fixture(**kw);assert r==fixture(**kw),'replay';rows.append(r)
 for mode in ('human','driver'):
- for out in (False,True):rows.append(fixture(mode,'human',overlap=True,outward=out))
-for mode in ('human','driver','ai'):rows.append(fixture(mode,'human',moving=True))
-for transition in ('death','disconnect','generation'):rows.append(fixture('human','human',transition=transition))
+ for out in (False,True):rows.append(checked(mode,'human',overlap=True,outward=out))
+for mode in ('human','driver','ai'):rows.append(checked(mode,'human',moving=True))
+for transition in ('death','disconnect','generation'):rows.append(checked('human','human',transition=transition))
 for moving in (False,True):
- r=fixture('ai','human',moving=moving);m=fixture('ai','human',moving=moving,mirror=True);assert r['trace_sha256']==m['trace_sha256'],'faction label dependent movement';rows.append(r)
+ r=checked('ai','human',moving=moving);m=fixture('ai','human',moving=moving,mirror=True);assert r['trace_sha256']==m['trace_sha256'],'faction label dependent movement';rows.append(r)
 if a.legacy:assert all(r['swept_overlap_ticks']>0 for r in rows if r['name'] in [f'{m}_vs_{o}' for m in ('human','driver') for o in ('infantry','tank','artillery','human')]),'baseline controls did not expose real collisions'
 
 
@@ -138,7 +141,7 @@ def census(n):
    assert lib.vehicle_enter(slot)==0 and V[slot]==i
    controllers.append((e,3.55,slot))
   else:controllers.append((p,.55,slot))
- initial=faults=checks=0;moves=0;hp0=sum(e.hp for e in E[:n]);dead0=sum(e.hp==0 for e in E[:n]);initial_pairs=set();trace=hashlib.sha256()
+ initial=faults=checks=0;controller_pair_checks=controller_pair_faults=0;moves=0;hp0=sum(e.hp for e in E[:n]);dead0=sum(e.hp==0 for e in E[:n]);initial_pairs=set();trace=hashlib.sha256()
  for t in range(a.dense_ticks):
   army=[(i,pos(e),e.kind,e.generation,e.hp) for i,e in enumerate(E[:n]) if e.hp and e.kind<3];old=[pos(x[0]) for x in controllers];lib.sim_tick()
   for c,(body,r,slot) in enumerate(controllers):
@@ -160,9 +163,20 @@ def census(n):
     elif d<rr-TOL:
      faults+=1
      if not a.legacy:raise AssertionError(('dense controller/army swept overlap',n,t,slot,i,d,rr))
+  for c,(body,r,slot) in enumerate(controllers):
+   if not body.hp:continue
+   for j,(other,rr,oslot) in enumerate(controllers[:c]):
+    if not other.hp:continue
+    controller_pair_checks+=1
+    d0=math.dist(old[c],old[j]);d1=math.dist(pos(body),pos(other));d=closest(old[c],pos(body),old[j],pos(other))
+    if d0<r+rr-TOL:
+     if not a.legacy:assert d1>=d0-TOL,('dense existing controller overlap deepened',n,t,slot,oslot,d0,d1)
+    elif d<r+rr-TOL:
+     controller_pair_faults+=1
+     if not a.legacy:raise AssertionError(('dense controller/controller swept overlap',n,t,slot,oslot,d,r+rr))
  assert moves>=a.dense_ticks*2,('dense no useful human motion',n,moves)
  hp1=sum(e.hp for e in E[:n]);assert hp1<hp0,('real combat absent',n,hp0,hp1)
- return dict(units=n,ticks=a.dense_ticks,near_relative_sweep_checks=checks,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
+ return dict(units=n,ticks=a.dense_ticks,near_relative_sweep_checks=checks,controller_pair_sweep_checks=controller_pair_checks,controller_pair_new_overlap_ticks=controller_pair_faults,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 dense=[census(n) for n in (8192,16384)]
 report=dict(suite='controller-crowd-outcomes',status='PASS',legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')

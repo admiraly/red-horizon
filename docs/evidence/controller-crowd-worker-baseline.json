@@ -3,7 +3,7 @@
   "status": "PASS",
   "legacy": true,
   "library_sha256": "81c5782fece521c7acd424ba2d2dc34d1759bc0a5d7dbf71d2748950415af394",
-  "observer_sha256": "b34a4ce7827fd16d6eec12b4295803ebf9fbec62ee29ff8d68ff39c654780466",
+  "observer_sha256": "4221f397bc2061fc9b5e0ef444b26b8357befc29342c5cc4e04b7ca28284e116",
   "cases": [
     {
       "name": "human_vs_infantry",
@@ -584,6 +584,8 @@
       "units": 8192,
       "ticks": 60,
       "near_relative_sweep_checks": 358,
+      "controller_pair_sweep_checks": 360,
+      "controller_pair_new_overlap_ticks": 0,
       "new_overlap_ticks": 170,
       "initial_overlap_ticks": 0,
       "controller_moving_ticks": 240,
@@ -598,6 +600,8 @@
       "units": 16384,
       "ticks": 60,
       "near_relative_sweep_checks": 359,
+      "controller_pair_sweep_checks": 360,
+      "controller_pair_new_overlap_ticks": 0,
       "new_overlap_ticks": 171,
       "initial_overlap_ticks": 0,
       "controller_moving_ticks": 240,

@@ -13,7 +13,7 @@ The28 controlled120-tick cases cover humans and driven tanks against held
 infantry, tanks, artillery and humans; near-contact diagonal free-axis sliding;
 preexisting inward/outward contact; opposing moving humans; death, disconnect
 and generation/position changes; and AI movement against held/moving humans.
-The16 primary controller fixtures repeat exactly, including physical trace and
+All28 controlled fixtures repeat exactly, including physical trace and
 checksum. AI physical traces also compare swapped army faction labels without
 changing IDs, positions, goals, fronts or commands. Straight blockades need useful
 approach but may hold at contact; the observer does not demand manual autopilot.
@@ -32,7 +32,8 @@ positions. Three humans approach existing allied infantry while a fourth human
 legitimately boards an existing allied tank. Every living controller is checked
 against living same-generation army bodies with a conservative independent
 coordinate broadphase. Complexity is O(4N) per tick, not army allpairs. The boarded
-human/hull pair is excluded. Initial overlap samples are recorded separately;
+human/hull pair is excluded. All six controller/controller pairs also receive
+independent relative sweeps each tick. Initial overlap samples are recorded separately;
 new relative swept overlap is a candidate failure. Useful controller movement and
 actual army HP loss are required, so freezing the whole simulation cannot pass.
 
