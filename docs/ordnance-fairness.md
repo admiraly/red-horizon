@@ -92,3 +92,10 @@ checksums matched. Actual launch totals here derive from finite ammunition
 expenditure and thus include same-tick shell retirements; no resupply/vehicle
 operator runs in this isolated fixture. Equal casualties in this symmetric test
 do not imply equal battlefield outcomes in naturally unequal deployments.
+
+The integrated oracle keeps physical deployment fixed when swapping labels.
+Earlier worker reports mirrored the two deployment blocks along with their
+labels; those retained reports demonstrate the allocation boundary, not pure
+label-invariant physical processing. Final acceptance additionally retains the
+complete400-tick full-world per-actor health symmetry assertion and canonical
+queue sequence tests, which caught and reject side-index admission priority.

@@ -60,17 +60,18 @@ def fixture(units, kind, mirror=False, negative=None):
         if i not in id_set:
             entities[i].hp = 0
             continue
-        side = e.side ^ int(mirror)
+        physical_side = e.side
+        side = physical_side ^ int(mirror)
         entities[i].side = side
         # Every source has an enemy in the adjacent250m spatial cell, within
         # both weapon ranges. Overlap is deliberate for an allocation stress,
         # and is not evidence for navigation/formation/crowd acceptance.
-        entities[i].x = (1100, 1400)[side]
+        entities[i].x = (1100, 1400)[physical_side]
         entities[i].z = 2000
         entities[i].front = 0
         assert (e.kind == kind or kind == 0) and ammo[i] == 64 and cooldown[i] == 0
         if negative == 'no-los':
-            entities[i].x = (3970, 4030)[side]
+            entities[i].x = (3970, 4030)[physical_side]
             entities[i].z = 1300
         elif negative == 'ammo':
             ammo[i] = 0
@@ -122,7 +123,7 @@ def fixture(units, kind, mirror=False, negative=None):
     result = {'units': units, 'initialized_entities': units,
         'initial_living_sources': [0,0] if negative == 'dead' else [len(x) for x in side_ids],
         'kind': kind, 'side_labels_mirrored': mirror,
-        'negative': negative, 'eligible_sources': [len(x) for x in side_ids],
+        'negative': negative, 'geometry_preserved_under_side_swap': True, 'eligible_sources': [len(x) for x in side_ids],
         'actual_retained_launches': grants, 'actual_ammunition_spent': spent,
         'pool_count': count.value, 'dropped': dropped.value,
         'actual_launches_by_side_kind': {f'{s}:{k}': group_launches[(s,k)]
