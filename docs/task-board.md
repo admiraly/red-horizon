@@ -20,7 +20,7 @@
 | Shared terrain/LOS/local detours and observed tactics | simulation worker | spatial/world |physical wall rejection, scout→defender defeat→capture, flank bounds, observed/supply retreat and override tests pass |
 | Hierarchical navigation/cover selection/strategic pacing | next ready | terrain/controller |pending |
 | Authoritative players and shared-world co-op | integrator + workers | terrain/player/UDP |four real slots, movement/fire/order authority, duplicate spending, snapshots and disconnect recovery pass; two actual rendered clients, remote-player pixels, rejected ACK rollback and server freeze checks pass; full extended integrated job2699ac0fcf9c passed |
-| Moving shells, player ground armor, bounded impact VFX, spatial rifle mixer | three subsystem workers + integrator | world/render/audio |focused slices pass; final shared co-op integration in progress |
+| Moving shells, player ground armor, bounded impact VFX, spatial rifle mixer | three subsystem workers + integrator | world/render/audio |full frozen extended job1ee7970cae70 passed102.73s; real UDP + two rendered clients drive/fire/exit; recorded spatial routing and actual impact/HUD pixels verified |
 | Wider vehicles, layered recorded sound pack, production art/effects | next ready | current combat batch |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
 

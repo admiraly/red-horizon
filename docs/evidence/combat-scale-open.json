@@ -1,0 +1,49 @@
+{
+  "scenario": "scale-open",
+  "revision": "61ce3cd4e3400c50927ed8c05937a83056feb1fb-f3421612b088f2bc",
+  "seed": 1,
+  "wall_seconds": 3.1133866239979398,
+  "hardware": "Linux-7.2.6-201.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "13th Gen Intel(R) Core(TM) i7-1355U",
+  "realtime": false,
+  "runtime": {
+    "units": 8192,
+    "ticks": 600,
+    "seed": 1,
+    "alive": [
+      3586,
+      3505
+    ],
+    "engaged": 44,
+    "checksum": "fa767e821059f7ae",
+    "tick_mean_ms": 5.181033,
+    "tick_p95_ms": 6.086225,
+    "operation_state": 0,
+    "requisition": [
+      880,
+      460
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 13,
+    "projectile_peak": 480,
+    "projectile_dropped": 10209
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 2964,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": "not implemented",
+    "network_bandwidth": "not implemented"
+  },
+  "measurement_context": "Concurrent frozen full verification and other baseline/stretch bench; headless CPU wall timings, no rendered or replicated actors."
+}
