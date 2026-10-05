@@ -2,6 +2,7 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/combat.inc"
 %include "src/net/protocol.inc"
 extern sim_aircraft
 extern inet_pton, sim_init, player_init, reset_event_ring
@@ -20,6 +21,12 @@ air_max_y: dd 1200.0
 air_heading: dd 6.4
 air_angle: dd 1.6
 air_speed: dd 10.0
+projectile_velocity: dd 1000.0
+projectile_horizon: dd 120.0
+fixed_rate: dd 30.0
+projectile_gravity: dd 0.0109
+half: dd 0.5
+tick_one: dd 1.0
 section .data
 global net_connected, net_player_id, net_front, net_server_tick, net_last_status
 net_connected: dd 0
@@ -45,6 +52,11 @@ last_receive: resq 1
 state_tick: resd 1
 entity_tick: resd 32768
 air_tick: resd 32768
+global net_projectiles, net_projectile_count
+net_projectiles: resb PROJECTILE_CAPACITY*PROJECTILE_STRIDE
+net_projectile_count: resd 1
+projectile_tick: resd PROJECTILE_CAPACITY
+projectile_age: resd PROJECTILE_CAPACITY
 section .text
 global net_client_open, net_client_poll, net_client_input, net_client_order, net_client_close
 ; open(RDI=IPv4 text,ESI=port)->0 queued join/-1. Connected set only on ACK.
@@ -279,6 +291,8 @@ net_client_poll:
  je .entities
  cmp dword [incoming+16],NET_AIRCRAFT
  je .aircraft
+ cmp dword [incoming+16],NET_PROJECTILES
+ je .projectiles
  cmp dword [incoming+16],NET_EVENTS
  je .events
  jmp .next
@@ -639,6 +653,144 @@ net_client_poll:
  add r15,64
  dec r14d
  jmp .applyair
+ ; Whole trajectory packet validates before any slot or tick changes.
+.projectiles:
+ cmp dword [incoming+32],4
+ jb .next
+ mov r14d,[incoming+40]
+ cmp r14d,18
+ ja .next
+ imul eax,r14d,64
+ add eax,4
+ cmp eax,[incoming+32]
+ jne .next
+ lea r15,[incoming+44]
+ xor r9d,r9d
+.validateprojectile:
+ test r14d,r14d
+ jz .projectilesvalid
+ mov eax,[r15]
+ cmp eax,PROJECTILE_CAPACITY
+ jae .next
+ ; Fair cursor wrap is legal; duplicate indices in one batch are not.
+ lea rdx,[incoming+44]
+.checkduplicate:
+ cmp rdx,r15
+ je .uniqueprojectile
+ cmp eax,[rdx]
+ je .next
+ add rdx,64
+ jmp .checkduplicate
+.uniqueprojectile:
+ cmp dword [r15+52],0
+ je .next
+ cmp dword [r15+56],1
+ ja .next
+ cmp dword [r15+32],1
+ ja .next
+ mov eax,[r15+36]
+ dec eax
+ cmp eax,3
+ ja .next
+ cmp dword [r15+28],240
+ ja .next
+ cmp dword [r15+56],0
+ je .ttlvalid
+ cmp dword [r15+28],0
+ je .next
+.ttlvalid:
+ cmp dword [r15+60],0
+ je .next
+ mov eax,[r15+48]
+ cmp eax,[sim_count]
+ jae .next
+ lea rsi,[r15+4]
+ mov ecx,6
+.finiteprojectile:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ add rsi,4
+ loop .finiteprojectile
+ movss xmm0,[r15+4]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum]
+ ja .next
+ movss xmm0,[r15+12]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum]
+ ja .next
+ movss xmm0,[r15+8]
+ ucomiss xmm0,[minimum_y]
+ jb .next
+ ucomiss xmm0,[maximum_y]
+ ja .next
+ lea rsi,[r15+16]
+ mov ecx,3
+.velocityprojectile:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[projectile_velocity]
+ ja .next
+ add rsi,4
+ loop .velocityprojectile
+ mov eax,[r15+44]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ movss xmm0,[r15+44]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum_radius]
+ ja .next
+ add r15,64
+ dec r14d
+ jmp .validateprojectile
+.projectilesvalid:
+ mov r14d,[incoming+40]
+ lea r15,[incoming+44]
+.applyprojectile:
+ test r14d,r14d
+ jz .accepted
+ mov eax,[r15]
+ lea rdx,[projectile_tick]
+ mov ecx,[incoming+28]
+ cmp ecx,[rdx+rax*4]
+ jbe .nextprojectile
+ ; Refuse delayed samples beyond the bounded prediction horizon.
+ mov r8d,[net_server_tick]
+ sub r8d,ecx
+ jbe .projectiletime
+ cmp r8d,120
+ ja .nextprojectile
+.projectiletime:
+ mov r8d,eax
+ shl r8d,6
+ lea rdi,[net_projectiles]
+ add rdi,r8
+ mov esi,[r15+52]
+ cmp esi,[rdi+PROJECTILE_GENERATION]
+ jb .nextprojectile
+ ; Once dead/expired, equal generation cannot resurrect from late alive data.
+ ja .newprojectilegeneration
+ cmp dword [rdi+PROJECTILE_ACTIVE],0
+ je .nextprojectile
+.newprojectilegeneration:
+ mov [rdx+rax*4],ecx
+ lea rdx,[projectile_age]
+ mov dword [rdx+rax*4],0
+ lea rsi,[r15+4]
+ mov ecx,15
+ rep movsd
+ mov dword [rdi],0
+.nextprojectile:
+ add r15,64
+ dec r14d
+ jmp .applyprojectile
 ; Validate the complete bounded event packet before publishing any ring slot.
 .events:
  cmp dword [incoming+32],4
@@ -772,6 +924,7 @@ net_client_poll:
  jb .retry
  mov dword [net_connected],0
  mov dword [pending_len],0
+ call reset_projectiles
 .retry:
  cmp dword [pending_len],0
  je .expire
@@ -826,6 +979,7 @@ net_client_poll:
  pop rbp
  ret
 net_client_close:
+ call reset_projectiles
  mov rdi,[fd]
  test rdi,rdi
  js .done
@@ -853,5 +1007,96 @@ net_client_close:
  mov dword [net_connected],0
  mov dword [net_player_id],-1
  mov dword [pending_len],0
+ ret
+; Cosmetic-only render update. Velocities are metres per authoritative 30Hz tick.
+; Lifetimes expire even when no packets arrive; no damage/contact authority here.
+global net_projectiles_update
+net_projectiles_update:
+ mov eax,[net_connected]
+ test eax,eax
+ jz reset_projectiles
+ movd eax,xmm0
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .done
+ ucomiss xmm0,[zero]
+ jb .done
+ mulss xmm0,[fixed_rate]
+ movaps xmm6,xmm0
+ lea rdi,[net_projectiles]
+ lea rsi,[projectile_age]
+ lea rdx,[projectile_tick]
+ xor r8d,r8d
+ mov ecx,PROJECTILE_CAPACITY
+.loop:
+ cmp dword [rdi+PROJECTILE_ACTIVE],0
+ je .next
+ movss xmm3,[rsi]
+ movaps xmm0,xmm3
+ addss xmm0,xmm6
+ ; Catch up delayed samples to the most recent received authority tick.
+ mov eax,[net_server_tick]
+ sub eax,[rdx]
+ cvtsi2ss xmm1,eax
+ maxss xmm0,xmm1
+ movss [rsi],xmm0
+ ucomiss xmm0,[projectile_horizon]
+ jae .expire
+ cvtsi2ss xmm1,dword [rdi+PROJECTILE_TTL]
+ ucomiss xmm0,xmm1
+ jae .expire
+ movaps xmm7,xmm0
+ subss xmm7,xmm3
+ movss xmm0,[rdi+PROJECTILE_VX]
+ mulss xmm0,xmm7
+ addss xmm0,[rdi+PROJECTILE_X]
+ movss [rdi+PROJECTILE_X],xmm0
+ movss xmm0,[rdi+PROJECTILE_VZ]
+ mulss xmm0,xmm7
+ addss xmm0,[rdi+PROJECTILE_Z]
+ movss [rdi+PROJECTILE_Z],xmm0
+ movss xmm0,[rdi+PROJECTILE_VY]
+ mulss xmm0,xmm7
+ cmp dword [rdi+PROJECTILE_KIND],2
+ je .gravity
+ cmp dword [rdi+PROJECTILE_KIND],3
+ jne .linear
+.gravity:
+ movaps xmm1,xmm7
+ mulss xmm1,[projectile_gravity]
+ movss xmm2,[rdi+PROJECTILE_VY]
+ subss xmm2,xmm1
+ movss [rdi+PROJECTILE_VY],xmm2
+ ; Authoritative tick advances position before subtracting gravity.
+ movaps xmm2,xmm7
+ subss xmm2,[tick_one]
+ mulss xmm1,xmm2
+ mulss xmm1,[half]
+ subss xmm0,xmm1
+.linear:
+ addss xmm0,[rdi+PROJECTILE_Y]
+ movss [rdi+PROJECTILE_Y],xmm0
+ inc r8d
+ jmp .next
+.expire:
+ mov dword [rdi+PROJECTILE_ACTIVE],0
+.next:
+ add rdi,PROJECTILE_STRIDE
+ add rsi,4
+ add rdx,4
+ dec ecx
+ jnz .loop
+ mov [net_projectile_count],r8d
+.done:
+ ret
+reset_projectiles:
+ lea rdi,[net_projectiles]
+ xor eax,eax
+ mov ecx,PROJECTILE_CAPACITY*PROJECTILE_STRIDE/8
+ rep stosq
+ lea rdi,[projectile_tick]
+ mov ecx,PROJECTILE_CAPACITY*2
+ rep stosd
+ mov dword [net_projectile_count],0
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits

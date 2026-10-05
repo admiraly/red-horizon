@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v4
-little-endian u32 header[10]: magic=0x52484332 version=4 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v5
+little-endian u32 header[10]: magic=0x52484332 version=5 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -17,3 +17,6 @@ event32 x:f32 y:f32 z:f32 kind:u32 side:u32 tick:u32 radius:f32 sequence:u32; ki
 aircraft=103 payload4+64*n n:u32 records(index:u32 entity:32bytes y:f32 heading:f32 pitch:f32 bank:f32 speed:f32 role:u32 mode:u32)[n<=18]; one additional bounded nearby packet per snapshot, independent fair cursor; self-contained warmup and X/Z refresh independent of sparse entity chunks
 aircraft64 sidecar indexed by entity ID; entity32/state848 unchanged; packet entity kind3 hp0..200 side0..1 front0..2 target-1orvalidindex generation>0; entity/sidecar generations and ticks reject stale updates; unknown aircraft accepted; hp0 records clear AIR_ACTIVE; air64 wins same-tick sparse entity chunks
 aircraft speed metres/fixed30Hz tick 0..10; y -100..1200; abs heading<=6.4; abs pitch/bank<=1.6; role0bomber1fighter; mode0patrol1attack2egress3return; whole packet entity+pose finite/bounds validation before mutation
+projectiles=104 payload4+64*n n:u32 records(index:u32 projectile60)[n<=18]; max1196bytes; independent fair nearby pool cursor, includes inactive generation-stamped tombstones
+projectile60 x:f32 y:f32 z:f32 vx:f32 vy:f32 vz:f32 ttl:u32 side:u32 kind:u32 damage:u32 radius:f32 source:u32 generation:u32 active:u32 source_generation:u32; velocity metres/fixed30Hz tick; kind1tank2artillery3bomb4airgun; ttl0..240 active0..1 generation/source_generation>0; finite world XYZ and velocity abs<=1000; whole packet validation before mutation; duplicate indices rejected
+projectiles client cosmetic512x64 separate from authority; per-slot tick and generation reject stale/reordered/reused slots, dead equal-generation cannot revive; render linear1/4 gravity0.0109metres/tick2 for2/3; refresh horizon120ticks and remaining TTL bound prediction; disconnect clears cosmetic pool; missed short-lived launches are not invented

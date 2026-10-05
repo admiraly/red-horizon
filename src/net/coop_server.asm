@@ -1,6 +1,8 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/combat.inc"
+extern sim_projectiles
 %include "src/net/protocol.inc"
 extern sim_aircraft
 extern strcmp, printf, fflush
@@ -14,7 +16,7 @@ section .rodata
 f_port: db '--port',0
 f_ticks: db '--ticks',0
 f_units: db '--units',0
-ready_fmt: db '{"port":%u,"protocol":4,"units":%u}',10,0
+ready_fmt: db '{"port":%u,"protocol":5,"units":%u}',10,0
 report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u,"aircraft_records":%lu}',10,0
 interest2: dd 1440000.0
 maximum: dd 8000.0
@@ -42,6 +44,7 @@ disconnects: resd 1
 budget: resd 1
 event_cursors: resd 4
 air_cursors: resd 4
+projectile_cursors: resd 4
 replicated: resb 4*32768
 distinct_pairs: resq 1
 interest_counts: resd 4
@@ -373,6 +376,8 @@ handle_packet:
  mov ecx,32768
  rep stosb
  lea rdx,[air_cursors]
+ mov dword [rdx+r12*4],0
+ lea rdx,[projectile_cursors]
  mov dword [rdx+r12*4],0
  mov dword [r13+SLOT_CURSOR],0
  mov dword [r13+SLOT_INPUTTICK],-1
@@ -733,6 +738,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_aircraft
+ mov edi,r12d
+ mov rsi,r13
+ call send_projectiles
 .nextslot:
  add r13,NET_RECORD
  inc r12d
@@ -919,6 +927,85 @@ send_aircraft:
  test r14d,r14d
  jz .done
  add [aircraft_records],r14
+ mov [output+40],r14d
+ imul esi,r14d,64
+ add esi,44
+ lea eax,[rsi-NET_HEADER]
+ mov [output+32],eax
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,8
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret
+; Up to18 authentic pool records including generation-stamped tombstones.
+; Fair cursor scans at most512 slots, independently of sparse entity/air packets.
+send_projectiles:
+ push rbp
+ mov rbp,rsp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,8
+ mov r12d,edi
+ mov r13,rsi
+ mov eax,edi
+ shl eax,6
+ lea rbx,[sim_players]
+ add rbx,rax
+ mov edi,NET_PROJECTILES
+ mov esi,r12d
+ mov edx,4
+ call header
+ xor r14d,r14d
+ xor r15d,r15d
+.scan:
+ lea r8,[projectile_cursors]
+ mov eax,[r8+r12*4]
+ and eax,511
+ mov r9d,eax
+ inc eax
+ mov [r8+r12*4],eax
+ inc r15d
+ shl r9d,6
+ lea rsi,[sim_projectiles]
+ add rsi,r9
+ cmp dword [rsi+PROJECTILE_GENERATION],0
+ je .skip
+ movss xmm0,[rsi+PROJECTILE_X]
+ subss xmm0,[rbx+PLAYER_X]
+ mulss xmm0,xmm0
+ movss xmm1,[rsi+PROJECTILE_Z]
+ subss xmm1,[rbx+PLAYER_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[interest2]
+ ja .skip
+ mov eax,r14d
+ shl eax,6
+ lea rdi,[output+44]
+ add rdi,rax
+ shr r9d,6
+ mov [rdi],r9d
+ add rdi,4
+ mov ecx,15
+ rep movsd
+ inc r14d
+.skip:
+ cmp r14d,18
+ jae .finish
+ cmp r15d,PROJECTILE_CAPACITY
+ jb .scan
+.finish:
+ test r14d,r14d
+ jz .done
  mov [output+40],r14d
  imul esi,r14d,64
  add esi,44
