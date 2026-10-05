@@ -198,7 +198,7 @@ try:
             os.pwrite(memory,struct.pack('<I',64),symbols['sim_count'])
             os.pwrite(memory,struct.pack('<2I',1,1),symbols['sim_alive'])
             os.pwrite(memory,struct.pack('<6I',*[1]*6),symbols['orders'])
-            actors=((31,2000.,2500.,0,3,200),(63,2450.,2500.,1,3,200)) if fighters else ((15,2000.,2000.,0,3,200),(32,2740.,2000.,1,0,100))
+            actors=((31,2000.,2500.,0,3,200),(63,2450.,2500.,1,3,200)) if fighters else ((15,2000.,2000.,0,3,200),(32,2900.,2000.,1,0,100))
             for i,x,z,side,kind,hp in actors:
                 os.pwrite(memory,struct.pack('<2f6I',x,z,hp,side,kind,0,0xffffffff,1),symbols['sim_entities']+i*32)
             view=(2200.,160.,2200.,0.,0.) if fighters else (2300.,150.,1900.,1.34,-.26)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Proof of actual assembly corridors; standalone until world hooks are integrated.
+"""Proof of actual assembly corridors and integrated fixed-tick movement.
 Pass libsim.so from a build containing src/nav/squads.asm. This test assembles only
 an ABI adapter, never substitutes a Python route solver for the runtime.
 """
@@ -119,6 +119,15 @@ for i in range(6):
     goal(i,(4050,1300))
 assert metrics[0]==6
 lib.nav_tick();assert metrics[1]==6 and metrics[6]==6
+# Direct scouts and flank support in the same side/front/group must not churn
+# one shared goal. Both actual corridors stay cached while actors alternate.
+init(16)
+for i in (0,3):
+    e=entities[i];e.side=0;e.front=0;e.kind=0;e.x,e.z=3950,1300
+for _ in range(100):
+    goal(0,(4050,1250));goal(3,(4050,1350));lib.nav_tick()
+assert metrics[1]==2 and metrics[0]==0,list(metrics)
+scout_support_builds=metrics[1]
 # Saturation: unique squads enter FIFO, retries do not corrupt pending requests.
 init(16384)
 for i in range(0,16384,16):
@@ -168,9 +177,50 @@ init();e=entities[0];e.kind=1;e.x,e.z=3950,1300
 for _ in range(242):
     lib.nav_tick();goal(0,(4050,1300))
 assert metrics[4]==1,list(metrics)
+stuck_replans=metrics[4]
+# Integrated world hooks: no direct nav_tick/goal/terrain_move calls here.
+# A real armor actor follows the bunker+wall corridor under an explicit order.
+lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
+lib.sim_checksum.restype=C.c_uint64
+world_checksums=[]
+for replay in range(2):
+    assert lib.sim_init(2,19)==0
+    e=entities[0];enemy=entities[1]
+    e.x,e.z,e.kind,e.hp=5243.89013671875,1564.114990234375,1,400
+    enemy.x,enemy.z,enemy.kind=7000,7000,0
+    assert lib.sim_order(1,0,1)==0
+    final=(3125.11279296875,5204.44287109375)
+    assert lib.sim_waypoint(0,0,*final)==0
+    reached=False
+    for world_tick in range(12000):
+        before=e.x,e.z
+        lib.sim_tick()
+        after=e.x,e.z
+        assert math.dist(before,after)<=.501
+        assert not any(crosses(before,after,boxes[i*8:i*8+4]) for i in range(5))
+        assert metrics[6]<=8 and metrics[7]<=8
+        if math.dist(after,final)<.002:
+            reached=True;break
+    assert reached and metrics[1]>0 and metrics[3]>0,(after,list(metrics))
+    world_checksums.append(lib.sim_checksum())
+assert world_checksums[0]==world_checksums[1]
+# Aircraft overhead neither capture nor contest ground sites, even in a fixture
+# where ordinary ground movement is frozen and capture evaluates real records.
+assert lib.sim_init(2,19)==0
+sites=(C.c_uint*(12*8)).in_dll(lib,'sim_sites')
+for i,e in enumerate(entities[:2]):
+    e.kind=3;e.x,e.z=5000,1300;e.side=i;e.hp=200
+before_owner=sites[2*8+2];before_progress=sites[2*8+3]
+for step in range(1,22):
+    tick.value=step*30
+    lib.operation_tick()
+assert sites[2*8+2]==before_owner and sites[2*8+3]==before_progress
+assert sites[2*8+7]&4==0,'aircraft contested a ground site'
 print(json.dumps({'suite':'navigation','passed':True,'oracle_cases':2000,
                   'route_arrival_ticks':route_ticks,'step_metres':.5,
                   'FIFO_admitted_requests':1024,'requests_per_tick_cap':8,
                   'saturation_fallbacks':512,'cover_physical_LOS':True,
-                  'stuck_replans':metrics[4],
-                  'driver':'actual assembly nav_tick/nav_entity_goal/terrain_move'}))
+                  'stuck_replans':stuck_replans,'scout_support_corridor_builds':scout_support_builds,
+                  'driver':'actual assembly corridor queries plus integrated sim_tick movement/replay',
+                  'integrated_route_ticks':world_tick+1,'integrated_replay_checksum':hex(world_checksums[0]),
+                  'aircraft_ground_capture_excluded':True}))

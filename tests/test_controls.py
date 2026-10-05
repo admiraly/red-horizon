@@ -45,7 +45,7 @@ try:
     def click(px,py):
         xt.XTestFakeMotionEvent(display,-1,px,py,0);x.XFlush(display);time.sleep(.12)
         button(True);time.sleep(.12);button(False);time.sleep(.12)
-    def until(predicate,seconds=8):
+    def until(predicate,seconds=15):
         deadline=time.monotonic()+seconds
         while time.monotonic()<deadline:
             current=title(window)

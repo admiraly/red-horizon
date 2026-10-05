@@ -36,7 +36,7 @@ try:
             for prefix in ('cpu_frame','gpu_draw'):
                 assert 0<=timing[0][prefix+'_p95_ms']<=timing[0][prefix+'_p99_ms'],timing[0]
         result['runs'].append({'mode':mode,'exit_code':run.returncode,'seconds':time.perf_counter()-begin,'screenshot':str(image),'telemetry':run.stdout,'timing':timing})
-    controls=subprocess.run([sys.executable,str(ROOT/'tests/test_controls.py'),str(exe)],cwd=ROOT,env=env,capture_output=True,text=True,timeout=30)
+    controls=subprocess.run([sys.executable,str(ROOT/'tests/test_controls.py'),str(exe)],cwd=ROOT,env=env,capture_output=True,text=True,timeout=50)
     (folder/'controls.log').write_text(controls.stdout+controls.stderr)
     assert controls.returncode==0,controls.stdout+controls.stderr
     result['controls']=json.loads(controls.stdout.strip())

@@ -1,7 +1,8 @@
 ; Bounded squad visibility corridors followed by existing local swept steering.
 %include "schemas/entity.inc"
 default rel
-%define SLOTS 12288
+%define SQUAD_SLOTS 12288
+%define SLOTS (SQUAD_SLOTS+2048)
 %define STRIDE 256
 %define QCAP 512
 %define NODES 22
@@ -273,6 +274,13 @@ nav_entity_goal:
  mov edx,r12d
  shr edx,4
  add eax,edx
+ ; Designated scouts have direct goals while their support squad flanks.
+ ; One scout per stable 16-ID group needs its own corridor, otherwise these
+ ; two goals continually invalidate each other and saturate the FIFO.
+ test r12d,15
+ jnz .slot
+ lea eax,[rdx+SQUAD_SLOTS]
+.slot:
  shl eax,8
  lea rbp,[cache]
  add rbp,rax
