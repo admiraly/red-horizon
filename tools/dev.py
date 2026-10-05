@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Development orchestration only. Game simulation lives in NASM objects."""
-import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,sys,tarfile,time,uuid
+import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shlex,shutil,subprocess,sys,tarfile,time,uuid
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'
 RUNS=ROOT/'runs'
@@ -35,43 +35,61 @@ def doctor():
         probe=subprocess.run(['glxinfo','-B'],capture_output=True,text=True,timeout=10)
         data['gpu_probe']={'exit_code':probe.returncode,'details':probe.stdout.strip() if probe.returncode==0 else probe.stderr.strip()}
     print(json.dumps(data,indent=2)); atomic(RUNS/'doctor.json',data)
-def build(target):
+def build(target,objects_only=False):
     BUILD.mkdir(exist_ok=True)
     with (BUILD/'build.lock').open('w') as lock:
         fcntl.flock(lock,fcntl.LOCK_EX)
-        return build_locked(target)
-def build_locked(target):
+        return build_locked(target,objects_only)
+def build_locked(target,objects_only=False):
     start=time.perf_counter(); tool=nasm(); execute([sys.executable,'tools/schema.py'])
     BUILD.mkdir(exist_ok=True)
     sources=[p for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
-    if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=['-lm']; name='red-horizon-server'
+    if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=['-lm']; executable_name='red-horizon-server'
     elif target=='coop':
-        sources += [ROOT/'src/net/coop_server.asm']; libs=['-lm']; name='red-horizon-coop-server'
+        sources += [ROOT/'src/net/coop_server.asm']; libs=['-lm']; executable_name='red-horizon-coop-server'
     elif target=='client':
-        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; name='red-horizon'
+        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
     else: raise RuntimeError('Unsupported target')
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
-    # Include hashes ensure generated layout or shader edits invalidate appropriate objects.
-    includes=list((ROOT/'schemas').glob('*'))+list((ROOT/'shaders').glob('*'))+list((ROOT/'src').rglob('*.inc'))
-    for s in sources:
-        obj=BUILD/(str(s.relative_to(ROOT)).replace('/','_')+'.o'); dep=obj.with_suffix('.sha256')
-        digest=hashlib.sha256(s.read_bytes()+b''.join(p.read_bytes() for p in includes if p.is_file())).hexdigest()
+    # Ask NASM for its actual transitive includes/incbins; unrelated shaders or
+    # schemas must not invalidate every object. Compiler/flags also own the cache.
+    tool_hash=hashlib.sha256(pathlib.Path(tool).read_bytes()).hexdigest()
+    flags=['-f','elf64','-g','-F','dwarf','-I',str(ROOT)+'/']
+    assembled_sources=[]
+    for source in sources:
+        obj=BUILD/(str(source.relative_to(ROOT)).replace('/','_')+'.o'); dep=obj.with_suffix('.sha256')
+        output=subprocess.check_output([tool,*flags,'-M','-MT','object',str(source)],cwd=ROOT,text=True)
+        dependency_paths=shlex.split(output.partition(':')[2].replace('\\\n',' '))
+        h=hashlib.sha256(json.dumps([tool_hash,flags]).encode())
+        for dependency in sorted(set(dependency_paths)):
+            path=pathlib.Path(dependency)
+            if not path.is_absolute(): path=ROOT/path
+            h.update(str(path).encode()+b'\0'); h.update(hashlib.sha256(path.read_bytes()).digest())
+        digest=h.hexdigest()
         if not obj.exists() or not dep.exists() or dep.read_text()!=digest:
-            execute([tool,'-f','elf64','-g','-F','dwarf','-I',str(ROOT)+'/',str(s),'-o',str(obj)]); dep.write_text(digest); assembled+=1
+            temporary=obj.with_suffix('.new')
+            execute([tool,*flags,str(source),'-o',str(temporary)])
+            temporary.replace(obj); dep.write_text(digest); assembled+=1
+            assembled_sources.append(str(source.relative_to(ROOT)))
         objects.append(obj)
-    exe=BUILD/name
+    if objects_only:
+        result={'target':target,'revision':revision(),'objects_only':True,'assembled':assembled,'assembled_sources':assembled_sources,'seconds':time.perf_counter()-start,'executable':None}
+        atomic(BUILD/(target+'-objects-build.json'),result); print(json.dumps(result)); return None
+    if pathlib.Path(executable_name).name!=executable_name: raise RuntimeError('Invalid executable basename')
+    exe=BUILD/executable_name
     signature=hashlib.sha256(b''.join(o.read_bytes() for o in objects)+repr(libs).encode()).hexdigest()
     linkstamp=exe.with_suffix('.linkhash')
     if not exe.exists() or not linkstamp.exists() or linkstamp.read_text()!=signature:
         temporary=exe.with_suffix('.new'); execute(['gcc','-no-pie','-Wl,-z,noexecstack','-o',str(temporary),*[str(o) for o in objects],*libs]); temporary.replace(exe); linkstamp.write_text(signature)
     # Immutable copy used by every launched run.
-    rev=revision(); frozen=BUILD/'revisions'/rev/name; frozen.parent.mkdir(parents=True,exist_ok=True)
+    rev=revision()
+    frozen=BUILD/'revisions'/rev/executable_name; frozen.parent.mkdir(parents=True,exist_ok=True)
     if not frozen.exists() or frozen.read_bytes()!=exe.read_bytes(): shutil.copy2(exe,frozen)
     # Relative shader and content paths must also be immutable for runs.
     for folder in ('shaders','content'):
         if (ROOT/folder).exists(): shutil.copytree(ROOT/folder,frozen.parent/folder,dirs_exist_ok=True)
-    result={'target':target,'revision':rev,'assembled':assembled,'seconds':time.perf_counter()-start,'executable':str(frozen)}
+    result={'target':target,'revision':rev,'assembled':assembled,'assembled_sources':assembled_sources,'seconds':time.perf_counter()-start,'executable':str(frozen)}
     atomic(BUILD/(target+'-build.json'),result); print(json.dumps(result)); return frozen
 def run_headless(args,benchmark=False):
     exe=build('headless'); scenario=args.scenario
@@ -140,16 +158,16 @@ def main():
     p=argparse.ArgumentParser(description=__doc__); sub=p.add_subparsers(dest='command',required=True)
     for name in ('doctor','configure','jobs','package'): sub.add_parser(name)
     q=sub.add_parser('collect'); q.add_argument('job_id')
-    q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','player','tactics','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
     if args.command in ('doctor','configure'): doctor()
-    elif args.command=='build': build(args.target)
+    elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
         if args.client:
             exe=build('client'); cmd=[str(exe)];
@@ -166,17 +184,18 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','headless','simulation'):
+        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','player','tactics'):
             exe=build('headless'); library=BUILD/'libsim.so'
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             probe=BUILD/'terrain_probe.o'
             execute([nasm(),'-f','elf64','tests/terrain_probe.asm','-o',str(probe)])
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(probe),'-lm'])
-            execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
+            if suite in ('all','headless','fast'): execute([sys.executable,'tests/test_fast.py',str(exe),str(library)])
+            if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
             for test in ('operation','waypoints','terrain','player','tactics'):
-                if (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
-        if suite in ('all','headless','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
-        if suite in ('all','headless','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
+                if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','fast','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
+        if suite in ('all','headless','fast','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
         if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
         if suite in ('all','headless','network') and (ROOT/'tests/test_coop.py').exists():
             server=build('coop')
@@ -187,7 +206,7 @@ def main():
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
             execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
         if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
-        if suite in ('all','headless'): execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','headless','fast'): execute([sys.executable,'tools/assets.py'])
         if suite in ('all','graphics'):
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])

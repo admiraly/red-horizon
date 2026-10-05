@@ -15,7 +15,9 @@ Requires Linux x86-64, Python 3, GCC/linker, NASM 2.16.03, GLFW 3, OpenGL 4.5 an
 ```sh
 python3 tools/dev.py doctor
 python3 tools/dev.py build --changed
-python3 tools/dev.py test --suite all
+python3 tools/dev.py test --suite fast # routine iteration
+python3 tools/dev.py test --suite player # focused module check
+python3 tools/dev.py test --suite all --extended --background # integration checkpoint
 python3 tools/dev.py bench --scenario scale-open --ticks 600
 python3 tools/dev.py bench --scenario scale-stretch --ticks 600
 python3 tools/dev.py server --headless --ticks 300 --realtime
@@ -30,6 +32,8 @@ python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
 The `server` command runs the shared local headless simulation. `coop` hosts the actual shared-world UDP server; its default runs until interrupted, and `--ticks N` makes a finite test run. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot are reserved and fail explicitly until implemented. Headless metrics do not establish GPU frame rate or complete army intelligence.
 
 Client controls: WASD, Shift sprint, mouse aim/fire, R reload, Tab tactical view, F1/F2/F3 front selection, 1/2/3 advance/hold/retreat, tactical click destination, Escape quit. Health, suppression, death and safe redeployment are authoritative. Network slots0–2 own their matching fronts; slot3 supports front0. Placeholder silhouettes represent real simulation entities. Recorded rifle PCM is pumped through ALSA; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
+
+`test --suite fast` checks small real-core combat/replay, operation, waypoints, terrain, tactics, players, reload, audio and asset integrity in about half a second on the development machine. It omits large combat scale/replay, real UDP, graphics and build-tool isolation checks; full extended verification retains them. Focused core suites: operation, waypoints, terrain, player, tactics. `build --target client --objects-only` validates assembly without linking or a GPU; it does not compile GLSL. Actual transitive NASM include/incbin dependencies control incremental rebuilds.
 
 Slow checks can append `--background`. A job receives a frozen source copy, revision/hash, log and result path. Use `python3 tools/dev.py jobs` and `collect JOB_ID` to reconcile results. Build outputs and evidence remain under ignored `build/` and `runs/`.
 
