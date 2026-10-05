@@ -15,7 +15,7 @@
 | CPU/GPU client profiling | integrator | GL renderer |bounded timer ring hooked; CPU/GPU samples observed headlessly |
 | Local packaging | integrator | client/content |archive with hashes built; final revision package below session reports |
 | Public GitHub | integrator | explicit authorization |repo created and first validated snapshot pushed |
-| GitHub Actions | integrator |workflow credential scope |workflow authored locally; upload blocked by OAuth scope |
+| GitHub Actions | integrator |workflow credential scope |credential scope restored; workflow publishing, first remote result pending |
 | Windows parity | ready/unassigned | platform ABI |pending |
 | Hierarchical navigation/cover/intelligence | next ready | spatial/world |pending |
 | Authoritative gameplay co-op | next ready | UDP/world |pending |
