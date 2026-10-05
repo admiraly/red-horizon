@@ -20,6 +20,7 @@ min_radius: dd 1.5
 max_radius: dd 12.0
 view_range2: dd 490000.0
 ticks_per_second: dd 30.0
+max_dt: dd 0.25
 section .bss
 align 16
 effects_records: resb 64*32 ; start xyz,remaining; end xyz,type1 tracer
@@ -50,6 +51,18 @@ effects_update:
  movss [view_x],xmm1
  movss xmm1,[rax+rdi+PLAYER_Z]
  movss [view_z],xmm1
+ movd eax,xmm0
+ and eax,0x7f800000
+ cmp eax,0x7f800000
+ je .bad_dt
+ ucomiss xmm0,[zero]
+ jp .bad_dt
+ jb .bad_dt
+ minss xmm0,[max_dt]
+ jmp .dt_ready
+.bad_dt:
+ xorps xmm0,xmm0
+.dt_ready:
  movss [dt],xmm0
  lea rbx,[effects_records]
  mov ecx,64
@@ -110,6 +123,19 @@ effects_update:
  cmp r12d,4
  jb .players
  call .events
+ ; Count the finished pool, including records emitted this update.
+ lea rbx,[effects_records]
+ mov ecx,64
+ xor edx,edx
+.recount:
+ movss xmm0,[rbx+12]
+ ucomiss xmm0,[zero]
+ jbe .recount_next
+ inc edx
+.recount_next:
+ add rbx,32
+ loop .recount
+ mov [effects_active],edx
  pop r13
  pop r12
  pop rbx
@@ -232,11 +258,29 @@ effects_update:
  subss xmm0,xmm2
  mov edx,3
  call .impact
+ cmp dword [rbx+EVENT_KIND],EVENT_BOMB_IMPACT
+ je .layers
  cmp dword [rbx+EVENT_KIND],EVENT_AIR_DESTROYED
  jne .countimpact
+.layers:
+ ; Additional real-event layers share the same bounded pool and actual age.
+ movss xmm0,[smoke_life]
+ subss xmm0,xmm2
+ mov edx,3
+ call .impact
+ movss xmm0,[smoke_life]
+ subss xmm0,xmm2
+ mov edx,5 ; low expanding dust: ground bomb impact only
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_DESTROYED
+ je .debris
+ call .impact
+.debris:
  movss xmm0,[smoke_life]
  subss xmm0,xmm2
  mov edx,4
+ call .impact
+ call .impact
+ call .impact
  call .impact
 .countimpact:
  inc dword [effects_impacts]

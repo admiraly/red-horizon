@@ -48,7 +48,16 @@ void main(){
   vec3 view=normalize(camera-worldPosition),halfway=normalize(view+normalize(vec3(.35,.85,-.2)));
   surface+=vec3(.16,.18,.19)*pow(max(0.,dot(n,halfway)),14.)*weather.z;
  }
- float alpha=effectAlpha;if(effectType>=2){float r=length(effectUV);if(r>1.)discard;alpha*=smoothstep(1.,.35,r);}
+ float alpha=effectAlpha;
+ if(effectType>=2){
+  vec2 uv=effectUV;float r=length(uv);if(r>1.)discard;
+  if(effectType==3||effectType==5||effectType==7){
+   float billow=smoothNoise(uv*5.+vec2(worldPosition.y*.09));
+   alpha*=smoothstep(1.,.2,r)*mix(.5,1.,billow);
+   surface*=mix(.72,1.2,billow);
+  }else if(effectType==4){alpha*=1.-smoothstep(.45,.95,r);}
+  else{alpha*=smoothstep(1.,.35,r);}
+ }
  // Screen UI and map symbols remain readable; emission effects retain their hue.
  float fog=1.-exp(-distanceFog*(.00018+weather.w));
  if(materialMode==2||materialMode==3||materialMode==4||materialMode==7||materialMode==8)fog=0.;
