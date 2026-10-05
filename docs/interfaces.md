@@ -26,3 +26,20 @@ Player motion: `player_motion[4]` uses32bytes per slot: footY f32+0, vertical me
 CLI `--census` requires explicit bounded client frames1..10000; benchmark default600 is bounded. `--census-map PATH` requires census and writes raw little-endian uint32 pixels with dimensions/tick in JSON. Low16bits encode stable army entity index+1; bits16..17 classify high1/low2/marker3. Zero is background or nonarmy occlusion. No entity/network ABI changes. GPU outputlocation0 retains ordinary colour; outputlocation1 writes identity into opt-in R32UI. Opaque terrain/props/weapon/humans occlude army IDs, and later translucent cosmetics/HUD mask that attachment.
 
 `visibility_init/begin/world_end/finish/report/shutdown` own optional private GL resources and bounded static readback. Finishreturns0/-1 and rejects changed authority, invalidpixels orGLerrors. Begin/finish authoritativechecksums mustmatch. `visibility_reduce(RDI pixels,ESI word_count)` returns0/-1, resets privatecounts and deduplicatesactualIDs. Rawcapture and eight independent productiongeometry GLfixtures distinguish missing/occluded geometry and detailtypes. See docs/visibility-census.md for storage, masks, timing and scope.
+
+## Observed incoming danger contract (integration in progress)
+
+schemas/hazard.inc defines private512x64 incoming trajectory estimates and32-byte
+per-entity generation/commitment state. World hooks init/tick/entity_goal/hash;
+no entity/player/wire stride changes. Only existing artillery2/bomb3 projectiles
+can create threats. Estimated ground intercept is bounded to120ticks, then tile
+indices limit individual queries to8candidates. Read-only hazard_query accepts
+an actual eye/side and returns enemy explosive index/impact/radius/ETA andLOS-call
+count; current projectile range<=300m, local danger<=radius+20m and terrainLOS
+are mandatory. It does not expose hidden enemy/unit/player positions. Fixed8tick
+per-entity observation phases and a1024LOS/tick cap bound authority perception;
+short40tick memories steer continuously at existing role speeds after perception.
+Ground hazard goals temporarily interrupt hold/advance and bypass slow squad
+corridors, but terrain_move still enforces collision/speed. A bounded helper chooses
+reachable dispersion or nearby physical shelter. Player cues query read-only local
+estimates; network client warnings remain a separately required integration.
