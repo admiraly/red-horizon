@@ -118,6 +118,7 @@ try:
         enemy = struct.pack('<ff6I', 2000., 3940., 100, 1, 0, 1, 0xffffffff, 1)
         os.pwrite(memory, enemy, enemy_address)
         os.pwrite(memory, struct.pack('<I', 1), symbols['orders'] + 4 * 4)
+        os.pwrite(memory, struct.pack('<I', 1), symbols['ai_fronts'] + 4 * 64 + 24) # documented manual-front fixture override
         hits_before = player()['hits']; button(True)
         until(lambda: player()['hits'] > hits_before, 2)
         button(False); time.sleep(.05)
@@ -126,8 +127,8 @@ try:
         # A separate actor inflicts actual periodic enemy attack damage. Player HP
         # is never written by the driver. Authority chooses death and safe spawn.
         os.pwrite(memory, struct.pack('<ff6I', 2040., 3900., 400, 1, 1, 1, 0xffffffff, 1), enemy_address)
-        until(lambda: player()['hp'] < 100, 3)
-        damaged = player(); assert damaged['suppression'] > 0, damaged
+        damaged = until(lambda: p if (p := player())['hp'] < 100 and p['suppression'] > 0 else None, 3)
+        assert damaged['suppression'] > 0, damaged
         until(lambda: player()['hp'] == 0, 9)
         dead = player(); assert 0 < dead['respawn'] <= 30, dead
         until(lambda: 'DOWN: SAFE REDEPLOY' in title(window), 1)

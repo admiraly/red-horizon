@@ -8,7 +8,9 @@ extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_count,sim_entities
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state,sim_waypoint,sim_waypoints
 extern player_join,player_input,sim_players
-extern terrain_obstacles,terrain_obstacle_count
+extern net_client_open,net_client_poll,net_client_input,net_client_order,net_client_close
+extern net_connected,net_player_id,net_front,net_server_tick,net_last_status,net_pending
+extern terrain_height,terrain_move,terrain_obstacles,terrain_obstacle_count
 extern battle_vertex_source,battle_fragment_source
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
@@ -27,6 +29,20 @@ title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical 
 frames_opt: db '--frames',0
 shot_opt: db '--screenshot',0
 map_opt: db '--tactical',0
+connect_opt: db '--connect',0
+port_opt: db '--port',0
+help_opt: db '--help',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
+joining_text: db 'JOINING / CONNECTION LOST',0
+net_ready_text: db 'CONNECTED',0
+net_denied_text: db 'ORDER DENIED: SELECT YOUR OWN FRONT',0
+net_bounds_text: db 'ORDER DENIED: POINT OUTSIDE MAP',0
+net_queue_text: db 'ORDER QUEUED',0
+net_busy_text: db 'ORDER BUSY: WAIT FOR SERVER ACK',0
+net_sent_text: db 'ORDER ACCEPTED: COST 5',0
+net_reject_text: db 'SERVER REJECTED REQUEST',0
+net_metrics: db 'network connected=%u player=%u front=%u server_tick=%u known_living=%u local_sim_ticks=%u',10,0
 cam_name: db 'camera',0
 angle_name: db 'angle',0
 terrain_name: db 'terrain',0
@@ -61,6 +77,11 @@ map_text: db 'TACTICAL',0
 fzero: dd 0.0
 world_max: dd 8000.0
 fone: dd 1.0
+walk_prediction: dd 0.166666667
+sprint_prediction: dd 0.3
+net_predict_timeout: dq 0.2
+eyes: dd 1.8
+offscreen: dd -20000.0
 smooth_rate: dd 15.0
 snap_distance: dd 25.0
 sixty: dd 60.0
@@ -90,6 +111,8 @@ pitch: dd -0.04
 frame_limit: dd 0
 magazine: dd 30
 mouse_seed: dd 3
+server_port: dd 7777
+command_message: dq net_ready_text
 section .bss
 window: resq 1
 program: resd 1
@@ -105,6 +128,21 @@ goal_loc: resd 1
 health_loc: resd 1
 local_loc: resd 1
 local_player: resd 1
+connect_address: resq 1
+network_mode: resd 1
+network_joined: resd 1
+last_net_tick: resd 1
+last_net_time: resq 1
+known_entities: resd 1
+local_sim_ticks: resd 1
+command_pending: resd 1
+command_front: resd 1
+command_mode: resd 1
+command_goal: resd 2
+net_goal: resd 6
+net_goal_valid: resd 3
+order_down_mask: resd 1
+visual_target: resd 3
 player_hp: resd 1
 player_suppression: resd 1
 player_respawn: resd 1
@@ -151,6 +189,7 @@ shader_status: resd 1
 source_ptr: resq 1
 log: resb 4096
 title_buf: resb 384
+net_title_buf: resb 640
 glfw_version: resd 3
 pixels: resb 2764800
 section .text
@@ -200,12 +239,55 @@ main:
  lea rsi,[map_opt]
  call strcmp
  test eax,eax
- jnz .fail
+ jnz .connectarg
  mov dword [tactical],1
+ jmp .nextarg
+.connectarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[connect_opt]
+ call strcmp
+ test eax,eax
+ jnz .portarg
+ inc ebx
+ cmp ebx,r12d
+ jge .fail
+ mov rax,[r13+rbx*8]
+ mov [connect_address],rax
+ mov dword [network_mode],1
+ jmp .nextarg
+.portarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[port_opt]
+ call strcmp
+ test eax,eax
+ jnz .helparg
+ inc ebx
+ cmp ebx,r12d
+ jge .fail
+ mov rdi,[r13+rbx*8]
+ call atoi
+ cmp eax,1
+ jl .fail
+ cmp eax,65535
+ ja .fail
+ mov [server_port],eax
+ jmp .nextarg
+.helparg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[help_opt]
+ call strcmp
+ test eax,eax
+ jnz .fail
+ lea rdi,[help_text]
+ call puts
+ xor eax,eax
+ jmp .exit
 .nextarg:
  inc ebx
  jmp .args
 .init:
+ cmp dword [network_mode],0
+ jne .networkinit
  mov edi,8192
  mov esi,42
  call sim_init
@@ -217,6 +299,14 @@ main:
  test eax,eax
  jnz .fail
  mov dword [selected_front],1
+ jmp .platforminit
+.networkinit:
+ mov rdi,[connect_address]
+ mov esi,[server_port]
+ call net_client_open
+ test eax,eax
+ jnz .fail
+.platforminit:
  lea rdi,[glfw_version]
  lea rsi,[glfw_version+4]
  lea rdx,[glfw_version+8]
@@ -369,6 +459,10 @@ main:
  call metrics_frame_begin
  call audio_update
  call glfwPollEvents
+ cmp dword [network_mode],0
+ je .input
+ call poll_network
+.input:
  call update_input
  test eax,eax
  jnz .done
@@ -387,7 +481,13 @@ main:
  jb .render
  subsd xmm0,[thirty]
  movsd [accum],xmm0
+ cmp dword [network_mode],0
+ jne .networktick
  call sim_tick
+ inc dword [local_sim_ticks]
+ jmp .tick
+.networktick:
+ call network_tick
  jmp .tick
 .render:
  call sync_player
@@ -520,10 +620,7 @@ main:
  cmp dword [tactical],0
  je .restoredepth
  mov edi,[goal_loc]
- mov eax,[selected_front]
- lea rdx,[sim_waypoints]
- movss xmm0,[rdx+rax*8]
- movss xmm1,[rdx+rax*8+4]
+ call selected_goal
  call glUniform2f
  mov edi,[terrain_loc]
  mov esi,4
@@ -589,10 +686,9 @@ main:
  mov r8d,[waypoint_orders]
  xor eax,eax
  call printf
- mov eax,[selected_front]
- lea rdx,[sim_waypoints]
- cvtss2sd xmm0,[rdx+rax*8]
- cvtss2sd xmm1,[rdx+rax*8+4]
+ call selected_goal
+ cvtss2sd xmm0,xmm0
+ cvtss2sd xmm1,xmm1
  lea rdi,[goal_metrics]
  mov eax,2
  call printf
@@ -609,6 +705,21 @@ main:
  cvtss2sd xmm1,[start_player_z]
  mov eax,2
  call printf
+ cmp dword [network_mode],0
+ je .nonetreport
+ sub rsp,16
+ mov eax,[local_sim_ticks]
+ mov [rsp],rax
+ lea rdi,[net_metrics]
+ mov esi,[net_connected]
+ mov edx,[net_player_id]
+ mov ecx,[net_front]
+ mov r8d,[net_server_tick]
+ mov r9d,[known_entities]
+ xor eax,eax
+ call printf
+ add rsp,16
+.nonetreport:
  mov rdi,[window]
  call glfwDestroyWindow
  call glfwTerminate
@@ -634,6 +745,10 @@ main:
 .exit:
  mov ebx,eax
  call audio_shutdown
+ cmp dword [network_mode],0
+ je .closed
+ call net_client_close
+.closed:
  mov eax,ebx
  add rsp,8
  pop r15
@@ -728,13 +843,52 @@ update_input:
  mov esi,ebx
  call glfwGetKey
  test eax,eax
- jz .nextorder
+ jz .keyreleased
  mov edx,ebx
  sub edx,49
+ cmp dword [network_mode],0
+ jne .networkorder
  mov [order_mode],edx
  xor edi,edi
  mov esi,[selected_front]
  call sim_order
+ jmp .nextorder
+.networkorder:
+ mov ecx,ebx
+ sub ecx,49
+ bts dword [order_down_mask],ecx
+ jc .nextorder
+ call selected_goal
+ ; First advance selects the next hostile deployment/command site in this row.
+ comiss xmm0,[fzero]
+ jae .havegoal
+ cmp ebx,49
+ jne .playergoal
+ mov eax,[selected_front]
+ shl eax,7
+ lea rdx,[sim_sites+64]
+ add rdx,rax
+ cmp dword [rdx+8],1
+ je .sitegoal
+ add rdx,32
+.sitegoal:
+ movss xmm0,[rdx]
+ movss xmm1,[rdx+4]
+ jmp .havegoal
+.playergoal:
+ call player_pointer
+ movss xmm0,[rax+PLAYER_X]
+ movss xmm1,[rax+PLAYER_Z]
+.havegoal:
+ mov edi,[selected_front]
+ mov esi,ebx
+ sub esi,49
+ call queue_network_order
+ jmp .nextorder
+.keyreleased:
+ mov ecx,ebx
+ sub ecx,49
+ btr dword [order_down_mask],ecx
 .nextorder:
  inc ebx
  cmp ebx,52
@@ -780,6 +934,8 @@ update_input:
  call cosf
  movss [cos_yaw],xmm0
  call collect_intent
+ cmp dword [network_mode],0
+ jne .afterintent
  mov edi,[local_player]
  mov esi,[intent_buttons]
  movss xmm0,[wish_x]
@@ -787,6 +943,7 @@ update_input:
  movss xmm2,[yaw]
  movss xmm3,[pitch]
  call player_input
+.afterintent:
  cmp dword [tactical],0
  je .title
  call tactical_click
@@ -824,6 +981,10 @@ update_input:
  mov esi,384
  lea rdx,[title_fmt]
  mov ecx,[sim_count]
+ cmp dword [network_mode],0
+ je .unitstitle
+ mov ecx,[known_entities]
+.unitstitle:
  mov r8d,[magazine]
  lea r9,[fps_text]
  cmp dword [tactical],0
@@ -841,9 +1002,35 @@ update_input:
  xor eax,eax
  call snprintf
  add rsp,64
+ cmp dword [network_mode],0
+ je .localtitle
+ sub rsp,32
+ mov eax,[net_server_tick]
+ mov [rsp],rax
+ mov rax,[command_message]
+ cmp dword [net_connected],0
+ jne .netmsg
+ lea rax,[joining_text]
+.netmsg:
+ mov [rsp+8],rax
+ lea rdi,[net_title_buf]
+ mov esi,640
+ lea rdx,[net_fmt]
+ lea rcx,[title_buf]
+ mov r8d,[net_player_id]
+ mov r9d,[net_front]
+ xor eax,eax
+ call snprintf
+ add rsp,32
+ mov rdi,[window]
+ lea rsi,[net_title_buf]
+ call glfwSetWindowTitle
+ jmp .titlereturn
+.localtitle:
  mov rdi,[window]
  lea rsi,[title_buf]
  call glfwSetWindowTitle
+.titlereturn:
  xor eax,eax
  pop rbx
  ret
@@ -875,6 +1062,13 @@ tactical_click:
  movaps xmm1,xmm2
  mulss xmm1,[map_scale]
  addss xmm1,[map_centre]
+ cmp dword [network_mode],0
+ je .localwaypoint
+ mov edi,[selected_front]
+ xor esi,esi
+ call queue_network_order
+ jmp .return
+.localwaypoint:
  xor edi,edi
  mov esi,[selected_front]
  call sim_waypoint
@@ -971,6 +1165,175 @@ collect_intent:
  pop rbx
  ret
 
+; One bounded pending order is retried before inputs; no local world tick runs.
+poll_network:
+ push rbx
+ call net_client_poll
+ cmp dword [net_connected],1
+ jne .count
+ mov eax,[net_player_id]
+ cmp eax,3
+ ja .count
+ mov [local_player],eax
+ cmp dword [network_joined],0
+ jne .clock
+ mov dword [network_joined],1
+ mov eax,[net_front]
+ mov [selected_front],eax
+ mov dword [last_generation],0
+.clock:
+ mov eax,[net_server_tick]
+ cmp eax,[last_net_tick]
+ je .status
+ mov [last_net_tick],eax
+ call glfwGetTime
+ movsd [last_net_time],xmm0
+.status:
+ cmp dword [net_last_status],0
+ je .count
+ lea rax,[net_reject_text]
+ mov [command_message],rax
+.count:
+ xor ecx,ecx
+ xor edx,edx
+ lea rax,[sim_entities]
+.scan:
+ cmp ecx,[sim_count]
+ jae .done
+ cmp dword [rax+8],0
+ je .next
+ inc edx
+.next:
+ add rax,32
+ inc ecx
+ jmp .scan
+.done:
+ mov [known_entities],edx
+ pop rbx
+ ret
+
+selected_goal:
+ mov eax,[selected_front]
+ cmp dword [network_mode],0
+ jne .network
+ lea rdx,[sim_waypoints]
+ movss xmm0,[rdx+rax*8]
+ movss xmm1,[rdx+rax*8+4]
+ ret
+.network:
+ lea rdx,[net_goal_valid]
+ cmp dword [rdx+rax*4],0
+ je .unknown
+ lea rdx,[net_goal]
+ movss xmm0,[rdx+rax*8]
+ movss xmm1,[rdx+rax*8+4]
+ ret
+.unknown:
+ movss xmm0,[offscreen]
+ movaps xmm1,xmm0
+ ret
+
+queue_network_order:
+ cmp dword [command_pending],2
+ je .busy
+ cmp dword [net_connected],1
+ jne .unconnected
+ cmp edi,[net_front]
+ jne .denied
+ cmp dword [net_player_id],3
+ je .denied
+ ucomiss xmm0,[fzero]
+ jp .bounds
+ jb .bounds
+ ucomiss xmm1,[fzero]
+ jp .bounds
+ jb .bounds
+ ucomiss xmm0,[world_max]
+ ja .bounds
+ ucomiss xmm1,[world_max]
+ ja .bounds
+ mov [command_front],edi
+ mov [command_mode],esi
+ movss [command_goal],xmm0
+ movss [command_goal+4],xmm1
+ mov dword [command_pending],1
+ lea rax,[net_queue_text]
+ mov [command_message],rax
+ xor eax,eax
+ ret
+.busy:
+ lea rax,[net_busy_text]
+ jmp .failure
+.denied:
+ lea rax,[net_denied_text]
+ jmp .failure
+.bounds:
+ lea rax,[net_bounds_text]
+ jmp .failure
+.unconnected:
+ lea rax,[joining_text]
+.failure:
+ mov [command_message],rax
+ mov eax,-1
+ ret
+
+network_tick:
+ push rbx
+ cmp dword [command_pending],2
+ je .awaitack
+ cmp dword [command_pending],0
+ je .input
+ mov edi,[command_front]
+ mov esi,[command_mode]
+ movss xmm0,[command_goal]
+ movss xmm1,[command_goal+4]
+ call net_client_order
+ test eax,eax
+ jnz .return
+ mov dword [command_pending],2
+ jmp .return
+.awaitack:
+ cmp dword [net_connected],1
+ jne .disconnected
+ cmp dword [net_pending],0
+ jne .return
+ mov dword [command_pending],0
+ cmp dword [net_last_status],0
+ jne .rejected
+ inc dword [waypoint_orders]
+ mov eax,[command_mode]
+ mov [order_mode],eax
+ mov eax,[command_front]
+ lea rdx,[net_goal]
+ movss xmm0,[command_goal]
+ movss [rdx+rax*8],xmm0
+ movss xmm0,[command_goal+4]
+ movss [rdx+rax*8+4],xmm0
+ lea rdx,[net_goal_valid]
+ mov dword [rdx+rax*4],1
+ lea rax,[net_sent_text]
+ mov [command_message],rax
+ jmp .return
+.rejected:
+ lea rax,[net_reject_text]
+ mov [command_message],rax
+ jmp .return
+.disconnected:
+ mov dword [command_pending],0
+ lea rax,[joining_text]
+ mov [command_message],rax
+ jmp .return
+.input:
+ mov esi,[intent_buttons]
+ movss xmm0,[wish_x]
+ movss xmm1,[wish_z]
+ movss xmm2,[yaw]
+ movss xmm3,[pitch]
+ call net_client_input
+.return:
+ pop rbx
+ ret
+
 ; Shared VBO record layouts: army/sites/obstacles32, authoritative players64.
 set_instance_layout:
  push rbx
@@ -1024,6 +1387,41 @@ sync_player:
  push rbx
  call player_pointer
  mov rbx,rax
+ movss xmm0,[rbx+PLAYER_X]
+ movss [visual_target],xmm0
+ movss xmm0,[rbx+PLAYER_Y]
+ movss [visual_target+4],xmm0
+ movss xmm0,[rbx+PLAYER_Z]
+ movss [visual_target+8],xmm0
+ cmp dword [network_mode],0
+ je .noprediction
+ cmp dword [net_connected],1
+ jne .noprediction
+ cmp dword [rbx+PLAYER_HP],0
+ je .noprediction
+ call glfwGetTime
+ subsd xmm0,[last_net_time]
+ comisd xmm0,[net_predict_timeout]
+ ja .noprediction
+ movss xmm0,[rbx+PLAYER_X]
+ movss xmm1,[rbx+PLAYER_Z]
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ addss xmm2,[wish_x]
+ addss xmm3,[wish_z]
+ movss xmm4,[walk_prediction]
+ test dword [intent_buttons],INPUT_SPRINT
+ jz .predictstep
+ movss xmm4,[sprint_prediction]
+.predictstep:
+ xor edi,edi
+ call terrain_move
+ movss [visual_target],xmm0
+ movss [visual_target+8],xmm1
+ call terrain_height
+ addss xmm0,[eyes]
+ movss [visual_target+4],xmm0
+.noprediction:
  mov eax,[rbx+PLAYER_HP]
  mov [player_hp],eax
  cmp eax,[last_hp]
@@ -1050,12 +1448,12 @@ sync_player:
  mov [player_generation],eax
  cmp eax,[last_generation]
  jne .snap
- movss xmm0,[rbx+PLAYER_X]
+ movss xmm0,[visual_target]
  subss xmm0,[camera]
  andps xmm0,[absolute_mask]
  comiss xmm0,[snap_distance]
  ja .snap
- movss xmm0,[rbx+PLAYER_Z]
+ movss xmm0,[visual_target+8]
  subss xmm0,[camera+8]
  andps xmm0,[absolute_mask]
  comiss xmm0,[snap_distance]
@@ -1071,7 +1469,7 @@ sync_player:
 .interpolate:
 %assign off 0
 %rep 3
- movss xmm0,[rbx+off]
+ movss xmm0,[visual_target+off]
  subss xmm0,[camera+off]
  mulss xmm0,xmm3
  addss xmm0,[camera+off]
