@@ -163,3 +163,16 @@ poses; session guards apply as for all snapshots. Kinds `6..9` add cosmetic bomb
 launch/impact, air gun and aircraft destruction events. Damage remains
 server-authoritative. The dedicated report includes transmitted aircraft record
 count, separate from entity records.
+
+Aircraft transport verification on the worker source snapshot
+`cfddcf4dddc37c8247ff7796aa278c4ea9e6a5d5-a9580da71f82b33f` passed the
+focused network suite: the actual 8192-unit dedicated server transmitted 5200
+aircraft records during 180 ticks, alongside 11520 entity records and 881712
+outbound bytes. The linked assembly adapter applied actual aircraft sidecars
+with exact kind/generation and simulation speeds 5/7 metres per tick. The wire
+fixture rejected 35 malformed event/aircraft/ownership cases without partial
+publication and checked stale ticks, mismatched generations/sessions, arrival
+before entity chunks, and ground actors. Live co-op vehicle combat and event
+replication passed, with largest observed datagram 1196 bytes. These are focused
+transport results; full UDP fault/scale/graphics integration remains the
+integrator's checkpoint, and this does not establish smooth dense air rendering.

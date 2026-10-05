@@ -236,6 +236,7 @@ def verify_adapter(server, library):
         ready = json.loads(process.stdout.readline())
         assert lib.net_client_open(b'127.0.0.1', ready['port']) == 0
         entity_bytes = (ctypes.c_ubyte * (32768*32)).in_dll(lib, 'sim_entities')
+        air_bytes = (ctypes.c_ubyte * (32768*64)).in_dll(lib, 'sim_aircraft')
         assert all(struct.unpack_from('<I', entity_bytes, i*32+8)[0] == 0 for i in range(32768))
         connected = ctypes.c_uint.in_dll(lib, 'net_connected')
         players = (ctypes.c_ubyte * 256).in_dll(lib, 'sim_players')
@@ -251,6 +252,19 @@ def verify_adapter(server, library):
         assert connected.value == 1 and initial is not None
         assert struct.unpack_from('<f', players, 0)[0] > initial
         assert sum(struct.unpack_from('<I', entity_bytes, i*32+8)[0] > 0 for i in range(8192)) > 0
+        replicated_air = 0
+        for index in range(8192):
+            flags=struct.unpack_from('<I',air_bytes,index*64+60)[0]
+            if not flags:
+                continue
+            generation=struct.unpack_from('<I',air_bytes,index*64+40)[0]
+            entity=struct.unpack_from('<2f6I',entity_bytes,index*32)
+            assert entity[4]==3 and entity[7]==generation
+            y,heading,pitch,bank,speed,role,mode=struct.unpack_from('<5fII',air_bytes,index*64)
+            assert all(map(math.isfinite,(y,heading,pitch,bank,speed)))
+            assert speed in (5.,7.) and role<=1 and mode<=3
+            replicated_air += 1
+        assert replicated_air>0, 'assembly adapter never applied actual aircraft sidecars'
         stdout, stderr = process.communicate(timeout=3)
         assert process.returncode == 0, (stdout, stderr)
         lib.net_client_poll()
