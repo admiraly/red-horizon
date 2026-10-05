@@ -1,0 +1,766 @@
+RED HORIZON
+FULL DEVELOPMENT SPECIFICATION AND LOCAL CODING AGENT HANDOFF
+Version 1.0 — 2026-10-05
+Working tagline: Command the offensive. Fight inside it.
+Suggested public repository slug: red-horizon
+
+READ THIS ENTIRE DOCUMENT, THEN IMPLEMENT. DO NOT RETURN ONLY A PLAN.
+
+1. YOUR MISSION AND AUTHORITY
+
+You are the lead implementation agent for RED HORIZON. AI agents will perform
+the coding, testing, integration, tooling, and documentation. Build the game
+described here, with maximum sustainable implementation throughput and the
+fastest practical edit-to-feedback loop. You may orchestrate parallel agents
+when your harness supports them; otherwise execute the same task graph yourself.
+
+Inspect the supplied repository, instructions, hardware, tools, and credentials
+before changing anything. Preserve existing work. If the directory is empty,
+bootstrap the repository locally. Use an existing authorized GitHub remote when
+available. Do not invent a repository URL or assume publishing credentials exist.
+If remote access is missing, keep implementing locally and state the one missing
+setup step. Do not let unavailable GitHub access halt local development.
+
+Proceed autonomously with reversible implementation decisions. This document
+authorizes creating code, tooling, tests, documentation, local commits, and worktrees.
+Follow the actual session's authorization for remote pushes and repository creation.
+Do not purchase services, choose paid runners, erase unrelated work, force-push
+shared history, or release publicly without applicable authorization.
+
+Never declare a feature complete because files exist. Completion requires an
+implemented path plus appropriate verification. Never claim performance, visual
+quality, multiplayer support, or intelligent behaviour without evidence.
+
+2. NON-NEGOTIABLE PRODUCT REQUIREMENTS
+
+R01: First-person PC shooter combined with real-time strategy command.
+R02: Pure cooperation against AI. No player-versus-player mode in scope.
+R03: MASSIVE open warfare: thousands of individual units on EACH side.
+R04: Multiple simultaneous fronts, large maps, varied terrain, combined arms.
+R05: Intelligent coordinated armies, tactical squads, responsive individuals.
+R06: Spectacular VFX and dense, high-quality recorded SFX. Artillery, bombs,
+     gunfire, tracers, vehicles, smoke, impacts, debris, destruction, air support.
+R07: Highly engaging action. Minimise involuntary downtime and provide meaningful
+     decisions, threats, opportunities, and recovery from setbacks.
+R08: All project-authored CPU runtime code is x86-64 assembly.
+R09: Iteration speed is a first-class requirement, measured continuously.
+R10: Public GitHub project with asynchronous CI and parallel agent workflow.
+
+Small scenes exist for debugging. They are not permission to shrink the product.
+Develop scale infrastructure and benchmarks alongside the first playable systems.
+Do not substitute a tiny arena, token waves, static scenery armies, or invisible
+unit counters for the specified battlefield.
+
+Claims such as "the most spectacular ever" express artistic ambition, not a
+verifiable comparative guarantee. Translate that ambition into observable features,
+strong audiovisual craft, playtesting, and measured budgets.
+
+3. DECISION STATUS AND DEFAULTS
+
+Locked: RED HORIZON working title; FPS/RTS; cooperation versus AI; huge armies;
+assembly CPU runtime; recorded sound; maximum iteration speed; action and spectacle.
+
+Implementation defaults below are concrete proposals, not additional user decisions.
+Use them to proceed. Record material deviations in architecture decision records.
+Do not silently weaken locked requirements to meet a benchmark.
+
+Defaults: near-future industrial combined-arms warfare; 1–4 human players initially;
+human allied troops against a militarised autonomous opposing army; Linux first,
+Windows x64 supported; fixed major construction sites plus bounded field placements;
+30–60 minute operations with configurable shorter scenarios; no campaign metagame,
+persistent character grind, PvP, battle pass, or required online account initially.
+
+Default visual direction: strong silhouettes, convincing materials and lighting,
+readable near-future equipment, cinematic atmospherics, scalable geometric detail.
+Avoid requiring photorealistic character production to deliver impressive warfare.
+
+4. SCALE CONTRACT AND PERFORMANCE EXPERIMENTS
+
+Baseline massive scenario: 4,096 living army entities on each side (8,192 total),
+including a documented mix of infantry, vehicles, artillery, and aircraft. Count
+each soldier and each vehicle once; do not inflate counts with projectiles,
+particles, crews represented only as metadata, corpses, or decorations.
+
+Stretch scenario: 8,192 per side (16,384 total). Architecture must avoid hardcoded
+limits at the baseline. Counts are engineering targets pending measurement, not
+promised frame rates. Report the measured supported envelope honestly.
+
+Battlefield default: a streamed 8 km × 8 km playable operation map, with terrain
+patches, several fronts, road networks, settlements, woodland, ridges, valleys,
+fortifications, and industrial areas. Initial complete operation should contain
+at least three active fronts and 8–16 strategically useful sites. Smaller maps
+remain test fixtures. Expand map size only when it creates useful strategy.
+
+SCALE-OPEN: 8,192 units spread across the full operation.
+SCALE-FRONT: same total, at least 2,048 engaged in a regional offensive.
+SCALE-HOTSPOT: same total, stress a dense visible battle with 1,024 actors,
+              artillery, smoke, projectiles, vehicles, and sound simultaneously.
+SCALE-STRETCH: 16,384 units, separate experimental report.
+SCALE-NET: four clients viewing different fronts while the server runs the army.
+
+Distinguish simulated, engaged, replicated, visible, and individually detailed
+counts in every report. Distant simulation may be cheaper, but all forces must
+retain meaningful state and tactical effects. Distant units cannot disappear
+because no human observes them. Observer movement must not change combat rules.
+
+Reference development machine if available: i7-14700K, 48 GB RAM, Arc A770,
+Linux, fast SSD. Do not assume this machine is accessible in your environment.
+Record actual hardware, driver, build, seed, resolution, settings, and scenario.
+
+Initial performance goals on the reference-class machine: 1080p, 60 FPS during
+the baseline operation; server simulation 30 fixed ticks/s with p95 tick under
+33.3 ms; client p95 frame under 16.7 ms and p99 under 33.3 ms. These are acceptance
+goals to validate, not observed results. Track CPU and GPU independently. Set
+separate targets after measuring the dense hotspot; do not hide it in averages.
+
+Record peak memory, allocation counts, navigation backlog, actor counts, particle
+counts, audio voice counts, packet bandwidth, and content loading stalls. Record
+both fixed-thread and native-thread performance. Hosted CI is not a substitute
+for a real GPU benchmark on the target machine.
+
+5. CORE OPERATION AND PLAYER EXPERIENCE
+
+The allied army and opposing army already fight when players arrive. Players
+lead companies, reinforce weak fronts, capture valuable sites, organise assaults,
+and ultimately destroy or capture the enemy command complex.
+
+Operation loop:
+1. Read the frontline and select a deployment location.
+2. Fight directly, gather intelligence, and command assigned formations.
+3. Capture resource, supply, production, observation, and deployment sites.
+4. Recruit or request forces and prepare combined-arms attacks.
+5. Defeat counterattacks and keep routes connected.
+6. Break the enemy's operational capacity and take its command complex.
+
+Victory must be achievable through military choices rather than arbitrary wave
+completion. Defeat occurs when command capacity and recovery resources are lost.
+Provide a visible final defensive opportunity before a recoverable position
+becomes an irreversible defeat. No hidden infinite enemy reinforcements by default.
+
+Human players are capable soldiers with command authority, not invulnerable
+one-person armies. Shooting, reconnaissance, command, engineering, and support
+should each produce clear contributions. Solo play uses competent allied command
+assistance and remains a real operation.
+
+6. FIRST-PERSON COMBAT AND VEHICLES
+
+Responsive mouse aim, configurable sensitivity/FOV, sprint, crouch, jump, vault,
+reload, weapon swap, interact, and contextual command. Start with grounded fast
+movement; do not add unrestricted flight or speed that undermines army tactics.
+Use server-authoritative damage and movement validation with local prediction.
+
+Initial complete weapon roster: assault rifle, light machine gun, shotgun,
+marksman rifle, anti-armour launcher, grenades, and a support/designator tool.
+Each needs distinct recoil, reload timing, spread, sounds, muzzle effects,
+projectile/hitscan policy, penetration limits, and damage roles defined in data.
+Weapon-appropriate tracers only; do not render every bullet as a glowing beam.
+
+Weapon presentation: immediate fire response, recoil recovery, hit feedback,
+material-specific impacts, readable suppression, and strong near-field audio.
+Friendly direct-fire damage disabled by default. Large friendly explosions have
+a clear configurable policy; never silently damage allies through inconsistent rules.
+
+Initial vehicles: troop transport, armoured personnel carrier, main battle tank,
+self-propelled artillery, scout drone, and AI-operated strike aircraft. Deliver
+infantry and one ground vehicle early; remaining types are milestone work.
+Players can drive and operate ground-vehicle weapons. Pilotable aircraft are later
+scope; air support must exist without waiting for a full flight simulator.
+
+Vehicle movement uses practical wheeled/tracked approximations, terrain slope
+limits, distinct road/off-road behaviour, and readable damage states. Destruction
+leaves useful temporary wreck cover. Avoid expensive general rigid-body stacks.
+
+Death: brief revive opportunity where appropriate, then fast deployment at a
+valid forward site or squad location outside immediate enemy fire. During the
+deployment interval, players can issue orders and mark threats. Prevent spawn
+camping and repeated deployment inside active blast zones.
+
+7. COMMAND, OWNERSHIP, AND COOPERATIVE INTERFACE
+
+Every player receives a company-level assignment. Squads execute local tactics
+automatically. Allies outside player ownership receive orders from the allied
+commander, so an entire army still functions when humans are busy shooting.
+
+First-person contextual orders: move, attack, defend, suppress, flank, regroup,
+retreat, follow, embark, disembark, and request support. Point at terrain, a unit,
+or a target and use a compact command wheel. Give immediate acknowledgement and
+visible squad intent. Commands remain accessible with remappable keys.
+
+Tactical map: select formations; inspect supply and intel; draw waypoints;
+assign objectives; request recruitment; place valid structures; schedule assaults.
+The map must remain usable during multiplayer without pausing the world.
+
+Assault planning: shared visible plan with objectives and optional timing.
+Players voluntarily ready their forces, then initiate a coordinated countdown.
+Timed artillery, infantry advance, and armour movement can be linked. Allow
+cancel, delay, and emergency changes. Never freeze the battlefield for planning.
+
+Ownership: one primary human owner per squad; explicit transfer and assistance
+requests. The same squad cannot receive conflicting simultaneous authoritative
+orders. Shared economic spending uses clear reservations and atomic server checks.
+Avoid a mandatory dedicated commander role that excludes someone from FPS play.
+
+8. ECONOMY, LOGISTICS, AND TERRITORY
+
+Use two understandable operational resources: requisition and supply. Requisition
+recruits units/buildings/support; connected supply sustains forces and capabilities.
+Keep exact regeneration, capacity, and costs data-driven. Do not add a complex
+civilian economy before core warfare works.
+
+Site roles: forward deployment, depot, production facility, observation station,
+air-support control, artillery position, and command complex. Capturing a site
+must visibly alter useful capabilities. Major buildings occupy fixed sites;
+field cover, repair positions, and limited emplacements use bounded placement.
+
+Represent logistics primarily as a capacity/connectivity network, with selective
+physical convoys for valuable missions. Units carry local ammunition reserves;
+resupply nearby and report shortages. Avoid simulating thousands of mandatory
+delivery vehicles. Cutting routes degrades capability over time with readable
+warnings and counters, rather than instantly deleting a whole army.
+
+Recovery opportunities: reroute supply, escort a convoy, restore a forward site,
+rescue stranded units, seize enemy stores. Player setbacks create choices.
+
+9. TERRAIN, WORLD STREAMING, AND DESTRUCTION
+
+Terrain must affect sightlines, navigation, cover, weapon effectiveness, and
+operational routes. Forest concealment, ridge observation, exposed plains,
+urban cover, bridge crossings, and defensible passes need distinct tactical value.
+
+Use authored strategic layouts with seeded procedural detail initially. Generate
+materials, vegetation arrangements, and selected geometry. Verify all important
+sites are reachable by their intended unit types. Avoid untested random maps.
+
+Chunked terrain and assets with asynchronous loading. Keep collision/navigation
+available ahead of visible streaming; simulation cannot depend on camera-loaded
+graphics. Use local coordinate regions or origin handling suitable for kilometre
+maps. Synchronise origin-dependent state, sound positions, and effects correctly.
+
+Destruction baseline: authored state transitions for walls, bridges, bunkers,
+trees, selected buildings, and vehicles. Bomb craters can be visual plus bounded
+local collision changes where implemented. Do not promise full voxel terrain.
+Update cover and navigation locally; coalesce repeated edits; avoid global rebakes.
+Persistent strategic destruction and transient decorative debris are separate.
+Server owns damage/destruction; clients own cosmetic fragments.
+
+10. ENEMY AND ALLIED INTELLIGENCE
+
+No required cloud inference or LLM calls in the runtime. Initial intelligence
+uses explicit plans, utility scoring, finite state machines, and structured squad
+behaviours. Neural policies may be added only after showing a measurable benefit
+within CPU, distribution, and debuggability budgets.
+
+Strategic commander: evaluates objective value, own capacity, supply, observed
+enemy forces, losses, routes, and risk. Chooses defence, probes, raids, concentrated
+offensives, reinforcement, withdrawal, and production. Retains reserves and avoids
+feeding units indefinitely into a losing position. Maintain plan commitments,
+hysteresis, and cooldowns to prevent oscillation.
+
+Operational formation: selects approach corridors, staging areas, force mix,
+support requests, and attack timing. Coordinates armour, infantry, artillery,
+scouting, and route security. Can abandon an attack when its assumptions fail.
+
+Squad leader: shares observations, chooses cover and formation, suppresses,
+flanks, advances in bounds, retreats, requests support, and regroups. Artillery
+threat causes dispersion and shelter choices; armour needs anti-armour response.
+
+Individual: aim, reload, obey orders, navigate locally, use cover, avoid friendly
+obstruction, react to nearby explosions, evade dangerous areas, recover from
+blocked movement. Decision update frequencies vary; urgent events interrupt
+normal scheduling. Animation and steering must not wait for a slow commander tick.
+
+Knowledge: separate ground truth from each side's intelligence. Record observed
+position, confidence, timestamp, identity certainty, and communication scope.
+Scout reports propagate through the command structure. Unseen positions become
+uncertain and stale. No reading hidden player coordinates for ordinary tactical
+decisions. Strategic estimates are labelled estimates, not secretly exact counts.
+
+Difficulty adjusts planning depth/budget, aim/reaction, resources where explicitly
+shown, and coordination. Do not make default difficulty omniscient.
+
+AI personality presets: methodical siege, mobile encirclement, aggressive armoured
+assault, defence in depth. Presets change decisions rather than merely damage.
+
+Behaviour scenarios must verify flank coordination; scouting before hidden-target
+attacks; withdrawal from overwhelming threats; supply-aware reinforcement; allied
+response to player orders; artillery hazard response; cover recovery after
+destruction; and bounded navigation recovery. Reports include decisions and reasons.
+A behaviour passes through measured outcomes, not a state named "flank".
+
+11. PACING: NEVER BORING
+
+Do not equate engagement with endless identical waves. Players need agency,
+changing pressure, understandable stakes, and time to execute plans.
+
+Enemy commander tries to win. A separate pacing system recommends actionable
+opportunities and schedules eligible events inside explicit economic/world rules.
+It cannot fabricate hidden replacement armies, erase victories, move objectives
+arbitrarily, or punish success with unstoppable reinforcements.
+
+Opportunity types: intercept supply, rescue a formation, exploit a breach,
+destroy artillery, secure observation, counterattack exposed armour, defend a
+forward base, prepare a coordinated assault. Give optional objectives clear
+rewards and finite durations. Avoid constant distracting notifications.
+
+Measure active-play time without a useful reachable objective; travel time;
+spawn-to-contribution time; repeated deaths; objective diversity; player command
+usage; and recovery frequency. Initial design goal: normal deployment reaches
+a useful action opportunity in roughly 20 seconds, and idle players receive a
+clear optional recommendation after roughly 15 seconds. These are tunable goals,
+not commands to spawn enemies beside players or deny deliberate reconnaissance.
+
+Vehicles, redeployment, and forward sites keep the huge map usable. Short quiet
+periods can build anticipation. Preserve player choice and never force constant
+screen shake, unavoidable damage, or meaningless task switching.
+
+12. VFX AND RENDERING
+
+Own the renderer in assembly; use an explicit GPU shader layer. Default backend:
+OpenGL 4.5 core for a relatively direct Linux/Windows path, subject to a quick
+capability check on the actual target hardware. Record the choice. If it cannot
+meet measured requirements, prototype a targeted Vulkan alternative before
+committing to a wholesale rewrite. Do not implement two full renderers initially.
+
+Default features: instanced unit rendering; GPU visibility/LOD where beneficial;
+indirect draws; distance-based animation detail; terrain patches; texture/material
+arrays; skeletal or simplified rigid animation; directional shadows with bounded
+dynamic casters; fog; HDR lighting; restrained bloom; scalable particle effects.
+Use shaders authored in GLSL and offline compilation/validation where practical.
+CPU code remains assembly. GPU source and development tools are explicit exceptions.
+
+Explosion recipe: immediate light/flash, expanding fire/smoke, terrain-dependent
+dust, sparks, debris, decals, persistent smoke, and distant readable silhouettes.
+Differentiate grenade, tank hit, fuel ignition, artillery burst, and aerial bomb.
+Use pooled GPU particles and budgeted dynamic lights. Avoid full-screen transparent
+overdraw storms and shadows from every fragment.
+
+Muzzle flash, tracer, impact, smoke trail, blast, wreck fire, and radio acknowledgement
+derive from authoritative events with client cosmetic seeds. Gameplay smoke that
+affects vision has bounded server representation; decorative smoke cannot imply
+cover that the AI ignores. Critical warnings remain visible through visual clutter.
+
+Quality scales primarily adjust decorative particle density, shadows, lighting,
+and animation detail. Do not remove gameplay warnings, enemies, or cover semantics.
+Add toggles for camera shake, motion blur, flashing intensity, and effect density.
+Specify a safe maximum repeated-flash treatment and avoid mandatory strobing.
+
+Artillery and air strikes require readable warnings appropriate to the weapon:
+incoming audio, spotting/designation, trajectory cues where justified, and blast
+area estimates. Enemy units receive opportunities to react as players do.
+
+13. RECORDED AUDIO AND ASSET PIPELINE
+
+Use substantial recorded effects from OpenGameArt and other verified sources.
+Do not treat all uploads on an asset website as having one licence. Inspect each
+asset's page, licence, authorship, redistribution terms, and required credit.
+Prefer CC0 for easiest public distribution; use attribution assets with exact
+credit. Review share-alike compatibility before inclusion; avoid unclear or
+noncommercial assets for the default distributable package.
+
+Every asset entry records original URL, title, author, exact licence/version,
+required attribution, original hash, derived-file hash, processing, and destination.
+Generate credits and THIRD_PARTY notices from this manifest. Never copy sounds
+from commercial games or videos without explicit redistribution permission.
+
+Required categories: weapon shots with variations and indoor/outdoor/distant
+layers; reload/mechanical sounds; projectile pass-bys; material impacts;
+grenades; artillery launch/incoming/impact; bombs; engines; tracks; rotor/jet
+passes; footsteps by terrain; debris; wreck fires; environment; short radio cues.
+
+Use recorded audio as a real content pack, not a procedural-placeholder excuse.
+Early synthesized fallback sounds are acceptable only when labelled placeholders.
+Tiny file size is secondary to quality; do not impose a 96 KiB release constraint.
+
+Offline tools convert source files to runtime-ready PCM and metadata. Initial
+runtime supports a small documented PCM container (or narrowly supported WAV),
+so a large compressed-audio decoder does not block playback. Introduce compressed
+streaming later only with a deliberate assembly implementation or explicit change
+to runtime dependency policy. Keep original large sources out of routine CI.
+
+Implement the project mixer/DSP in assembly, output through native OS audio APIs.
+Never allocate, block, load files, or take simulation locks on the audio callback.
+Use bounded command queues and preloaded/streamed buffers. Default mix 48 kHz;
+device adaptation and buffer size measured on actual devices.
+
+Start with 128 physical voices, configurable and profiled; many more logical
+emitters. Prioritise nearby threats, player weapons, important support, and radio.
+Virtualise inaudible voices and aggregate distant firefights spatially. Maintain
+distance attenuation, occlusion, pan, variation, reverb zones, and headroom/limiting.
+Respect a finite sound travel delay for distant events where it improves immersion;
+immediate gameplay cues remain responsive. Sound cannot reveal hidden enemy
+details that the listener could not plausibly hear.
+
+Package a licensed starter content set plus reproducible optional high-quality
+packs. Offline play works with installed assets. Avoid git churn from generated
+audio. Use appropriate external release storage/LFS only after checking quotas;
+do not assume public repositories grant unlimited asset storage.
+
+14. RUNTIME LANGUAGE, TOOLCHAIN, AND ABI
+
+All project-authored CPU runtime modules are NASM-style x86-64 assembly. No Rust,
+C++, C, Python, JavaScript, or scripting VM executes project gameplay at runtime.
+OS libraries and GPU drivers are unavoidable platform services, not rewritten
+kernel/driver projects. Own simulation, navigation, networking protocol, mixer,
+renderer orchestration, input processing, and runtime content loading in assembly.
+
+Allowed development tools: Python, shell, build generators, asset converters,
+schema generators, test drivers, documentation tools, and shader compilers.
+They do not become a concealed high-level game runtime.
+
+Baseline instruction set: x86-64/SSE2. Optional AVX2 kernels selected by capability
+detection, with correct fallbacks. Do not require AVX-512. Measure optimisations;
+avoid obscure assembly tricks that harm correctness and agent comprehension.
+
+Use NASM, a pinned documented linker/toolchain, Python 3 tools, and an incremental
+dependency-aware build (Ninja is the default). Linux ELF and Windows PE builds
+share platform-independent source. Linux platform default: X11/GLX, POSIX APIs,
+ALSA device output; Windows: Win32/WGL, Winsock, WASAPI. Isolate bindings, ABI
+differences, native callbacks, and UTF/path handling. Linux XWayland compatibility
+is an initial path; native Wayland is later work unless required by actual testing.
+
+Document SysV and Win64 call conventions, stack alignment, preserved registers,
+shadow space, callback interfaces, error handling, and unwind/debug information.
+Use a single generated source of truth for structs and offsets; generate NASM
+includes, tooling schemas, and ABI fingerprints. Every public routine documents
+inputs, outputs, clobbers, ownership, bounds, and failure behaviour.
+
+Provide debug/release builds, symbolic labels, guarded memory arenas, assertions,
+crash dumps, and useful GDB/Windows debugging instructions. Compiler sanitizers
+do not automatically instrument handwritten assembly; use explicit checks,
+guard pages, invariant tests, and appropriate external analysis tools.
+
+15. SIMULATION AND MASSIVE-ARMY DATA DESIGN
+
+Fixed authoritative simulation timestep default 30 Hz, independent rendering.
+High-frequency client input and interpolation maintain responsiveness. Substep
+fast projectiles/collision as necessary, with swept tests to prevent tunnelling.
+AI planning frequencies are lower and budgeted; movement remains continuous.
+
+Use dense arrays, stable entity IDs with generation counters, bounded pools,
+spatial grids, terrain sectors, and explicit subsystem passes. No O(N squared)
+all-entity perception, collision, replication, targeting, or navigation loops.
+Hot-path allocations are prohibited except explicitly measured bounded cases.
+
+Job system: coarse enough tasks to amortise scheduling; partitioned outputs;
+explicit dependency barriers; per-worker scratch; no global lock around all AI.
+Cap worker usage so background builds leave the machine responsive. Avoid
+oversubscribing workers across agents, builds, and the running client.
+
+Navigation: hierarchical region graph; cached squad corridors; bounded local
+steering; shared flow information where useful; separate vehicle constraints.
+Schedule path requests by urgency and fairness, cap work per tick, cancel stale
+requests, detect stuck units, and invalidate locally after destruction. A queue
+overflow must produce a safe fallback and diagnostic, not memory corruption.
+
+Simulation detail is independent of visual LOD. Near players and strategic
+interactions keep high fidelity. Distant individual entities can update at lower
+frequencies under shared formation control while retaining IDs, health, orders,
+and losses. Conservative handoff rules prevent double-counting casualties,
+teleportation, observer-dependent outcomes, and impossible long-range hits.
+
+Separate cosmetic and authoritative projectiles. Bullets may use batched ray or
+swept tests; tank shells/artillery/bombs retain relevant travel and blast state.
+Batch queries spatially. Bound debris, corpses, decals, fires, and cosmetic trails
+with graceful recycling. Gameplay wrecks persist under separate rules.
+
+16. NETWORKING
+
+Authoritative server supports dedicated headless and listen-server modes. Local
+solo uses the same simulation contracts. Direct IP/LAN first; public hosting,
+discovery, relay, and NAT traversal are separate later tasks. Do not promise
+internet connectivity through every network without a working solution.
+
+Use a versioned binary UDP protocol with sequence numbers, selective reliability
+for orders/spawns/destruction, acknowledgements, loss/reordering handling, bounded
+reassembly, and MTU-aware packet sizes. Do not handwrite bespoke cryptography.
+Use platform cryptographic services or an explicitly approved maintained transport
+when security requirements demand them; document any runtime-policy exception.
+
+Client predicts local movement and reconciles server state. Remote entities use
+interpolation and bounded extrapolation. Apply interest management by spatial
+region, player camera, commanded formations, and tactical-map needs. Distant map
+information can be coarse; nearby combat receives detailed updates. Do not send
+8,192 full entity records to every player every tick.
+
+Server validates order ownership, resource spending, rates, coordinates, IDs,
+packet bounds, and data versions. Never trust client damage claims. Include
+join-in-progress snapshots, disconnect/reconnect handling, and ownership recovery.
+Hot reload in a live co-op session requires compatible schema/content hashes;
+incompatible reloads coordinate a restart rather than silently diverging clients.
+
+Test 0/50/100/150 ms latency, jitter, loss up to 5%, duplication, and reordering.
+Track bandwidth per client and document dense-front stress behaviour. Use replay
+and packet fixtures to reproduce faults. No mandatory runtime dependence on GitHub.
+
+17. INSTANT ITERATION ARCHITECTURE
+
+Measure cold build, incremental assemble/link, startup, reload, scenario resume,
+and focused test time. Publish machine/toolchain context. Fast targets are goals:
+small module assemble/link under 1 second; parameter reload under 100 ms after
+safe scheduling; prepared scenario resume under 5 seconds; routine checks under
+10 seconds where practical. Investigate regressions rather than inventing results.
+
+Small stable host owns platform state. Reloadable modules expose versioned
+function tables and schema fingerprints. Host-owned persistent state avoids dangling
+module pointers. At a safe tick boundary quiesce jobs, swap compatible code, and
+resume. Do not unload code with active callbacks or in-flight execution.
+
+Schema changes use explicit migrations or quick restart from a snapshot. Reject
+incompatible modules clearly. A failed reload keeps the old module running. Windows
+module filenames must accommodate loaded-file locking; clean obsolete copies safely.
+
+Reload data for weapons, unit stats, AI priorities, objectives, effects, and sounds.
+Validate off-thread, then atomically publish. Reject invalid configuration without
+destroying a match. Reload sound safely across audio callbacks. Shaders swap only
+after successful compilation. No whole-world rebuild for one audio or parameter edit.
+
+Cache generated assets by source/tool/options hash. Independent files build in
+parallel; incremental dependencies prevent unrelated recompilation. Never routinely
+run clean builds, re-download dependencies, or regenerate the entire content pack.
+
+Named fixtures launch directly from CLI: firing-range, squad-flank, armour-assault,
+artillery-storm, supply-cut, bridge-collapse, co-op-join, scale-open, scale-front,
+scale-hotspot. Saved snapshots include schema/content/build IDs and clear
+compatibility checks. Provide reload-safe debug camera and visualisations.
+
+18. NEVER IDLE ON COMPILATION OR CI
+
+THIS IS A WORK-SCHEDULING RULE, NOT PERMISSION TO SKIP VALIDATION.
+
+Never spend an agent turn merely waiting for a build, test, asset bake, another
+agent, or a GitHub Actions run when independent useful work is ready. Launch slow
+jobs asynchronously, capture logs/PIDs/job IDs and exact commit identity, then
+continue another task. Poll at meaningful checkpoints or use completion events.
+Avoid tight polling loops and blocking "watch until finished" commands.
+
+Keep a ready queue of independent implementation tasks. If a dependent task is
+blocked, move to another module, test fixture, asset manifest, debug tool, or
+documentation needed for the implemented feature. Do not manufacture busywork.
+When genuinely no independent work remains, inspect blockers, resolve failures,
+or state the external dependency. Never falsely claim to work while idle.
+
+Do cheap syntax/assembly and focused tests promptly. Long checks run in parallel
+with development. Integrate only validated changes; inspect results before calling
+the work complete. A failing integration build is prioritised at the next checkpoint.
+Temporary incomplete branches are acceptable; broken main and ignored failures are not.
+
+Limit speculative work dependent on an unvalidated interface to one bounded slice.
+Keep the last known good executable usable. Version build outputs per worktree
+and source revision. Never let tests run against files changing underneath them.
+
+At end of a work session, reconcile all launched jobs, record pending statuses,
+save the exact continuation point, and report actual results. Do not abandon
+background failures or call pending tests passed.
+
+19. PARALLEL AGENT DEVELOPMENT
+
+One integrator owns shared interfaces and integration. Workers use separate
+branches/worktrees and build/log directories. Never have several agents mutate
+the same checkout/index or force-reset one another's work.
+
+Initial workstreams: platform/build/reload; simulation/data/jobs; navigation/AI;
+renderer/VFX; audio/content; multiplayer; combat/command/UI; verification/scenarios.
+Assign only as many concurrent workers as hardware and harness can sustain.
+Start with 4–6 workers if supported, then measure contention and adjust. Unlimited
+agent access does not imply unlimited useful concurrency.
+
+Define interface contracts before cross-module implementation, without a lengthy
+design phase. Generate layout constants once. Interface changes require a version
+and migration note. Keep worker changes small enough to integrate frequently.
+Workers report implemented behaviour, changed interfaces, tests, blockers, and next
+ready task. The integrator merges/cherry-picks coherent patches and fixes conflicts.
+
+Maintain docs/task-board.md, docs/interfaces.md, docs/decisions/, and docs/status.md.
+Each task has owner, dependency, acceptance evidence, and current state. Do not
+use completion percentages as a substitute for playable evidence.
+
+20. GITHUB ACTIONS: ASYNCHRONOUS VERIFICATION
+
+As checked on 2026-10-05, GitHub documents standard hosted runners for public
+repositories as free to use. This does NOT mean unlimited concurrency, storage,
+GPU capacity, or job duration. Verify current repository-owner plan and runner
+labels when configuring CI. Do not select paid/larger/GPU runners by assumption.
+
+Sources:
+https://docs.github.com/en/actions/reference/runners/github-hosted-runners
+https://docs.github.com/en/actions/reference/limits
+
+Use CI for this repository's builds, checks, simulations, and packaging, not
+unrelated continuous compute or gameplay hosting. Keep local agents implementing
+while CI verifies immutable commits. Do not put every edit behind a remote queue.
+
+Suggested workflows:
+FAST: changed-module assembly, schema/ABI checks, focused headless tests.
+INTEGRATION: Linux and Windows debug/release build, smoke tests, protocol fixtures,
+            replay checks, headless co-op loopback, licence-manifest validation.
+SCALE: seeded 1k/4k/8k/16k entity simulations, real-time and throughput runs,
+       JSON metrics, soak scenarios, navigation and allocation reports.
+VISUAL-SMOKE: software-rendered shader/context checks where supported; explicitly
+              not a target-GPU frame-rate claim.
+RELEASE: manual/tagged reproducible packages with checksums and credits, only
+         when releasing is authorized.
+
+Trigger lightweight checks on branches/PRs, integration on merge candidates/main,
+and scale/soak at useful integration points, manual dispatch, or scheduled repo CI.
+Cancel superseded branch checks using per-workflow/per-branch concurrency groups.
+Do not cancel another agent's unrelated job or the merge candidate's needed check.
+Use finite timeouts, job matrices, dependency caches, and bounded artifact retention.
+Pin relevant actions and tool versions. Start with least-privilege read permissions;
+write scopes only for explicitly required steps. Do not expose secrets or trusted
+self-hosted runners to unreviewed public PR code.
+
+Produce concise machine-readable summaries plus failure logs, replay seeds,
+crash data, and executable artifacts. Prefer small artifacts; avoid uploading
+the full sound pack on every run. Missing optional GPU hardware is a reported
+coverage gap, not grounds to disable all graphics checks.
+
+Use exact SHA status for integration. Do not regard a green run on an earlier
+commit as validation of the current tree. CI job failures, cancellation, queued,
+and skipped states remain distinguishable. Agent productivity metrics should
+reward validated features, not commit count or number of CI runs.
+
+21. REPRODUCIBILITY, SAFETY, AND VERIFICATION
+
+Same-build/server replay reproducibility is the initial contract. Stable update
+ordering and explicit random streams support debugging. Do not claim bit-identical
+cross-platform floating-point simulation until tested. The server remains the
+authority, so cross-platform clients need not run a deterministic lockstep army.
+
+Snapshot/replay include initial state, seed streams, ordered commands, content
+versions, and checksums. Record nondeterministic external input. Replays and logs
+must identify the exact build they validate.
+
+Assembly correctness: ABI preservation, aligned stacks, overflow-safe sizing,
+bounds checks, valid entity generations, guarded pools, ownership checks, and
+queue saturation policies. Test malformed content and packet parsing. Use debug
+invariants for finite positions, valid health, squad membership, and resource totals.
+
+Test levels: routine kernel tests; system scenarios; co-op transport tests;
+army-scale stress; target-machine rendering/audio; and actual playtests. Tests
+should catch meaningful faults, not merely mirror implementation constants.
+
+Acceptance for engagement cannot be automated completely. Capture representative
+play footage/screenshots/audio and gather player feedback. Mark untested fun or
+art quality as unverified even when simulations pass.
+
+22. SUGGESTED REPOSITORY STRUCTURE
+
+src/platform/linux/ and src/platform/windows/
+src/core/ — memory, math, IDs, timing, jobs, queues
+src/sim/ — world, entities, combat, vehicles, economy, destruction
+src/ai/ — perception, commander, formations, squads, individuals
+src/nav/ — regions, paths, steering, dynamic updates
+src/render/ — host rendering, visibility, terrain, animation, effects
+src/audio/ — mixer, emitters, DSP, streaming
+src/net/ — protocol, reliability, replication, prediction
+src/game/ — operation rules, player, command interface, tactical map
+src/reload/ — module tables, safe points, migration
+shaders/ — GLSL source
+schemas/ — canonical layouts, protocol and content definitions
+content/ — text definitions, manifests, small distributable assets
+tools/ — build, asset conversion, profiling, scenarios, report generation
+tests/ — kernel, integration, transport, AI and scale scenarios
+docs/ — this spec, architecture, contracts, task board, status, decisions
+.github/workflows/ — asynchronous CI
+build/ and runs/ — ignored, worktree/revision-specific outputs
+
+Provide README, build instructions, contribution guide, asset policy, third-party
+notices, and a clear code licence decision. If no licence has been chosen, record
+that status instead of asserting that public visibility grants reuse rights.
+MIT is a proposed default for project code, subject to owner approval; asset
+licences remain separate. No copyrighted third-party code with incompatible terms.
+
+23. REQUIRED DEVELOPMENT COMMANDS
+
+Provide a consistent CLI, for example python tools/dev.py with subcommands:
+configure; build --changed; run --scenario NAME; server --headless;
+test --suite NAME; bench --scenario NAME; snapshot; resume; reload;
+jobs; collect JOB_ID; package; doctor.
+
+Slow commands support --background and emit job ID, revision, log path, and
+result path. Fast commands fail clearly with actionable errors. Process management
+must avoid orphaning background jobs and must not kill unrelated processes.
+Document real commands once implemented; do not ship fake success stubs.
+
+Doctor checks tool versions, platform libraries, GPU capabilities, writable paths,
+asset availability, and optional GitHub auth without printing secrets. Support
+minimal headless builds without display/audio devices and full client builds.
+
+24. DELIVERY MILESTONES WITH PARALLEL TRACKS
+
+M0 — Foundation and speed:
+Create ABI/schema contracts, incremental Linux/Windows assembly builds, headless
+entry point, asynchronous job tools, basic CI, runtime diagnostics, parameter
+reload, and a compatible module reload proof. Benchmark build and feedback times.
+Create an 8,192-entity state/scheduling/spatial-query benchmark immediately.
+
+M1 — Playable action and scale proof:
+First-person movement and one satisfying weapon; terrain; pooled projectiles;
+recorded licensed gunshot/explosion playback; visible squads; initial command;
+30 Hz simulation; real moving/targeting units in scale tests. Render mass armies,
+not only empty entity arrays. Establish CPU/GPU/audio budgets with evidence.
+
+M2 — Intelligent fronts and co-op:
+Two-player listen/dedicated path, authoritative combat, squad navigation/cover,
+scouting and flank scenario, objective capture, basic supply, companies, tactical
+map, reinforcement, four-player protocol fixtures. Both sides fight autonomously.
+
+M3 — Combined arms and spectacle:
+Player-controlled ground vehicles; artillery and AI air strikes; layered recorded
+sound; scalable effects; terrain-specific tactics; destruction/navigation updates;
+coordinated assaults; enemy operational plans. Stress these together at scale.
+
+M4 — Complete massive operation:
+Full streamed map and multiple fronts, all core unit roles, baseline 4,096 units
+per side, logistics, command-complex victory/defeat, join in progress, saved
+scenarios, dense-hotspot benchmarks, robust recovery, and licensed content pack.
+
+M5 — Polish and expansion:
+Playtest pacing, improve AI failure cases, audiovisual craft, optimisation,
+accessibility, Windows parity, optional larger army envelope, and release readiness.
+
+Milestones describe acceptance, not a strict waterfall. Platform, gameplay, scale,
+AI, sound, effects, and networking progress concurrently behind stable interfaces.
+Do not spend weeks writing an abstract engine before producing playable evidence.
+Do not wait for every asset or weapon before running army-scale scenarios.
+
+25. COMPLETION CRITERIA FOR THE BASE GAME
+
+The base game is complete only when it delivers a playable cooperative operation
+with thousands of real units on both sides, multiple fronts, meaningful command,
+combined arms, recorded audio, spectacular scalable effects, intelligent tested
+behaviour, victory/defeat, and measured acceptable performance on declared hardware.
+
+Required evidence:
+- Linux and Windows build results for the release candidate SHA.
+- 1–4 player operation including join/disconnect/recovery cases.
+- Baseline and dense-front metrics with actual entity/detail counts.
+- Navigation/AI behaviour scenarios and reproducible seeds.
+- Audio/VFX demonstrations and player-facing readability checks.
+- Asset licence manifest and generated credits.
+- Measured incremental build/reload/resume times.
+- Known limitations, unresolved failures, and honest stretch-scale results.
+
+If a goal fails, diagnose the cost, try measured alternatives, and report the
+remaining gap. Do not relabel a 100-unit prototype as the final massive game.
+Small playable milestones are progress; they are not completion of this spec.
+
+26. START NOW: FIRST EXECUTION INSTRUCTIONS
+
+1. Inspect the repo and local instructions; inventory tools/hardware briefly.
+2. Save this document as the canonical project spec and create a concise agent
+   instruction file that points to it, including the no-idle and validation rules.
+3. Establish a dependency task graph, interface contracts, worktrees, and ready queue.
+4. Bootstrap incremental assembly builds and asynchronous job collection.
+5. Start M0 scale and build/reload work alongside M1 player/render/audio work.
+6. Add GitHub Actions when an authorized remote is available; keep local work moving.
+7. Implement, measure, integrate, and repeat. Fix failures at integration checkpoints.
+8. Leave status, commands, pending jobs, and the next ready tasks for continuation.
+
+Do not stop after scaffolding, a plan, or a single tiny demo. Continue making
+validated progress for the duration of your authorized session. Keep communication
+brief and factual: what works, what was measured, what is blocked, and what comes next.
+
+THE PRIORITY IS CONSTANT USEFUL PROGRESS TOWARD A MASSIVE, SPECTACULAR, FUN GAME.
+BUILD AND TEST IN THE BACKGROUND; KEEP IMPLEMENTING READY WORK; INTEGRATE VERIFIED
+RESULTS. NEVER SACRIFICE HONESTY, CORRECTNESS, OR THE REQUIRED SCALE TO APPEAR FAST.
