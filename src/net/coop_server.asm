@@ -6,6 +6,7 @@ extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
 extern player_init, player_join, player_leave, player_input
+extern terrain_blocked
 section .rodata
 f_port: db '--port',0
 f_ticks: db '--ticks',0
@@ -450,6 +451,11 @@ handle_packet:
  ja .ack
  ucomiss xmm1,[maximum]
  ja .ack
+ ; Reject ground-solid destinations before charging or mutating orders.
+ xor edi,edi
+ call terrain_blocked
+ test eax,eax
+ jnz .ack
  xor edi,edi
  mov esi,5
  call sim_spend

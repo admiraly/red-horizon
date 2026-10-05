@@ -2,7 +2,7 @@
 %include "schemas/entity.inc"
 default rel
 extern operation_init, operation_tick, operation_hash
-extern terrain_move, terrain_height, terrain_los
+extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern player_init, player_tick, player_hash
 section .bss align=64
@@ -168,6 +168,24 @@ sim_waypoint:
  jb .bad
  ucomiss xmm1,[maximum]
  ja .bad
+ ; Mixed formations require a ground-reachable destination. Reject solids
+ ; before changing the goal or overriding the controller.
+ sub rsp,24
+ mov [rsp],edi
+ mov [rsp+4],esi
+ movss [rsp+8],xmm0
+ movss [rsp+12],xmm1
+ xor edi,edi
+ call terrain_blocked
+ mov edi,[rsp]
+ mov esi,[rsp+4]
+ movss xmm0,[rsp+8]
+ movss xmm1,[rsp+12]
+ add rsp,24
+ test eax,eax
+ jnz .bad
+ mov r8d,edi
+ mov r9d,esi
  imul edi,3
  add edi,esi
  lea rax,[sim_waypoints]

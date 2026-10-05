@@ -20,7 +20,7 @@ resources, operation state, and authoritative tick/count at 10 Hz. Each client
 also receives at most two entity chunks per snapshot, 32 records each, selected
 within 1200 metres of its player. A persistent per-client cursor cycles through
 all nearby stable IDs rather than sending only the first records. A bounded full
-interest census measures nearby actors and never-replicated backlog. Offscreen
+interest census measures nearby actors and never-replicated backlog. Regional snapshots do not apply tactical fog-of-war; nearby enemy records may be received behind walls. Offscreen
 army intelligence is absent from this slice, and the client keeps nonreceived
 army health zero. No fabricated full army is displayed in network mode.
 
@@ -49,7 +49,7 @@ The server assigns player slots tied to UDP endpoints and increments a session
 generation whenever a freed slot is claimed. Slots zero through two own the
 corresponding army fronts. Slot three supports front zero and cannot issue
 primary orders. Orders validate ownership, mode and finite `0..8000` goals,
-then synchronously charge five allied requisition and apply army mode/waypoint.
+reject ground-solid destinations, then synchronously charge five allied requisition and apply army mode/waypoint.
 Clients never submit health, position, damage, hit or resource claims. Inputs
 are validated by the common authoritative player module. Unknown button bits
 are rejected; only FIRE/RELOAD/SPRINT are accepted.
@@ -145,5 +145,5 @@ faults, production congestion control, or target-machine bandwidth/latency goals
 All subprocesses and relay threads are reconciled before the driver exits.
 
 ```sh
-python3 tests/test_coop.py --server build/coop-server --extended
+python3 tools/dev.py test --suite network --extended
 ```

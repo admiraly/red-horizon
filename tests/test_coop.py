@@ -124,9 +124,14 @@ def verify(server, client_lib=None):
         time.sleep(0.04)
         assert a.input(x=float('nan'))[0] == 1
         time.sleep(0.04)
-        assert a.input(buttons=8)[0] == 1
+        bad_status, budget_before, budget_tick = a.input(buttons=8)
+        assert bad_status == 1
         # Command rejection consumes sequence; normal next command still succeeds.
         assert b.command(4, struct.pack('<IIff', a.front, 0, 3900, 1400))[0] == 5
+        status, balance, blocked_tick = a.command(4, struct.pack('<IIff', a.front, 0, 4000, 1300))
+        assert status == 1
+        assert balance == budget_before + 39 * (blocked_tick//30-budget_tick//30), 'solid destination consumed requisition'
+        assert a.request(4, struct.pack('<IIff', a.front, 0, 4000, 1300))[1] == balance, 'blocked destination charged money'
         status, before, tick = a.command(4, struct.pack('<IIff', a.front, 0, 3900, 1400), lose_ack=True)
         assert status == 0
         duplicated = a.request(4, struct.pack('<IIff', a.front, 0, 3900, 1400))

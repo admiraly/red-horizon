@@ -38,7 +38,7 @@ reset()
 assert list(goals) == [5000,1300,5000,3900,5000,6500,3000,1300,3000,3900,3000,6500]
 hash_before = lib.sim_checksum()
 for args in ((2,0,1,1),(0,3,1,1),(0,0,-1,1),(0,0,8001,1),(0,0,1,-1),
-             (0,0,1,8001),(0,0,math.nan,1),(0,0,1,math.nan),
+             (0,0,1,8001),(0,0,4000,1300),(0,0,2800,3570),(0,0,math.nan,1),(0,0,1,math.nan),
              (0,0,math.inf,1),(0,0,1,-math.inf)):
     assert lib.sim_waypoint(*args) == -1
     assert lib.sim_checksum() == hash_before
