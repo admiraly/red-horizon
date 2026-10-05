@@ -18,9 +18,6 @@ jobs:
       - run: bash tools/bootstrap-nasm.sh
       - run: python3 tools/dev.py doctor
       - run: python3 tools/dev.py test --suite all
-      - run: python3 tools/dev.py build --target client
-      - name: Software graphics smoke (not a GPU benchmark)
-        run: xvfb-run -a env LIBGL_ALWAYS_SOFTWARE=1 python3 tools/dev.py run --client --frames 10
       - run: python3 tools/dev.py bench --scenario scale-open --ticks 300
       - run: python3 tools/dev.py bench --scenario scale-stretch --ticks 300
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
@@ -29,5 +26,7 @@ jobs:
           name: linux-evidence-${{ github.sha }}
           path: |
             runs/*.json
+            runs/headless-graphics-*/result.json
+            runs/headless-graphics-*/*.log
             build/*-build.json
           retention-days: 7

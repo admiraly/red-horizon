@@ -4,7 +4,7 @@ import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shutil,subproces
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'
 RUNS=ROOT/'runs'
-SCENARIOS={'scale-open':8192,'scale-front':8192,'scale-hotspot':8192,'scale-stretch':16384,'firing-range':128}
+SCENARIOS={'scale-open':8192,'scale-front':8192,'scale-hotspot':8192,'scale-stretch':16384}
 def revision():
     sha=os.environ.get('RED_HORIZON_SOURCE_COMMIT') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     # Hash actual authored inputs too, including uncommitted sources.
@@ -140,7 +140,7 @@ def main():
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools'],default='all'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
@@ -159,12 +159,13 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)]); execute([sys.executable,'tests/test_operation.py',str(library)]); execute([sys.executable,'tests/test_waypoints.py',str(library)])
-        if suite in ('all','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
-        if suite in ('all','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
-        if suite in ('all','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
-        if suite in ('all','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
-        if suite=='all': execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','headless','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)]); execute([sys.executable,'tests/test_operation.py',str(library)]); execute([sys.executable,'tests/test_waypoints.py',str(library)])
+        if suite in ('all','headless','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
+        if suite in ('all','headless','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
+        if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
+        if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
+        if suite in ('all','headless'): execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','graphics'): execute([sys.executable,'tests/test_graphics.py',str(build('client'))])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())
