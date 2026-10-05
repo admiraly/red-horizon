@@ -1,0 +1,1 @@
+{"target": "client", "revision": "82917fd44ff4e7f25820c1365cef0b50affe51ea-03636967afb2ec88", "objects_only": true, "assembled": 5, "assembled_sources": ["src/sim/world.asm", "src/nav/crowd.asm", "src/nav/squads.asm", "src/game/player.asm", "src/game/vehicles.asm"], "seconds": 0.11552562699944247, "executable": null}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon/tests/test_tactics.py", line 164, in <module>
+    assert scout.x>4050 and support.x>4050
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+ERROR: Command '['/usr/bin/python3', 'tests/test_tactics.py', '/mnt/titan_nv3/projects/red-horizon/build/libsim.so']' returned non-zero exit status 1.
+{"target": "headless", "revision": "01a9499e315b6e15110599ffa7994a9240d65551-1a791fa0f0a319a6", "assembled": 2, "assembled_sources": ["src/sim/world.asm", "src/nav/terrain_body.asm"], "seconds": 0.11217773300086264, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/01a9499e315b6e15110599ffa7994a9240d65551-1a791fa0f0a319a6/red-horizon-server"}

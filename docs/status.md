@@ -1,5 +1,106 @@
 # Status — Linux shared-world prototype,2026-10-06
 
+The full-footprint static-terrain continuation keeps the complete game goal active.
+Runtime checkpoint `5da656d` adds separate footprint-aware blocked, swept-path and
+movement APIs to army nav/hazard steering, human planar movement, driven tanks,
+deployment, boarding and exits. Infantry/player, tank and artillery use nominal
+0.55/3.55/4.49m footprints plus1mm safety inflation. Existing LOS/projectile point
+geometry and continuous aircraft flight retain their distinct paths. Actual role
+steps, player crouch/sprint/jump vertical logic, finite weapons and wire layouts
+remain intact; only the enabled policy word adds four replay bytes.
+
+Direct human/tank controls use collision-only body steps, separate from AI
+long-route movement. Pure-axis input keeps the other axis fixed; diagonals slide
+only along requested components. The earlier geometric checks missed unwanted
+autonomous wall-detour steering; new per-tick input assertions reject it in the
+legacy control. Actual pure-wall approach and diagonal sliding now have explicit
+input-fidelity evidence, with real crouch speed1/12m/tick.
+
+Ground terrain uses closed segment tests against ground-solid rectangles expanded
+by the source footprint, with map centers inset by the same radius. Accepted full
+steps/component slides are swept again. Actual long goals choose the nearest
+intersecting box and bounded corner detours; a current-side edge correction avoids
+slow wall-face creeping. Direct controllers normalize the original bounded off-map intent before clipping
+the endpoint to the map inset. New edge/corner component bounds reject diagonal
+speed amplification that the earlier wall checks missed. Poses move only through
+normal bounded steps. Already-invalid
+starts safely hold and do not teleport or deepen penetration. Obstacle-interior
+goals cannot be reached and universal progress to such goals is not promised.
+
+Shared mixed-role navigation graph corners pad6m and edges conservatively use
+artillery bounds. Actual direct/cached corridor queries use the actor's role.
+Infantry cover keeps its separate4m margin; the first fast check caught an
+unnecessary shared-margin change to its expected shelter. The tactics recovery
+fixture's old3985m tank start was only3m from a wall, inside the3.55m footprint;
+it now starts3984m and checks full-body clearance every tick while retaining its
+1200tick crossing/progress gate. Default8k/16k motion thresholds and400tick per-
+actor health label symmetry remain required. The original clear-start movement
+and body-avoidance controls remain strict.
+
+Actual NASM checks cover6000 independent random path queries,5987 random swept
+moves,16 normal-step route arrivals, nominal tangency/2mm-clear wall travel, map
+insets, finite/role/step negatives, read-only obstacle bytes, SysV ABI and exact
+four-byte FNV policy,400 direct wall ticks and800 map-edge/corner ticks. The wall-edge local-route fix reduces module arrival ticks at infantry/tank/
+artillery/tank-driving step sizes15154/3873/10006/3236→4302/1043/2614/870;
+these long-route module cases do not imply autonomous routing for manual driving.
+A600m+50step route
+budget now rejects the superseded creep. This is local authored geometry, not
+complete arbitrary maze convergence.
+
+The independent actual-world matrix has33 encounters with exact replay and full
+army movement-label traces. Clear-start army skirts/routes, human sprint/jump/
+crouch, driven tank and map-edge steps have zero expanded-terrain violations.
+A deliberately invalid player remains held with0.350m initial penetration,
+reported separately. Point-terrain controls reproduce body clipping; three direct
+human wall approaches were already safe and are retained as safety controls.
+Artillery boarding is not implemented; driven tests use legitimately boarded tanks.
+
+Natural mixed-army hotspot120tick tests retain8192/16384 living actors atstart,
+all genuine movement, combat and losses. They report zero initial/final static
+footprint-invalid ground actors and zero invalid swept steps/clear-start reentries
+in these samples, with6651/14276 surviving ground actors moving over1m and exact replay checked.
+These static checks do not prove all actor bodies mutually separated, everysite
+reachable or a complete operation.
+
+Seed42/900tick single-thread headless benchmarks on i7-14700K are:
+
+| Fixture | Initial living actors | Tick mean/p95 ms | Max inspected crowd records/query | Truncated crowd queries | Final living side0/1 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scale-hotspot |8192|3.720/5.129|62|0|2153/1873|
+| scale-stretch |16384|11.121/12.265|31|0|7018/6612|
+
+These concurrent CPU-only results include actual movement and combat, with peak
+runtime RSS16416/16736KiB. Rendered/replicated counts are0, GPU/audio unmeasured;
+no causal speedup, native runtime jobs or new hardware frame-budget acceptance.
+
+Conservative expanded rectangles overblock some rounded-circle corner paths;
+oriented hulls, slopes/vertical vault geometry, dynamic destruction/streaming and
+universal recovery remain open. Shared max-role graph edges can omit narrower
+infantry/tank paths and rely on local fallback. Human/driven interactor collision,
+safe full formation spacing, commander plans, cross-class ordnance pressure,
+Windows/four-rendered-client quality and hardware frame budgets remain unaccepted.
+No remote publication; code licence remains pending owner approval.
+
+Final frozen extended job `e0bd974a7905` passed in371.366s:62 suite reports,
+61 explicit pass markers plus the assertion-only hazard_outcomes report. The
+34-report routine fast suite and final33-case focused default/legacy controls
+passed. Full verification retains real graphics linking/GLSL/software-GL rendering,
+UDP faults, two rendered co-op clients,8k/16k motion and400tick health symmetry.
+It does not establish accelerated target-GPU budgets or four rendered clients.
+
+Runtime source `5da656db8fc7428d3df061c6026ae34c4db86bc8-122f584c55e92011`
+has157 authored inputs. All three final frozen source snapshots match those bytes
+exactly. Final focused/frozen world outcomes agree except library build hashes.
+All nine current-session frozen jobs and foreground checks are terminal; both
+isolated workers are clean at committed heads. Earlier full19/21-case checkpoints
+passed their narrower controls and are explicitly superseded: those did not check
+manual wall detours or map-edge component amplification respectively. Historical
+failure logs and baseline causal controls are retained with their actual scope.
+Exact hashes, suite outcomes, source maps, worker heads, job/session reconciliation
+and benchmarks are in [terrain-body-session.json](evidence/terrain-body-session.json).
+
+---
+
 The physical ground-crowd continuation keeps the complete game goal active.
 Runtime checkpoint `b9c71fa` lets living infantry, tanks and artillery use
 generation-safe tick-start body

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/terrain-body-oracle/tests/test_terrain_body_outcomes.py", line 199, in <module>
+    row=record(*case)
+  File "/mnt/titan_nv3/projects/red-horizon-workers/terrain-body-oracle/tests/test_terrain_body_outcomes.py", line 129, in record
+    if not a.legacy:assert not fault,(name,'unrequested, reversed or amplified input component',tick,before,after,requested)
+                           ^^^^^^^^^
+AssertionError: ('player_diagonal_lower_x_edge', 'unrequested, reversed or amplified input component', 0, (0.800000011920929, 2000.0), (0.7003616094589233, 2000.282958984375), (-0.70710678, 0.70710678))

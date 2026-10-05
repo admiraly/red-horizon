@@ -1,0 +1,1852 @@
+[
+  {
+    "suite": "terrain-body",
+    "passed": true,
+    "seed": 19381,
+    "random_sweeps": 5987,
+    "route_ticks": [
+      3621,
+      3621,
+      4302,
+      35296,
+      892,
+      892,
+      1043,
+      8477,
+      2245,
+      2245,
+      2614,
+      21204,
+      743,
+      743,
+      870,
+      7064
+    ],
+    "radii": [
+      0.55,
+      3.55,
+      4.49,
+      0
+    ],
+    "invalid_start_policy": "safe hold",
+    "geometry": "expanded AABBs"
+  },
+  {
+    "suite": "terrain-body-outcomes",
+    "passed": true,
+    "legacy": false,
+    "terrain_body_module_present": true,
+    "library_sha256": "1f67893a9d644cc741309668853dcc64f68b2e2d4e87886c189b3308e673eca4",
+    "oracle_sha256": "fc2e3c34914f19b1dc95e987813b65b00552fd12f6162e78d041ed1c3d1d8fe8",
+    "expanded_rectangle_radii_m": [
+      0.55,
+      3.55,
+      4.49
+    ],
+    "solid_boxes": [
+      [
+        3988.0,
+        1100.0,
+        4012.0,
+        1500.0
+      ],
+      [
+        3988.0,
+        3700.0,
+        4012.0,
+        4100.0
+      ],
+      [
+        3988.0,
+        6300.0,
+        4012.0,
+        6700.0
+      ],
+      [
+        5170.0,
+        1540.0,
+        5230.0,
+        1600.0
+      ],
+      [
+        2770.0,
+        3540.0,
+        2830.0,
+        3600.0
+      ]
+    ],
+    "controlled_encounters": [
+      {
+        "name": "infantry_wall_skirt",
+        "mode": "army",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 800,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": [
+          4030,
+          1099.6
+        ],
+        "final": [
+          4030.0,
+          1099.5999755859375
+        ],
+        "final_goal_error": 2.441406240905053e-05,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3973.574951171875,
+              1099.1917724609375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3984.379638671875,
+              1099.2005615234375
+            ]
+          },
+          {
+            "tick": 800,
+            "pose": [
+              4030.0,
+              1099.5999755859375
+            ]
+          }
+        ],
+        "physical_trace_sha256": "996f9f7ef4d7b1c5fce5e6c4fa75341d04d66a58699a80725722f2a06e8a0643",
+        "checksum": "132e8d7f6f166e96"
+      },
+      {
+        "name": "tank_wall_skirt",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 400,
+        "start": [
+          3970,
+          1097
+        ],
+        "goal": [
+          4030,
+          1097
+        ],
+        "final": [
+          4030.0,
+          1097.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3984.97021484375,
+              1096.0596923828125
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              4029.91845703125,
+              1096.996826171875
+            ]
+          },
+          {
+            "tick": 400,
+            "pose": [
+              4030.0,
+              1097.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "fd34799392153192618cd9be605bfbc6dc850d89de6388a78d4de88c306c780d",
+        "checksum": "2dc91c271da86ccf"
+      },
+      {
+        "name": "artillery_wall_skirt",
+        "mode": "army",
+        "kind": 2,
+        "radius_m": 4.49,
+        "ticks": 800,
+        "start": [
+          3970,
+          1096
+        ],
+        "goal": [
+          4030,
+          1096
+        ],
+        "final": [
+          4030.0,
+          1096.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3975.920166015625,
+              1095.02197265625
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3993.8486328125,
+              1094.6690673828125
+            ]
+          },
+          {
+            "tick": 800,
+            "pose": [
+              4030.0,
+              1096.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "94294d09fb30b4d54633eb9b888e29596d982415860f5ebc48102cf5d7d61481",
+        "checksum": "4ddae7d415accbc2"
+      },
+      {
+        "name": "tank_wall_route",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 1800,
+        "start": [
+          3970,
+          1300
+        ],
+        "goal": [
+          4030,
+          1300
+        ],
+        "final": [
+          4030.0,
+          1300.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3970.87060546875,
+              1286.0235595703125
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3973.474365234375,
+              1241.1004638671875
+            ]
+          },
+          {
+            "tick": 1800,
+            "pose": [
+              4030.0,
+              1300.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "4958bf3ac831f00a68e3a0f8c4599896cb9ce10cb7ff48f4e31f36f558f3c950",
+        "checksum": "7de7e65ce1738524"
+      },
+      {
+        "name": "artillery_wall_route",
+        "mode": "army",
+        "kind": 2,
+        "radius_m": 4.49,
+        "ticks": 4200,
+        "start": [
+          3970,
+          1300
+        ],
+        "goal": [
+          4030,
+          1300
+        ],
+        "final": [
+          4030.0,
+          1300.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3970.3525390625,
+              1294.4080810546875
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3971.404052734375,
+              1276.4344482421875
+            ]
+          },
+          {
+            "tick": 4200,
+            "pose": [
+              4030.0,
+              1300.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "2f194e6f876ca41d5eebb428f71d5f710ddcbe0d89dd0159183733b0c7f86ded",
+        "checksum": "853eb2617ba3dd94"
+      },
+      {
+        "name": "tank_structure_route",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 600,
+        "start": [
+          5150,
+          1570
+        ],
+        "goal": [
+          5250,
+          1570
+        ],
+        "final": [
+          5250.0,
+          1570.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              5155.337890625,
+              1556.890869140625
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              5186.1015625,
+              1535.584228515625
+            ]
+          },
+          {
+            "tick": 600,
+            "pose": [
+              5250.0,
+              1570.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "25f88dfbe6ddc1527977cd3199a32cd6740dc87636757d47e3d2422b34a67e71",
+        "checksum": "e0f764832f06ead6"
+      },
+      {
+        "name": "infantry_edge_goal",
+        "mode": "army",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 100,
+        "start": [
+          5,
+          2000
+        ],
+        "goal": [
+          0,
+          2000
+        ],
+        "final": [
+          0.5509999990463257,
+          2000.0
+        ],
+        "final_goal_error": 0.5509999990463257,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              1.4000028371810913,
+              2000.0
+            ]
+          },
+          {
+            "tick": 100,
+            "pose": [
+              0.5509999990463257,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "d9a00e130c529a7aaba9bb8af418c5006f7380651952f4710a2c528cf8213c13",
+        "checksum": "b58ab74fceb58fa8"
+      },
+      {
+        "name": "tank_edge_goal",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 100,
+        "start": [
+          10,
+          2000
+        ],
+        "goal": [
+          0,
+          2000
+        ],
+        "final": [
+          3.5510001182556152,
+          1999.5
+        ],
+        "final_goal_error": 3.5860287003663807,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3.5510001182556152,
+              1999.5
+            ]
+          },
+          {
+            "tick": 100,
+            "pose": [
+              3.5510001182556152,
+              1999.5
+            ]
+          }
+        ],
+        "physical_trace_sha256": "02934ba319b3fd162ec7d2e0bf45a62ae2eca35c93b14513c212e7a9d47da989",
+        "checksum": "d866a10d41fc5ec7"
+      },
+      {
+        "name": "artillery_edge_goal",
+        "mode": "army",
+        "kind": 2,
+        "radius_m": 4.49,
+        "ticks": 100,
+        "start": [
+          10,
+          2000
+        ],
+        "goal": [
+          0,
+          2000
+        ],
+        "final": [
+          4.491000175476074,
+          2000.0
+        ],
+        "final_goal_error": 4.491000175476074,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              4.491000175476074,
+              2000.0
+            ]
+          },
+          {
+            "tick": 100,
+            "pose": [
+              4.491000175476074,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "44f4a529c109df06356e4b6ae0d6c2b38646215b3529482429a40467e92e58cc",
+        "checksum": "168c3862f605ffcc"
+      },
+      {
+        "name": "player_wall_skirt",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 240,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": null,
+        "final": [
+          4041.88134765625,
+          1099.3525390625
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3979.00146484375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              4005.87548828125,
+              1099.3525390625
+            ]
+          },
+          {
+            "tick": 240,
+            "pose": [
+              4041.88134765625,
+              1099.3525390625
+            ]
+          }
+        ],
+        "physical_trace_sha256": "0af38af0c48ebe5e1c21e4c9b1d6427783f2a6963eeb79558503134f8802b58a",
+        "checksum": "06296f865153ecb6"
+      },
+      {
+        "name": "player_jump_wall_skirt",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 240,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": null,
+        "final": [
+          4041.88134765625,
+          1099.3525390625
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3979.00146484375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              4005.87548828125,
+              1099.3525390625
+            ]
+          },
+          {
+            "tick": 240,
+            "pose": [
+              4041.88134765625,
+              1099.3525390625
+            ]
+          }
+        ],
+        "physical_trace_sha256": "0af38af0c48ebe5e1c21e4c9b1d6427783f2a6963eeb79558503134f8802b58a",
+        "checksum": "8ca05bcbf3441ff6"
+      },
+      {
+        "name": "player_crouch_wall_skirt",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 800,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": null,
+        "final": [
+          4036.496826171875,
+          1099.396728515625
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3972.49755859375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3979.990234375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 800,
+            "pose": [
+              4036.496826171875,
+              1099.396728515625
+            ]
+          }
+        ],
+        "physical_trace_sha256": "fcaeba4478b770eb9942519477e2652b38578a7b654fdf288087c2f215c911a7",
+        "checksum": "ca527da210185f30"
+      },
+      {
+        "name": "player_wall",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 90,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3986.63427734375,
+          1320.4033203125
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3986.60498046875,
+              1302.400390625
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3986.63427734375,
+              1320.4033203125
+            ]
+          }
+        ],
+        "physical_trace_sha256": "7190dc1f723c3d7796053401fe37805f9443a8379d46046b9b4ace767d316d89",
+        "checksum": "aaca59ad28123010"
+      },
+      {
+        "name": "player_jump_wall",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 90,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3986.63427734375,
+          1320.4033203125
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3986.60498046875,
+              1302.400390625
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3986.63427734375,
+              1320.4033203125
+            ]
+          }
+        ],
+        "physical_trace_sha256": "7190dc1f723c3d7796053401fe37805f9443a8379d46046b9b4ace767d316d89",
+        "checksum": "b2032fe11f315d50"
+      },
+      {
+        "name": "player_crouch_wall",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 180,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3986.5185546875,
+          1308.504150390625
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3982.49755859375,
+              1300.0
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3986.50390625,
+              1303.501708984375
+            ]
+          },
+          {
+            "tick": 180,
+            "pose": [
+              3986.5185546875,
+              1308.504150390625
+            ]
+          }
+        ],
+        "physical_trace_sha256": "41309a8a6aef7f7a188182d001c9fe728e41d15967747a407e5aa54329d454c3",
+        "checksum": "57a72d9b2a0ed720"
+      },
+      {
+        "name": "driven_tank_wall",
+        "mode": "driver",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 90,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3983.6826171875,
+          1350.39794921875
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3983.6240234375,
+              1314.3994140625
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3983.6826171875,
+              1350.39794921875
+            ]
+          }
+        ],
+        "physical_trace_sha256": "695bbb11af89b2e126b3ee8a381e93fbfe29b94af3ecb1617487906bc61da42b",
+        "checksum": "9218ee3dae9f1067"
+      },
+      {
+        "name": "player_edge",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 90,
+        "start": [
+          5,
+          2000
+        ],
+        "goal": null,
+        "final": [
+          0.5509999990463257,
+          2000.0
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              0.5509999990463257,
+              2000.0
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              0.5509999990463257,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "4e417103653331fc367c0ba868b9af2daa9801bdeb3b62a37cb018538cb7abd5",
+        "checksum": "b6b16cf8c76511cc"
+      },
+      {
+        "name": "driven_tank_edge",
+        "mode": "driver",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 90,
+        "start": [
+          10,
+          2000
+        ],
+        "goal": null,
+        "final": [
+          3.5510001182556152,
+          2000.0
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3.5510001182556152,
+              2000.0
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3.5510001182556152,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "02bbe23bf24b63bfe205656d9a783bbe7043f055f79b26b9785712f1b80b2d8c",
+        "checksum": "656ef433ea64ce2c"
+      },
+      {
+        "name": "player_initial_invalid",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 60,
+        "start": [
+          3987.8,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3987.800048828125,
+          1300.0
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 60,
+        "maximum_penetration_m": 0.3500488281251819,
+        "initial_invalid": true,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3987.800048828125,
+              1300.0
+            ]
+          },
+          {
+            "tick": 60,
+            "pose": [
+              3987.800048828125,
+              1300.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "28f93d224cb26a659f022a074b1deb78cf147f8e8f868c46caf875f245b559c9",
+        "checksum": "5ce178d317a86157"
+      }
+    ],
+    "dense": [
+      {
+        "entities": 8192,
+        "scenario": "scale-hotspot",
+        "ticks": 120,
+        "seed": 42,
+        "initial_living_ground": 7680,
+        "initial_invalid_ground": 0,
+        "final_living_ground": 6662,
+        "final_invalid_ground": 0,
+        "invalid_ground_sweep_steps": 0,
+        "newly_invalid_clear_start_steps": 0,
+        "surviving_ground_moved_over_1m": 6651,
+        "alive": [
+          3571,
+          3597
+        ],
+        "checksum": "0ec5f95bc76f9754",
+        "scope": "Natural authored deployment; initial overlap and casualties are reported, not treated as clear-start acceptance"
+      },
+      {
+        "entities": 16384,
+        "scenario": "scale-hotspot",
+        "ticks": 120,
+        "seed": 42,
+        "initial_living_ground": 15360,
+        "initial_invalid_ground": 0,
+        "final_living_ground": 14287,
+        "final_invalid_ground": 0,
+        "invalid_ground_sweep_steps": 0,
+        "newly_invalid_clear_start_steps": 0,
+        "surviving_ground_moved_over_1m": 14276,
+        "alive": [
+          7705,
+          7595
+        ],
+        "checksum": "2aea329dc5632d59",
+        "scope": "Natural authored deployment; initial overlap and casualties are reported, not treated as clear-start acceptance"
+      }
+    ],
+    "deterministic_replay": true,
+    "physical_faction_label_swap": true,
+    "scope": "Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance."
+  },
+  {
+    "suite": "terrain-body-outcomes",
+    "passed": true,
+    "legacy": true,
+    "terrain_body_module_present": true,
+    "library_sha256": "1f67893a9d644cc741309668853dcc64f68b2e2d4e87886c189b3308e673eca4",
+    "oracle_sha256": "fc2e3c34914f19b1dc95e987813b65b00552fd12f6162e78d041ed1c3d1d8fe8",
+    "expanded_rectangle_radii_m": [
+      0.55,
+      3.55,
+      4.49
+    ],
+    "solid_boxes": [
+      [
+        3988.0,
+        1100.0,
+        4012.0,
+        1500.0
+      ],
+      [
+        3988.0,
+        3700.0,
+        4012.0,
+        4100.0
+      ],
+      [
+        3988.0,
+        6300.0,
+        4012.0,
+        6700.0
+      ],
+      [
+        5170.0,
+        1540.0,
+        5230.0,
+        1600.0
+      ],
+      [
+        2770.0,
+        3540.0,
+        2830.0,
+        3600.0
+      ]
+    ],
+    "controlled_encounters": [
+      {
+        "name": "infantry_wall_skirt",
+        "mode": "army",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 800,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": [
+          4030,
+          1099.6
+        ],
+        "final": [
+          4030.0,
+          1099.5999755859375
+        ],
+        "final_goal_error": 2.441406240905053e-05,
+        "body_collision_ticks": 210,
+        "maximum_penetration_m": 0.14997558593745453,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3973.603515625,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3984.4140625,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 800,
+            "pose": [
+              4030.0,
+              1099.5999755859375
+            ]
+          }
+        ],
+        "physical_trace_sha256": "4ee3f9b6b74a17ef96037844dbd96813954eb2dd6a6c8a422c885561e45a8da0",
+        "checksum": "2659a5999a9d1ed4"
+      },
+      {
+        "name": "tank_wall_skirt",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 400,
+        "start": [
+          3970,
+          1097
+        ],
+        "goal": [
+          4030,
+          1097
+        ],
+        "final": [
+          4030.0,
+          1097.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 64,
+        "maximum_penetration_m": 0.5499999999999545,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3985.0,
+              1097.0
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              4030.0,
+              1097.0
+            ]
+          },
+          {
+            "tick": 400,
+            "pose": [
+              4030.0,
+              1097.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "470d59c7fb3c6d0e4ab61a052ddc10f710ef25e1b5f32e9018c9b0c0bad42230",
+        "checksum": "6a67be0801e376a2"
+      },
+      {
+        "name": "artillery_wall_skirt",
+        "mode": "army",
+        "kind": 2,
+        "radius_m": 4.49,
+        "ticks": 800,
+        "start": [
+          3970,
+          1096
+        ],
+        "goal": [
+          4030,
+          1096
+        ],
+        "final": [
+          4030.0,
+          1096.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 166,
+        "maximum_penetration_m": 0.4900000000000091,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3975.99853515625,
+              1096.0
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3993.994140625,
+              1096.0
+            ]
+          },
+          {
+            "tick": 800,
+            "pose": [
+              4030.0,
+              1096.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "ad5d45f7f73cb4ccee7d2399ae27c9e1f173d8b5a4055b4af10ce046fe163433",
+        "checksum": "08f9ff3620a02f00"
+      },
+      {
+        "name": "tank_wall_route",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 1800,
+        "start": [
+          3970,
+          1300
+        ],
+        "goal": [
+          4030,
+          1300
+        ],
+        "final": [
+          4030.0,
+          1300.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 130,
+        "maximum_penetration_m": 3.520947265625182,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3970.87060546875,
+              1286.0235595703125
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3973.474365234375,
+              1241.1004638671875
+            ]
+          },
+          {
+            "tick": 1800,
+            "pose": [
+              4030.0,
+              1300.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "98a92b5fcde82f200d5d2f9f9bdc444c62955c15305b23a832bb1a5c22d0d735",
+        "checksum": "c301574744abd84c"
+      },
+      {
+        "name": "artillery_wall_route",
+        "mode": "army",
+        "kind": 2,
+        "radius_m": 4.49,
+        "ticks": 4200,
+        "start": [
+          3970,
+          1300
+        ],
+        "goal": [
+          4030,
+          1300
+        ],
+        "final": [
+          4030.0,
+          1300.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 410,
+        "maximum_penetration_m": 4.441904296874782,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3970.353515625,
+              1294.4080810546875
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3971.404052734375,
+              1276.4344482421875
+            ]
+          },
+          {
+            "tick": 4200,
+            "pose": [
+              4030.0,
+              1300.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "9a3cb9ce51a7fdb3030b348912badc05e83b6b526393760b6532b240e79fd42a",
+        "checksum": "1e0bd7bf11182451"
+      },
+      {
+        "name": "tank_structure_route",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 600,
+        "start": [
+          5150,
+          1570
+        ],
+        "goal": [
+          5250,
+          1570
+        ],
+        "final": [
+          5250.0,
+          1570.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 107,
+        "maximum_penetration_m": 3.3665283203124545,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              5155.3388671875,
+              1556.8905029296875
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              5188.923828125,
+              1538.12451171875
+            ]
+          },
+          {
+            "tick": 600,
+            "pose": [
+              5250.0,
+              1570.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "3e0cb93dfd49d9ed00ddff9bc95271a334d09c70e7d8d0bf18fe837668ee8ad1",
+        "checksum": "83a5599ab2d7c05a"
+      },
+      {
+        "name": "infantry_edge_goal",
+        "mode": "army",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 100,
+        "start": [
+          5,
+          2000
+        ],
+        "goal": [
+          0,
+          2000
+        ],
+        "final": [
+          0.0,
+          2000.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 63,
+        "maximum_penetration_m": 0.55,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              1.4000028371810913,
+              2000.0
+            ]
+          },
+          {
+            "tick": 100,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "2820d1389a5cc18ada5291d6af5bd8ccf31c215565e90becdf405058b28369be",
+        "checksum": "d371af38614be59f"
+      },
+      {
+        "name": "tank_edge_goal",
+        "mode": "army",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 100,
+        "start": [
+          10,
+          2000
+        ],
+        "goal": [
+          0,
+          2000
+        ],
+        "final": [
+          0.0,
+          2000.0
+        ],
+        "final_goal_error": 0.0,
+        "body_collision_ticks": 88,
+        "maximum_penetration_m": 3.55,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          },
+          {
+            "tick": 100,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "963dce3b0df8df0b0cb2558292828796bf2fc77d9b8a6046f6084f63827df7ce",
+        "checksum": "4ef6b04ff8040c63"
+      },
+      {
+        "name": "artillery_edge_goal",
+        "mode": "army",
+        "kind": 2,
+        "radius_m": 4.49,
+        "ticks": 100,
+        "start": [
+          10,
+          2000
+        ],
+        "goal": [
+          0,
+          2000
+        ],
+        "final": [
+          5.036592483520508e-06,
+          2000.0
+        ],
+        "final_goal_error": 5.036592483520508e-06,
+        "body_collision_ticks": 73,
+        "maximum_penetration_m": 4.489994963407517,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              4.000005722045898,
+              2000.0
+            ]
+          },
+          {
+            "tick": 100,
+            "pose": [
+              5.036592483520508e-06,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "7acdc04b0b90d797b7af90dc6f3e7e4e603b0fb3f279ab08f8383a6e08bd600a",
+        "checksum": "05a960f3d32a26df"
+      },
+      {
+        "name": "player_wall_skirt",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 240,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": null,
+        "final": [
+          4042.01171875,
+          1099.5999755859375
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 84,
+        "maximum_penetration_m": 0.14997558593745453,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3979.00146484375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              4006.005859375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 240,
+            "pose": [
+              4042.01171875,
+              1099.5999755859375
+            ]
+          }
+        ],
+        "physical_trace_sha256": "1542159c9ccc1d0e422bcb41de924b1f88e5fcae9d80496f4c5d93091f496b0a",
+        "checksum": "54d9f2f523f5badd"
+      },
+      {
+        "name": "player_jump_wall_skirt",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 240,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": null,
+        "final": [
+          4042.01171875,
+          1099.5999755859375
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 84,
+        "maximum_penetration_m": 0.14997558593745453,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3979.00146484375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              4006.005859375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 240,
+            "pose": [
+              4042.01171875,
+              1099.5999755859375
+            ]
+          }
+        ],
+        "physical_trace_sha256": "1542159c9ccc1d0e422bcb41de924b1f88e5fcae9d80496f4c5d93091f496b0a",
+        "checksum": "9f173b613a20309d"
+      },
+      {
+        "name": "player_crouch_wall_skirt",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 800,
+        "start": [
+          3970,
+          1099.6
+        ],
+        "goal": null,
+        "final": [
+          4036.6015625,
+          1099.5999755859375
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 303,
+        "maximum_penetration_m": 0.14997558593745453,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3972.49755859375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3979.990234375,
+              1099.5999755859375
+            ]
+          },
+          {
+            "tick": 800,
+            "pose": [
+              4036.6015625,
+              1099.5999755859375
+            ]
+          }
+        ],
+        "physical_trace_sha256": "782a522f1201257f660e734f761c677d3c6f4fb56d46ba0592fddfa1a6305e9d",
+        "checksum": "fc5f862ed5de75f4"
+      },
+      {
+        "name": "player_wall",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 90,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3987.189453125,
+          1319.4952392578125
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3987.17333984375,
+              1301.799560546875
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3987.189453125,
+              1319.4952392578125
+            ]
+          }
+        ],
+        "physical_trace_sha256": "f0d6f69446a1d686f40a81c964385a15ddb6ba017edde3c762514dffb5406bcc",
+        "checksum": "0aa718458785c9a9"
+      },
+      {
+        "name": "player_jump_wall",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 90,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3987.189453125,
+          1319.4952392578125
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3987.17333984375,
+              1301.799560546875
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3987.189453125,
+              1319.4952392578125
+            ]
+          }
+        ],
+        "physical_trace_sha256": "f0d6f69446a1d686f40a81c964385a15ddb6ba017edde3c762514dffb5406bcc",
+        "checksum": "69714fcf79eaa769"
+      },
+      {
+        "name": "player_crouch_wall",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 180,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3987.044921875,
+          1307.837158203125
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 0,
+        "maximum_penetration_m": 0,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3982.49755859375,
+              1300.0
+            ]
+          },
+          {
+            "tick": 120,
+            "pose": [
+              3987.03369140625,
+              1302.9180908203125
+            ]
+          },
+          {
+            "tick": 180,
+            "pose": [
+              3987.044921875,
+              1307.837158203125
+            ]
+          }
+        ],
+        "physical_trace_sha256": "ae2198d4de6efc000f56ee1def31efa08636e7246a0487378541e0a2e1a5555c",
+        "checksum": "5a059c23939e2033"
+      },
+      {
+        "name": "driven_tank_wall",
+        "mode": "driver",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 90,
+        "start": [
+          3980,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3987.5830078125,
+          1345.591552734375
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 83,
+        "maximum_penetration_m": 3.146679687500182,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3987.02978515625,
+              1310.799560546875
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              3987.5830078125,
+              1345.591552734375
+            ]
+          }
+        ],
+        "physical_trace_sha256": "e344f345369eee94e4a8f8e5ed37fe41df0137c37021d2c77dd88ad6f45221bb",
+        "checksum": "a0769bf0fa112989"
+      },
+      {
+        "name": "player_edge",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 90,
+        "start": [
+          5,
+          2000
+        ],
+        "goal": null,
+        "final": [
+          0.0,
+          2000.0
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 76,
+        "maximum_penetration_m": 0.55,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "14003fc4077248be81a98f8e2ec26141f5b3f73b2822677636144f11871c659b",
+        "checksum": "f0c3eb9952c41fe5"
+      },
+      {
+        "name": "driven_tank_edge",
+        "mode": "driver",
+        "kind": 1,
+        "radius_m": 3.55,
+        "ticks": 90,
+        "start": [
+          10,
+          2000
+        ],
+        "goal": null,
+        "final": [
+          0.0,
+          2000.0
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 80,
+        "maximum_penetration_m": 3.55,
+        "initial_invalid": false,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          },
+          {
+            "tick": 90,
+            "pose": [
+              0.0,
+              2000.0
+            ]
+          }
+        ],
+        "physical_trace_sha256": "e7b1e78ee503cf84cc5ae959875e80425caedb001bd755a4c5454d0c580380db",
+        "checksum": "b1caa106d453c5d4"
+      },
+      {
+        "name": "player_initial_invalid",
+        "mode": "player",
+        "kind": 0,
+        "radius_m": 0.55,
+        "ticks": 60,
+        "start": [
+          3987.8,
+          1300
+        ],
+        "goal": null,
+        "final": [
+          3987.463134765625,
+          1317.99560546875
+        ],
+        "final_goal_error": null,
+        "body_collision_ticks": 60,
+        "maximum_penetration_m": 0.3500000000003638,
+        "initial_invalid": true,
+        "samples": [
+          {
+            "tick": 30,
+            "pose": [
+              3987.631591796875,
+              1308.997802734375
+            ]
+          },
+          {
+            "tick": 60,
+            "pose": [
+              3987.463134765625,
+              1317.99560546875
+            ]
+          }
+        ],
+        "physical_trace_sha256": "53641d716c42283afc45e0a9d968d9477bd5e53d85a16c1152387f4c0840d6f8",
+        "checksum": "14260fcbd41b946a"
+      }
+    ],
+    "dense": [
+      {
+        "entities": 8192,
+        "scenario": "scale-hotspot",
+        "ticks": 120,
+        "seed": 42,
+        "initial_living_ground": 7680,
+        "initial_invalid_ground": 0,
+        "final_living_ground": 6655,
+        "final_invalid_ground": 0,
+        "invalid_ground_sweep_steps": 0,
+        "newly_invalid_clear_start_steps": 0,
+        "surviving_ground_moved_over_1m": 6636,
+        "alive": [
+          3564,
+          3597
+        ],
+        "checksum": "369828430ebb87ad",
+        "scope": "Natural authored deployment; initial overlap and casualties are reported, not treated as clear-start acceptance"
+      },
+      {
+        "entities": 16384,
+        "scenario": "scale-hotspot",
+        "ticks": 120,
+        "seed": 42,
+        "initial_living_ground": 15360,
+        "initial_invalid_ground": 0,
+        "final_living_ground": 14286,
+        "final_invalid_ground": 0,
+        "invalid_ground_sweep_steps": 0,
+        "newly_invalid_clear_start_steps": 0,
+        "surviving_ground_moved_over_1m": 14277,
+        "alive": [
+          7694,
+          7610
+        ],
+        "checksum": "8cb4f8976abdfcb4",
+        "scope": "Natural authored deployment; initial overlap and casualties are reported, not treated as clear-start acceptance"
+      }
+    ],
+    "deterministic_replay": true,
+    "physical_faction_label_swap": true,
+    "scope": "Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance."
+  }
+]

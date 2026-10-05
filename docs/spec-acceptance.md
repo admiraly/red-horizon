@@ -433,3 +433,37 @@ source-matched frozen integration and CPU benchmarks are recorded in
 `docs/evidence/crowd-session.json`; recorded failures retain the authored-body,
 wall routing, coincident-intent and speed-fixture diagnoses. The complete game
 specification and hardware/Windows/four-rendered-client gates remain unaccepted.
+
+## Full-footprint static terrain supplement
+
+Runtime `5da656d` adds separate role-aware body sweeps for actual army steering,
+human planar motion, tank driving and deployment/boarding/exit occupancy. Ground
+footprints0.55/3.55/4.49m gain1mm numerical inflation; static ground-solid boxes
+are conservatively expanded and map centers inset. Every accepted full/component
+step is swept; long goals and nearest-box/current-edge corners preserve actual
+progress. LOS and projectile geometry remain distinct point paths. Policy enabled
+state resets before game initialization and participates in replay hashing.
+
+This narrows planar collision/navigation gaps withinR05/9/15; it does not accept
+complete vehicle realism, strategic terrain or tactical intelligence. Independent
+production assertions cover33 actual world/controller cases, non-deepening invalid-
+start safe hold, body-safe arrival/progress, finite role speeds, exact replay and
+army movement-label traces. Random double-oracle module checks and actual8k/16k
+hotspot static sweep censuses provide separate scopes. Existing tactics thresholds
+remain; the wall fixture now starts with clear authored-size hulls and checks full
+body occupancy every tick. Route and infantry-cover margins are distinct. Direct human/tank controls use
+collision-only steps, preserving requested axes and legal diagonal slides; AI
+movement retains autonomous long-goal routing. New input-fidelity assertions
+reject legacy unwanted steering rather than inferring correct controls from
+geometric clearance alone. Map edge/corner component bounds also reject
+free-axis amplification; original direction is normalized before endpoint clipping.
+
+Expanded AABBs reject some circle-corner paths; shared max-role navigation edges
+may omit narrow infantry/tank passages and rely on bounded local fallback. Initial-
+invalid poses safely hold rather than universally recover. Five fixed solids,
+planar footprints and limited real tank boarding do not accept oriented hulls,
+vertical vault/slope physics, dynamic destruction/streaming, all-type deployment
+reachability or player/driven interactor collision. Full frozen evidence and CPU
+benchmarks belong to docs/evidence/terrain-body-session.json and docs/status.md.
+The complete operation/game, Windows, four rendered clients and hardware quality
+remain unaccepted.

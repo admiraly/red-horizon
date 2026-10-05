@@ -107,3 +107,18 @@ traffic/stuck recovery. Commander/formation plans, streamed navigation, complete
 operation/recovery, cross-class ordnance pressure and four-client dense quality
 continue independently. This batch is a verified steering slice, not acceptance
 of the complete army or game.
+
+Static body-terrain continuation: isolatedNASM/independent-geometry worker and
+production-world oracle worker; root owns army/player/driver/nav/init/hash hooks.
+Footprint-aware actual sweeps now cover infantry/tanks/artillery and walking/
+sprinting/crouching/jumping/tank driving, with normal-speed progress and explicit
+safe holds for invalid starts. Point LOS/projectile paths remain distinct. Exact
+verification/source/scale evidence: docs/evidence/terrain-body-session.json.
+
+Next physical movement tasks: generation-safe human/driven interactor collision,
+safe initial formation/deployment spacing, oriented vehicle turns/hulls and richer
+route classes/traffic recovery. Current shared conservative max-role graph is a
+bounded safety implementation, not streamed hierarchy or all narrow-pass acceptance.
+Commander/formation plans, complete production/logistics/recovery operation, runtime
+jobs/reload/snapshots, recorded audiovisual craft, Windows and sustained four-client
+massive battle remain required independently.
