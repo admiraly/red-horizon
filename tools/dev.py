@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Development orchestration only. Game simulation lives in NASM objects."""
-import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,sys,time,uuid
+import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,sys,tarfile,time,uuid
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'
 RUNS=ROOT/'runs'
-SCENARIOS={'scale-open':8192,'scale-front':8192,'scale-hotspot':8192,'scale-stretch':16384,'firing-range':128}
+SCENARIOS={'scale-open':8192,'scale-front':8192,'scale-hotspot':8192,'scale-stretch':16384}
 def revision():
     sha=os.environ.get('RED_HORIZON_SOURCE_COMMIT') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     # Hash actual authored inputs too, including uncommitted sources.
     h=hashlib.sha256()
-    for folder in ('src','shaders','content','schemas','tools'):
+    for folder in ('src','shaders','content','schemas','tools','tests'):
         for p in sorted((ROOT/folder).rglob('*')):
             if p.is_file() and '__pycache__' not in str(p): h.update(str(p.relative_to(ROOT)).encode()); h.update(p.read_bytes())
     return sha+'-'+h.hexdigest()[:16]
@@ -24,11 +24,16 @@ def atomic(path,data):
     path.parent.mkdir(parents=True,exist_ok=True); tmp=path.with_suffix('.tmp'); tmp.write_text(json.dumps(data,indent=2)+'\n'); tmp.replace(path)
 def doctor():
     data={'platform':platform.platform(),'machine':platform.machine(),'cpu':platform.processor(),'python':platform.python_version(),'revision':revision(),'display':os.environ.get('DISPLAY'),'remote':subprocess.check_output(['git','remote','-v'],cwd=ROOT,text=True).strip(),'runtime_language':'NASM x86-64','license':'pending owner approval'}
-    for tool in ('gcc','make','ninja','gh'): data[tool]=shutil.which(tool)
+    for tool in ('gcc','make','ninja','gh','glxinfo'): data[tool]=shutil.which(tool)
     try: data['nasm']=subprocess.check_output([nasm(),'-v'],text=True).strip()
     except RuntimeError as e: data['nasm']=str(e)
     if pathlib.Path('/proc/cpuinfo').exists():
         data['cpu']=next((l.split(':',1)[1].strip() for l in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if l.startswith('model name')),'unknown')
+    data['writable_project']=os.access(ROOT,os.W_OK)
+    data['recorded_rifle_available']=(ROOT/'content/audio/rifle.pcm').is_file()
+    if shutil.which('glxinfo') and os.environ.get('DISPLAY'):
+        probe=subprocess.run(['glxinfo','-B'],capture_output=True,text=True,timeout=10)
+        data['gpu_probe']={'exit_code':probe.returncode,'details':probe.stdout.strip() if probe.returncode==0 else probe.stderr.strip()}
     print(json.dumps(data,indent=2)); atomic(RUNS/'doctor.json',data)
 def build(target):
     BUILD.mkdir(exist_ok=True)
@@ -72,10 +77,15 @@ def run_headless(args,benchmark=False):
         raise RuntimeError(f'{scenario} fixture not implemented; refusing to relabel scale-open')
     cmd=[str(exe),'--units',str(args.units or SCENARIOS[scenario]),'--ticks',str(args.ticks),'--seed',str(args.seed)]
     if args.realtime: cmd.append('--realtime')
+    memory_path=RUNS/('memory-'+uuid.uuid4().hex[:10]+'.txt'); RUNS.mkdir(exist_ok=True)
+    timer=pathlib.Path('/usr/bin/time')
+    if timer.exists(): cmd=[str(timer),'-f','%M','-o',str(memory_path),*cmd]
     start=time.perf_counter(); r=subprocess.run(cmd,cwd=exe.parent,check=True,capture_output=True,text=True)
+    peak_memory=int(memory_path.read_text().strip()) if memory_path.exists() else None
+    if memory_path.exists(): memory_path.unlink()
     try: metrics=json.loads(r.stdout)
     except json.JSONDecodeError: raise RuntimeError('Runtime did not emit valid JSON: '+r.stdout[:1000])
-    result={'scenario':scenario,'revision':revision(),'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1}}
+    result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':'not implemented','network_bandwidth':'not implemented'}}
     path=RUNS/('bench-'+uuid.uuid4().hex[:10]+'.json'); atomic(path,result); print(json.dumps(result,indent=2)); print('Report: '+str(path))
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
@@ -107,15 +117,30 @@ def jobs(job=None):
         data=json.loads((folder/'job.json').read_text())
         if (folder/'result.json').exists(): data.update(json.loads((folder/'result.json').read_text()))
         print(json.dumps(data,indent=2))
+def package():
+    server=build('headless'); client=build('client'); rev=client.parent.name
+    if server.parent.name!=rev: raise RuntimeError('Sources changed between package builds; rerun package')
+    stage=BUILD/'packages'/rev; stage.mkdir(parents=True,exist_ok=True)
+    shutil.copy2(server,stage/server.name); shutil.copy2(client,stage/client.name)
+    for folder in ('content','docs'):
+        shutil.copytree(ROOT/folder,stage/folder,dirs_exist_ok=True)
+    for name in ('README.md','THIRD_PARTY.md'): shutil.copy2(ROOT/name,stage/name)
+    (stage/'run-client.sh').write_text('#!/bin/sh\ncd "$(dirname "$0")" || exit 1\nexec ./red-horizon "$@"\n')
+    (stage/'run-client.sh').chmod(0o755)
+    hashes={str(p.relative_to(stage)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(stage.rglob('*')) if p.is_file() and p.name!='manifest.json'}
+    atomic(stage/'manifest.json',{'revision':rev,'platform':platform.platform(),'files':hashes,'runtime_dependencies':['glibc','GLFW>=3.3','OpenGL>=4.5','ALSA'],'license':'code pending owner approval; see asset credits'})
+    archive=stage.with_suffix('.tar.gz')
+    with tarfile.open(archive,'w:gz') as tar: tar.add(stage,arcname='red-horizon')
+    print(json.dumps({'package':str(archive),'sha256':hashlib.sha256(archive.read_bytes()).hexdigest(),'revision':rev,'public_release':False}))
 def main():
     if len(sys.argv)>1 and sys.argv[1]=='_worker': return worker(sys.argv[2],sys.argv[3:])
     p=argparse.ArgumentParser(description=__doc__); sub=p.add_subparsers(dest='command',required=True)
-    for name in ('doctor','configure','jobs'): sub.add_parser(name)
+    for name in ('doctor','configure','jobs','package'): sub.add_parser(name)
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio'],default='all'); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
@@ -125,16 +150,22 @@ def main():
         if args.client:
             exe=build('client'); cmd=[str(exe)];
             if args.frames: cmd+=['--frames',str(args.frames)]
-            execute(cmd)
+            if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
+            if args.tactical: cmd+=['--tactical']
+            subprocess.run(cmd,cwd=exe.parent,check=True)
         else: run_headless(args,args.command=='bench')
+    elif args.command=='package': package()
     elif args.command=='jobs': jobs()
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
-        if suite in ('all','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
-        if suite in ('all','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
-        if suite=='all': execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','headless','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)]); execute([sys.executable,'tests/test_operation.py',str(library)]); execute([sys.executable,'tests/test_waypoints.py',str(library)])
+        if suite in ('all','headless','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
+        if suite in ('all','headless','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
+        if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
+        if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
+        if suite in ('all','headless'): execute([sys.executable,'tools/assets.py'])
+        if suite in ('all','graphics'): execute([sys.executable,'tests/test_graphics.py',str(build('client'))])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())

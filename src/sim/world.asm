@@ -1,6 +1,7 @@
 ; ABI v1. All routines preserve SysV nonvolatile registers. Fixed 30 Hz steps.
 %include "schemas/entity.inc"
 default rel
+extern operation_init, operation_tick, operation_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -13,9 +14,13 @@ cell_samples: resd 1024*24
 damage: resd ENTITY_CAPACITY
 orders: resd 6
 rng: resd 1
+global sim_waypoints
+sim_waypoints: resq 6
 section .rodata
 health: dd 100,400,160,200
-speed: dd 1.5,2.2,0.5,5.0
+speed: dd 0.12,0.5,0.2,5.0
+default_goals: dd 5000.0,1300.0,5000.0,3900.0,5000.0,6500.0
+               dd 3000.0,1300.0,3000.0,3900.0,3000.0,6500.0
 range2: dd 57600.0,202500.0,422500.0,202500.0
 power: dd 3,10,15,6
 zero: dd 0.0
@@ -44,6 +49,10 @@ sim_init:
  xor eax,eax
  mov ecx,6
  rep stosd
+ lea rsi,[default_goals]
+ lea rdi,[sim_waypoints]
+ mov ecx,6
+ rep movsq
  xor r12d,r12d
  lea rbx,[sim_entities]
 .loop:
@@ -101,6 +110,9 @@ sim_init:
  inc r12d
  cmp r12d,[sim_count]
  jb .loop
+ sub rsp,8
+ call operation_init
+ add rsp,8
  pop r12
  pop rbx
  xor eax,eax
@@ -118,6 +130,32 @@ sim_order:
  add edi,esi
  lea rax,[orders]
  mov [rax+rdi*4],edx
+ xor eax,eax
+ ret
+.bad: mov eax,-1
+ ret
+global sim_waypoint
+; Set a host-owned goal; the caller separately selects advance/hold/retreat.
+sim_waypoint:
+ cmp edi,1
+ ja .bad
+ cmp esi,2
+ ja .bad
+ ucomiss xmm0,[zero]
+ jp .bad
+ jb .bad
+ ucomiss xmm0,[maximum]
+ ja .bad
+ ucomiss xmm1,[zero]
+ jp .bad
+ jb .bad
+ ucomiss xmm1,[maximum]
+ ja .bad
+ imul edi,3
+ add edi,esi
+ lea rax,[sim_waypoints]
+ movss [rax+rdi*8],xmm0
+ movss [rax+rdi*8+4],xmm1
  xor eax,eax
  ret
 .bad: mov eax,-1
@@ -153,6 +191,7 @@ sim_tick:
  mov eax,[rbx+ENTITY_SIDE]
  imul eax,3
  add eax,[rbx+ENTITY_FRONT]
+ mov edi,eax
  lea rcx,[orders]
  mov eax,[rcx+rax*4]
  cmp eax,1
@@ -162,24 +201,49 @@ sim_tick:
  ; Advance holds a firing position while its last target is alive.
  mov edx,[rbx+ENTITY_TARGET]
  cmp edx,-1
- je .direction
+ je .toward_goal
  mov ecx,edx
  imul rcx,ENTITY_STRIDE
  lea rsi,[sim_entities]
  cmp dword [rsi+rcx+ENTITY_HP],0
  jne .insert
- jmp .direction
+.toward_goal:
+ lea rsi,[sim_waypoints]
+ movss xmm2,[rsi+rdi*8]
+ movss xmm3,[rsi+rdi*8+4]
+ subss xmm2,[rbx+ENTITY_X]
+ subss xmm3,[rbx+ENTITY_Z]
+ movaps xmm0,xmm2
+ mulss xmm0,xmm0
+ movaps xmm4,xmm3
+ mulss xmm4,xmm4
+ addss xmm0,xmm4
+ ucomiss xmm0,[zero]
+ je .insert
+ sqrtss xmm0,xmm0
+ comiss xmm0,xmm1
+ jbe .arrived
+ divss xmm1,xmm0
+ mulss xmm2,xmm1
+ mulss xmm3,xmm1
+ addss xmm2,[rbx+ENTITY_X]
+ addss xmm3,[rbx+ENTITY_Z]
+ movss [rbx+ENTITY_X],xmm2
+ movss [rbx+ENTITY_Z],xmm3
+ jmp .insert
+.arrived:
+ movss xmm0,[rsi+rdi*8]
+ movss [rbx+ENTITY_X],xmm0
+ movss xmm0,[rsi+rdi*8+4]
+ movss [rbx+ENTITY_Z],xmm0
+ jmp .insert
 .retreat:
- xorps xmm2,xmm2
- subss xmm2,xmm1
- movaps xmm1,xmm2
-.direction:
  cmp dword [rbx+ENTITY_SIDE],0
- je .advance
+ jne .retreat_right
  xorps xmm2,xmm2
  subss xmm2,xmm1
  movaps xmm1,xmm2
-.advance:
+.retreat_right:
  movss xmm0,[rbx+ENTITY_X]
  addss xmm0,xmm1
  maxss xmm0,[zero]
@@ -368,6 +432,9 @@ sim_tick:
  inc r12d
  cmp r12d,[sim_count]
  jb .apply
+ sub rsp,8
+ call operation_tick
+ add rsp,8
  add rsp,32
  pop r15
  pop r14
@@ -405,7 +472,15 @@ sim_checksum:
  imul rax,r8
  add rsi,4
  loop .orders
- ret
+ lea rsi,[sim_waypoints]
+ mov ecx,48
+.goals:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ loop .goals
+ jmp operation_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
 section .text
 global sim_fire

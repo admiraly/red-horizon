@@ -43,3 +43,22 @@ Candidate work remains capped at 216 per actor and grid rebuild remains linear. 
 ## Real-time headless pacing
 
 `--realtime` optionally paces completed ticks to absolute CLOCK_MONOTONIC deadlines with `clock_nanosleep(TIMER_ABSTIME)` at 30 Hz. EINTR retries the same deadline. Default headless execution remains throughput mode. When a tick exceeds its deadline the subsequent sleep returns immediately; there is no skipped simulation tick or hidden outcome change. Tick timing still excludes sleeps. The suite verifies that three paced ticks consume at least 90 ms and produce exactly the unpaced checksum; baseline/stretch 30-tick paced runs were separately measured at approximately one second wall time. Pacing is single-threaded and does not claim a server networking loop.
+
+## Formation waypoint movement
+
+`sim_waypoint(EDI=side, ESI=front, XMM0=x, XMM1=z) -> EAX=0/-1` sets the specified formation's host-owned shared destination. Side must be 0/1, front 0/1/2, and both coordinates must be finite within 0–8000 inclusive. Invalid calls leave destinations unchanged. The routine preserves SysV nonvolatile registers, clobbers caller-saved registers, allocates no memory, and does not change membership or orders. `sim_waypoints` exports six x/z f32 pairs, indexed `side*3+front`, stride 8. Initialization sets allied goals to x=5000 and enemy goals to x=3000, at z=1300/3900/6500. Destinations are included in the replay checksum; entity ABI v1 remains unchanged.
+
+Advance now moves living entities toward their side/front goal with a normalized SSE2 step. If the remaining distance is no larger than the step, the entity arrives exactly and stays there. Existing combat hold remains: an actor with a living acquired target temporarily holds its firing position. Defend/hold pauses only the chosen side/front; retreat retains the outward x-axis movement with coordinate clamps. Dead entities do not move. This is direct steering without obstacle navigation, collision avoidance, cover, routes or sightlines.
+
+Speeds per fixed 1/30-second tick are infantry 0.12 m, armour 0.5 m, artillery 0.2 m, aircraft 5 m: respectively 3.6/15/6/150 metres per second. Earlier ground speeds were incorrectly large (45/66/15 metres per second) and have been corrected. At infantry speed a kilometre takes approximately 278 seconds before combat holds, emphasizing the future need for transport/deployment rather than artificially fast marching.
+
+`python3 tests/test_waypoints.py build/libsim.so` passes NaN/Inf/bounds rejection without mutation, checksum sensitivity, side/front goal isolation, all four measured per-tick speeds, exact diagonal arrival without overshoot, persistent arrival, hold while another formation moves, and real world-tick movement followed by hold completing hostile-site capture. The baseline/stretch and operation suites also pass.
+
+Fresh seed 1, 600-tick results on the same i7-1355U after movement changes:
+
+| Units | Alive side0/1 | Engaged final | Checksum | Mean tick ms | p95 tick ms |
+|---|---|---|---|---|---|
+|8192|2267/2564|674|03af2b6b5aaf3848|2.155239|2.938412|
+|16384|5003/5466|1498|eb260d54d97c9577|4.426580|5.538509|
+
+Both runs remain ongoing with capacity 600/600 and requisition 880/460. These twenty-second throughput fixtures verify physical movement and casualties; slower marching means they do not demonstrate autonomous captures at default distant goals. The explicit arrival/capture scenario provides that path separately.
