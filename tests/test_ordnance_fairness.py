@@ -241,7 +241,7 @@ for mode, name in ((2, 'scale-front'), (3, 'scale-hotspot')):
         replay_reports.append(report)
     assert replay_reports[0] == replay_reports[1], 'dense replay differs'
     dense.append(replay_reports[0])
-output = {'library_sha256': hashlib.sha256(pathlib.Path(args.library).read_bytes()).hexdigest(),
+output = {'suite': 'ordnance-fairness', 'passed': True, 'library_sha256': hashlib.sha256(pathlib.Path(args.library).read_bytes()).hexdigest(),
     'mode': 'legacy-fixed-index' if args.legacy else 'fair-acceptance',
     'isolated_world_allocations': reports, 'sustained_physical_pressure': sustained,
     'dense_world_samples': dense,

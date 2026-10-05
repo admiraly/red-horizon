@@ -34,6 +34,7 @@ entities = (Entity * 32768).in_dll(lib, "sim_entities")
 projectiles = (Projectile * 512).in_dll(lib, "sim_projectiles")
 events = (Event * 256).in_dll(lib, "sim_events")
 ammo = (C.c_uint * 32768).in_dll(lib, "sim_shell_ammo")
+cooldown = (C.c_uint * 32768).in_dll(lib, "sim_shell_cooldown")
 alive = (C.c_uint * 2).in_dll(lib, "sim_alive")
 enabled = C.c_uint.in_dll(lib, "hazard_enabled")
 class HazardState(C.Structure):
@@ -64,7 +65,11 @@ def fixture(on, source=(1000, 2000), aim=(1240, 2000), victims=None):
     for side in (0, 1):
         for front in range(3):
             assert lib.sim_order(side, front, 1) == 0  # Genuine manual hold, interrupted only by danger.
-    lib.sim_tick()  # Builds the production spatial grid before the actual launch.
+    # A one-tick initial cooldown reserves the explicit aimed launch while
+    # building the grid; ready ground fire no longer waits for an eight-phase gate.
+    cooldown[14] = 1
+    lib.sim_tick()
+    assert cooldown[14] == 0 and ammo[14] == 1
     assert lib.projectile_launch(14, 2, aim[0], lib.terrain_height(*aim), aim[1]) == 0
     assert ammo[14] == 0
     return aim, victims

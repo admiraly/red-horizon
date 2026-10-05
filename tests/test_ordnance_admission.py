@@ -133,4 +133,4 @@ reset();assert lib.ordnance_request(0,2)==0;fail.value=1;lib.ordnance_flush()
 assert calls.value==1 and metrics[2]==0 and metrics[3]==1 and cursors[0]==-1
 # Clearing drops stale work; no request persistence or automatic source reselection.
 reset();assert lib.ordnance_request(0,2)==0;lib.ordnance_begin();lib.ordnance_flush();assert calls.value==0
-print(json.dumps({'ordnance_admission':'passed','maximum_requests':32768,'controlled_capacity':416,'equal_group_admissions':[104]*4,'pressure_rounds':128,'unique_pressure_winners':128,'production_trajectories':False}))
+print(json.dumps({'suite':'ordnance-admission','passed':True,'ordnance_admission':'passed','maximum_requests':32768,'controlled_capacity':416,'equal_group_admissions':[104]*4,'pressure_rounds':128,'unique_pressure_winners':128,'production_trajectories':False}))
