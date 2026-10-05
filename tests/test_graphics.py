@@ -33,6 +33,10 @@ try:
         timing=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_metrics"')]
         if timing:assert timing[0]['cpu_samples']>0 and timing[0]['gpu_samples']>0
         result['runs'].append({'mode':mode,'exit_code':run.returncode,'seconds':time.perf_counter()-begin,'screenshot':str(image),'telemetry':run.stdout,'timing':timing})
+    controls=subprocess.run([sys.executable,str(ROOT/'tests/test_controls.py'),str(exe)],cwd=ROOT,env=env,capture_output=True,text=True,timeout=30)
+    (folder/'controls.log').write_text(controls.stdout+controls.stderr)
+    assert controls.returncode==0,controls.stdout+controls.stderr
+    result['controls']=json.loads(controls.stdout.strip())
     result['passed']=True;(folder/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps({'suite':'graphics','passed':True,'renderer':'software','modes':2,'entities_submitted':8192,'report':str(folder/'result.json')}))
 finally:

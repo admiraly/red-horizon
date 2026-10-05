@@ -11,9 +11,9 @@
 | Capture/supply/resources/results | simulation worker | world |12physical sites,cut/restoration,spend,recapture/victory/defeat tests pass |
 | Finite formation destinations | simulation worker | world/sites |bounds/role speeds/arrival then capture tests pass |
 | Four-client UDP transport proof | reload worker | protocol |45real datagrams plus timeout/malformed/reorder/lostACK pass; gameplay connection pending |
-| Tactical markers/destination UI | client worker | site/waypoint ABI |integration in progress |
-| CPU/GPU client profiling | integrator | GL renderer |module assembled, hooks/evidence pending |
-| Local packaging | integrator | client/content |archive with hashes built; final revision retest pending |
+| Tactical markers/destination UI | client worker | site/waypoint ABI |privateXvfb input + markers/resources pass |
+| CPU/GPU client profiling | integrator | GL renderer |bounded timer ring hooked; CPU/GPU samples observed headlessly |
+| Local packaging | integrator | client/content |archive with hashes built; final revision package below session reports |
 | Public GitHub | integrator | explicit authorization |repo created and first validated snapshot pushed |
 | GitHub Actions | integrator |workflow credential scope |workflow authored locally; upload blocked by OAuth scope |
 | Windows parity | ready/unassigned | platform ABI |pending |

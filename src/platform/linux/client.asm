@@ -1,6 +1,7 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
 default rel
 global main
+extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_init,audio_shot,audio_update,audio_shutdown
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_fire,sim_count,sim_entities
@@ -347,7 +348,9 @@ main:
  call glfwGetTime
  movsd [last_time],xmm0
  call audio_init
+ call metrics_init
 .loop:
+ call metrics_frame_begin
  call audio_update
  call glfwPollEvents
  call update_input
@@ -369,6 +372,7 @@ main:
  call sim_tick
  jmp .tick
 .render:
+ call metrics_gpu_begin
  mov edi,0x8892
  mov esi,[sim_count]
  shl esi,5
@@ -466,6 +470,7 @@ main:
  mov edi,0xb71
  call glEnable
 .nohud:
+ call metrics_gpu_end
  inc dword [frame_count]
  mov eax,[frame_limit]
  test eax,eax
@@ -479,11 +484,14 @@ main:
 .swap:
  mov rdi,[window]
  call glfwSwapBuffers
+ call metrics_frame_end
  mov rdi,[window]
  call glfwWindowShouldClose
  test eax,eax
  jz .loop
 .done:
+ call metrics_frame_end
+ call metrics_report
  lea rdi,[summary]
  mov esi,[frame_count]
  mov edx,[sim_count]
