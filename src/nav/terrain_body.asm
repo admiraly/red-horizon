@@ -278,6 +278,41 @@ terrain_body_move:
  jz .step
  mov rsi,rbx
  call bounds
+ ; When above/below a wall while inside its X projection, round the
+ ; current-side corner first. A goal-side far edge would push diagonally
+ ; into the wall and make component recovery creep sideways for thousands
+ ; of normal steps despite a short unobstructed route around this corner.
+ movss xmm0,[rsp]
+ ucomiss xmm0,xmm10
+ jb .normal_edge
+ ucomiss xmm0,xmm11
+ ja .normal_edge
+ movss xmm0,[rsp+4]
+ ucomiss xmm0,xmm12
+ jb .current_lower
+ ucomiss xmm0,xmm13
+ jbe .normal_edge
+ movaps xmm1,xmm13
+ addss xmm1,[clearance]
+ jmp .current_x
+.current_lower:
+ movaps xmm1,xmm12
+ subss xmm1,[clearance]
+.current_x:
+ movss xmm0,[rbx]
+ addss xmm0,[rbx+8]
+ mulss xmm0,[half]
+ movss xmm2,[rsp+8]
+ ucomiss xmm2,xmm0
+ jb .current_left
+ movaps xmm2,xmm11
+ addss xmm2,[clearance]
+ jmp .corner
+.current_left:
+ movaps xmm2,xmm10
+ subss xmm2,[clearance]
+ jmp .corner
+.normal_edge:
  movss xmm0,[rbx+4]
  addss xmm0,[rbx+12]
  mulss xmm0,[half]

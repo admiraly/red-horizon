@@ -12,7 +12,9 @@ movement without ground-solid collision.
 
 Movement retains the actual long goal, selects the nearest intersecting expanded
 box, approaches a corner outside its footprint, crosses the far corner, and
-resumes toward the goal. Corner clearance is another 0.5m. Each accepted full
+resumes toward the goal. A start above/below a wall but inside its X
+projection first rounds the current-side corner instead of creeping sideways
+against the wall toward the far edge. Corner clearance is another 0.5m. Each accepted full
 step or component slide receives an independent body sweep before it is returned.
 The requested step bounds actual distance; inputs reject invalid roles,
 non-finite positions, coordinates outside [0,8000], and nonpositive, non-finite
@@ -51,3 +53,10 @@ legacy point collision, nonvolatile SysV registers, exact enabled-state FNV
 bytes and unchanged static obstacle bytes. These are module-level results;
 production integration, world navigation, player/driver collision and large-army
 performance belong to separate root verification.
+
+The wall-edge route from (4000,1506) to (4050,1000) additionally has a useful
+travel bound of 600m plus 50 normal steps. A verified correction reduced its
+arrival ticks from infantry 15,154/tank 3,873/artillery 10,006/driven tank 3,236
+to 4,302/1,043/2,614/870, while retaining independent swept clearance on every
+step and every other route/random/ABI/hash/input check. This is isolated module
+evidence, not a measured full-world performance claim.

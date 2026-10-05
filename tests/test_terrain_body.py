@@ -60,6 +60,8 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
                 if math.dist(p,g)<.001:break
             assert math.dist(p,g)<.001,('route stalled',k,s,p,g)
             routes.append(tick+1)
+            if g==(4050.,1000.):
+                assert tick+1 < math.ceil(600/s)+50,('wall-edge unnecessary creep',k,s,tick+1)
     # Map inset, wall/front/side/corner rejection and invalid-start safe holding.
     for k in range(3):
         r=radii[k]
