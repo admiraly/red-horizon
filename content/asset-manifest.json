@@ -277,6 +277,25 @@
       "archive_sha256": "d445e1fcd68e9771df5c646ccd737c2bd259f1f9c1cd584dc4a36a2e6ad42a67",
       "archive_member": "basic_replacements.blend",
       "limitation": "Static authored fighter; no rigged flight animation"
+    },
+    {
+      "id": "footstep-recorded",
+      "source_url": "https://opengameart.org/content/footsteps-0",
+      "download_url": "https://opengameart.org/sites/default/files/01-footstep_0.ogg",
+      "title": "Footsteps / 01-footstep.ogg",
+      "author": "GboxMikeFozzy",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author upload dated2022-04-14 explicitly linksCC0; author describes recording their own walk through a subway. Reviewed2026-10-05; evidence content/licenses/footstep-license-evidence.json.",
+      "required_attribution": "Footsteps recording by GboxMikeFozzy (CC0-1.0), attenuated and faded for RED HORIZON. Credit provided voluntarily.",
+      "source_file": "content/audio/sources/01-footstep.ogg",
+      "original_sha256": "33c9bef5e8aeb1069455699a34a0c5e1ef1787fd3f61594b0859d7e6bb9f9dec",
+      "derived_sha256": "8c44c375ea796e1362ed19afe75dda6ec8bf966b8e88df4d9922ebb721bfe80d",
+      "processing": "ffmpeg -i source.ogg -ac1 -ar48000 -af volume=0.6,afade=t=in:st=0:d=0.005,afade=t=out:st=0.144:d=0.01 -f s16le; tools/footstep_assets.py offline conversion",
+      "destination": "content/audio/footstep.pcm",
+      "format": "signed16 little-endian mono 48000 Hz",
+      "recorded": true,
+      "limitation": "One recorded subway hard-surface footfall; all terrain shares it. No terrain-specific variations, footwear layers or army footstep aggregation."
     }
   ]
 }

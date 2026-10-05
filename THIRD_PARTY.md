@@ -62,3 +62,7 @@ Licence: https://creativecommons.org/publicdomain/zero/1.0/
 Eurofighter fighter from fighter jets by Captain_Ahab_62 (CC0-1.0), selected, simplified and baked for RED HORIZON. Credit provided voluntarily.
 Source: https://opengameart.org/content/fighter-jets
 Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Footsteps recording by GboxMikeFozzy (CC0-1.0), attenuated and faded for RED HORIZON. Credit provided voluntarily.
+Source: https://opengameart.org/content/footsteps-0
+Licence: https://creativecommons.org/publicdomain/zero/1.0/

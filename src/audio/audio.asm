@@ -10,6 +10,7 @@ extern snd_pcm_avail_update, snd_pcm_recover, getenv
 section .rodata
 sample_path: db 'content/audio/rifle.pcm',0
 explosion_path: db 'content/audio/explosion.pcm',0
+footstep_path: db 'content/audio/footstep.pcm',0
 device_env: db 'RH_AUDIO_DEVICE',0
 default_device: db 'default',0
 zero: dd 0.0
@@ -28,8 +29,8 @@ section .data align=16
 listener: dd 0.0,0.0,0.0
 listener_right: dd 1.0,0.0
 section .bss align=16
-samples: resb BANK_BYTES*2
-sample_count: resq 2
+samples: resb BANK_BYTES*3
+sample_count: resq 3
 voice_bank: resd VOICES
 positions: resd VOICES
 next_voice: resd 1
@@ -58,9 +59,9 @@ global audio_listener, audio_emit, audio_emit_kind, audio_load_kind, audio_mix_s
 audio_load:
     mov rsi,rdi
     xor edi,edi
-; audio_load_kind(EDI bank0/1,RSI path), preload resets voice pool.
+; audio_load_kind(EDI bank0/1/2,RSI path), preload resets voice pool.
 audio_load_kind:
-    cmp edi,1
+    cmp edi,2
     ja .bad
     mov r10d,edi
     mov rdi,rsi
@@ -135,6 +136,11 @@ audio_init:
     jnz .done
     mov edi,1
     lea rsi,[explosion_path]
+    call audio_load_kind
+    test eax,eax
+    jnz .done
+    mov edi,2
+    lea rsi,[footstep_path]
     call audio_load_kind
     test eax,eax
     jnz .done
@@ -272,13 +278,13 @@ audio_listener:
     pop rbp
     ret
 ; emit(XMM0=x,XMM1=y,XMM2=z,XMM3=gain)->0 submitted/1 culled/-1 invalid.
-; Bank0 rifle / bank1 recorded explosion surrogate. No travel delay/occlusion.
+; Bank0 rifle / bank1 recorded explosion surrogate / bank2 recorded step. No travel delay/occlusion.
 audio_emit:
     xor edi,edi
 audio_emit_kind:
     push rbp
     mov rbp,rsp
-    cmp edi,1
+    cmp edi,2
     ja .bad
     call valid_position
     test eax,eax
@@ -637,6 +643,7 @@ audio_shutdown:
     mov qword [pcm],0
     mov qword [sample_count],0
     mov qword [sample_count+8],0
+    mov qword [sample_count+16],0
     mov qword [pending],0
     pop rbp
     ret
