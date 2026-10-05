@@ -36,7 +36,12 @@ def reset(kind=1,x=3500,z=2000,target_x=3700,target_z=2000):
     alive[0],alive[1]=2,1
     for side in(0,1):
         for front in range(3):lib.sim_order(side,front,1)
-    lib.sim_tick()  # Builds the real authoritative spatial grid.
+    # Build the real grid with a one-tick initial cooldown. Ready armor now
+    # fires every tick governed by cooldown, so this fixture must reserve its
+    # first explicitly launched shell without relying on the old eight-phase gate.
+    cooldown[source]=1
+    lib.sim_tick()
+    assert cooldown[source]==0 and count.value==0
     return source
 
 source=reset()

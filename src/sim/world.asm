@@ -10,6 +10,7 @@ extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
 extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
+extern ordnance_init,ordnance_begin,ordnance_request,ordnance_flush,ordnance_hash,ordnance_enabled
 extern sim_aircraft
 extern air_hit,air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
@@ -131,6 +132,7 @@ sim_init:
  call ai_init
  call nav_init
  call projectile_init
+ call ordnance_init
  call vehicle_init
  call air_init
  call hazard_init
@@ -230,6 +232,7 @@ sim_tick:
  call nav_tick
  call air_tick
  call hazard_tick
+ call ordnance_begin
  add rsp,8
  mov dword [sim_engaged],0
  lea rdi,[cell_counts]
@@ -543,6 +546,16 @@ sim_tick:
  inc dword [sim_engaged]
  cmp dword [rbx+ENTITY_KIND],3
  je .attack_next
+ ; Ready ground weapons use their real cooldown. Collect actual acquired
+ ; targets before infantry's staggered direct-damage phase.
+ cmp dword [ordnance_enabled],1
+ jne .legacy_phase
+ mov eax,[rbx+ENTITY_KIND]
+ cmp eax,1
+ je .queue_shell
+ cmp eax,2
+ je .queue_shell
+.legacy_phase:
  ; Fire every 8 ticks with staggered phases, avoiding one giant damage spike.
  mov eax,[sim_tick_count]
  add eax,r12d
@@ -558,6 +571,13 @@ sim_tick:
  lea rcx,[damage]
  add [rcx+r15*4],eax
  jmp .attack_next
+.queue_shell:
+ mov edi,r12d
+ mov esi,r15d
+ sub rsp,8
+ call ordnance_request
+ add rsp,8
+ jmp .attack_next
 .launch_shell:
  mov edi,r12d
  mov esi,r15d
@@ -570,6 +590,7 @@ sim_tick:
  cmp r12d,[sim_count]
  jb .attack
  sub rsp,8
+ call ordnance_flush
  call air_combat_tick
  add rsp,8
  xor r12d,r12d
@@ -649,6 +670,7 @@ sim_checksum:
  sub rsp,8
  call operation_hash
  call projectile_hash
+ call ordnance_hash
  call vehicle_hash
  call air_hash
  call nav_hash
