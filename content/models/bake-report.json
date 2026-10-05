@@ -1,8 +1,8 @@
 {
   "format": "RHAM",
   "version": 1,
-  "total_bytes": 11328032,
-  "sha256": "4d8e7faec6ea1fb6c2375cba86aadff8df38326c3f535c6afaeec95681356921",
+  "total_bytes": 11684304,
+  "sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
   "sample_fps": 12,
   "frame_limit_per_mesh": 64,
   "low_lod_triangle_budget": 96,
@@ -10,14 +10,24 @@
   "grounding": "single common offset across clips; specific rootbone translation removed",
   "limitations": [
     "Tank3 is a second authored tank used for artillery visual role, not a howitzer model",
-    "Kenney craft_speederD is a static spaceship fallback, not an animated military jet",
+    "F-111 tactical fighter-bomber fills bomber role; not a heavy strategic bomber; static wings/gear",
+    "Eurofighter is a static authored fighter; no skeletal flight animation",
     "BrickWall_1 is a fortification wall used for bunker role, not an enclosed bunker",
     "Solid source material colors baked; textured materials rejected"
   ],
   "blender_version": "5.2.0 LTS",
-  "mesh_count": 16,
-  "vec4_count": 707913,
+  "mesh_count": 18,
+  "vec4_count": 730170,
   "missing_sources": [],
+  "preserved_roles": [
+    0,
+    1,
+    2,
+    4,
+    5,
+    6,
+    7
+  ],
   "meshes": [
     {
       "role": 0,
@@ -286,80 +296,6 @@
           "semantic": 1,
           "frames": 10,
           "distinct_frames": 10
-        }
-      ]
-    },
-    {
-      "role": 3,
-      "lod": 0,
-      "file": "craft_speederD.glb",
-      "source_sha256": "a5780b9f6cc40d6f348f4211bb43c9501fa199729197361be6bfb522a42c56ad",
-      "forward": "+Y",
-      "root_bones": [],
-      "root_motion_removed_max_metres": 0.0,
-      "ground_offset_metres": -0.0,
-      "triangles": 322,
-      "vertex_count": 966,
-      "frame_count": 1,
-      "bounds_min": [
-        -6.0,
-        0.0,
-        -4.769294261932373
-      ],
-      "bounds_max": [
-        6.0,
-        3.857142686843872,
-        4.769294261932373
-      ],
-      "dimensions": [
-        12.0,
-        3.857142686843872,
-        9.538588523864746
-      ],
-      "radius": 6.479087104664363,
-      "clips": [
-        {
-          "action": null,
-          "semantic": 0,
-          "frames": 1,
-          "distinct_frames": 1
-        }
-      ]
-    },
-    {
-      "role": 3,
-      "lod": 1,
-      "file": "craft_speederD.glb",
-      "source_sha256": "a5780b9f6cc40d6f348f4211bb43c9501fa199729197361be6bfb522a42c56ad",
-      "forward": "+Y",
-      "root_bones": [],
-      "root_motion_removed_max_metres": 0.0,
-      "ground_offset_metres": -0.0,
-      "triangles": 88,
-      "vertex_count": 264,
-      "frame_count": 1,
-      "bounds_min": [
-        -6.0,
-        0.0,
-        -4.794408798217773
-      ],
-      "bounds_max": [
-        6.0,
-        3.495957612991333,
-        4.794408798217773
-      ],
-      "dimensions": [
-        12.0,
-        3.495957612991333,
-        9.588817596435547
-      ],
-      "radius": 6.487649669241822,
-      "clips": [
-        {
-          "action": null,
-          "semantic": 0,
-          "frames": 1,
-          "distinct_frames": 1
         }
       ]
     },
@@ -650,6 +586,170 @@
         4.573012828826904
       ],
       "radius": 6.488448027472973,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 3,
+      "lod": 0,
+      "file": "F111.blend",
+      "source_sha256": "e0dafd6a56cc362433c9b586072e64eb71f1f49b31a57b81c81dfdd5e1fdf663",
+      "forward": "+X",
+      "source_objects": [
+        "f_111_aardvark_fuselage",
+        "f_111_aardvark_wing_l",
+        "f_111_aardvark_wing_r"
+      ],
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 1378,
+      "vertex_count": 4134,
+      "frame_count": 1,
+      "bounds_min": [
+        -9.460678100585938,
+        0.0,
+        -11.0
+      ],
+      "bounds_max": [
+        9.460678100585938,
+        4.484562397003174,
+        11.0
+      ],
+      "dimensions": [
+        18.921356201171875,
+        4.484562397003174,
+        22.0
+      ],
+      "radius": 11.73137875673919,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 3,
+      "lod": 1,
+      "file": "F111.blend",
+      "source_sha256": "e0dafd6a56cc362433c9b586072e64eb71f1f49b31a57b81c81dfdd5e1fdf663",
+      "forward": "+X",
+      "source_objects": [
+        "f_111_aardvark_fuselage",
+        "f_111_aardvark_wing_l",
+        "f_111_aardvark_wing_r"
+      ],
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 86,
+      "vertex_count": 258,
+      "frame_count": 1,
+      "bounds_min": [
+        -9.613049507141113,
+        0.0,
+        -11.0
+      ],
+      "bounds_max": [
+        9.613049507141113,
+        4.45107364654541,
+        11.0
+      ],
+      "dimensions": [
+        19.226099014282227,
+        4.45107364654541,
+        22.0
+      ],
+      "radius": 11.848113798334284,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 8,
+      "lod": 0,
+      "file": "Eurofighter.blend",
+      "source_sha256": "e0dafd6a56cc362433c9b586072e64eb71f1f49b31a57b81c81dfdd5e1fdf663",
+      "forward": "+X",
+      "source_objects": [
+        "eurofighter"
+      ],
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 1332,
+      "vertex_count": 3996,
+      "frame_count": 1,
+      "bounds_min": [
+        -5.34951639175415,
+        0.0,
+        -8.0
+      ],
+      "bounds_max": [
+        5.34951639175415,
+        4.663674831390381,
+        8.0
+      ],
+      "dimensions": [
+        10.6990327835083,
+        4.663674831390381,
+        16.0
+      ],
+      "radius": 9.206172395811517,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 8,
+      "lod": 1,
+      "file": "Eurofighter.blend",
+      "source_sha256": "e0dafd6a56cc362433c9b586072e64eb71f1f49b31a57b81c81dfdd5e1fdf663",
+      "forward": "+X",
+      "source_objects": [
+        "eurofighter"
+      ],
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 87,
+      "vertex_count": 261,
+      "frame_count": 1,
+      "bounds_min": [
+        -5.606994152069092,
+        0.0,
+        -8.0
+      ],
+      "bounds_max": [
+        5.606994152069092,
+        4.934301853179932,
+        8.0
+      ],
+      "dimensions": [
+        11.213988304138184,
+        4.934301853179932,
+        16.0
+      ],
+      "radius": 9.399325793678,
       "clips": [
         {
           "action": null,

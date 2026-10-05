@@ -301,8 +301,11 @@ meshes_draw:
  mov r12,[mesh_asset_descriptors]
  add r12,rax
  mov [current_descriptor],r12
+ cmp dword [r12],8
+ je .army_descriptor
  cmp dword [r12],4
  jae .nextdescriptor
+.army_descriptor:
  mov eax,[draw_lod]
  cmp [r12+4],eax
  jne .nextdescriptor
@@ -449,7 +452,7 @@ meshes_draw:
  jae .armydone
  cmp dword [rbx+ENTITY_HP],0
  je .armynext
- mov eax,[rbx+ENTITY_KIND]
+ call .visual_role
  cmp eax,[r12]
  jne .armynext
  cmp r14d,[view_vehicle]
@@ -531,6 +534,25 @@ meshes_draw:
  mov [rdi+40],eax
  mov dword [rdi+44],0
  ret
+; Map the entity kind to a distinct source role only for a live matching sidecar.
+.visual_role:
+ mov eax,[rbx+ENTITY_KIND]
+ cmp eax,3
+ jne .visual_role_return
+ mov edx,r14d
+ shl edx,6
+ lea rcx,[sim_aircraft]
+ add rcx,rdx
+ mov edx,[rbx+ENTITY_GENERATION]
+ cmp edx,[rcx+AIR_GENERATION]
+ jne .visual_role_return
+ test dword [rcx+AIR_FLAGS],AIR_ACTIVE
+ jz .visual_role_return
+ cmp dword [rcx+AIR_ROLE],AIR_FIGHTER
+ jne .visual_role_return
+ mov eax,8
+.visual_role_return:
+ ret
 ; R14 stable entity index, RBX live entity, RDI finished render instance.
 ; A mismatched generation must never reuse a destroyed/recycled aircraft pose.
 .air_pose:
@@ -556,11 +578,7 @@ meshes_draw:
  mov dword [rdi+60],0x3f800000 ; absolute aircraft height
  cmp dword [rdx+AIR_ROLE],AIR_FIGHTER
  jne .air_done
- ; Existing sourced winged craft adapted to a compact interceptor silhouette.
- mov dword [rdi+32],0x3f333333 ; .70 width
- mov dword [rdi+36],0x3f400000 ; .75 height
- mov dword [rdi+40],0x3f59999a ; .85 length
- mov dword [rdi+56],0x40800000 ; role4 fighter tint/glyph
+ mov dword [rdi+56],0x41000000 ; role8 distinct sourced fighter/glyph
 .air_done:
  movups xmm0,[rdi]
  movups [mesh_aircraft_pose],xmm0

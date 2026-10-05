@@ -162,8 +162,8 @@ try:
         tank_blend=struct.unpack('<f',os.pread(memory,4,symbols['mesh_selected_lerp']+tank_id*4))[0]
         assert tank_frame==0 and tank_blend==0,(tank_frame,tank_blend)
         key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        assert 'meshes loaded=16' in stdout
-        print(json.dumps({'suite':'animated-source-meshes','passed':True,'idle_frames':[frame_a,frame_b],'idle_changed_pixels':changed,'walk_frame':frame_walk,'walk_blend':blend_walk,'actual_actor_moved_metres':math.hypot(moving[0]-before[0],moving[1]-before[1]),'stationary_tracks_frozen':True,'source_meshes':16,'initial_lod_counts':initial_lod,'stdout':stdout}))
+        assert 'meshes loaded=18' in stdout
+        print(json.dumps({'suite':'animated-source-meshes','passed':True,'idle_frames':[frame_a,frame_b],'idle_changed_pixels':changed,'walk_frame':frame_walk,'walk_blend':blend_walk,'actual_actor_moved_metres':math.hypot(moving[0]-before[0],moving[1]-before[1]),'stationary_tracks_frozen':True,'source_meshes':18,'initial_lod_counts':initial_lod,'stdout':stdout}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

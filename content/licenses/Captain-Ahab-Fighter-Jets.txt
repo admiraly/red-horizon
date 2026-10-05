@@ -1,0 +1,15 @@
+Pack-specific license evidence reviewed 2026-10-05
+Author: Captain_Ahab_62
+Title: fighter jets
+Source: https://opengameart.org/content/fighter-jets
+Author submission license link: CC0 https://creativecommons.org/publicdomain/zero/1.0/
+Attribution notice (verbatim): cc-0, but it'd be nice if you gave me credit
+Download: https://opengameart.org/sites/default/files/basic_replacements.blend.zip
+Source/hash/archive member are pinned in content/model-sources.json.
+The archive contains only basic_replacements.blend, not a bundled license file.
+Selected original objects: f_111_aardvark_fuselage, f_111_aardvark_wing_l,
+f_111_aardvark_wing_r; eurofighter. Original solid material colors retained.
+F111.blend and Eurofighter.blend are identical copies of that archive member,
+renamed offline for independently pinned role selection; not separately authored files.
+Aircraft category evidence: USAF museum identifies F-111A as tactical fighter-bomber:
+https://www.nationalmuseum.af.mil/Visit/Museum-Exhibits/Fact-Sheets/Display/Article/196049/general-dynamics-f-111a-aardvark/

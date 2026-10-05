@@ -21,7 +21,10 @@ DEFAULTS = [
          clips=[['Idle',0],['Walk',1],['Run_Gun',2],['Idle_Shoot',3]], high=1000, low=96),
     dict(file='Tank.blend', role=1, forward='-X', size=6, clips=[['Forward',1]], high=1500, low=96),
     dict(file='Tank3.blend', role=2, forward='-X', size=7, clips=[['Tank_Forward',1]], high=1500, low=96),
-    dict(file='craft_speederD.glb', role=3, forward='+Y', size=12, high=1500, low=96),
+    dict(file='F111.blend', role=3, forward='+X', size=22,
+         objects=['f_111_aardvark_fuselage','f_111_aardvark_wing_l','f_111_aardvark_wing_r'], high=1500, low=96),
+    dict(file='Eurofighter.blend', role=8, forward='+X', size=16,
+         objects=['eurofighter'], high=1500, low=96),
     dict(file='AK.blend', role=4, forward='-X', size=.8, high=1000, low=96),
     dict(file='BrickWall_1.blend', role=5, forward='-Y', size=6, high=1000, low=96),
     dict(file='Tree_1.blend', role=6, forward='-Y', size=7, height=True, high=1000, low=96),
@@ -201,7 +204,7 @@ def bake_one(source, spec, lod):
     dims=[maxs[i]-mins[i] for i in range(3)]
     radius=max(math.sqrt(sum(v*v for v in p)) for p in all_positions)
     report=dict(role=spec['role'],lod=lod,file=source.name,source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),
-                forward=spec['forward'],root_bones=[name for _,name in roots],root_motion_removed_max_metres=removed_motion,ground_offset_metres=-ground,triangles=triangles,vertex_count=triangles*3,frame_count=len(frames),
+                forward=spec['forward'],source_objects=[o.name for o in objects],root_bones=[name for _,name in roots],root_motion_removed_max_metres=removed_motion,ground_offset_metres=-ground,triangles=triangles,vertex_count=triangles*3,frame_count=len(frames),
                 bounds_min=mins,bounds_max=maxs,dimensions=dims,radius=radius,clips=authored)
     return frames,clips,report
 
@@ -212,10 +215,36 @@ def main():
     parser.add_argument('--output',type=pathlib.Path,required=True)
     parser.add_argument('--report',type=pathlib.Path)
     parser.add_argument('--config',type=pathlib.Path)
+    parser.add_argument('--roles',type=int,nargs='+',help='Bake only these DEFAULTS/config roles, e.g. --roles 3 8')
+    parser.add_argument('--replace-pack',type=pathlib.Path,help='Preserve unselected roles byte-for-byte from an existing RHAM pack')
+    parser.add_argument('--replace-report',type=pathlib.Path,help='Matching prior bake report for preserved role evidence')
     parser.add_argument('--allow-missing',action='store_true',help='Development slice only; report skipped sources')
     args=parser.parse_args(sys.argv[sys.argv.index('--')+1:])
     specs=json.loads(args.config.read_text()) if args.config else DEFAULTS
+    if args.roles:
+        specs=[spec for spec in specs if spec['role'] in args.roles]
+        if {spec['role'] for spec in specs}!=set(args.roles):raise ValueError('Unknown selected role')
     mesh_records=[];clip_records=[];payload=[];reports=[];missing=[];vec4_count=0
+    preserved_roles=[]
+    if args.replace_pack:
+        if not args.replace_report:raise ValueError('--replace-pack requires --replace-report')
+        prior=args.replace_pack.read_bytes();prior_report=json.loads(args.replace_report.read_text())
+        if hashlib.sha256(prior).hexdigest()!=prior_report['sha256']:raise ValueError('Prior pack/report hash mismatch')
+        magic,version,size,nm,nc,nv,mo,co,vo=struct.unpack_from('<4s8I',prior)
+        if magic!=b'RHAM' or version!=1 or size!=len(prior):raise ValueError('Invalid prior pack')
+        replaced={spec['role'] for spec in specs}
+        for index in range(nm):
+            offset=mo+index*64;fields=list(struct.unpack_from('<8I5f3I',prior,offset))
+            role,lod,vertices,frames,base,first,count=fields[:7]
+            if role in replaced:continue
+            raw=prior[vo+base*16:vo+(base+vertices*frames*3)*16]
+            if len(raw)!=vertices*frames*48:raise ValueError('Invalid preserved geometry range')
+            fields[4]=vec4_count;fields[5]=len(clip_records)
+            mesh_records.append(struct.pack('<8I5f3I',*fields))
+            clip_records.extend(prior[co+ci*16:co+(ci+1)*16] for ci in range(first,first+count))
+            payload.append(raw);vec4_count+=len(raw)//16
+            reports.append(next(m for m in prior_report['meshes'] if m['role']==role and m['lod']==lod))
+            if role not in preserved_roles:preserved_roles.append(role)
     for spec in specs:
         source=args.sources/spec['file']
         if not source.is_file():
@@ -242,11 +271,12 @@ def main():
                 low_lod_policy='collapse original skinned triangles, then drop smallest disconnected fittings if necessary',
                 grounding='single common offset across clips; specific rootbone translation removed',
                 limitations=['Tank3 is a second authored tank used for artillery visual role, not a howitzer model',
-                             'Kenney craft_speederD is a static spaceship fallback, not an animated military jet',
+                             'F-111 tactical fighter-bomber fills bomber role; not a heavy strategic bomber; static wings/gear',
+                             'Eurofighter is a static authored fighter; no skeletal flight animation',
                              'BrickWall_1 is a fortification wall used for bunker role, not an enclosed bunker',
                              'Solid source material colors baked; textured materials rejected'],
                 blender_version=__import__('bpy').app.version_string,mesh_count=len(reports),vec4_count=vec4_count,
-                missing_sources=missing,meshes=reports)
+                missing_sources=missing,preserved_roles=preserved_roles,meshes=reports)
     if args.report:
         args.report.parent.mkdir(parents=True,exist_ok=True);args.report.write_text(json.dumps(report,indent=2)+'\n')
     print('RHAM COMPLETE',json.dumps({k:v for k,v in report.items() if k!='meshes'}),flush=True)

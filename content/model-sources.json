@@ -36,20 +36,6 @@
       "license": "CC0-1.0"
     },
     {
-      "filename": "craft_speederD.glb",
-      "sha256": "a5780b9f6cc40d6f348f4211bb43c9501fa199729197361be6bfb522a42c56ad",
-      "bytes": 22876,
-      "role": 3,
-      "author": "Kenney",
-      "title": "Space Kit (2.0)",
-      "source_url": "https://kenney.nl/assets/space-kit",
-      "download_url": "https://kenney.nl/media/pages/assets/space-kit/20874c75ac-1677698978/kenney_space-kit.zip",
-      "archive_member": "Models/GLTF format/craft_speederD.glb",
-      "archive_sha256": "d5d7cdf2635ed5a43a9187deaf409b6f47484e402321128341d3c3698e9ef4d9",
-      "license": "CC0-1.0",
-      "limitation": "Stylized winged twin-engine space craft used as aircraft-role surrogate; not a military aircraft model"
-    },
-    {
       "filename": "AK.blend",
       "sha256": "7454db57bd3a0875ec7876fd427119c57edf76842206fb279a28ee3bfacaf633",
       "bytes": 621872,
@@ -92,6 +78,32 @@
       "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
       "download_url": "https://drive.google.com/uc?export=download&id=14lGg1-M5k4q0tSlSpAbiWqWu89Tyw1Yi",
       "license": "CC0-1.0"
+    },
+    {
+      "sha256": "e0dafd6a56cc362433c9b586072e64eb71f1f49b31a57b81c81dfdd5e1fdf663",
+      "bytes": 3476936,
+      "author": "Captain_Ahab_62",
+      "title": "fighter jets",
+      "source_url": "https://opengameart.org/content/fighter-jets",
+      "download_url": "https://opengameart.org/sites/default/files/basic_replacements.blend.zip",
+      "archive_member": "basic_replacements.blend",
+      "archive_sha256": "d445e1fcd68e9771df5c646ccd737c2bd259f1f9c1cd584dc4a36a2e6ad42a67",
+      "license": "CC0-1.0",
+      "filename": "F111.blend",
+      "role": 3
+    },
+    {
+      "sha256": "e0dafd6a56cc362433c9b586072e64eb71f1f49b31a57b81c81dfdd5e1fdf663",
+      "bytes": 3476936,
+      "author": "Captain_Ahab_62",
+      "title": "fighter jets",
+      "source_url": "https://opengameart.org/content/fighter-jets",
+      "download_url": "https://opengameart.org/sites/default/files/basic_replacements.blend.zip",
+      "archive_member": "basic_replacements.blend",
+      "archive_sha256": "d445e1fcd68e9771df5c646ccd737c2bd259f1f9c1cd584dc4a36a2e6ad42a67",
+      "license": "CC0-1.0",
+      "filename": "Eurofighter.blend",
+      "role": 8
     }
   ]
 }

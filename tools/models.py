@@ -25,7 +25,7 @@ def validate(path):
     for index in range(meshes):
         role, lod, vertices, frames, base, first, count, flags = struct.unpack_from('<8I', data, mo + index * 64)
         scale, radius, width, height, depth = struct.unpack_from('<5f', data, mo + index * 64 + 32)
-        assert role <= 7 and lod <= 1 and (role, lod) not in seen, 'duplicate/unknown role'
+        assert role <= 8 and lod <= 1 and (role, lod) not in seen, 'duplicate/unknown role'
         seen.add((role, lod))
         assert 3 <= vertices <= 30000 and vertices % 3 == 0 and 1 <= frames <= 128, 'mesh geometry'
         assert base + vertices * frames * 3 <= vectors, 'mesh vertex range'
@@ -48,7 +48,7 @@ def validate(path):
             assert {0, 1, 2} <= semantics and {1, 2} <= changing, 'infantry must have authored locomotion'
         evidence.append({'role': role, 'lod': lod, 'triangles': vertices // 3, 'frames': frames,
                          'clip_semantics': sorted(semantics), 'changing_clips': sorted(changing)})
-    assert seen == {(role, lod) for role in range(8) for lod in range(2)}, 'missing rendered category/LOD'
+    assert seen == {(role, lod) for role in range(9) for lod in range(2)}, 'missing rendered category/LOD'
     return {'bytes': size, 'meshes': meshes, 'clips': clips, 'geometry': evidence}
 
 

@@ -156,8 +156,21 @@ try:
         assert abs(pose[7]-.5)<1e-6 and abs(pose[3]-.65)<1e-6,pose
         assert len(changed(level,pitched))>100
         fixture(role=1);fighter,fighterpath,pose=capture('fighter')
-        assert pose[14]==4. and abs(pose[8]-.7)<1e-6,pose
+        assert pose[14]==8. and abs(pose[8]-1.)<1e-6,pose
         assert len(changed(level,fighter))>100
+        # Paired top-view comparison with uniform normalized bounds excludes
+        # size, palette and team tint as explanations for role differences.
+        fixture(pitch=1.2,role=0);bomber_top,_,_=capture('bomber-silhouette')
+        fixture(pitch=1.2,role=1);fighter_top,_,_=capture('fighter-silhouette')
+        def normalized_mask(image):
+            mask=changed(background,image,20)
+            assert len(mask)>100,len(mask)
+            x0=min(x for x,y in mask);x1=max(x for x,y in mask)
+            y0=min(y for x,y in mask);y1=max(y for x,y in mask)
+            return {(round((x-x0)*63/(x1-x0)),round((y-y0)*63/(y1-y0))) for x,y in mask}
+        bm,fm=normalized_mask(bomber_top),normalized_mask(fighter_top)
+        silhouette_iou=len(bm&fm)/len(bm|fm)
+        assert silhouette_iou<.85,('roles share scaled source silhouette',silhouette_iou)
         # Height must move source geometry, not remain at legacy terrain+90.
         fixture(y=108.);raised,raisedpath,pose=capture('raised')
         assert pose[1]==108.,pose
@@ -169,8 +182,8 @@ try:
             _,_,pose=capture(label)
             assert pose[1]==160. and pose[15]==1.,(label,pose)
         # Recycled entities cannot consume an old sidecar.
-        fixture(generation=2);_,_,pose=capture('stale-generation')
-        assert pose[1]==90. and pose[15]==0.,pose
+        fixture(role=1,generation=2);_,_,pose=capture('stale-generation')
+        assert pose[1]==90. and pose[15]==0. and pose[14]==3.,pose
         fixture(visible=False);ordnance_background,_,_=capture('ordnance-background')
         def ordnance(kind,active,velocity):
             stop()
@@ -271,7 +284,7 @@ try:
         os.pwrite(memory,acquired_effects,symbols['effects_records']);os.kill(process.pid,signal.SIGCONT)
         print(json.dumps({'suite':'rendered-aircraft','passed':True,
                           'fixture':'development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority',
-                          'bomber_pixels':len(levelmask),'bank_changed_pixels':len(bankmask),
+                          'bomber_pixels':len(levelmask),'normalized_silhouette_iou':silhouette_iou,'bank_changed_pixels':len(bankmask),
                           'bomb_pixels':len(bombmask),'air_round_pixels':len(roundmask),
                           'actual_bomb_launch':actual_launch,'actual_bomb_impact':actual_impact,
                           'actual_air_gun':actual_gun,'actual_air_destroyed':actual_destroy,

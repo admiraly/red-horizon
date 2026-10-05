@@ -225,6 +225,10 @@ mesh_asset_load:
  je .error
  cmp dword [rdi+14*4],-1
  je .error
+ cmp dword [rdi+16*4],-1
+ je .error
+ cmp dword [rdi+17*4],-1
+ je .error
  xor eax,eax
  jmp .done
 .error:

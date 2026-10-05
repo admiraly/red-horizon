@@ -15,6 +15,8 @@ with tempfile.TemporaryDirectory() as folder:
     try:
         path.write_bytes(source);assert lib.mesh_asset_load()==0,'actual authored pack rejected'
         cases=[(0,0),(4,2),(8,len(source)-1),(12,33),(16,129),(20,0),(24,0),(28,mesh),(32,clip),(mesh+8,4),(mesh+12,0),(mesh+16,0xffffffff),(mesh+20,0xffffffff),(mesh+24,0),(mesh+32,0x7fc00000),(mesh+40,0),(clip+4,0xffffffff),(clip+8,0x7f800000),(clip+12,4),(vertices,0x7f800000)]
+        fighter=next(mesh+i*64 for i in range(header[3]) if struct.unpack_from('<2I',source,mesh+i*64)==(8,0))
+        cases += [(fighter,9)] # valid lookup slot, but required fighter mesh absent
         for offset,value in cases:
             damaged=bytearray(source);struct.pack_into('<I',damaged,offset,value);path.write_bytes(damaged)
             assert lib.mesh_asset_load()==-1,('malformed pack accepted',offset,value);rejections+=1
