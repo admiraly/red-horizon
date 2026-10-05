@@ -3,6 +3,7 @@
 default rel
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los
+extern player_init, player_tick, player_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -116,6 +117,7 @@ sim_init:
  jb .loop
  sub rsp,8
  call operation_init
+ call player_init
  add rsp,8
  pop r12
  pop rbx
@@ -472,6 +474,7 @@ sim_tick:
  jb .apply
  sub rsp,8
  call operation_tick
+ call player_tick
  add rsp,8
  add rsp,96
  pop r15
@@ -518,7 +521,10 @@ sim_checksum:
  imul rax,r8
  inc rsi
  loop .goals
- jmp operation_hash
+ sub rsp,8
+ call operation_hash
+ add rsp,8
+ jmp player_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
 section .text
 global sim_fire
