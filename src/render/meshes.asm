@@ -1003,6 +1003,8 @@ meshes_draw:
  mov [rdi],eax
  mov eax,[rbx+ENTITY_Z]
  mov [rdi+8],eax
+ cvtsi2ss xmm0,r14d
+ movss [rdi+48],xmm0
  mov dword [rdi+4],0
  mov dword [rdi+60],0
  cmp dword [rbx+ENTITY_KIND],3

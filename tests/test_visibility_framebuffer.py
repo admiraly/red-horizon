@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Real software-GL framebuffer plumbing smoke; no geometry/occlusion claim. Usage: TEST LIB."""
-import ctypes as C,os,subprocess,tempfile,json,sys
+import ctypes as C,os,subprocess,tempfile,json,sys,select
 r,w=os.pipe();proc=subprocess.Popen(['Xvfb','-displayfd',str(w),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(w,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(w)
 try:
+ assert select.select([r],[],[],10)[0], 'Xvfb startup timed out'
  display=os.read(r,32).decode().strip();os.environ['DISPLAY']=':'+display;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
  fw=C.CDLL('libglfw.so.3');gl=C.CDLL('libGL.so.1');lib=C.CDLL(sys.argv[1])
  fw.glfwCreateWindow.argtypes=[C.c_int,C.c_int,C.c_char_p,C.c_void_p,C.c_void_p];fw.glfwCreateWindow.restype=C.c_void_p
@@ -18,7 +19,7 @@ try:
  lib.visibility_world_end()
  # Masked cosmetic clear cannot erase opaque IDs.
  gl.glClearBufferuiv(0x1800,1,(C.c_uint*1)(0))
- lib.visibility_finish()
+ assert lib.visibility_finish()==0
  assert C.c_uint32.in_dll(lib,'visibility_actors').value==1
  assert C.c_uint32.in_dll(lib,'visibility_high').value==1
  pixels=(C.c_uint32*(320*240)).in_dll(lib,'visibility_pixels');assert set(pixels)=={0x10001}
@@ -38,7 +39,7 @@ try:
   height.value=bad;assert lib.visibility_init()==-1
  height.value=240
  assert lib.visibility_init()==0
- lib.visibility_begin();lib.visibility_world_end();lib.visibility_finish()
+ lib.visibility_begin();lib.visibility_world_end();assert lib.visibility_finish()==0
  assert C.c_uint32.in_dll(lib,'visibility_actors').value==0
  assert set(pixels)=={0}
  assert C.c_uint32.in_dll(lib,'visibility_capture_count').value==2
@@ -46,4 +47,6 @@ try:
  fw.glfwDestroyWindow(win);fw.glfwTerminate()
  print(json.dumps({'suite':'visibility_framebuffer','passed':True,'real_gl_fbo_smoke':True,'software':True,'resolution':[320,240],'integer_attachment_readback':True,'masked_cosmetics_preserve_ids':True,'default_fbo_restored':True,'map_bytes':320*240*4,'gl_errors':0}))
 finally:
- os.close(r);proc.terminate();proc.wait(timeout=5)
+ os.close(r);proc.terminate()
+ try:proc.wait(timeout=5)
+ except subprocess.TimeoutExpired:proc.kill();proc.wait(timeout=5)

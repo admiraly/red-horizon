@@ -1,7 +1,7 @@
 # Pixel visibility reporting
 
 The development driver accepts `--census` for bounded client runs and GPU
-benchmarks. The client captures the final frame in an additional actor-ID pass;
+benchmarks. The client captures the final frame using an actor-ID attachment alongside the normal geometry draw;
 submitted instance telemetry remains separate. Examples:
 
 ```sh
@@ -17,10 +17,10 @@ ignore the flag.
 The report must contain exactly one JSON object marked `visibility_census: true`.
 Required fields are `width`, `height`, `visible_actors`, `visible_high`,
 `visible_low`, `visible_markers`, `individually_detailed_actors`, `source_tick`,
-`invalid_codes`, and `readback_reduce_ms`. The driver checks requested dimensions,
+`invalid_codes`, `readback_reduce_ms`, `authority_readonly`, `authority_before` and `authority_after`. The driver checks requested dimensions,
 integer bounded counts, mutually exclusive class totals, high-plus-low model
 count, unsigned authoritative source tick, zero invalid actor codes, and finite
-nonnegative cost. Missing, malformed, duplicated rows or duplicated JSON fields
+nonnegative cost and identical sixteen-digit authoritative checksum strings. Missing, malformed, duplicated rows or duplicated JSON fields
 fail instead of producing a successful benchmark with invented counts. Additional
 capture metadata is retained verbatim.
 
@@ -34,13 +34,22 @@ contract. Captures without a requested census retain `unmeasured` visibility and
 only submitted final mesh telemetry for detail.
 
 GPU benchmark JSON preserves the complete census object and maps its counts into
-coverage. The extra final-frame allocation/draw/readback/reduction is excluded
-from ordinary frame CPU/GPU timing; the module reports readback/reduction cost
-separately. A benchmark's wall time still includes all executed work. Physical
+coverage. Allocation occurs at startup. Final-frame MRT drawing and the pre-draw checksum
+are included in the last CPU frame. Readback, reduction, blit, map writing and
+reporting happen after that frame timer ends; the separate measured cost covers
+readback/reduction only. The GPU timer may omit its final eight pending queries,
+including the capture draw. A benchmark's wall time still includes all executed work. Physical
 ALSA output/listening remains unverified when the benchmark uses the null device.
 
-Worker validation: `python3 tests/test_dense_driver.py` passes 15 development
+Worker validation: `python3 tests/test_dense_driver.py` passes 16 development
 mock tests for forwarding, scope errors and report rejection. These tests do not
 execute NASM rendering, establish a GPU visibility count, or validate timing
 exclusion. The integrator must verify those properties against the actual client
 and record the exact revision and artifacts in `docs/status.md`.
+
+`--census-map PATH.r32ui` optionally saves the actual raw uint32 attachment. It
+requires `--census`; dimensions and source tick are in the census JSON. This
+allows an independent decoder to inspect exact actor IDs rather than only totals.
+Production GL fixtures verify exact IDs/LOD, terrain/prop/actor occlusion and
+authority immutability. A frozen normal/census image pair differs by at most
+2/255 per colour channel; exact byte identity is not claimed.

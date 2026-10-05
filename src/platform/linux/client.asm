@@ -5,6 +5,7 @@ default rel
 global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
 extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
+extern visibility_init,visibility_begin,visibility_world_end,visibility_finish,visibility_report,visibility_shutdown,visibility_write_map
 extern sim_scenario
 extern net_projectiles,net_projectiles_update
 extern air_trails_update,air_trails_records,air_trails_active
@@ -48,11 +49,13 @@ scale_hotspot_name: db 'scale-hotspot',0
 scale_open_name: db 'scale-open',0
 frames_opt: db '--frames',0
 shot_opt: db '--screenshot',0
+census_opt: db '--census',0
+census_map_opt: db '--census-map',0
 map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -163,6 +166,12 @@ vehicle_buf: resb 160
 local_player: resd 1
 connect_address: resq 1
 network_mode: resd 1
+global census_requested
+census_requested: resd 1
+census_map_path: resq 1
+census_frame: resd 1
+census_finished: resd 1
+final_frame_ended: resd 1
 scenario_mode: resd 1
 scenario_seen: resd 1
 network_joined: resd 1
@@ -271,7 +280,7 @@ main:
  cmp ebx,r12d
  jge .fail
  mov rdi,[r13+rbx*8]
- call atoi
+ call parse_frame_limit
  test eax,eax
  jle .fail
  mov [frame_limit],eax
@@ -281,12 +290,38 @@ main:
  lea rsi,[shot_opt]
  call strcmp
  test eax,eax
- jnz .maparg
+ jnz .censusarg
  inc ebx
  cmp ebx,r12d
  jge .fail
  mov rax,[r13+rbx*8]
  mov [shot_path],rax
+ jmp .nextarg
+.censusarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[census_opt]
+ call strcmp
+ test eax,eax
+ jnz .censusmaparg
+ cmp dword [census_requested],0
+ jne .fail
+ mov dword [census_requested],1
+ jmp .nextarg
+.censusmaparg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[census_map_opt]
+ call strcmp
+ test eax,eax
+ jnz .maparg
+ cmp qword [census_map_path],0
+ jne .fail
+ inc ebx
+ cmp ebx,r12d
+ jge .fail
+ mov rax,[r13+rbx*8]
+ cmp byte [rax],0
+ je .fail
+ mov [census_map_path],rax
  jmp .nextarg
 .maparg:
  mov rdi,[r13+rbx*8]
@@ -405,6 +440,17 @@ main:
  inc ebx
  jmp .args
 .init:
+ cmp dword [census_requested],0
+ jne .validatecensus
+ cmp qword [census_map_path],0
+ jne .fail
+ jmp .viewready
+.validatecensus:
+ cmp dword [frame_limit],1
+ jb .fail
+ cmp dword [frame_limit],10000
+ ja .fail
+.viewready:
  call view_settings_apply
  cmp dword [network_mode],0
  jne .networkinit
@@ -587,6 +633,12 @@ main:
  call meshes_init
  test eax,eax
  jnz .destroyfail
+ cmp dword [census_requested],0
+ je .nocensusinit
+ call visibility_init
+ test eax,eax
+ jnz .destroyfail
+.nocensusinit:
  mov edi,[program]
  call glUseProgram
  mov edi,[vao]
@@ -687,6 +739,16 @@ main:
  call glClearColor
  mov edi,0x4100
  call glClear
+ mov dword [census_frame],0
+ cmp dword [census_requested],0
+ je .nocensusbegin
+ mov eax,[frame_count]
+ inc eax
+ cmp eax,[frame_limit]
+ jne .nocensusbegin
+ call visibility_begin
+ mov dword [census_frame],1
+.nocensusbegin:
  mov edi,[cam_loc]
  movss xmm0,[camera]
  movss xmm1,[camera+4]
@@ -756,6 +818,10 @@ main:
  movss xmm6,[recoil]
  movss xmm7,[reload_progress]
  call meshes_draw
+ cmp dword [census_frame],0
+ je .nocensusworldend
+ call visibility_world_end
+.nocensusworldend:
  mov edi,[program]
  call glUseProgram
  mov edi,[vao]
@@ -907,6 +973,20 @@ main:
  jz .swap
  cmp [frame_count],eax
  jb .swap
+ cmp dword [census_frame],0
+ je .nocensusfinish
+ ; Ordinary frame timing ends before diagnostic synchronization/readback/blit.
+ call metrics_frame_end
+ mov dword [final_frame_ended],1
+ call visibility_finish
+ test eax,eax
+ jnz .destroyfail
+ mov rdi,[census_map_path]
+ call visibility_write_map
+ test eax,eax
+ jnz .destroyfail
+ mov dword [census_finished],1
+.nocensusfinish:
  call screenshot
  test eax,eax
  jnz .destroyfail
@@ -920,8 +1000,20 @@ main:
  test eax,eax
  jz .loop
 .done:
+ cmp dword [census_requested],0
+ je .censuscomplete
+ cmp dword [census_finished],0
+ je .destroyfail
+.censuscomplete:
+ cmp dword [final_frame_ended],0
+ jne .frameended
  call metrics_frame_end
+.frameended:
  call metrics_report
+ cmp dword [census_finished],0
+ je .nocensusreport
+ call visibility_report
+.nocensusreport:
  call battle_metrics_report
  sub rsp,16
  lea rdi,[mesh_metrics]
@@ -1001,6 +1093,7 @@ main:
  call printf
  add rsp,16
 .nonetreport:
+ call visibility_shutdown
  mov rdi,[window]
  call glfwDestroyWindow
  call glfwTerminate
@@ -1015,6 +1108,7 @@ main:
  lea rdi,[log]
  call puts
 .destroyfail:
+ call visibility_shutdown
  mov rdi,[window]
  call glfwDestroyWindow
 .terminatefail:
@@ -1898,6 +1992,35 @@ update_visual:
  DECAY hit_flash
  DECAY shot_flash
  DECAY damage_flash
+ ret
+
+parse_frame_limit:
+ xor eax,eax
+ xor ecx,ecx
+.framesdigits:
+ movzx edx,byte [rdi]
+ test edx,edx
+ jz .framesend
+ sub edx,'0'
+ cmp edx,9
+ ja .framesbad
+ cmp eax,214748364
+ ja .framesbad
+ jne .framesmultiply
+ cmp edx,7
+ ja .framesbad
+.framesmultiply:
+ imul eax,10
+ add eax,edx
+ inc ecx
+ inc rdi
+ jmp .framesdigits
+.framesend:
+ test ecx,ecx
+ jz .framesbad
+ ret
+.framesbad:
+ xor eax,eax
  ret
 
 screenshot:

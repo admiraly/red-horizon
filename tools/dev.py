@@ -128,6 +128,8 @@ def client_scenario_args(args):
 def census_requested(args):
     return bool(getattr(args,'census',False))
 def validate_census_request(args,benchmark=False):
+    if getattr(args,'census_map',None) and not census_requested(args):
+        raise RuntimeError('--census-map requires --census')
     if not census_requested(args): return
     if not getattr(args,'client',True) or getattr(args,'headless',False):
         raise RuntimeError('--census requires --client without --headless')
@@ -172,6 +174,11 @@ def visibility_report(stdout,args):
             raise RuntimeError('visibility_census invalid '+name)
     if row['invalid_codes']!=0:
         raise RuntimeError('visibility_census framebuffer contains invalid actor codes')
+    if row.get('authority_readonly') is not True:
+        raise RuntimeError('visibility_census must be authority read-only')
+    hashes=[row.get(name) for name in ('authority_before','authority_after')]
+    if any(not isinstance(value,str) or len(value)!=16 or any(c not in '0123456789abcdef' for c in value) for value in hashes) or hashes[0]!=hashes[1]:
+        raise RuntimeError('visibility_census authority checksum is invalid or changed')
     cost=row.get('readback_reduce_ms')
     if type(cost) not in (int,float) or not math.isfinite(cost) or cost<0:
         raise RuntimeError('visibility_census invalid readback/reduction timing')
@@ -197,6 +204,7 @@ def gpu_benchmark(args):
     exe=build('client'); folder=RUNS/('gpu-bench-'+uuid.uuid4().hex[:10]); folder.mkdir(parents=True)
     screenshot=folder/'final.ppm'; cmd=[str(exe),'--frames',str(frames),'--screenshot',str(screenshot),*client_view_args(args)]
     if census_requested(args): cmd.append('--census')
+    if getattr(args,'census_map',None): cmd+=['--census-map',str(pathlib.Path(args.census_map).resolve())]
     if args.tactical: cmd.append('--tactical')
     if args.weather: cmd+=['--weather',args.weather]
     cmd+=scenario_args
@@ -222,7 +230,12 @@ def gpu_benchmark(args):
             individually_detailed_actors=census['individually_detailed_actors'],
             detailed_counts={'high':census['visible_high'],'low':census['visible_low'],'markers':census['visible_markers']},
             visibility_scope='unique actor IDs with surviving final-frame pixels in opaque world depth including weapon occlusion before translucent effects/HUD; high/low models individually detailed; markers separate; one frame, not peak',
-            census_timing_scope='separate final-frame allocation/draw/readback/reduction; excluded from ordinary CPU/GPU frame timing')
+            census_timing_scope='allocation at startup; final MRT drawing and pre-draw checksum included in final CPU frame; readback/reduction/blit/file/report excluded; separate cost measures readback/reduction only; last8 pending GPU queries may be omitted')
+    if getattr(args,'census_map',None):
+        actor_map=pathlib.Path(args.census_map).resolve()
+        if actor_map.stat().st_size!=result['resolution'][0]*result['resolution'][1]*4:
+            raise RuntimeError('visibility_census raw map size disagrees with framebuffer')
+        result['actor_map']={'path':str(actor_map),'bytes':actor_map.stat().st_size,'sha256':hashlib.sha256(actor_map.read_bytes()).hexdigest(),'format':'little-endian R32UI; low16 bits actor ID+1; bits16..17 high1/low2/marker3'}
     atomic(folder/'result.json',result); print(json.dumps(result,indent=2)); print('Report: '+str(folder/'result.json'))
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
@@ -277,7 +290,7 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
@@ -295,6 +308,7 @@ def main():
             exe=build('client'); cmd=[str(exe),*client_view_args(args)];
             if args.frames: cmd+=['--frames',str(args.frames)]
             if census_requested(args): cmd.append('--census')
+            if args.census_map: cmd+=['--census-map',str(pathlib.Path(args.census_map).resolve())]
             if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
             if args.tactical: cmd+=['--tactical']
             if args.weather: cmd+=['--weather',args.weather]
@@ -372,14 +386,22 @@ def main():
             execute([sys.executable,'tests/test_texture_assets.py',str(environment_library),str(ROOT/'content/textures/terrain.rhtx')])
         if suite in ('all','graphics'):
             execute([sys.executable,'tests/test_battle_metrics.py'])
+            census_object=BUILD/'visibility_census_test.o'; census_probe=BUILD/'visibility_probe.o'; census_library=BUILD/'libvisibility.so'
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/visibility_census.asm'),'-o',str(census_object)])
+            execute([nasm(),'-f','elf64',str(ROOT/'tests/probe_visibility_reduce.asm'),'-o',str(census_probe)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(census_library),str(census_object),str(census_probe),'-lGL'])
+            execute([sys.executable,'tests/test_visibility_reduce.py',str(census_library)])
+            execute([sys.executable,'tests/test_visibility_framebuffer.py',str(census_library)])
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            execute([sys.executable,'tests/test_census_cli.py',str(client)])
             view_library=BUILD/'libviewsettings.so'
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(view_library),str(BUILD/'src_render_view_settings.asm.o'),'-lm'])
             execute([sys.executable,'tests/test_view_settings_kernel.py',str(view_library)])
             execute([sys.executable,'tests/test_view_settings.py',str(client)])
             execute([sys.executable,'tests/test_client_view_projection.py',str(client)])
             execute([sys.executable,'tests/test_dense_client.py',str(client)])
+            if (ROOT/'tests/test_visibility_gl.py').exists():execute([sys.executable,'tests/test_visibility_gl.py',str(client)])
             if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])

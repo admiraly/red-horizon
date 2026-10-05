@@ -22,7 +22,7 @@ spec.loader.exec_module(dev)
 def arguments(scenario, **overrides):
     values = dict(scenario=scenario, units=None, ticks=3, seed=42, realtime=False,
                   connect=None, frames=30, screenshot=None, tactical=False, weather=None,
-                  width=None, height=None, fov=None, sensitivity=None, port=7777, census=False)
+                  width=None, height=None, fov=None, sensitivity=None, port=7777, census=False, census_map=None)
     values.update(overrides)
     return SimpleNamespace(**values)
 
@@ -153,7 +153,8 @@ class DriverChecks(unittest.TestCase):
         row=dict(visibility_census=True,width=1920,height=1080,visible_actors=1030,
                  visible_high=200,visible_low=800,visible_markers=30,
                  individually_detailed_actors=1000,source_tick=72,invalid_codes=0,
-                 readback_reduce_ms=3.5)
+                 readback_reduce_ms=3.5,authority_readonly=True,
+                 authority_before="0123456789abcdef",authority_after="0123456789abcdef")
         row.update(changes)
         return row
 
@@ -216,7 +217,8 @@ class DriverChecks(unittest.TestCase):
                      dict(source_tick=-1),dict(source_tick=0x100000000),dict(source_tick=True),
                      dict(invalid_codes=1),dict(readback_reduce_ms=-1),
                      dict(readback_reduce_ms=float('nan')),dict(readback_reduce_ms=float('inf')),
-                     dict(readback_reduce_ms='3.5')]
+                     dict(readback_reduce_ms='3.5'),dict(authority_readonly=False),
+                     dict(authority_before=''),dict(authority_after='ffffffffffffffff')]
         for changes in bad_changes:
             with self.subTest(changes=changes):
                 with self.assertRaises(RuntimeError):
@@ -225,6 +227,16 @@ class DriverChecks(unittest.TestCase):
             row=self.census_row(); del row[name]
             with self.subTest(missing=name):
                 with self.assertRaises(RuntimeError): dev.visibility_report(json.dumps(row),args)
+
+    def test_census_map_requires_capture_and_forwards_path(self):
+        with patch.object(sys,'argv',['dev.py','run','--client','--census-map','actors.raw','--frames','30']):
+            with self.assertRaisesRegex(RuntimeError,'--census-map requires'):
+                dev.main()
+        self.census_output=json.dumps(self.census_row())
+        output=self.folder/'actors.raw'
+        with patch.object(sys,'argv',['dev.py','run','--client','--census','--census-map',str(output),'--frames','30','--width','1920','--height','1080']):
+            self.assertEqual(dev.main(),0)
+        self.assertEqual(self.calls[-1][0][self.calls[-1][0].index('--census-map')+1],str(output.resolve()))
 
     def test_census_valid_empty_and_extra_context_preserved(self):
         args=arguments('scale-open',census=True,width=1920,height=1080)

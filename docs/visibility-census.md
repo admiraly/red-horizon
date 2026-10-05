@@ -16,6 +16,8 @@ must run before `visibility_world_end()`, which masks attachment 1 for subsequen
 translucent cosmetics and HUD. Finish reads the integer attachment, reduces it,
 blits normal colour to default BACK, restores default read/draw BACK and the
 attachment 1 colour mask, and snapshots the authoritative checksum again.
+`visibility_finish()` returns0/-1; changed authority, invalid identity pixels or
+a GL error reject the capture.
 
 The shader identity contract is low 16 bits = entity index + 1 (1–32768), bits
 16–17 = detail class 1 high, 2 low model, 3 marker. Zero is background or non-actor
@@ -71,3 +73,12 @@ errors, exact 307,200-byte raw map output, failed-path handling, invalid dimensi
 rejection, and a second empty capture resetting all visibility state. This
 plumbing test uses clear-generated identities; it does not prove production
 geometry, depth occlusion, actor detail selection, target-GPU speed or readability.
+
+Integrator verification also exercises production geometry with eight independent
+realGL cases: exact high/low/marker identity sets; offscreen, behind-camera and
+below-terrain exclusions; opaque bunker/aircraft occlusion; empty army and remote
+human exclusion. The test caught and reproduced a marker instance ID alias,
+fixed by writing each stable entity index into the marker identity. Normal colour
+comparison allows at most2/255 channel error, with exact counts/IDs and unchanged
+authority required. This is a measured capture limitation, not byte-identical
+normal presentation.

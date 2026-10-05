@@ -13,13 +13,14 @@ extern glGenFramebuffers,glBindFramebuffer,glDeleteFramebuffers,glCheckFramebuff
 extern glGenTextures,glBindTexture,glTexStorage2D,glDeleteTextures,glFramebufferTexture2D
 extern glGenRenderbuffers,glBindRenderbuffer,glRenderbufferStorage,glFramebufferRenderbuffer,glDeleteRenderbuffers
 extern glDrawBuffers,glClearBufferfv,glClearBufferuiv,glClear,glColorMaski,glDepthMask
+extern glGetError
 extern glReadBuffer,glDrawBuffer,glReadPixels,glBlitFramebuffer,glPixelStorei
 extern clock_gettime,printf,fopen,fwrite,fclose,sim_checksum
 section .rodata
 map_mode: db "wb",0
 buffers: dd 0x8ce0,0x8ce1
 clear_color: dd 0.34,0.42,0.46,1.0
-zero: dd 0
+zero: times 4 dd 0
 million: dq 1000000.0
 format: db '{"visibility_census":true,"visible_actors":%u,"visible_high":%u,"visible_low":%u,"visible_markers":%u,"individually_detailed_actors":%u,"width":%u,"height":%u,"source_tick":%u,"invalid_codes":%u,"readback_reduce_ms":%.6f,"scope":"opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included","authority_readonly":true,"authority_before":"%016lx","authority_after":"%016lx"}',10,0
 global visibility_pixels,visibility_actor_flags,visibility_width,visibility_height,visibility_capture_count
@@ -301,7 +302,7 @@ visibility_world_end:
 visibility_finish:
  sub rsp,40
  cmp dword [active],1
- jne .done
+ jne .badfinish
  mov edi,1
  lea rsi,[started]
  call clock_gettime wrt ..plt
@@ -366,7 +367,18 @@ visibility_finish:
  mov dword [active],0
  call sim_checksum
  mov [authority_after],rax
+ cmp rax,[authority_before]
+ jne .badfinish
+ cmp dword [visibility_invalid],0
+ jne .badfinish
+ call glGetError wrt ..plt
+ test eax,eax
+ jnz .badfinish
  inc dword [visibility_capture_count]
+ xor eax,eax
+ jmp .done
+.badfinish:
+ mov eax,-1
 .done:
  add rsp,40
  ret
@@ -399,6 +411,14 @@ visibility_report:
  add rsp,56
  ret
 visibility_shutdown:
+ cmp dword [fbo],0
+ jne .release
+ cmp qword [textures],0
+ jne .release
+ cmp dword [depth],0
+ jne .release
+ ret
+.release:
  sub rsp,8
  mov edi,0x8d40
  xor esi,esi
