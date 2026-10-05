@@ -204,7 +204,7 @@ terrain_move:
  test eax,eax
  jz .next_obstacle
  ; Go around a consistent upper/lower edge, then across its far corner.
- movss xmm0,[rsp+8]
+ movss xmm0,[rsp+20]
  movss xmm1,[rbx+4]
  addss xmm1,[rbx+12]
  mulss xmm1,[ray_eighth] ; midpoint compare below uses multiply4 = half
@@ -220,6 +220,7 @@ terrain_move:
  addss xmm1,[margin]
 .edge:
  movss [rsp+20],xmm1
+ movss xmm0,[rsp+8]
  subss xmm0,xmm1
  andps xmm0,[abs_mask]
  movss xmm2,[rsp+12]
@@ -280,7 +281,28 @@ terrain_move:
  mov edi,[rsp+28]
  call terrain_blocked
  test eax,eax
+ jz .accepted
+ ; Bounded collision recovery: try each component slide before holding.
+ movss xmm0,[rsp+40]
+ movss xmm1,[rsp+8]
+ mov edi,[rsp+28]
+ call terrain_blocked
+ test eax,eax
+ jnz .slide_z
+ movss xmm0,[rsp+40]
+ movss xmm1,[rsp+8]
+ jmp .out
+.slide_z:
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+44]
+ mov edi,[rsp+28]
+ call terrain_blocked
+ test eax,eax
  jnz .stay
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+44]
+ jmp .out
+.accepted:
  movss xmm0,[rsp+40]
  movss xmm1,[rsp+44]
  jmp .out

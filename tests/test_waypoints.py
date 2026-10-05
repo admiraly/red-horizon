@@ -20,6 +20,10 @@ goals = (C.c_float * 12).in_dll(lib, 'sim_waypoints')
 alive = (C.c_uint * 2).in_dll(lib, 'sim_alive')
 def reset():
     assert lib.sim_init(32, 1) == 0
+    # This suite verifies explicit player orders; autonomous tactics are tested separately.
+    for side in (0,1):
+        for front in range(3):
+            assert lib.sim_order(side,front,0) == 0
     for entity in entities[:32]:
         entity.hp = 0
     alive[0] = alive[1] = 0

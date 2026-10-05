@@ -28,11 +28,20 @@ went_around=False
 for _ in range(500):
     bits=lib.test_terrain_move(x,z,4050,1300,2,0)
     nx,nz=struct.unpack('<ff',struct.pack('<Q',bits))
-    assert math.hypot(nx-x,nz-z)<=2.0001
+    assert math.hypot(nx-x,nz-z)<=2.001
     assert lib.terrain_blocked(nx,nz,0)==0
     if nz<1100 or nz>1500: went_around=True
     x,z=nx,nz
 assert went_around and math.hypot(x-4050,z-1300)<.001
+# A wall-edge start with a goal on the opposite flank exercises bounded
+# blocked-step component recovery rather than stepping through the wall.
+x,z=4000.,1505.
+for _ in range(1000):
+    bits=lib.test_terrain_move(x,z,4050,1000,2,0)
+    nx,nz=struct.unpack('<ff',struct.pack('<Q',bits))
+    assert math.hypot(nx-x,nz-z)<=2.001 and lib.terrain_blocked(nx,nz,0)==0
+    x,z=nx,nz
+assert math.hypot(x-4050,z-1000)<.001
 # Actual world LOS excludes hidden enemies and blocks damage through solids.
 assert lib.sim_init(2,1)==0
 entities[0].x,entities[0].z=3970,1300

@@ -3,6 +3,7 @@
 default rel
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los
+extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern player_init, player_tick, player_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
@@ -118,6 +119,7 @@ sim_init:
  sub rsp,8
  call operation_init
  call player_init
+ call ai_init
  add rsp,8
  pop r12
  pop rbx
@@ -126,6 +128,8 @@ sim_init:
 .bad: mov eax,-1
  ret
 sim_order:
+ mov r8d,edi
+ mov r9d,esi
  cmp edi,1
  ja .bad
  cmp esi,2
@@ -136,6 +140,11 @@ sim_order:
  add edi,esi
  lea rax,[orders]
  mov [rax+rdi*4],edx
+ mov edi,r8d
+ mov esi,r9d
+ sub rsp,8
+ call ai_override
+ add rsp,8
  xor eax,eax
  ret
 .bad: mov eax,-1
@@ -143,6 +152,8 @@ sim_order:
 global sim_waypoint
 ; Set a host-owned goal; the caller separately selects advance/hold/retreat.
 sim_waypoint:
+ mov r8d,edi
+ mov r9d,esi
  cmp edi,1
  ja .bad
  cmp esi,2
@@ -162,6 +173,11 @@ sim_waypoint:
  lea rax,[sim_waypoints]
  movss [rax+rdi*8],xmm0
  movss [rax+rdi*8+4],xmm1
+ mov edi,r8d
+ mov esi,r9d
+ sub rsp,8
+ call ai_override
+ add rsp,8
  xor eax,eax
  ret
 .bad: mov eax,-1
@@ -177,6 +193,9 @@ sim_tick:
  push r15
  sub rsp,96
  inc dword [sim_tick_count]
+ sub rsp,8
+ call ai_tick
+ add rsp,8
  mov dword [sim_engaged],0
  lea rdi,[cell_counts]
  xor eax,eax
@@ -191,6 +210,23 @@ sim_tick:
 .move:
  cmp dword [rbx+ENTITY_HP],0
  je .move_next
+ mov edi,r12d
+ sub rsp,8
+ call ai_entity_goal
+ add rsp,8
+ cmp eax,-1
+ je .manual_move
+ test eax,eax
+ jnz .insert
+ movss [rsp+64],xmm0
+ movss [rsp+68],xmm1
+ mov eax,[rbx+ENTITY_KIND]
+ lea rcx,[speed]
+ movss xmm4,[rcx+rax*4]
+ movss xmm2,[rsp+64]
+ movss xmm3,[rsp+68]
+ jmp .terrain_step
+.manual_move:
  mov eax,[rbx+ENTITY_KIND]
  lea rcx,[speed]
  movss xmm1,[rcx+rax*4]
@@ -521,6 +557,9 @@ sim_checksum:
  imul rax,r8
  inc rsi
  loop .goals
+ sub rsp,8
+ call ai_hash
+ add rsp,8
  sub rsp,8
  call operation_hash
  add rsp,8
