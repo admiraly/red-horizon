@@ -1,4 +1,4 @@
-# Actual authoritative cooperative world transport (UDP v2)
+# Actual authoritative cooperative world transport (UDP v3)
 
 This path links the dedicated server to the same assembly army, operation,
 terrain, AI and four-player modules used locally. The server alone advances the
@@ -25,11 +25,11 @@ army intelligence is absent from this slice, and the client keeps nonreceived
 army health zero. No fabricated full army is displayed in network mode.
 
 The 40-byte header is ten little-endian u32 fields: magic `0x52484332`, version
-`2`, schema fingerprint, content fingerprint, type, player ID, command sequence,
+`3`, schema fingerprint, content fingerprint, type, player ID, command sequence,
 server tick, payload bytes, and session generation. The canonical field layouts
 are in `src/net/schema.txt`, with assembly constants in `src/net/protocol.inc`.
 The schema fingerprint is the first 32 bits of SHA256 of that canonical file:
-`78e4e6708135ae0861c9dccda356a674daf1e4cff1d20f2b242e633fc2cd5575`.
+`3d7ce8beb50ffc6c6d9b5a14e51313edb2ab885221ea2e6d6a566954a40bd4d6`.
 The content fingerprint comes from SHA256 of `content/asset-manifest.json`:
 `180de74f8c8799625cde676ff4c14dbd2adf3ba344ef257432fa937ef4cf9543`.
 These truncated compatibility hashes are not authentication or cryptography.
@@ -40,9 +40,9 @@ Packet types: join `1` has no payload and uses ID `0xffffffff`, sequence one and
 zero generation. ACK `2` has four u32 fields (status, front, count, requisition).
 Input `3` has buttons followed by wish x/z and yaw/pitch floats. Order `4` has
 front/mode u32 followed by goal x/z floats. Leave `5` has no payload. State `100`
-is exactly 704 bytes including header. Entity chunk `101` contains a u32 count
+is exactly 848 bytes including header. Entity chunk `101` contains a u32 count
 and up to 32 records, each stable index u32 plus the existing 32-byte entity;
-its maximum is 1196 bytes. Actual datagram size is checked using `MSG_TRUNC`
+its maximum is 1196 bytes. State appends four32-byte vehicle ownership records and four signed player-to-entity mappings after the unchanged player/site region. Cosmetic event packet `102` carries at most32 actual32-byte events (1068bytes total), filtered within1200m. The server scans at most256 ring slots per client snapshot; late joins start at the current event sequence. Events are unreliable decoration and cannot apply damage. Whole event packets validate bounds, finite coordinates, kinds and monotonic sequences before publishing any ring entry; duplicate sequences do not replay effects. The client drops older reordered cosmetic batches and reports the number of actually retained records in the latest256-sequence window; interest filtering and loss can leave holes. Actual datagram size is checked using `MSG_TRUNC`
 before any header read, with fixed 1200-byte buffers and exact payload sizes.
 
 The server assigns player slots tied to UDP endpoints and increments a session
@@ -52,7 +52,7 @@ primary orders. Orders validate ownership, mode and finite `0..8000` goals,
 reject ground-solid destinations, then synchronously charge five allied requisition and apply army mode/waypoint.
 Clients never submit health, position, damage, hit or resource claims. Inputs
 are validated by the common authoritative player module. Unknown button bits
-are rejected; only FIRE/RELOAD/SPRINT are accepted.
+are rejected; FIRE/RELOAD/SPRINT/ENTER/EXIT are accepted; ENTER/EXIT edges are applied by the authoritative vehicle module.
 
 Commands use stop-and-wait sequencing. The next valid authenticated sequence is
 consumed even if its payload is rejected; duplicates replay the cached status
@@ -62,7 +62,7 @@ per slot per tick, and at least fifteen ticks between successful orders. ACK
 status: zero success, one malformed/invalid input, five ownership, six resources,
 seven scheduling rate. The adapter retries the exact pending datagram every
 100 ms when polled. It sends only one pending command, so callers must retain
-and retry an order while the API returns busy. Outbound cap is three snapshot
+and retry an order while the API returns busy. Outbound cap is four snapshot
 packets per client per three ticks plus bounded ACK responses.
 
 Endpoint ownership expires after 90 authoritative ticks without valid traffic.

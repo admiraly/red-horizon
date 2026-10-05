@@ -1,13 +1,16 @@
-RED HORIZON gameplay UDP schema v2
-little-endian u32 header[10]: magic=0x52484332 version=2 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v3
+little-endian u32 header[10]: magic=0x52484332 version=3 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
-input=3 payload20 buttons:u32 wishx:f32 wishz:f32 yaw:f32 pitch:f32
+input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16) wishx:f32 wishz:f32 yaw:f32 pitch:f32
 order=4 payload16 front:u32 mode:u32 goalx:f32 goalz:f32
 leave=5 payload0
-state=100 payload664 count:u32 operation:u32 requisition:u32[2] supply:u32[2] players:64bytes[4] sites:32bytes[12]
+state=100 payload808 count:u32 operation:u32 requisition:u32[2] supply:u32[2] players:64bytes[4] sites:32bytes[12] vehicles:32bytes[4] player_vehicle:i32[4]
 entities=101 payload4+36*n n:u32 records(index:u32 entity:32bytes)[n<=32]
 entity32 x:f32 z:f32 hp:u32 side:u32 kind:u32 front:u32 target:i32 generation:u32
 player64 x:f32 y:f32 z:f32 yaw:f32 pitch:f32 hp:u32 ammo:u32 reload:u32 cooldown:u32 respawn:u32 front:u32 connected:u32 shots:u32 hits:u32 suppression:u32 generation:u32
 site32 x:f32 z:f32 owner:u32 progress:i32 kind:u32 connected:u32 hp:u32 flags:u32
 MTU1200; sequence stop-and-wait; reject version/schema/content mismatches; state ticks reject stale; entity generation monotonic; session generation binds slot reuse.
+vehicle32 entity_index:u32 entity_generation:u32 driver_id:u32 active:u32 ammo:u32 cooldown:u32 generation:u32 flags:u32; player_vehicle is entity index or -1
+events=102 payload4+32*n n:u32 records(event32)[n<=32]; cosmetic unreliable nearby ring, no damage claims
+event32 x:f32 y:f32 z:f32 kind:u32 side:u32 tick:u32 radius:f32 sequence:u32; kinds1tank_launch2artillery_launch3tank_impact4artillery_impact5vehicle_destroyed; slot=sequence&255

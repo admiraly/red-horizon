@@ -14,7 +14,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 2, 0x78e4e670, 0x180de74f
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 3, 0x3d7ce8be, 0x180de74f
 HEADER = struct.Struct('<10I')
 
 
@@ -27,6 +27,7 @@ class Peer:
         self.id, self.generation, self.sequence, self.front = 0xffffffff, 0, 1, 0
         self.state = None
         self.entities = {}
+        self.events = {}
         self.max_packet = 0
         self.bytes_received = 0
 
@@ -48,12 +49,14 @@ class Peer:
         if header[4] == 100:
             if self.state and header[7] < self.state["tick"]:
                 return header, raw[40:]
-            assert len(raw) == 704
+            assert len(raw) == 848
             players = [struct.unpack_from('<5f11I', raw, 64+i*64) for i in range(4)]
             self.state = {'tick': header[7], 'units': struct.unpack_from('<I', raw, 40)[0],
                           'operation': struct.unpack_from('<I', raw, 44)[0],
                           'requisition': struct.unpack_from('<2I', raw, 48),
-                          'players': players, 'sites': raw[320:704]}
+                          'players': players, 'sites': raw[320:704],
+                          'vehicles': [struct.unpack_from('<8I',raw,704+i*32) for i in range(4)],
+                          'player_vehicle': struct.unpack_from('<4i',raw,832)}
         elif header[4] == 101:
             count = struct.unpack_from('<I', raw, 40)[0]
             assert count <= 32 and len(raw) == 44+count*36
@@ -62,6 +65,13 @@ class Peer:
                 record = struct.unpack_from('<2f6I', raw, offset+4)
                 assert index < 32768 and 0 <= record[0] <= 8000 and 0 <= record[1] <= 8000
                 self.entities[index] = record
+        elif header[4] == 102:
+            count=struct.unpack_from('<I',raw,40)[0]
+            assert count<=32 and len(raw)==44+count*32
+            for offset in range(44,len(raw),32):
+                event=struct.unpack_from('<3f3IfI',raw,offset)
+                assert 1<=event[3]<=5 and event[4]<=1 and event[5]<=header[7]
+                self.events[event[7]]=event
         return header, raw[40:]
 
     def request(self, kind, payload=b'', lose_ack=False, sequence=None):
@@ -107,7 +117,7 @@ def verify(server, client_lib=None):
     peers = []
     try:
         ready = json.loads(process.stdout.readline())
-        assert ready['units'] == 8192 and ready['protocol'] == 2
+        assert ready['units'] == 8192 and ready['protocol'] == 3
         address = ('127.0.0.1', ready['port'])
         a, b = Peer(address), Peer(address)
         peers.extend([a, b])
@@ -124,7 +134,7 @@ def verify(server, client_lib=None):
         time.sleep(0.04)
         assert a.input(x=float('nan'))[0] == 1
         time.sleep(0.04)
-        bad_status, budget_before, budget_tick = a.input(buttons=8)
+        bad_status, budget_before, budget_tick = a.input(buttons=32)
         assert bad_status == 1
         # Command rejection consumes sequence; normal next command still succeeds.
         assert b.command(4, struct.pack('<IIff', a.front, 0, 3900, 1400))[0] == 5

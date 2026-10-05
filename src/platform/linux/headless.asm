@@ -1,6 +1,7 @@
 default rel
 extern sim_init, sim_tick, sim_checksum, sim_count, sim_alive, sim_engaged
 extern sim_requisition, sim_supply, sim_operation_state
+extern sim_projectile_count, sim_projectile_dropped
 extern strcmp, strtoul, printf, puts, clock_gettime, clock_nanosleep, qsort
 section .rodata
 arg_realtime: db '--realtime',0
@@ -8,11 +9,12 @@ arg_units: db '--units',0
 arg_ticks: db '--ticks',0
 arg_seed: db '--seed',0
 usage: db 'Usage: red-horizon-headless [--units EVEN_2..32768] [--ticks 1..100000] [--seed 0..4294967295] [--realtime]',0
-fmt: db '{"units":%u,"ticks":%u,"seed":%u,"alive":[%u,%u],"engaged":%u,"checksum":"%016lx","tick_mean_ms":%.6f,"tick_p95_ms":%.6f,"operation_state":%u,"requisition":[%u,%u],"supply":[%u,%u]}',10,0
+fmt: db '{"units":%u,"ticks":%u,"seed":%u,"alive":[%u,%u],"engaged":%u,"checksum":"%016lx","tick_mean_ms":%.6f,"tick_p95_ms":%.6f,"operation_state":%u,"requisition":[%u,%u],"supply":[%u,%u],"projectiles":%u,"projectile_peak":%u,"projectile_dropped":%u}',10,0
 million: dq 1000000.0
 section .bss
 samples: resq 100000
 deadline: resq 2
+projectile_peak: resd 1
 section .text
 global main
 main:
@@ -22,7 +24,7 @@ main:
  push r13
  push r14
  push r15
- sub rsp,72
+ sub rsp,88
  mov r12d,edi
  mov r13,rsi
  mov r14d,8192
@@ -118,6 +120,11 @@ main:
  test eax,eax
  jnz .bad
  call sim_tick
+ mov eax,[sim_projectile_count]
+ cmp eax,[projectile_peak]
+ jbe .peakrecorded
+ mov [projectile_peak],eax
+.peakrecorded:
  mov edi,1
  lea rsi,[rsp+16]
  call clock_gettime
@@ -195,6 +202,12 @@ main:
  mov [rsp+40],rax
  mov eax,[sim_supply+4]
  mov [rsp+48],rax
+ mov eax,[sim_projectile_count]
+ mov [rsp+56],rax
+ mov eax,[projectile_peak]
+ mov [rsp+64],rax
+ mov eax,[sim_projectile_dropped]
+ mov [rsp+72],rax
  mov eax,2
  call printf
  xor eax,eax
@@ -204,7 +217,7 @@ main:
  call puts
  mov eax,2
 .out:
- add rsp,72
+ add rsp,88
  pop r15
  pop r14
  pop r13

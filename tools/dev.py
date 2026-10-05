@@ -162,7 +162,7 @@ def main():
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','player','tactics','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','player','tactics','combat','vehicles','effects','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
@@ -184,7 +184,7 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','player','tactics'):
+        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','player','tactics','combat','vehicles','effects'):
             exe=build('headless'); library=BUILD/'libsim.so'
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             probe=BUILD/'terrain_probe.o'
@@ -192,10 +192,16 @@ def main():
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(probe),'-lm'])
             if suite in ('all','headless','fast'): execute([sys.executable,'tests/test_fast.py',str(exe),str(library)])
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
-            for test in ('operation','waypoints','terrain','player','tactics'):
+            for test in ('operation','waypoints','terrain','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','fast','effects') and (ROOT/'tests/test_effects.py').exists():
+            effects=BUILD/'effects_test.o'; effects_library=BUILD/'libeffects.so'
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/effects.asm'),'-o',str(effects)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(effects_library),*objects,str(probe),str(effects),'-lm'])
+            execute([sys.executable,'tests/test_effects.py',str(effects_library)])
         if suite in ('all','headless','fast','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
+        if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_emitters.py').exists(): execute([sys.executable,'tests/test_audio_emitters.py','--nasm',nasm()])
         if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
         if suite in ('all','headless','network') and (ROOT/'tests/test_coop.py').exists():
             server=build('coop')
@@ -205,11 +211,14 @@ def main():
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
             execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
+            if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])
+            if (ROOT/'tests/test_coop_combat.py').exists(): execute([sys.executable,'tests/test_coop_combat.py',str(server),str(library)])
         if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
         if suite in ('all','headless','fast'): execute([sys.executable,'tools/assets.py'])
         if suite in ('all','graphics'):
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            if (ROOT/'tests/test_client_effects.py').exists(): execute([sys.executable,'tests/test_client_effects.py',str(client)])
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
             if (ROOT/'tests/test_client_coop.py').exists(): execute([sys.executable,'tests/test_client_coop.py',str(client),str(build('coop'))])
     return 0

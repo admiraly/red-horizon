@@ -142,6 +142,35 @@ try:
             focus(index);button(True);time.sleep(.45);button(False)
             until(lambda:server_player(index)['shots']>0)
             until(lambda:client_player(1-index,index)['shots']==server_player(index)['shots'])
+        # Installed recorded PCM is actually loaded and distant remote shots route
+        # through the live spatial scene (these fronts are more than1500m apart).
+        for c in clients:
+            assert struct.unpack('<Q',os.pread(c['memory'],8,client_symbols['audio_submitted']))[0]>0
+            assert struct.unpack('<Q',os.pread(c['memory'],8,client_symbols['audio_culled']))[0]>0
+        # Real E/W/fire/Q from a graphical network client controls its server hull.
+        os.kill(host.pid,signal.SIGSTOP)
+        try:
+            army=os.pread(host_memory,8192*32,server_symbols['sim_entities'])
+            armor=next(i for i in range(4096) if struct.unpack_from('<I',army,i*32+8)[0]>0 and struct.unpack_from('<I',army,i*32+16)[0]==1)
+            p=server_player(1)
+            os.pwrite(host_memory,struct.pack('<2f',p['x']+2,p['z']),server_symbols['sim_entities']+armor*32)
+        finally:os.kill(host.pid,signal.SIGCONT)
+        def vehicle_owner(memory,symbols,index):return struct.unpack('<i',os.pread(memory,4,symbols['sim_player_vehicle']+index*4))[0]
+        key(1,ord('e'),.25)
+        until(lambda:vehicle_owner(host_memory,server_symbols,1)==armor,3)
+        until(lambda:vehicle_owner(clients[1]['memory'],client_symbols,1)==armor,2)
+        before=server_player(1);key(1,ord('w'),.35)
+        until(lambda:server_player(1)['z']>before['z']+1,2)
+        rifle_before=server_player(1)['shots']
+        cannon_before=read_u32(host_memory,server_symbols,'vehicle_shots',4)
+        focus(1);button(True)
+        try:until(lambda:read_u32(host_memory,server_symbols,'vehicle_shots',4)>cannon_before,3)
+        finally:button(False)
+        assert server_player(1)['shots']==rifle_before,'network cannon consumed rifle counter'
+        until(lambda:'ARMOR #' in title(clients[1]['window']),2)
+        key(1,ord('q'),.25)
+        until(lambda:vehicle_owner(host_memory,server_symbols,1)==-1,3)
+        until(lambda:vehicle_owner(clients[1]['memory'],client_symbols,1)==-1,2)
         # Pausing our own host proves graphical clients cannot tick the world.
         os.kill(host.pid,signal.SIGSTOP);time.sleep(.25)
         paused_ticks=[read_u32(c['memory'],client_symbols,'sim_tick_count') for c in clients]
@@ -210,7 +239,7 @@ try:
             assert clients[index]['process'].returncode==0,(stdout,stderr)
             assert 'local_sim_ticks=0' in stdout and f'player={index} front={index}' in stdout,stdout
             outputs.append(stdout)
-        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'recorded_spatial_audio_live_routing':True,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)

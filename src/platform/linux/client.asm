@@ -5,7 +5,7 @@ default rel
 global main
 extern effects_update,effects_records,effects_tracers,effects_active
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
-extern audio_init,audio_shot,audio_update,audio_shutdown
+extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_count,sim_entities
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state,sim_waypoint,sim_waypoints
@@ -501,6 +501,17 @@ main:
  jmp .tick
 .render:
  call sync_player
+ ; Camera right is (cos yaw, -sin yaw) in the authored x/z convention.
+ mov edi,[local_player]
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ movss xmm3,[cos_yaw]
+ movss xmm4,[sin_yaw]
+ xorps xmm5,xmm5
+ subss xmm5,xmm4
+ movaps xmm4,xmm5
+ call audio_scene_update
  call update_visual
  mov edi,[local_player]
  movss xmm0,[frame_delta]

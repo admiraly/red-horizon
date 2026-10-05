@@ -2,13 +2,17 @@
 default rel
 %include "schemas/player.inc"
 %include "src/net/protocol.inc"
-extern inet_pton, sim_init, player_init
+extern inet_pton, sim_init, player_init, reset_event_ring
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
+extern sim_vehicles, sim_player_vehicle, sim_events, sim_event_sequence, sim_event_count
 section .rodata
 interest2: dd 1440000.0
 maximum: dd 8000.0
 zero: dd 0.0
+minimum_y: dd -1000.0
+maximum_y: dd 2000.0
+maximum_radius: dd 2000.0
 section .data
 global net_connected, net_player_id, net_front, net_server_tick, net_last_status
 net_connected: dd 0
@@ -76,6 +80,7 @@ net_client_open:
  mov esi,42
  call sim_init
  call player_init
+ call reset_event_ring
  lea rdi,[sim_entities+8]
  mov ecx,8192
 .zero:
@@ -158,7 +163,7 @@ net_client_input:
  jne input_bad
  cmp dword [pending_len],0
  jne input_bad
- test esi,~7
+ test esi,~31
  jnz input_bad
  mov [outgoing+40],esi
  movss [outgoing+44],xmm0
@@ -258,6 +263,8 @@ net_client_poll:
  je .state
  cmp dword [incoming+16],NET_ENTITIES
  je .entities
+ cmp dword [incoming+16],NET_EVENTS
+ je .events
  jmp .next
 .ack:
  cmp dword [incoming+32],16
@@ -316,17 +323,58 @@ net_client_poll:
  mov eax,[incoming+28]
  cmp eax,[state_tick]
  jb .next
- mov [state_tick],eax
  mov ecx,[incoming+40]
  cmp ecx,2
  jb .next
  cmp ecx,32768
  ja .next
- mov [sim_count],ecx
+ ; Validate all new ownership records before applying any snapshot fields.
+ xor edx,edx
+ lea rsi,[incoming+704]
+.vehiclecheck:
+ cmp dword [rsi+12],1
+ ja .next
+ cmp [rsi+8],edx
+ jne .next
+ mov eax,[rsi+12]
+ test eax,eax
+ jz .detached
+ mov eax,[rsi]
+ cmp eax,ecx
+ jae .next
+ lea rdi,[incoming+832]
+ cmp [rdi+rdx*4],eax
+ jne .next
+ ; No two human ownership records may claim the same live entity.
+ xor r8d,r8d
+ lea rdi,[incoming+704]
+.exclusive:
+ cmp r8d,edx
+ jae .vehiclevalid
+ cmp dword [rdi+12],1
+ jne .exclusive_next
+ cmp [rdi],eax
+ je .next
+.exclusive_next:
+ add rdi,32
+ inc r8d
+ jmp .exclusive
+.detached:
+ lea rdi,[incoming+832]
+ cmp dword [rdi+rdx*4],-1
+ jne .next
+.vehiclevalid:
+ add rsi,32
+ inc edx
+ cmp edx,4
+ jb .vehiclecheck
  mov eax,[incoming+44]
  cmp eax,3
  ja .next
  mov [sim_operation_state],eax
+ mov eax,[incoming+28]
+ mov [state_tick],eax
+ mov [sim_count],ecx
  lea rsi,[incoming+48]
  lea rdi,[sim_requisition]
  mov ecx,2
@@ -339,6 +387,12 @@ net_client_poll:
  rep movsd
  lea rdi,[sim_sites]
  mov ecx,96
+ rep movsd
+ lea rdi,[sim_vehicles]
+ mov ecx,32
+ rep movsd
+ lea rdi,[sim_player_vehicle]
+ mov ecx,4
  rep movsd
  jmp .accepted
 .entities:
@@ -401,6 +455,118 @@ net_client_poll:
  add r15,36
  dec r14d
  jmp .records
+; Validate the complete bounded event packet before publishing any ring slot.
+.events:
+ cmp dword [incoming+32],4
+ jb .next
+ mov r14d,[incoming+40]
+ cmp r14d,32
+ ja .next
+ mov eax,r14d
+ shl eax,5
+ add eax,4
+ cmp eax,[incoming+32]
+ jne .next
+ lea r15,[incoming+44]
+ xor r9d,r9d
+.validateevent:
+ test r14d,r14d
+ jz .eventsvalid
+ mov ecx,3
+ lea rsi,[r15]
+.finiteevent:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ add rsi,4
+ loop .finiteevent
+ movss xmm0,[r15]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum]
+ ja .next
+ movss xmm0,[r15+8]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum]
+ ja .next
+ movss xmm0,[r15+4]
+ ucomiss xmm0,[minimum_y]
+ jb .next
+ ucomiss xmm0,[maximum_y]
+ ja .next
+ mov eax,[r15+12]
+ dec eax
+ cmp eax,4
+ ja .next
+ cmp dword [r15+16],1
+ ja .next
+ mov eax,[r15+20]
+ cmp eax,[incoming+28]
+ ja .next
+ mov eax,[r15+24]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ movss xmm0,[r15+24]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum_radius]
+ ja .next
+ mov eax,[r15+28]
+ cmp eax,r9d
+ jbe .next
+ mov r9d,eax
+ add r15,32
+ dec r14d
+ jmp .validateevent
+.eventsvalid:
+ mov r14d,[incoming+40]
+ lea r15,[incoming+44]
+.applyevent:
+ test r14d,r14d
+ jz .eventcensus
+ mov eax,[r15+28]
+ cmp eax,[sim_event_sequence]
+ jbe .nextevent
+ mov [sim_event_sequence],eax
+ and eax,255
+ shl eax,5
+ lea rdi,[sim_events]
+ add rdi,rax
+ mov rsi,r15
+ mov ecx,4
+ rep movsq
+.nextevent:
+ add r15,32
+ dec r14d
+ jmp .applyevent
+.eventcensus:
+ ; Count actual retained records inside the latest256-sequence window.
+ ; Sparse interest and loss leave holes; sequence extent is not event count.
+ mov r8d,[sim_event_sequence]
+ mov r9d,r8d
+ sub r9d,255
+ jnc .eventwindow
+ xor r9d,r9d
+.eventwindow:
+ lea rsi,[sim_events+28]
+ mov ecx,256
+ xor edx,edx
+.count_events:
+ mov eax,[rsi]
+ test eax,eax
+ jz .count_next
+ cmp eax,r9d
+ jb .count_next
+ cmp eax,r8d
+ ja .count_next
+ inc edx
+.count_next:
+ add rsi,32
+ loop .count_events
+ mov [sim_event_count],edx
 .accepted:
  inc r12d
  mov eax,[incoming+28]

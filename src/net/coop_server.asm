@@ -5,13 +5,14 @@ extern strcmp, printf, fflush
 extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
+extern sim_vehicles, sim_player_vehicle, sim_events, sim_event_sequence, sim_event_count
 extern player_init, player_join, player_leave, player_input
 extern terrain_blocked
 section .rodata
 f_port: db '--port',0
 f_ticks: db '--ticks',0
 f_units: db '--units',0
-ready_fmt: db '{"port":%u,"protocol":2,"units":%u}',10,0
+ready_fmt: db '{"port":%u,"protocol":3,"units":%u}',10,0
 report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u}',10,0
 interest2: dd 1440000.0
 maximum: dd 8000.0
@@ -36,6 +37,7 @@ entity_records: resq 1
 rejections: resd 1
 disconnects: resd 1
 budget: resd 1
+event_cursors: resd 4
 replicated: resb 4*32768
 distinct_pairs: resq 1
 interest_counts: resd 4
@@ -352,6 +354,9 @@ handle_packet:
  mov rax,[peer]
  mov [r13],rax
  mov qword [r13+8],0
+ lea rdx,[event_cursors]
+ mov eax,[sim_event_sequence]
+ mov [rdx+r12*4],eax
  mov dword [r13+SLOT_SEQUENCE],1
  inc dword [r13+SLOT_GENERATION]
  mov eax,r12d
@@ -409,7 +414,7 @@ handle_packet:
  mov [r13+SLOT_INPUTTICK],eax
  mov edi,r12d
  mov esi,[packet+40]
- test esi,~7
+ test esi,~31
  jnz .ack
  movss xmm0,[packet+44]
  movss xmm1,[packet+48]
@@ -598,6 +603,12 @@ snapshots:
  lea rsi,[sim_sites]
  mov ecx,96
  rep movsd
+ lea rsi,[sim_vehicles]
+ mov ecx,32
+ rep movsd
+ lea rsi,[sim_player_vehicle]
+ mov ecx,4
+ rep movsd
  mov rdi,r13
  mov esi,NET_STATE_SIZE
  call send_packet
@@ -708,12 +719,98 @@ snapshots:
  call send_packet
  dec dword [rsp]
  jnz .chunk
+ mov edi,r12d
+ mov rsi,r13
+ call send_events
 .nextslot:
  add r13,NET_RECORD
  inc r12d
  cmp r12d,4
  jb .slot
  add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret
+; Cosmetic-only ring replication: at most one 1068-byte packet per snapshot.
+; Cursor advances through filtered events too; at most256 slots examined.
+; Late join begins at latest sequence and never replays old battlefield flashes.
+send_events:
+ push rbp
+ mov rbp,rsp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,8
+ mov r12d,edi
+ mov r13,rsi
+ mov eax,edi
+ shl eax,6
+ lea rbx,[sim_players]
+ add rbx,rax
+ lea rdx,[event_cursors]
+ mov r14d,[rdx+r12*4]
+ mov eax,[sim_event_sequence]
+ sub eax,r14d
+ cmp eax,256
+ jbe .bounded
+ mov r14d,[sim_event_sequence]
+ sub r14d,256
+.bounded:
+ xor r15d,r15d
+ mov edi,NET_EVENTS
+ mov esi,r12d
+ mov edx,4
+ call header
+.scan:
+ cmp r14d,[sim_event_sequence]
+ je .finish
+ inc r14d
+ mov eax,r14d
+ and eax,255
+ shl eax,5
+ lea rsi,[sim_events]
+ add rsi,rax
+ cmp [rsi+28],r14d
+ jne .scan
+ movss xmm0,[rsi]
+ subss xmm0,[rbx+PLAYER_X]
+ mulss xmm0,xmm0
+ movss xmm1,[rsi+8]
+ subss xmm1,[rbx+PLAYER_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[interest2]
+ ja .scan
+ mov eax,r15d
+ shl eax,5
+ lea rdi,[output+44]
+ add rdi,rax
+ mov ecx,4
+ rep movsq
+ inc r15d
+ cmp r15d,32
+ jb .scan
+.finish:
+ lea rdx,[event_cursors]
+ mov [rdx+r12*4],r14d
+ test r15d,r15d
+ jz .done
+ mov [output+40],r15d
+ mov esi,r15d
+ shl esi,5
+ add esi,44
+ lea eax,[rsi-NET_HEADER]
+ mov [output+32],eax
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,8
  pop r15
  pop r14
  pop r13

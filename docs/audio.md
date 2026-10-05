@@ -125,3 +125,5 @@ verification and this measurement took 0.043020s. These are local observations,
 not reference-machine guarantees, physical-device latency or audio-quality claims.
 Wider recorded content categories, occlusion, travel delay, fades, prioritization,
 streaming, physical listening, and Windows output remain incomplete.
+
+`src/audio/emitters.asm` routes actual remote rifle shot-counter changes to spatial voices. `audio_scene_update(EDI=localplayer,XMM0..4=listenerXYZ,rightXZ)` establishes join/redeployment baselines, excludes the local weapon and boarded cannon users, collapses skipped snapshots to at most one current shot per remote player/frame, and never writes gameplay records. Unit routing tests use the licensed recorded PCM and verify panning, generation/frame deduplication, disconnected baselines and culling. The graphical client calls this after camera reconciliation; actual rendered co-op tests check local recorded submissions and distant remote culling. broader tank/artillery/engine recordings remain absent.
