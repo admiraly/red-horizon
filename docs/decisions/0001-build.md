@@ -1,0 +1,4 @@
+# 0001: First local build
+NASM 2.16.03 pinned by source SHA256; Linux ELF64/SSE2, GCC links platform libc. A small Python content-hash dependency builder starts the project because Ninja is absent on this machine; it only assembles changed inputs and links changed objects. Ninja generation remains future work. CPU runtime is assembly. Linux-first does not imply Windows acceptance. Runtime outputs are copied under source-revision/hash paths before tests to avoid executable replacement during running jobs.
+
+Public repository creation was authorized explicitly in this session. GitHub standard ubuntu-24.04 is used with finite timeout and read-only contents permissions. Runner references checked 2026-10-05: https://docs.github.com/en/actions/reference/runners/github-hosted-runners and https://docs.github.com/en/actions/reference/limits. No larger/paid/GPU runners selected. Windows CI waits for a real Windows build path.

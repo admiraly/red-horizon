@@ -1,0 +1,1 @@
+{"version":1,"capacity":32768,"stride":32,"fields":{"x":[0,"f32"],"z":[4,"f32"],"hp":[8,"u32"],"side":[12,"u32"],"kind":[16,"u32"],"front":[20,"u32"],"target":[24,"i32"],"generation":[28,"u32"]}}
