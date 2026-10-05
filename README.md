@@ -26,6 +26,7 @@ python3 tools/dev.py server --headless --ticks 300 --realtime
 python3 tools/dev.py reload
 python3 tools/dev.py build --target client
 python3 tools/dev.py run --client
+python3 tools/dev.py run --client --weather rain
 # Direct-IP/LAN hosting and joining (in separate terminals):
 python3 tools/dev.py coop --port 7777
 python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
@@ -33,7 +34,7 @@ python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
 
 The `server` command runs the shared local headless simulation. `coop` hosts the actual shared-world UDP server; its default runs until interrupted, and `--ticks N` makes a finite test run. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot are reserved and fail explicitly until implemented. Headless metrics do not establish GPU frame rate or complete army intelligence.
 
-Client controls: WASD, Shift sprint, mouse aim/fire, R reload, E enter nearby allied armor, Q exit, Tab tactical view, F1/F2/F3 front selection, 1/2/3 advance/hold/retreat, tactical click destination, Escape quit. Health, suppression, death and safe redeployment are authoritative. Network slots0–2 own their matching fronts; slot3 supports front0. Nearby actors use licensed source models with movement-driven authored soldier/tank animation; simplified source meshes and distant role/team markers preserve army visibility. The installed rifle, fortifications, trees and structures also use downloaded models. See [model pipeline and source limitations](docs/models.md). Recorded rifle PCM uses a128-voice stereo mixer with listener-relative panning and distance culling; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
+Client controls: WASD, Shift sprint, mouse aim/fire, R reload, E enter nearby allied armor, Q exit, Tab tactical view, F1/F2/F3 front selection, F4 clear/overcast/rain/fog, 1/2/3 advance/hold/retreat, tactical click destination, Escape quit. Health, suppression, death and safe redeployment are authoritative. Network slots0–2 own their matching fronts; slot3 supports front0. Nearby actors use licensed source models with movement-driven authored soldier/tank animation; simplified source meshes and distant role/team markers preserve army visibility. The installed rifle, fortifications, trees and structures also use downloaded models. See [model pipeline and source limitations](docs/models.md). Photographed grass, mud, gravel and rocky terrain blend across the battlefield; cosmetic weather adds drifting clouds, rain, wet ground and distance fog. See [texture sources](docs/textures.md) and [weather controls](docs/environment-renderer.md). Recorded rifle PCM uses a128-voice stereo mixer with listener-relative panning and distance culling; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
 
 `test --suite fast` checks small real-core combat/replay, operation, waypoints, terrain, tactics, players, reload, audio and asset integrity including default8k/16k motion checks and baked-model provenance. It omits large combat scale/replay, real UDP, graphics and build-tool isolation checks; full extended verification retains them. Focused core suites: operation, waypoints, terrain, player, tactics, combat, vehicles, effects. `build --target client --objects-only` validates assembly without linking or a GPU; it does not compile GLSL. Actual transitive NASM include/incbin dependencies control incremental rebuilds.
 
@@ -45,7 +46,7 @@ Linux scale combat, same-build replay, physical terrain/obstacle LOS and detours
 
 ## Licences
 
-Project code licence is pending owner approval. Public visibility does not grant reuse rights. Asset grants are separate; the recorded rifle sample is attributed under CC-BY-3.0 from its source archive, and the selected starter model packs have documented CC0 grants. See [credits](content/CREDITS.md), [manifest](content/asset-manifest.json), and [third-party notices](THIRD_PARTY.md).
+Project code licence is pending owner approval. Public visibility does not grant reuse rights. Asset grants are separate; the recorded rifle sample is attributed under CC-BY-3.0 from its source archive, and the selected starter model packs and Poly Haven terrain textures have documented CC0 grants. See [credits](content/CREDITS.md), [manifest](content/asset-manifest.json), and [third-party notices](THIRD_PARTY.md).
 
 Additional verified slices: twelve capture sites with supply connectivity and operation outcomes; formation waypoints; a standalone four-client UDP proof (`python3 tools/dev.py test --suite network`). The rifle has magazine/reload/recoil feedback. `python3 tools/dev.py package` builds a local Linux archive with checksums and credits; it does not publish a release. `run --client --frames 30 --screenshot /tmp/frame.ppm --tactical` provides a finite visual smoke.
 

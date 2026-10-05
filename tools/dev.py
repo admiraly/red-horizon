@@ -169,6 +169,7 @@ def main():
     if args.command in ('doctor','configure'): doctor()
     elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
+        if args.weather and not args.client: raise RuntimeError('--weather requires --client')
         if args.client:
             exe=build('client'); cmd=[str(exe)];
             if args.frames: cmd+=['--frames',str(args.frames)]
@@ -221,9 +222,15 @@ def main():
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/mesh_assets.asm'),'-o',str(mesh_object)])
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(mesh_library),str(mesh_object)])
             execute([sys.executable,'tests/test_mesh_assets.py',str(mesh_library),str(ROOT/'content/models/battle.rham')])
+        if suite in ('all','headless','fast') and (ROOT/'tests/test_texture_assets.py').exists():
+            environment_object=BUILD/'environment_asset_test.o'; environment_library=BUILD/'libenvironment.so'
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/environment.asm'),'-o',str(environment_object)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(environment_library),str(environment_object),'-lGL'])
+            execute([sys.executable,'tests/test_texture_assets.py',str(environment_library),str(ROOT/'content/textures/terrain.rhtx')])
         if suite in ('all','graphics'):
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
             if (ROOT/'tests/test_client_effects.py').exists(): execute([sys.executable,'tests/test_client_effects.py',str(client)])
