@@ -1,6 +1,6 @@
 %include "schemas/entity.inc"
 default rel
-extern crowd_move,crowd_hash
+extern crowd_move,crowd_step,crowd_occupied,crowd_hash
 section .bss align=64
 global sim_entities,sim_count,sim_tick_count
 sim_entities: resb ENTITY_CAPACITY*ENTITY_STRIDE
@@ -8,6 +8,10 @@ sim_count: resd 1
 sim_tick_count: resd 1
 global vehicle_entity_driver
 vehicle_entity_driver: resd ENTITY_CAPACITY
+global sim_players,sim_player_vehicle,sim_vehicles
+sim_players: resb 4*64
+sim_player_vehicle: resd 4
+sim_vehicles: resb 4*32
 section .text
 ; C wrapper (ID, float[5] input/output). ABI checked around actual call.
 global test_move,test_hash
@@ -58,6 +62,54 @@ test_move:
  pop rbp
  pop rbx
  ret
+global test_step
+test_step:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov [rsp],rsi
+ mov ebx,0x12345
+ mov ebp,0x23456
+ mov r12d,0x34567
+ mov r13d,0x45678
+ mov r14d,0x56789
+ mov r15d,0x6789a
+ movss xmm0,[rsi]
+ movss xmm1,[rsi+4]
+ movss xmm2,[rsi+8]
+ movss xmm3,[rsi+12]
+ movss xmm4,[rsi+16]
+ call crowd_step
+ mov rsi,[rsp]
+ movss [rsi],xmm0
+ movss [rsi+4],xmm1
+ xor eax,eax
+ cmp rbx,0x12345
+ jne .out
+ cmp rbp,0x23456
+ jne .out
+ cmp r12,0x34567
+ jne .out
+ cmp r13,0x45678
+ jne .out
+ cmp r14,0x56789
+ jne .out
+ cmp r15,0x6789a
+ jne .out
+ inc eax
+.out:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
 test_hash:
  mov rax,rdi
  mov r8,rsi
@@ -82,7 +134,7 @@ test_tick:
  movaps xmm2,xmm0
  addss xmm2,[test_ahead]
  movaps xmm3,xmm1
- movss xmm4,[test_step]
+ movss xmm4,[test_ai_step]
  mov edi,r12d
  call crowd_move
  movss [rbx],xmm0
@@ -96,4 +148,48 @@ test_tick:
  ret
 section .rodata
 test_ahead: dd 40.0
-test_step: dd 0.12
+test_ai_step: dd 0.12
+
+section .text
+global test_occupied
+test_occupied:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,8
+ movss xmm0,[rdx]
+ movss xmm1,[rdx+4]
+ mov ebx,0x12345
+ mov ebp,0x23456
+ mov r12d,0x34567
+ mov r13d,0x45678
+ mov r14d,0x56789
+ mov r15d,0x6789a
+ call crowd_occupied
+ mov r10d,eax
+ mov eax,2
+ cmp rbx,0x12345
+ jne .out
+ cmp rbp,0x23456
+ jne .out
+ cmp r12,0x34567
+ jne .out
+ cmp r13,0x45678
+ jne .out
+ cmp r14,0x56789
+ jne .out
+ cmp r15,0x6789a
+ jne .out
+ mov eax,r10d
+.out:
+ add rsp,8
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret

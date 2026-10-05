@@ -1,5 +1,7 @@
 ; Immutable ground body snapshots and bounded conservative local steering.
 %include "schemas/entity.inc"
+%include "schemas/player.inc"
+%include "schemas/combat.inc"
 %include "schemas/terrain_body.inc"
 %include "schemas/crowd.inc"
 default rel
@@ -7,6 +9,7 @@ default rel
 %define GRID_SIZE (GRID_SIDE*GRID_SIDE)
 %define SNAP_SIZE 32
 %define LIMIT 512
+extern sim_players,sim_player_vehicle,sim_vehicles,terrain_body_step,terrain_body_blocked
 extern sim_entities,sim_count,sim_tick_count,terrain_body_move,terrain_body_path_clear,vehicle_entity_driver
 section .rodata align=16
 zero: dd 0.0
@@ -20,6 +23,9 @@ lookahead: dd 12.0
 radii: dd BODY_INF_RADIUS,BODY_TANK_RADIUS,BODY_ARTY_RADIUS
 steps: dd 0.12,0.5,0.2
 driver_step: dd 0.6
+human_step: dd 0.3
+local_min: dd -8000.0
+local_max: dd 16000.0
 ; Forward, right/left30,60,90,135, and backwards. Goal-relative handedness
 ; reverses automatically for opposing directions; no side labels are read.
 angles:
@@ -43,9 +49,9 @@ occupied_count: resd 1
 snap_count: resd 1
 snap_phase: resd 1
 ; x,z,radius,maxstep,kind,generation,next,reserved
-snaps: resb SNAP_SIZE*ENTITY_CAPACITY
+snaps: resb SNAP_SIZE*(ENTITY_CAPACITY+PLAYER_CAPACITY)
 section .text
-global crowd_init,crowd_begin,crowd_move,crowd_hash
+global crowd_init,crowd_begin,crowd_move,crowd_step,crowd_occupied,crowd_hash
 crowd_init:
  mov dword [crowd_enabled],1
  mov dword [occupied_count],0
@@ -55,7 +61,7 @@ crowd_init:
  mov eax,-1
  rep stosd
  lea rdi,[snaps]
- mov ecx,SNAP_SIZE*ENTITY_CAPACITY/8
+ mov ecx,SNAP_SIZE*(ENTITY_CAPACITY+PLAYER_CAPACITY)/8
  xor eax,eax
  rep stosq
  lea rdi,[crowd_metrics]
@@ -82,7 +88,7 @@ crowd_begin:
 .cleared:
  mov dword [occupied_count],0
  lea rdi,[snaps]
- mov ecx,SNAP_SIZE*ENTITY_CAPACITY/8
+ mov ecx,SNAP_SIZE*(ENTITY_CAPACITY+PLAYER_CAPACITY)/8
  xor eax,eax
  rep stosq
  mov eax,[sim_count]
@@ -157,6 +163,17 @@ crowd_begin:
  jmp .actor
 .empty: mov dword [snap_count],0
 .done:
+ xor r12d,r12d
+.humans:
+ mov edi,r12d
+ call human_snapshot
+ test eax,eax
+ jz .human_not_counted
+ inc qword [crowd_metrics]
+.human_not_counted:
+ inc r12d
+ cmp r12d,PLAYER_CAPACITY
+ jb .humans
  pop r13
  pop r12
  pop rbx
@@ -165,6 +182,14 @@ crowd_begin:
 ; segment44/48 len252 radius56 overlap60 candidate64 visits68 cellX72/Z76
 ; grid scan80/84, neighborhood IDs128..2176. Stack remains 16-byte aligned.
 crowd_move:
+ xor eax,eax
+ jmp crowd_common
+crowd_step:
+ mov eax,1
+ jmp crowd_common
+crowd_occupied:
+ mov eax,2
+crowd_common:
  push rbx
  push rbp
  push r12
@@ -172,12 +197,31 @@ crowd_move:
  push r14
  push r15
  sub rsp,2248
+ mov [rsp+116],eax
+ mov [rsp+120],esi
  mov [rsp],edi
  movss [rsp+8],xmm4
  movss [rsp+12],xmm0
  movss [rsp+16],xmm1
  movss [rsp+20],xmm2
  movss [rsp+24],xmm3
+ cmp dword [rsp+116],2
+ je .occupancy_source
+ cmp edi,ENTITY_CAPACITY
+ jb .army_source
+ cmp dword [rsp+116],1
+ jne .unchanged
+ sub edi,ENTITY_CAPACITY
+ cmp edi,PLAYER_CAPACITY
+ jae .unchanged
+ call human_snapshot
+ test eax,eax
+ jz .unchanged
+ mov r12d,[rsp]
+ mov dword [rsp+4],0
+ movss xmm4,[rsp+8]
+ jmp .source_valid
+.army_source:
  cmp dword [sim_count],ENTITY_CAPACITY
  ja .unchanged
  cmp edi,[sim_count]
@@ -195,15 +239,44 @@ crowd_move:
  mov [rsp+4],eax
  cmp dword [rbx+ENTITY_GENERATION],0
  je .unchanged
+ cmp dword [rsp+116],1
+ jne .source_valid
+ cmp eax,1
+ jne .unchanged
+ lea rdx,[vehicle_entity_driver]
+ mov edi,[rdx+r12*4]
+ cmp edi,PLAYER_CAPACITY
+ jae .unchanged
+ call boarding
+ cmp eax,r12d
+ jne .unchanged
+ mov eax,r12d
+ shl eax,5
+ lea rbx,[sim_entities]
+ add rbx,rax
+ movss xmm4,[rsp+8]
+.source_valid:
  ; All supplied coordinates finite and map-valid. Maxstep finite and positive.
  xor ecx,ecx
 .validate:
  movss xmm5,[rsp+12+rcx*4]
+ cmp ecx,2
+ jb .map_coordinate
+ cmp dword [rsp+116],1
+ jne .map_coordinate
+ ucomiss xmm5,[local_min]
+ jp .bad_input
+ jb .bad_input
+ ucomiss xmm5,[local_max]
+ ja .bad_input
+ jmp .coordinate_ok
+.map_coordinate:
  ucomiss xmm5,[zero]
  jp .bad_input
  jb .bad_input
  ucomiss xmm5,[maximum]
  ja .bad_input
+.coordinate_ok:
  inc ecx
  cmp ecx,4
  jb .validate
@@ -214,13 +287,28 @@ crowd_move:
  and edx,0x7f800000
  cmp edx,0x7f800000
  je .unchanged
+ cmp dword [rsp+116],1
+ jne .ai_step_cap
+ cmp r12d,ENTITY_CAPACITY
+ jb .driver_step_cap
+ minss xmm4,[human_step]
+ jmp .step_clamped
+.driver_step_cap:
+ minss xmm4,[driver_step]
+ jmp .step_clamped
+.ai_step_cap:
  lea rcx,[steps]
+ mov eax,[rsp+4]
  minss xmm4,[rcx+rax*4]
+.step_clamped:
  movss [rsp+8],xmm4
  cmp dword [crowd_enabled],0
  je .legacy
+ cmp r12d,ENTITY_CAPACITY
+ jae .source_snapshot
  cmp r12d,[snap_count]
  jae .unchanged
+.source_snapshot:
  lea r13,[snaps]
  mov eax,r12d
  shl eax,5
@@ -228,11 +316,18 @@ crowd_move:
  mov eax,[r13+20]
  test eax,eax
  jz .unchanged
+ cmp r12d,ENTITY_CAPACITY
+ jae .source_human
  cmp eax,[rbx+ENTITY_GENERATION]
  jne .unchanged
  mov eax,[r13+16]
  cmp eax,[rbx+ENTITY_KIND]
  jne .unchanged
+ jmp .source_position
+.source_human:
+ cmp eax,[rbx+PLAYER_GENERATION]
+ jne .unchanged
+.source_position:
  movss xmm5,[rsp+12]
  ucomiss xmm5,[r13]
  jne .unchanged
@@ -261,6 +356,7 @@ crowd_move:
  divss xmm3,xmm5
  movss [rsp+28],xmm2
  movss [rsp+32],xmm3
+.query:
  movss xmm0,[rsp+12]
  movss xmm1,[rsp+16]
  mulss xmm0,[cell_scale]
@@ -284,6 +380,68 @@ crowd_move:
  mov dword [rsp+68],0
  mov dword [rsp+92],0
  mov dword [rsp+112],0
+ mov dword [rsp+124],0
+.human_query:
+ inc dword [rsp+68]
+ mov edi,[rsp+124]
+ ; AI retains immutable matching human snapshots; controllers use live bodies.
+ cmp dword [rsp+116],0
+ jne .refresh_human
+ mov eax,edi
+ shl eax,5
+ lea rbx,[snaps+ENTITY_CAPACITY*SNAP_SIZE]
+ add rbx,rax
+ lea rdx,[sim_players]
+ mov eax,edi
+ shl eax,6
+ add rdx,rax
+ mov eax,[rdx+PLAYER_GENERATION]
+ cmp eax,[rbx+20]
+ jne .refresh_human
+ call human_valid
+ jmp .human_ready
+.refresh_human:
+ call human_snapshot
+.human_ready:
+ test eax,eax
+ jz .human_next
+ mov ebp,[rsp+124]
+ add ebp,ENTITY_CAPACITY
+ cmp ebp,r12d
+ je .human_next
+ lea rbx,[snaps]
+ mov eax,ebp
+ shl eax,5
+ add rbx,rax
+ movss xmm0,[rbx]
+ subss xmm0,[rsp+12]
+ movss xmm1,[rbx+4]
+ subss xmm1,[rsp+16]
+ mulss xmm0,xmm0
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[rsp+96]
+ ja .human_next
+ ucomiss xmm0,[epsilon]
+ ja .human_remember
+ mov dword [rsp+92],1
+ cmp dword [snap_phase],0
+ jne .human_lower
+ cmp r12d,ebp
+ jb .human_yield
+ jmp .human_remember
+.human_lower:
+ cmp r12d,ebp
+ jbe .human_remember
+.human_yield:
+ mov dword [rsp+112],1
+.human_remember:
+ mov [rsp+128+r14*4],ebp
+ inc r14d
+.human_next:
+ inc dword [rsp+124]
+ cmp dword [rsp+124],PLAYER_CAPACITY
+ jb .human_query
 .cell_z:
  mov eax,[rsp+76]
  add eax,[rsp+80]
@@ -305,6 +463,8 @@ crowd_move:
 .chain:
  cmp ebp,-1
  je .next_x
+ cmp ebp,[sim_count]
+ jae .next_neighbor
  cmp ebp,r12d
  je .next_neighbor
  cmp dword [rsp+68],LIMIT
@@ -371,6 +531,8 @@ crowd_move:
  jle .cell_z
  mov edi,[rsp+68]
  call .account
+ cmp dword [rsp+116],2
+ je .occupancy_check
  cmp dword [rsp+112],0
  je .desired_direction
  inc qword [crowd_metrics+32]
@@ -378,6 +540,8 @@ crowd_move:
 .desired_direction:
  xor r15d,r15d
 .candidate:
+ cmp dword [rsp+116],1
+ je .manual_candidate
  movss xmm2,[rsp+28]
  movss xmm3,[rsp+32]
  lea rax,[angles]
@@ -428,6 +592,41 @@ crowd_move:
 .steering_goal:
  mov edi,[rsp+4]
  call terrain_body_move
+ jmp .endpoint
+.manual_candidate:
+ movss xmm2,[rsp+28]
+ mulss xmm2,[rsp+8]
+ movss xmm3,[rsp+32]
+ mulss xmm3,[rsp+8]
+ cmp r15d,1
+ jne .manual_z
+ xorps xmm3,xmm3
+.manual_z:
+ cmp r15d,2
+ jne .manual_goal
+ xorps xmm2,xmm2
+.manual_goal:
+ addss xmm2,[rsp+12]
+ addss xmm3,[rsp+16]
+ movss xmm4,[rsp+8]
+ ; Component slides preserve the original component magnitude.
+ cmp r15d,0
+ je .manual_cap
+ movss xmm4,[rsp+28]
+ cmp r15d,1
+ je .manual_abs
+ movss xmm4,[rsp+32]
+.manual_abs:
+ movd eax,xmm4
+ and eax,0x7fffffff
+ movd xmm4,eax
+ mulss xmm4,[rsp+8]
+.manual_cap:
+ movss xmm0,[rsp+12]
+ movss xmm1,[rsp+16]
+ mov edi,[rsp+4]
+ call terrain_body_step
+.endpoint:
  movss [rsp+36],xmm0
  movss [rsp+40],xmm1
  subss xmm0,[rsp+12]
@@ -534,7 +733,12 @@ crowd_move:
  jmp .check
 .reject:
  inc r15d
- cmp r15d,10
+ mov eax,10
+ cmp dword [rsp+116],1
+ jne .candidate_count
+ mov eax,3
+.candidate_count:
+ cmp r15d,eax
  jb .candidate
  inc qword [crowd_metrics+32]
  jmp .unchanged
@@ -555,6 +759,8 @@ crowd_move:
  call .account
  inc qword [crowd_metrics+48]
  inc qword [crowd_metrics+32]
+ cmp dword [rsp+116],2
+ je .occupied
  jmp .unchanged
 .account:
  ; Explicit inspected-record argument; CALL shifts the caller frame by8.
@@ -566,10 +772,65 @@ crowd_move:
 .account_done: ret
 .bad_input:
  movss xmm0,[rbx+ENTITY_X]
+ cmp r12d,ENTITY_CAPACITY
+ jb .bad_army
+ movss xmm1,[rbx+PLAYER_Z]
+ jmp .bad_store
+.bad_army:
  movss xmm1,[rbx+ENTITY_Z]
+.bad_store:
  movss [rsp+12],xmm0
  movss [rsp+16],xmm1
  jmp .unchanged
+.occupancy_source:
+ cmp dword [sim_count],ENTITY_CAPACITY
+ ja .occupied
+ mov r12d,[rsp]
+ mov eax,[rsp+120]
+ cmp eax,2
+ ja .occupied
+ mov [rsp+4],eax
+ mov edi,eax
+ call terrain_body_blocked
+ test eax,eax
+ jnz .occupied
+ cmp dword [crowd_enabled],0
+ je .vacant
+ lea rdx,[radii]
+ mov eax,[rsp+4]
+ movss xmm0,[rdx+rax*4]
+ movss [rsp+56],xmm0
+ inc qword [crowd_metrics+8]
+ jmp .query
+.occupancy_check:
+ xor ebp,ebp
+.occupancy_neighbor:
+ cmp ebp,r14d
+ jae .vacant
+ mov eax,[rsp+128+rbp*4]
+ shl eax,5
+ lea rbx,[snaps]
+ add rbx,rax
+ movss xmm0,[rbx]
+ subss xmm0,[rsp+12]
+ movss xmm1,[rbx+4]
+ subss xmm1,[rsp+16]
+ mulss xmm0,xmm0
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ movss xmm2,[rbx+8]
+ addss xmm2,[rsp+56]
+ mulss xmm2,xmm2
+ ucomiss xmm0,xmm2
+ jbe .occupied
+ inc ebp
+ jmp .occupancy_neighbor
+.occupied:
+ mov eax,1
+ jmp .out
+.vacant:
+ xor eax,eax
+ jmp .out
 .legacy:
  mov edi,[rsp+4]
  movss xmm0,[rsp+12]
@@ -577,6 +838,11 @@ crowd_move:
  movss xmm2,[rsp+20]
  movss xmm3,[rsp+24]
  movss xmm4,[rsp+8]
+ cmp dword [rsp+116],1
+ jne .legacy_ai
+ call terrain_body_step
+ jmp .out
+.legacy_ai:
  call terrain_body_move
  jmp .out
 .unchanged:
@@ -594,6 +860,107 @@ crowd_move:
  pop r12
  pop rbp
  pop rbx
+ ret
+; EDI slot -> EAX legitimate boarded hullID or -1. No authoritative writes.
+boarding:
+ cmp edi,PLAYER_CAPACITY
+ jae .none
+ lea rbx,[sim_players]
+ mov eax,edi
+ shl eax,6
+ add rbx,rax
+ cmp dword [rbx+PLAYER_CONNECTED],1
+ jne .none
+ cmp dword [rbx+PLAYER_HP],0
+ je .none
+ cmp dword [rbx+PLAYER_GENERATION],0
+ je .none
+ lea rdx,[sim_player_vehicle]
+ mov eax,[rdx+rdi*4]
+ cmp eax,[sim_count]
+ jae .none
+ cmp eax,ENTITY_CAPACITY
+ jae .none
+ lea rdx,[sim_vehicles]
+ mov ecx,edi
+ shl ecx,5
+ add rdx,rcx
+ cmp dword [rdx+VEHICLE_ACTIVE],1
+ jne .none
+ cmp [rdx+VEHICLE_ENTITY],eax
+ jne .none
+ cmp [rdx+VEHICLE_DRIVER],edi
+ jne .none
+ lea r8,[vehicle_entity_driver]
+ cmp [r8+rax*4],edi
+ jne .none
+ mov ecx,eax
+ shl ecx,5
+ lea r8,[sim_entities]
+ add r8,rcx
+ cmp dword [r8+ENTITY_HP],0
+ je .none
+ cmp dword [r8+ENTITY_KIND],1
+ jne .none
+ mov ecx,[r8+ENTITY_GENERATION]
+ test ecx,ecx
+ jz .none
+ cmp ecx,[rdx+VEHICLE_ENTITY_GENERATION]
+ jne .none
+ ret
+.none:
+ mov eax,-1
+ ret
+human_valid:
+ push rdi
+ call boarding
+ pop rdi
+ cmp eax,-1
+ jne .invalid
+ cmp dword [rbx+PLAYER_CONNECTED],1
+ jne .invalid
+ cmp dword [rbx+PLAYER_HP],0
+ je .invalid
+ cmp dword [rbx+PLAYER_GENERATION],0
+ je .invalid
+ movss xmm0,[rbx+PLAYER_X]
+ movss xmm1,[rbx+PLAYER_Z]
+ ucomiss xmm0,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm0,[maximum]
+ ja .invalid
+ ucomiss xmm1,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm1,[maximum]
+ ja .invalid
+ mov eax,1
+ ret
+.invalid:
+ xor eax,eax
+ ret
+human_snapshot:
+ push rdi
+ call human_valid
+ pop rdi
+ mov ecx,edi
+ shl ecx,5
+ lea rdx,[snaps+ENTITY_CAPACITY*SNAP_SIZE]
+ add rdx,rcx
+ mov dword [rdx+20],0
+ test eax,eax
+ jz .done
+ movss [rdx],xmm0
+ movss [rdx+4],xmm1
+ movss xmm2,[radii]
+ movss [rdx+8],xmm2
+ movss xmm2,[human_step]
+ movss [rdx+12],xmm2
+ mov dword [rdx+16],0
+ mov ecx,[rbx+PLAYER_GENERATION]
+ mov [rdx+20],ecx
+.done:
  ret
 crowd_hash:
  lea rsi,[crowd_enabled]
