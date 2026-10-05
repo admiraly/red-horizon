@@ -31,6 +31,7 @@ def doctor():
         data['cpu']=next((l.split(':',1)[1].strip() for l in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if l.startswith('model name')),'unknown')
     data['writable_project']=os.access(ROOT,os.W_OK)
     data['recorded_rifle_available']=(ROOT/'content/audio/rifle.pcm').is_file()
+    data['recorded_footstep_available']=(ROOT/'content/audio/footstep.pcm').is_file()
     if shutil.which('glxinfo') and os.environ.get('DISPLAY'):
         probe=subprocess.run(['glxinfo','-B'],capture_output=True,text=True,timeout=10)
         data['gpu_probe']={'exit_code':probe.returncode,'details':probe.stdout.strip() if probe.returncode==0 else probe.stderr.strip()}
@@ -108,6 +109,9 @@ def run_headless(args,benchmark=False):
     except json.JSONDecodeError: raise RuntimeError('Runtime did not emit valid JSON: '+r.stdout[:1000])
     result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':metrics.get('navigation',{}).get('pending','unmeasured'),'network_bandwidth':'not implemented'}}
     path=RUNS/('bench-'+uuid.uuid4().hex[:10]+'.json'); atomic(path,result); print(json.dumps(result,indent=2)); print('Report: '+str(path))
+def client_view_args(args):
+    return [value for name in ('width','height','fov','sensitivity') if getattr(args,name,None) is not None
+            for value in ('--'+name,str(getattr(args,name)))]
 def gpu_benchmark(args):
     if not os.environ.get('DISPLAY'):
         raise RuntimeError('Hardware GPU benchmark requires an accessible X11/XWayland DISPLAY')
@@ -127,7 +131,7 @@ def gpu_benchmark(args):
     if 'Accelerated: yes' not in context or any(name in context.lower() for name in ('llvmpipe','softpipe','software rasterizer')):
         raise RuntimeError('GPU benchmark requires a verified accelerated GL context; software rendering is a separate graphics test')
     exe=build('client'); folder=RUNS/('gpu-bench-'+uuid.uuid4().hex[:10]); folder.mkdir(parents=True)
-    screenshot=folder/'final.ppm'; cmd=[str(exe),'--frames',str(frames),'--screenshot',str(screenshot)]
+    screenshot=folder/'final.ppm'; cmd=[str(exe),'--frames',str(frames),'--screenshot',str(screenshot),*client_view_args(args)]
     if args.tactical: cmd.append('--tactical')
     if args.weather: cmd+=['--weather',args.weather]
     if args.scenario=='air-battle':cmd+=['--scenario','air-battle']
@@ -137,11 +141,11 @@ def gpu_benchmark(args):
     if len(metrics)!=1 or metrics[0]['gpu_samples']==0:
         raise RuntimeError('Client did not report completed GPU timer samples')
     result={'scenario':('local-solo-air-battle' if args.scenario=='air-battle' else 'local-solo-initial-view'),'revision':exe.parent.name,'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),
-            'hardware':platform.platform(),'context':context,'resolution':[1280,720],'seed':42,
-            'units_at_start':8192,'view':'tactical' if args.tactical else 'first-person','weather':args.weather or 'clear',
+            'hardware':platform.platform(),'context':context,'resolution':[args.width or 1280,args.height or 720],'seed':42,
+            'vertical_fov_degrees':args.fov if args.fov is not None else 'legacy projection1.05/1.87','mouse_sensitivity':args.sensitivity if args.sensitivity is not None else .002,'units_at_start':8192,'view':'tactical' if args.tactical else 'first-person','weather':args.weather or 'clear',
             'requested_frames':frames,'wall_seconds':time.perf_counter()-started,'metrics':metrics[0],
             'screenshot':str(screenshot),'screenshot_sha256':hashlib.sha256(screenshot.read_bytes()).hexdigest(),
-            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Current fixed client window1280x720; not1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('initial authored air-battle view; not SCALE-HOTSPOT acceptance' if args.scenario=='air-battle' else 'initial idle view only; not dense hotspot/front coverage')}}
+            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('initial authored air-battle view; not SCALE-HOTSPOT acceptance' if args.scenario=='air-battle' else 'initial idle view only; not dense hotspot/front coverage')}}
     atomic(folder/'result.json',result); print(json.dumps(result,indent=2)); print('Report: '+str(folder/'result.json'))
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
@@ -196,7 +200,7 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
@@ -205,11 +209,11 @@ def main():
     if args.command in ('doctor','configure'): doctor()
     elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
-        if args.weather and not args.client: raise RuntimeError('--weather requires --client')
+        if (args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity require --client')
         if args.command=='bench' and args.client:
             gpu_benchmark(args)
         elif args.client:
-            exe=build('client'); cmd=[str(exe)];
+            exe=build('client'); cmd=[str(exe),*client_view_args(args)];
             if args.frames: cmd+=['--frames',str(args.frames)]
             if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
             if args.tactical: cmd+=['--tactical']
@@ -252,6 +256,7 @@ def main():
         if suite in ('all','headless','fast','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_emitters.py').exists(): execute([sys.executable,'tests/test_audio_emitters.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_battle.py').exists(): execute([sys.executable,'tests/test_audio_battle.py','--nasm',nasm()])
+        if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_footsteps.py').exists(): execute([sys.executable,'tests/test_footsteps.py','--nasm',nasm()])
         if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
         if suite in ('all','headless','network') and (ROOT/'tests/test_coop.py').exists():
             server=build('coop')
@@ -261,6 +266,7 @@ def main():
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
             execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
+            if (ROOT/'tests/test_coop_movement.py').exists():execute([sys.executable,'tests/test_coop_movement.py',str(server),str(library)])
             if (ROOT/'tests/test_net_projectiles.py').exists():execute([sys.executable,'tests/test_net_projectiles.py',str(library),str(server)])
             if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])
             if (ROOT/'tests/test_coop_combat.py').exists(): execute([sys.executable,'tests/test_coop_combat.py',str(server),str(library)])
@@ -268,6 +274,7 @@ def main():
         if suite in ('all','headless','fast'):
             execute([sys.executable,'tools/assets.py'])
             if (ROOT/'tools/audio_assets.py').exists(): execute([sys.executable,'tools/audio_assets.py'])
+            if (ROOT/'tools/footstep_assets.py').exists(): execute([sys.executable,'tools/footstep_assets.py'])
         if suite in ('all','headless','fast') and (ROOT/'tests/test_mesh_assets.py').exists():
             mesh_object=BUILD/'mesh_asset_test.o'; mesh_library=BUILD/'libmeshassets.so'
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/mesh_assets.asm'),'-o',str(mesh_object)])
@@ -281,6 +288,11 @@ def main():
         if suite in ('all','graphics'):
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            view_library=BUILD/'libviewsettings.so'
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(view_library),str(BUILD/'src_render_view_settings.asm.o'),'-lm'])
+            execute([sys.executable,'tests/test_view_settings_kernel.py',str(view_library)])
+            execute([sys.executable,'tests/test_view_settings.py',str(client)])
+            execute([sys.executable,'tests/test_client_view_projection.py',str(client)])
             if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])

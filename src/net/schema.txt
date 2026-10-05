@@ -1,8 +1,8 @@
-RED HORIZON gameplay UDP schema v5
-little-endian u32 header[10]: magic=0x52484332 version=5 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v6
+little-endian u32 header[10]: magic=0x52484332 version=6 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
-input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16) wishx:f32 wishz:f32 yaw:f32 pitch:f32
+input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
 order=4 payload16 front:u32 mode:u32 goalx:f32 goalz:f32
 leave=5 payload0
 state=100 payload808 count:u32 operation:u32 requisition:u32[2] supply:u32[2] players:64bytes[4] sites:32bytes[12] vehicles:32bytes[4] player_vehicle:i32[4]

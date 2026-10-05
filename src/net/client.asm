@@ -189,7 +189,7 @@ net_client_input:
  jne input_bad
  cmp dword [pending_len],0
  jne input_bad
- test esi,~31
+ test esi,~127
  jnz input_bad
  mov [outgoing+40],esi
  movss [outgoing+44],xmm0

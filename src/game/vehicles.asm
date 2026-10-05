@@ -383,7 +383,7 @@ vehicle_tick_player:
  cmp edi,VEHICLE_CAPACITY
  jae .unhandled
  ; Reject before edge history, boarding, destruction or ownership can mutate.
- test esi,~31
+ test esi,~127
  jnz .invalid_input
  ucomiss xmm0,[minus_one]
  jp .invalid_input

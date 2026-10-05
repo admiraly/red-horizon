@@ -116,7 +116,7 @@ def vehicle_state():
             bytes(ammo),bytes(cooldown),bytes(events),sequence.value,
             C.c_uint.in_dll(lib,'player_deaths').value,lib.sim_checksum())
 
-for buttons,wx,wz in [(8,math.nan,0),(40,0,0),(8,0,math.inf),(8,2,0)]:
+for buttons,wx,wz in [(8,math.nan,0),(136,0,0),(8,0,math.inf),(8,2,0)]:
     p,e=reset()
     before=vehicle_state()
     assert lib.vehicle_tick_player(0,buttons,wx,wz)==0
@@ -126,7 +126,7 @@ for buttons,wx,wz in [(8,math.nan,0),(40,0,0),(8,0,math.inf),(8,2,0)]:
     before=vehicle_state()
     assert lib.vehicle_tick_player(0,16,math.nan,0)==1
     assert vehicle_state()==before, 'invalid boarded EXIT modified authoritative state'
-    assert lib.vehicle_tick_player(0,48,0,0)==1
+    assert lib.vehicle_tick_player(0,144,0,0)==1
     assert vehicle_state()==before, 'unknown EXIT flags modified authoritative state'
     assert lib.vehicle_tick_player(0,16,0,0)==0 and mapping[0]==-1
     assert vehicles[0].generation==1, 'invalid EXIT consumed private interaction edge'

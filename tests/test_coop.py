@@ -15,7 +15,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 5, 0x07000f87, 0x6ca8c37c
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 6, 0x6d6a1299, 0xb2e7c728
 HEADER = struct.Struct('<10I')
 
 
@@ -153,7 +153,7 @@ def verify(server, client_lib=None):
         time.sleep(0.04)
         assert a.input(x=float('nan'))[0] == 1
         time.sleep(0.04)
-        bad_status, budget_before, budget_tick = a.input(buttons=32)
+        bad_status, budget_before, budget_tick = a.input(buttons=128)
         assert bad_status == 1
         # Command rejection consumes sequence; normal next command still succeeds.
         assert b.command(4, struct.pack('<IIff', a.front, 0, 3900, 1400))[0] == 5

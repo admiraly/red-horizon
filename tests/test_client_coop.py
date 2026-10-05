@@ -137,7 +137,7 @@ try:
         assert all(read_u32(c['memory'],client_symbols,'net_front')==i for i,c in enumerate(clients))
         for index in range(2):
             key(index,0xff09);before=server_player(index)
-            key(index,ord('w'),.4);moved=until(lambda:server_player(index) if math.hypot(server_player(index)['x']-before['x'],server_player(index)['z']-before['z'])>.5 else None)
+            key(index,ord('w'),.8);moved=until(lambda:server_player(index) if math.hypot(server_player(index)['x']-before['x'],server_player(index)['z']-before['z'])>.5 else None)
             until(lambda: abs(client_player(1-index,index)['z']-moved['z'])<.4)
             focus(index);button(True);time.sleep(.45);button(False)
             until(lambda:server_player(index)['shots']>0)
@@ -147,6 +147,30 @@ try:
         for c in clients:
             assert struct.unpack('<Q',os.pread(c['memory'],8,client_symbols['audio_submitted']))[0]>0
             assert struct.unpack('<Q',os.pread(c['memory'],8,client_symbols['audio_culled']))[0]>0
+            assert struct.unpack('<Q',os.pread(c['memory'],8,client_symbols['audio_footsteps_emitted']))[0]>0,'actual network walking did not route recorded footsteps'
+        # Actual Ctrl/Space input traverses UDP to authority and back to the GUI.
+        def ground_eye(p):
+            qx,qz=p['x']-4000,p['z']-4000
+            return 12+qx*qx*.000001+qz*qz*.0000005+max(0,1-abs(qx)/800)*18+1.8
+        focus(0);code=X.XKeysymToKeycode(display,0xffe3)
+        XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)
+        try:
+            crouched=until(lambda:server_player(0) if server_player(0)['y']<ground_eye(server_player(0))-.6 else None,2)
+            until(lambda:abs(client_player(0,0)['y']-crouched['y'])<.02,2)
+            until(lambda:abs(struct.unpack('<f',os.pread(clients[0]['memory'],4,client_symbols['camera']+4))[0]-crouched['y'])<.1,2)
+        finally:XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display)
+        until(lambda:abs(server_player(0)['y']-ground_eye(server_player(0)))<.01,2)
+        code=X.XKeysymToKeycode(display,0x20)
+        XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)
+        try:
+            airborne=until(lambda:server_player(0) if server_player(0)['y']>ground_eye(server_player(0))+.5 else None,2)
+            until(lambda:client_player(0,0)['y']>ground_eye(client_player(0,0))+.2,2)
+            until(lambda:struct.unpack('<f',os.pread(clients[0]['memory'],4,client_symbols['camera']+4))[0]>ground_eye(client_player(0,0))+.1,2)
+            until(lambda:abs(server_player(0)['y']-ground_eye(server_player(0)))<.01,3)
+            landed_tick=read_u32(host_memory,server_symbols,'sim_tick_count')
+            until(lambda:read_u32(host_memory,server_symbols,'sim_tick_count')>=landed_tick+15,2)
+            assert abs(server_player(0)['y']-ground_eye(server_player(0)))<.01,('held GUI jump relaunched',server_player(0),landed_tick,read_u32(host_memory,server_symbols,'sim_tick_count'))
+        finally:XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display)
         # Real E/W/fire/Q from a graphical network client controls its server hull.
         os.kill(host.pid,signal.SIGSTOP)
         try:
@@ -304,7 +328,7 @@ try:
             assert clients[index]['process'].returncode==0,(stdout,stderr)
             assert 'local_sim_ticks=0' in stdout and f'player={index} front={index}' in stdout,stdout
             outputs.append(stdout)
-        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'recorded_spatial_audio_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)

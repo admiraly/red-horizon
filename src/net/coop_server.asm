@@ -16,7 +16,7 @@ section .rodata
 f_port: db '--port',0
 f_ticks: db '--ticks',0
 f_units: db '--units',0
-ready_fmt: db '{"port":%u,"protocol":5,"units":%u}',10,0
+ready_fmt: db '{"port":%u,"protocol":%u,"units":%u}',10,0
 report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u,"aircraft_records":%lu}',10,0
 interest2: dd 1440000.0
 maximum: dd 8000.0
@@ -134,7 +134,8 @@ main:
  syscall
  movzx esi,word [sockaddr+2]
  rol si,8
- mov edx,[units]
+ mov ecx,[units]
+ mov edx,NET_VERSION
  lea rdi,[ready_fmt]
  xor eax,eax
  call printf wrt ..plt
@@ -427,7 +428,7 @@ handle_packet:
  mov [r13+SLOT_INPUTTICK],eax
  mov edi,r12d
  mov esi,[packet+40]
- test esi,~31
+ test esi,~127
  jnz .ack
  movss xmm0,[packet+44]
  movss xmm1,[packet+48]

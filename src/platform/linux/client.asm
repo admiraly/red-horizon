@@ -12,6 +12,7 @@ extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
+extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_count,sim_entities
@@ -48,7 +49,7 @@ map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario air-battle] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario air-battle] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -99,6 +100,7 @@ map_text: db 'TACTICAL',0
 fzero: dd 0.0
 world_max: dd 8000.0
 fone: dd 1.0
+crouch_prediction: dd 0.083333333
 walk_prediction: dd 0.166666667
 sprint_prediction: dd 0.3
 net_predict_timeout: dq 0.2
@@ -570,6 +572,7 @@ main:
  mov esi,[vbo]
  call glBindBuffer
  call audio_init
+ call audio_footsteps_reset
  call metrics_init
 .loop:
  call metrics_frame_begin
@@ -618,6 +621,9 @@ main:
  subss xmm5,xmm4
  movaps xmm4,xmm5
  call audio_scene_update
+ mov edi,[local_player]
+ movss xmm0,[frame_delta]
+ call audio_footsteps_update
  movss xmm0,[frame_delta]
  call environment_step
  mov edi,[program]
@@ -1432,8 +1438,18 @@ collect_intent:
  movss [wish_z],xmm1
  KEY 340
  test eax,eax
- jz .reload
+ jz .crouch
  or dword [intent_buttons],INPUT_SPRINT
+.crouch:
+ KEY 341
+ test eax,eax
+ jz .jump
+ or dword [intent_buttons],INPUT_CROUCH
+.jump:
+ KEY 32
+ test eax,eax
+ jz .reload
+ or dword [intent_buttons],INPUT_JUMP
 .reload:
  KEY 82
  test eax,eax
@@ -1720,6 +1736,9 @@ sync_player:
  movaps xmm3,xmm1
  addss xmm2,[wish_x]
  addss xmm3,[wish_z]
+ movss xmm4,[crouch_prediction]
+ test dword [intent_buttons],INPUT_CROUCH
+ jnz .predictstep
  movss xmm4,[walk_prediction]
  test dword [intent_buttons],INPUT_SPRINT
  jz .predictstep
@@ -1738,7 +1757,8 @@ sync_player:
  movss xmm0,[rbx+PLAYER_Y]
  jmp .previewheight
 .previewfoot:
- addss xmm0,[eyes]
+ ; Preserve received standing/crouch/jump altitude during bounded XZ preview.
+ movss xmm0,[rbx+PLAYER_Y]
 .previewheight:
  movss [visual_target+4],xmm0
 .noprediction:
