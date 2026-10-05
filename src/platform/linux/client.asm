@@ -11,7 +11,7 @@ extern glfwWindowShouldClose,glfwGetKey,glfwGetMouseButton,glfwGetCursorPos
 extern glfwSetInputMode,glfwSetWindowTitle,glfwGetTime
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glGetProgramInfoLog
-extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i
+extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i,glUniform4f
 extern glGenVertexArrays,glBindVertexArray,glGenBuffers,glBindBuffer,glBufferData
 extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
 extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArraysInstanced
@@ -26,6 +26,7 @@ cam_name: db 'camera',0
 angle_name: db 'angle',0
 terrain_name: db 'terrain',0
 tactical_name: db 'tactical',0
+weapon_name: db 'weaponState',0
 write_mode: db 'wb',0
 ppm_header: db 'P6',10,'1280 720',10,'255',10
 ppm_header_len equ $-ppm_header
@@ -34,7 +35,9 @@ shader_error: db 'Shader/program error:',0
 metrics: db 'camera_x=%.2f camera_z=%.2f shots=%u hits=%u last_order=%u',10,0
 summary: db 'client frames=%u submitted_entities=%u screenshot=%s',10,0
 no_shot: db '(none)',0
-title_fmt: db 'RED HORIZON | %u units | order %u | %s | WASD mouse/fire TAB map 1/2/3 orders ESC',0
+title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | R reload TAB map F1-F3 front 1-3 orders ESC',0
+reload_text: db 'RELOADING',0
+weapon_metrics: db 'weapon ammo=%u reloads=%u front=%u',10,0
 fps_text: db 'FIRST PERSON',0
 map_text: db 'TACTICAL',0
 fzero: dd 0.0
@@ -52,6 +55,11 @@ sprint: dd 9.0
 sensitivity: dd 0.002
 pitch_max: dd 1.3
 pitch_min: dd -1.3
+shot_interval: dq 0.12
+reload_interval: dq 2.0
+recoil_step: dd 0.008
+recoil_rate: dd 0.08
+flash_decay: dd 8.0
 thirty: dq 0.03333333333333333
 maxdt: dq 0.1
 minus: dd -1.0
@@ -64,6 +72,7 @@ camera: dd 4000.0,5.0,3200.0
 yaw: dd 0.0
 pitch: dd -0.04
 frame_limit: dd 0
+magazine: dd 30
 section .bss
 window: resq 1
 program: resd 1
@@ -73,6 +82,18 @@ cam_loc: resd 1
 angle_loc: resd 1
 terrain_loc: resd 1
 tactical_loc: resd 1
+weapon_loc: resd 1
+selected_front: resd 1
+reload_count: resd 1
+reload_active: resd 1
+reload_until: resq 1
+next_shot: resq 1
+weapon_now: resq 1
+weapon_delta: resd 1
+reload_progress: resd 1
+recoil: resd 1
+hit_flash: resd 1
+shot_flash: resd 1
 frame_count: resd 1
 tactical: resd 1
 tab_down: resd 1
@@ -250,6 +271,7 @@ main:
  UNIFORM angle_name,angle_loc
  UNIFORM terrain_name,terrain_loc
  UNIFORM tactical_name,tactical_loc
+ UNIFORM weapon_name,weapon_loc
  mov edi,1
  lea rsi,[vao]
  call glGenVertexArrays
@@ -364,8 +386,12 @@ main:
  mov edx,72
  mov ecx,[sim_count]
  call glDrawArraysInstanced
- cmp dword [tactical],0
- jne .nohud
+ mov edi,[weapon_loc]
+ cvtsi2ss xmm0,[magazine]
+ movss xmm1,[reload_progress]
+ movss xmm2,[hit_flash]
+ movss xmm3,[shot_flash]
+ call glUniform4f
  mov edi,0xb71
  call glDisable
  mov edi,[terrain_loc]
@@ -373,7 +399,7 @@ main:
  call glUniform1i
  mov edi,4
  xor esi,esi
- mov edx,12
+ mov edx,216
  call glDrawArrays
  mov edi,0xb71
  call glEnable
@@ -413,6 +439,12 @@ main:
  mov edx,[hit_count]
  mov ecx,[order_mode]
  mov eax,2
+ call printf
+ lea rdi,[weapon_metrics]
+ mov esi,[magazine]
+ mov edx,[reload_count]
+ mov ecx,[selected_front]
+ xor eax,eax
  call printf
  mov rdi,[window]
  call glfwDestroyWindow
@@ -504,6 +536,20 @@ update_input:
 .tabup:
  mov dword [tab_down],0
 .orders:
+ mov ebx,290
+.frontloop:
+ mov rdi,[window]
+ mov esi,ebx
+ call glfwGetKey
+ test eax,eax
+ jz .nextfront
+ mov eax,ebx
+ sub eax,290
+ mov [selected_front],eax
+.nextfront:
+ inc ebx
+ cmp ebx,293
+ jb .frontloop
  mov ebx,49
 .orderloop:
  mov rdi,[window]
@@ -515,7 +561,7 @@ update_input:
  sub edx,49
  mov [order_mode],edx
  xor edi,edi
- xor esi,esi
+ mov esi,[selected_front]
  call sim_order
 .nextorder:
  inc ebx
@@ -525,8 +571,8 @@ update_input:
  lea rsi,[cursor_x]
  lea rdx,[cursor_y]
  call glfwGetCursorPos
- cmp dword [frame_count],0
- jne .aimdelta
+ cmp dword [frame_count],3
+ jae .aimdelta
  movsd xmm0,[cursor_x]
  movsd [old_x],xmm0
  movsd xmm0,[cursor_y]
@@ -613,31 +659,30 @@ update_input:
  minss xmm0,[world_max]
  movss [camera+8],xmm0
  call camera_height
- mov rdi,[window]
- xor esi,esi
- call glfwGetMouseButton
- test eax,eax
- jz .fireup
- cmp dword [fire_down],0
- jne .title
- mov dword [fire_down],1
- call fire_weapon
- jmp .title
-.fireup:
- mov dword [fire_down],0
+ call update_weapon
 .title:
+ sub rsp,16
+ mov eax,[selected_front]
+ mov [rsp],rax
+ mov eax,[order_mode]
+ mov [rsp+8],rax
  lea rdi,[title_buf]
  mov esi,256
  lea rdx,[title_fmt]
  mov ecx,[sim_count]
- mov r8d,[order_mode]
+ mov r8d,[magazine]
  lea r9,[fps_text]
  cmp dword [tactical],0
- je .fmt
+ je .reloadtitle
  lea r9,[map_text]
+.reloadtitle:
+ cmp dword [reload_active],0
+ je .fmt
+ lea r9,[reload_text]
 .fmt:
  xor eax,eax
  call snprintf
+ add rsp,16
  mov rdi,[window]
  lea rsi,[title_buf]
  call glfwSetWindowTitle
@@ -648,6 +693,92 @@ update_input:
  mov eax,1
  pop rbx
  ret
+; Rifle timing uses monotonic platform time. Reload, cadence, visual recovery are
+; frame-rate independent. Persistent data contains no callback pointers.
+update_weapon:
+ push rbx
+ call glfwGetTime
+ movsd [weapon_now],xmm0
+ subsd xmm0,[last_time]
+ minsd xmm0,[maxdt]
+ cvtsd2ss xmm0,xmm0
+ movss [weapon_delta],xmm0
+ mulss xmm0,[recoil_rate]
+ minss xmm0,[recoil]
+ movss xmm1,[recoil]
+ subss xmm1,xmm0
+ movss [recoil],xmm1
+ movss xmm1,[pitch]
+ subss xmm1,xmm0
+ movss [pitch],xmm1
+ movss xmm0,[weapon_delta]
+ mulss xmm0,[flash_decay]
+ movss xmm1,[hit_flash]
+ subss xmm1,xmm0
+ maxss xmm1,[fzero]
+ movss [hit_flash],xmm1
+ movss xmm1,[shot_flash]
+ subss xmm1,xmm0
+ maxss xmm1,[fzero]
+ movss [shot_flash],xmm1
+ cmp dword [reload_active],0
+ je .reloadkey
+ movsd xmm0,[reload_until]
+ subsd xmm0,[weapon_now]
+ pxor xmm1,xmm1
+ comisd xmm0,xmm1
+ jbe .finishreload
+ divsd xmm0,[reload_interval]
+ cvtsd2ss xmm0,xmm0
+ movss [reload_progress],xmm0
+ jmp .return
+.finishreload:
+ mov dword [magazine],30
+ mov dword [reload_active],0
+ mov dword [reload_progress],0
+.reloadkey:
+ KEY 82
+ test eax,eax
+ jz .trigger
+ cmp dword [magazine],30
+ je .trigger
+ mov dword [reload_active],1
+ inc dword [reload_count]
+ movsd xmm0,[weapon_now]
+ addsd xmm0,[reload_interval]
+ movsd [reload_until],xmm0
+ movss xmm0,[fone]
+ movss [reload_progress],xmm0
+ jmp .return
+.trigger:
+ mov rdi,[window]
+ xor esi,esi
+ call glfwGetMouseButton
+ test eax,eax
+ jz .return
+ cmp dword [magazine],0
+ je .return
+ movsd xmm0,[weapon_now]
+ comisd xmm0,[next_shot]
+ jb .return
+ addsd xmm0,[shot_interval]
+ movsd [next_shot],xmm0
+ dec dword [magazine]
+ call fire_weapon
+ movss xmm0,[pitch]
+ movaps xmm1,xmm0
+ addss xmm0,[recoil_step]
+ minss xmm0,[pitch_max]
+ movss [pitch],xmm0
+ subss xmm0,xmm1
+ addss xmm0,[recoil]
+ movss [recoil],xmm0
+ movss xmm0,[fone]
+ movss [shot_flash],xmm0
+.return:
+ pop rbx
+ ret
+
 move_forward:
  movss xmm1,[sin_yaw]
  mulss xmm1,xmm0
@@ -777,6 +908,8 @@ fire_weapon:
  test eax,eax
  jnz .return
  inc dword [hit_count]
+ movss xmm0,[fone]
+ movss [hit_flash],xmm0
 .return:
  pop r13
  pop r12
