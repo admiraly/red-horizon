@@ -92,3 +92,18 @@ role footprints, stable generation-safe snapshot queries and no observer-depende
 movement; verify doorway/convoy progress, dense overlaps, opposing battle fronts,
 real terrain collision and scaled budgets. Diagnose shared ground/air pool pressure
 separately before changing lifetime or reserved capacity.
+
+Physical crowd continuation: isolatedkernel/terrain-probe worker and independent
+world-outcome/review worker; root owns world/hash/headless hooks and exact frozen
+integration. Generation-safe living ground snapshots use actual role bodies,
+bounded local swept steering and deterministic goal-following coincident recovery.
+Tests retain true8k/16k motion and400tick health symmetry; old unrestricted speed
+fixtures now start physically clear. Exact evidence and rejected prototypes are
+recorded in docs/evidence/crowd-session.json and docs/status.md.
+
+Next movement tasks: expanded terrain body footprints and oriented vehicle routes,
+safe initial formation/deployment spacing, driven/player collision, complex local
+traffic/stuck recovery. Commander/formation plans, streamed navigation, complete
+operation/recovery, cross-class ordnance pressure and four-client dense quality
+continue independently. This batch is a verified steering slice, not acceptance
+of the complete army or game.

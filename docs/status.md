@@ -1,4 +1,82 @@
-# Status — Linux shared-world prototype,2026-10-05
+# Status — Linux shared-world prototype,2026-10-06
+
+The physical ground-crowd continuation keeps the complete game goal active.
+Runtime checkpoint `b9c71fa` lets living infantry, tanks and artillery use
+generation-safe tick-start body
+snapshots for actual nav/hazard movement. Airborne actors retain independent
+continuous flight. Ground discs are0.55/3.55/4.49m; the vehicle radii enclose both
+scale-one authored mesh LODs. Held allies and driven armor are obstacles, and
+manual holds remain fixed. Normal source steps stay0.12/0.5/0.2m; player-driven
+armor retains its existing separate controller.
+
+The bounded8m spatial index checks nine infantry or25 vehicle cells with8/16m
+center ranges. Each query inspects at most512records and tests ten candidate
+terrain-safe directions. Truncated queries safely yield. Snapshot storage/grid
+are static; no hot-path allocation or all-pairs scan. Relative swept separation
+and conservative neighbor steps protect already-clear bodies. Existing overlaps
+recover through real outward movement. Exact coincidence uses authoritative tick
+parity and stable physical-ID priority to let one actor follow its actual goal;
+peers yield rather than being assigned arbitrary world-axis lanes. Side labels,
+observer position and processing order cannot choose movement. Only the enabled
+policy word adds replay bytes; tick parity is already authoritative/checksummed.
+
+Causal controls reproduce old movement through held infantry/tanks/artillery and
+stacking convoys. The authored-size oracle rejected the initial smaller2.5/2m
+vehicle discs. Larger footprints exposed wall-edge/corridor oscillation; preserving
+the actual long terrain goal and screening corrected directions12m ahead restored
+both route arrivals. The first fast and frozen extended runs then caught incorrect
+coincident flank lanes. General goal-following priority corrects both divergent
+goal orders, shared-goal and held-coincident cases; unchanged full tactics tests
+retain8k/16k progress thresholds and player-bubble motion.
+
+The first simulation direction fixture now explicitly isolates order displacement
+by disabling crowd together with hazards, because valid physical avoidance can
+turn/yield against a requested axis. Fresh initialization restores both defaults.
+The original400tick per-actor health label-symmetry check is preserved. A separate
+role-speed fixture now starts its four roles20m apart, keeping exact speed
+assertions without requiring overlapping vehicles to ignore safe yield. Eleven
+production-world movement encounters verify actual role speed, independent swept
+pair/body and terrain checks, arrival/progress, fixed holds, generation reuse,
+gradual non-deepening overlap recovery, replay and full per-tick ground label traces.
+
+Independent8192-army seed42/120tick current-pose census records front overlapping
+pairs110→0 and hotspot315→0, versus old terrain-only110→439/315→954. Surviving
+ground actors moved6741/6662; final living3600/3649 and3567/3601 respectively.
+Initial overlaps and real casualties affect these counts; this endpoint census
+does not prove every dense relative sweep was clear. Repeat checksums and actual
+full-army movement are retained separately from small controlled encounters.
+
+Seed42/900tick single-thread headless benchmarks on i7-14700K are:
+
+| Fixture | Initial living actors | Tick mean/p95 ms | Max inspected/query | Truncated queries | Final living side0/1 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scale-hotspot |8192|3.344/4.672|62|0|2208/1820|
+| scale-stretch |16384|9.966/11.017|43|0|7029/6651|
+
+These concurrent CPU-only measurements include actual world steering and preserve
+scale; rendered/replicated/audio coverage is0 or unmeasured. Peak runtime RSS is
+16628/16964KiB. They are not a causal speedup or target-GPU acceptance claim.
+
+Frozen full extended job `0e8db5e1dd23` passes in277.906s at
+`b9c71fa-0d34808df99ad995`:59suite reports,58explicit pass markers and the
+assertion-based `hazard_outcomes` report. Actual GL aircraft/effects/player
+encounters, two rendered co-op clients, UDP fault coverage, unchanged400tick
+health symmetry and8k/16k tactics/replay pass. All152authored inputs match the
+three final frozen snapshots exactly. Focused default/legacy physical outcome
+reports equal their frozen equivalents apart from library binary hashes. Routine
+fast and final focused extended checks pass. All nine root frozen jobs, eight
+retained foreground sessions/direct negatives and two clean workers are reconciled.
+Exact hashes, historical failures, independent intent review, scale metrics and
+limits are in `docs/evidence/crowd-session.json`.
+
+Terrain still uses existing centerpoint/slab collision, without expanded body
+footprints against walls. Human player body separation, driven-source avoidance,
+oriented vehicle hulls, universal dense overlap recovery and complex maze traffic
+remain open. Natural dense initial deployments contain overlapping bodies; current
+pose counts are not swept collision-free massive battle acceptance. Pathological
+>512-record neighborhoods may remain held. No native runtime jobs, new target-GPU
+budget, four rendered clients or full commander/operation acceptance is claimed.
+No remote publication; code licence remains pending owner approval.
 
 The aircraft-admission continuation keeps the complete game goal active.
 Runtime checkpoint `4e1b699` queues only actual ready, observed and flight-aligned

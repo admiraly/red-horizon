@@ -403,3 +403,33 @@ Ground and air ceilings remain total active-count policy; air lifetime/eligibili
 can legitimately produce unequal natural grants and block ground weapons.
 Exact integration/benchmark evidence belongs in docs/status.md and the aircraft
 admission session manifest, separate from the worker baseline diagnosis.
+
+## Physical ground steering supplement
+
+Runtime `b9c71fa` introduces generation-safe immutable living ground snapshots,
+role-sized body discs and bounded terrain-safe steering for actual nav/hazard
+movement. Infantry/tank/artillery radii0.55/3.55/4.49m include both scale-one
+vehicle mesh LOD bounds. Held allies and driven armor are indexed obstacles;
+aircraft retain continuous independent flight. Local queries cap512 linked records
+and ten candidate directions, with conservative yield on truncation and no heap
+allocation. Exact coincidence uses actual goals and physical-ID priority derived
+from already-hashed tick parity; partial overlaps require outward recovery.
+
+This improves the bounded steering portions ofR05/10/15. It accepts no complete
+intelligence, traffic or massive-battle collision requirement. Source role steps,
+real terrain routes, fixed holds, relative swept body separation, eleven production
+encounters and replay/physical label traces have focused proof. Original whole-world
+tactics thresholds remain unchanged; unrestricted speed fixtures use physically
+separated actors. Order-axis isolation disables avoidance only in its dedicated
+simulation fixture, alongside its previous hazard isolation; fresh initialization
+restores both defaults and preserves the original400tick health symmetry check.
+
+Existing terrain centerpoint/slab collision is not an expanded vehicle hull test.
+Separate human body/controller, driven-source avoidance, oriented hulls, initial
+formation spacing and complex traffic recovery remain open. Dense initial layouts
+include real overlaps; current-pose pair counts do not establish universally clear
+relative sweeps. Above512 inspected records, movement may remain held. Final
+source-matched frozen integration and CPU benchmarks are recorded in
+`docs/evidence/crowd-session.json`; recorded failures retain the authored-body,
+wall routing, coincident-intent and speed-fixture diagnoses. The complete game
+specification and hardware/Windows/four-rendered-client gates remain unaccepted.

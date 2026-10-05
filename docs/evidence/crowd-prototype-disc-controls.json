@@ -1,0 +1,2119 @@
+{
+  "scope": "Historical smaller2.5/2.0vehicle discs; do not treat as authored hull clearance acceptance",
+  "reports": [
+    {
+      "suite": "crowd",
+      "status": "passed",
+      "passed": true,
+      "held_pass_endpoint": [
+        1010.0,
+        1000.0
+      ],
+      "head_on": [
+        [
+          1012.0,
+          1000.0
+        ],
+        [
+          998.0,
+          1000.0
+        ],
+        1.120361328125
+      ],
+      "coincident_recovery_gap": 1.2318115234375,
+      "overlap_chain_minimum_gap": 1.22222312135269,
+      "kernel_benchmarks": [
+        {
+          "actors": 128,
+          "ticks": 30,
+          "kernel_ms_mean": 0.0223145,
+          "kernel_ms_p95": 0.025577,
+          "inspected": 41202,
+          "maximum_inspected_query": 11,
+          "truncated": 0
+        },
+        {
+          "actors": 8192,
+          "ticks": 30,
+          "kernel_ms_mean": 3.4883568,
+          "kernel_ms_p95": 3.530238,
+          "inspected": 32905152,
+          "maximum_inspected_query": 143,
+          "truncated": 0
+        }
+      ],
+      "limitations": [
+        "512 inspected neighbors per query; denser 3x3-cell chains conservatively yield",
+        "ground AI only; driven bodies included but source driver control not changed",
+        "initial overlap recovery is gradual, crowded unsatisfiable layouts may yield",
+        "isolated kernel benchmark is not complete army performance"
+      ]
+    },
+    {
+      "suite": "crowd-outcomes",
+      "passed": true,
+      "legacy": false,
+      "crowd_module_present": true,
+      "library_sha256": "adf0bf0aa9c538e7429313c950bc01fd38b6eb330b75ad6cf007e2afdab0b58a",
+      "oracle_sha256": "b845789f4cb36cd4562612c723523cf7f1b9f9dd8ecba490e8355d5ed2e05901",
+      "footprint_radii_m": [
+        0.55,
+        2.5,
+        2.0
+      ],
+      "controlled_encounters": [
+        {
+          "name": "held_infantry",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 3.9000000000000004,
+          "minimum_swept_gap": 0.1212071286195675,
+          "final_minimum_gap": 5.9,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "dbd887076f5189ce096141676468ca4ff3749d366324c5a209e16b19b0a19442",
+          "ground_pose_trace_sha256": "220026b931d3789f08f47fbe92dddcd374b59c3379148386b61a9005a5fe7be0",
+          "checksum": "864b3785c6cea1b9",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "generation_reuse",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 3.9000000000000004,
+          "minimum_swept_gap": 0.1212071286195675,
+          "final_minimum_gap": 5.9,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "94f75cd932f04b3afa98d857af80b78ce093e79b2c691a38a33cdbee0cb9df02",
+          "ground_pose_trace_sha256": "220026b931d3789f08f47fbe92dddcd374b59c3379148386b61a9005a5fe7be0",
+          "checksum": "f91e8c67df9544a4",
+          "source_generation_change_tick": 61
+        },
+        {
+          "name": "held_armor",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1015.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1040.0,
+              2000.0
+            ],
+            "1": [
+              1015.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 10.0,
+          "minimum_swept_gap": 0.5,
+          "final_minimum_gap": 20.0,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1011.77197265625,
+                  2004.61962890625
+                ],
+                "1": [
+                  1015.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1040.0,
+                  2000.0
+                ],
+                "1": [
+                  1015.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1040.0,
+                  2000.0
+                ],
+                "1": [
+                  1015.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "08239327c14b33a2bddb4b10f70e8243f2c0e814a63c15e410f625304ac67084",
+          "ground_pose_trace_sha256": "ad5589d6ed5801efc7ad6292806261d97107e4947f9fceb4922685639f79ecb1",
+          "checksum": "308a87b123765b2c",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "held_artillery",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1008.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1020.0,
+              2000.0
+            ],
+            "1": [
+              1008.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 4.0,
+          "minimum_swept_gap": 0.20189960203085278,
+          "final_minimum_gap": 8.0,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1004.3074340820312,
+                  2002.1507568359375
+                ],
+                "1": [
+                  1008.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1020.0,
+                  2000.0
+                ],
+                "1": [
+                  1008.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1020.0,
+                  2000.0
+                ],
+                "1": [
+                  1008.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "c4aa22b66881b5472bb4604431fbcc9245f54ad60e92ac8ff98b73e69f6b81a4",
+          "ground_pose_trace_sha256": "0b2ebaacd56fa03834b0e97f0ff848556a2d82125af3edb1639c24be5716e2a8",
+          "checksum": "41ebea4eff518cc1",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "approaching_pair",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1012.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1000.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0,
+            "1": 0.0
+          },
+          "initial_minimum_gap": 10.899999999999999,
+          "minimum_swept_gap": 0.10043945312499991,
+          "final_minimum_gap": 10.899999999999999,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1008.400146484375,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1000.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1000.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "91bbb0a205ebcb1e60da2d6c1819a4baf4d6c342812ba0206ea6573eac5db19b",
+          "ground_pose_trace_sha256": "699ad58f8c5fc0628944b930699705c1787b6818f585a29dd421908a12c3948a",
+          "checksum": "3ef53692c7a91226",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "convoy",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              994.0,
+              2000.0
+            ],
+            "2": [
+              988.0,
+              2000.0
+            ],
+            "3": [
+              982.0,
+              2000.0
+            ],
+            "4": [
+              976.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1060.0,
+              2000.0
+            ],
+            "1": [
+              1062.7802734375,
+              1995.1453857421875
+            ],
+            "2": [
+              1065.543701171875,
+              2001.5330810546875
+            ],
+            "3": [
+              1055.1729736328125,
+              1996.8917236328125
+            ],
+            "4": [
+              1055.3231201171875,
+              2003.0323486328125
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0,
+            "1": 5.5943900453422515,
+            "2": 5.751778872947915,
+            "3": 5.7412163802054765,
+            "4": 5.573898426521253
+          },
+          "initial_minimum_gap": 1.0,
+          "minimum_swept_gap": 0.24643739950954036,
+          "final_minimum_gap": 0.5738984265212528,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1015.0,
+                  2000.0
+                ],
+                "1": [
+                  1009.0,
+                  2000.0
+                ],
+                "2": [
+                  1003.0,
+                  2000.0
+                ],
+                "3": [
+                  997.0,
+                  2000.0
+                ],
+                "4": [
+                  991.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1060.0,
+                  2000.0
+                ],
+                "1": [
+                  1054.0,
+                  2000.0
+                ],
+                "2": [
+                  1048.0,
+                  2000.0
+                ],
+                "3": [
+                  1042.0,
+                  2000.0
+                ],
+                "4": [
+                  1036.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1060.0,
+                  2000.0
+                ],
+                "1": [
+                  1062.7802734375,
+                  1995.1453857421875
+                ],
+                "2": [
+                  1065.543701171875,
+                  2001.5330810546875
+                ],
+                "3": [
+                  1055.1729736328125,
+                  1996.8917236328125
+                ],
+                "4": [
+                  1055.3231201171875,
+                  2003.0323486328125
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "0b018c600448e67906b114f9a60d2a6e4aae5e0d478842bac8fef263636c0296",
+          "ground_pose_trace_sha256": "77dac0252422914ffc4a107fd88d3873865ecac36fea6c8579064953eefdfafb",
+          "checksum": "57bbb416c427ebf2",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "wall_edge_pass",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              3978.0,
+              1094.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "final": {
+            "0": [
+              4030.0,
+              1094.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 17.0,
+          "minimum_swept_gap": 0.5,
+          "final_minimum_gap": 25.0,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  3993.0,
+                  1094.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  4030.0,
+                  1094.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  4030.0,
+                  1094.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "977a4d62d4fecbdd21aab1fdac004349b36b803c05637fdf4b00fa4f899c0b6a",
+          "ground_pose_trace_sha256": "5d5d679cbea69f395d3986f032ce8ee58d614020211f937557395ab81489bc9f",
+          "checksum": "c144a703ab8efc6e",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "wall_route",
+          "ticks": 1600,
+          "initial": {
+            "0": [
+              3970.0,
+              1300.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "final": {
+            "0": [
+              4030.0,
+              1300.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 203.1730049742281,
+          "minimum_swept_gap": 0.501199506145662,
+          "final_minimum_gap": 203.1730049742281,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  3971.455810546875,
+                  1285.5318603515625
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  3974.422119140625,
+                  1240.6307373046875
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 1600,
+              "poses": {
+                "0": [
+                  4030.0,
+                  1300.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "b307ca908c26b8a59daf6cd26e53b80e7a292df20b1fb452e308a6500f8b42b4",
+          "ground_pose_trace_sha256": "9d3399da3f4a3d2f103db6744f270f07661b2a3577b0f11afd8b74da60b027c8",
+          "checksum": "409cc14ef5d0ed82",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "initial_overlap",
+          "ticks": 400,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1000.5,
+              2000.0
+            ],
+            "2": [
+              1001.0,
+              2000.0
+            ],
+            "3": [
+              1001.5,
+              2000.0
+            ],
+            "4": [
+              1002.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1021.140380859375,
+              1999.5499267578125
+            ],
+            "1": [
+              1019.4375,
+              2001.1014404296875
+            ],
+            "2": [
+              1020.8302001953125,
+              2000.900390625
+            ],
+            "3": [
+              1019.913330078125,
+              1998.743408203125
+            ],
+            "4": [
+              1019.999267578125,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 1.2259830454627143,
+            "1": 1.2367607974665855,
+            "2": 1.2247185970192516,
+            "3": 1.2595771589431748,
+            "4": 0.000732421875
+          },
+          "initial_minimum_gap": -0.6000000000000001,
+          "minimum_swept_gap": -0.6000000000000001,
+          "final_minimum_gap": 0.12521520227834215,
+          "overlapping_pair_ticks": 57,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1002.5731811523438,
+                  2001.2691650390625
+                ],
+                "1": [
+                  1002.5150146484375,
+                  1998.762451171875
+                ],
+                "2": [
+                  1002.7999267578125,
+                  2000.0
+                ],
+                "3": [
+                  1004.2437744140625,
+                  2000.052001953125
+                ],
+                "4": [
+                  1005.599853515625,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1013.1414184570312,
+                  2001.215087890625
+                ],
+                "1": [
+                  1013.082763671875,
+                  1998.7967529296875
+                ],
+                "2": [
+                  1013.5994873046875,
+                  2000.0
+                ],
+                "3": [
+                  1015.0433349609375,
+                  2000.0177001953125
+                ],
+                "4": [
+                  1016.3994140625,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 400,
+              "poses": {
+                "0": [
+                  1021.140380859375,
+                  1999.5499267578125
+                ],
+                "1": [
+                  1019.4375,
+                  2001.1014404296875
+                ],
+                "2": [
+                  1020.8302001953125,
+                  2000.900390625
+                ],
+                "3": [
+                  1019.913330078125,
+                  1998.743408203125
+                ],
+                "4": [
+                  1019.999267578125,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "da1e647fa73914e9cfd7e52e51eb54133c476234e142d29988ff426671ce5f38",
+          "ground_pose_trace_sha256": "b8fb25dd7480d463e19729bb5bf477071d8f586747fb5d43c42b75a45e5d7f6a",
+          "checksum": "d065961bf2f995c4",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "driven_obstacle",
+          "ticks": 300,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 1.9500000000000002,
+          "minimum_swept_gap": 0.6027714917423861,
+          "final_minimum_gap": 3.95,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1001.9451904296875,
+                  2002.1005859375
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1011.268798828125,
+                  2000.4539794921875
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 300,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "503f4f7a5e6a7f703b8feb2203d7e9e1aaff0cdc5eaecb69113ea5248ad9d3a0",
+          "ground_pose_trace_sha256": "6701e9ef7375ceee6d68089828fe458404fe2048b474228754e670c8524127a1",
+          "checksum": "c133bf447509f5be",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "air_exclusion",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1011.99951171875,
+              2000.0
+            ],
+            "1": [
+              2092.127197265625,
+              2501.95263671875
+            ]
+          },
+          "arrival_error": {
+            "0": 0.00048828125
+          },
+          "initial_minimum_gap": 0,
+          "minimum_swept_gap": 0,
+          "final_minimum_gap": 0,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1145.818603515625,
+                  2046.9866943359375
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1011.99951171875,
+                  2000.0
+                ],
+                "1": [
+                  1551.37890625,
+                  2241.97216796875
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1011.99951171875,
+                  2000.0
+                ],
+                "1": [
+                  2092.127197265625,
+                  2501.95263671875
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "691ca7192a102cbdfef4c9520c84b33b85dc7b6df406729c8af975b8bf2182a5",
+          "ground_pose_trace_sha256": "3a51e85c8dcf43dc01e8a92b9e79751f29a33ac264bca5e48eb9d3083fedb9bb",
+          "checksum": "2052085559c279a8",
+          "source_generation_change_tick": null
+        }
+      ],
+      "dense": [
+        {
+          "scenario": "scale-front",
+          "seed": 42,
+          "initialized_entities": 8192,
+          "ticks": 120,
+          "initial": {
+            "near_pairs": 439,
+            "overlapping_pairs": 42,
+            "minimum_gap": -3.0
+          },
+          "final": {
+            "near_pairs": 1424,
+            "overlapping_pairs": 0,
+            "minimum_gap": 0.05388121502753407
+          },
+          "surviving_ground_actors_moved": 6818,
+          "final_alive": [
+            3646,
+            3683
+          ],
+          "engaged_last_tick": 2558,
+          "checksum": "ea8725b65cd18168",
+          "scope": "Independent spatial-bin current-pose census, not collision-free acceptance; initial deployment overlaps and genuine casualties affect pair counts"
+        },
+        {
+          "scenario": "scale-hotspot",
+          "seed": 42,
+          "initialized_entities": 8192,
+          "ticks": 120,
+          "initial": {
+            "near_pairs": 2229,
+            "overlapping_pairs": 23,
+            "minimum_gap": -3.0
+          },
+          "final": {
+            "near_pairs": 2860,
+            "overlapping_pairs": 0,
+            "minimum_gap": 0.026420290115066303
+          },
+          "surviving_ground_actors_moved": 6620,
+          "final_alive": [
+            3543,
+            3583
+          ],
+          "engaged_last_tick": 3356,
+          "checksum": "c27e950000831320",
+          "scope": "Independent spatial-bin current-pose census, not collision-free acceptance; initial deployment overlaps and genuine casualties affect pair counts"
+        }
+      ],
+      "deterministic_replay": true,
+      "physical_label_swap": true,
+      "scope": "Production sim_tick navigation/terrain at real role speeds; controlled friendly deployments exclude weapons, player driving and full operation acceptance"
+    },
+    {
+      "suite": "crowd-outcomes",
+      "passed": true,
+      "legacy": true,
+      "crowd_module_present": true,
+      "library_sha256": "adf0bf0aa9c538e7429313c950bc01fd38b6eb330b75ad6cf007e2afdab0b58a",
+      "oracle_sha256": "b845789f4cb36cd4562612c723523cf7f1b9f9dd8ecba490e8355d5ed2e05901",
+      "footprint_radii_m": [
+        0.55,
+        2.5,
+        2.0
+      ],
+      "controlled_encounters": [
+        {
+          "name": "held_infantry",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 3.9000000000000004,
+          "minimum_swept_gap": -1.1,
+          "final_minimum_gap": 5.9,
+          "overlapping_pair_ticks": 19,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "99ac3b781efcfca6acf9c72dc7a2f3e0570b6f7ea27f25a7fc04dd9a2f9fd58e",
+          "ground_pose_trace_sha256": "b787082e7cac7d3ec1410ba238e88c0b046b286b8066ff9ac862dac581eb8f9c",
+          "checksum": "0c03256eed0f93b8",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "generation_reuse",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 3.9000000000000004,
+          "minimum_swept_gap": -1.1,
+          "final_minimum_gap": 5.9,
+          "overlapping_pair_ticks": 19,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "91117ba55b68b7668f07d2278750102675e54b84891eab7fc1bed046ba656b25",
+          "ground_pose_trace_sha256": "b787082e7cac7d3ec1410ba238e88c0b046b286b8066ff9ac862dac581eb8f9c",
+          "checksum": "036028b012d32f35",
+          "source_generation_change_tick": 61
+        },
+        {
+          "name": "held_armor",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1015.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1040.0,
+              2000.0
+            ],
+            "1": [
+              1015.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 10.0,
+          "minimum_swept_gap": -5.0,
+          "final_minimum_gap": 20.0,
+          "overlapping_pair_ticks": 20,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1015.0,
+                  2000.0
+                ],
+                "1": [
+                  1015.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1040.0,
+                  2000.0
+                ],
+                "1": [
+                  1015.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1040.0,
+                  2000.0
+                ],
+                "1": [
+                  1015.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "e987a1668333184fe73c7bc81d0410035964918227fcf97cfe7355e6a9a74620",
+          "ground_pose_trace_sha256": "0e4827689ed1e4629e5e119a88a550081019c6c6ef084492da3343564fb8ea05",
+          "checksum": "04e1f339edfe26dc",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "held_artillery",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1008.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1020.0,
+              2000.0
+            ],
+            "1": [
+              1008.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 4.0,
+          "minimum_swept_gap": -4.0,
+          "final_minimum_gap": 8.0,
+          "overlapping_pair_ticks": 40,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1006.0003662109375,
+                  2000.0
+                ],
+                "1": [
+                  1008.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1020.0,
+                  2000.0
+                ],
+                "1": [
+                  1008.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1020.0,
+                  2000.0
+                ],
+                "1": [
+                  1008.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "3aab1bb8cfe2acdcb0aac6580d9c5c70f37bbc0c684457dc6660f2db54bfe483",
+          "ground_pose_trace_sha256": "c69d978daf97143bcac2c8ebc272e4f7b1be7a13f72ab4134934a969c2d6f983",
+          "checksum": "168f61d7d8e6c649",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "approaching_pair",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1012.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1000.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0,
+            "1": 0.0
+          },
+          "initial_minimum_gap": 10.899999999999999,
+          "minimum_swept_gap": -1.1,
+          "final_minimum_gap": 10.899999999999999,
+          "overlapping_pair_ticks": 10,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1008.400146484375,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1000.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1000.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "f280d84c27f3a3f6b46097e050daf0ec3ec5323dcdc31f53ae8f0079df8a83bc",
+          "ground_pose_trace_sha256": "af15129126c01697c642530252f8cbd5e76338a24b9fba98faab53ec40c1b58c",
+          "checksum": "99aa930d1f153407",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "convoy",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              994.0,
+              2000.0
+            ],
+            "2": [
+              988.0,
+              2000.0
+            ],
+            "3": [
+              982.0,
+              2000.0
+            ],
+            "4": [
+              976.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1060.0,
+              2000.0
+            ],
+            "1": [
+              1060.0,
+              2000.0
+            ],
+            "2": [
+              1060.0,
+              2000.0
+            ],
+            "3": [
+              1060.0,
+              2000.0
+            ],
+            "4": [
+              1060.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0,
+            "1": 0.0,
+            "2": 0.0,
+            "3": 0.0,
+            "4": 0.0
+          },
+          "initial_minimum_gap": 1.0,
+          "minimum_swept_gap": -5.0,
+          "final_minimum_gap": -5.0,
+          "overlapping_pair_ticks": 940,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1015.0,
+                  2000.0
+                ],
+                "1": [
+                  1009.0,
+                  2000.0
+                ],
+                "2": [
+                  1003.0,
+                  2000.0
+                ],
+                "3": [
+                  997.0,
+                  2000.0
+                ],
+                "4": [
+                  991.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1060.0,
+                  2000.0
+                ],
+                "1": [
+                  1054.0,
+                  2000.0
+                ],
+                "2": [
+                  1048.0,
+                  2000.0
+                ],
+                "3": [
+                  1042.0,
+                  2000.0
+                ],
+                "4": [
+                  1036.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1060.0,
+                  2000.0
+                ],
+                "1": [
+                  1060.0,
+                  2000.0
+                ],
+                "2": [
+                  1060.0,
+                  2000.0
+                ],
+                "3": [
+                  1060.0,
+                  2000.0
+                ],
+                "4": [
+                  1060.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "07dd0a75c9a273f1714847b1cd61df4ece73c60992a6ccf6f9cfc4c485c6ad35",
+          "ground_pose_trace_sha256": "353daeeff5ed1e2a4d9a1731d467e3838dfcf2df36f4e646967ef0f8e852f9b6",
+          "checksum": "398d203c92193a21",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "wall_edge_pass",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              3978.0,
+              1094.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "final": {
+            "0": [
+              4030.0,
+              1094.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 17.0,
+          "minimum_swept_gap": -5.0,
+          "final_minimum_gap": 25.0,
+          "overlapping_pair_ticks": 20,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  3993.0,
+                  1094.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  4030.0,
+                  1094.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  4030.0,
+                  1094.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "f8756f633031394b73bf13b6ab847f187feea440b03aef35c2aeb67c3b0436b2",
+          "ground_pose_trace_sha256": "020e584003546b3e25a42d7a77943f7570a3ade4a5623b0122ce69e5771cf1c9",
+          "checksum": "e62fbb2a77000f0e",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "wall_route",
+          "ticks": 1600,
+          "initial": {
+            "0": [
+              3970.0,
+              1300.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "final": {
+            "0": [
+              4030.0,
+              1300.0
+            ],
+            "1": [
+              4000.0,
+              1094.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 203.1730049742281,
+          "minimum_swept_gap": -0.8178820901304773,
+          "final_minimum_gap": 203.1730049742281,
+          "overlapping_pair_ticks": 12,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  3971.025390625,
+                  1286.0341796875
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  3974.090576171875,
+                  1241.14404296875
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            },
+            {
+              "tick": 1600,
+              "poses": {
+                "0": [
+                  4030.0,
+                  1300.0
+                ],
+                "1": [
+                  4000.0,
+                  1094.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "20c2a9bdf2146a184d5b80145fffc449c02523cd98005cb2dae4c9328ec63231",
+          "ground_pose_trace_sha256": "65b45d8f7c156a5058de4109ef2348546cb06b570eb23e2704338e1dc62882b4",
+          "checksum": "93b05724fb6e7d1c",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "initial_overlap",
+          "ticks": 400,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1000.5,
+              2000.0
+            ],
+            "2": [
+              1001.0,
+              2000.0
+            ],
+            "3": [
+              1001.5,
+              2000.0
+            ],
+            "4": [
+              1002.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1020.0,
+              2000.0
+            ],
+            "1": [
+              1020.0,
+              2000.0
+            ],
+            "2": [
+              1020.0,
+              2000.0
+            ],
+            "3": [
+              1020.0,
+              2000.0
+            ],
+            "4": [
+              1020.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0,
+            "1": 0.0,
+            "2": 0.0,
+            "3": 0.0,
+            "4": 0.0
+          },
+          "initial_minimum_gap": -0.6000000000000001,
+          "minimum_swept_gap": -1.1,
+          "final_minimum_gap": -1.1,
+          "overlapping_pair_ticks": 3533,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1004.099853515625,
+                  2000.0
+                ],
+                "2": [
+                  1004.599853515625,
+                  2000.0
+                ],
+                "3": [
+                  1005.099853515625,
+                  2000.0
+                ],
+                "4": [
+                  1005.599853515625,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1014.3994140625,
+                  2000.0
+                ],
+                "1": [
+                  1014.8994140625,
+                  2000.0
+                ],
+                "2": [
+                  1015.3994140625,
+                  2000.0
+                ],
+                "3": [
+                  1015.8994140625,
+                  2000.0
+                ],
+                "4": [
+                  1016.3994140625,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 400,
+              "poses": {
+                "0": [
+                  1020.0,
+                  2000.0
+                ],
+                "1": [
+                  1020.0,
+                  2000.0
+                ],
+                "2": [
+                  1020.0,
+                  2000.0
+                ],
+                "3": [
+                  1020.0,
+                  2000.0
+                ],
+                "4": [
+                  1020.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "162900aa2c07c56790d10f5abac414b9fcbc83f5760c58ec6ea0bfe5cc75f663",
+          "ground_pose_trace_sha256": "1cff08749f43f9ca77f3e90d2b5513ce9a6e99fcb011728b436716d68f7f936d",
+          "checksum": "649dc618c6c93ee8",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "driven_obstacle",
+          "ticks": 300,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 1.9500000000000002,
+          "minimum_swept_gap": -3.05,
+          "final_minimum_gap": 3.95,
+          "overlapping_pair_ticks": 52,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            },
+            {
+              "tick": 300,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1005.0,
+                  2000.0
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "9b655e529cd52ba68ba093809432559be7466328749109ad50bdae647b088b6e",
+          "ground_pose_trace_sha256": "b369d07f827f06890e51e67756011c23c6ef8ee38cae9313ad7c4b01ceb83447",
+          "checksum": "1dd8d4d35e04dc8b",
+          "source_generation_change_tick": null
+        },
+        {
+          "name": "air_exclusion",
+          "ticks": 240,
+          "initial": {
+            "0": [
+              1000.0,
+              2000.0
+            ],
+            "1": [
+              1005.0,
+              2000.0
+            ]
+          },
+          "final": {
+            "0": [
+              1012.0,
+              2000.0
+            ],
+            "1": [
+              2092.127197265625,
+              2501.95263671875
+            ]
+          },
+          "arrival_error": {
+            "0": 0.0
+          },
+          "initial_minimum_gap": 0,
+          "minimum_swept_gap": 0,
+          "final_minimum_gap": 0,
+          "overlapping_pair_ticks": 0,
+          "samples": [
+            {
+              "tick": 30,
+              "poses": {
+                "0": [
+                  1003.599853515625,
+                  2000.0
+                ],
+                "1": [
+                  1145.818603515625,
+                  2046.9866943359375
+                ]
+              }
+            },
+            {
+              "tick": 120,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  1551.37890625,
+                  2241.97216796875
+                ]
+              }
+            },
+            {
+              "tick": 240,
+              "poses": {
+                "0": [
+                  1012.0,
+                  2000.0
+                ],
+                "1": [
+                  2092.127197265625,
+                  2501.95263671875
+                ]
+              }
+            }
+          ],
+          "physical_trace_sha256": "a543daaf32ad4fda3f9c26f39da7787634fe61488410b93f0ddf3d9ffec3237f",
+          "ground_pose_trace_sha256": "94e22bccf4444a91825a0dce0a953d37218f6b5b99ef23c501881b7db977a41f",
+          "checksum": "3655c1f122bcc575",
+          "source_generation_change_tick": null
+        }
+      ],
+      "dense": [
+        {
+          "scenario": "scale-front",
+          "seed": 42,
+          "initialized_entities": 8192,
+          "ticks": 120,
+          "initial": {
+            "near_pairs": 439,
+            "overlapping_pairs": 42,
+            "minimum_gap": -3.0
+          },
+          "final": {
+            "near_pairs": 1382,
+            "overlapping_pairs": 199,
+            "minimum_gap": -4.815729617041575
+          },
+          "surviving_ground_actors_moved": 6804,
+          "final_alive": [
+            3635,
+            3675
+          ],
+          "engaged_last_tick": 2512,
+          "checksum": "d277bb6a884f82a0",
+          "scope": "Independent spatial-bin current-pose census, not collision-free acceptance; initial deployment overlaps and genuine casualties affect pair counts"
+        },
+        {
+          "scenario": "scale-hotspot",
+          "seed": 42,
+          "initialized_entities": 8192,
+          "ticks": 120,
+          "initial": {
+            "near_pairs": 2229,
+            "overlapping_pairs": 23,
+            "minimum_gap": -3.0
+          },
+          "final": {
+            "near_pairs": 2758,
+            "overlapping_pairs": 437,
+            "minimum_gap": -4.97526456633452
+          },
+          "surviving_ground_actors_moved": 6658,
+          "final_alive": [
+            3567,
+            3595
+          ],
+          "engaged_last_tick": 3311,
+          "checksum": "3737fc6ac3e9d5e4",
+          "scope": "Independent spatial-bin current-pose census, not collision-free acceptance; initial deployment overlaps and genuine casualties affect pair counts"
+        }
+      ],
+      "deterministic_replay": true,
+      "physical_label_swap": true,
+      "scope": "Production sim_tick navigation/terrain at real role speeds; controlled friendly deployments exclude weapons, player driving and full operation acceptance"
+    }
+  ]
+}
