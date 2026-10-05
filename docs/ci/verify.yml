@@ -1,0 +1,32 @@
+name: Assembly verification
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  linux:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - run: sudo apt-get update && sudo apt-get install -y build-essential libglfw3-dev libasound2-dev libxtst6 libgl1-mesa-dev xvfb mesa-utils glslang-tools
+      - run: bash tools/bootstrap-nasm.sh
+      - run: python3 tools/dev.py doctor
+      - run: python3 tools/dev.py test --suite all
+      - run: python3 tools/dev.py bench --scenario scale-open --ticks 300
+      - run: python3 tools/dev.py bench --scenario scale-stretch --ticks 300
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: linux-evidence-${{ github.sha }}
+          path: |
+            runs/*.json
+            runs/headless-graphics-*/result.json
+            runs/headless-graphics-*/*.log
+            build/*-build.json
+          retention-days: 7
