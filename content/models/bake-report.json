@@ -1,0 +1,663 @@
+{
+  "format": "RHAM",
+  "version": 1,
+  "total_bytes": 11328032,
+  "sha256": "4d8e7faec6ea1fb6c2375cba86aadff8df38326c3f535c6afaeec95681356921",
+  "sample_fps": 12,
+  "frame_limit_per_mesh": 64,
+  "low_lod_triangle_budget": 96,
+  "low_lod_policy": "collapse original skinned triangles, then drop smallest disconnected fittings if necessary",
+  "grounding": "single common offset across clips; specific rootbone translation removed",
+  "limitations": [
+    "Tank3 is a second authored tank used for artillery visual role, not a howitzer model",
+    "Kenney craft_speederD is a static spaceship fallback, not an animated military jet",
+    "BrickWall_1 is a fortification wall used for bunker role, not an enclosed bunker",
+    "Solid source material colors baked; textured materials rejected"
+  ],
+  "blender_version": "5.2.0 LTS",
+  "mesh_count": 16,
+  "vec4_count": 707913,
+  "missing_sources": [],
+  "meshes": [
+    {
+      "role": 0,
+      "lod": 0,
+      "file": "Character_Soldier.blend",
+      "source_sha256": "466f6cce8eb00d324cc433c7a4d9f760ab97bc20a9c20630020607f31ac75774",
+      "forward": "-Y",
+      "root_bones": [
+        "Root"
+      ],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": 0.11370862275362015,
+      "triangles": 903,
+      "vertex_count": 2709,
+      "frame_count": 46,
+      "bounds_min": [
+        -0.6538839936256409,
+        0.0,
+        -1.0714372396469116
+      ],
+      "bounds_max": [
+        0.6005870699882507,
+        2.0645618438720703,
+        1.1764471530914307
+      ],
+      "dimensions": [
+        1.2544710636138916,
+        2.0645618438720703,
+        2.2478843927383423
+      ],
+      "radius": 2.100655225033952,
+      "clips": [
+        {
+          "action": "Idle",
+          "semantic": 0,
+          "frames": 20,
+          "distinct_frames": 20
+        },
+        {
+          "action": "Walk",
+          "semantic": 1,
+          "frames": 12,
+          "distinct_frames": 12
+        },
+        {
+          "action": "Run_Gun",
+          "semantic": 2,
+          "frames": 9,
+          "distinct_frames": 9
+        },
+        {
+          "action": "Idle_Shoot",
+          "semantic": 3,
+          "frames": 5,
+          "distinct_frames": 5
+        }
+      ]
+    },
+    {
+      "role": 0,
+      "lod": 1,
+      "file": "Character_Soldier.blend",
+      "source_sha256": "466f6cce8eb00d324cc433c7a4d9f760ab97bc20a9c20630020607f31ac75774",
+      "forward": "-Y",
+      "root_bones": [
+        "Root"
+      ],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": 0.048644036054611206,
+      "triangles": 93,
+      "vertex_count": 279,
+      "frame_count": 46,
+      "bounds_min": [
+        -0.6228166222572327,
+        0.0,
+        -1.06461763381958
+      ],
+      "bounds_max": [
+        0.5560473203659058,
+        1.9969325065612793,
+        1.2071541547775269
+      ],
+      "dimensions": [
+        1.1788639426231384,
+        1.9969325065612793,
+        2.271771788597107
+      ],
+      "radius": 2.0678420786878684,
+      "clips": [
+        {
+          "action": "Idle",
+          "semantic": 0,
+          "frames": 20,
+          "distinct_frames": 20
+        },
+        {
+          "action": "Walk",
+          "semantic": 1,
+          "frames": 12,
+          "distinct_frames": 12
+        },
+        {
+          "action": "Run_Gun",
+          "semantic": 2,
+          "frames": 9,
+          "distinct_frames": 9
+        },
+        {
+          "action": "Idle_Shoot",
+          "semantic": 3,
+          "frames": 5,
+          "distinct_frames": 5
+        }
+      ]
+    },
+    {
+      "role": 1,
+      "lod": 0,
+      "file": "Tank.blend",
+      "source_sha256": "1949b020efda14164b62f153e8d186e624aa4b6edb8d3539a31d42e2286a5692",
+      "forward": "-X",
+      "root_bones": [
+        "Root"
+      ],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": 0.011944815516471863,
+      "triangles": 1322,
+      "vertex_count": 3966,
+      "frame_count": 10,
+      "bounds_min": [
+        -1.7708756923675537,
+        0.0,
+        -3.048255205154419
+      ],
+      "bounds_max": [
+        1.7708756923675537,
+        2.6203088760375977,
+        3.0
+      ],
+      "dimensions": [
+        3.5417513847351074,
+        2.6203088760375977,
+        6.048255205154419
+      ],
+      "radius": 3.549956655395831,
+      "clips": [
+        {
+          "action": "Forward",
+          "semantic": 1,
+          "frames": 10,
+          "distinct_frames": 10
+        }
+      ]
+    },
+    {
+      "role": 1,
+      "lod": 1,
+      "file": "Tank.blend",
+      "source_sha256": "1949b020efda14164b62f153e8d186e624aa4b6edb8d3539a31d42e2286a5692",
+      "forward": "-X",
+      "root_bones": [
+        "Root"
+      ],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": 0.018422825261950493,
+      "triangles": 96,
+      "vertex_count": 288,
+      "frame_count": 10,
+      "bounds_min": [
+        -1.894351601600647,
+        0.0,
+        -3.0
+      ],
+      "bounds_max": [
+        1.894351601600647,
+        1.699940800666809,
+        3.0
+      ],
+      "dimensions": [
+        3.788703203201294,
+        1.699940800666809,
+        6.0
+      ],
+      "radius": 3.544087067301777,
+      "clips": [
+        {
+          "action": "Forward",
+          "semantic": 1,
+          "frames": 10,
+          "distinct_frames": 10
+        }
+      ]
+    },
+    {
+      "role": 2,
+      "lod": 0,
+      "file": "Tank3.blend",
+      "source_sha256": "882975a599e7d265803f971424b2ffe7ca6d7aab5736cec98058e99239092e7d",
+      "forward": "-X",
+      "root_bones": [
+        "Root"
+      ],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": 0.016320912167429924,
+      "triangles": 1362,
+      "vertex_count": 4086,
+      "frame_count": 10,
+      "bounds_min": [
+        -2.527608633041382,
+        0.0,
+        -3.565934419631958
+      ],
+      "bounds_max": [
+        2.527608633041382,
+        3.1998021602630615,
+        3.5184106826782227
+      ],
+      "dimensions": [
+        5.055217266082764,
+        3.1998021602630615,
+        7.084345102310181
+      ],
+      "radius": 4.488728521483626,
+      "clips": [
+        {
+          "action": "Tank_Forward",
+          "semantic": 1,
+          "frames": 10,
+          "distinct_frames": 10
+        }
+      ]
+    },
+    {
+      "role": 2,
+      "lod": 1,
+      "file": "Tank3.blend",
+      "source_sha256": "882975a599e7d265803f971424b2ffe7ca6d7aab5736cec98058e99239092e7d",
+      "forward": "-X",
+      "root_bones": [
+        "Root"
+      ],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": 0.02362835220992565,
+      "triangles": 96,
+      "vertex_count": 288,
+      "frame_count": 10,
+      "bounds_min": [
+        -2.402212619781494,
+        0.0,
+        -3.5
+      ],
+      "bounds_max": [
+        2.402212619781494,
+        1.9008352756500244,
+        3.5156545639038086
+      ],
+      "dimensions": [
+        4.804425239562988,
+        1.9008352756500244,
+        7.015654563903809
+      ],
+      "radius": 4.297706555754602,
+      "clips": [
+        {
+          "action": "Tank_Forward",
+          "semantic": 1,
+          "frames": 10,
+          "distinct_frames": 10
+        }
+      ]
+    },
+    {
+      "role": 3,
+      "lod": 0,
+      "file": "craft_speederD.glb",
+      "source_sha256": "a5780b9f6cc40d6f348f4211bb43c9501fa199729197361be6bfb522a42c56ad",
+      "forward": "+Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 322,
+      "vertex_count": 966,
+      "frame_count": 1,
+      "bounds_min": [
+        -6.0,
+        0.0,
+        -4.769294261932373
+      ],
+      "bounds_max": [
+        6.0,
+        3.857142686843872,
+        4.769294261932373
+      ],
+      "dimensions": [
+        12.0,
+        3.857142686843872,
+        9.538588523864746
+      ],
+      "radius": 6.479087104664363,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 3,
+      "lod": 1,
+      "file": "craft_speederD.glb",
+      "source_sha256": "a5780b9f6cc40d6f348f4211bb43c9501fa199729197361be6bfb522a42c56ad",
+      "forward": "+Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 88,
+      "vertex_count": 264,
+      "frame_count": 1,
+      "bounds_min": [
+        -6.0,
+        0.0,
+        -4.794408798217773
+      ],
+      "bounds_max": [
+        6.0,
+        3.495957612991333,
+        4.794408798217773
+      ],
+      "dimensions": [
+        12.0,
+        3.495957612991333,
+        9.588817596435547
+      ],
+      "radius": 6.487649669241822,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 4,
+      "lod": 0,
+      "file": "AK.blend",
+      "source_sha256": "7454db57bd3a0875ec7876fd427119c57edf76842206fb279a28ee3bfacaf633",
+      "forward": "-X",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 920,
+      "vertex_count": 2760,
+      "frame_count": 1,
+      "bounds_min": [
+        -0.04321722313761711,
+        0.0,
+        -0.4000000059604645
+      ],
+      "bounds_max": [
+        0.04321722313761711,
+        0.4107912480831146,
+        0.4000000059604645
+      ],
+      "dimensions": [
+        0.08643444627523422,
+        0.4107912480831146,
+        0.800000011920929
+      ],
+      "radius": 0.5254454997320982,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 4,
+      "lod": 1,
+      "file": "AK.blend",
+      "source_sha256": "7454db57bd3a0875ec7876fd427119c57edf76842206fb279a28ee3bfacaf633",
+      "forward": "-X",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 85,
+      "vertex_count": 255,
+      "frame_count": 1,
+      "bounds_min": [
+        -0.04007458686828613,
+        0.0,
+        -0.4000000059604645
+      ],
+      "bounds_max": [
+        0.04007458686828613,
+        0.38083896040916443,
+        0.4000000059604645
+      ],
+      "dimensions": [
+        0.08014917373657227,
+        0.38083896040916443,
+        0.800000011920929
+      ],
+      "radius": 0.5196406331938602,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 5,
+      "lod": 0,
+      "file": "BrickWall_1.blend",
+      "source_sha256": "2b276a15217f14a75171375f1685e1ed43f8f07a0b29a38387a1bb817cf28bc4",
+      "forward": "-Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 108,
+      "vertex_count": 324,
+      "frame_count": 1,
+      "bounds_min": [
+        -3.0,
+        0.0,
+        -0.27625763416290283
+      ],
+      "bounds_max": [
+        3.0,
+        0.9095913171768188,
+        0.27625763416290283
+      ],
+      "dimensions": [
+        6.0,
+        0.9095913171768188,
+        0.5525152683258057
+      ],
+      "radius": 3.1434342122101446,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 5,
+      "lod": 1,
+      "file": "BrickWall_1.blend",
+      "source_sha256": "2b276a15217f14a75171375f1685e1ed43f8f07a0b29a38387a1bb817cf28bc4",
+      "forward": "-Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 86,
+      "vertex_count": 258,
+      "frame_count": 1,
+      "bounds_min": [
+        -3.0,
+        0.0,
+        -0.27625760436058044
+      ],
+      "bounds_max": [
+        3.0,
+        0.9095913767814636,
+        0.27625760436058044
+      ],
+      "dimensions": [
+        6.0,
+        0.9095913767814636,
+        0.5525152087211609
+      ],
+      "radius": 3.1434341938630515,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 6,
+      "lod": 0,
+      "file": "Tree_1.blend",
+      "source_sha256": "400557f29ad3c9c2ec2274e2ef8efc0bf48f34e70a45edbe7d77e1216ec504df",
+      "forward": "-Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 919,
+      "vertex_count": 2757,
+      "frame_count": 1,
+      "bounds_min": [
+        -2.0597782135009766,
+        0.0,
+        -1.982121467590332
+      ],
+      "bounds_max": [
+        2.0597782135009766,
+        7.0,
+        1.982121467590332
+      ],
+      "dimensions": [
+        4.119556427001953,
+        7.0,
+        3.964242935180664
+      ],
+      "radius": 7.039345915090186,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 6,
+      "lod": 1,
+      "file": "Tree_1.blend",
+      "source_sha256": "400557f29ad3c9c2ec2274e2ef8efc0bf48f34e70a45edbe7d77e1216ec504df",
+      "forward": "-Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 88,
+      "vertex_count": 264,
+      "frame_count": 1,
+      "bounds_min": [
+        -2.0175673961639404,
+        0.0,
+        -2.0265560150146484
+      ],
+      "bounds_max": [
+        2.0175673961639404,
+        7.0,
+        2.0265560150146484
+      ],
+      "dimensions": [
+        4.035134792327881,
+        7.0,
+        4.053112030029297
+      ],
+      "radius": 7.0737571731461175,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 7,
+      "lod": 0,
+      "file": "Structure_1.blend",
+      "source_sha256": "3a9bf0308289d13a4b44e87302c7cb9c16d048e3c4a3e3d8f08cb9dbb24f8a64",
+      "forward": "-Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 1377,
+      "vertex_count": 4131,
+      "frame_count": 1,
+      "bounds_min": [
+        -4.0,
+        0.0,
+        -2.2657809257507324
+      ],
+      "bounds_max": [
+        4.0,
+        4.57411003112793,
+        2.2657809257507324
+      ],
+      "dimensions": [
+        8.0,
+        4.57411003112793,
+        4.531561851501465
+      ],
+      "radius": 6.385173466343286,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    },
+    {
+      "role": 7,
+      "lod": 1,
+      "file": "Structure_1.blend",
+      "source_sha256": "3a9bf0308289d13a4b44e87302c7cb9c16d048e3c4a3e3d8f08cb9dbb24f8a64",
+      "forward": "-Y",
+      "root_bones": [],
+      "root_motion_removed_max_metres": 0.0,
+      "ground_offset_metres": -0.0,
+      "triangles": 88,
+      "vertex_count": 264,
+      "frame_count": 1,
+      "bounds_min": [
+        -4.0,
+        0.0,
+        -2.286506414413452
+      ],
+      "bounds_max": [
+        4.0,
+        4.633640289306641,
+        2.286506414413452
+      ],
+      "dimensions": [
+        8.0,
+        4.633640289306641,
+        4.573012828826904
+      ],
+      "radius": 6.488448027472973,
+      "clips": [
+        {
+          "action": null,
+          "semantic": 0,
+          "frames": 1,
+          "distinct_frames": 1
+        }
+      ]
+    }
+  ]
+}
