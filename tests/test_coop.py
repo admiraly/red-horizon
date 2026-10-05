@@ -340,10 +340,12 @@ def verify_death_redeployment(server):
                 for index in range(8192):
                     x, z, hp, side, kind, front, target, generation = struct.unpack_from('<2f4IiI', records, index*32)
                     if side == 0:
-                        # Distant allied positions prevent unrelated army fire from
-                        # killing the one fixture threat before player death.
+                        # Translate the formation intact: unrelated allied fire
+                        # cannot kill the fixture threat, and rear deployment
+                        # sites stay clear of bodies instead of stacking an army
+                        # on every fallback site.
                         memory.seek(addresses['sim_entities']+index*32)
-                        memory.write(struct.pack('<f', 1000.0))
+                        memory.write(struct.pack('<f', x-1800.0))
                     elif hp > 0 and kind == 1 and enemy is None:
                         enemy = index
                 assert enemy is not None
