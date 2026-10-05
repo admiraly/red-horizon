@@ -23,6 +23,8 @@ address: dw 2,0
 section .bss align=16
 outgoing: resb NET_MTU
 incoming: resb NET_MTU
+global net_pending
+net_pending:
 pending_len: resd 1
 sequence: resd 1
 generation: resd 1

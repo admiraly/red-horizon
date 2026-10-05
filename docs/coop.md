@@ -76,7 +76,7 @@ Adapter ABI is documented in `docs/next-contracts.md`: open queues the join and
 returns zero; `net_connected` becomes one only after accepted ACK. Input/order
 return zero when queued and minus one when disconnected, invalid or busy. Poll
 returns accepted packet count and never ticks local world. Additional diagnostic
-`net_last_status` records the latest command ACK status. Player/session/tick
+`net_last_status` records the latest command ACK status; read-only `net_pending` is the queued datagram length (zero after completion/close). Callers waiting on an order ACK must also require `net_connected`, and hold later inputs until its result has been consumed. Player/session/tick
 validation precedes state application; entity indices, finite coordinates,
 enums and generations are checked. Older tick data is ignored. Unrefreshed
 entity health expires after a worst-case complete count/640Hz refresh cycle plus
