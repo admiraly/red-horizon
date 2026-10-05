@@ -22,6 +22,9 @@ def reset():
 def unit(i,x,z,side=0,kind=0,hp=100):
     e=entities[i]
     e.x,e.z,e.side,e.front,e.kind,e.hp,e.target=x,z,side,0,kind,hp,-1
+    # Fixture conversion models an initialized shell-capable role.
+    if kind in (1,2):
+        (C.c_uint*32768).in_dll(lib,"sim_shell_ammo")[i]=64
     alive[side]+=1
     return e
 

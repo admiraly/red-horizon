@@ -5,6 +5,7 @@ extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern player_init, player_tick, player_hash
+extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -120,6 +121,7 @@ sim_init:
  call operation_init
  call player_init
  call ai_init
+ call projectile_init
  add rsp,8
  pop r12
  pop rbx
@@ -496,10 +498,21 @@ sim_tick:
  test eax,7
  jnz .attack_next
  mov eax,[rbx+ENTITY_KIND]
+ cmp eax,1
+ je .launch_shell
+ cmp eax,2
+ je .launch_shell
  lea rcx,[power]
  mov eax,[rcx+rax*4]
  lea rcx,[damage]
  add [rcx+r15*4],eax
+ jmp .attack_next
+.launch_shell:
+ mov edi,r12d
+ mov esi,r15d
+ sub rsp,8
+ call projectile_spawn
+ add rsp,8
 .attack_next:
  add rbx,ENTITY_STRIDE
  inc r12d
@@ -527,6 +540,7 @@ sim_tick:
  cmp r12d,[sim_count]
  jb .apply
  sub rsp,8
+ call projectile_tick
  call operation_tick
  call player_tick
  add rsp,8
@@ -580,6 +594,7 @@ sim_checksum:
  add rsp,8
  sub rsp,8
  call operation_hash
+ call projectile_hash
  add rsp,8
  jmp player_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
@@ -612,3 +627,291 @@ sim_fire:
  ret
 .bad: mov eax,-1
  ret
+section .text
+global sim_blast,sim_shell_contact
+; Blast: EDI source side, ESI damage, XMM0=x,XMM1=z,XMM2=radius,XMM3=y.
+; Uses the authoritative fixed-size grid sample, no all-entity blast scans.
+sim_blast:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,104
+ mov r12d,edi
+ mov r13d,esi
+ xor ebp,ebp
+ movss [rsp],xmm0
+ movss [rsp+4],xmm1
+ movss [rsp+8],xmm3
+ mulss xmm2,xmm2
+ movss [rsp+12],xmm2
+ mulss xmm0,[cell_scale]
+ cvttss2si eax,xmm0
+ minss xmm0,[maximum]
+ cmp eax,31
+ jbe .bx
+ mov eax,31
+.bx: mov [rsp+16],eax
+ mulss xmm1,[cell_scale]
+ cvttss2si eax,xmm1
+ cmp eax,31
+ jbe .bz
+ mov eax,31
+.bz: mov [rsp+20],eax
+ mov r14d,-1
+.zloop:
+ mov eax,[rsp+20]
+ add eax,r14d
+ cmp eax,31
+ ja .znext
+ shl eax,5
+ mov [rsp+24],eax
+ mov r15d,-1
+.xloop:
+ mov eax,[rsp+16]
+ add eax,r15d
+ cmp eax,31
+ ja .xnext
+ add eax,[rsp+24]
+ lea rdx,[cell_counts]
+ mov eax,[rdx+rax*4]
+ test eax,eax
+ jz .xnext
+ cmp eax,24
+ jbe .count
+ mov eax,24
+.count:
+ mov [rsp+28],eax
+ mov eax,[rsp+16]
+ add eax,r15d
+ add eax,[rsp+24]
+ imul eax,24
+ mov [rsp+32],eax
+ mov dword [rsp+36],0
+.candidate:
+ mov eax,[rsp+32]
+ add eax,[rsp+36]
+ lea rdx,[cell_samples]
+ mov eax,[rdx+rax*4]
+ imul rax,ENTITY_STRIDE
+ lea rbx,[sim_entities]
+ add rbx,rax
+ cmp dword [rbx+ENTITY_HP],0
+ je .chain
+ cmp [rbx+ENTITY_SIDE],r12d
+ je .chain
+ movss xmm0,[rbx+ENTITY_X]
+ subss xmm0,[rsp]
+ mulss xmm0,xmm0
+ movss xmm1,[rbx+ENTITY_Z]
+ subss xmm1,[rsp+4]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ comiss xmm0,[rsp+12]
+ ja .chain
+ movss [rsp+40],xmm0
+ movss xmm0,[rbx+ENTITY_X]
+ movss xmm1,[rbx+ENTITY_Z]
+ call terrain_height
+ addss xmm0,[eye_height]
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .ground
+ addss xmm0,[air_height]
+.ground:
+ movaps xmm4,xmm0
+ subss xmm0,[rsp+8]
+ mulss xmm0,xmm0
+ addss xmm0,[rsp+40]
+ comiss xmm0,[rsp+12]
+ ja .chain
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+8]
+ movss xmm2,[rsp+4]
+ movss xmm3,[rbx+ENTITY_X]
+ movss xmm5,[rbx+ENTITY_Z]
+ call terrain_los
+ test eax,eax
+ jz .chain
+ inc ebp
+ cmp [rbx+ENTITY_HP],r13d
+ ja .damage
+ mov dword [rbx+ENTITY_HP],0
+ mov eax,[rbx+ENTITY_SIDE]
+ lea rdx,[sim_alive]
+ dec dword [rdx+rax*4]
+ jmp .chain
+.damage: sub [rbx+ENTITY_HP],r13d
+.chain:
+ inc dword [rsp+36]
+ dec dword [rsp+28]
+ jnz .candidate
+.xnext:
+ inc r15d
+ cmp r15d,1
+ jle .xloop
+.znext:
+ inc r14d
+ cmp r14d,1
+ jle .zloop
+ mov eax,ebp
+ add rsp,104
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+; Swept shell/actor contact. XYZ endpoints in XMM0..5, EDI source side.
+; Returns opposing entity index or -1. Queries at most216 sampled actors.
+sim_shell_contact:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,104
+ mov r12d,edi
+ movss [rsp],xmm0
+ movss [rsp+4],xmm1
+ movss [rsp+8],xmm2
+ subss xmm3,xmm0
+ subss xmm4,xmm1
+ subss xmm5,xmm2
+ movss [rsp+12],xmm3
+ movss [rsp+16],xmm4
+ movss [rsp+20],xmm5
+ mulss xmm3,xmm3
+ mulss xmm4,xmm4
+ mulss xmm5,xmm5
+ addss xmm3,xmm4
+ addss xmm3,xmm5
+ maxss xmm3,[eye_height] ; avoid zero-dividing tiny degenerate segments
+ movss [rsp+24],xmm3
+ mov eax,-1
+ mov [rsp+28],eax
+ movss xmm0,[rsp]
+ mulss xmm0,[cell_scale]
+ cvttss2si eax,xmm0
+ cmp eax,31
+ jbe .cx
+ mov eax,31
+.cx: mov [rsp+32],eax
+ movss xmm0,[rsp+8]
+ mulss xmm0,[cell_scale]
+ cvttss2si eax,xmm0
+ cmp eax,31
+ jbe .cz
+ mov eax,31
+.cz: mov [rsp+36],eax
+ mov r14d,-1
+.zloop:
+ mov eax,[rsp+36]
+ add eax,r14d
+ cmp eax,31
+ ja .znext
+ shl eax,5
+ mov [rsp+40],eax
+ mov r15d,-1
+.xloop:
+ mov eax,[rsp+32]
+ add eax,r15d
+ cmp eax,31
+ ja .xnext
+ add eax,[rsp+40]
+ mov edx,eax
+ lea rcx,[cell_counts]
+ mov eax,[rcx+rax*4]
+ test eax,eax
+ jz .xnext
+ cmp eax,24
+ jbe .count
+ mov eax,24
+.count:
+ mov [rsp+44],eax
+ imul edx,24
+ mov [rsp+48],edx
+ mov dword [rsp+52],0
+.candidate:
+ mov eax,[rsp+48]
+ add eax,[rsp+52]
+ lea rdx,[cell_samples]
+ mov ebp,[rdx+rax*4]
+ mov eax,ebp
+ imul rax,ENTITY_STRIDE
+ lea rbx,[sim_entities]
+ add rbx,rax
+ cmp dword [rbx+ENTITY_HP],0
+ je .chain
+ cmp [rbx+ENTITY_SIDE],r12d
+ je .chain
+ movss xmm0,[rbx+ENTITY_X]
+ movss xmm1,[rbx+ENTITY_Z]
+ call terrain_height
+ addss xmm0,[eye_height]
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .ground
+ addss xmm0,[air_height]
+.ground:
+ subss xmm0,[rsp+4]
+ movss xmm1,[rbx+ENTITY_X]
+ subss xmm1,[rsp]
+ movss xmm2,[rbx+ENTITY_Z]
+ subss xmm2,[rsp+8]
+ movaps xmm3,xmm1
+ mulss xmm3,[rsp+12]
+ movaps xmm4,xmm0
+ mulss xmm4,[rsp+16]
+ addss xmm3,xmm4
+ movaps xmm4,xmm2
+ mulss xmm4,[rsp+20]
+ addss xmm3,xmm4
+ divss xmm3,[rsp+24]
+ maxss xmm3,[zero]
+ minss xmm3,[shell_one]
+ movss xmm4,[rsp+12]
+ mulss xmm4,xmm3
+ subss xmm1,xmm4
+ movss xmm4,[rsp+16]
+ mulss xmm4,xmm3
+ subss xmm0,xmm4
+ movss xmm4,[rsp+20]
+ mulss xmm4,xmm3
+ subss xmm2,xmm4
+ mulss xmm0,xmm0
+ mulss xmm1,xmm1
+ mulss xmm2,xmm2
+ addss xmm0,xmm1
+ addss xmm0,xmm2
+ comiss xmm0,[contact_radius2]
+ ja .chain
+ mov [rsp+28],ebp
+ jmp .done
+.chain:
+ inc dword [rsp+52]
+ dec dword [rsp+44]
+ jnz .candidate
+.xnext:
+ inc r15d
+ cmp r15d,1
+ jle .xloop
+.znext:
+ inc r14d
+ cmp r14d,1
+ jle .zloop
+.done:
+ mov eax,[rsp+28]
+ add rsp,104
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+section .rodata
+shell_one: dd 1.0
+contact_radius2: dd 16.0
