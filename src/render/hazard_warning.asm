@@ -31,13 +31,8 @@ hazard_warning_update:
  add rbx,rax
  cmp dword [rbx+PLAYER_CONNECTED],1
  jne .done
- movss xmm4,[rbx+PLAYER_HP]
- movd eax,xmm4
- and eax,0x7f800000
- cmp eax,0x7f800000
- je .done
- comiss xmm4,[zero]
- jbe .done
+ cmp dword [rbx+PLAYER_HP],0
+ jle .done                       ; authoritative HP is signed integer
  ; Validate all camera components including yaw before calling perception.
  movss [rsp],xmm0
  movss [rsp+4],xmm1

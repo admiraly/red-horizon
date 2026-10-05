@@ -43,8 +43,8 @@ def run(nasm):
   calls=C.c_uint32.in_dll(lib,'query_calls');frames=C.c_uint64.in_dll(lib,'hazard_warning_frames')
   eye=(C.c_float*3).in_dll(lib,'query_eye');side=C.c_uint32.in_dll(lib,'query_side')
   result=C.c_int32.in_dll(lib,'query_result');values=(C.c_float*4).in_dll(lib,'query_values')
-  def player(slot,connected=1,hp=100.):
-   struct.pack_into('f',players,slot*64+20,hp);struct.pack_into('I',players,slot*64+44,connected)
+  def player(slot,connected=1,hp=100):
+   struct.pack_into('i',players,slot*64+20,hp);struct.pack_into('I',players,slot*64+44,connected)
   def check_reset(slot=0,x=10.,y=23.,z=20.,yaw=0.,query=False):
    before=calls.value;old=frames.value;fn(slot,x,y,z,yaw)
    assert list(uniform)==[0.,0.,0.,0.]
@@ -73,14 +73,14 @@ def run(nasm):
    args[index]=float('inf');check_reset(x=args[0],y=args[1],z=args[2],yaw=args[3])
   check_reset(slot=4);check_reset(slot=0xffffffff)
   player(0,connected=0);check_reset();player(0,connected=2);check_reset()
-  for hp in [0.,-1.,float('nan'),float('inf')]:
+  for hp in [0,-1,-2147483648]:
    player(0,hp=hp);check_reset()
   player(0);player(3);before=bytes(players)
   fn(3,10.,23.,20.,0.)
   assert bytes(players)==before,'wrapper must not mutate player authority'
   assert uniform[0]==1 and frames.value>1
   player(3,connected=0);check_reset(slot=3)
-  player(3,hp=0.);player(0)
+  player(3,hp=0);player(0)
   assert bytes(players[:64])==snapshot[:64]
   return {'suite':'hazard-warning','passed':True,'scope':'assembled HUD adapter with perception stub; production LOS/hazards/GL not exercised','checks':['actual eye coordinates and allied-side query','camera-relative cardinal and behind bearing','finite validation','ETA/radius bounds','death/disconnect/expiry reset','slot bounds','player authority unchanged','success-only cosmetic frame counter']}
 if __name__=='__main__':
