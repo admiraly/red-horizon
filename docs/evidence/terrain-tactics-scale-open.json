@@ -1,0 +1,46 @@
+{
+  "scenario": "scale-open",
+  "revision": "87dff5fa5ca352a8c4bbd6f8dae4f408e192c9fe-b58ed67d9863f39a",
+  "seed": 1,
+  "wall_seconds": 2.364651051000692,
+  "hardware": "Linux-7.2.6-201.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "13th Gen Intel(R) Core(TM) i7-1355U",
+  "realtime": false,
+  "runtime": {
+    "units": 8192,
+    "ticks": 600,
+    "seed": 1,
+    "alive": [
+      3705,
+      3611
+    ],
+    "engaged": 41,
+    "checksum": "ff32c15dc7b98404",
+    "tick_mean_ms": 3.934495,
+    "tick_p95_ms": 5.809797,
+    "operation_state": 0,
+    "requisition": [
+      880,
+      460
+    ],
+    "supply": [
+      600,
+      600
+    ]
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 2556,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": "not implemented",
+    "network_bandwidth": "not implemented"
+  },
+  "measurement_context": "Root benchmark commands ran sequentially; other development work was active. Not an isolated reference-machine budget."
+}

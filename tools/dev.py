@@ -144,7 +144,7 @@ def main():
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
@@ -185,7 +185,7 @@ def main():
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/net/client.asm'),'-o',str(adapter)])
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
-            execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library)])
+            execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
         if suite in ('all','headless','tools') and (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
         if suite in ('all','headless'): execute([sys.executable,'tools/assets.py'])
         if suite in ('all','graphics'):
