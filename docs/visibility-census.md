@@ -61,3 +61,13 @@ kernel test. Tests cover repeats, exact class flags, absent actors, mixed-class
 unions, malformed encodings, count bounds, dead/invalid authority, resets, null/
 oversized pointers, maximum 8,294,400 pixel input and highest valid entity ID.
 Real framebuffer/shader/client verification remains an integration obligation.
+
+Additional worker verification: `test_visibility_framebuffer.py` used a private
+Xvfb display and a real hidden GLFW GL 4.5 software context with the actual
+assembly module. At 320×240 it verified R32UI clear/readback, 76,800 identical
+encoded high-detail pixels reduced to exactly one actor, attachment-1 masking
+preventing later clears from erasing IDs, framebuffer 0 restoration, zero GL
+errors, exact 307,200-byte raw map output, failed-path handling, invalid dimension
+rejection, and a second empty capture resetting all visibility state. This
+plumbing test uses clear-generated identities; it does not prove production
+geometry, depth occlusion, actor detail selection, target-GPU speed or readability.
