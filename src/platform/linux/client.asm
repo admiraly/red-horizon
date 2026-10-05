@@ -6,6 +6,7 @@ global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
 extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
 extern visibility_init,visibility_begin,visibility_world_end,visibility_finish,visibility_report,visibility_shutdown,visibility_write_map
+extern hazard_warning_update,hazard_warning_uniform
 extern sim_scenario
 extern net_projectiles,net_projectiles_update
 extern air_trails_update,air_trails_records,air_trails_active
@@ -78,6 +79,7 @@ operation_name: db 'operationInfo',0
 goal_name: db 'selectedGoal',0
 health_name: db 'playerHealth',0
 vehicle_name: db 'vehicleState',0
+incoming_name: db 'incomingThreat',0
 vehicle_fmt: db 'ARMOR #%u CANNON %u COOLDOWN %u HULL %u | Q exit',0
 onfoot_text: db 'ON FOOT | E board Q exit',0
 local_name: db 'localPlayer',0
@@ -162,6 +164,7 @@ goal_loc: resd 1
 health_loc: resd 1
 local_loc: resd 1
 vehicle_loc: resd 1
+incoming_loc: resd 1
 vehicle_buf: resb 160
 local_player: resd 1
 connect_address: resq 1
@@ -579,6 +582,7 @@ main:
  UNIFORM health_name,health_loc
  UNIFORM local_name,local_loc
  UNIFORM vehicle_name,vehicle_loc
+ UNIFORM incoming_name,incoming_loc
  mov edi,1
  lea rsi,[vao]
  call glGenVertexArrays
@@ -686,6 +690,12 @@ main:
  jmp .tick
 .render:
  call sync_player
+ mov edi,[local_player]
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ movss xmm3,[yaw]
+ call hazard_warning_update
  ; Camera right is (cos yaw, -sin yaw) in the authored x/z convention.
  mov edi,[local_player]
  movss xmm0,[camera]
@@ -940,6 +950,12 @@ main:
  divss xmm2,[thirty_ticks]
  movss xmm3,[damage_flash]
  call glUniform4f
+ mov edi,[incoming_loc]
+ movss xmm0,[hazard_warning_uniform]
+ movss xmm1,[hazard_warning_uniform+4]
+ movss xmm2,[hazard_warning_uniform+8]
+ movss xmm3,[hazard_warning_uniform+12]
+ call glUniform4f
  mov edi,0xb71
  call glDisable
  mov edi,[terrain_loc]
@@ -947,7 +963,7 @@ main:
  call glUniform1i
  mov edi,4
  xor esi,esi
- mov edx,264
+ mov edx,282
  call glDrawArrays
  cmp dword [tactical],0
  je .restoredepth

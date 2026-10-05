@@ -18,7 +18,9 @@ def fight(swapped=False):
     assert lib.sim_init(128,19)==0
     assert {e.kind for e in entities[:128]}=={0,1,2,3}
     assert {e.front for e in entities[:128]}=={0,1,2}
-    # Ground hold/side-swap fixture; continuous air interception has separate coverage.
+    # Fixed-position hold/side-swap negative control. Imminent danger may
+    # interrupt hold in gameplay; enabled physical evasion has its own oracle.
+    C.c_uint.in_dll(lib,'hazard_enabled').value=0
     for e in entities[:128]:
         if e.kind==3:e.kind=0
         e.x,e.z=(3500 if e.side==0 else 3520),1300

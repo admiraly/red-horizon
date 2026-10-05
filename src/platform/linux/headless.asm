@@ -1,6 +1,7 @@
 default rel
 %include "schemas/combat.inc"
 %include "schemas/aircraft.inc"
+extern hazard_metrics
 extern sim_scenario
 extern sim_init, sim_tick, sim_checksum, sim_count, sim_alive, sim_engaged
 extern sim_requisition, sim_supply, sim_operation_state
@@ -18,7 +19,7 @@ arg_units: db '--units',0
 arg_ticks: db '--ticks',0
 arg_seed: db '--seed',0
 usage: db 'Usage: red-horizon-headless [--units EVEN_2..32768] [--ticks 1..100000] [--seed 0..4294967295] [--realtime] [--scenario scale-open|air-battle|scale-front|scale-hotspot]',0
-fmt: db '{"units":%u,"ticks":%u,"seed":%u,"alive":[%u,%u],"engaged":%u,"checksum":"%016lx","tick_mean_ms":%.6f,"tick_p95_ms":%.6f,"operation_state":%u,"requisition":[%u,%u],"supply":[%u,%u],"projectiles":%u,"projectile_peak":%u,"projectile_dropped":%u,"navigation":{"pending":%u,"completed":%u,"overflow":%u,"cache_hits":%u,"stuck_replans":%u,"cover_choices":%u,"processed_last_tick":%u,"processed_max":%u},"air_events":{"bomb_launches":%u,"bomb_impacts":%u,"gun_bursts":%u,"aircraft_destroyed":%u,"overwritten_unobserved":%u}}',10,0
+fmt: db '{"units":%u,"ticks":%u,"seed":%u,"alive":[%u,%u],"engaged":%u,"checksum":"%016lx","tick_mean_ms":%.6f,"tick_p95_ms":%.6f,"operation_state":%u,"requisition":[%u,%u],"supply":[%u,%u],"projectiles":%u,"projectile_peak":%u,"projectile_dropped":%u,"navigation":{"pending":%u,"completed":%u,"overflow":%u,"cache_hits":%u,"stuck_replans":%u,"cover_choices":%u,"processed_last_tick":%u,"processed_max":%u},"air_events":{"bomb_launches":%u,"bomb_impacts":%u,"gun_bursts":%u,"aircraft_destroyed":%u,"overwritten_unobserved":%u},"hazards":{"predictions":%lu,"tile_overflow":%lu,"acquired":%lu,"dispersions":%lu,"shelters":%lu,"los_calls":%lu,"budget_skipped":%lu,"active_goals":%lu}}',10,0
 million: dq 1000000.0
 section .bss
 samples: resq 100000
@@ -38,7 +39,7 @@ main:
  push r13
  push r14
  push r15
- sub rsp,200
+ sub rsp,264
  mov r12d,edi
  mov r13,rsi
  mov r14d,8192
@@ -286,6 +287,14 @@ main:
  mov [rsp+168],rax
  mov eax,[events_unobserved]
  mov [rsp+176],rax
+ lea rdx,[hazard_metrics]
+ xor r10d,r10d
+.hazard_report:
+ mov rax,[rdx+r10*8]
+ mov [rsp+r10*8+184],rax
+ inc r10d
+ cmp r10d,8
+ jb .hazard_report
  ; Restore register varargs overwritten by diagnostic reads.
  mov edx,r15d
  mov ecx,ebp
@@ -298,7 +307,7 @@ main:
  call puts
  mov eax,2
 .out:
- add rsp,200
+ add rsp,264
  pop r15
  pop r14
  pop r13

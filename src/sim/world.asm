@@ -6,6 +6,7 @@ extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
+extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
 extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
@@ -132,6 +133,7 @@ sim_init:
  call projectile_init
  call vehicle_init
  call air_init
+ call hazard_init
  add rsp,8
  pop r12
  pop rbx
@@ -227,6 +229,7 @@ sim_tick:
  call ai_tick
  call nav_tick
  call air_tick
+ call hazard_tick
  add rsp,8
  mov dword [sim_engaged],0
  lea rdi,[cell_counts]
@@ -249,6 +252,12 @@ sim_tick:
  jne .insert
  mov edi,r12d
  sub rsp,8
+ call hazard_entity_goal
+ add rsp,8
+ test eax,eax
+ jnz .hazard_move
+ mov edi,r12d
+ sub rsp,8
  call ai_entity_goal
  add rsp,8
  cmp eax,-1
@@ -263,6 +272,14 @@ sim_tick:
  movss xmm2,[rsp+64]
  movss xmm3,[rsp+68]
  jmp .terrain_step
+.hazard_move:
+ ; Observed imminent danger temporarily interrupts orders at normal role speed.
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ mov eax,[rbx+ENTITY_KIND]
+ lea rcx,[speed]
+ movss xmm4,[rcx+rax*4]
+ jmp .physical_step
 .manual_move:
  mov eax,[rbx+ENTITY_KIND]
  lea rcx,[speed]
@@ -308,6 +325,7 @@ sim_tick:
  movaps xmm2,xmm0
  movaps xmm3,xmm1
  movss xmm4,[rsp+72]
+.physical_step:
  movss xmm0,[rbx+ENTITY_X]
  movss xmm1,[rbx+ENTITY_Z]
  mov edi,[rbx+ENTITY_KIND]
@@ -634,6 +652,7 @@ sim_checksum:
  call vehicle_hash
  call air_hash
  call nav_hash
+ call hazard_hash
  add rsp,8
  jmp player_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
