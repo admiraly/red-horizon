@@ -7,7 +7,7 @@ extern glGenQueries,glBeginQuery,glEndQuery,glGetQueryObjectiv,glGetQueryObjectu
 %define CAPACITY 10000
 section .rodata
 million: dq 1000000.0
-format: db '{"client_metrics":true,"cpu_samples":%u,"gpu_samples":%u,"cpu_frame_mean_ms":%.6f,"cpu_frame_p95_ms":%.6f,"gpu_draw_mean_ms":%.6f,"gpu_draw_p95_ms":%.6f}',10,0
+format: db '{"client_metrics":true,"cpu_samples":%u,"gpu_samples":%u,"cpu_frame_mean_ms":%.6f,"cpu_frame_p95_ms":%.6f,"cpu_frame_p99_ms":%.6f,"gpu_draw_mean_ms":%.6f,"gpu_draw_p95_ms":%.6f,"gpu_draw_p99_ms":%.6f}',10,0
 section .bss
 ids: resd 8
 pending: resd 8
@@ -26,6 +26,8 @@ cpu_mean: resq 1
 gpu_mean: resq 1
 cpu_p95: resq 1
 gpu_p95: resq 1
+cpu_p99: resq 1
+gpu_p99: resq 1
 cpu_samples: resq CAPACITY
 gpu_samples: resq CAPACITY
 section .text
@@ -143,12 +145,24 @@ metrics_report:
  call qsort
  mov eax,ebx
  imul eax,95
+ add eax,99
  xor edx,edx
  mov ecx,100
  div ecx
+ dec eax ; nearest-rank quantile, zero-based
  lea rcx,[cpu_samples]
  movsd xmm0,[rcx+rax*8]
  movsd [cpu_p95],xmm0
+ mov eax,ebx
+ imul eax,99
+ add eax,99
+ xor edx,edx
+ mov ecx,100
+ div ecx
+ dec eax ; nearest-rank quantile, zero-based
+ lea rcx,[cpu_samples]
+ movsd xmm0,[rcx+rax*8]
+ movsd [cpu_p99],xmm0
 .gpu:
  mov ebx,[gpu_count]
  test ebx,ebx
@@ -164,21 +178,35 @@ metrics_report:
  call qsort
  mov eax,ebx
  imul eax,95
+ add eax,99
  xor edx,edx
  mov ecx,100
  div ecx
+ dec eax ; nearest-rank quantile, zero-based
  lea rcx,[gpu_samples]
  movsd xmm0,[rcx+rax*8]
  movsd [gpu_p95],xmm0
+ mov eax,ebx
+ imul eax,99
+ add eax,99
+ xor edx,edx
+ mov ecx,100
+ div ecx
+ dec eax ; nearest-rank quantile, zero-based
+ lea rcx,[gpu_samples]
+ movsd xmm0,[rcx+rax*8]
+ movsd [gpu_p99],xmm0
 .print:
  lea rdi,[format]
  mov esi,[cpu_count]
  mov edx,[gpu_count]
  movsd xmm0,[cpu_mean]
  movsd xmm1,[cpu_p95]
- movsd xmm2,[gpu_mean]
- movsd xmm3,[gpu_p95]
- mov eax,4
+ movsd xmm2,[cpu_p99]
+ movsd xmm3,[gpu_mean]
+ movsd xmm4,[gpu_p95]
+ movsd xmm5,[gpu_p99]
+ mov eax,6
  call printf
 .done:
  pop rbx

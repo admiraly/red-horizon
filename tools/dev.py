@@ -107,6 +107,38 @@ def run_headless(args,benchmark=False):
     except json.JSONDecodeError: raise RuntimeError('Runtime did not emit valid JSON: '+r.stdout[:1000])
     result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':'not implemented','network_bandwidth':'not implemented'}}
     path=RUNS/('bench-'+uuid.uuid4().hex[:10]+'.json'); atomic(path,result); print(json.dumps(result,indent=2)); print('Report: '+str(path))
+def gpu_benchmark(args):
+    if not os.environ.get('DISPLAY'):
+        raise RuntimeError('Hardware GPU benchmark requires an accessible X11/XWayland DISPLAY')
+    if args.connect:
+        raise RuntimeError('Hardware GPU benchmark currently measures local solo only')
+    if args.units not in (None,8192) or args.seed!=42:
+        raise RuntimeError('Client currently has a fixed 8192-unit seed42 scenario; use --seed 42')
+    frames=args.frames or 600
+    if not 30<=frames<=10000:
+        raise RuntimeError('GPU benchmark frames must be30..10000 (bounded profiler capacity)')
+    if not shutil.which('glxinfo'):
+        raise RuntimeError('glxinfo is required to verify hardware rendering')
+    env=os.environ.copy(); env['RH_AUDIO_DEVICE']='null'
+    context=subprocess.run(['glxinfo','-B'],env=env,capture_output=True,text=True,timeout=15,check=True).stdout
+    if 'Accelerated: yes' not in context or any(name in context.lower() for name in ('llvmpipe','softpipe','software rasterizer')):
+        raise RuntimeError('GPU benchmark requires a verified accelerated GL context; software rendering is a separate graphics test')
+    exe=build('client'); folder=RUNS/('gpu-bench-'+uuid.uuid4().hex[:10]); folder.mkdir(parents=True)
+    screenshot=folder/'final.ppm'; cmd=[str(exe),'--frames',str(frames),'--screenshot',str(screenshot)]
+    if args.tactical: cmd.append('--tactical')
+    if args.weather: cmd+=['--weather',args.weather]
+    started=time.perf_counter(); run=subprocess.run(cmd,cwd=exe.parent,env=env,capture_output=True,text=True,timeout=max(60,frames/10),check=True)
+    (folder/'client.log').write_text(run.stdout+run.stderr)
+    metrics=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_metrics"')]
+    if len(metrics)!=1 or metrics[0]['gpu_samples']==0:
+        raise RuntimeError('Client did not report completed GPU timer samples')
+    result={'scenario':'local-solo-initial-view','revision':exe.parent.name,'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),
+            'hardware':platform.platform(),'context':context,'resolution':[1280,720],'seed':42,
+            'units_at_start':8192,'view':'tactical' if args.tactical else 'first-person','weather':args.weather or 'clear',
+            'requested_frames':frames,'wall_seconds':time.perf_counter()-started,'metrics':metrics[0],
+            'screenshot':str(screenshot),'screenshot_sha256':hashlib.sha256(screenshot.read_bytes()).hexdigest(),
+            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Current fixed client window1280x720; not1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':'initial idle view only; not dense hotspot/front coverage'}}
+    atomic(folder/'result.json',result); print(json.dumps(result,indent=2)); print('Report: '+str(folder/'result.json'))
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
     argv=[a for a in sys.argv[1:] if a!='--background']
@@ -162,7 +194,7 @@ def main():
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','player','tactics','combat','vehicles','effects','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
@@ -170,7 +202,9 @@ def main():
     elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
         if args.weather and not args.client: raise RuntimeError('--weather requires --client')
-        if args.client:
+        if args.command=='bench' and args.client:
+            gpu_benchmark(args)
+        elif args.client:
             exe=build('client'); cmd=[str(exe)];
             if args.frames: cmd+=['--frames',str(args.frames)]
             if args.screenshot: cmd+=['--screenshot',str(pathlib.Path(args.screenshot).resolve())]
@@ -186,7 +220,7 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','player','tactics','combat','vehicles','effects'):
+        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects'):
             exe=build('headless'); library=BUILD/'libsim.so'
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             probe=BUILD/'terrain_probe.o'
@@ -194,7 +228,7 @@ def main():
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(probe),'-lm'])
             if suite in ('all','headless','fast'): execute([sys.executable,'tests/test_fast.py',str(exe),str(library)])
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
-            for test in ('operation','waypoints','terrain','player','tactics','combat','vehicles'):
+            for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
         if suite in ('all','headless','fast','effects') and (ROOT/'tests/test_effects.py').exists():
             effects=BUILD/'effects_test.o'; effects_library=BUILD/'libeffects.so'
@@ -230,6 +264,7 @@ def main():
         if suite in ('all','graphics'):
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
