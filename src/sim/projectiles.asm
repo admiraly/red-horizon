@@ -101,6 +101,25 @@ projectile_spawn:
  mov ecx,[rdx+rax+ENTITY_SIDE]
  cmp ecx,[rbx+ENTITY_SIDE]
  je .failed
+ cmp dword [rdx+rax+ENTITY_HP],0
+ je .failed
+ mov ecx,[rdx+rax+ENTITY_KIND]
+ cmp ecx,1
+ je .shell_source
+ cmp ecx,2
+ jne .failed
+.shell_source:
+ lea rdx,[sim_shell_ammo]
+ cmp dword [rdx+rdi*4],0
+ je .failed
+ lea rdx,[sim_shell_cooldown]
+ cmp dword [rdx+rdi*4],0
+ jne .failed
+ cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32
+ jb .ai_capacity
+ inc dword [sim_projectile_dropped]
+ jmp .failed
+.ai_capacity:
  movss xmm0,[rbx+ENTITY_X]
  movss xmm1,[rbx+ENTITY_Z]
  call terrain_height
@@ -205,6 +224,7 @@ projectile_launch:
  maxss xmm3,[one]
  lea rax,[shell_step]
  divss xmm3,[rax+r13*4] ; flight ticks T
+ maxss xmm3,[one] ; no short-range overshoot within the first fixed tick
  movss [rsp+16],xmm3
  divss xmm1,xmm3
  divss xmm2,xmm3
@@ -359,12 +379,9 @@ projectile_tick:
  mov [rbx+PROJECTILE_Z],eax
  jmp .next
 .actor_impact:
- mov eax,[rsp+12]
- mov [rsp+40],eax
- mov eax,[rsp+16]
- mov [rsp+44],eax
- mov eax,[rsp+20]
- mov [rsp+48],eax
+ movss [rsp+40],xmm0
+ movss [rsp+44],xmm1
+ movss [rsp+48],xmm2
  jmp .emit_impact
 .impact:
  ; Eight bisections locate the last clear point, keeping blast outside solids.

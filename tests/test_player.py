@@ -41,7 +41,7 @@ assert lib.player_join(0,1)==-1
 assert lib.player_join(4,0)==-1 and lib.player_join(1,3)==-1
 assert lib.player_join(1,2)==0 and players[1].hp==100
 assert lib.player_leave(1)==0 and lib.player_leave(1)==-1
-for args in [(0,8,0,0,0,0),(4,0,0,0,0,0),(0,0,float('nan'),0,0,0),(0,0,0,0,float('inf'),0),(0,0,0,0,0,2),(0,0,2,0,0,0)]:
+for args in [(0,32,0,0,0,0),(4,0,0,0,0,0),(0,0,float('nan'),0,0,0),(0,0,0,0,float('inf'),0),(0,0,0,0,0,2),(0,0,2,0,0,0)]:
     before=bytes(players)
     assert lib.player_input(*args)==-1 and bytes(players)==before
 for field in range(4):

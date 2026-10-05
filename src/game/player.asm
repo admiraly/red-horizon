@@ -4,6 +4,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern terrain_height,terrain_blocked,terrain_move,terrain_los,sinf,cosf
+extern vehicle_detach,vehicle_tick_player
 section .bss align=64
 global sim_players,player_deaths,player_respawns
 sim_players: resb PLAYER_CAPACITY*PLAYER_STRIDE
@@ -106,6 +107,9 @@ player_leave:
  je .bad
  mov dword [rdx+PLAYER_CONNECTED],0
  mov dword [rdx+PLAYER_HP],0
+ push rdi
+ call vehicle_detach
+ pop rdi
  mov eax,edi
  shl eax,5
  lea rdi,[intents]
@@ -119,7 +123,7 @@ player_leave:
 player_input:
  cmp edi,PLAYER_CAPACITY
  jae .bad
- test esi,~7
+ test esi,~31
  jnz .bad
  ucomiss xmm0,[minus_one]
  jp .bad
@@ -167,6 +171,19 @@ player_tick:
 .loop:
  cmp dword [rbx+PLAYER_CONNECTED],1
  jne .next
+ ; The helper consumes action edges even while dead, handles boarded movement
+ ; and cannon fire, and returns1 to suppress infantry logic for this tick.
+ mov eax,r12d
+ shl eax,5
+ lea r13,[intents]
+ add r13,rax
+ movss xmm0,[r13]
+ movss xmm1,[r13+4]
+ mov esi,[r13+16]
+ mov edi,r12d
+ call vehicle_tick_player
+ test eax,eax
+ jnz .next
  cmp dword [rbx+PLAYER_HP],0
  jne .alive
  cmp dword [rbx+PLAYER_RESPAWN],0
@@ -592,6 +609,11 @@ enemy_attack:
  mov dword [rbx+PLAYER_RESPAWN],30
  mov dword [rbx+PLAYER_RELOAD],0
  inc dword [player_deaths]
+ mov rdi,rbx
+ lea rdx,[sim_players]
+ sub rdi,rdx
+ shr edi,6
+ call vehicle_detach
  jmp .return
 .next:
  add r14,ENTITY_STRIDE

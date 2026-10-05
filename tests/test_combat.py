@@ -83,15 +83,37 @@ lib.projectile_tick()
 assert shell.y>y and shell.vy<vy and entities[16].hp==100
 for _ in range(80):lib.projectile_tick()
 assert count.value==0 and entities[16].hp<100 and any(e.kind==4 and e.sequence for e in events)
+# Steep/near-vertical actor contact explodes at the projected contact point,
+# rather than at a distant segment endpoint that would miss the actual actor.
+source=reset(target_x=3500,target_z=2000)
+entities[16].kind=3
+assert lib.projectile_launch(source,1,3500,1000,2000)==0
+lib.projectile_tick()
+assert count.value==0 and entities[16].hp==20
+impact=events[sequence.value&255]
+assert impact.kind==3 and 50<impact.y<200 and math.isfinite(impact.y)
 # Saturated pools reject launches without corrupting records; counts never
 # inflate army membership, and cosmetics are an independently resettable ring.
 source=reset();ammo[source]=600
-for _ in range(512):
+for _ in range(480):
     cooldown[source]=0
     assert lib.projectile_spawn(source,16)==0
 cooldown[source]=0
+assert lib.projectile_spawn(source,16)==-1 and dropped.value==1
+assert lib.projectile_spawn(1,16)==-1 and dropped.value==1  # invalid infantry source
+cooldown[source]=1
+assert lib.projectile_spawn(source,16)==-1 and dropped.value==1  # cadence rejection
+cooldown[source]=0
+# Human/API launches can use the reserved32 slots.
+lib.terrain_height.argtypes=[C.c_float,C.c_float]
+lib.terrain_height.restype=C.c_float
+goal_y=lib.terrain_height(3700,2000)+1
+for _ in range(32):
+    cooldown[source]=0
+    assert lib.projectile_launch(source,1,3700,goal_y,2000)==0
+cooldown[source]=0
 assert count.value==512 and lib.projectile_spawn(source,16)==-1
-assert dropped.value==1 and count.value==512 and C.c_uint.in_dll(lib,'sim_count').value==32
+assert dropped.value==2 and count.value==512 and C.c_uint.in_dll(lib,'sim_count').value==32
 assert event_count.value==256 and sequence.value==512
 assert {e.sequence for e in events}==set(range(257,513))
 assert events[512&255].sequence==512

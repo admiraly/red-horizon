@@ -6,6 +6,7 @@ extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern player_init, player_tick, player_hash
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
+extern vehicle_init,vehicle_entity_driver,vehicle_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -122,6 +123,7 @@ sim_init:
  call player_init
  call ai_init
  call projectile_init
+ call vehicle_init
  add rsp,8
  pop r12
  pop rbx
@@ -230,6 +232,9 @@ sim_tick:
 .move:
  cmp dword [rbx+ENTITY_HP],0
  je .move_next
+ lea rax,[vehicle_entity_driver]
+ cmp dword [rax+r12*4],-1
+ jne .insert
  mov edi,r12d
  sub rsp,8
  call ai_entity_goal
@@ -357,6 +362,9 @@ sim_tick:
  mov dword [rbx+ENTITY_TARGET],-1
  cmp dword [rbx+ENTITY_HP],0
  je .attack_next
+ lea rax,[vehicle_entity_driver]
+ cmp dword [rax+r12*4],-1
+ jne .attack_next
  movss xmm4,[rbx+ENTITY_X]
  movss xmm5,[rbx+ENTITY_Z]
  movaps xmm0,xmm4
@@ -595,6 +603,7 @@ sim_checksum:
  sub rsp,8
  call operation_hash
  call projectile_hash
+ call vehicle_hash
  add rsp,8
  jmp player_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
@@ -889,6 +898,7 @@ sim_shell_contact:
  comiss xmm0,[contact_radius2]
  ja .chain
  mov [rsp+28],ebp
+ movss [rsp+60],xmm3
  jmp .done
 .chain:
  inc dword [rsp+52]
@@ -904,6 +914,19 @@ sim_shell_contact:
  jle .zloop
 .done:
  mov eax,[rsp+28]
+ cmp eax,-1
+ je .contact_out
+ movss xmm3,[rsp+60]
+ movss xmm0,[rsp+12]
+ mulss xmm0,xmm3
+ addss xmm0,[rsp]
+ movss xmm1,[rsp+16]
+ mulss xmm1,xmm3
+ addss xmm1,[rsp+4]
+ movss xmm2,[rsp+20]
+ mulss xmm2,xmm3
+ addss xmm2,[rsp+8]
+.contact_out:
  add rsp,104
  pop r15
  pop r14
