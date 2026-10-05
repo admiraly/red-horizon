@@ -121,6 +121,9 @@ try:
             return region,frame,blend
         until(lambda:u32('mesh_low_instances')>0 and u32('mesh_high_instances')>0 and u32('mesh_marker_instances')>0)
         initial_lod=[u32(name) for name in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances')]
+        # Fixed-position animation negative control: production danger can
+        # interrupt hold, and enabled evasion is covered by its physical oracle.
+        os.pwrite(memory,struct.pack('<I',0),symbols['hazard_enabled'])
         # Pose/front fixture only; model geometry, clips, movement and input paths
         # are real assembled runtime and the licensed baked source pack.
         os.pwrite(memory,struct.pack('<I',1),symbols['orders'])

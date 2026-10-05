@@ -403,6 +403,7 @@ def main():
             execute([sys.executable,'tests/test_visibility_framebuffer.py',str(census_library)])
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            execute([sys.executable,'tests/test_hazard_warning_gl.py',str(client)])
             execute([sys.executable,'tests/test_census_cli.py',str(client)])
             view_library=BUILD/'libviewsettings.so'
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(view_library),str(BUILD/'src_render_view_settings.asm.o'),'-lm'])
