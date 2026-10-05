@@ -56,3 +56,15 @@ expiry, full-pool bounds/fairness and committed-state lifecycle. A controlled fl
 terrain/LOS kernel harness supplies focused evidence; actual terrain, integrated
 steering, enabled/disabled survival, army timing and replay require separate
 production-world checks and are not implied by this focused kernel test.
+
+The controlled harness is checked in as `tests/test_hazard_budget.py`, rather than
+relying on an ephemeral build. Run `python3 tests/test_hazard_budget.py --nasm PATH`
+(or set `RED_HORIZON_NASM`). It assembles the real hazard core with development-only
+NASM fixture globals, flat terrain and a blocked-LOS oracle in a temporary directory.
+It reproduces the focused kernel branches and independently counts actual LOS
+calls with 8,192 initialized ground entities and eight local hostile bombs. At
+sampled ticks 1, 8, 17, 64 and 255 it asserts exactly 1,024 actual LOS calls,
+matching the core's metric, and exactly 896 skipped phase-eligible observers. This
+is an adversarial budget bound test, not a production-world frame-rate or survival
+measurement. The harness also proves a direct warning-style query leaves goal
+state and all authoritative metrics unchanged.
