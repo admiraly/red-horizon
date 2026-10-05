@@ -1,4 +1,5 @@
 ; ABI v1. All routines preserve SysV nonvolatile registers. Fixed 30 Hz steps.
+%include "schemas/entity.inc"
 default rel
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
@@ -6,10 +7,10 @@ sim_count: resd 1
 sim_tick_count: resd 1
 sim_alive: resd 2
 sim_engaged: resd 1
-sim_entities: resb 32768*32
-heads: resd 1024
-links: resd 32768
-damage: resd 32768
+sim_entities: resb ENTITY_CAPACITY*ENTITY_STRIDE
+cell_counts: resd 1024
+cell_samples: resd 1024*24
+damage: resd ENTITY_CAPACITY
 orders: resd 6
 rng: resd 1
 section .rodata
@@ -26,7 +27,7 @@ global sim_init, sim_tick, sim_checksum, sim_order
 sim_init:
  cmp edi,2
  jb .bad
- cmp edi,32768
+ cmp edi,ENTITY_CAPACITY
  ja .bad
  test edi,1
  jnz .bad
@@ -62,13 +63,13 @@ sim_init:
  add edx,650
 .side:
  cvtsi2ss xmm0,edx
- movss [rbx],xmm0
- mov [rbx+12],esi
+ movss [rbx+ENTITY_X],xmm0
+ mov [rbx+ENTITY_SIDE],esi
  mov eax,r12d
  xor edx,edx
  mov ecx,3
  div ecx
- mov [rbx+20],edx
+ mov [rbx+ENTITY_FRONT],edx
  imul edx,2600
  add edx,700
  mov eax,[rng]
@@ -76,7 +77,7 @@ sim_init:
  and eax,1023
  add edx,eax
  cvtsi2ss xmm0,edx
- movss [rbx+4],xmm0
+ movss [rbx+ENTITY_Z],xmm0
  ; 75% infantry, 12.5% armour, 6.25% artillery, 6.25% aircraft.
  mov eax,r12d
  and eax,15
@@ -90,13 +91,13 @@ sim_init:
  je .kind
  mov edx,3
 .kind:
- mov [rbx+16],edx
+ mov [rbx+ENTITY_KIND],edx
  lea rcx,[health]
  mov eax,[rcx+rdx*4]
- mov [rbx+8],eax
- mov dword [rbx+24],-1
- mov dword [rbx+28],1
- add rbx,32
+ mov [rbx+ENTITY_HP],eax
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbx+ENTITY_GENERATION],1
+ add rbx,ENTITY_STRIDE
  inc r12d
  cmp r12d,[sim_count]
  jb .loop
@@ -133,8 +134,8 @@ sim_tick:
  sub rsp,32
  inc dword [sim_tick_count]
  mov dword [sim_engaged],0
- lea rdi,[heads]
- mov eax,-1
+ lea rdi,[cell_counts]
+ xor eax,eax
  mov ecx,1024
  rep stosd
  lea rdi,[damage]
@@ -144,14 +145,14 @@ sim_tick:
  xor r12d,r12d
  lea rbx,[sim_entities]
 .move:
- cmp dword [rbx+8],0
+ cmp dword [rbx+ENTITY_HP],0
  je .move_next
- mov eax,[rbx+16]
+ mov eax,[rbx+ENTITY_KIND]
  lea rcx,[speed]
  movss xmm1,[rcx+rax*4]
- mov eax,[rbx+12]
+ mov eax,[rbx+ENTITY_SIDE]
  imul eax,3
- add eax,[rbx+20]
+ add eax,[rbx+ENTITY_FRONT]
  lea rcx,[orders]
  mov eax,[rcx+rax*4]
  cmp eax,1
@@ -159,13 +160,13 @@ sim_tick:
  cmp eax,2
  je .retreat
  ; Advance holds a firing position while its last target is alive.
- mov edx,[rbx+24]
+ mov edx,[rbx+ENTITY_TARGET]
  cmp edx,-1
  je .direction
  mov ecx,edx
- shl rcx,5
+ imul rcx,ENTITY_STRIDE
  lea rsi,[sim_entities]
- cmp dword [rsi+rcx+8],0
+ cmp dword [rsi+rcx+ENTITY_HP],0
  jne .insert
  jmp .direction
 .retreat:
@@ -173,26 +174,26 @@ sim_tick:
  subss xmm2,xmm1
  movaps xmm1,xmm2
 .direction:
- cmp dword [rbx+12],0
+ cmp dword [rbx+ENTITY_SIDE],0
  je .advance
  xorps xmm2,xmm2
  subss xmm2,xmm1
  movaps xmm1,xmm2
 .advance:
- movss xmm0,[rbx]
+ movss xmm0,[rbx+ENTITY_X]
  addss xmm0,xmm1
  maxss xmm0,[zero]
  minss xmm0,[maximum]
- movss [rbx],xmm0
+ movss [rbx+ENTITY_X],xmm0
 .insert:
- movss xmm0,[rbx]
+ movss xmm0,[rbx+ENTITY_X]
  mulss xmm0,[cell_scale]
  cvttss2si eax,xmm0
  cmp eax,31
  jbe .xok
  mov eax,31
 .xok:
- movss xmm0,[rbx+4]
+ movss xmm0,[rbx+ENTITY_Z]
  mulss xmm0,[cell_scale]
  cvttss2si edx,xmm0
  cmp edx,31
@@ -201,24 +202,53 @@ sim_tick:
 .zok:
  shl edx,5
  add eax,edx
- lea rcx,[heads]
- mov edx,[rcx+rax*4]
- lea rsi,[links]
- mov [rsi+r12*4],edx
- mov [rcx+rax*4],r12d
+ ; Deterministic reservoir: each dense cell retains 24 distributed IDs.
+ lea rcx,[cell_counts]
+ inc dword [rcx+rax*4]
+ mov edi,[rcx+rax*4]
+ mov esi,eax
+ dec edi
+ cmp edi,24
+ jb .sample_slot
+ ; Hash tick and stable entity ID, then select a reservoir replacement.
+ mov eax,[sim_tick_count]
+ imul eax,0x9e3779b9
+ add eax,r12d
+ mov edx,eax
+ shr edx,16
+ xor eax,edx
+ imul eax,0x7feb352d
+ mov edx,eax
+ shr edx,15
+ xor eax,edx
+ imul eax,0x846ca68b
+ mov edx,eax
+ shr edx,16
+ xor eax,edx
+ lea ecx,[rdi+1]
+ xor edx,edx
+ div ecx
+ mov edi,edx
+ cmp edi,24
+ jae .move_next
+.sample_slot:
+ imul esi,24
+ add esi,edi
+ lea rcx,[cell_samples]
+ mov [rcx+rsi*4],r12d
 .move_next:
- add rbx,32
+ add rbx,ENTITY_STRIDE
  inc r12d
  cmp r12d,[sim_count]
  jb .move
  xor r12d,r12d
  lea rbx,[sim_entities]
 .attack:
- mov dword [rbx+24],-1
- cmp dword [rbx+8],0
+ mov dword [rbx+ENTITY_TARGET],-1
+ cmp dword [rbx+ENTITY_HP],0
  je .attack_next
- movss xmm4,[rbx]
- movss xmm5,[rbx+4]
+ movss xmm4,[rbx+ENTITY_X]
+ movss xmm5,[rbx+ENTITY_Z]
  movaps xmm0,xmm4
  mulss xmm0,[cell_scale]
  cvttss2si eax,xmm0
@@ -233,7 +263,7 @@ sim_tick:
  jbe .az
  mov eax,31
 .az: mov [rsp+4],eax
- mov eax,[rbx+16]
+ mov eax,[rbx+ENTITY_KIND]
  lea rcx,[range2]
  movss xmm6,[rcx+rax*4]
  mov r15d,-1
@@ -252,23 +282,33 @@ sim_tick:
  cmp eax,31
  ja .xnext
  add eax,[rsp+8]
- lea rcx,[heads]
- mov ebp,[rcx+rax*4]
+ lea rcx,[cell_counts]
+ mov edi,[rcx+rax*4]
+ test edi,edi
+ jz .xnext
+ cmp edi,24
+ jbe .sample_count
  mov edi,24
+.sample_count:
+ imul eax,24
+ mov [rsp+12],eax
+ mov dword [rsp+16],0
 .candidate:
- cmp ebp,-1
- je .xnext
+ mov eax,[rsp+12]
+ add eax,[rsp+16]
+ lea rcx,[cell_samples]
+ mov ebp,[rcx+rax*4]
  mov eax,ebp
- shl rax,5
+ imul rax,ENTITY_STRIDE
  lea rdx,[sim_entities]
  add rdx,rax
- mov eax,[rdx+12]
- cmp eax,[rbx+12]
+ mov eax,[rdx+ENTITY_SIDE]
+ cmp eax,[rbx+ENTITY_SIDE]
  je .chain
- movss xmm0,[rdx]
+ movss xmm0,[rdx+ENTITY_X]
  subss xmm0,xmm4
  mulss xmm0,xmm0
- movss xmm1,[rdx+4]
+ movss xmm1,[rdx+ENTITY_Z]
  subss xmm1,xmm5
  mulss xmm1,xmm1
  addss xmm0,xmm1
@@ -277,8 +317,7 @@ sim_tick:
  movaps xmm6,xmm0
  mov r15d,ebp
 .chain:
- lea rcx,[links]
- mov ebp,[rcx+rbp*4]
+ inc dword [rsp+16]
  dec edi
  jnz .candidate
 .xnext:
@@ -291,41 +330,41 @@ sim_tick:
  jle .zloop
  cmp r15d,-1
  je .attack_next
- mov [rbx+24],r15d
+ mov [rbx+ENTITY_TARGET],r15d
  inc dword [sim_engaged]
  ; Fire every 8 ticks with staggered phases, avoiding one giant damage spike.
  mov eax,[sim_tick_count]
  add eax,r12d
  test eax,7
  jnz .attack_next
- mov eax,[rbx+16]
+ mov eax,[rbx+ENTITY_KIND]
  lea rcx,[power]
  mov eax,[rcx+rax*4]
  lea rcx,[damage]
  add [rcx+r15*4],eax
 .attack_next:
- add rbx,32
+ add rbx,ENTITY_STRIDE
  inc r12d
  cmp r12d,[sim_count]
  jb .attack
  xor r12d,r12d
  lea rbx,[sim_entities]
 .apply:
- cmp dword [rbx+8],0
+ cmp dword [rbx+ENTITY_HP],0
  je .apply_next
  lea rcx,[damage]
  mov eax,[rcx+r12*4]
- cmp [rbx+8],eax
+ cmp [rbx+ENTITY_HP],eax
  ja .survive
- mov dword [rbx+8],0
- mov eax,[rbx+12]
+ mov dword [rbx+ENTITY_HP],0
+ mov eax,[rbx+ENTITY_SIDE]
  lea rcx,[sim_alive]
  dec dword [rcx+rax*4]
  jmp .apply_next
 .survive:
- sub [rbx+8],eax
+ sub [rbx+ENTITY_HP],eax
 .apply_next:
- add rbx,32
+ add rbx,ENTITY_STRIDE
  inc r12d
  cmp r12d,[sim_count]
  jb .apply
@@ -344,7 +383,7 @@ sim_checksum:
  mov r8,1099511628211
  lea rsi,[sim_entities]
  mov ecx,[sim_count]
- shl ecx,5
+ imul ecx,ENTITY_STRIDE
  test ecx,ecx
  jz .tick_hash
 .bytes:
@@ -379,20 +418,20 @@ sim_fire:
  cmp esi,100
  ja .bad
  mov eax,edi
- shl rax,5
+ imul rax,ENTITY_STRIDE
  lea rdx,[sim_entities]
  add rdx,rax
- cmp dword [rdx+12],1
+ cmp dword [rdx+ENTITY_SIDE],1
  jne .bad
- cmp dword [rdx+8],0
+ cmp dword [rdx+ENTITY_HP],0
  je .bad
- cmp [rdx+8],esi
+ cmp [rdx+ENTITY_HP],esi
  ja .hit
- mov dword [rdx+8],0
+ mov dword [rdx+ENTITY_HP],0
  dec dword [sim_alive+4]
  xor eax,eax
  ret
-.hit: sub [rdx+8],esi
+.hit: sub [rdx+ENTITY_HP],esi
  xor eax,eax
  ret
 .bad: mov eax,-1

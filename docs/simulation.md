@@ -4,7 +4,7 @@
 
 Each tick runs movement, grid rebuild, targeting, and deferred damage passes. Advance moves toward the opposing side and holds an existing firing position; defend stops movement; retreat moves away while still allowing defensive fire. There is no camera input. All live entities are individually stored, queried, targeted, damaged and counted. Dead entities remain allocated with zero health. Target references are observational and can refer to an entity killed in that tick's damage pass; the next targeting pass clears them.
 
-The spatial grid has 32×32 cells of 250 metres, with a linked list per cell. Targeting visits the containing cell and its eight neighbors and at most 24 entries per cell. Thus dense cells cannot cause quadratic work: at most 216 candidates per live actor, plus linear grid/movement/damage passes. This limit truncates crowded cells and biases target selection toward later entity indices. It can miss relevant targets, particularly at artillery ranges exceeding one neighbor cell. This is a measured scale foundation, not validated squad intelligence. Geometry, terrain, LOS, cover, ammo, supply, projectiles, blast damage, morale, navigation and strategic objectives are not implemented here.
+The spatial grid has 32×32 cells of 250 metres, with a bounded 24-ID reservoir per cell. A deterministic tick/entity hash selects replacement entries while the grid is rebuilt; target sampling rotates each tick. Targeting visits the containing cell and its eight neighbors and at most 24 entries per cell. Thus dense cells cannot cause quadratic work: at most 216 candidates per live actor, plus linear grid/movement/damage passes. Sampling can miss relevant targets, particularly at artillery ranges exceeding one neighbor cell. This is a measured scale foundation, not validated squad intelligence. Geometry, terrain, LOS, cover, ammo, supply, projectiles, blast damage, morale, navigation and strategic objectives are not implemented here.
 
 `sim_checksum` returns FNV-1a over all active 32-byte records followed by the tick counter and six orders; checksums are verified for same-build repeated runs. No cross-platform determinism claim. `sim_engaged` counts living actors acquiring an opposing target during the targeting pass, before casualties are applied; it can include actors killed later that tick.
 
@@ -25,4 +25,17 @@ NASM 2.16.03, ELF64 DWARF; GCC linker; Intel Core i7-1355U, Linux x86-64, single
 | 8192 | 1439/200 | 958 | bdd82a912e7e5454 | 1.490117 | 2.228279 |
 | 16384 | 5771/158 | 189 | a171de353b916bb3 | 3.426404 | 4.782913 |
 
-The complete development test suite passes on both populations, repeated same-seed replay, 2/32768 capacity edges, empty-state guards, counts/position/target/generation invariants, orders, local-fire rejection and malformed CLI. Timing varies with simultaneous development load. Large side imbalance is a prototype limitation, including bounded candidate truncation bias; these results do not validate balance, operational AI or player experience. No GPU, audio, network or Windows coverage is claimed.
+The complete development test suite passes on both populations, repeated same-seed replay, 2/32768 capacity edges, empty-state guards, counts/position/target/generation invariants, orders, local-fire rejection and malformed CLI. Timing varies with simultaneous development load. These historical linked-list measurements exposed a substantial later-ID candidate truncation bias and were superseded by the reservoir follow-up below. They do not validate balance, operational AI or player experience. No GPU, audio, network or Windows coverage is claimed.
+
+## Fair sampling follow-up
+
+The grid now uses tick-varying deterministic reservoir samples rather than the first entries of reverse insertion chains. The core entity layout is imported from generated `schemas/entity.inc`. The full suite passes, including a seed-19, 8192-actor, 400-tick stationary side-label-swap fixture: identical per-actor health and exactly exchanged casualty totals. This fixture verifies that team labels do not alter targeting; it does not prove general battle balance.
+
+Fresh seed-1, 600-tick measurements on the same i7-1355U:
+
+| Units | Alive side 0/1 | Engaged final | Checksum | Mean tick ms | p95 tick ms |
+|---|---|---|---|---|---|
+| 8192 | 559/947 | 1430 | 8507096c7fd762f1 | 1.541101 | 2.465844 |
+| 16384 | 1794/2038 | 3823 | 409163e45d7ba1e0 | 3.689628 | 5.228087 |
+
+Candidate work remains capped at 216 per actor and grid rebuild remains linear. Hash-modulo reservoir selection has minor statistical modulo bias; it is a practical bounded targeting sample, not a proof of uniform random sampling. Limited neighbor radius and missing LOS/terrain remain unchanged.

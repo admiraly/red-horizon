@@ -57,6 +57,24 @@ for count in (8192, 16384):
     for _ in range(300):
         lib.sim_tick()
     assert lib.sim_checksum() == checksum
+# Side-label swap at identical defensive positions must preserve every actor's
+# health and exchange casualty totals. This catches side/index targeting bias.
+fixture_count = 8192
+outcomes = []
+for swapped in (False, True):
+    assert lib.sim_init(fixture_count, 19) == 0
+    if swapped:
+        for entity in entities[:fixture_count]:
+            entity.side ^= 1
+    for side in (0, 1):
+        for front in range(3):
+            assert lib.sim_order(side, front, 1) == 0
+    for _ in range(400):
+        lib.sim_tick()
+    outcomes.append(([e.hp for e in entities[:fixture_count]], list(alive)))
+assert outcomes[0][0] == outcomes[1][0]
+assert outcomes[0][1] == outcomes[1][1][::-1]
+assert sum(outcomes[0][1]) < fixture_count
 assert lib.sim_init(32, 1) == 0
 previous = lib.sim_checksum()
 for invalid in (0, 1, 3, 32769, 0xffffffff):
@@ -79,4 +97,4 @@ for _ in range(2):
     assert 0 <= result['tick_mean_ms'] and 0 <= result['tick_p95_ms']
     results.append(result)
 assert results[0]['checksum'] == results[1]['checksum']
-print('PASS: baseline/stretch replay, counts, roles, fronts, orders, casualties, bounds, local fire and CLI')
+print('PASS: baseline/stretch replay, counts, roles, fronts, orders, casualties, bounds, local fire, side-swap symmetry and CLI')
