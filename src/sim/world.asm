@@ -1,6 +1,7 @@
 ; ABI v1. All routines preserve SysV nonvolatile registers. Fixed 30 Hz steps.
 %include "schemas/entity.inc"
 default rel
+extern operation_init, operation_tick, operation_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -101,6 +102,9 @@ sim_init:
  inc r12d
  cmp r12d,[sim_count]
  jb .loop
+ sub rsp,8
+ call operation_init
+ add rsp,8
  pop r12
  pop rbx
  xor eax,eax
@@ -368,6 +372,9 @@ sim_tick:
  inc r12d
  cmp r12d,[sim_count]
  jb .apply
+ sub rsp,8
+ call operation_tick
+ add rsp,8
  add rsp,32
  pop r15
  pop r14
@@ -405,7 +412,7 @@ sim_checksum:
  imul rax,r8
  add rsi,4
  loop .orders
- ret
+ jmp operation_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
 section .text
 global sim_fire
