@@ -256,6 +256,16 @@ for tank in (False,True):
     for badgoal in ((float('nan'),1000),(1000,float('inf')),(-8001,1000),(16001,1000)):
         data=(C.c_float*5)(1000,1000,*badgoal,.3)
         assert lib.test_step(body,data)==1 and tuple(data[:2])==(1000,1000)
+# A corrupted global army count also rejects virtual human movement before
+# any snapshot/grid query; placement rejects conservatively, then valid recovery.
+reset([]);human(0,1000,1000);lib.crowd_begin();count.value=32769
+before=list(metrics)
+data=(C.c_float*5)(1000,1000,1010,1000,.3)
+assert lib.test_step(32768,data)==1 and tuple(data[:2])==(1000,1000)
+assert list(metrics)==before,'malformed-count query inspected grid'
+assert occupied((1000,1000),ignore=32768)==1
+count.value=0
+assert controlled(32768,(1010,1000))[0]>1000.29
 controller_cases=[]
 # Every army role blocks foot humans and legitimate driven tanks, with no
 # autonomous lateral movement under straight input or swept overlap.
@@ -288,6 +298,11 @@ players[1].connected=1;players[1].gen+=1
 assert occupied((1003,1000),ignore=32768)==1
 reset([(1000,1000,1)]);human(0,1000,1000);claim(0,0);lib.crowd_begin()
 assert occupied((1000,1000),ignore=0)==0,'boarded duplicate excluded'
+entities[0].side=1
+assert occupied((1000,1000),ignore=0)==1,'enemy claim cannot hide foot human'
+assert controlled(0,(1010,1000))==(1000,1000),'enemy faction claim cannot drive'
+entities[0].side=0
+assert occupied((1000,1000),ignore=0)==0,'restored valid allied claim'
 vehicle_records[1]+=1
 assert occupied((1000,1000),ignore=0)==1,'stale claim cannot hide human'
 assert controlled(0,(1010,1000))==(1000,1000),'invalid driver claim'

@@ -207,6 +207,8 @@ crowd_common:
  movss [rsp+24],xmm3
  cmp dword [rsp+116],2
  je .occupancy_source
+ cmp dword [sim_count],ENTITY_CAPACITY
+ ja .unchanged
  cmp edi,ENTITY_CAPACITY
  jb .army_source
  cmp dword [rsp+116],1
@@ -900,6 +902,8 @@ boarding:
  add r8,rcx
  cmp dword [r8+ENTITY_HP],0
  je .none
+ cmp dword [r8+ENTITY_SIDE],0
+ jne .none
  cmp dword [r8+ENTITY_KIND],1
  jne .none
  mov ecx,[r8+ENTITY_GENERATION]
