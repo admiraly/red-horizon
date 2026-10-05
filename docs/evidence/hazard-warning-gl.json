@@ -1,0 +1,63 @@
+{
+  "suite": "hazard-warning-actual-gl",
+  "passed": true,
+  "cases": {
+    "friendly_shell": {
+      "warning_gl_fixture": true,
+      "launch_result": 0,
+      "predicted_hazards": 1,
+      "uniform": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "eye": [
+        3500,
+        22.7999992,
+        2000
+      ],
+      "expected_eye_y": 22.7999992,
+      "authority_before": "61df9d63183211cd",
+      "authority_after": "61df9d63183211cd",
+      "simulation_tick": 0,
+      "local_ticks": 4,
+      "initial_local_ticks": 4,
+      "image_sha256": "98e2dbe12e4da54f4c1aa21195f02f5ebdf45ea35936ecf5f367538de4320769"
+    },
+    "enemy_shell": {
+      "warning_gl_fixture": true,
+      "launch_result": 0,
+      "predicted_hazards": 1,
+      "uniform": [
+        1,
+        0.500004828,
+        0.433333337,
+        35
+      ],
+      "eye": [
+        3500,
+        22.7999992,
+        2000
+      ],
+      "expected_eye_y": 22.7999992,
+      "authority_before": "b99a1b5eee70e40f",
+      "authority_after": "b99a1b5eee70e40f",
+      "simulation_tick": 0,
+      "local_ticks": 5,
+      "initial_local_ticks": 5,
+      "image_sha256": "1c6ab0d5b0b9af0e9c36dd574220be35541e6a7a7b456ef15c50718410f97cbb"
+    }
+  },
+  "changed_pixels": 2284,
+  "changed_bounds_top_down": [
+    461,
+    57,
+    818,
+    90
+  ],
+  "render_authority_unchanged": true,
+  "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/3fbd7d3d08c9cd493d85a61d95292668e0f37a7f-4c7bc33a748d8b3b/red-horizon",
+  "executable_sha256": "828f7dcd3e9e723bebf79e08557ba1409e8999ce5b8b744d0abcef1c335e4e09",
+  "scope": "Private Xvfb software GL; actual production projectile launch, four physical flight steps, hazard prediction/query and HUD; frozen render clocks; paired friendly/enemy threat. No gameplay performance, network warning or listening claim."
+}

@@ -1,0 +1,309 @@
+[
+  {
+    "suite": "hazards",
+    "passed": true,
+    "projectile_capacity": 512,
+    "per_query_LOS_bound": 8,
+    "fair_overflow_selected_ids": 64,
+    "checks": [
+      "actual discrete gravity intercept",
+      "hostile visibility gates",
+      "read-only query",
+      "finite validation",
+      "expiry generation",
+      "full-pool fairness",
+      "committed goal lifecycle"
+    ]
+  },
+  {
+    "suite": "hazard-steering",
+    "passed": true,
+    "seed": 923,
+    "center_directions": 8,
+    "independent_random_geometry_cases": 195,
+    "actual_role_steps": [
+      0.12,
+      0.5,
+      0.2
+    ],
+    "maximum_goal_distance": 36,
+    "reachable_occluded_shelter_examples": [
+      {
+        "actor": [
+          3980.0,
+          1090.0
+        ],
+        "impact": [
+          4018.0,
+          1110.0
+        ],
+        "goal": [
+          3988.0,
+          1098.0
+        ]
+      },
+      {
+        "actor": [
+          3980.0,
+          1510.0
+        ],
+        "impact": [
+          4018.0,
+          1490.0
+        ],
+        "goal": [
+          3988.0,
+          1502.0
+        ]
+      },
+      {
+        "actor": [
+          4020.0,
+          1090.0
+        ],
+        "impact": [
+          3982.0,
+          1110.0
+        ],
+        "goal": [
+          4012.0,
+          1098.0
+        ]
+      }
+    ],
+    "authority_immutable": true,
+    "limitations": "Straight reachable face candidates and five radial/tangent choices; no planned multi-corner route, no guaranteed shelter in open terrain."
+  },
+  {
+    "suite": "hazard_outcomes",
+    "production_artillery": {
+      "negative_control": {
+        "enabled": false,
+        "initial_distances": [
+          33.0,
+          33.0,
+          33.0
+        ],
+        "final_distances": [
+          33.0,
+          33.0,
+          33.0
+        ],
+        "final_hp": [
+          0,
+          0,
+          0
+        ],
+        "first_movement_ticks": [
+          null,
+          null,
+          null
+        ],
+        "peak_displacements": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "impact_events": [
+          [
+            1239.9765625,
+            21.618858337402344,
+            2000.0,
+            4,
+            41
+          ]
+        ],
+        "source_hp": 100,
+        "source_remaining_rounds": 0,
+        "decisions": {
+          "acquired": 0,
+          "dispersion": 0,
+          "shelter": 0
+        },
+        "checksum": "f0001cd7c6e02485"
+      },
+      "observed_dispersion": {
+        "enabled": true,
+        "initial_distances": [
+          33.0,
+          33.0,
+          33.0
+        ],
+        "final_distances": [
+          37.7998046875,
+          37.7998046875,
+          37.7998046875
+        ],
+        "final_hp": [
+          100,
+          100,
+          100
+        ],
+        "first_movement_ticks": [
+          7,
+          6,
+          5
+        ],
+        "peak_displacements": [
+          4.7998046875,
+          4.7998046875,
+          4.7998046875
+        ],
+        "impact_events": [
+          [
+            1239.9765625,
+            21.618858337402344,
+            2000.0,
+            4,
+            41
+          ]
+        ],
+        "source_hp": 100,
+        "source_remaining_rounds": 0,
+        "decisions": {
+          "acquired": 3,
+          "dispersion": 3,
+          "shelter": 0
+        },
+        "checksum": "38f932568572a14c"
+      },
+      "deterministic_repeat": true
+    },
+    "production_bomb": {
+      "negative_control": {
+        "enabled": false,
+        "initial_distances": [
+          33.0,
+          33.0,
+          33.0
+        ],
+        "final_distances": [
+          33.0,
+          33.0,
+          33.0
+        ],
+        "final_hp": [
+          0,
+          0,
+          0
+        ],
+        "first_movement_ticks": [
+          null,
+          null,
+          null
+        ],
+        "peak_displacements": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "impact_events": [
+          [
+            1239.98046875,
+            21.619260787963867,
+            2000.0,
+            7,
+            41
+          ]
+        ],
+        "source_hp": 100,
+        "source_remaining_rounds": 1,
+        "decisions": {
+          "acquired": 0,
+          "dispersion": 0,
+          "shelter": 0
+        },
+        "checksum": "44c6a9b1ce342717"
+      },
+      "observed_dispersion": {
+        "enabled": true,
+        "initial_distances": [
+          33.0,
+          33.0,
+          33.0
+        ],
+        "final_distances": [
+          37.7998046875,
+          37.752917663292855,
+          37.752917663292855
+        ],
+        "final_hp": [
+          100,
+          100,
+          100
+        ],
+        "first_movement_ticks": [
+          7,
+          6,
+          5
+        ],
+        "peak_displacements": [
+          4.7998046875,
+          4.800062977854523,
+          4.800062977854523
+        ],
+        "impact_events": [
+          [
+            1239.98046875,
+            21.619260787963867,
+            2000.0,
+            7,
+            41
+          ]
+        ],
+        "source_hp": 100,
+        "source_remaining_rounds": 1,
+        "decisions": {
+          "acquired": 3,
+          "dispersion": 3,
+          "shelter": 0
+        },
+        "checksum": "a1991f7aaeb02c1d"
+      },
+      "deterministic_repeat": true
+    },
+    "observed_shelter": {
+      "initial_pose": [
+        3980.0,
+        1090.0
+      ],
+      "selected_goal": [
+        3988.0,
+        1098.0
+      ],
+      "final_pose": [
+        3983.39501953125,
+        1093.3935546875
+      ],
+      "hp": 100,
+      "reason": "reachable physical terrain shelter",
+      "survival_advantage_claimed": false
+    },
+    "perception_exclusions": [
+      "friendly",
+      "out-of-range",
+      "opaque-wall",
+      "nonexplosive"
+    ],
+    "state_rejections": [
+      "generation-reuse",
+      "boarded"
+    ],
+    "scope": "Controlled initial poses, production artillery/bomb launch primitives and real world movement/collision/damage; not full air FSM, commander or dense-storm acceptance"
+  },
+  {
+    "suite": "hazard-warning",
+    "passed": true,
+    "scope": "assembled HUD adapter with perception stub; production LOS/hazards/GL not exercised",
+    "checks": [
+      "actual eye coordinates and allied-side query",
+      "camera-relative cardinal and behind bearing",
+      "finite validation",
+      "ETA/radius bounds",
+      "death/disconnect/expiry reset",
+      "slot bounds",
+      "player authority unchanged",
+      "success-only cosmetic frame counter"
+    ]
+  }
+]

@@ -1,5 +1,66 @@
 # Status — Linux shared-world prototype,2026-10-05
 
+The observed-danger continuation keeps the full specification goal active.
+Runtime checkpoint `aed6e55` observes actual hostile artillery and bomb flight
+within300m and terrain LOS, predicts bounded ground interception, and temporarily
+interrupts ground orders for physical dispersion or reachable wall shelter.
+Ground role speeds and swept terrain collision remain in force. The cache has
+512records,8candidates/cell, an8tick observation phase, a1024LOS/tick budget and
+40tick commitments. Goal state participates in deterministic replay; derived
+caches, diagnostics and camera-dependent warning queries do not.
+
+Actual production artillery and bomb comparisons each place three infantry33m
+from the aim. Disabled evasion kills all three; enabled movement preserves100HP
+for each, moving4.80m at0.12m/tick, with unchanged actual impacttick41. Repeated
+runs match. Friendly/out-of-range/opaque-wall/nonexplosive and generation/boarding
+exclusions pass. Actual wall shelter goals have clear travel paths and obstructed
+blast LOS; physical movement is verified, without claiming shelter survival
+advantage. The bomb test exercises the production launch primitive; it does not
+prove the whole bomber FSM. The fixed-position hold/symmetry test explicitly
+disables evasion as a negative control; the gameplay default remains enabled.
+
+The independently counted controlled8192actor budget test hits exactly1024LOS
+calls and896skips at five ticks. Production seed42/900tick headless results on
+the i7-14700K are:
+
+| Fixture | Starting actors | Tick mean/p95 ms | Acquired goals | Dispersion/shelter | Cell overflow attempts | Final active goals |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| scale-hotspot |8192|3.996/7.011|11129|11128/1|83765|203|
+| scale-stretch |16384|9.674/16.879|16985|16971/14|55455|1043|
+
+These two jobs overlapped, use one simulation thread and do not measure graphics,
+audio or replicated clients. Overflow counts are insert/replace attempts over
+time, not unique lost shells. Bounded cell omission remains real. Projectile
+launch refusals remain41901/126450 and navigation overflow466087/2666537, so
+allocation fairness and crowded tactical quality are not established. Current
+operation state stays0 after900ticks; no complete-operation claim follows.
+
+Warnings are a compact bearing/ETA HUD cue sourced from read-only local hazard
+queries. The actual GL paired production-launch fixture gives2284changed pixels
+only within x461..818/y57..90 at1280x720. Enemy threat outputs bearing0.500005
+and ETA0.433333s; the friendly control outputs zero. Both authoritative checksums
+and tick counters stay unchanged. Paired screenshots were visually inspected. Co-op clients do not yet receive this private hazard cache. No incoming
+sound recording is added. Estimates can differ from actual wall/actor impacts or
+narrow terrain crests; no grenade danger, guaranteed escape/shelter, coordinated
+regroup, destruction recovery or full commander behavior is accepted.
+
+Frozen full extended checkpoint `c7edbd70ea56` passed in241.571489476s at
+`0c979cb7db000a24b6f4dacd3a194a86dccf8e2b-46820edea2876254`, with50suite JSON
+reports and137authored runtime/development/content inputs byte-matched to root.
+All five root jobs are terminal and all four worker worktrees are clean. The
+other snapshots retain identical47runtime inputs; their development test/driver
+differences and added files are recorded explicitly. The failed98.36s attempt
+omitted the new HUD module from a dependency assertion; the failed196.20s attempt
+assumed hold prevented danger movement in an idle-animation fixture. Both logs
+are retained, with exact test corrections and production enabled controls.
+Focused core/steering/outcome/budget/HUD, tools and separate actual GL tests also
+passed; all foreground sessions closed. Full checks preserve8k/16k motion/replay,
+real GL bombing/dogfights/weather/meshes/effects/player input and death, local plus
+two rendered co-op vehicle/player clients, and0/50/100/150ms UDP delay with jitter,
+loss and reorder. Evidence and artifact hashes: `docs/evidence/hazard-session.json`.
+Full-spec acceptance remains open; next useful combat work is causal weapon-pool
+admission/fairness and physical crowd/combined-arms coordination.
+
 The pixel-visibility continuation keeps the complete specification goal active.
 Integrated checkpoint `10f76a5` adds optional final-frame `--census` and
 `--census-map PATH.r32ui`. The actual geometry draw writes normal colour and a

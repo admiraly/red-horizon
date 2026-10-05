@@ -30,6 +30,7 @@
 | Crouch/jump, configurable Linux view and recorded footsteps | four isolated workers + integrator | player/input/renderer/audio contracts | real core, strict view CLI/GL and actual wire/GUI movement/audio routing checks; final frozen verification recorded in docs/evidence/player-experience-session.json |
 | Physical dense front/hotspot fixtures and frame diagnostics | four isolated workers + integrator | scenario/client contracts | frozen extendeda87c322acfd7 passed224.83s; fivejobs120matchedinputs; real regionaltargets2560/3837 and actual GL concurrentcombat/audio;1024pixel-visible census remains pending |
 | Optional actual actor/detail pixel census | four isolated workers + integrator | renderer identity + GL capture | frozenextended3b5ed1f86a51 passed232.06s; exactGLocclusion/IDfixtures and realGPU rawdecodes; sustaineddensity/readability still pending |
+| Observed shell/bomb danger, physical evasion and local warnings | four isolated workers + integrator | private hazard contract/terrain/projectiles | runtime aed6e55; frozen extended c7edbd70ea56 passed241.57s,50suite reports/137matched inputs; physical blast survival, readonly warning GL and budget pass; bounded cells may omit threats; exact integration evidence in docs/evidence/hazard-session.json |
 | Wider vehicles, layered recorded sound pack, production art/effects | next ready | current combat batch |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
 
@@ -60,3 +61,13 @@ source models1058/1003; exactrawmaps independentlydecode. Evidence is in
 docs/evidence/visibility-session.json. Oneframe
 opaque-depth visibility remains separate from sustaineddensity, smoke readability
 and human-quality or complete-operation acceptance.
+
+Observed-danger batch: four isolated workers own prediction/budget, physical
+steering, independent production outcomes and readonly HUD/GL proof. Integrator
+owns world/client hooks, replay inclusion, headless diagnostics and frozen jobs.
+This is a limited physical response, not complete coordinated tactics. Next
+causal pool investigation must distinguish `projectile_spawn`'s416 AI threshold,
+air480 threshold and true512 pool exhaustion, with eligible ammunition/cooldown/
+LOS sources counted by side and kind; reverse side/index ordering with the same
+physical fixture before choosing fair admission. Keep human cannon headroom and
+finite stores; cosmetic trails or event counts cannot substitute for shots.

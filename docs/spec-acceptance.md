@@ -340,3 +340,22 @@ per-actor sample thresholds and frozen verification are in
 docs/evidence/visibility-session.json. The earlier missing census requirement is
 closed for captured frames only; four-rendered-client and sustained-density
 acceptance remain required.
+
+## Observed explosive danger supplement
+
+Runtime checkpoint `aed6e55` adds bounded prediction from actual flying artillery
+and bombs, enemy-only current-projectile range/terrain-LOS observation, forty-tick
+private evasion commitments, normal role-speed collision movement and read-only
+local player warning estimates. Controlled production shell and bomb comparisons
+start three infantry33m from the aim: disabled evasion kills all three; enabled
+physical movement preserves100HP for each with the same actual impacttick41.
+Replay, lifecycle and perception exclusions pass. Reachable actual wall shelter
+selection and movement are tested; shelter survival advantage is not claimed.
+
+This narrows the earlier gaps in10d/10e/10h/12g. It does not accept the complete
+requirements: no named dense `artillery-storm`, grenade danger, incoming recording,
+mutable destruction recovery, squad regroup/anti-armor planning, complete commander
+or remote player warning path. Observation phases may delay response8ticks; each
+cell retains only8threats and may omit others. Ground intercept estimates do not
+predict all wall/actor collisions or narrow terrain crests. Exact integration and
+scale evidence belongs in `docs/evidence/hazard-session.json` and `docs/status.md`.
