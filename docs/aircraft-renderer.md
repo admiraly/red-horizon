@@ -42,11 +42,11 @@ with simulation frozen to verify real GL heading/pitch/bank, role silhouette,
 altitude, near/mid/distant/map instance height and generation fallback. It then
 runs production authority bombing and fighter encounters from initial fixture
 cohorts, without writing weapon/event records during gameplay. Observed bomb
-launch event 6 at tick 1, physical impact event 7 at tick 143; air gun event 8 at
+launch event 6 at tick 34, physical impact event 7 at tick 176; air gun event 8 at
 tick 1 and aircraft destruction event 9 at tick 29. Actual impact/destruction
 positions matched live cosmetic pool records. Paired cosmetic-only controls
 preserved entity, aircraft, projectile and event state byte-for-byte, and changed
-1,696 / 382 rendered pixels respectively (RGB difference above 10). Pose fixture
+1,648 / 404 rendered pixels respectively (RGB difference above 10). Pose fixture
 pixels: bomber 14,590; bank change 18,330; bomb 2,196; air round 1,196. Timing and
 pixel counts may vary across renderers.
 
@@ -56,3 +56,7 @@ including `level-bomber`, `banked`, `pitch-heading`, `fighter`, `raised`,
 `actual-aircraft-destruction` (PPM). The sourced space-craft surrogate remains
 visually evident. Complete military art, layered debris, smoke trails, and
 spectacular art-quality acceptance remain future work.
+
+Final integrated encounter moves the initial ground cohort to2,900m so it lies within the actual updated bomber acquisition band. Only initial actor state is arranged; flight, launches, damage and effects come from production authority. Authentic PNG captures are retained in docs/evidence/aircraft-{banked,actual-bomb-impact,actual-aircraft-destruction}.png.
+
+Final frozen extended checkpoint337dc75f48ab passes all these checks at0aa1e5c112262e48812589c54f16ae5530f24fd1-2dd0b9232e31b986; its authentic screenshots and complete report are in docs/evidence/air-navigation-session.json.

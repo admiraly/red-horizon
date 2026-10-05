@@ -7,7 +7,7 @@ hierarchy, a terrain-slope mesh, or dynamic obstacle avoidance.
 
 Squad keys combine side, front, and stable entity ID divided by16. IDs are
 interleaved across fronts, so ID groups alone cannot identify a squad. The
-fixed12,288-entry cache supports all32,768 actors without changing entity32.
+fixed12,288 support entries plus2,048 designated-scout entries support all32,768 actors without changing entity32. Direct scouts have different goals from flanking support and retain independent corridors.
 Each256-byte entry holds start/final positions and at most22 corridor nodes.
 
 A512-entry FIFO admits each pending squad once. `nav_tick` processes at most8
@@ -73,7 +73,6 @@ Four0.5m-per-tick corridor routes arrived in879,8428,6324 and5206 ticks.
 The terrain suite also passes its1,997 random clear-start swept movement cases
 and64,973 accumulated role-speed arrival steps.
 
-These focused results are nav/terrain driver evidence. They do not establish
-integrated world-hook behavior, scale CPU budgets, dynamic cover destruction,
-squad separation/crowd avoidance, full-map routing, or subjective play quality.
-The integrator owns world-hook and frozen full-suite verification.
+The integrated `sim_tick` proof also moves real armor through the bunker/wall route in8,428 ticks twice with identical checksums, without direct navigation calls. A separate operation fixture proves overhead aircraft neither capture nor contest ground sites. Alternating direct-scout/support goals retain two cached routes over100updates.
+
+Final900tick seed42 integrated8192/16384 benchmarks drain the FIFO to zero, with2,025/4,026 completed requests, capped at8/tick. Initial saturation still causes529,422/2,801,230 fallback/retry calls; these counters count repeated actor calls, not distinct squads. Default cover choices remain zero in this30second scenario; shelter is proven in the focused physical fixture. See docs/evidence/air-navigation-scale-{open,stretch}.json. Dynamic cover destruction, crowd avoidance, streamed full-map routing and subjective play quality remain unverified.

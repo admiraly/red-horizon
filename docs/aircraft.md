@@ -37,10 +37,14 @@ Verified locally: fast core suite, focused combat and waypoints; the dedicated
 aircraft fixture proves continuous held flight, bounded yaw, aligned moving bomb
 and delayed ground damage, no ammo regeneration, physical fighter acquisition,
 aerial gun travel/damage, distant-enemy rejection and seeded 8192-unit replay.
-Default 8192-unit seed42 actual events over 900 ticks: 61 bomb launches,
-61 bomb impacts, 5826 air-gun launches and 201 aircraft destructions. Default
-180-tick retained travel samples include all four projectile classes; ordinary
-unit movement/replay still pass at 8192 and 16384. Target GPU spectacle and final
-integrated network/render behavior require integration verification. No flight simulator,
+Final integrated8192-unit seed42 over900ticks records70 bomb launches,
+63 impacts,5134 air-gun launches and179 aircraft destructions;16384 records
+41/37/9763/370 respectively. Counts reflect actual retained authoritative events,
+with zero overwritten unobserved events. Ground navigation changes encounters,
+so earlier worker-only counts are not the final integrated outcome. Physical
+travel/replay, rendered authority encounters and dedicated-server self-contained
+pose updates have separate tests. Exact final checkpoints are recorded in
+`docs/evidence/air-navigation-session.json`. Spectacle and human play quality
+remain unaccepted. No flight simulator,
 formation escorts, aerodynamic stalls, evasive maneuvers or runway operations
 are claimed.

@@ -24,3 +24,10 @@ Network rendering and streamed-map budgets require separate scenarios.
 The pre-flight-change diagnostic report is docs/evidence/air-navigation-gpu-before.json.
 It establishes actual Intel Arc A770 context availability on this host, rather
 than reference-GPU acceptance for the complete operation.
+
+Final integrated diagnostic is docs/evidence/air-navigation-gpu-after.json:
+Intel Arc A770,600 frames/592 completed GPU samples, CPU mean6.939ms,
+p957.611ms/p998.252ms; GPU draw mean0.479ms,p950.511ms/p990.748ms.
+Baseline used300frames and the earlier percentile implementation, so the pair
+is diagnostic rather than a controlled performance regression acceptance.
+Neither run establishes dense-front1080p budgets.

@@ -66,3 +66,16 @@ The prior table-order detour selected central wall record0 before nearer bunker 
 The terrain suite checks1997 seeded clear-start cases with steps0.12/0.5/1000/8000m, entire movement segments against an independent double-precision rectangle oracle, and actual arrival along the bunker/wall route at0.12/0.2/0.5/1000m steps (64973 total steps). Aircraft retain direct solid bypass. These checks establish collision safety for the authored static boxes and progress on the tested route, not hierarchical pathfinding, arbitrary obstacle layouts, ground slope limits or unit collision. Full checkpoint and headless scale evidence are recorded in docs/evidence/navigation-session.json.
 
 During full integration, the weather input fixture compared player health while real enemy combat continued (HP70→50). Its existing development-only simulation scheduling freeze now precedes the F4 check, which also asserts that authoritative ticks remain unchanged. Weather controls and rendering continue executing, and no player health or gameplay behavior is patched. This isolates cosmetic control effects from unrelated enemy attacks. The first failure and rerun are retained in navigation-session.json.
+
+## Aircraft/navigation continuation (2026-10-05)
+
+The earlier direct150m/s aircraft movement description above is historical.
+`src/ai/aircraft.asm` now owns continuous bomber/fighter steering and weapons;
+all observer/combat height queries read actual generation-validated absolute
+altitude through `sim_entity_height`. Aircraft cannot occupy/capture/contest
+ground sites or stop under hold. Ground actors retain role speeds and observed
+combat; movement now follows bounded squad corridors and infantry may choose
+physically verified nearby static shelter. These additions do not establish
+full real-world tactics for all roles, slope limits, crowd collisions, production
+artillery standoff doctrine or strategic human pacing. See docs/aircraft.md and
+docs/navigation.md for current contracts and limits.

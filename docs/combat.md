@@ -29,3 +29,13 @@ The former tank flight time used X/Z range alone. At cannon pitch1.3 radians thi
 Focused combat and vehicle suites and the complete fast gate pass with real assembly (`python3 tools/dev.py test --suite combat`, `--suite vehicles`, `--suite fast`). The vehicle test exercises24 actual cannon yaw/pitch combinations across cardinal/quadrant bearings and pitches-1.3,0,0.5,1.3; every shot remains aligned and has a10m/tick velocity magnitude. The combat test verifies600m/180m/s artillery arrival after100 ticks, finite bounded nearvertical flight, aircraft altitude targeting and delayed impact. A seeded8192-unit world run across180 actual ticks checked41,479 retained tank flight samples and42,947 retained artillery samples for finite in-map positions and displacement equal to authoritative velocity; direct shells stay at or below10m/tick. These are development test measurements, not GPU render or remote network evidence.
 
 The240-tick shell TTL and map clipping remain: distant ballistic aims may expire before arrival, artillery does not automatically choose an alternative high/low launch arc, and collisions still use the bounded coarse actor/terrain queries described above. Tank muzzle/target displacement shorter than10m has reduced one-tick speed. No extra penetration, homing or camera correction was added.
+
+## Aircraft continuation (2026-10-05)
+
+The historical fixed90m aircraft aiming description above is superseded by
+generation-validated absolute `sim_entity_height`. Automatic ground rifle/tank/
+artillery selection excludes airborne actors; explicitly aimed player rifle and
+cannon APIs still use their actual airborne height. Physical projectile kinds3/4
+are gravity bombs and swept air-gun rounds. Ground AI has416slots, with64further
+AI opportunities for aircraft and32reserved for human launches. All share the
+512record bounded pool. See docs/aircraft.md and docs/aircraft-renderer.md.
