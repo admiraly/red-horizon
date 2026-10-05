@@ -8,7 +8,10 @@ class Player(C.Structure):
     _fields_=[('x',C.c_float),('y',C.c_float),('z',C.c_float),('yaw',C.c_float),('pitch',C.c_float)]+[(n,C.c_uint) for n in ('hp','ammo','reload','cooldown','respawn','front','connected','shots','hits','suppression','generation')]
 class Entity(C.Structure):
     _fields_=[('x',C.c_float),('z',C.c_float),('hp',C.c_uint),('side',C.c_uint),('kind',C.c_uint),('front',C.c_uint),('target',C.c_int),('generation',C.c_uint)]
+class Motion(C.Structure):
+    _fields_=[('feet',C.c_float),('step',C.c_float)]+[(n,C.c_uint) for n in ('generation','latch','grounded','initialized')]+[('eye',C.c_float),('reserved',C.c_uint)]
 players=(Player*4).in_dll(lib,'sim_players')
+motion=(Motion*4).in_dll(lib,'player_motion')
 entities=(Entity*32768).in_dll(lib,'sim_entities')
 sites=(C.c_uint*96).in_dll(lib,'sim_sites')
 tick=C.c_uint.in_dll(lib,'sim_tick_count')
@@ -41,7 +44,7 @@ assert lib.player_join(0,1)==-1
 assert lib.player_join(4,0)==-1 and lib.player_join(1,3)==-1
 assert lib.player_join(1,2)==0 and players[1].hp==100
 assert lib.player_leave(1)==0 and lib.player_leave(1)==-1
-for args in [(0,32,0,0,0,0),(4,0,0,0,0,0),(0,0,float('nan'),0,0,0),(0,0,0,0,float('inf'),0),(0,0,0,0,0,2),(0,0,2,0,0,0)]:
+for args in [(0,128,0,0,0,0),(4,0,0,0,0,0),(0,0,float('nan'),0,0,0),(0,0,0,0,float('inf'),0),(0,0,0,0,0,2),(0,0,2,0,0,0)]:
     before=bytes(players)
     assert lib.player_input(*args)==-1 and bytes(players)==before
 for field in range(4):
@@ -128,3 +131,95 @@ x=players[0].x
 lib.sim_tick()
 assert players[0].x>x, 'sim_tick must advance real player input'
 print('PASS: player validation, fixed-tick movement, rifle LOS/cadence/reload, suppression/death, safe redeployment and replay state')
+
+# Actual production movement: crouch eye/speed, normalized diagonals and sprint override.
+p=reset();base=lib.terrain_height(p.x,p.z);x,z=p.x,p.z
+assert lib.player_input(0,32|4,1,0,0,0)==0
+for _ in range(30):lib.player_tick()
+assert abs(p.x-x-2.5)<.02 and abs(p.y-lib.terrain_height(p.x,p.z)-1.1)<.0001
+assert motion[0].grounded==1 and motion[0].eye==C.c_float(1.1).value
+p=reset();x,z=p.x,p.z
+lib.player_input(0,0,1,1,0,0)
+for _ in range(30):lib.player_tick()
+assert abs(math.hypot(p.x-x,p.z-z)-5)<.02, 'diagonal must retain walk speed'
+# Jump parabola is world-space at30Hz:6m/s takeoff,9.8m/s² gravity, exact landing.
+p=reset();base=lib.terrain_height(p.x,p.z);lib.player_input(0,64,0,0,0,0)
+heights=[]
+for _ in range(90):
+    lib.player_tick();heights.append(p.y-base-1.8)
+    assert math.isfinite(p.y) and p.y>=base+1.8-1e-5
+assert .19<heights[0]<.21 and 1.9<max(heights)<2.0
+assert heights[19]<heights[18] and abs(heights[37])<.0001
+assert all(abs(y)<.0001 for y in heights[38:]), 'held jump must not bunny-hop'
+assert motion[0].grounded==1 and motion[0].step==0
+lib.player_input(0,0,0,0,0,0);lib.player_tick()
+lib.player_input(0,64,0,0,0,0);lib.player_tick()
+assert motion[0].grounded==0 and p.y>base+1.99
+# Crouch in flight adjusts eye only, never foot trajectory. A crouched jump is
+# consumed rather than deferred until the player stands while holding the key.
+feet=motion[0].feet
+lib.player_input(0,32|64,0,0,0,0);lib.player_tick()
+assert motion[0].feet>feet and abs(p.y-motion[0].feet-1.1)<.0001
+p=reset();lib.player_input(0,32|64,0,0,0,0);lib.player_tick()
+lib.player_input(0,64,0,0,0,0);lib.player_tick()
+assert motion[0].grounded==1
+# Uphill/downhill travel follows the actual terrain while grounded; airborne
+# feet follow gravity independently of its gradient, then clamp at touchdown.
+p=reset();p.x,p.z=3200,4000;p.y=lib.terrain_height(p.x,p.z)+1.8
+lib.player_input(0,4,1,0,0,0)
+for _ in range(60):
+    lib.player_tick();assert abs(p.y-lib.terrain_height(p.x,p.z)-1.8)<.0001
+lib.player_input(0,64|4,1,0,0,0)
+lib.player_tick();feet=motion[0].feet;step=motion[0].step
+lib.player_tick();assert abs(motion[0].feet-feet-step)<.0001
+for _ in range(60):lib.player_tick()
+assert motion[0].grounded==1 and abs(p.y-lib.terrain_height(p.x,p.z)-1.8)<.0001
+# Jump/crouch cannot bypass swept solids and do not increase planar speed.
+p=reset();p.x,p.z=3987.9,1300;p.y=lib.terrain_height(p.x,p.z)+1.8
+lib.player_input(0,64|4,1,0,0,0)
+for _ in range(60):
+    x,z=p.x,p.z;lib.player_tick()
+    assert lib.terrain_blocked(C.c_float(p.x),C.c_float(p.z),0)==0
+    assert math.hypot(p.x-x,p.z-z)<.301
+# Invalid private velocity/feet are repaired to grounded, and malformed actual
+# positions enter safe redeployment without reaching terrain withNaN/Inf.
+for field in ('step','feet'):
+    for invalid in (float('nan'),float('inf'),float('-inf'),1e30):
+        p=reset();lib.player_tick();setattr(motion[0],field,invalid)
+        lib.player_tick();assert motion[0].grounded==1 and math.isfinite(p.y)
+for field in ('x','y','z'):
+    p=reset();setattr(p,field,float('nan'));lib.player_tick()
+    assert p.hp==0 and p.respawn==30 and motion[0].initialized==0
+    assert all(math.isfinite(getattr(p,k)) for k in ('x','y','z'))
+    for _ in range(30):lib.player_tick()
+    assert p.hp==100 and all(math.isfinite(getattr(p,k)) for k in ('x','y','z'))
+# Slot reuse, initialization, generation changes and death reset flight state.
+p=reset();lib.player_input(0,64,0,0,0,0);lib.player_tick()
+assert motion[0].grounded==0
+assert lib.player_leave(0)==0 and bytes(motion[0])==bytes(32)
+assert lib.player_join(0,1)==0 and bytes(motion[0])==bytes(32)
+lib.player_tick();assert motion[0].grounded==1
+lib.player_input(0,64,0,0,0,0);lib.player_tick();p.hp=0;p.respawn=1
+lib.player_tick();assert p.hp==100 and motion[0].initialized==0
+lib.player_tick();assert motion[0].grounded==1, 'held jump through death must require release'
+# Boarded jump/crouch never applies infantry altitude. Existing vehicle mask in
+# this isolated patch rejects newmovement bits for drive; root must widen to127.
+p=reset();entities[0].x,entities[0].z=p.x,p.z;entities[0].kind=1
+assert lib.vehicle_enter(0)==0
+lib.player_input(0,64|32,0,0,0,0);lib.player_tick()
+assert motion[0].initialized==0 and motion[0].latch==64
+assert lib.vehicle_exit(0)==0
+lib.player_tick();assert motion[0].grounded==1
+# Hash covers private momentum, latch and generation; deterministic input replay.
+p=reset();lib.player_tick();h=lib.sim_checksum();motion[0].step=.01
+assert lib.sim_checksum()!=h
+
+def movement_replay():
+    reset(8192)
+    for n in range(90):
+        bits=64 if n<45 else (32|4 if n<70 else 0)
+        assert lib.player_input(0,bits,.6,.8,.1,.2)==0
+        lib.sim_tick()
+    return lib.sim_checksum(),bytes(players),bytes(motion)
+assert movement_replay()==movement_replay()
+print('PASS: crouch eye/speed/sprint override, normalized movement,30Hz jump parabola/edge/gravity/landing, terrain slopes/solids, malformed motion/positions, death/reuse/boarding, authoritative replay')

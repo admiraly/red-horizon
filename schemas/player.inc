@@ -20,3 +20,7 @@
 %define INPUT_FIRE 1
 %define INPUT_RELOAD 2
 %define INPUT_SPRINT 4
+
+; Input protocol revision: new movement bits; public64-byte record unchanged.
+%define INPUT_CROUCH 32
+%define INPUT_JUMP 64

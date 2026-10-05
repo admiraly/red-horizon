@@ -10,6 +10,10 @@ section .bss align=64
 global sim_players,player_deaths,player_respawns
 sim_players: resb PLAYER_CAPACITY*PLAYER_STRIDE
 intents: resb PLAYER_CAPACITY*32
+; Private authoritative motion sidecar: foot Y, vertical step, generation,
+; jump latch, grounded, initialized, last eye, reserved. Public player ABI stays64.
+global player_motion
+player_motion: resb PLAYER_CAPACITY*32
 player_deaths: resd 1
 player_respawns: resd 1
 ; Single authoritative thread scratch; never used by callbacks.
@@ -25,6 +29,8 @@ direction_y: resd 1
 direction_z: resd 1
 best_distance: resd 1
 section .rodata
+align 16
+abs_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
 zero: dd 0.0
 one: dd 1.0
 minus_one: dd -1.0
@@ -34,6 +40,14 @@ yaw_min: dd -10000.0
 pitch_max: dd 1.3
 pitch_min: dd -1.3
 eye: dd 1.8
+crouch_eye: dd 1.1
+crouch_step: dd 0.083333333
+jump_step: dd 0.2
+gravity_step: dd 0.010888889
+fall_limit: dd -1.666666667
+height_min: dd -1000.0
+height_max: dd 1000.0
+pose_tolerance: dd 0.05
 target_eye: dd 1.0
 air_altitude: dd 90.0
 walk_step: dd 0.166666667
@@ -50,7 +64,7 @@ global player_init,player_join,player_leave,player_input,player_tick,player_hash
 player_init:
  lea rdi,[sim_players]
  xor eax,eax
- mov ecx,(PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*32+8)/4
+ mov ecx,(PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*64+8)/4
  rep stosd
  ret
 player_join:
@@ -83,6 +97,8 @@ player_join:
  xor eax,eax
  mov ecx,8
  rep stosd
+ mov edi,r10d
+ call motion_clear
  call spawn_player
  test eax,eax
  jz .joined
@@ -111,6 +127,9 @@ player_leave:
  push rdi
  call vehicle_detach
  pop rdi
+ push rdi
+ call motion_clear
+ pop rdi
  mov eax,edi
  shl eax,5
  lea rdi,[intents]
@@ -124,7 +143,7 @@ player_leave:
 player_input:
  cmp edi,PLAYER_CAPACITY
  jae .bad
- test esi,~31
+ test esi,~127
  jnz .bad
  ucomiss xmm0,[minus_one]
  jp .bad
@@ -184,9 +203,13 @@ player_tick:
  mov edi,r12d
  call vehicle_tick_player
  test eax,eax
- jnz .next
+ jz .infantry
+ call motion_consume
+ jmp .next
+.infantry:
  cmp dword [rbx+PLAYER_HP],0
  jne .alive
+ call motion_consume
  cmp dword [rbx+PLAYER_RESPAWN],0
  je .redeploy
  dec dword [rbx+PLAYER_RESPAWN]
@@ -220,6 +243,9 @@ player_tick:
  shl eax,5
  lea r13,[intents]
  add r13,rax
+ call motion_validate
+ test eax,eax
+ jnz .next
  movss xmm0,[rbx+PLAYER_X]
  movss xmm1,[rbx+PLAYER_Z]
  movaps xmm2,xmm0
@@ -227,6 +253,11 @@ player_tick:
  addss xmm2,[r13]
  addss xmm3,[r13+4]
  movss xmm4,[walk_step]
+ test dword [r13+16],INPUT_CROUCH
+ jz .sprint
+ movss xmm4,[crouch_step]
+ jmp .move
+.sprint:
  test dword [r13+16],INPUT_SPRINT
  jz .move
  movss xmm4,[sprint_step]
@@ -235,9 +266,7 @@ player_tick:
  call terrain_move
  movss [rbx+PLAYER_X],xmm0
  movss [rbx+PLAYER_Z],xmm1
- call terrain_height
- addss xmm0,[eye]
- movss [rbx+PLAYER_Y],xmm0
+ call motion_vertical
  cmp dword [rbx+PLAYER_RELOAD],0
  jne .enemy
  test dword [r13+16],INPUT_RELOAD
@@ -271,6 +300,159 @@ player_tick:
  pop r13
  pop r12
  pop rbx
+ ret
+ ; EDI bounded player slot. Clear private state on join/leave/death.
+motion_clear:
+ mov eax,edi
+ shl eax,5
+ lea rdx,[player_motion]
+ add rdx,rax
+ pxor xmm0,xmm0
+ movups [rdx],xmm0
+ movups [rdx+16],xmm0
+ ret
+; Tick owns RBX player, R12 slot, R13 intent. Consume held jump while dead or
+; boarded so respawn/disembark requires release before a fresh jump edge.
+motion_consume:
+ sub rsp,8
+ mov edi,r12d
+ call motion_clear
+ mov eax,[r13+16]
+ and eax,INPUT_JUMP
+ mov [rdx+12],eax
+ mov eax,[rbx+PLAYER_GENERATION]
+ mov [rdx+8],eax
+ add rsp,8
+ ret
+; Refuse poisoned authoritative positions before any terrain query. No client
+; can supply these through player_input; this is a defensive invariant boundary.
+motion_validate:
+ movss xmm0,[rbx+PLAYER_X]
+ ucomiss xmm0,[zero]
+ jp .bad
+ jb .bad
+ ucomiss xmm0,[world_max]
+ ja .bad
+ movss xmm0,[rbx+PLAYER_Z]
+ ucomiss xmm0,[zero]
+ jp .bad
+ jb .bad
+ ucomiss xmm0,[world_max]
+ ja .bad
+ movss xmm0,[rbx+PLAYER_Y]
+ ucomiss xmm0,[height_min]
+ jp .bad
+ jb .bad
+ ucomiss xmm0,[height_max]
+ ja .bad
+ xor eax,eax
+ ret
+.bad:
+ mov dword [rbx+PLAYER_HP],0
+ mov dword [rbx+PLAYER_RESPAWN],30
+ sub rsp,8
+ call motion_consume
+ ; Keep replicated records finite during the recovery delay, too.
+ pxor xmm0,xmm0
+ pxor xmm1,xmm1
+ movss [rbx+PLAYER_X],xmm0
+ movss [rbx+PLAYER_Z],xmm1
+ call terrain_height
+ addss xmm0,[eye]
+ movss [rbx+PLAYER_Y],xmm0
+ add rsp,8
+ mov eax,-1
+ ret
+; Update actual world-space foot height, not a camera-relative offset: while in
+; flight falling terrain cannot carry the player down. Terrain remains swept in
+; XZ, so this grounded jump cannot cross solids or masquerade as vaulting.
+motion_vertical:
+ sub rsp,24
+ movss xmm0,[rbx+PLAYER_X]
+ movss xmm1,[rbx+PLAYER_Z]
+ call terrain_height
+ movss [rsp],xmm0
+ mov eax,r12d
+ shl eax,5
+ lea rdx,[player_motion]
+ add rdx,rax
+ mov eax,[rbx+PLAYER_GENERATION]
+ cmp [rdx+8],eax
+ jne .reset
+ cmp dword [rdx+20],1
+ jne .reset
+ cmp dword [rdx+16],1
+ ja .reset
+ movss xmm1,[rdx+4]
+ ucomiss xmm1,[fall_limit]
+ jp .reset
+ jb .reset
+ ucomiss xmm1,[jump_step]
+ ja .reset
+ movss xmm1,[rdx]
+ ucomiss xmm1,[height_min]
+ jp .reset
+ jb .reset
+ ucomiss xmm1,[height_max]
+ ja .reset
+ ; An externally restored pose / direct vehicle exit cannot resurrect old flight.
+ addss xmm1,[rdx+24]
+ subss xmm1,[rbx+PLAYER_Y]
+ andps xmm1,[abs_mask]
+ ucomiss xmm1,[pose_tolerance]
+ ja .reset
+ jmp .ready
+.reset:
+ movss [rdx],xmm0
+ mov dword [rdx+4],0
+ mov [rdx+8],eax
+ mov dword [rdx+16],1
+ mov dword [rdx+20],1
+.ready:
+ mov ecx,[r13+16]
+ and ecx,INPUT_JUMP
+ mov eax,[rdx+12]
+ mov [rdx+12],ecx
+ test ecx,ecx
+ jz .integrate
+ test eax,eax
+ jnz .integrate
+ cmp dword [rdx+16],1
+ jne .integrate
+ ; Crouched players must stand to jump; the edge is still consumed.
+ test dword [r13+16],INPUT_CROUCH
+ jnz .integrate
+ movss xmm1,[jump_step]
+ movss [rdx+4],xmm1
+ mov dword [rdx+16],0
+.integrate:
+ cmp dword [rdx+16],1
+ je .ground
+ movss xmm1,[rdx]
+ addss xmm1,[rdx+4]
+ movss xmm2,[rdx+4]
+ subss xmm2,[gravity_step]
+ maxss xmm2,[fall_limit]
+ movss [rdx+4],xmm2
+ ucomiss xmm1,[rsp]
+ jbe .ground
+ movss [rdx],xmm1
+ jmp .eye
+.ground:
+ movss xmm1,[rsp]
+ movss [rdx],xmm1
+ mov dword [rdx+4],0
+ mov dword [rdx+16],1
+.eye:
+ movss xmm0,[eye]
+ test dword [r13+16],INPUT_CROUCH
+ jz .publish
+ movss xmm0,[crouch_eye]
+.publish:
+ movss [rdx+24],xmm0
+ addss xmm0,[rdx]
+ movss [rbx+PLAYER_Y],xmm0
+ add rsp,24
  ret
 ; Choose nearby squad deployment only while that front has a connected site,
 ; otherwise a connected owned site. Candidate clearance uses actual LOS.
@@ -596,7 +778,12 @@ enemy_attack:
  lea rdx,[sim_players]
  sub rdi,rdx
  shr edi,6
+ sub rsp,16
+ mov [rsp],rdi
  call vehicle_detach
+ mov rdi,[rsp]
+ call motion_clear
+ add rsp,16
  jmp .return
 .next:
  add r14,ENTITY_STRIDE
@@ -609,7 +796,7 @@ enemy_attack:
  ret
 player_hash:
  lea rsi,[sim_players]
- mov ecx,PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*32+8
+ mov ecx,PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*64+8
 .loop:
  movzx edx,byte [rsi]
  xor rax,rdx
