@@ -1,8 +1,10 @@
 ; Authoritative bounded moving shells, fixed30Hz. Cosmetic ring is independent.
 %include "schemas/entity.inc"
 %include "schemas/combat.inc"
+%include "schemas/aircraft.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_blast,sim_shell_contact
+extern sim_aircraft,sim_entity_height,sim_air_damage
 extern terrain_height,terrain_los
 section .bss align=64
 global sim_projectiles,sim_projectile_count,sim_projectile_dropped
@@ -116,19 +118,13 @@ projectile_spawn:
  lea rdx,[sim_shell_cooldown]
  cmp dword [rdx+rdi*4],0
  jne .failed
- cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32
+ cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32-64
  jb .ai_capacity
  inc dword [sim_projectile_dropped]
  jmp .failed
 .ai_capacity:
- movss xmm0,[rbx+ENTITY_X]
- movss xmm1,[rbx+ENTITY_Z]
- call terrain_height
- addss xmm0,[one]
- cmp dword [rbx+ENTITY_KIND],3
- jne .target_height
- addss xmm0,[air_height]
-.target_height:
+ mov edi,esi
+ call sim_entity_height
  movaps xmm1,xmm0
  movss xmm0,[rbx+ENTITY_X]
  movss xmm2,[rbx+ENTITY_Z]
@@ -371,7 +367,10 @@ projectile_tick:
  movss [rsp+16],xmm4
  movss [rsp+20],xmm5
  cmp dword [rbx+PROJECTILE_KIND],2
+ je .gravity
+ cmp dword [rbx+PROJECTILE_KIND],PROJECTILE_BOMB
  jne .no_gravity
+.gravity:
  movss xmm0,[rbx+PROJECTILE_VY]
  subss xmm0,[gravity]
  movss [rbx+PROJECTILE_VY],xmm0
@@ -416,11 +415,14 @@ projectile_tick:
  mov [rbx+PROJECTILE_Z],eax
  jmp .next
 .actor_impact:
+ mov [rsp+52],eax
  movss [rsp+40],xmm0
  movss [rsp+44],xmm1
  movss [rsp+48],xmm2
  jmp .emit_impact
 .impact:
+ cmp dword [rbx+PROJECTILE_KIND],PROJECTILE_AIR_GUN
+ je .expire
  ; Eight bisections locate the last clear point, keeping blast outside solids.
  mov dword [rsp+24],0
  mov dword [rsp+28],0x3f800000
@@ -472,11 +474,17 @@ projectile_tick:
  movss [rsp+44],xmm1
  movss [rsp+48],xmm2
 .emit_impact:
+ cmp dword [rbx+PROJECTILE_KIND],PROJECTILE_AIR_GUN
+ je .air_hit
  movss xmm0,[rsp+40]
  movss xmm1,[rsp+44]
  movss xmm2,[rsp+48]
  mov edi,[rbx+PROJECTILE_KIND]
  add edi,2
+ cmp dword [rbx+PROJECTILE_KIND],PROJECTILE_BOMB
+ jne .event_kind
+ mov edi,EVENT_BOMB_IMPACT
+.event_kind:
  mov esi,[rbx+PROJECTILE_SIDE]
  movss xmm3,[rbx+PROJECTILE_RADIUS]
  call combat_event
@@ -487,6 +495,12 @@ projectile_tick:
  mov edi,[rbx+PROJECTILE_SIDE]
  mov esi,[rbx+PROJECTILE_DAMAGE]
  call sim_blast
+ jmp .expire
+.air_hit:
+ ; Air-gun has no area damage. Only a real swept actor contact can hurt.
+ mov edi,[rsp+52]
+ mov esi,[rbx+PROJECTILE_DAMAGE]
+ call sim_air_damage
 .expire:
  mov dword [rbx+PROJECTILE_ACTIVE],0
  dec dword [sim_projectile_count]
@@ -530,3 +544,149 @@ projectile_hash:
  jnz .loop
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits 
+section .rodata
+airgun_step: dd 28.0
+airgun_radius: dd 1.0
+section .text
+global projectile_air_launch
+; EDI verified aircraft index, ESI bomb3/gun4. Finite stores owned by air FSM.
+projectile_air_launch:
+ cmp edi,[sim_count]
+ jae .bad
+ cmp esi,3
+ jb .bad
+ cmp esi,4
+ ja .bad
+ cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32
+ jae .dropped
+ push rbx
+ push rbp
+ push r12
+ push r13
+ sub rsp,40
+ mov r12d,edi
+ mov r13d,esi
+ mov eax,edi
+ shl eax,5
+ lea rbp,[sim_entities]
+ add rbp,rax
+ cmp dword [rbp+ENTITY_HP],0
+ je .failed
+ cmp dword [rbp+ENTITY_KIND],3
+ jne .failed
+ mov ebx,[cursor]
+ mov ecx,PROJECTILE_CAPACITY
+.find:
+ mov eax,ebx
+ shl eax,6
+ lea rdx,[sim_projectiles]
+ add rdx,rax
+ cmp dword [rdx+PROJECTILE_ACTIVE],0
+ je .found
+ inc ebx
+ and ebx,PROJECTILE_CAPACITY-1
+ loop .find
+ jmp .failed
+.found:
+ mov eax,[rbp+ENTITY_X]
+ mov [rdx+PROJECTILE_X],eax
+ mov eax,[rbp+ENTITY_Z]
+ mov [rdx+PROJECTILE_Z],eax
+ mov eax,r12d
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ add rcx,rax
+ mov eax,[rcx+AIR_Y]
+ mov [rdx+PROJECTILE_Y],eax
+ movss xmm0,[rcx+AIR_VX]
+ movss xmm1,[rcx+AIR_VY]
+ movss xmm2,[rcx+AIR_VZ]
+ cmp r13d,PROJECTILE_BOMB
+ je .velocity
+ ; Forward rounds follow aircraft's nose; aim alignment is checked by FSM.
+ divss xmm0,[rcx+AIR_SPEED]
+ divss xmm2,[rcx+AIR_SPEED]
+ mulss xmm0,[airgun_step]
+ mulss xmm2,[airgun_step]
+ mov edi,[rcx+AIR_TARGET]
+ mov eax,edi
+ shl eax,5
+ lea rcx,[sim_entities]
+ add rax,rcx
+ movss xmm1,[rax+ENTITY_X]
+ subss xmm1,[rbp+ENTITY_X]
+ mulss xmm1,xmm1
+ movss xmm3,[rax+ENTITY_Z]
+ subss xmm3,[rbp+ENTITY_Z]
+ mulss xmm3,xmm3
+ addss xmm1,xmm3
+ sqrtss xmm1,xmm1
+ maxss xmm1,[one]
+ movss [rsp],xmm1
+ mov [rsp+24],rdx
+ movss [rsp+12],xmm0
+ movss [rsp+16],xmm2
+ call sim_entity_height
+ mov eax,r12d
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ subss xmm0,[rcx+rax+AIR_Y]
+ divss xmm0,[rsp]
+ mulss xmm0,[airgun_step]
+ movaps xmm1,xmm0
+ movss xmm0,[rsp+12]
+ movss xmm2,[rsp+16]
+ mov rdx,[rsp+24]
+.velocity:
+ movss [rdx+PROJECTILE_VX],xmm0
+ movss [rdx+PROJECTILE_VY],xmm1
+ movss [rdx+PROJECTILE_VZ],xmm2
+ mov dword [rdx+PROJECTILE_TTL],240
+ cmp r13d,PROJECTILE_BOMB
+ je .ttl
+ mov dword [rdx+PROJECTILE_TTL],40
+.ttl:
+ mov eax,[rbp+ENTITY_SIDE]
+ mov [rdx+PROJECTILE_SIDE],eax
+ mov [rdx+PROJECTILE_KIND],r13d
+ mov dword [rdx+PROJECTILE_DAMAGE],140
+ mov dword [rdx+PROJECTILE_RADIUS],0x42100000 ;36m
+ cmp r13d,PROJECTILE_BOMB
+ je .damage
+ mov dword [rdx+PROJECTILE_DAMAGE],24
+ mov dword [rdx+PROJECTILE_RADIUS],0
+.damage:
+ mov [rdx+PROJECTILE_SOURCE],r12d
+ mov eax,[rbp+ENTITY_GENERATION]
+ mov [rdx+PROJECTILE_SOURCE_GENERATION],eax
+ inc dword [rdx+PROJECTILE_GENERATION]
+ mov dword [rdx+PROJECTILE_ACTIVE],1
+ inc dword [sim_projectile_count]
+ inc ebx
+ and ebx,PROJECTILE_CAPACITY-1
+ mov [cursor],ebx
+ movss xmm0,[rdx+PROJECTILE_X]
+ movss xmm1,[rdx+PROJECTILE_Y]
+ movss xmm2,[rdx+PROJECTILE_Z]
+ movss xmm3,[rdx+PROJECTILE_RADIUS]
+ mov edi,EVENT_BOMB_LAUNCH
+ cmp r13d,PROJECTILE_BOMB
+ je .event
+ mov edi,EVENT_AIR_GUN
+.event:
+ mov esi,[rdx+PROJECTILE_SIDE]
+ call combat_event
+ xor eax,eax
+ jmp .out
+.failed: mov eax,-1
+.out:
+ add rsp,40
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+.dropped:
+ inc dword [sim_projectile_dropped]
+.bad: mov eax,-1
+ ret

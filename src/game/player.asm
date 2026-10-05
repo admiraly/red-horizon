@@ -3,6 +3,7 @@
 %include "schemas/entity.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
+extern sim_entity_height
 extern terrain_height,terrain_blocked,terrain_move,terrain_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
 section .bss align=64
@@ -417,14 +418,8 @@ safe_candidate:
  addss xmm0,xmm1
  comiss xmm0,[threat_range2]
  ja .next
- movss xmm0,[r14+ENTITY_X]
- movss xmm1,[r14+ENTITY_Z]
- call terrain_height
- addss xmm0,[target_eye]
- cmp dword [r14+ENTITY_KIND],3
- jne .height
- addss xmm0,[air_altitude]
-.height:
+ mov edi,r12d
+ call sim_entity_height
  movss xmm4,xmm0
  movss xmm0,[candidate_x]
  movss xmm1,[candidate_y]
@@ -479,14 +474,8 @@ fire_player:
  je .next
  cmp dword [r14+ENTITY_SIDE],1
  jne .next
- movss xmm0,[r14+ENTITY_X]
- movss xmm1,[r14+ENTITY_Z]
- call terrain_height
- addss xmm0,[target_eye]
- cmp dword [r14+ENTITY_KIND],3
- jne .ground
- addss xmm0,[air_altitude]
-.ground:
+ mov edi,r12d
+ call sim_entity_height
  movss [target_y],xmm0
  subss xmm0,[rbx+PLAYER_Y]
  movss [ray_dy],xmm0
@@ -578,14 +567,8 @@ enemy_attack:
  addss xmm0,xmm1
  comiss xmm0,[threat_range2]
  ja .next
- movss xmm0,[r14+ENTITY_X]
- movss xmm1,[r14+ENTITY_Z]
- call terrain_height
- addss xmm0,[target_eye]
- cmp dword [r14+ENTITY_KIND],3
- jne .height
- addss xmm0,[air_altitude]
-.height:
+ mov edi,r12d
+ call sim_entity_height
  movss xmm1,xmm0
  movss xmm0,[r14+ENTITY_X]
  movss xmm2,[r14+ENTITY_Z]

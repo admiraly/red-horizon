@@ -142,7 +142,7 @@ assert impact.kind==3 and impact.y>lib.terrain_height(impact.x,impact.z)+70
 # Saturated pools reject launches without corrupting records; counts never
 # inflate army membership, and cosmetics are an independently resettable ring.
 source=reset();ammo[source]=600
-for _ in range(480):
+for _ in range(416):
     cooldown[source]=0
     assert lib.projectile_spawn(source,16)==0
 cooldown[source]=0
@@ -151,11 +151,11 @@ assert lib.projectile_spawn(1,16)==-1 and dropped.value==1  # invalid infantry s
 cooldown[source]=1
 assert lib.projectile_spawn(source,16)==-1 and dropped.value==1  # cadence rejection
 cooldown[source]=0
-# Human/API launches can use the reserved32 slots.
+# Human/API launches can use the remaining96 slots.
 lib.terrain_height.argtypes=[C.c_float,C.c_float]
 lib.terrain_height.restype=C.c_float
 goal_y=lib.terrain_height(3700,2000)+1
-for _ in range(32):
+for _ in range(96):
     cooldown[source]=0
     assert lib.projectile_launch(source,1,3700,goal_y,2000)==0
 cooldown[source]=0
@@ -176,7 +176,7 @@ assert hashes[0]==hashes[1]
 # Actual seeded8192-unit world: both classes launch and their retained records
 # move by velocity every fixed tick, without camera-dependent flight corrections.
 assert lib.sim_init(8192,42)==0
-travel={1:0,2:0}
+travel={1:0,2:0,3:0,4:0}
 for _ in range(180):
     old={i:(p.generation,p.x,p.y,p.z,p.vx,p.vy,p.vz) for i,p in enumerate(shells) if p.active}
     lib.sim_tick()
@@ -189,6 +189,6 @@ for _ in range(180):
         if prior and prior[0]==p.generation:
             assert max(abs(p.x-prior[1]-prior[4]),abs(p.y-prior[2]-prior[5]),abs(p.z-prior[3]-prior[6]))<.002
             travel[p.kind]+=1
-assert min(travel.values())>20,travel
+assert min(travel[k] for k in (1,2))>20,travel
 print('Default-world retained flight samples:',travel)
 print('PASS: moving tank/artillery shells, swept ground/wall/actor contact, enemy-only bounded blast, pool saturation, cosmetic ring/reset and authoritative replay')

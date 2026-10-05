@@ -1,11 +1,15 @@
 ; ABI v1. All routines preserve SysV nonvolatile registers. Fixed 30 Hz steps.
 %include "schemas/entity.inc"
+%include "schemas/aircraft.inc"
 default rel
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern player_init, player_tick, player_hash
+extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
+extern sim_aircraft
+extern air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
@@ -26,7 +30,7 @@ health: dd 100,400,160,200
 speed: dd 0.12,0.5,0.2,5.0
 default_goals: dd 5000.0,1300.0,5000.0,3900.0,5000.0,6500.0
                dd 3000.0,1300.0,3000.0,3900.0,3000.0,6500.0
-range2: dd 57600.0,202500.0,422500.0,202500.0
+range2: dd 57600.0,202500.0,422500.0,562500.0
 power: dd 3,10,15,6
 zero: dd 0.0
 maximum: dd 8000.0
@@ -124,6 +128,7 @@ sim_init:
  call ai_init
  call projectile_init
  call vehicle_init
+ call air_init
  add rsp,8
  pop r12
  pop rbx
@@ -217,6 +222,7 @@ sim_tick:
  inc dword [sim_tick_count]
  sub rsp,8
  call ai_tick
+ call air_tick
  add rsp,8
  mov dword [sim_engaged],0
  lea rdi,[cell_counts]
@@ -232,6 +238,8 @@ sim_tick:
 .move:
  cmp dword [rbx+ENTITY_HP],0
  je .move_next
+ cmp dword [rbx+ENTITY_KIND],3
+ je .insert
  lea rax,[vehicle_entity_driver]
  cmp dword [rax+r12*4],-1
  jne .insert
@@ -377,7 +385,17 @@ sim_tick:
  lea rcx,[range2]
  movss xmm6,[rcx+rax*4]
  mov r15d,-1
- mov r13d,-1
+ mov dword [rsp+72],1
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .search_radius
+ mov eax,r12d
+ shr eax,4
+ test eax,1
+ jnz .attack_next
+ mov dword [rsp+72],3
+.search_radius:
+ mov r13d,[rsp+72]
+ neg r13d
 .zloop:
  mov eax,[rsp+4]
  add eax,r13d
@@ -385,7 +403,8 @@ sim_tick:
  ja .znext
  shl eax,5
  mov [rsp+8],eax
- mov r14d,-1
+ mov r14d,[rsp+72]
+ neg r14d
 .xloop:
  mov eax,[rsp]
  add eax,r14d
@@ -415,6 +434,8 @@ sim_tick:
  mov eax,[rdx+ENTITY_SIDE]
  cmp eax,[rbx+ENTITY_SIDE]
  je .chain
+ cmp dword [rdx+ENTITY_KIND],3
+ je .chain
  movss xmm0,[rdx+ENTITY_X]
  subss xmm0,xmm4
  mulss xmm0,xmm0
@@ -430,35 +451,19 @@ sim_tick:
  movss [rsp+40],xmm6
  movss [rsp+44],xmm0
  mov [rsp+48],edi
- movaps xmm0,xmm4
- movaps xmm1,xmm5
+ mov edi,r12d
  sub rsp,8
- call terrain_height
+ call sim_entity_height
  add rsp,8
- addss xmm0,[eye_height]
- cmp dword [rbx+ENTITY_KIND],3
- jne .own_ground
- addss xmm0,[air_height]
-.own_ground:
  movss [rsp+52],xmm0
- mov eax,ebp
- imul rax,ENTITY_STRIDE
- lea rdx,[sim_entities]
- add rdx,rax
- movss xmm0,[rdx+ENTITY_X]
- movss xmm1,[rdx+ENTITY_Z]
+ mov edi,ebp
  sub rsp,8
- call terrain_height
+ call sim_entity_height
  add rsp,8
- addss xmm0,[eye_height]
  mov eax,ebp
  imul rax,ENTITY_STRIDE
  lea rdx,[sim_entities]
  add rdx,rax
- cmp dword [rdx+ENTITY_KIND],3
- jne .target_ground
- addss xmm0,[air_height]
-.target_ground:
  movaps xmm4,xmm0
  movss xmm0,[rsp+32]
  movss xmm1,[rsp+52]
@@ -482,16 +487,18 @@ sim_tick:
  jnz .candidate
 .xnext:
  inc r14d
- cmp r14d,1
+ cmp r14d,[rsp+72]
  jle .xloop
 .znext:
  inc r13d
- cmp r13d,1
+ cmp r13d,[rsp+72]
  jle .zloop
  cmp r15d,-1
  je .attack_next
  mov [rbx+ENTITY_TARGET],r15d
  inc dword [sim_engaged]
+ cmp dword [rbx+ENTITY_KIND],3
+ je .attack_next
  ; Fire every 8 ticks with staggered phases, avoiding one giant damage spike.
  mov eax,[sim_tick_count]
  add eax,r12d
@@ -518,6 +525,9 @@ sim_tick:
  inc r12d
  cmp r12d,[sim_count]
  jb .attack
+ sub rsp,8
+ call air_combat_tick
+ add rsp,8
  xor r12d,r12d
  lea rbx,[sim_entities]
 .apply:
@@ -596,6 +606,7 @@ sim_checksum:
  call operation_hash
  call projectile_hash
  call vehicle_hash
+ call air_hash
  add rsp,8
  jmp player_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
@@ -617,13 +628,9 @@ sim_fire:
  jne .bad
  cmp dword [rdx+ENTITY_HP],0
  je .bad
- cmp [rdx+ENTITY_HP],esi
- ja .hit
- mov dword [rdx+ENTITY_HP],0
- dec dword [sim_alive+4]
- xor eax,eax
- ret
-.hit: sub [rdx+ENTITY_HP],esi
+ sub rsp,8
+ call sim_air_damage
+ add rsp,8
  xor eax,eax
  ret
 .bad: mov eax,-1
@@ -713,14 +720,12 @@ sim_blast:
  comiss xmm0,[rsp+12]
  ja .chain
  movss [rsp+40],xmm0
- movss xmm0,[rbx+ENTITY_X]
- movss xmm1,[rbx+ENTITY_Z]
- call terrain_height
- addss xmm0,[eye_height]
- cmp dword [rbx+ENTITY_KIND],3
- jne .ground
- addss xmm0,[air_height]
-.ground:
+ mov rdi,rbx
+ lea rax,[sim_entities]
+ sub rdi,rax
+ shr edi,5
+ call sim_entity_height
+
  movaps xmm4,xmm0
  subss xmm0,[rsp+8]
  mulss xmm0,xmm0
@@ -738,10 +743,12 @@ sim_blast:
  inc ebp
  cmp [rbx+ENTITY_HP],r13d
  ja .damage
- mov dword [rbx+ENTITY_HP],0
- mov eax,[rbx+ENTITY_SIDE]
- lea rdx,[sim_alive]
- dec dword [rdx+rax*4]
+ mov rdi,rbx
+ lea rax,[sim_entities]
+ sub rdi,rax
+ shr edi,5
+ mov esi,r13d
+ call sim_air_damage
  jmp .chain
 .damage: sub [rbx+ENTITY_HP],r13d
 .chain:
@@ -849,14 +856,12 @@ sim_shell_contact:
  je .chain
  cmp [rbx+ENTITY_SIDE],r12d
  je .chain
- movss xmm0,[rbx+ENTITY_X]
- movss xmm1,[rbx+ENTITY_Z]
- call terrain_height
- addss xmm0,[eye_height]
- cmp dword [rbx+ENTITY_KIND],3
- jne .ground
- addss xmm0,[air_height]
-.ground:
+ mov rdi,rbx
+ lea rax,[sim_entities]
+ sub rdi,rax
+ shr edi,5
+ call sim_entity_height
+
  subss xmm0,[rsp+4]
  movss xmm1,[rbx+ENTITY_X]
  subss xmm1,[rsp]
@@ -930,3 +935,44 @@ sim_shell_contact:
 section .rodata
 shell_one: dd 1.0
 contact_radius2: dd 16.0
+
+section .text
+global sim_air_damage
+; EDI index, ESI finite projectile damage; shared authoritative casualty path.
+sim_air_damage:
+ cmp edi,[sim_count]
+ jae .done
+ mov eax,edi
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_HP],0
+ je .done
+ cmp [rdx+ENTITY_HP],esi
+ ja .hit
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .kill
+ push rdx
+ mov edi,[rdx+ENTITY_SIDE]
+ mov esi,edi
+ mov edi,EVENT_AIR_DESTROYED
+ movss xmm0,[rdx+ENTITY_X]
+ movss xmm2,[rdx+ENTITY_Z]
+ mov rax,rdx
+ lea rcx,[sim_entities]
+ sub rax,rcx
+ shr eax,5
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ movss xmm1,[rcx+rax+AIR_Y]
+ movss xmm3,[eye_height]
+ call combat_event
+ pop rdx
+.kill:
+ mov dword [rdx+ENTITY_HP],0
+ mov eax,[rdx+ENTITY_SIDE]
+ lea rcx,[sim_alive]
+ dec dword [rcx+rax*4]
+ jmp .done
+.hit: sub [rdx+ENTITY_HP],esi
+.done: ret

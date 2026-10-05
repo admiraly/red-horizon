@@ -3,6 +3,7 @@
 %include "schemas/entity.inc"
 default rel
 extern sim_count, sim_entities, sim_tick_count, sim_sites, sim_supply
+extern sim_entity_height
 extern terrain_height, terrain_los
 section .bss align=64
 global ai_fronts
@@ -151,14 +152,8 @@ ai_tick:
  addss xmm0,xmm1
  comiss xmm0,[survey_range2]
  ja .next
- movss xmm0,[rbx+ENTITY_X]
- movss xmm1,[rbx+ENTITY_Z]
- call terrain_height
- addss xmm0,[eye]
- cmp dword [rbx+ENTITY_KIND],3
- jne .survey_eye
- addss xmm0,[air_eye]
-.survey_eye:
+ mov edi,r12d
+ call sim_entity_height
  movss [rsp],xmm0
  movss xmm0,[r15]
  movss xmm1,[r15+4]

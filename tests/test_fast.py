@@ -18,14 +18,16 @@ def fight(swapped=False):
     assert lib.sim_init(128,19)==0
     assert {e.kind for e in entities[:128]}=={0,1,2,3}
     assert {e.front for e in entities[:128]}=={0,1,2}
+    # Ground hold/side-swap fixture; continuous air interception has separate coverage.
     for e in entities[:128]:
+        if e.kind==3:e.kind=0
         e.x,e.z=(3500 if e.side==0 else 3520),1300
         if swapped:e.side^=1
     for side in (0,1):
         for front in range(3):assert lib.sim_order(side,front,1)==0
-    original=[(e.x,e.z) for e in entities[:128]]
+    original=[(e.x,e.z) for e in entities[:128] if e.kind!=3]
     for _ in range(120):lib.sim_tick()
-    assert original==[(e.x,e.z) for e in entities[:128]]
+    assert original==[(e.x,e.z) for e in entities[:128] if e.kind!=3]
     assert sum(alive)<128
     assert list(alive)==[sum(e.hp>0 and e.side==side for e in entities[:128]) for side in (0,1)]
     assert all(-1<=e.target<128 for e in entities[:128])
