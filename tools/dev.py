@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Development orchestration only. Game simulation lives in NASM objects."""
-import argparse,datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,sys,time,uuid
+import argparse,fcntl,datetime,hashlib,json,os,pathlib,platform,shutil,subprocess,sys,time,uuid
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 BUILD=ROOT/'build'
 RUNS=ROOT/'runs'
 SCENARIOS={'scale-open':8192,'scale-front':8192,'scale-hotspot':8192,'scale-stretch':16384,'firing-range':128}
 def revision():
-    sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
+    sha=os.environ.get('RED_HORIZON_SOURCE_COMMIT') or subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     # Hash actual authored inputs too, including uncommitted sources.
     h=hashlib.sha256()
     for folder in ('src','shaders','content','schemas','tools'):
@@ -31,6 +31,11 @@ def doctor():
         data['cpu']=next((l.split(':',1)[1].strip() for l in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if l.startswith('model name')),'unknown')
     print(json.dumps(data,indent=2)); atomic(RUNS/'doctor.json',data)
 def build(target):
+    BUILD.mkdir(exist_ok=True)
+    with (BUILD/'build.lock').open('w') as lock:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        return build_locked(target)
+def build_locked(target):
     start=time.perf_counter(); tool=nasm(); execute([sys.executable,'tools/schema.py'])
     BUILD.mkdir(exist_ok=True)
     sources=list((ROOT/'src/sim').glob('*.asm'))
@@ -74,15 +79,25 @@ def run_headless(args,benchmark=False):
 def background(args):
     job=uuid.uuid4().hex[:12]; folder=RUNS/'jobs'/job; folder.mkdir(parents=True)
     argv=[a for a in sys.argv[1:] if a!='--background']
-    data={'job_id':job,'revision':revision(),'command':argv,'status':'running','log':str(folder/'job.log'),'result':str(folder/'result.json')}
+    snapshot=folder/'source'; snapshot.mkdir()
+    paths=subprocess.check_output(['git','ls-files','--cached','--others','--exclude-standard','-z'],cwd=ROOT).decode().split('\0')
+    for rel in paths:
+        if not rel: continue
+        source=ROOT/rel
+        if source.is_file():
+            dest=snapshot/rel; dest.parent.mkdir(parents=True,exist_ok=True); shutil.copy2(source,dest)
+    data={'job_id':job,'revision':revision(),'source_snapshot':str(snapshot),'command':argv,'status':'running','log':str(folder/'job.log'),'result':str(folder/'result.json')}
     atomic(folder/'job.json',data)
     with (folder/'job.log').open('wb') as log:
         proc=subprocess.Popen([sys.executable,str(ROOT/'tools/dev.py'),'_worker',job,*argv],cwd=ROOT,stdout=log,stderr=subprocess.STDOUT,start_new_session=True)
     data['pid']=proc.pid; atomic(folder/'job.json',data); print(json.dumps(data,indent=2))
 def worker(job,argv):
     folder=RUNS/'jobs'/job; begin=time.perf_counter()
-    code=subprocess.run([sys.executable,str(ROOT/'tools/dev.py'),*argv],cwd=ROOT).returncode
-    atomic(folder/'result.json',{'job_id':job,'exit_code':code,'seconds':time.perf_counter()-begin,'status':'passed' if code==0 else 'failed'})
+    metadata=json.loads((folder/'job.json').read_text())
+    env=os.environ.copy(); env['RED_HORIZON_SOURCE_COMMIT']=metadata['revision'].split('-')[0]; env['RED_HORIZON_NASM']=nasm()
+    snapshot=folder/'source'
+    code=subprocess.run([sys.executable,str(snapshot/'tools/dev.py'),*argv],cwd=snapshot,env=env).returncode
+    atomic(folder/'result.json',{'job_id':job,'exit_code':code,'revision':metadata['revision'],'seconds':time.perf_counter()-begin,'status':'passed' if code==0 else 'failed'})
     return code
 def jobs(job=None):
     folders=[RUNS/'jobs'/job] if job else sorted((RUNS/'jobs').glob('*'))
@@ -115,8 +130,8 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','simulation'): build('headless'); execute([sys.executable,'tests/test_simulation.py'])
-        if suite in ('all','reload'): execute([sys.executable,'tests/test_reload.py'])
+        if suite in ('all','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
+        if suite in ('all','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())
