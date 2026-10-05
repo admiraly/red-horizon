@@ -43,3 +43,14 @@ Ground hazard goals temporarily interrupt hold/advance and bypass slow squad
 corridors, but terrain_move still enforces collision/speed. A bounded helper chooses
 reachable dispersion or nearby physical shelter. Player cues query read-only local
 estimates; network client warnings remain a separately required integration.
+
+Ground ordnance admission v1: schemas/ordnance.inc defines private queues and
+four group cursors. Root owns world hooks/hash, module worker owns bounded queues.
+Actual acquired target, live matching generation, opposing side, armor/artillery,
+finite existing ammunition and ready cooldown required. Queues are derived
+same-tick state; clear before target acquisition, interleave after targeting and
+before air combat. Preserve production416AI/480air/512physical limits and human
+headroom. No extra authority or new wire records. Armor/artillery use their real
+cooldown instead of infantry8tick damage staggering; legacy mode0 keeps original
+order/phase for physical negative comparisons. Replays include only enabled flag
+and four last-admitted source cursors; diagnostics do not affect behavior.
