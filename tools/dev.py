@@ -53,7 +53,7 @@ def build_locked(target):
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
     # Include hashes ensure generated layout or shader edits invalidate appropriate objects.
-    includes=list((ROOT/'schemas').glob('*'))+list((ROOT/'shaders').glob('*'))
+    includes=list((ROOT/'schemas').glob('*'))+list((ROOT/'shaders').glob('*'))+list((ROOT/'src').rglob('*.inc'))
     for s in sources:
         obj=BUILD/(str(s.relative_to(ROOT)).replace('/','_')+'.o'); dep=obj.with_suffix('.sha256')
         digest=hashlib.sha256(s.read_bytes()+b''.join(p.read_bytes() for p in includes if p.is_file())).hexdigest()
