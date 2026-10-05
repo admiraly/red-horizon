@@ -171,11 +171,25 @@ try:
         # Recycled entities cannot consume an old sidecar.
         fixture(generation=2);_,_,pose=capture('stale-generation')
         assert pose[1]==90. and pose[15]==0.,pose
+        fixture(visible=False);ordnance_background,_,_=capture('ordnance-background')
+        def ordnance(kind,active,velocity):
+            stop()
+            record=struct.pack('<6f4If5I',2000.,100.,3912.,*velocity,240,0,kind,80,18.,0,1,active,1,0)
+            os.pwrite(memory,record,symbols['sim_projectiles'])
+            os.kill(process.pid,signal.SIGCONT)
+        ordnance(3,1,(0.,-8.,0.));bomb,bombpath,_=capture('falling-bomb')
+        bombmask=changed(ordnance_background,bomb);assert len(bombmask)>8,len(bombmask)
+        ordnance(4,1,(8.,0.,0.));round_image,roundpath,_=capture('air-round')
+        roundmask=changed(ordnance_background,round_image);assert len(roundmask)>8,len(roundmask)
+        assert bombmask!=roundmask
+        ordnance(4,0,(8.,0.,0.));cleared,_,_=capture('inactive-air-round')
+        assert len(changed(ordnance_background,cleared))<8
         print(json.dumps({'suite':'rendered-aircraft','passed':True,
                           'fixture':'development-only entity/aircraft pose writes; real sourced meshes and GL; simulation frozen',
                           'bomber_pixels':len(levelmask),'bank_changed_pixels':len(bankmask),
+                          'bomb_pixels':len(bombmask),'air_round_pixels':len(roundmask),
                           'mid_distant_map_absolute_y':True,'stale_generation_fallback':True,
-                          'screenshots':[bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath]}))
+                          'screenshots':[bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath]}))
 
 finally:
     if memory is not None: os.close(memory)
