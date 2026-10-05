@@ -10,10 +10,12 @@ uniform vec4 weather; // elapsed render time, cloud coverage, rain, fog density
 uniform sampler2DArray terrainTextures;
 uniform vec3 camera;
 uniform vec2 angle;
-out vec4 outputColour;
+layout(location=0) out vec4 outputColour;
+layout(location=1) out uint outputActorCode;
 float noise(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float smoothNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(noise(i),noise(i+vec2(1,0)),f.x),mix(noise(i+vec2(0,1)),noise(i+vec2(1)),f.x),f.y);}
 void main(){
+ outputActorCode=0u;
  vec3 fogColour=mix(vec3(.49,.61,.68),vec3(.49,.53,.55),weather.y);
  if(materialMode==9){
   vec2 uv=effectUV;float elevation=clamp(uv.y*.5+.5+angle.y*.5,0.,1.);

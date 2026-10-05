@@ -28,6 +28,7 @@ angle_name: db 'angle',0
 geometry_name: db 'meshGeometry',0
 scale_name: db 'meshScale',0
 mode_name: db 'meshMode',0
+census_name: db 'censusDetail',0
 tactical_name: db 'tactical',0
 weapon_name: db 'weaponMotion',0
 mesh_error: db 'Animated source mesh shaders failed.',0
@@ -58,6 +59,7 @@ angle_loc: resd 1
 geometry_loc: resd 1
 scale_loc: resd 1
 mode_loc: resd 1
+census_loc: resd 1
 tactical_loc: resd 1
 weapon_loc: resd 1
 view_weapon: resd 2
@@ -145,6 +147,7 @@ meshes_init:
  LOCATION geometry_name,geometry_loc
  LOCATION scale_name,scale_loc
  LOCATION mode_name,mode_loc
+ LOCATION census_name,census_loc
  LOCATION tactical_name,tactical_loc
  LOCATION weapon_name,weapon_loc
  mov edi,1
@@ -768,6 +771,19 @@ meshes_draw:
  jz .drawdone
  mov edi,[mode_loc]
  mov esi,[current_mode]
+ call glUniform1i wrt ..plt
+ ; MRT actor output shares all normal geometry and depth tests.
+ ; Non-army instances are excluded by shader identity checks.
+ mov edi,[census_loc]
+ xor esi,esi
+ cmp dword [current_mode],2
+ je .censusdetail
+ mov esi,3
+ cmp dword [current_mode],1
+ je .censusdetail
+ mov esi,[draw_lod]
+ inc esi
+.censusdetail:
  call glUniform1i wrt ..plt
  mov edi,[geometry_loc]
  xor esi,esi

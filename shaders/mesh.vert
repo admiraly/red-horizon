@@ -13,11 +13,20 @@ uniform ivec2 meshGeometry; // base vec4 offset,vertices per source frame
 uniform float meshScale;
 uniform int meshMode; // 0 source mesh,1 distant/map glyph,2 real first-person weapon
 uniform int tactical;
+uniform int censusDetail; // 1 high source,2 low source,3 marker;0 excluded
+flat out uint actorCode;
 uniform vec2 weaponMotion; // cosmetic recoil, authoritative reload fraction
 out vec3 colour;
 out float distanceFog;
 float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.;}
 void main(){
+ // IDs describe the same geometry/depth as colour, including real occluders.
+ // Reject malformed identity data before float-to-integer conversion.
+ actorCode=0u;
+ if(meshMode!=2 && censusDetail>=1 && censusDetail<=3 &&
+    (identity.y==0. || identity.y==1.) && !isnan(identity.x) && !isinf(identity.x) &&
+    identity.x>=0. && identity.x<32768. && floor(identity.x)==identity.x)
+  actorCode=(uint(censusDetail)<<16)|(uint(identity.x)+1u);
  vec3 local=vec3(0),normal=vec3(0,1,0),material=vec3(.5);
  vec3 team=identity.y==3?vec3(.55,.57,.5):(identity.y==2?vec3(.2,.85,.8):(identity.y==0?vec3(.16,.55,.85):vec3(.9,.25,.12)));
  if(meshMode!=1){
