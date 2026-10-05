@@ -4,6 +4,8 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,terrain_los
 extern sinf,cosf,atan2f,projectile_air_launch
+extern air_admission_init,air_admission_begin,air_admission_request
+extern air_admission_flush,air_admission_hash,air_admission_enabled
 section .bss align=64
 global sim_aircraft
 sim_aircraft: resb ENTITY_CAPACITY*AIR_STRIDE
@@ -86,7 +88,7 @@ air_init:
  lea rdi,[air_defense]
  mov ecx,ENTITY_CAPACITY*2
  rep stosd
- ret
+ jmp air_admission_init
 ; Genuine surviving damage hook: EDI stable actor index, no shooter information.
 ; Repeated hits cannot extend the commitment or reset its recovery window.
 air_hit:
@@ -390,6 +392,7 @@ air_combat_tick:
  push r14
  push r15
  sub rsp,104
+ call air_admission_begin
  lea rdi,[air_counts]
  xor eax,eax
  mov ecx,1024
@@ -656,6 +659,13 @@ air_combat_tick:
  ja .next
  mov esi,PROJECTILE_AIR_GUN
 .launch:
+ cmp dword [air_admission_enabled],0
+ je .legacy_launch
+ mov edi,r12d
+ mov esi,r13d
+ call air_admission_request
+ jmp .next
+.legacy_launch:
  mov edi,r12d
  call projectile_air_launch
  test eax,eax
@@ -676,6 +686,7 @@ air_combat_tick:
  inc r12d
  cmp r12d,[sim_count]
  jb .loop
+ call air_admission_flush
  add rsp,104
  pop r15
  pop r14
@@ -722,5 +733,5 @@ air_hash:
  inc rsi
  dec ecx
  jnz .defense_bytes
-.return: ret
+.return: jmp air_admission_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
