@@ -1,8 +1,9 @@
 ; Allocation-free cosmetic pool. Reads authority; never modifies gameplay records.
 default rel
 %include "schemas/player.inc"
-global effects_update,effects_records,effects_tracers,effects_active
+global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor
 extern sim_players,sinf,cosf
+extern sim_events,sim_event_sequence,sim_tick_count
 section .rodata
 zero: dd 0.0
 life: dd 0.14
@@ -10,6 +11,12 @@ reach: dd 100.0
 forward: dd 3.0
 right: dd 0.22
 down: dd 0.25
+flash_life: dd 0.45
+smoke_life: dd 2.5
+min_radius: dd 1.5
+max_radius: dd 12.0
+view_range2: dd 490000.0
+ticks_per_second: dd 30.0
 section .bss
 align 16
 effects_records: resb 64*32 ; start xyz,remaining; end xyz,type1 tracer
@@ -18,6 +25,10 @@ seen_shots: resd 4
 next_slot: resd 1
 effects_tracers: resd 1
 effects_active: resd 1
+effects_impacts: resd 1
+effects_event_cursor: resd 1
+view_x: resd 1
+view_z: resd 1
 dt: resd 1
 sy: resd 1
 cy: resd 1
@@ -29,6 +40,13 @@ effects_update:
  push rbx
  push r12
  push r13
+ and edi,3
+ shl edi,6
+ lea rax,[sim_players]
+ movss xmm1,[rax+rdi+PLAYER_X]
+ movss [view_x],xmm1
+ movss xmm1,[rax+rdi+PLAYER_Z]
+ movss [view_z],xmm1
  movss [dt],xmm0
  lea rbx,[effects_records]
  mov ecx,64
@@ -85,6 +103,7 @@ effects_update:
  inc r12d
  cmp r12d,4
  jb .players
+ call .events
  pop r13
  pop r12
  pop rbx
@@ -92,16 +111,16 @@ effects_update:
 .tracer:
  push rbx
  movss xmm0,[r13+PLAYER_YAW]
- call sinf
+ call sinf wrt ..plt
  movss [sy],xmm0
  movss xmm0,[r13+PLAYER_YAW]
- call cosf
+ call cosf wrt ..plt
  movss [cy],xmm0
  movss xmm0,[r13+PLAYER_PITCH]
- call sinf
+ call sinf wrt ..plt
  movss [pitch_sin],xmm0
  movss xmm0,[r13+PLAYER_PITCH]
- call cosf
+ call cosf wrt ..plt
  movss [cp],xmm0
  mov eax,[next_slot]
  inc dword [next_slot]
@@ -147,5 +166,92 @@ effects_update:
  mov dword [rbx+28],1
  inc dword [effects_tracers]
  pop rbx
+ ret
+; Consume only matching actual impact/destruction records, bounded to ring capacity.
+.events:
+ mov r12d,[sim_event_sequence]
+ mov r13d,[effects_event_cursor]
+ cmp r12d,r13d
+ jb .reset
+ mov eax,r12d
+ sub eax,r13d
+ cmp eax,256
+ jbe .eventloop
+ mov r13d,r12d
+ sub r13d,256
+.eventloop:
+ cmp r13d,r12d
+ jae .eventdone
+ inc r13d
+ mov eax,r13d
+ and eax,255
+ shl eax,5
+ lea rbx,[sim_events]
+ add rbx,rax
+ cmp [rbx+28],r13d
+ jne .eventloop
+ movss xmm0,[rbx]
+ subss xmm0,[view_x]
+ mulss xmm0,xmm0
+ movss xmm1,[rbx+8]
+ subss xmm1,[view_z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[view_range2]
+ ja .eventloop
+ mov eax,[sim_tick_count]
+ sub eax,[rbx+20]
+ cmp eax,60
+ ja .eventloop
+ mov eax,[rbx+12]
+ cmp eax,3
+ jb .eventloop
+ cmp eax,5
+ ja .eventloop
+ ; Age effects from the actual event tick: late packets never reignite a flash.
+ mov eax,[sim_tick_count]
+ sub eax,[rbx+20]
+ cvtsi2ss xmm2,eax
+ divss xmm2,[ticks_per_second]
+ movss xmm0,[flash_life]
+ subss xmm0,xmm2
+ ucomiss xmm0,[zero]
+ jbe .smoke
+ mov edx,2
+ call .impact
+.smoke:
+ movss xmm0,[smoke_life]
+ subss xmm0,xmm2
+ mov edx,3
+ call .impact
+ inc dword [effects_impacts]
+ jmp .eventloop
+.reset:
+ ; Scenario/ring reset baselines and never manufactures old impacts.
+ mov r13d,r12d
+.eventdone:
+ mov [effects_event_cursor],r12d
+ ret
+.impact:
+ mov eax,[next_slot]
+ inc dword [next_slot]
+ and dword [next_slot],63
+ shl eax,5
+ lea rdi,[effects_records]
+ add rdi,rax
+ mov eax,[rbx]
+ mov [rdi],eax
+ mov eax,[rbx+4]
+ mov [rdi+4],eax
+ mov eax,[rbx+8]
+ mov [rdi+8],eax
+ movss [rdi+12],xmm0
+ movss xmm1,[rbx+24]
+ maxss xmm1,[min_radius]
+ minss xmm1,[max_radius]
+ movss [rdi+16],xmm1
+ mov dword [rdi+20],0
+ mov dword [rdi+24],0
+ mov [rdi+28],edx
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits

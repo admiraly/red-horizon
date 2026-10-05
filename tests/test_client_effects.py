@@ -124,10 +124,49 @@ try:
         assert total==shots//3,(total,shots)
         time.sleep(.4)
         assert u32('effects_tracers')==total,'repeated render frames duplicated shot effect'
-        assert u32('effects_active')==0,'effects did not expire'
+        pool=os.pread(memory,2048,symbols['effects_records'])
+        assert all(struct.unpack_from('<f',pool,i*32+12)[0]<=0 for i in range(64) if struct.unpack_from('<I',pool,i*32+28)[0]==1),'tracers did not expire'
+        # Position an actual shell-capable source and opposite living target.
+        # Real AI targeting/world ticks launch the shell; no event/pool writes.
+        entities=struct.unpack('<'+('ff6I'*u32('sim_count')),os.pread(memory,32*u32('sim_count'),symbols['sim_entities']))
+        tank=next(i for i in range(u32('sim_count')) if entities[i*8+2]>0 and entities[i*8+3]==0 and entities[i*8+4]==1)
+        opponent=next(i for i in range(u32('sim_count')) if entities[i*8+2]>0 and entities[i*8+3]==1 and entities[i*8+4]==0)
+        os.pwrite(memory,struct.pack('<ff',2000.,3860.),symbols['sim_entities']+tank*32)
+        os.pwrite(memory,struct.pack('<ff',2000.,3980.),symbols['sim_entities']+opponent*32)
+        os.pwrite(memory,struct.pack('<fff',2000.,17.805,3900.),player_address)
+        for i in (tank,opponent):
+            front=entities[i*8+5];side=entities[i*8+3]
+            os.pwrite(memory,struct.pack('<I',1),symbols['orders']+(side*3+front)*4)
+            os.pwrite(memory,struct.pack('<I',1),symbols['ai_fronts']+(side*3+front)*64+24)
+        before_impacts=u32('effects_impacts');before_events=u32('sim_event_sequence')
+        until(lambda:u32('sim_projectile_count')>0,3)
+        def matching_impact():
+            ring=os.pread(memory,8192,symbols['sim_events'])
+            for slot in range(256):
+                event=struct.unpack_from('<fffIIIfI',ring,slot*32)
+                if event[7]>before_events and event[3]==3 and event[4]==0 and abs(event[0]-2000)<10 and 3960<event[2]<3990:return event
+            return None
+        actual_impact=until(matching_impact,5)
+        until(lambda:u32('effects_event_cursor')>=actual_impact[7] and u32('effects_impacts')>before_impacts,2)
+        impact_frame=u32('frame_count')
+        until(lambda:u32('frame_count')>=impact_frame+2,1)
+        os.kill(process.pid,signal.SIGSTOP)
+        image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+        orange=0;rgb=bytearray()
+        for y in range(720):
+            for x in range(1280):
+                pixel=X.XGetPixel(image,x,y);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
+                rgb.extend((r,g,b))
+                if 250<x<1030 and 180<y<610 and r>130 and g>70 and b<100 and r>g:orange+=1
+        X.XDestroyImage(image)
+        pathlib.Path('/tmp/red-horizon-shell-impact.ppm').write_bytes(b'P6\n1280 720\n255\n'+rgb)
+        assert orange>3,('no actual impact pixels',orange)
+        events=u32('sim_event_sequence');impacts=u32('effects_impacts')
+        assert events>before_events
+        os.kill(process.pid,signal.SIGCONT)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm'}))
+        print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_impact':actual_impact}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

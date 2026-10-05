@@ -12,11 +12,15 @@ uniform int localPlayer;
 uniform vec3 operationInfo; // req/1000, supply/1200, operation state
 uniform vec4 weaponState; // rounds, reload remaining fraction, hit flash, muzzle flash
 out vec3 colour;
+out float effectAlpha;
+out vec2 effectUV;
+flat out int effectType;
 out float distanceFog;
 const vec3 corners[8]=vec3[8](vec3(-1,0,-1),vec3(1,0,-1),vec3(1,2,-1),vec3(-1,2,-1),vec3(-1,0,1),vec3(1,0,1),vec3(1,2,1),vec3(-1,2,1));
 const int faces[36]=int[36](0,2,1,0,3,2,4,5,6,4,6,7,0,1,5,0,5,4,3,7,6,3,6,2,0,4,7,0,7,3,1,2,6,1,6,5);
 float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.;}
 void main(){
+ effectAlpha=1.;effectUV=vec2(0);effectType=0;
  if(terrain==4){int v=gl_VertexID%6,bar=gl_VertexID/6;vec2 c=vec2((v==1||v==2||v==4)?1:-1,(v==2||v==4||v==5)?1:-1);vec2 size=bar==0?vec2(.015,.002):vec2(.0012,.026); gl_Position=vec4((selectedGoal-vec2(4000))/4300+c*size,0,1);colour=vec3(.65,1,.45);distanceFog=0;return;}
  if(terrain==2){
   int v=gl_VertexID%6,bar=gl_VertexID/6;
@@ -39,7 +43,8 @@ void main(){
   gl_Position=vec4(centre+c*size,0,1);distanceFog=0;return;
  }
  vec3 world;
- if(terrain==7){int v=gl_VertexID%6;float t=(v==1||v==2||v==4)?1.:0.;float side=(v==2||v==4||v==5)?1.:-1.;vec3 a=entity.xyz,b=roles.xyz;vec3 axis=normalize(b-a);vec3 view=normalize(camera-mix(a,b,t));vec3 wing=cross(axis,view);float n=length(wing);wing=n>.001?wing/n:vec3(1,0,0);world=mix(a,b,t)+wing*side*.008;colour=vec3(1,.78,.28)*(.7+.3*clamp(entity.w/.14,0,1));if(entity.w<=0||tactical!=0)world.y=-10000;}
+ if(terrain==8){world=entity.xyz+corners[faces[gl_VertexID%36]]*vec3(.18,.18,.65);colour=vec3(1.,.8,.3);if(floatBitsToInt(metadata.y)==0)world.y=-10000;}
+ else if(terrain==7){int v=gl_VertexID%6;float t=(v==1||v==2||v==4)?1.:0.;float side=(v==2||v==4||v==5)?1.:-1.;vec3 a=entity.xyz,b=roles.xyz;int kind=floatBitsToInt(roles.w);effectType=kind;effectUV=vec2(t*2.-1.,side);if(kind!=1){float ttl=entity.w;float progress=1.-ttl/(kind==2?.45:2.5);float radius=roles.x*(kind==2?(.15+.65*progress):(.4+.8*progress));vec3 horizontal=vec3(cos(angle.x),0,-sin(angle.x));vec3 vertical=vec3(-sin(angle.x)*sin(angle.y),cos(angle.y),-cos(angle.x)*sin(angle.y));if(tactical!=0){horizontal=vec3(1,0,0);vertical=vec3(0,0,1);radius=max(radius,30.);}world=a+horizontal*effectUV.x*radius+vertical*effectUV.y*radius;world.y+=kind==3?progress*roles.x*.6:0.;colour=kind==2?vec3(1.,.45+.4*(1.-progress),.08):vec3(.25,.27,.26);effectAlpha=kind==2?(1.-progress)*.85:(1.-progress)*.45;if(ttl<=0)world.y=-10000;}else{vec3 axis=normalize(b-a);vec3 view=normalize(camera-mix(a,b,t));vec3 wing=cross(axis,view);float n=length(wing);wing=n>.001?wing/n:vec3(1,0,0);world=mix(a,b,t)+wing*side*.008;colour=vec3(1,.78,.28)*(.7+.3*clamp(entity.w/.14,0,1));effectAlpha=clamp(entity.w/.14,0,1);if(entity.w<=0||tactical!=0)world.y=-10000;}}
  else if(terrain==6){int part=gl_VertexID/36;vec3 scale=part==0?vec3(.4,.65,.4):vec3(.3,.3,.3);vec3 off=vec3(0,part==0?-.8:.5,0);if(tactical!=0)scale=vec3(20,1,20);world=corners[faces[gl_VertexID%36]]*scale+entity.xyz+off;colour=vec3(.2,.85,.8);if(floatBitsToInt(metadata.w)==0||floatBitsToInt(roles.y)==0||(tactical==0&&gl_InstanceID==localPlayer))world.y=-10000;}
  else if(terrain==5){vec3 c=corners[faces[gl_VertexID%36]];vec2 t=(c.xz+1)*.5; world=vec3(mix(entity.x,entity.z,t.x),roles.x+c.y*.5*roles.y,mix(entity.y,entity.w,t.y));colour=vec3(.30,.33,.34)*(.65+.35*float((gl_VertexID%36)/6)/5.);}
  else if(terrain==3){int owner=floatBitsToInt(entity.z),role=floatBitsToInt(roles.x),connected=floatBitsToInt(roles.y),flags=floatBitsToInt(roles.w); int part=gl_VertexID/36; vec3 scale=part==0?vec3(18,12,18):vec3(3,30,3);if(tactical!=0)scale=part==0?vec3(70,12,70):vec3(8,50,8);vec3 offset=part==0?vec3(0):vec3(0,24,0);world=corners[faces[gl_VertexID%36]]*scale+offset+vec3(entity.x,height(entity.xy)+2,entity.y); colour=owner==0?vec3(.2,.75,1):(owner==1?vec3(1,.28,.16):vec3(.85,.8,.6));if(connected==0)colour*=.65;if((flags&4)!=0)colour=vec3(1,.85,.15);if(role==0&&part==1)colour=vec3(.9,.9,.82);}

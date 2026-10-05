@@ -9,6 +9,7 @@ extern glfwGetVersion
 extern sim_init,sim_tick,sim_order,sim_count,sim_entities
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state,sim_waypoint,sim_waypoints
 extern player_join,player_input,sim_players
+extern sim_projectiles
 extern net_client_open,net_client_poll,net_client_input,net_client_order,net_client_close
 extern net_connected,net_player_id,net_front,net_server_tick,net_last_status,net_pending
 extern terrain_height,terrain_move,terrain_obstacles,terrain_obstacle_count
@@ -22,6 +23,7 @@ extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glGetProgramI
 extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i,glUniform4f
 extern glGenVertexArrays,glBindVertexArray,glGenBuffers,glBindBuffer,glBufferData
 extern glEnableVertexAttribArray,glDisableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
+extern glBlendFunc,glDepthMask
 extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArraysInstanced
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
@@ -493,6 +495,7 @@ main:
 .render:
  call sync_player
  call update_visual
+ mov edi,[local_player]
  movss xmm0,[frame_delta]
  call effects_update
  call metrics_gpu_begin
@@ -587,8 +590,31 @@ main:
  mov edx,72
  mov ecx,4
  call glDrawArraysInstanced
+ cmp dword [network_mode],0
+ jne .skipprojectiles
+ mov edi,0x8892
+ mov esi,32768
+ lea rdx,[sim_projectiles]
+ mov ecx,0x88e0
+ call glBufferData
+ mov edi,[terrain_loc]
+ mov esi,8
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,36
+ mov ecx,512
+ call glDrawArraysInstanced
+.skipprojectiles:
  mov edi,32
  call set_instance_layout
+ mov edi,0xbe2
+ call glEnable
+ mov edi,0x302
+ mov esi,0x303
+ call glBlendFunc
+ xor edi,edi
+ call glDepthMask
  mov edi,0x8892
  mov esi,2048
  lea rdx,[effects_records]
@@ -602,6 +628,10 @@ main:
  mov edx,6
  mov ecx,64
  call glDrawArraysInstanced
+ mov edi,1
+ call glDepthMask
+ mov edi,0xbe2
+ call glDisable
  mov edi,[operation_loc]
  cvtsi2ss xmm0,[sim_requisition]
  divss xmm0,[req_scale]
