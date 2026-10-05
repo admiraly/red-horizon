@@ -73,7 +73,10 @@ try:
     goal=re.search(r'selected_goal_x=([\d.]+) selected_goal_z=([\d.]+)',stdout);assert goal,stdout
     gx,gz=map(float,goal.groups());assert abs(gx-4994.375)<.02 and abs(gz-3904.444)<.02,(gx,gz)
     camera=re.search(r'camera_x=([\d.]+) camera_z=([\d.]+)',stdout)
-    cx,cz=map(float,camera.groups());assert abs(cx-4000)+abs(cz-3200)>.2,'W movement did not contribute'
+    cx,cz=map(float,camera.groups())
+    start=re.search(r'start_player_x=([\d.]+) start_player_z=([\d.]+)',stdout);assert start,stdout
+    sx,sz=map(float,start.groups())
+    assert abs(cx-sx)+abs(cz-sz)>.2,'W movement did not contribute'
     print(json.dumps({'suite':'controls','passed':True,'shots':shots,'ammo':ammo,'reloads':reloads,'front':front,'waypoint_orders':orders,'goal':[gx,gz],'first_title':first_title,'last_title':last_title}))
 finally:
     if process.poll() is None:
