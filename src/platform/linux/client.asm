@@ -4,6 +4,9 @@ default rel
 %include "schemas/combat.inc"
 global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
+extern sim_scenario
+extern net_projectiles,net_projectiles_update
+extern air_trails_update,air_trails_records,air_trails_active
 extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
@@ -35,13 +38,16 @@ section .rodata
 title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3 advance/hold/retreat | ESC quit',0
 weather_opt: db '--weather',0
 weather_suffix: db '%s | WEATHER %s (F4 cycle)',0
+scenario_opt: db '--scenario',0
+air_battle_name: db 'air-battle',0
+scale_open_name: db 'scale-open',0
 frames_opt: db '--frames',0
 shot_opt: db '--screenshot',0
 map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario air-battle] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -119,6 +125,10 @@ align 16
 absolute_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
 section .data
 camera: dd 4000.0,5.0,3200.0
+global air_trails_visible,net_projectiles_visible,net_projectiles_clock_frozen
+air_trails_visible: dd 1
+net_projectiles_visible: dd 1
+net_projectiles_clock_frozen: dd 0
 yaw: dd 0.0
 pitch: dd -0.04
 frame_limit: dd 0
@@ -145,6 +155,7 @@ vehicle_buf: resb 160
 local_player: resd 1
 connect_address: resq 1
 network_mode: resd 1
+scenario_mode: resd 1
 network_joined: resd 1
 last_net_tick: resd 1
 last_net_time: resq 1
@@ -294,7 +305,7 @@ main:
  lea rsi,[weather_opt]
  call strcmp
  test eax,eax
- jnz .helparg
+ jnz .scenarioarg
  inc ebx
  cmp ebx,r12d
  jge .fail
@@ -305,6 +316,30 @@ main:
  mov edi,eax
  mov esi,1
  call environment_select
+ jmp .nextarg
+.scenarioarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[scenario_opt]
+ call strcmp
+ test eax,eax
+ jnz .helparg
+ inc ebx
+ cmp ebx,r12d
+ jge .fail
+ mov rdi,[r13+rbx*8]
+ lea rsi,[air_battle_name]
+ call strcmp
+ test eax,eax
+ jnz .defaultscenario
+ mov dword [scenario_mode],1
+ jmp .nextarg
+.defaultscenario:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[scale_open_name]
+ call strcmp
+ test eax,eax
+ jnz .fail
+ mov dword [scenario_mode],0
  jmp .nextarg
 .helparg:
  mov rdi,[r13+rbx*8]
@@ -332,9 +367,15 @@ main:
  call player_join
  test eax,eax
  jnz .fail
+ mov edi,[scenario_mode]
+ call sim_scenario
+ test eax,eax
+ jnz .fail
  mov dword [selected_front],1
  jmp .platforminit
 .networkinit:
+ cmp dword [scenario_mode],0
+ jne .fail
  mov rdi,[connect_address]
  mov esi,[server_port]
  call net_client_open
@@ -558,6 +599,18 @@ main:
  mov edi,[local_player]
  movss xmm0,[frame_delta]
  call effects_update
+ cmp dword [network_mode],0
+ je .localcosmetics
+ movss xmm0,[frame_delta]
+ cmp dword [net_projectiles_clock_frozen],0
+ je .networkcosmeticdt
+ xorps xmm0,xmm0
+.networkcosmeticdt:
+ call net_projectiles_update
+.localcosmetics:
+ mov edi,[local_player]
+ movss xmm0,[frame_delta]
+ call air_trails_update
  call metrics_gpu_begin
  mov edi,32
  call set_instance_layout
@@ -669,11 +722,15 @@ main:
 .worldmodelsdone:
  mov edi,64
  call set_instance_layout
- cmp dword [network_mode],0
- jne .skipprojectiles
  mov edi,0x8892
  mov esi,32768
  lea rdx,[sim_projectiles]
+ cmp dword [network_mode],0
+ je .projectileupload
+ cmp dword [net_projectiles_visible],0
+ je .skipprojectiles
+ lea rdx,[net_projectiles]
+.projectileupload:
  mov ecx,0x88e0
  call glBufferData
  mov edi,[terrain_loc]
@@ -707,6 +764,19 @@ main:
  mov edx,6
  mov ecx,64
  call glDrawArraysInstanced
+ cmp dword [air_trails_visible],0
+ je .trailsskip
+ mov edi,0x8892
+ mov esi,4096
+ lea rdx,[air_trails_records]
+ mov ecx,0x88e0
+ call glBufferData
+ mov edi,4
+ xor esi,esi
+ mov edx,6
+ mov ecx,128
+ call glDrawArraysInstanced
+.trailsskip:
  cmp dword [tactical],0
  jne .rainskip
  mov edi,[terrain_loc]

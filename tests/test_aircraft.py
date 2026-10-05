@@ -85,7 +85,7 @@ assert a[31].target==63,a[31].target
 reset();actor(31,1000,1000,0);actor(63,7000,7000,1)
 for _ in range(20):lib.sim_tick()
 assert a[31].target==-1 and a[63].target==-1 and a[31].ammo==180
-# Focused air_hit ABI probe. Production damage wiring is owned by the integrator.
+# Focused air_hit ABI probe and integrated surviving-damage hook.
 # The sole event input is the damaged stable actor; no shooter coordinate is passed.
 def defense_run(index,hit):
  reset();actor(index,3000,3000,0);lib.air_tick()
@@ -157,6 +157,26 @@ for _ in range(2):
  hits.append(lib.sim_checksum())
 assert hits[0]==hits[1]
 print('Focused damage-hook maneuver probe:',metrics,'bounded repeat/reuse/boundary/reacquisition/replay passed')
+
+# Production surviving-damage hook, with zero damage preserving private state.
+for index in (15,31):
+ reset();actor(index,3000,3000,0);lib.air_tick()
+ before=lib.sim_checksum();lib.sim_air_damage(index,0)
+ assert lib.sim_checksum()==before and e[index].hp==200
+ lib.sim_air_damage(index,1)
+ assert e[index].hp==199 and a[index].mode==2
+ old_y=a[index].y;lib.sim_tick()
+ assert a[index].y>=old_y+.499 and abs(a[index].bank)>.4
+# A real gun-contact survivor breaks away without a direct test air_hit call.
+reset();actor(31,2000,2500,0);actor(63,2450,2500,1)
+observed=False
+for _ in range(90):
+ lib.sim_tick()
+ if e[31].hp not in (0,200) or e[63].hp not in (0,200):
+  assert any(x.hp not in (0,200) and a[i].mode==2 for i,x in ((31,e[31]),(63,e[63])))
+  observed=True;break
+assert observed,'actual swept gun contact never drove defensive behavior'
+print('PASS: production surviving damage and real gun contact drive bounded defensive flight')
 
 # Exact authoritative state replay includes air control/store fields.
 h=[]

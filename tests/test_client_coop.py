@@ -105,7 +105,7 @@ try:
         for index in range(2):
             process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(port),'--tactical'],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
             processes.append(process)
-            memory=os.open(f'/proc/{process.pid}/mem',os.O_RDONLY);memories.append(memory)
+            memory=os.open(f'/proc/{process.pid}/mem',os.O_RDWR);memories.append(memory)
             clients.append({'process':process,'memory':memory,'window':0})
             clients[index]['window']=until(lambda:window_for(index))
         until(lambda: all(client_player(c,p)['connected']==1 for c in range(2) for p in range(2)))
@@ -166,6 +166,52 @@ try:
         focus(1);button(True)
         try:until(lambda:read_u32(host_memory,server_symbols,'vehicle_shots',4)>cannon_before,3)
         finally:button(False)
+        # Authentic moving cannon sample reaches the real graphical client.
+        cm=clients[1]['memory'];cp=clients[1]['process']
+        def live_cannon():
+            data=os.pread(cm,32768,client_symbols['net_projectiles'])
+            for offset in range(0,32768,64):
+                v=struct.unpack_from('<6f4If5I',data,offset)
+                if v[13] and v[8]==1 and v[11]==armor:return v
+        # Press again if the first short shot passed between the 10Hz snapshots.
+        focus(1);button(True)
+        try:until(live_cannon,4)
+        finally:button(False)
+        os.kill(host.pid,signal.SIGSTOP)
+        _,status=os.waitpid(host.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+        try:
+            os.pwrite(cm,struct.pack('<I',1),client_symbols['net_projectiles_clock_frozen'])
+            start=read_u32(cm,client_symbols,'frame_count')
+            until(lambda:read_u32(cm,client_symbols,'frame_count')>=start+4,2)
+            sample=live_cannon();assert sample,'received cannon trajectory expired before capture'
+            authority_keys=(('sim_entities',8192*32),('sim_aircraft',8192*64),('sim_projectiles',32768),('sim_players',256))
+            authority_before=tuple(os.pread(cm,n,client_symbols[name])for name,n in authority_keys)
+            def framebuffer(label):
+                image=X.XGetImage(display,clients[1]['window'],0,0,1280,720,W(-1).value,2);assert image
+                header=C.cast(image,C.POINTER(ImageHeader)).contents
+                assert header.bits_per_pixel==32 and header.byte_order==0
+                raw=C.string_at(header.data,header.bytes_per_line*header.height)
+                raw=b''.join(raw[row*header.bytes_per_line:row*header.bytes_per_line+header.width*4]for row in range(header.height))
+                rgb=bytearray(header.width*header.height*3)
+                rgb[0::3]=raw[2::4];rgb[1::3]=raw[1::4];rgb[2::3]=raw[0::4]
+                X.XDestroyImage(image)
+                path=pathlib.Path('/tmp/red-horizon-network-projectile-'+label+'.ppm')
+                path.write_bytes(b'P6\n1280 720\n255\n'+rgb)
+                return rgb,str(path)
+            visible,network_shell_path=framebuffer('visible')
+            os.pwrite(cm,struct.pack('<I',0),client_symbols['net_projectiles_visible'])
+            start=read_u32(cm,client_symbols,'frame_count')
+            until(lambda:read_u32(cm,client_symbols,'frame_count')>=start+4,2)
+            hidden,_=framebuffer('hidden-control')
+            changed_shell_pixels=sum(visible[i]>175 and visible[i+1]>85 and visible[i+2]<100 and
+                 max(abs(visible[i+c]-hidden[i+c])for c in range(3))>10
+                 for y in range(120,560)for x in range(200,1080)for i in [(y*1280+x)*3])
+            assert changed_shell_pixels>8,('no real replicated shell pixels',changed_shell_pixels,sample)
+            assert authority_before==tuple(os.pread(cm,n,client_symbols[name])for name,n in authority_keys),'projectile cosmetic draw controls changed authority'
+        finally:
+            os.pwrite(cm,struct.pack('<I',1),client_symbols['net_projectiles_visible'])
+            os.pwrite(cm,struct.pack('<I',0),client_symbols['net_projectiles_clock_frozen'])
+            os.kill(host.pid,signal.SIGCONT)
         assert server_player(1)['shots']==rifle_before,'network cannon consumed rifle counter'
         until(lambda:'ARMOR #' in title(clients[1]['window']),2)
         key(1,ord('q'),.25)
@@ -239,7 +285,7 @@ try:
             assert clients[index]['process'].returncode==0,(stdout,stderr)
             assert 'local_sim_ticks=0' in stdout and f'player={index} front={index}' in stdout,stdout
             outputs.append(stdout)
-        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'recorded_spatial_audio_live_routing':True,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'recorded_spatial_audio_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)

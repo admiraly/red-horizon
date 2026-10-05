@@ -10,7 +10,7 @@ extern player_init, player_tick, player_hash
 extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
 extern sim_aircraft
-extern air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
+extern air_hit,air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
@@ -1000,5 +1000,14 @@ sim_air_damage:
  lea rcx,[sim_alive]
  dec dword [rcx+rax*4]
  jmp .done
-.hit: sub [rdx+ENTITY_HP],esi
+.hit:
+ test esi,esi
+ jz .done
+ sub [rdx+ENTITY_HP],esi
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .done
+ ; Only real surviving damage triggers a generation-validated defensive break.
+ sub rsp,8
+ call air_hit
+ add rsp,8
 .done: ret

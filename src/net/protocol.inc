@@ -2,7 +2,7 @@
 %define NET_MAGIC 0x52484332
 %define NET_VERSION 5
 %define NET_SCHEMA 0x07000f87
-%define NET_CONTENT 0x5e4bc68b
+%define NET_CONTENT 0x6ca8c37c
 %define NET_HEADER 40
 %define NET_MTU 1200
 %define NET_JOIN 1

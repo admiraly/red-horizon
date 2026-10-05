@@ -92,6 +92,7 @@ try:
         # rendering running. Pose/pool fixture writes are explicitly development
         # test setup; no claim that these were shots produced by gameplay.
         stop()
+        os.pwrite(memory,struct.pack('<I',0),symbols['air_trails_visible'])
         os.pwrite(memory,struct.pack('<d',1e30),symbols['thirty'])
         os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
         # A stopped process can already be inside sim_tick. Let that tick finish
@@ -184,6 +185,48 @@ try:
         # Recycled entities cannot consume an old sidecar.
         fixture(role=1,generation=2);_,_,pose=capture('stale-generation')
         assert pose[1]==90. and pose[15]==0. and pose[14]==3.,pose
+        # Paired live-pose cosmetic upload proof, separate from source geometry.
+        fixture(role=1,distance=45.)
+        stop()
+        # Initial wounded aircraft fixture; no fabricated shot/event records.
+        os.pwrite(memory,struct.pack('<I',80),symbols['sim_entities']+8)
+        os.pwrite(memory,struct.pack('<I',1),symbols['air_trails_visible'])
+        os.pwrite(memory,struct.pack('<f',7.),symbols['sim_aircraft']+16)
+        os.pwrite(memory,struct.pack('<I',180),symbols['sim_aircraft']+36)
+        os.pwrite(memory,struct.pack('<f',7.),symbols['sim_aircraft']+52)
+        os.pwrite(memory,struct.pack('<d',1./30.),symbols['thirty'])
+        os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+        os.kill(process.pid,signal.SIGCONT)
+        until(lambda:u32('air_trails_active')>0,3)
+        stop()
+        os.pwrite(memory,struct.pack('<d',1e30),symbols['thirty'])
+        os.pwrite(memory,struct.pack('<d',0),symbols['accum'])
+        os.kill(process.pid,signal.SIGCONT)
+        start=u32('frame_count');until(lambda:u32('frame_count')>=start+3,3)
+        frozen_ticks=u32('local_sim_ticks')
+        stop()
+        # A frozen development observer views the real emitted trail at altitude;
+        # ordinary player ticks correctly grounded the earlier initial observer.
+        ax,az=struct.unpack('<2f',os.pread(memory,8,symbols['sim_entities']))
+        ay=struct.unpack('<f',os.pread(memory,4,symbols['sim_aircraft']))[0]
+        os.pwrite(memory,struct.pack('<5f',ax+150.,ay,az-20.,-1.438245,0.),player_address)
+        os.pwrite(memory,struct.pack('<f',-1.438245),symbols['yaw'])
+        os.pwrite(memory,struct.pack('<f',0.),symbols['pitch'])
+        authority_names=(('sim_entities',32),('sim_aircraft',64),('sim_projectiles',32768),('sim_events',8192))
+        trail_authority=tuple(os.pread(memory,size,symbols[name])for name,size in authority_names)
+        os.kill(process.pid,signal.SIGCONT)
+        trailrgb,trailpath,_=capture('damage-smoke-and-exhaust')
+        stop();os.pwrite(memory,struct.pack('<I',0),symbols['air_trails_visible'])
+        os.kill(process.pid,signal.SIGCONT)
+        trailcontrol,_,_=capture('trails-hidden-control')
+        trail_changed=len(changed(trailrgb,trailcontrol,10));assert trail_changed>8,trail_changed
+        stop()
+        assert trail_authority==tuple(os.pread(memory,size,symbols[name])for name,size in authority_names),'trails changed authority'
+        os.kill(process.pid,signal.SIGCONT)
+        stop()
+        os.pwrite(memory,struct.pack('<5f',2000.,100.,3900.,0.,0.),player_address)
+        os.pwrite(memory,struct.pack('<f',0.),symbols['yaw']);os.pwrite(memory,struct.pack('<f',0.),symbols['pitch'])
+        os.kill(process.pid,signal.SIGCONT)
         fixture(visible=False);ordnance_background,_,_=capture('ordnance-background')
         def ordnance(kind,active,velocity):
             stop()
@@ -211,7 +254,7 @@ try:
             os.pwrite(memory,struct.pack('<I',64),symbols['sim_count'])
             os.pwrite(memory,struct.pack('<2I',1,1),symbols['sim_alive'])
             os.pwrite(memory,struct.pack('<6I',*[1]*6),symbols['orders'])
-            actors=((31,2000.,2500.,0,3,200),(63,2450.,2500.,1,3,200)) if fighters else ((15,2000.,2000.,0,3,200),(32,2900.,2000.,1,0,100))
+            actors=((31,2000.,2500.,0,3,200),(63,2450.,2500.,1,3,20)) if fighters else ((15,2000.,2000.,0,3,200),(32,2900.,2000.,1,0,100))
             for i,x,z,side,kind,hp in actors:
                 os.pwrite(memory,struct.pack('<2f6I',x,z,hp,side,kind,0,0xffffffff,1),symbols['sim_entities']+i*32)
             view=(2200.,160.,2200.,0.,0.) if fighters else (2300.,150.,1900.,1.34,-.26)
@@ -285,12 +328,12 @@ try:
         print(json.dumps({'suite':'rendered-aircraft','passed':True,
                           'fixture':'development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority',
                           'bomber_pixels':len(levelmask),'normalized_silhouette_iou':silhouette_iou,'bank_changed_pixels':len(bankmask),
-                          'bomb_pixels':len(bombmask),'air_round_pixels':len(roundmask),
+                          'trail_changed_pixels':trail_changed,'trail_authority_unchanged':True,'bomb_pixels':len(bombmask),'air_round_pixels':len(roundmask),
                           'actual_bomb_launch':actual_launch,'actual_bomb_impact':actual_impact,
                           'actual_air_gun':actual_gun,'actual_air_destroyed':actual_destroy,
                           'actual_impact_effect_pixels':impact_changed,'actual_destroy_effect_pixels':destroy_changed,
                           'mid_distant_map_absolute_y':True,'stale_generation_fallback':True,
-                          'screenshots':[bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath,impactpath,destroypath]}))
+                          'screenshots':[trailpath,bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath,impactpath,destroypath]}))
 
 finally:
     if memory is not None: os.close(memory)
