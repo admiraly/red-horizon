@@ -64,7 +64,10 @@ def setup(units,role=None,mirror=False,negative=None,preload=0):
   # are original tank actors with finite original64-round shell stores.
   for i in [j for j in range(units) if j%16==13][:preload]:
    assert i not in keep
-   e[i].hp=100;e[i].side=0^mirror;e[i].x=1100;e[i].z=2000
+   e[i].hp=100;e[i].side=0^mirror;e[i].x=e[targets[1]].x-300;e[i].z=2000
+   sy=lib.terrain_height(e[i].x,e[i].z)+2
+   ty=lib.terrain_height(e[targets[1]].x,e[targets[1]].z)+2
+   assert lib.terrain_los(e[i].x,sy,e[i].z,e[targets[1]].x,ty,e[targets[1]].z)
    assert lib.projectile_spawn(i,targets[1])==0
   assert count.value==preload
  return ids

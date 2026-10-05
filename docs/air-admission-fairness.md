@@ -38,10 +38,13 @@ not living full-army scale acceptance.
 Fourteen negative controls cover empty stores, cooldown, bomber pass, backward
 heading, stale sidecar generation, dead sources and blocked wall LOS across both
 roles. Every control yields zero actual air projectiles and zero capacity drops.
-A production preload of416 real original tank launches leaves64 air slots,
+A primitive production preload of416 real original tank launches, each300m
+from its target with independently asserted terrain LOS, leaves64 air slots,
 allocated64:0 in legacy mixed mode. This proves the existing416 ground,480 air
 and512 physical thresholds are total-count ceilings, not independent pools.
-Cross-class allocation remains outside this oracle's fairness assertion.
+This construction does not exercise the ground world target-acquisition loop
+or ongoing combined-arms combat. Cross-class allocation remains outside this
+oracle's fairness assertion.
 
 A separate480-air-pressure control launches32 actual direct weapon projectiles
 using32 original tank actors with untouched64-round stores. Each consumes one
