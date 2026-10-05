@@ -9,7 +9,8 @@
 ; ordnance_begin(): clears derived queues, once before target acquisition.
 ; ordnance_request(EDI source,ESI target): EAX0 accepted/-1invalid, only actual
 ; same-tick acquired opposing ground weapon targets, ready ammo/cooldown.
-; ordnance_flush(): interleaves side*2+(kind-1), rotates group tick and starts
+; ordnance_flush(): interleaves side*2+(kind-1), ranks groups by lowest physical
+; submitted source ID (empty last), rotates canonical rank by tick&3 and starts
 ; each group's linked list after last admitted source ID. Calls production
 ; projectile_spawn; no forged trajectories/stores/damage/events.
 ; ordnance_hash(RAX accumulator,R8 FNV multiplier): enabled+4success cursors.

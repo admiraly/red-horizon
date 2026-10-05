@@ -54,3 +54,10 @@ headroom. No extra authority or new wire records. Armor/artillery use their real
 cooldown instead of infantry8tick damage staggering; legacy mode0 keeps original
 order/phase for physical negative comparisons. Replays include only enabled flag
 and four last-admitted source cursors; diagnostics do not affect behavior.
+
+Admission priority follows canonical physical source IDs: rank four group heads
+by unsigned stable ID, empty queues last, and rotate the rank by tick&3. Group
+metrics/cursors remain indexed by actual side and kind. A global side-label flip
+must preserve the complete physical launch order and resulting actor health;
+count equality alone is insufficient. The full-world symmetry check caught the
+initial side-index-priority regression and remains required.
