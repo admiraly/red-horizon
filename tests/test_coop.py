@@ -15,7 +15,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 4, 0xbb315959, 0x5e4bc68b
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 4, 0x4a0d236b, 0x5e4bc68b
 HEADER = struct.Struct('<10I')
 
 
@@ -30,6 +30,7 @@ class Peer:
         self.entities = {}
         self.events = {}
         self.aircraft = {}
+        self.air_updates = {}
         self.max_packet = 0
         self.bytes_received = 0
 
@@ -76,12 +77,19 @@ class Peer:
                 self.events[event[7]]=event
         elif header[4] == 103:
             count=struct.unpack_from('<I',raw,40)[0]
-            assert count<=32 and len(raw)==44+count*36
-            for offset in range(44,len(raw),36):
-                index,generation,y,heading,pitch,bank,speed,role,mode=struct.unpack_from('<II5fII',raw,offset)
-                assert index<32768 and generation>0 and all(map(math.isfinite,(y,heading,pitch,bank,speed)))
-                assert -100<=y<=1200 and abs(heading)<=6.4 and abs(pitch)<=1.6 and abs(bank)<=1.6
+            assert count<=18 and len(raw)==44+count*64
+            for offset in range(44,len(raw),64):
+                index=struct.unpack_from('<I',raw,offset)[0]
+                entity=struct.unpack_from('<2f6I',raw,offset+4)
+                y,heading,pitch,bank,speed,role,mode=struct.unpack_from('<5fII',raw,offset+36)
+                generation=entity[7]
+                assert index<32768 and generation>0 and entity[4]==3 and 0<=entity[2]<=200
+                assert entity[3]<=1 and entity[5]<=2 and all(map(math.isfinite,(*entity[:2],y,heading,pitch,bank,speed)))
+                assert all(0<=v<=8000 for v in entity[:2]) and -100<=y<=1200
+                assert abs(heading)<=6.4 and abs(pitch)<=1.6 and abs(bank)<=1.6
                 assert 0<=speed<=10 and role<=1 and mode<=3
+                self.air_updates.setdefault(index,[]).append((header[7],entity[0],entity[1],speed,generation))
+                self.entities[index]=entity
                 self.aircraft[index]=(generation,y,heading,pitch,bank,speed,role,mode)
         return header, raw[40:]
 
@@ -210,6 +218,19 @@ def verify(server, client_lib=None):
         assert report['rejected'] >= 7
         assert report['aircraft_records'] > 0, 'actual server never sent aircraft state'
         assert any(peer.aircraft for peer in peers), 'no real aircraft packets received'
+        moved_air = 0
+        for peer in peers:
+            for updates in peer.air_updates.values():
+                for before,after in zip(updates,updates[1:]):
+                    dt=after[0]-before[0]
+                    if dt<=0 or before[4]!=after[4]:
+                        continue
+                    distance=math.hypot(after[1]-before[1],after[2]-before[2])
+                    assert distance <= max(before[3],after[3])*dt+1., 'air64 X/Z violates flight speed bound'
+                    moved_air += distance>1.
+        assert moved_air>0, 'actual air64 snapshots never refreshed moving X/Z'
+        report['air_xz_refreshes_verified']=moved_air
+
         for peer in peers:
             for index, air in peer.aircraft.items():
                 entity=peer.entities.get(index)

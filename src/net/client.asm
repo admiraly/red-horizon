@@ -432,7 +432,6 @@ net_client_poll:
  mov ecx,[incoming+28]
  cmp ecx,[rdx+rax*4]
  jb .nextrecord
- mov [rdx+rax*4],ecx
  shl eax,5
  lea rdi,[sim_entities]
  add rdi,rax
@@ -464,6 +463,34 @@ net_client_poll:
  ja .nextrecord
  cmp dword [r15+24],2
  ja .nextrecord
+ ; An air64 refresh wins against same/older-tick sparse entity chunks.
+ mov eax,[r15]
+ lea rdx,[air_tick]
+ mov ecx,[rdx+rax*4]
+ test ecx,ecx
+ jz .entitystamp
+ cmp ecx,[incoming+28]
+ jb .entitystamp
+ mov ecx,[r15+32]
+ cmp ecx,[rdi+28]
+ jbe .nextrecord
+.entitystamp:
+ lea rdx,[entity_tick]
+ mov ecx,[incoming+28]
+ mov [rdx+rax*4],ecx
+ ; Clear obsolete poses when a newer generation or ground kind replaces it.
+ mov ecx,[r15+32]
+ cmp ecx,[rdi+28]
+ jne .clearpose
+ cmp dword [r15+20],3
+ jne .clearpose
+ cmp dword [r15+12],0
+ jne .copyentity
+.clearpose:
+ shl eax,6
+ lea rdx,[sim_aircraft]
+ mov dword [rdx+rax+AIR_FLAGS],0
+.copyentity:
  lea rsi,[r15+4]
  mov ecx,4
  rep movsq
@@ -471,15 +498,15 @@ net_client_poll:
  add r15,36
  dec r14d
  jmp .records
-; Whole packet validation precedes every sidecar write. Missing/reordered entity
-; chunks are skipped; independent server cursor eventually refreshes aircraft.
+; Self-contained air64 records warm up and refresh independently of sparse
+; ground chunks. Validate all entity/pose fields before writing either array.
 .aircraft:
  cmp dword [incoming+32],4
  jb .next
  mov r14d,[incoming+40]
- cmp r14d,32
+ cmp r14d,18
  ja .next
- imul eax,r14d,36
+ imul eax,r14d,64
  add eax,4
  cmp eax,[incoming+32]
  jne .next
@@ -490,9 +517,37 @@ net_client_poll:
  mov eax,[r15]
  cmp eax,[sim_count]
  jae .next
- cmp dword [r15+4],0
+ cmp dword [r15+32],0
  je .next
- lea rsi,[r15+8]
+ cmp dword [r15+12],200
+ ja .next
+ cmp dword [r15+16],1
+ ja .next
+ cmp dword [r15+20],3
+ jne .next
+ cmp dword [r15+24],2
+ ja .next
+ mov eax,[r15+28]
+ cmp eax,-1
+ je .targetvalid
+ cmp eax,[sim_count]
+ jae .next
+.targetvalid:
+ lea rsi,[r15+4]
+ mov ecx,2
+.validatexz:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ movss xmm0,[rsi]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum]
+ ja .next
+ add rsi,4
+ loop .validatexz
+ lea rsi,[r15+36]
  mov ecx,5
 .finiteair:
  mov eax,[rsi]
@@ -501,36 +556,36 @@ net_client_poll:
  jae .next
  add rsi,4
  loop .finiteair
- movss xmm0,[r15+8]
+ movss xmm0,[r15+36]
  ucomiss xmm0,[air_min_y]
  jb .next
  ucomiss xmm0,[air_max_y]
  ja .next
- mov eax,[r15+12]
+ mov eax,[r15+40]
  and eax,0x7fffffff
  movd xmm0,eax
  ucomiss xmm0,[air_heading]
  ja .next
- mov eax,[r15+16]
+ mov eax,[r15+44]
  and eax,0x7fffffff
  movd xmm0,eax
  ucomiss xmm0,[air_angle]
  ja .next
- mov eax,[r15+20]
+ mov eax,[r15+48]
  and eax,0x7fffffff
  movd xmm0,eax
  ucomiss xmm0,[air_angle]
  ja .next
- movss xmm0,[r15+24]
+ movss xmm0,[r15+52]
  ucomiss xmm0,[zero]
  jb .next
  ucomiss xmm0,[air_speed]
  ja .next
- cmp dword [r15+28],AIR_FIGHTER
+ cmp dword [r15+56],AIR_FIGHTER
  ja .next
- cmp dword [r15+32],AIR_RETURN
+ cmp dword [r15+60],AIR_RETURN
  ja .next
- add r15,36
+ add r15,64
  dec r14d
  jmp .validateair
 .airvalid:
@@ -541,38 +596,47 @@ net_client_poll:
  jz .accepted
  mov eax,[r15]
  lea rdx,[entity_tick]
- cmp dword [rdx+rax*4],0
- je .nextair
  mov ecx,[incoming+28]
  cmp ecx,[rdx+rax*4]
  jb .nextair
- mov edx,eax
- shl edx,5
- lea rdi,[sim_entities]
- add rdi,rdx
+ lea r8,[air_tick]
+ cmp ecx,[r8+rax*4]
+ jb .nextair
+ mov edi,eax
+ shl edi,5
+ lea r9,[sim_entities]
+ add rdi,r9
+ mov esi,[r15+32]
+ cmp esi,[rdi+28]
+ jb .nextair
+ ja .generationvalid
+ cmp dword [rdx+rax*4],0
+ je .generationvalid
  cmp dword [rdi+16],3
  jne .nextair
- cmp dword [rdi+8],0
- je .nextair
- mov ecx,[r15+4]
- cmp ecx,[rdi+28]
- jne .nextair
- lea rdx,[air_tick]
- mov ecx,[incoming+28]
- cmp ecx,[rdx+rax*4]
- jb .nextair
+.generationvalid:
  mov [rdx+rax*4],ecx
- shl eax,6
+ mov [r8+rax*4],ecx
+ mov r10d,eax
+ lea rsi,[r15+4]
+ mov ecx,4
+ rep movsq
+ shl r10d,6
  lea rdi,[sim_aircraft]
- add rdi,rax
- mov eax,[r15+4]
+ add rdi,r10
+ mov eax,[r15+32]
  mov [rdi+AIR_GENERATION],eax
- mov dword [rdi+AIR_FLAGS],AIR_ACTIVE
- lea rsi,[r15+8]
+ xor eax,eax
+ cmp dword [r15+12],0
+ je .airflags
+ mov eax,AIR_ACTIVE
+.airflags:
+ mov [rdi+AIR_FLAGS],eax
+ lea rsi,[r15+36]
  mov ecx,7
  rep movsd
 .nextair:
- add r15,36
+ add r15,64
  dec r14d
  jmp .applyair
 ; Validate the complete bounded event packet before publishing any ring slot.

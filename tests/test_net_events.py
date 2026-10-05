@@ -40,50 +40,73 @@ try:
     send(102,packet(event(258,kind=5)))
     assert seq.value==258 and C.c_uint.in_dll(lib,'sim_event_count').value==1
     assert bytes(ring[64:96])==event(258,kind=5),'bounded wrap slot incorrect'
-    # Whole aircraft packets exercise the actual assembly sidecar, including
-    # valid first record plus malformed second record (no partial mutation).
+    # Self-contained aircraft packets exercise actual entity and sidecar arrays.
     aircraft=(C.c_ubyte*(32768*64)).in_dll(lib,'sim_aircraft')
-    def air(index=12,generation=5,y=130.0,heading=.3,pitch=.05,bank=.7,speed=7.0,role=1,mode=1):
-        return struct.pack('<II5fII',index,generation,y,heading,pitch,bank,speed,role,mode)
+    entities=(C.c_ubyte*(32768*32)).in_dll(lib,'sim_entities')
+    def air(index=12,generation=5,x=100.,z=100.,hp=120,side=0,kind=3,front=0,target=-1,
+            y=130.0,heading=.3,pitch=.05,bank=.7,speed=7.0,role=1,mode=1):
+        return struct.pack('<I2f4IiI5fII',index,x,z,hp,side,kind,front,target,generation,
+                           y,heading,pitch,bank,speed,role,mode)
     def entity(index=12,generation=5,kind=3):
         return struct.pack('<I2f6I',index,100.,100.,120,0,kind,0,0xffffffff,generation)
-    # Sidecar arriving before entity is ignored, then eventually refreshed.
-    send(103,packet(air()),12)
-    assert struct.unpack_from('<I',aircraft,12*64+60)[0]==0
-    send(101,packet(entity()),12)
-    air_before=bytes(aircraft)
+    air_before=bytes(aircraft);entity_before=bytes(entities)
     bad_air=[packet(air(y=float('nan'))),packet(air(speed=float('inf'))),
              packet(air(heading=float('nan'))),packet(air(pitch=float('inf'))),
-             packet(air(bank=float('nan'))),
-             packet(air(index=128)),packet(air(generation=0)),packet(air(y=-101)),
-             packet(air(y=1201)),packet(air(heading=6.5)),packet(air(pitch=1.7)),
-             packet(air(bank=-1.7)),packet(air(speed=-1)),packet(air(speed=11)),
-             packet(air(role=2)),packet(air(mode=4)),struct.pack('<I',33)+air()*33,
-             struct.pack('<I',1),packet(air(),air(index=13,role=2)),
-             packet(air(),air(index=128))]
+             packet(air(bank=float('nan'))),packet(air(x=float('nan'))),
+             packet(air(z=float('inf'))),packet(air(x=-1)),packet(air(z=8001)),
+             packet(air(hp=201)),packet(air(side=2)),
+             packet(air(kind=0)),packet(air(front=3)),packet(air(target=-2)),
+             packet(air(target=128)),packet(air(index=128)),packet(air(generation=0)),
+             packet(air(y=-101)),packet(air(y=1201)),packet(air(heading=6.5)),
+             packet(air(pitch=1.7)),packet(air(bank=-1.7)),packet(air(speed=-1)),
+             packet(air(speed=11)),packet(air(role=2)),packet(air(mode=4)),
+             struct.pack('<I',19)+air()*19,struct.pack('<I',1),
+             packet(air(),air(index=13,role=2)),packet(air(),air(index=128)),
+             packet(air(),air(index=13,x=float('nan'))),packet(air(),air(index=13,hp=201))]
     for data in bad_air:
         send(103,data,13)
-        assert bytes(aircraft)==air_before,'malformed aircraft packet partially applied'
-    send(103,packet(*([air()]*32)),14)
+        assert bytes(aircraft)==air_before and bytes(entities)==entity_before, 'malformed air64 packet partially applied'
+    # Unknown aircraft warm up solely from type103; no entity101 chunk needed.
+    send(103,packet(*([air()]*18)),14)
+    assert bytes(entities[12*32:13*32])==air()[4:36]
     expected=struct.pack('<5fII',130.,.3,.05,.7,7.,1,1)
     assert bytes(aircraft[12*64:12*64+28])==expected
     assert struct.unpack_from('<I',aircraft,12*64+40)[0]==5
     assert struct.unpack_from('<I',aircraft,12*64+60)[0]==1
-    accepted=bytes(aircraft)
-    for data,tick in [(packet(air(y=140)),13),(packet(air(generation=4)),15),
-                      (packet(air(generation=6)),15),(packet(air(index=13)),15)]:
+    # Successive type103-only snapshots refresh X/Z and pose together.
+    send(103,packet(air(x=121.,z=105.,heading=.4)),17)
+    assert bytes(entities[12*32:13*32])==air(x=121.,z=105.,heading=.4)[4:36]
+    accepted=bytes(aircraft);accepted_entities=bytes(entities)
+    for data,tick in [(packet(air(x=200)),16),(packet(air(generation=4)),18)]:
         send(103,data,tick)
-        assert bytes(aircraft)==accepted,'stale/unmatched aircraft applied'
-    send(103,packet(air(y=180)),16,session=2)
-    send(103,packet(air(y=180)),16,player=1)
-    assert bytes(aircraft)==accepted, 'unmatched session/player aircraft applied'
-    # Existing known ground actor must never receive aircraft orientation.
-    send(101,packet(entity(index=14,kind=0)),15)
-    send(103,packet(air(index=14)),16)
-    assert bytes(aircraft)==accepted
-    send(101,packet(entity()),17)
-    send(103,packet(air(y=150)),16)
-    assert bytes(aircraft)==accepted, 'air pose older than entity chunk applied'
+        assert bytes(aircraft)==accepted and bytes(entities)==accepted_entities,'stale aircraft applied'
+    send(103,packet(air(y=180)),18,session=2)
+    send(103,packet(air(y=180)),18,player=1)
+    assert bytes(aircraft)==accepted and bytes(entities)==accepted_entities,'unmatched session/player aircraft applied'
+    # A newer generation replaces a stale known entity and keeps both arrays coherent.
+    send(103,packet(air(generation=6,x=128)),18)
+    assert struct.unpack_from('<I',entities,12*32+28)[0]==6
+    assert struct.unpack_from('<I',aircraft,12*64+40)[0]==6
+    accepted=bytes(aircraft);accepted_entities=bytes(entities)
+    send(103,packet(air(generation=5,x=300)),19)
+    assert bytes(aircraft)==accepted and bytes(entities)==accepted_entities
+    # Same-generation known ground actor never changes kind from an air packet.
+    send(101,packet(entity(index=14,kind=0)),18)
+    accepted_entities=bytes(entities)
+    send(103,packet(air(index=14)),19)
+    assert bytes(aircraft)==accepted and bytes(entities)==accepted_entities
+    send(101,packet(entity(generation=6)),20)
+    accepted_entities=bytes(entities)
+    send(103,packet(air(generation=6,y=150)),19)
+    assert bytes(aircraft)==accepted and bytes(entities)==accepted_entities,'pose older than entity chunk applied'
+    # Death is self-contained; an older/same-tick sparse packet cannot resurrect it.
+    send(103,packet(air(generation=6,hp=0)),22)
+    assert struct.unpack_from('<I',entities,12*32+8)[0]==0
+    assert struct.unpack_from('<I',aircraft,12*64+60)[0]==0
+    dead_entities=bytes(entities);dead_aircraft=bytes(aircraft)
+    send(101,packet(entity(generation=6)),22)
+    send(103,packet(air(generation=6)),21)
+    assert bytes(entities)==dead_entities and bytes(aircraft)==dead_aircraft,'stale/same-tick packet resurrected dead aircraft'
     # Expanded actual-air events preserve whole-packet validation and dedup.
     send(102,packet(event(259,kind=6,tick=14),event(260,kind=7,tick=14),
                     event(261,kind=8,tick=14),event(262,kind=9,tick=14)),16)
@@ -102,8 +125,8 @@ try:
         struct.pack_into('<8I',duplicate,664+i*32,12,1,i,1,64,0,1,0)
         struct.pack_into('<i',duplicate,792+i*4,12)
     send(100,duplicate,52)
-    send(100,payload,18)
-    assert C.c_uint.in_dll(lib,'sim_tick_count').value==18,'malformed snapshot changed stale-tick guard'
-    print(json.dumps({'suite':'network-events','passed':True,'malformed_cases':len(bad)+len(bad_air)+3,'whole_packet_validation':True,'deduplication':True,'pool_wrap':True,'vehicle_state_validation':True,'aircraft_whole_packet_validation':True,'aircraft_generation_and_reordering':True,'fixtures':'wire payloads; real assembly adapter'}))
+    send(100,payload,23)
+    assert C.c_uint.in_dll(lib,'sim_tick_count').value==23,'malformed snapshot changed stale-tick guard'
+    print(json.dumps({'suite':'network-events','passed':True,'malformed_cases':len(bad)+len(bad_air)+3,'whole_packet_validation':True,'deduplication':True,'pool_wrap':True,'vehicle_state_validation':True,'aircraft_whole_packet_validation':True,'aircraft_generation_and_reordering':True,'aircraft_independent_warmup_and_xz':True,'fixtures':'wire payloads; real assembly adapter'}))
 finally:
     lib.net_client_close();s.close()

@@ -829,8 +829,8 @@ send_events:
  pop rbx
  pop rbp
  ret
-; One bounded independent aircraft packet per client snapshot; only already
-; replicated nearby live aircraft, preserving the entity32 ownership contract.
+; One bounded independent aircraft packet per client snapshot:
+; nearby live aircraft; full entity32 plus pose makes air warmup independent.
 send_aircraft:
  push rbp
  mov rbp,rsp
@@ -869,14 +869,6 @@ send_aircraft:
  add rdx,rax
  cmp dword [rdx+16],3
  jne .skip
- cmp dword [rdx+8],0
- je .skip
- mov eax,r12d
- shl eax,15
- add eax,r9d
- lea r8,[replicated]
- cmp byte [r8+rax],0
- je .skip
  movss xmm0,[rdx]
  subss xmm0,[rbx+PLAYER_X]
  mulss xmm0,xmm0
@@ -895,17 +887,31 @@ send_aircraft:
  mov eax,[rdx+28]
  cmp eax,[rsi+AIR_GENERATION]
  jne .skip
- imul edi,r14d,36
+ ; Air64 itself replicates a full entity, so include it in interest evidence.
+ mov eax,r12d
+ shl eax,15
+ add eax,r9d
+ lea r8,[replicated]
+ cmp byte [r8+rax],0
+ jne .aircounted
+ mov byte [r8+rax],1
+ inc qword [distinct_pairs]
+.aircounted:
+ imul edi,r14d,64
  lea r8,[output+44]
  add rdi,r8
  mov [rdi],r9d
- mov [rdi+4],eax
- add rdi,8
+ add rdi,4
+ mov r8,rsi
+ mov rsi,rdx
+ mov ecx,4
+ rep movsq
+ mov rsi,r8
  mov ecx,7
  rep movsd
  inc r14d
 .skip:
- cmp r14d,32
+ cmp r14d,18
  jae .finish
  cmp r15d,[sim_count]
  jb .scan
@@ -914,7 +920,7 @@ send_aircraft:
  jz .done
  add [aircraft_records],r14
  mov [output+40],r14d
- imul esi,r14d,36
+ imul esi,r14d,64
  add esi,44
  lea eax,[rsi-NET_HEADER]
  mov [output+32],eax

@@ -29,7 +29,7 @@ The 40-byte header is ten little-endian u32 fields: magic `0x52484332`, version
 server tick, payload bytes, and session generation. The canonical field layouts
 are in `src/net/schema.txt`, with assembly constants in `src/net/protocol.inc`.
 The schema fingerprint is the first 32 bits of SHA256 of that canonical file:
-`bb315959fd2e712f33722db6a3225c110444cdaffef05f09f944e63f716f3b86`.
+`4a0d236bc5c980b81967160388b4002e638137cf70e25ba1c05f3e6b9dd1f636`.
 The content fingerprint comes from SHA256 of `content/asset-manifest.json`:
 `5e4bc68ba407972644412450eff2257ecee1e97026cf1223f863d1f7bffe3d0c`.
 These truncated compatibility hashes are not authentication or cryptography.
@@ -150,29 +150,21 @@ python3 tools/dev.py test --suite network --extended
 
 Aircraft packet `103` adds at most one 1196-byte packet per client snapshot.
 Its independent cursor examines at most the simulated entity count and sends
-at most 32 already-replicated, live kind 3 actors within 1200 m. Records carry
-index/generation, height, heading, pitch, bank, speed, role and mode. Speed is
-metres per fixed 30 Hz tick (`0..10`), preserving the simulation convention.
-Entity32 and state848 remain unchanged.
+at most 18 kind 3 actors within 1200 m. Each 64-byte record contains an
+index, unchanged entity32, and seven pose fields: height, heading, pitch, bank,
+speed, role and mode. Speed is metres per fixed 30 Hz tick (`0..10`). Entity32
+and state848 remain unchanged. Complete air records warm up previously unseen
+planes and update authoritative X/Z independently of sparse ground snapshots.
 
-Clients validate the entire packet for finite values, bounds and enums before
-applying any sidecar field. Exact entity generation and a known living kind 3
-record are required. Aircraft packets arriving ahead of entity chunks are
-skipped until a later refresh. Per-aircraft ticks and entity ticks reject stale
-poses; session guards apply as for all snapshots. Kinds `6..9` add cosmetic bomb
-launch/impact, air gun and aircraft destruction events. Damage remains
-server-authoritative. The dedicated report includes transmitted aircraft record
-count, separate from entity records.
-
-Aircraft transport verification on the worker source snapshot
-`cfddcf4dddc37c8247ff7796aa278c4ea9e6a5d5-a9580da71f82b33f` passed the
-focused network suite: the actual 8192-unit dedicated server transmitted 5200
-aircraft records during 180 ticks, alongside 11520 entity records and 881712
-outbound bytes. The linked assembly adapter applied actual aircraft sidecars
-with exact kind/generation and simulation speeds 5/7 metres per tick. The wire
-fixture rejected 35 malformed event/aircraft/ownership cases without partial
-publication and checked stale ticks, mismatched generations/sessions, arrival
-before entity chunks, and ground actors. Live co-op vehicle combat and event
-replication passed, with largest observed datagram 1196 bytes. These are focused
-transport results; full UDP fault/scale/graphics integration remains the
-integrator's checkpoint, and this does not establish smooth dense air rendering.
+Clients validate the entire packet's entity and pose fields before changing
+either array. Kind 3, HP `0..200`, finite bounded X/Z, valid side/front/target and
+nonzero generation are required. Entity and aircraft ticks and generations
+reject stale updates. HP zero clears the sidecar active flag; air64 wins against
+same-tick sparse entity chunks, preserving authoritative death. Session guards apply before parsing. Kinds `6..9` add
+cosmetic bomb launch/impact, air gun and aircraft destruction events; damage
+remains server-authoritative. The dedicated report counts transmitted aircraft
+records separately. The cap is 180 aircraft records per second per client, so
+more than 18 nearby planes receive lower refresh frequencies; the cap includes
+dead aircraft records that propagate authoritative HP zero. Loss and reorder
+can increase the interval. This bounded budget does not establish smooth dense
+air rendering.
