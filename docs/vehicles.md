@@ -67,3 +67,12 @@ the integrator and simulation worker. Physical graphical driving playtests,
 vehicle-specific recorded sound, wreck cover, repairs, armor penetration, turret
 limits, passenger seats, terrain traction and tuned vehicle balance remain future
 work. This adds one existing armor role, not the complete combined-arms roster.
+
+Direct-helper validation now precedes all interaction history and state changes.
+Unknown buttons, nonfinite wishes, and wishes outside `[-1,1]` return one for an
+existing valid boarded claim, zero when detached, and preserve authoritative
+records, ammo/cooldown, events, counters, replay hash and private edge history.
+Focused tests pass rejected ENTER/EXIT scenarios while checking complete relevant
+state and checksum; the immediately following valid held interaction succeeds,
+proving the rejected attempt did not consume its edge. The common player API
+already rejected these values, but direct helper callers now have the same guard.

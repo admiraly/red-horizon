@@ -94,6 +94,29 @@ assert lib.vehicle_tick_player(0,24,0,0)==0
 assert lib.vehicle_tick_player(0,8,0,0)==0
 assert lib.vehicle_tick_player(0,0,0,0)==0
 assert lib.vehicle_tick_player(0,8,0,0)==1 and vehicles[0].generation==2
+# Invalid direct interactions must preserve the world and NOT consume edges.
+# A subsequent valid held ENTER/EXIT proves private history was left untouched.
+def vehicle_state():
+    return (bytes(players),bytes(vehicles),bytes(mapping),bytes(owners),bytes(shots),
+            bytes(ammo),bytes(cooldown),bytes(events),sequence.value,
+            C.c_uint.in_dll(lib,'player_deaths').value,lib.sim_checksum())
+
+for buttons,wx,wz in [(8,math.nan,0),(40,0,0),(8,0,math.inf),(8,2,0)]:
+    p,e=reset()
+    before=vehicle_state()
+    assert lib.vehicle_tick_player(0,buttons,wx,wz)==0
+    assert vehicle_state()==before, 'invalid detached ENTER modified authoritative state'
+    assert lib.vehicle_tick_player(0,8,0,0)==1 and mapping[0]==12
+    assert vehicles[0].generation==1, 'invalid ENTER consumed private interaction edge'
+    before=vehicle_state()
+    assert lib.vehicle_tick_player(0,16,math.nan,0)==1
+    assert vehicle_state()==before, 'invalid boarded EXIT modified authoritative state'
+    assert lib.vehicle_tick_player(0,48,0,0)==1
+    assert vehicle_state()==before, 'unknown EXIT flags modified authoritative state'
+    assert lib.vehicle_tick_player(0,16,0,0)==0 and mapping[0]==-1
+    assert vehicles[0].generation==1, 'invalid EXIT consumed private interaction edge'
+# Restore held-edge lifecycle fixture used by destruction checks below.
+p,e=reset();assert lib.vehicle_tick_player(0,8,0,0)==1
 # Owned hull destruction kills driver once and emits one actual cosmetic event.
 before_deaths=C.c_uint.in_dll(lib,'player_deaths').value
 before_events=sequence.value

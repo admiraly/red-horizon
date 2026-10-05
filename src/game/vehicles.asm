@@ -382,6 +382,19 @@ vehicle_exit:
 vehicle_tick_player:
  cmp edi,VEHICLE_CAPACITY
  jae .unhandled
+ ; Reject before edge history, boarding, destruction or ownership can mutate.
+ test esi,~31
+ jnz .invalid_input
+ ucomiss xmm0,[minus_one]
+ jp .invalid_input
+ jb .invalid_input
+ ucomiss xmm0,[one]
+ ja .invalid_input
+ ucomiss xmm1,[minus_one]
+ jp .invalid_input
+ jb .invalid_input
+ ucomiss xmm1,[one]
+ ja .invalid_input
  push rbx
  push r12
  push r13
@@ -441,21 +454,9 @@ vehicle_tick_player:
  mov r14d,eax
  mov r15,rdx
 .drive:
- ; Guard even direct callers; the common player API already validates these.
- test r13d,~31
- jnz .handled
+ ; Direct and common-player inputs were validated before interaction edges.
  movss xmm0,[rsp]
- ucomiss xmm0,[minus_one]
- jp .handled
- jb .handled
- ucomiss xmm0,[one]
- ja .handled
  movss xmm1,[rsp+4]
- ucomiss xmm1,[minus_one]
- jp .handled
- jb .handled
- ucomiss xmm1,[one]
- ja .handled
  movss xmm2,[r15+ENTITY_X]
  addss xmm2,xmm0
  movss xmm3,[r15+ENTITY_Z]
@@ -573,6 +574,15 @@ vehicle_tick_player:
  pop r13
  pop r12
  pop rbx
+ ret
+.invalid_input:
+ push rbp
+ mov rbp,rsp
+ call claim ; read-only, preserve all simulation and interaction state
+ cmp eax,-1
+ setne al
+ movzx eax,al
+ pop rbp
  ret
 .unhandled:
  xor eax,eax
