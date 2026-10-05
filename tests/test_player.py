@@ -70,6 +70,24 @@ for _ in range(59):lib.player_tick()
 assert p.reload==1 and p.ammo==28
 lib.player_tick()
 assert p.reload==0 and p.ammo==30
+# Suppression changes an actual grazing shot outcome, rather than just a HUD value.
+p=reset();place_enemy(3903,2080)
+_,pitch=aim(p,3903,2080)
+lib.player_input(0,1,0,0,0,pitch);lib.player_tick()
+assert p.hits==1
+p=reset();place_enemy(3903,2080);p.suppression=80
+lib.player_input(0,1,0,0,0,pitch);lib.player_tick()
+assert p.shots==1 and p.hits==0 and entities[1].hp==100
+# Humans/allies never receive rifle damage.
+p=reset();place_enemy(3900,2080);entities[1].side=0
+lib.player_input(0,1,0,0,0,0);lib.player_tick()
+assert p.shots==1 and p.hits==0 and entities[1].hp==100
+# An intent step must never put the authoritative player inside a solid wall.
+p=reset();p.x,p.z=3987.9,1300;p.y=lib.terrain_height(p.x,p.z)+1.8
+lib.player_input(0,4,1,0,0,0)
+for _ in range(30):
+    lib.player_tick()
+    assert lib.terrain_blocked(C.c_float(p.x),C.c_float(p.z),0)==0
 # A real solid wall prevents rifle damage and enemy threats in both directions.
 p=reset();p.x,p.z=3970,1300;p.y=lib.terrain_height(p.x,p.z)+1.8
 place_enemy(4030,1300)
@@ -101,4 +119,7 @@ assert lib.player_join(0,1)==0
 h=lib.sim_checksum()
 lib.player_input(0,0,1,0,0,0)
 assert lib.sim_checksum()!=h, 'replay must include authoritative player intent'
+x=players[0].x
+lib.sim_tick()
+assert players[0].x>x, 'sim_tick must advance real player input'
 print('PASS: player validation, fixed-tick movement, rifle LOS/cadence/reload, suppression/death, safe redeployment and replay state')
