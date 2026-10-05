@@ -1,0 +1,2 @@
+# Asset policy
+Runtime effects must come from recorded licensed sources. Every shipped source and derivative needs provenance, original URL/title/author, exact licence/version, original/derived hashes, processing and destination in content/asset-manifest.json. CC0 preferred; attribution generated for every included asset. Unclear/noncommercial licences excluded. Procedural geometry is project-authored placeholder art. Code licence is pending owner approval; public visibility does not grant reuse rights.

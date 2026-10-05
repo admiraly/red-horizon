@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "assets": [
+    {
+      "id": "rifle-shot",
+      "source_url": "https://opengameart.org/content/gunshot-sounds",
+      "download_url": "https://opengameart.org/sites/default/files/sounds.zip",
+      "title": "Gunshot Sounds / SKS",
+      "author": "Vincent Sevedge (Tabasco)",
+      "license": "CC-BY-3.0",
+      "license_url": "https://creativecommons.org/licenses/by/3.0/",
+      "license_evidence": "Archive creativecommons.txt copyright (c) 2009 Vincent Sevedge specifies CC-BY-3.0. Website lists CC0; derivative distributed under the archive attribution grant.",
+      "required_attribution": "Gunshot recording by Vincent Sevedge (Tabasco), CC-BY-3.0, edited for RED HORIZON.",
+      "original_sha256": "236b1fbc029dd44efe930c9a75d383a92b2ae72b69a78b44830e449e83da61a4",
+      "archive_sha256": "5b3960083a94e18ee47bc84376615a476debc884b18f25b93ea4b6ab3f278e4f",
+      "derived_sha256": "45cdff67e811ba54eaf892dcc2b0c48e51a048af7e66efe0b6e1987a77585463",
+      "processing": "ffmpeg -ss 0.28 -t 1.05 -ac 1 -ar 48000 -af volume=0.8,afade=t=out:st=0.85:d=0.2 -f s16le",
+      "destination": "content/audio/rifle.pcm",
+      "format": "signed16 little-endian mono 48000 Hz",
+      "recorded": true
+    }
+  ]
+}
