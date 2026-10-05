@@ -4,7 +4,7 @@
   "legacy": true,
   "terrain_body_module_present": false,
   "library_sha256": "53503ff36aaab56ff2f9e2c6353ff53929396916c128955ef76df8fe1aa27606",
-  "oracle_sha256": "fc2e3c34914f19b1dc95e987813b65b00552fd12f6162e78d041ed1c3d1d8fe8",
+  "oracle_sha256": "7dba1175da7c0d7a095540f3ff98f75b0911d631557055799aea379a0fcb4420",
   "expanded_rectangle_radii_m": [
     0.55,
     3.55,
@@ -64,6 +64,9 @@
       "final_goal_error": 2.441406240905053e-05,
       "body_collision_ticks": 210,
       "maximum_penetration_m": 0.14997558593745453,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -112,6 +115,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 64,
       "maximum_penetration_m": 0.5499999999999545,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -160,6 +166,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 166,
       "maximum_penetration_m": 0.4900000000000091,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -208,6 +217,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 138,
       "maximum_penetration_m": 3.4186523437499545,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -256,6 +268,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 418,
       "maximum_penetration_m": 4.481577148437509,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -304,6 +319,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 142,
       "maximum_penetration_m": 3.2405517578124545,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -352,6 +370,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 63,
       "maximum_penetration_m": 0.55,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -393,6 +414,9 @@
       "final_goal_error": 0.0,
       "body_collision_ticks": 88,
       "maximum_penetration_m": 3.55,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -434,6 +458,9 @@
       "final_goal_error": 5.036592483520508e-06,
       "body_collision_ticks": 73,
       "maximum_penetration_m": 4.489994963407517,
+      "input": null,
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -472,6 +499,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 84,
       "maximum_penetration_m": 0.14997558593745453,
+      "input": [
+        4,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -517,6 +551,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 84,
       "maximum_penetration_m": 0.14997558593745453,
+      "input": [
+        68,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -562,6 +603,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 303,
       "maximum_penetration_m": 0.14997558593745453,
+      "input": [
+        32,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -607,6 +655,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 0,
       "maximum_penetration_m": 0,
+      "input": [
+        4,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 65,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -645,6 +700,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 0,
       "maximum_penetration_m": 0,
+      "input": [
+        68,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 65,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -683,6 +745,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 0,
       "maximum_penetration_m": 0,
+      "input": [
+        32,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 94,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -728,6 +797,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 83,
       "maximum_penetration_m": 3.146679687500182,
+      "input": [
+        0,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 76,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -749,6 +825,96 @@
       "checksum": "2817b927a6ff89b9"
     },
     {
+      "name": "player_diagonal_wall",
+      "mode": "player",
+      "kind": 0,
+      "radius_m": 0.55,
+      "ticks": 90,
+      "start": [
+        3980,
+        1300
+      ],
+      "goal": null,
+      "final": [
+        3987.15185546875,
+        1323.9215087890625
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 0,
+      "maximum_penetration_m": 0,
+      "input": [
+        4,
+        1,
+        1
+      ],
+      "intent_fault_ticks": 55,
+      "diagonal_contact_slide_steps": 0,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            3986.36474609375,
+            1306.36474609375
+          ]
+        },
+        {
+          "tick": 90,
+          "pose": [
+            3987.15185546875,
+            1323.9215087890625
+          ]
+        }
+      ],
+      "physical_trace_sha256": "f264253593693b93b8876cdede4d4b060947648151d959927d9510c19caa6f28",
+      "checksum": "b2d33944e845a49e"
+    },
+    {
+      "name": "driven_tank_diagonal_wall",
+      "mode": "driver",
+      "kind": 1,
+      "radius_m": 3.55,
+      "ticks": 90,
+      "start": [
+        3980,
+        1300
+      ],
+      "goal": null,
+      "final": [
+        3987.278076171875,
+        1350.654296875
+      ],
+      "final_goal_error": null,
+      "body_collision_ticks": 80,
+      "maximum_penetration_m": 2.972851562500182,
+      "input": [
+        0,
+        1,
+        1
+      ],
+      "intent_fault_ticks": 71,
+      "diagonal_contact_slide_steps": 0,
+      "initial_invalid": false,
+      "samples": [
+        {
+          "tick": 30,
+          "pose": [
+            3987.08642578125,
+            1315.0130615234375
+          ]
+        },
+        {
+          "tick": 90,
+          "pose": [
+            3987.278076171875,
+            1350.654296875
+          ]
+        }
+      ],
+      "physical_trace_sha256": "fdcd4bb383d7c0f3b53b4ec9c00999de81c314eb8816df5f9a183f255c59fea7",
+      "checksum": "513dd16360845f9b"
+    },
+    {
       "name": "player_edge",
       "mode": "player",
       "kind": 0,
@@ -766,6 +932,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 76,
       "maximum_penetration_m": 0.55,
+      "input": [
+        4,
+        -1,
+        0
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -804,6 +977,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 80,
       "maximum_penetration_m": 3.55,
+      "input": [
+        0,
+        -1,
+        0
+      ],
+      "intent_fault_ticks": 0,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": false,
       "samples": [
         {
@@ -842,6 +1022,13 @@
       "final_goal_error": null,
       "body_collision_ticks": 60,
       "maximum_penetration_m": 0.3500000000003638,
+      "input": [
+        4,
+        1,
+        0
+      ],
+      "intent_fault_ticks": 60,
+      "diagonal_contact_slide_steps": 0,
       "initial_invalid": true,
       "samples": [
         {
@@ -905,5 +1092,6 @@
   ],
   "deterministic_replay": true,
   "physical_faction_label_swap": true,
+  "candidate_controller_input_components_preserved": false,
   "scope": "Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance."
 }

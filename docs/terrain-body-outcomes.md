@@ -21,8 +21,8 @@ navigation cache intermediates, useful advance toward unreachable center-edge
 goals, walking/sprinting/jumping/crouching, tank driving at0.6m/tick, and a player
 initialized with a shallow invalid body overlap. The latter must hold or recover
 without deepening penetration and may never reenter after becoming clear; it is
-separate from clear-start acceptance. Wall-skirt player movement crosses the full
-wall span at genuine controller speed. Direct wall approaches are safety controls:
+separate from clear-start acceptance. Wall-skirt player movement genuinely approaches the wall span at controller
+speed; a pureX input must stop at the expanded obstacle without inventingZ steering. Direct wall approaches are safety controls:
 legacy point movement already happens to stop sufficiently far away for the human
 radius, so those controls are not claimed as historical failure reproductions.
 
@@ -46,9 +46,22 @@ the actual pre-module library. The historical record asserts positive footprint
 fault counts in every causal fixture, while retaining the direct human wall
 approaches as safety controls. Candidate mode requires the production policy
 symbol, zero clear-start swept violations, bounded speeds, useful route arrivals,
-controller progress up to obstruction, no invalid-overlap deepening, exact replay
+controller progress up to obstruction, preservation of each commanded input
+component, legal diagonal contact sliding, no invalid-overlap deepening, exact replay
 and faction invariance, and no natural clear-start reentry.
 
+The21-case observer records unrequested/reversed/amplified controller components
+for legacy as diagnostics and rejects them in candidate mode. PureX inputs must
+retainZ exactly at every tick. RealX+Z diagonal wall contacts must retain permitted
+positiveZ sliding afterX is obstructed; each movement component remains bounded by
+the normalized actual input and the role/controller speed. Crouch uses its actual
+0.083333m/tick speed bound. The autonomous army route path remains distinct from
+manual controller stepping.
+
 Historical baseline evidence is `docs/evidence/terrain-body-worker-baseline.json`.
-Its library and oracle SHA-256 values identify the measured executable and observer.
+The refreshed21-case baseline uses the original pre-body worker library; it
+replaces the earlier19-case record after adding the input-fidelity criteria. Its
+library and oracle SHA-256 values identify the measured executable and observer.
+Straight/diagonal human wall approaches that were already body-safe remain safety
+controls, and legacy input drift remains explicitly reported.
 Root integration owns runtime callers, suite registration and final acceptance.

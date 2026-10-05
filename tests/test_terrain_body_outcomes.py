@@ -104,11 +104,13 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
             speed=.6
         else:
             actor=p
-            speed=.3 if intent[0]&4 else 1/6
+            speed=1/12 if intent[0]&32 else (.3 if intent[0]&4 else 1/6)
         assert lib.player_input(0,intent[0],intent[1],intent[2],0,0)==0
     assert invalid or not violation(start,start,kind),(name,'fixture starts with body overlap')
     trace=hashlib.sha256()
     collision_ticks=0
+    intent_fault_ticks=0
+    contact_slide_steps=0
     maximum_penetration=penetration(start,kind)
     samples=[]
     for tick in range(ticks):
@@ -118,6 +120,15 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
         after=pose(actor)
         assert actor.hp==100,(name,'movement fixture polluted by damage',tick,actor.hp)
         assert math.dist(before,after)<=speed+.0015,(name,'speed bound',tick,before,after)
+        if mode!='army':
+            requested=(intent[1],intent[2])
+            norm=max(1,math.hypot(*requested))
+            delta=tuple(q-p for p,q in zip(before,after))
+            fault=any((abs(d)>1e-6 if v==0 else d*v<-TOL or abs(d)>speed*abs(v)/norm+.0015) for d,v in zip(delta,requested))
+            intent_fault_ticks+=fault
+            if not a.legacy:assert not fault,(name,'unrequested, reversed or amplified input component',tick,before,after,requested)
+            if requested[0] and requested[1] and abs(delta[0])<1e-6 and delta[1]*requested[1]>.001:
+                contact_slide_steps+=1
         trace.update(struct.pack('<ff',*after))
         collision_ticks+=violation(before,after,kind)
         depth=penetration(after,kind)
@@ -137,9 +148,11 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
         else:assert math.dist(end,goal)<.6,(name,'failed body-safe route progress',end,goal)
     if not a.legacy and mode!='army' and not invalid:
         assert math.dist(start,end)>1,(name,'controller frozen before physical obstruction',start,end)
+        if name.endswith('_diagonal_wall'):assert contact_slide_steps>0,(name,'diagonal contact failed requested legal slide',end)
     return {'name':name,'mode':mode,'kind':kind,'radius_m':RADII[kind],'ticks':ticks,'start':start,'goal':goal,
             'final':end,'final_goal_error':None if goal is None else math.dist(end,goal),
             'body_collision_ticks':collision_ticks,'maximum_penetration_m':maximum_penetration,
+            'input':intent,'intent_fault_ticks':intent_fault_ticks,'diagonal_contact_slide_steps':contact_slide_steps,
             'initial_invalid':invalid,'samples':samples,'physical_trace_sha256':trace.hexdigest(),
             'checksum':f'{lib.sim_checksum():016x}'}
 
@@ -160,6 +173,8 @@ cases=[
  ('player_jump_wall',0,(3980,1300),90,None,'player',(4|64,1,0)),
  ('player_crouch_wall',0,(3980,1300),180,None,'player',(32,1,0)),
  ('driven_tank_wall',1,(3980,1300),90,None,'driver',(0,1,0)),
+ ('player_diagonal_wall',0,(3980,1300),90,None,'player',(4,1,1)),
+ ('driven_tank_diagonal_wall',1,(3980,1300),90,None,'driver',(0,1,1)),
  ('player_edge',0,(5,2000),90,None,'player',(4,-1,0)),
  ('driven_tank_edge',1,(10,2000),90,None,'driver',(0,-1,0)),
  ('player_initial_invalid',0,(3987.8,1300),60,None,'player',(4,1,0),False,True),
@@ -175,7 +190,7 @@ for case in cases:
         assert row['physical_trace_sha256']==mirror['physical_trace_sha256'],(case[0],'label-dependent movement')
     reports.append(row)
 if a.legacy:
-    assert all(r['body_collision_ticks']>0 for r in reports if r['name'] not in ('player_wall','player_jump_wall','player_crouch_wall')),[(r['name'],r['body_collision_ticks']) for r in reports]
+    assert all(r['body_collision_ticks']>0 for r in reports if r['name'] not in ('player_wall','player_jump_wall','player_crouch_wall','player_diagonal_wall')),[(r['name'],r['body_collision_ticks']) for r in reports]
 
 def census(n):
     assert lib.sim_init(n,42)==0 and lib.sim_scenario(3)==0
@@ -211,6 +226,7 @@ report={'suite':'terrain-body-outcomes','passed':True,'legacy':a.legacy,'terrain
         'oracle_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'expanded_rectangle_radii_m':RADII,'solid_boxes':boxes,'controlled_encounters':reports,'dense':dense,
         'deterministic_replay':True,'physical_faction_label_swap':True,
+        'candidate_controller_input_components_preserved':not a.legacy,
         'scope':'Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance.'}
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))
