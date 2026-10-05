@@ -12,6 +12,7 @@ uniform vec2 projection;
 uniform int terrain;
 uniform int tactical;
 uniform vec2 selectedGoal;
+uniform vec4 incomingThreat; // active, bearing/pi, estimated ETA seconds, blast radius metres
 uniform vec4 playerHealth; // health, suppression, redeploy progress, damage flash
 uniform int localPlayer;
 uniform vec4 vehicleState; // aboard,cannon ammo,cooldown,entity index+1
@@ -47,6 +48,18 @@ void main(){
   if(bar==41){centre=vec2(0,.78);size=vec2(.25*playerHealth.z,.015);colour=vec3(.9,.22,.16);if(playerHealth.x>0)size=vec2(0);}
   if(bar==42){centre=vec2(0,-.97);size=vec2(.98,.018);colour=vec3(.9,.1,.08)*playerHealth.w;if(playerHealth.w<=0)size=vec2(0);}
   if(bar==43){centre=vec2(.65,-.77);size=vec2(.18*clamp(vehicleState.y/20.,0,1),.012);colour=vec3(1.,.66,.2);if(vehicleState.x<=0)size=vec2(0);}
+  // Local observed incoming explosive cue: three rectangles (18 vertices).
+  // Bearing moves the arrow across a compact top-centre compass strip.
+  // Remaining-time fill shrinks toward impact, never flashes or washes the screen.
+  if(bar>=44){
+   float bearing=clamp(incomingThreat.y,-1.,1.);
+   float remaining=clamp(incomingThreat.z/4.,0.,1.);
+   colour=mix(vec3(1.,.16,.05),vec3(1.,.70,.14),remaining);
+   if(bar==44){centre=vec2(bearing*.26,.82);size=vec2(.013,.024);c=vec2(v%3==0?-1.:(v%3==1?1.:0.),v%3==2?1.:-1.);}
+   if(bar==45){centre=vec2(0,.755);size=vec2(.28,.008);colour=vec3(.20,.12,.055);}
+   if(bar==46){centre=vec2(-.28+.28*remaining,.755);size=vec2(.28*remaining,.005);}
+   if(bar>46||incomingThreat.x<=0||playerHealth.x<=0)size=vec2(0);
+  }
   if(vehicleState.x>0){if(bar==34||bar==35)size=vec2(0);if(bar<2)colour=vec3(1.,.75,.3);}
   if(bar==34||bar==35)size=vec2(0); // first-person weapon is an actual source mesh
   if((tactical!=0||playerHealth.x<=0)&&(bar<2||bar==34||bar==35))size=vec2(0);
