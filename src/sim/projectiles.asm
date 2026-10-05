@@ -24,6 +24,7 @@ max_coord: dd 8000.0
 min_y: dd -1000.0
 max_y: dd 1000.0
 muzzle_height: dd 3.0
+air_height: dd 90.0
 gravity: dd 0.0109
 shell_step: dd 0.0,10.0,6.0
 blast_radius: dd 0.0,18.0,35.0
@@ -124,6 +125,10 @@ projectile_spawn:
  movss xmm1,[rbx+ENTITY_Z]
  call terrain_height
  addss xmm0,[one]
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .target_height
+ addss xmm0,[air_height]
+.target_height:
  movaps xmm1,xmm0
  movss xmm0,[rbx+ENTITY_X]
  movss xmm2,[rbx+ENTITY_Z]
@@ -220,22 +225,54 @@ projectile_launch:
  movaps xmm4,xmm2
  mulss xmm4,xmm4
  addss xmm3,xmm4
+ ; Direct rounds normalize the full XYZ displacement, including cannon pitch.
+ ; Ballistic time bounds both horizontal and vertical displacement; close/high
+ ; targets must not manufacture an unbounded one-tick vertical velocity.
+ movss xmm4,[rsp+4]
+ subss xmm4,[rsp+12]
+ movss [rsp+28],xmm4
+ movaps xmm5,xmm4
+ mulss xmm5,xmm5
+ cmp r13d,1
+ jne .ballistic_distance
+ addss xmm3,xmm5
  sqrtss xmm3,xmm3
- maxss xmm3,[one]
+ ucomiss xmm3,[zero]
+ jbe .failed
+ jmp .flight_time
+.ballistic_distance:
+ sqrtss xmm3,xmm3
+ sqrtss xmm5,xmm5
+ maxss xmm3,xmm5
+ ucomiss xmm3,[zero]
+ jbe .failed
+.flight_time:
  lea rax,[shell_step]
- divss xmm3,[rax+r13*4] ; flight ticks T
- maxss xmm3,[one] ; no short-range overshoot within the first fixed tick
+ divss xmm3,[rax+r13*4]
+ maxss xmm3,[one] ; short direct rounds never overshoot their aim in tick one
+ cmp r13d,2
+ jne .time_ready
+ ; Integer paired time makes the discrete gravity trajectory reach its aim
+ ; at a fixed tick, rather than using a continuous formula with half-step drift.
+ cvttss2si eax,xmm3
+ cvtsi2ss xmm5,eax
+ ucomiss xmm5,xmm3
+ jae .rounded_time
+ addss xmm5,[one]
+.rounded_time:
+ movaps xmm3,xmm5
+.time_ready:
  movss [rsp+16],xmm3
  divss xmm1,xmm3
  divss xmm2,xmm3
  movss [rsp+20],xmm1
  movss [rsp+24],xmm2
- movss xmm4,[rsp+4]
- subss xmm4,[rsp+12]
+ movss xmm4,[rsp+28]
  divss xmm4,xmm3
  cmp r13d,2
  jne .linear_shell
  movaps xmm5,xmm3
+ subss xmm5,[one] ; position advances BEFORE gravity each tick
  mulss xmm5,[gravity]
  mulss xmm5,[half]
  addss xmm4,xmm5

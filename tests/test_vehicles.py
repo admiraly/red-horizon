@@ -75,6 +75,21 @@ assert abs(p.x-e.x)>=5.9 and lib.terrain_blocked(p.x,p.z,0)==0
 p.x,p.z=e.x+2,e.z;p.y=lib.terrain_height(p.x,p.z)+1.8
 assert lib.vehicle_enter(0)==0 and ammo[12]==before_ammo-1 and cooldown[12]==30
 assert lib.vehicle_tick_player(0,1,0,0)==1 and shots[0]==1,'reboarding reset persistent cannon cadence'
+# Actual cannon yaw/pitch in all quadrants preserves300m/s and aim direction.
+class Shell(C.Structure):
+    _fields_=[(n,C.c_float)for n in('x','y','z','vx','vy','vz')]+[('tail',C.c_byte*40)]
+shells=(Shell*512).in_dll(lib,'sim_projectiles')
+for yaw in (0,math.pi/2,math.pi,-math.pi/2,math.pi/4,-3*math.pi/4):
+    for pitch in (-1.3,0,.5,1.3):
+        p,e=reset();assert lib.vehicle_enter(0)==0
+        p.yaw,p.pitch=yaw,pitch
+        assert lib.vehicle_tick_player(0,1,0,0)==1
+        shell=shells[0]
+        assert abs(math.hypot(shell.vx,shell.vy,shell.vz)-10)<.0001,(yaw,pitch,shell.vx,shell.vy,shell.vz)
+        # Forward unit direction dotted with the real shot must stay aligned.
+        direction=(math.cos(pitch)*math.sin(yaw),math.sin(pitch),math.cos(pitch)*math.cos(yaw))
+        assert sum(a*b for a,b in zip(direction,(shell.vx,shell.vy,shell.vz)))>9.999
+        assert p.shots==0 and shots[0]==1 and ammo[12]==63
 # Nearby enemy armor and nonarmor cannot be boarded; disconnected/dead reject.
 p,e=reset();e.side=1
 assert lib.vehicle_enter(0)==-1

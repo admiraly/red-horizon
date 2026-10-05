@@ -22,6 +22,8 @@ sequence=C.c_uint.in_dll(lib,'sim_event_sequence')
 ammo=(C.c_uint*32768).in_dll(lib,'sim_shell_ammo')
 cooldown=(C.c_uint*32768).in_dll(lib,'sim_shell_cooldown')
 alive=(C.c_uint*2).in_dll(lib,'sim_alive')
+lib.terrain_height.argtypes=[C.c_float,C.c_float]
+lib.terrain_height.restype=C.c_float
 assert C.sizeof(Shell)==64 and C.sizeof(Event)==32
 
 def reset(kind=1,x=3500,z=2000,target_x=3700,target_z=2000):
@@ -88,10 +90,55 @@ assert count.value==0 and entities[16].hp<100 and any(e.kind==4 and e.sequence f
 source=reset(target_x=3500,target_z=2000)
 entities[16].kind=3
 assert lib.projectile_launch(source,1,3500,1000,2000)==0
+shell=next(p for p in shells if p.active)
+assert abs(math.hypot(shell.vx,shell.vy,shell.vz)-10)<1e-5
 lib.projectile_tick()
+assert shell.active and entities[16].hp==100, "vertical rounds must travel, not teleport"
+for _ in range(20):lib.projectile_tick()
 assert count.value==0 and entities[16].hp==20
 impact=events[sequence.value&255]
 assert impact.kind==3 and 50<impact.y<200 and math.isfinite(impact.y)
+# Cardinal and quadrant shots retain physical speed and the requested 3D aim.
+for dx,dz in ((600,0),(-600,0),(0,600),(0,-600),(420,420),(-420,420),(-420,-420),(420,-420)):
+    source=reset(x=2000,z=2000)
+    goal=(2000+dx,160,2000+dz)
+    assert lib.projectile_launch(source,1,*goal)==0
+    shell=next(p for p in shells if p.active)
+    start=(shell.x,shell.y,shell.z)
+    assert abs(math.hypot(shell.vx,shell.vy,shell.vz)-10)<2e-5
+    assert shell.vx*dx>=0 and shell.vz*dz>=0 and shell.vy>0
+    lib.projectile_tick()
+    assert shell.active and abs(math.dist(start,(shell.x,shell.y,shell.z))-10)<.001
+# Zero displacement rejects without spending or publishing a stationary shell.
+source=reset();muzzle=lib.terrain_height(3500,2000)+3
+before=lib.sim_checksum()
+assert lib.projectile_launch(source,1,3500,muzzle,2000)==-1 and lib.sim_checksum()==before
+# Discrete artillery reaches a clear elevated aim after its paired100 ticks.
+# This is an independently specified600m/180m/s flight, not a duplicate solver.
+source=reset(kind=2,x=1000,z=2000,target_x=1600,target_z=2000)
+entities[16].hp=entities[1].hp=0
+assert lib.projectile_launch(source,2,1600,60,2000)==0
+shell=next(p for p in shells if p.active)
+start_y=shell.y;peak=start_y
+for _ in range(100):
+    lib.projectile_tick();peak=max(peak,shell.y)
+    assert shell.active and all(math.isfinite(v) for v in (shell.x,shell.y,shell.z,shell.vy))
+assert abs(shell.x-1600)<.002 and abs(shell.y-60)<.002 and abs(shell.z-2000)<.002
+assert peak>60 and shell.vy<0
+# Near-vertical artillery stays bounded rather than jumping hundreds of metres.
+source=reset(kind=2,target_x=3500,target_z=2000)
+entities[16].hp=entities[1].hp=0
+assert lib.projectile_launch(source,2,3500,900,2000)==0
+shell=next(p for p in shells if p.active);start_y=shell.y
+lib.projectile_tick()
+assert shell.active and 0<shell.y-start_y<8
+# AI aircraft targeting uses real altitude and contacts the airborne body.
+source=reset(target_x=3700,target_z=2000);entities[16].kind=3
+assert lib.projectile_spawn(source,16)==0
+for _ in range(35):lib.projectile_tick()
+assert entities[16].hp==20 and count.value==0
+impact=events[sequence.value&255]
+assert impact.kind==3 and impact.y>lib.terrain_height(impact.x,impact.z)+70
 # Saturated pools reject launches without corrupting records; counts never
 # inflate army membership, and cosmetics are an independently resettable ring.
 source=reset();ammo[source]=600
@@ -126,4 +173,22 @@ for _ in range(2):
     for _ in range(31):lib.projectile_tick()
     hashes.append(lib.sim_checksum())
 assert hashes[0]==hashes[1]
+# Actual seeded8192-unit world: both classes launch and their retained records
+# move by velocity every fixed tick, without camera-dependent flight corrections.
+assert lib.sim_init(8192,42)==0
+travel={1:0,2:0}
+for _ in range(180):
+    old={i:(p.generation,p.x,p.y,p.z,p.vx,p.vy,p.vz) for i,p in enumerate(shells) if p.active}
+    lib.sim_tick()
+    for i,p in enumerate(shells):
+        if not p.active:continue
+        assert all(math.isfinite(v) for v in (p.x,p.y,p.z,p.vx,p.vy,p.vz))
+        assert 0<=p.x<=8000 and 0<=p.z<=8000
+        if p.kind==1:assert 0<math.hypot(p.vx,p.vy,p.vz)<=10.0001
+        prior=old.get(i)
+        if prior and prior[0]==p.generation:
+            assert max(abs(p.x-prior[1]-prior[4]),abs(p.y-prior[2]-prior[5]),abs(p.z-prior[3]-prior[6]))<.002
+            travel[p.kind]+=1
+assert min(travel.values())>20,travel
+print('Default-world retained flight samples:',travel)
 print('PASS: moving tank/artillery shells, swept ground/wall/actor contact, enemy-only bounded blast, pool saturation, cosmetic ring/reset and authoritative replay')
