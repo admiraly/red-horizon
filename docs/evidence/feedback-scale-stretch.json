@@ -1,0 +1,48 @@
+{
+  "scenario": "scale-stretch",
+  "revision": "090045d64001639fa8e8abcddcc238670ed604fb-20cec6449a8735b3",
+  "seed": 1,
+  "wall_seconds": 4.915657710000232,
+  "hardware": "Linux-7.2.6-201.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "13th Gen Intel(R) Core(TM) i7-1355U",
+  "realtime": false,
+  "runtime": {
+    "units": 16384,
+    "ticks": 600,
+    "seed": 1,
+    "alive": [
+      6885,
+      6391
+    ],
+    "engaged": 2351,
+    "checksum": "64e1e3e02fb45347",
+    "tick_mean_ms": 8.186189,
+    "tick_p95_ms": 9.008103,
+    "operation_state": 0,
+    "requisition": [
+      880,
+      460
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 444,
+    "projectile_peak": 480,
+    "projectile_dropped": 90988
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 2944,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": "not implemented",
+    "network_bandwidth": "not implemented"
+  }
+}
