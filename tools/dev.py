@@ -327,6 +327,7 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         os.environ.setdefault('RED_HORIZON_NASM',nasm())
+        BUILD.mkdir(exist_ok=True)
         suite='reload' if args.command=='reload' else args.suite
         if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','terrain-body'):
             exe=build('headless'); library=BUILD/'libsim.so'
