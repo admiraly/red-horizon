@@ -1,0 +1,23 @@
+# Shared-authority playable client
+
+The current client replaces the earlier prototype's private movement, ammo/reload timer and damage cone with the shared assembly player ABI. Local solo joins player0/front1. Each render collects normalized WASD direction, mouse yaw/pitch and fire/reload/sprint buttons; `player_input` stores intent and `sim_tick` advances the authoritative player once at30Hz. Only player records determine position, health, ammunition, reload, damage, suppression, death and safe redeployment. Held rifle cadence is4ticks (133ms), magazine30, reload60ticks (2seconds).
+
+The renderer smooths camera correction at15/s, bounded to a visual interpolation factor0..1, and snaps on generation changes or corrections exceeding25m. This is camera smoothing, not movement prediction. Cosmetic recoil affects the rendered aim angle only. Shot/hit sequence changes drive the licensed shot playback and muzzle/hit feedback. The camera has no independent collision or health path.
+
+Controls: WASD move, Shift sprint, mouse aim, left mouse held fire, R reload; Tab toggles the unpaused tactical view and free/captured cursor; F1/F2/F3 select a front and1/2/3 advance/hold/retreat; tactical left click sets a validated waypoint. Escape exits. The window title reports magazine, reload/down state, front/order, requisition/supply, operation state, health, suppression and remaining redeployment ticks. Green lower-left bar is health, amber bar is suppression; damage flashes a red lower edge and death shows a red redeployment bar and hides the weapon. Death requires no new key to recover at the authority's safe deployment.
+
+All CPU player/camera/input orchestration remains NASM. CPU duplicate terrain math was removed. GLSL uses the shared terrain's exact ridge/bowl expression. Exported `terrain_obstacles` bounds/base/height drive five wall/bunker silhouettes, so rendered solid volumes match the authoritative static obstacles. The client can render all four connected player records using their64byte layout; the local player is hidden in first person and visible on the map. This does not yet establish network connectivity.
+
+Exit telemetry retains `camera_x/z`, shots/hits, ammo/reload counts, front/orders and adds authoritative player HP/suppression/respawn/generation plus `start_player_x/z`. Use the actual start values for movement assertions. The public records and input contract are defined in `schemas/player.inc` and `docs/next-contracts.md`.
+
+## Verification: local authority
+
+`python3 tests/test_client_gameplay.py build/v2-local/red-horizon` passed on its private Xvfb with WAYLAND_DISPLAY unset, LIBGL_ALWAYS_SOFTWARE=1 and ALSA null output. The development driver uses actual XTest inputs, reads authoritative player records and positions an isolated combat fixture; it never writes player health. Actual assembly simulation and terrain execute movement, rifle LOS/damage, reload, enemy attacks, suppression, death and safe respawn.
+
+Observed spawn (3780,26.9034,3900), HP100; W moved2.00098m. Held fire emptied30rounds; firing during reload consumed no rounds; refill and burst passed. The isolated opposing actor produced one accepted rifle hit and a nonzero actual HUD hit flash. An enemy attack changed HP100→90/suppression25, then HP0/suppression100 with respawn30. The window displayed DOWN and the actual GL redeployment bar's sampled RGB was (230,56,41). Authority redeployed at (3780,26.9034,3900), HP100, generation1→2, beyond160m from the fixture enemy. A tactical click consumed no rifle round. All test processes and private test displays exited.
+
+Thirty-frame first-person and tactical runs both exited0, submitted8192 entity instances, exported `/tmp/red-horizon-v2-fps.png` and `/tmp/red-horizon-v2-map.png`, and were visually inspected for health HUD, terrain/obstacles and armies. Submitted instances are not visible pixel counts. Software-rendered timing is diagnostic only and does not establish target GPU budgets.
+
+Immutable actual object inputs used in the worker's isolated build: world hooks SHA256 `a4bacc57108205e665ecfc3d82a58368e722342a4c7d2ecc0c03b1eee0ead944`; player `ae992985c6779549e32c6a5aad40176e5b2bc4b3cb32eb6d54e8b54655b28f66`; terrain `58779e34f28e9422a777189bf7f3b2f894de6316dc078fd0e858c884e6db8cdb`; tactics `410c6fac1292ab4f3322757d40b04bbae7e5c3bb569403308a06c453b85542d7`. They were copied from actual root/tactics worktree builds; no gameplay stub or private fixed-tick wrapper was linked.
+
+This establishes a bounded playable local FPS loop with real vulnerability and recovery. Human weapon feel, audio quality, art, strategic balance, full operation and multiplayer remain separate acceptance work.

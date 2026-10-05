@@ -1,5 +1,7 @@
 # Linux client prototype
 
+Current shared-authority player implementation and evidence: [client-v2.md](client-v2.md). The historical worker evidence below describes earlier slices.
+
 Build `src/platform/linux/client.asm` and `src/render/shaders.asm` using NASM ELF64 from the repository root (shader sources are embedded with `incbin`). Link the simulation assembly object with libc, libm, libGL and libglfw.so.3. GLFW 3.3+ is required; explicit X11 selection is used on 3.4+, while 3.3 uses its compiled platform. The build-tool integrator owns the exact CLI.
 
 Controls: WASD ground movement, left Shift sprint, mouse aim, left mouse held automatic rifle, R two-second reload, Tab tactical overview, F1/F2/F3 select allied front 0/1/2; 1 advance / 2 hold / 3 retreat, Escape exit. Window title reports mode and last command. Tactical mode does not pause simulation. Its visible free cursor issues a move/advance order to the selected front when clicking inside the operation bounds. Returning to first person recaptures the cursor. Startup seeds mouse state during the first three event polls to avoid cursor-capture orientation jumps.

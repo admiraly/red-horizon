@@ -1,11 +1,14 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
 default rel
+%include "schemas/player.inc"
 global main
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_init,audio_shot,audio_update,audio_shutdown
 extern glfwGetVersion
-extern sim_init,sim_tick,sim_order,sim_fire,sim_count,sim_entities
+extern sim_init,sim_tick,sim_order,sim_count,sim_entities
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state,sim_waypoint,sim_waypoints
+extern player_join,player_input,sim_players
+extern terrain_obstacles,terrain_obstacle_count
 extern battle_vertex_source,battle_fragment_source
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
@@ -15,7 +18,7 @@ extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderIn
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glGetProgramInfoLog
 extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i,glUniform4f
 extern glGenVertexArrays,glBindVertexArray,glGenBuffers,glBindBuffer,glBufferData
-extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
+extern glEnableVertexAttribArray,glDisableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
 extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArraysInstanced
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
@@ -31,6 +34,8 @@ tactical_name: db 'tactical',0
 weapon_name: db 'weaponState',0
 operation_name: db 'operationInfo',0
 goal_name: db 'selectedGoal',0
+health_name: db 'playerHealth',0
+local_name: db 'localPlayer',0
 write_mode: db 'wb',0
 ppm_header: db 'P6',10,'1280 720',10,'255',10
 ppm_header_len equ $-ppm_header
@@ -39,7 +44,7 @@ shader_error: db 'Shader/program error:',0
 metrics: db 'camera_x=%.2f camera_z=%.2f shots=%u hits=%u last_order=%u',10,0
 summary: db 'client frames=%u submitted_entities=%u screenshot=%s',10,0
 no_shot: db '(none)',0
-title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | REQ %u SUP %u | %s | TAB map/click F1-F3 front R reload',0
+title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | REQ %u SUP %u | %s | HP %u SUPPRESS %u REDEPLOY %u | TAB map/click F1-F3 front R reload',0
 state_ongoing: db 'OPERATION ACTIVE',0
 state_victory: db 'VICTORY',0
 state_defeat: db 'DEFEAT',0
@@ -47,21 +52,19 @@ state_defense: db 'FINAL DEFENSE: RETAKE ALLIED COMMAND',0
 operation_metrics: db 'operation state=%u req=%u supply=%u waypoint_orders=%u',10,0
 goal_metrics: db 'selected_goal_x=%.3f selected_goal_z=%.3f',10,0
 reload_text: db 'RELOADING',0
+dead_text: db 'DOWN: SAFE REDEPLOY',0
+player_metrics: db 'player id=%u hp=%u suppression=%u respawn=%u generation=%u',10,0
+start_metrics: db 'start_player_x=%.3f start_player_z=%.3f',10,0
 weapon_metrics: db 'weapon ammo=%u reloads=%u front=%u',10,0
 fps_text: db 'FIRST PERSON',0
 map_text: db 'TACTICAL',0
 fzero: dd 0.0
 world_max: dd 8000.0
-height_a: dd 0.003
-height_b: dd 0.002
-height_c: dd 0.013
-height_d: dd 0.006
-height_15: dd 15.0
-height_5: dd 5.0
-eye_height: dd 1.8
 fone: dd 1.0
-speed: dd 5.0
-sprint: dd 9.0
+smooth_rate: dd 15.0
+snap_distance: dd 25.0
+sixty: dd 60.0
+onehundred: dd 100.0
 sensitivity: dd 0.002
 pitch_max: dd 1.3
 pitch_min: dd -1.3
@@ -71,18 +74,15 @@ map_scale: dd 4300.0
 map_centre: dd 4000.0
 req_scale: dd 1000.0
 sup_scale: dd 1200.0
-shot_interval: dq 0.12
-reload_interval: dq 2.0
 recoil_step: dd 0.008
 recoil_rate: dd 0.08
 flash_decay: dd 8.0
+thirty_ticks: dd 30.0
 thirty: dq 0.03333333333333333
 maxdt: dq 0.1
 minus: dd -1.0
-aim_limit: dd 0.998
-far_dist: dd 1000.0
-target_height: dd 1.0
-air_height: dd 90.0
+align 16
+absolute_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
 section .data
 camera: dd 4000.0,5.0,3200.0
 yaw: dd 0.0
@@ -102,15 +102,32 @@ tactical_loc: resd 1
 weapon_loc: resd 1
 operation_loc: resd 1
 goal_loc: resd 1
+health_loc: resd 1
+local_loc: resd 1
+local_player: resd 1
+player_hp: resd 1
+player_suppression: resd 1
+player_respawn: resd 1
+player_generation: resd 1
+last_generation: resd 1
+start_recorded: resd 1
+start_player_x: resd 1
+start_player_z: resd 1
+last_hp: resd 1
+last_shots: resd 1
+last_hits: resd 1
+frame_delta: resd 1
+wish_x: resd 1
+wish_z: resd 1
+forward_axis: resd 1
+right_axis: resd 1
+intent_buttons: resd 1
+damage_flash: resd 1
 map_down: resd 1
 waypoint_orders: resd 1
 selected_front: resd 1
 reload_count: resd 1
 reload_active: resd 1
-reload_until: resq 1
-next_shot: resq 1
-weapon_now: resq 1
-weapon_delta: resd 1
 reload_progress: resd 1
 recoil: resd 1
 hit_flash: resd 1
@@ -118,7 +135,6 @@ shot_flash: resd 1
 frame_count: resd 1
 tactical: resd 1
 tab_down: resd 1
-fire_down: resd 1
 order_mode: resd 1
 shot_count: resd 1
 hit_count: resd 1
@@ -129,17 +145,9 @@ old_x: resq 1
 old_y: resq 1
 last_time: resq 1
 accum: resq 1
-step: resd 1
 sin_yaw: resd 1
 cos_yaw: resd 1
-sin_pitch: resd 1
-cos_pitch: resd 1
 shader_status: resd 1
-ray_x: resd 1
-ray_y: resd 1
-ray_z: resd 1
-ray_best: resd 1
-height_temp: resd 1
 source_ptr: resq 1
 log: resb 4096
 title_buf: resb 384
@@ -203,6 +211,12 @@ main:
  call sim_init
  test eax,eax
  jnz .fail
+ xor edi,edi
+ mov esi,1
+ call player_join
+ test eax,eax
+ jnz .fail
+ mov dword [selected_front],1
  lea rdi,[glfw_version]
  lea rsi,[glfw_version+4]
  lea rdx,[glfw_version+8]
@@ -299,6 +313,8 @@ main:
  UNIFORM weapon_name,weapon_loc
  UNIFORM operation_name,operation_loc
  UNIFORM goal_name,goal_loc
+ UNIFORM health_name,health_loc
+ UNIFORM local_name,local_loc
  mov edi,1
  lea rsi,[vao]
  call glGenVertexArrays
@@ -361,6 +377,8 @@ main:
  subsd xmm0,[last_time]
  movsd [last_time],xmm1
  minsd xmm0,[maxdt]
+ cvtsd2ss xmm2,xmm0
+ movss [frame_delta],xmm2
  addsd xmm0,[accum]
  movsd [accum],xmm0
 .tick:
@@ -372,7 +390,11 @@ main:
  call sim_tick
  jmp .tick
 .render:
+ call sync_player
+ call update_visual
  call metrics_gpu_begin
+ mov edi,32
+ call set_instance_layout
  mov edi,0x8892
  mov esi,[sim_count]
  shl esi,5
@@ -397,6 +419,7 @@ main:
  mov edi,[angle_loc]
  movss xmm0,[yaw]
  movss xmm1,[pitch]
+ addss xmm1,[recoil]
  call glUniform2f
  mov edi,[tactical_loc]
  mov esi,[tactical]
@@ -429,6 +452,40 @@ main:
  mov edx,72
  mov ecx,12
  call glDrawArraysInstanced
+ mov edi,0x8892
+ mov esi,[terrain_obstacle_count]
+ shl esi,5
+ lea rdx,[terrain_obstacles]
+ mov ecx,0x88e0
+ call glBufferData
+ mov edi,[terrain_loc]
+ mov esi,5
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,36
+ mov ecx,[terrain_obstacle_count]
+ call glDrawArraysInstanced
+ mov edi,64
+ call set_instance_layout
+ mov edi,0x8892
+ mov esi,256
+ lea rdx,[sim_players]
+ mov ecx,0x88e0
+ call glBufferData
+ mov edi,[local_loc]
+ mov esi,[local_player]
+ call glUniform1i
+ mov edi,[terrain_loc]
+ mov esi,6
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,72
+ mov ecx,4
+ call glDrawArraysInstanced
+ mov edi,32
+ call set_instance_layout
  mov edi,[operation_loc]
  cvtsi2ss xmm0,[sim_requisition]
  divss xmm0,[req_scale]
@@ -442,6 +499,15 @@ main:
  movss xmm2,[hit_flash]
  movss xmm3,[shot_flash]
  call glUniform4f
+ mov edi,[health_loc]
+ cvtsi2ss xmm0,[player_hp]
+ divss xmm0,[onehundred]
+ cvtsi2ss xmm1,[player_suppression]
+ divss xmm1,[onehundred]
+ cvtsi2ss xmm2,[player_respawn]
+ divss xmm2,[thirty_ticks]
+ movss xmm3,[damage_flash]
+ call glUniform4f
  mov edi,0xb71
  call glDisable
  mov edi,[terrain_loc]
@@ -449,7 +515,7 @@ main:
  call glUniform1i
  mov edi,4
  xor esi,esi
- mov edx,234
+ mov edx,258
  call glDrawArrays
  cmp dword [tactical],0
  je .restoredepth
@@ -528,6 +594,19 @@ main:
  cvtss2sd xmm0,[rdx+rax*8]
  cvtss2sd xmm1,[rdx+rax*8+4]
  lea rdi,[goal_metrics]
+ mov eax,2
+ call printf
+ lea rdi,[player_metrics]
+ mov esi,[local_player]
+ mov edx,[player_hp]
+ mov ecx,[player_suppression]
+ mov r8d,[player_respawn]
+ mov r9d,[player_generation]
+ xor eax,eax
+ call printf
+ lea rdi,[start_metrics]
+ cvtss2sd xmm0,[start_player_x]
+ cvtss2sd xmm1,[start_player_z]
  mov eax,2
  call printf
  mov rdi,[window]
@@ -700,68 +779,19 @@ update_input:
  movss xmm0,[yaw]
  call cosf
  movss [cos_yaw],xmm0
- movss xmm0,[pitch]
- call sinf
- movss [sin_pitch],xmm0
- movss xmm0,[pitch]
- call cosf
- movss [cos_pitch],xmm0
- movss xmm0,[speed]
- movss [step],xmm0
- KEY 340
- test eax,eax
- jz .walk
- movss xmm0,[sprint]
- movss [step],xmm0
-.walk:
- ; Movement uses actual frame elapsed, capped to prevent suspend jumps.
- call glfwGetTime
- subsd xmm0,[last_time]
- minsd xmm0,[maxdt]
- cvtsd2ss xmm0,xmm0
- mulss xmm0,[step]
- movss [step],xmm0
- KEY 87
- test eax,eax
- jz .back
- movss xmm0,[step]
- call move_forward
-.back:
- KEY 83
- test eax,eax
- jz .left
- movss xmm0,[step]
- mulss xmm0,[minus]
- call move_forward
-.left:
- KEY 65
- test eax,eax
- jz .right
- movss xmm0,[step]
- mulss xmm0,[minus]
- call move_right
-.right:
- KEY 68
- test eax,eax
- jz .fire
- movss xmm0,[step]
- call move_right
-.fire:
- movss xmm0,[camera]
- maxss xmm0,[fzero]
- minss xmm0,[world_max]
- movss [camera],xmm0
- movss xmm0,[camera+8]
- maxss xmm0,[fzero]
- minss xmm0,[world_max]
- movss [camera+8],xmm0
- call camera_height
- call update_weapon
+ call collect_intent
+ mov edi,[local_player]
+ mov esi,[intent_buttons]
+ movss xmm0,[wish_x]
+ movss xmm1,[wish_z]
+ movss xmm2,[yaw]
+ movss xmm3,[pitch]
+ call player_input
  cmp dword [tactical],0
  je .title
  call tactical_click
 .title:
- sub rsp,48
+ sub rsp,64
  mov eax,[selected_front]
  mov [rsp],rax
  mov eax,[order_mode]
@@ -784,6 +814,12 @@ update_input:
  lea rax,[state_defense]
 .statetitle:
  mov [rsp+32],rax
+ mov eax,[player_hp]
+ mov [rsp+40],rax
+ mov eax,[player_suppression]
+ mov [rsp+48],rax
+ mov eax,[player_respawn]
+ mov [rsp+56],rax
  lea rdi,[title_buf]
  mov esi,384
  lea rdx,[title_fmt]
@@ -798,9 +834,13 @@ update_input:
  je .fmt
  lea r9,[reload_text]
 .fmt:
+ cmp dword [player_hp],0
+ jne .alive_title
+ lea r9,[dead_text]
+.alive_title:
  xor eax,eax
  call snprintf
- add rsp,48
+ add rsp,64
  mov rdi,[window]
  lea rsi,[title_buf]
  call glfwSetWindowTitle
@@ -853,63 +893,71 @@ tactical_click:
  pop rbx
  ret
 
-; Rifle timing uses monotonic platform time. Reload, cadence, visual recovery are
-; frame-rate independent. Persistent data contains no callback pointers.
-update_weapon:
+; Input intent is submitted to shared authority. No client position, health,
+; ammunition, ray damage or reload deadline mutates authoritative state.
+collect_intent:
  push rbx
- call glfwGetTime
- movsd [weapon_now],xmm0
- subsd xmm0,[last_time]
- minsd xmm0,[maxdt]
- cvtsd2ss xmm0,xmm0
- movss [weapon_delta],xmm0
- mulss xmm0,[recoil_rate]
- minss xmm0,[recoil]
- movss xmm1,[recoil]
- subss xmm1,xmm0
- movss [recoil],xmm1
- movss xmm1,[pitch]
- subss xmm1,xmm0
- movss [pitch],xmm1
- movss xmm0,[weapon_delta]
- mulss xmm0,[flash_decay]
- movss xmm1,[hit_flash]
- subss xmm1,xmm0
- maxss xmm1,[fzero]
- movss [hit_flash],xmm1
- movss xmm1,[shot_flash]
- subss xmm1,xmm0
- maxss xmm1,[fzero]
- movss [shot_flash],xmm1
- cmp dword [reload_active],0
- je .reloadkey
- movsd xmm0,[reload_until]
- subsd xmm0,[weapon_now]
- pxor xmm1,xmm1
- comisd xmm0,xmm1
- jbe .finishreload
- divsd xmm0,[reload_interval]
- cvtsd2ss xmm0,xmm0
- movss [reload_progress],xmm0
- jmp .return
-.finishreload:
- mov dword [magazine],30
- mov dword [reload_active],0
- mov dword [reload_progress],0
-.reloadkey:
+ mov dword [forward_axis],0
+ mov dword [right_axis],0
+ mov dword [intent_buttons],0
+ KEY 87
+ test eax,eax
+ jz .back
+ movss xmm0,[fone]
+ movss [forward_axis],xmm0
+.back:
+ KEY 83
+ test eax,eax
+ jz .left
+ movss xmm0,[forward_axis]
+ subss xmm0,[fone]
+ movss [forward_axis],xmm0
+.left:
+ KEY 65
+ test eax,eax
+ jz .right
+ movss xmm0,[minus]
+ movss [right_axis],xmm0
+.right:
+ KEY 68
+ test eax,eax
+ jz .direction
+ movss xmm0,[right_axis]
+ addss xmm0,[fone]
+ movss [right_axis],xmm0
+.direction:
+ movss xmm0,[forward_axis]
+ mulss xmm0,[sin_yaw]
+ movss xmm1,[right_axis]
+ mulss xmm1,[cos_yaw]
+ addss xmm0,xmm1
+ movss [wish_x],xmm0
+ movss xmm1,[forward_axis]
+ mulss xmm1,[cos_yaw]
+ movss xmm2,[right_axis]
+ mulss xmm2,[sin_yaw]
+ subss xmm1,xmm2
+ movss [wish_z],xmm1
+ movaps xmm2,xmm0
+ mulss xmm2,xmm2
+ movaps xmm3,xmm1
+ mulss xmm3,xmm3
+ addss xmm2,xmm3
+ sqrtss xmm2,xmm2
+ maxss xmm2,[fone]
+ divss xmm0,xmm2
+ divss xmm1,xmm2
+ movss [wish_x],xmm0
+ movss [wish_z],xmm1
+ KEY 340
+ test eax,eax
+ jz .reload
+ or dword [intent_buttons],INPUT_SPRINT
+.reload:
  KEY 82
  test eax,eax
  jz .trigger
- cmp dword [magazine],30
- je .trigger
- mov dword [reload_active],1
- inc dword [reload_count]
- movsd xmm0,[weapon_now]
- addsd xmm0,[reload_interval]
- movsd [reload_until],xmm0
- movss xmm0,[fone]
- movss [reload_progress],xmm0
- jmp .return
+ or dword [intent_buttons],INPUT_RELOAD
 .trigger:
  cmp dword [tactical],0
  jne .return
@@ -918,164 +966,174 @@ update_weapon:
  call glfwGetMouseButton
  test eax,eax
  jz .return
- cmp dword [magazine],0
- je .return
- movsd xmm0,[weapon_now]
- comisd xmm0,[next_shot]
- jb .return
- addsd xmm0,[shot_interval]
- movsd [next_shot],xmm0
- dec dword [magazine]
- call fire_weapon
- movss xmm0,[pitch]
- movaps xmm1,xmm0
- addss xmm0,[recoil_step]
- minss xmm0,[pitch_max]
- movss [pitch],xmm0
- subss xmm0,xmm1
- addss xmm0,[recoil]
- movss [recoil],xmm0
+ or dword [intent_buttons],INPUT_FIRE
+.return:
+ pop rbx
+ ret
+
+; Shared VBO record layouts: army/sites/obstacles32, authoritative players64.
+set_instance_layout:
+ push rbx
+ mov ebx,edi
+ xor edi,edi
+ mov esi,4
+ mov edx,0x1406
+ xor ecx,ecx
+ mov r8d,ebx
+ xor r9d,r9d
+ call glVertexAttribPointer
+ mov edi,1
+ mov esi,4
+ mov edx,0x1406
+ xor ecx,ecx
+ mov r8d,ebx
+ mov r9d,16
+ call glVertexAttribPointer
+ cmp ebx,64
+ jne .disable
+ mov edi,2
+ call glEnableVertexAttribArray
+ mov edi,2
+ mov esi,4
+ mov edx,0x1406
+ xor ecx,ecx
+ mov r8d,64
+ mov r9d,32
+ call glVertexAttribPointer
+ mov edi,2
+ mov esi,1
+ call glVertexAttribDivisor
+ jmp .done
+.disable:
+ mov edi,2
+ call glDisableVertexAttribArray
+.done:
+ pop rbx
+ ret
+
+player_pointer:
+ mov eax,[local_player]
+ shl eax,6
+ lea rdx,[sim_players]
+ add rax,rdx
+ ret
+
+; Smooth only visual camera correction. Safe deployment/generation changes snap.
+; Shots/hits/ammunition/health are read directly from shared player records.
+sync_player:
+ push rbx
+ call player_pointer
+ mov rbx,rax
+ mov eax,[rbx+PLAYER_HP]
+ mov [player_hp],eax
+ cmp eax,[last_hp]
+ jae .hpunchanged
+ movss xmm0,[fone]
+ movss [damage_flash],xmm0
+.hpunchanged:
+ mov [last_hp],eax
+ cmp dword [start_recorded],0
+ jne .recorded
+ test eax,eax
+ jz .recorded
+ movss xmm0,[rbx+PLAYER_X]
+ movss [start_player_x],xmm0
+ movss xmm0,[rbx+PLAYER_Z]
+ movss [start_player_z],xmm0
+ mov dword [start_recorded],1
+.recorded:
+ mov eax,[rbx+PLAYER_SUPPRESSION]
+ mov [player_suppression],eax
+ mov eax,[rbx+PLAYER_RESPAWN]
+ mov [player_respawn],eax
+ mov eax,[rbx+PLAYER_GENERATION]
+ mov [player_generation],eax
+ cmp eax,[last_generation]
+ jne .snap
+ movss xmm0,[rbx+PLAYER_X]
+ subss xmm0,[camera]
+ andps xmm0,[absolute_mask]
+ comiss xmm0,[snap_distance]
+ ja .snap
+ movss xmm0,[rbx+PLAYER_Z]
+ subss xmm0,[camera+8]
+ andps xmm0,[absolute_mask]
+ comiss xmm0,[snap_distance]
+ ja .snap
+ movss xmm3,[frame_delta]
+ mulss xmm3,[smooth_rate]
+ minss xmm3,[fone]
+ jmp .interpolate
+.snap:
+ mov eax,[player_generation]
+ mov [last_generation],eax
+ movss xmm3,[fone]
+.interpolate:
+%assign off 0
+%rep 3
+ movss xmm0,[rbx+off]
+ subss xmm0,[camera+off]
+ mulss xmm0,xmm3
+ addss xmm0,[camera+off]
+ movss [camera+off],xmm0
+%assign off off+4
+%endrep
+ mov eax,[rbx+PLAYER_AMMO]
+ mov [magazine],eax
+ mov eax,[rbx+PLAYER_RELOAD]
+ test eax,eax
+ setnz dl
+ movzx edx,dl
+ cmp edx,[reload_active]
+ jbe .reloadstate
+ inc dword [reload_count]
+.reloadstate:
+ mov [reload_active],edx
+ cvtsi2ss xmm0,eax
+ divss xmm0,[sixty]
+ movss [reload_progress],xmm0
+ mov eax,[rbx+PLAYER_SHOTS]
+ mov [shot_count],eax
+ cmp eax,[last_shots]
+ je .hits
+ mov [last_shots],eax
+ call audio_shot
  movss xmm0,[fone]
  movss [shot_flash],xmm0
-.return:
- pop rbx
- ret
-
-move_forward:
- movss xmm1,[sin_yaw]
- mulss xmm1,xmm0
- addss xmm1,[camera]
- movss [camera],xmm1
- mulss xmm0,[cos_yaw]
- addss xmm0,[camera+8]
- movss [camera+8],xmm0
- ret
-move_right:
- movss xmm1,[cos_yaw]
- mulss xmm1,xmm0
- addss xmm1,[camera]
- movss [camera],xmm1
- mulss xmm0,[sin_yaw]
- subss xmm0,[camera+8]
- mulss xmm0,[minus]
- movss [camera+8],xmm0
- ret
-
-camera_height:
- sub rsp,8
- movss xmm0,[camera]
- movss xmm1,[camera+8]
- call terrain_height
- addss xmm0,[eye_height]
- movss [camera+4],xmm0
- add rsp,8
- ret
-
-; Shader-identical analytic terrain height. XMM0=x XMM1=z -> XMM0=y.
-terrain_height:
- sub rsp,24
- movss [rsp],xmm0
- movss [rsp+4],xmm1
- mulss xmm0,[height_a]
- call sinf
- movss [rsp+8],xmm0
- movss xmm0,[rsp+4]
- mulss xmm0,[height_b]
- call sinf
- mulss xmm0,[rsp+8]
- mulss xmm0,[height_15]
- movss [rsp+8],xmm0
- movss xmm0,[rsp]
- mulss xmm0,[height_c]
- movss xmm1,[rsp+4]
- mulss xmm1,[height_d]
- addss xmm0,xmm1
- call sinf
- mulss xmm0,[height_5]
- addss xmm0,[rsp+8]
- add rsp,24
- ret
-
-; Local-solo 3D aim cone; no terrain occlusion or network validation yet.
-; Nearest enemy within 1000m. sim_fire alone owns guarded health mutation.
-fire_weapon:
- inc dword [shot_count]
- push rbx
- push r12
- push r13
- call audio_shot
- lea rbx,[sim_entities]
- xor r12d,r12d
- mov r13d,-1
- movss xmm0,[far_dist]
- movss [ray_best],xmm0
-.scan:
- cmp r12d,[sim_count]
- jae .hit
- cmp dword [rbx+8],0
- je .next
- cmp dword [rbx+12],1
- jne .next
- movss xmm0,[rbx]
- movss xmm1,[rbx+4]
- call terrain_height
- addss xmm0,[target_height]
- cmp dword [rbx+16],3
- jne .ground
- addss xmm0,[air_height]
-.ground:
- subss xmm0,[camera+4]
- movss [ray_y],xmm0
- movss xmm0,[rbx]
- subss xmm0,[camera]
- movss [ray_x],xmm0
- movss xmm1,[rbx+4]
- subss xmm1,[camera+8]
- movss [ray_z],xmm1
- movaps xmm2,xmm0
- mulss xmm2,xmm2
- movaps xmm3,xmm1
- mulss xmm3,xmm3
- addss xmm2,xmm3
- movss xmm3,[ray_y]
- mulss xmm3,xmm3
- addss xmm2,xmm3
- sqrtss xmm2,xmm2
- comiss xmm2,[fone]
- jb .next
- comiss xmm2,[ray_best]
- jae .next
- mulss xmm0,[sin_yaw]
- mulss xmm1,[cos_yaw]
- addss xmm0,xmm1
- mulss xmm0,[cos_pitch]
- movss xmm1,[ray_y]
- mulss xmm1,[sin_pitch]
- addss xmm0,xmm1
- divss xmm0,xmm2
- comiss xmm0,[aim_limit]
- jb .next
- movss [ray_best],xmm2
- mov r13d,r12d
-.next:
- add rbx,32
- inc r12d
- jmp .scan
-.hit:
- cmp r13d,-1
- je .return
- mov edi,r13d
- mov esi,34
- call sim_fire
- test eax,eax
- jnz .return
- inc dword [hit_count]
+ movss xmm0,[recoil]
+ addss xmm0,[recoil_step]
+ movss [recoil],xmm0
+.hits:
+ mov eax,[rbx+PLAYER_HITS]
+ mov [hit_count],eax
+ cmp eax,[last_hits]
+ je .done
+ mov [last_hits],eax
  movss xmm0,[fone]
  movss [hit_flash],xmm0
-.return:
- pop r13
- pop r12
+.done:
  pop rbx
+ ret
+
+; Cosmetic feedback only: aim input never inherits visual recoil displacement.
+update_visual:
+ movss xmm0,[frame_delta]
+ mulss xmm0,[recoil_rate]
+ movss xmm1,[recoil]
+ subss xmm1,xmm0
+ maxss xmm1,[fzero]
+ movss [recoil],xmm1
+ movss xmm0,[frame_delta]
+ mulss xmm0,[flash_decay]
+%macro DECAY 1
+ movss xmm1,[%1]
+ subss xmm1,xmm0
+ maxss xmm1,[fzero]
+ movss [%1],xmm1
+%endmacro
+ DECAY hit_flash
+ DECAY shot_flash
+ DECAY damage_flash
  ret
 
 screenshot:
