@@ -8,7 +8,7 @@ An assembly-first cooperative FPS/RTS under active development. The target is an
 
 All project-authored CPU runtime code is NASM x86-64 assembly; GPU code is GLSL. Python and shell are development tools only. Read [the canonical specification](docs/spec.txt), [current evidence and gaps](docs/status.md), and [ABI](docs/interfaces.md).
 
-![Actual starter models rendered in the assembly client](docs/evidence/feedback-preview.png)
+![Actual assembly client with sourced terrain, animated models and cosmetic rain](docs/evidence/environment-rain.png)
 
 ## Local development
 
