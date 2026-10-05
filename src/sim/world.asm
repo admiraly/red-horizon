@@ -2,6 +2,7 @@
 %include "schemas/entity.inc"
 default rel
 extern operation_init, operation_tick, operation_hash
+extern terrain_move, terrain_height, terrain_los
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -26,6 +27,9 @@ power: dd 3,10,15,6
 zero: dd 0.0
 maximum: dd 8000.0
 cell_scale: dd 0.004
+eye_height: dd 2.0
+air_height: dd 90.0
+retreat_distance: dd 100.0
 section .text
 global sim_init, sim_tick, sim_checksum, sim_order
 ; Accept even counts 2..32768; invalid calls leave state unchanged.
@@ -169,7 +173,7 @@ sim_tick:
  push r13
  push r14
  push r15
- sub rsp,32
+ sub rsp,96
  inc dword [sim_tick_count]
  mov dword [sim_engaged],0
  lea rdi,[cell_counts]
@@ -211,44 +215,28 @@ sim_tick:
  lea rsi,[sim_waypoints]
  movss xmm2,[rsi+rdi*8]
  movss xmm3,[rsi+rdi*8+4]
- subss xmm2,[rbx+ENTITY_X]
- subss xmm3,[rbx+ENTITY_Z]
- movaps xmm0,xmm2
- mulss xmm0,xmm0
- movaps xmm4,xmm3
- mulss xmm4,xmm4
- addss xmm0,xmm4
- ucomiss xmm0,[zero]
- je .insert
- sqrtss xmm0,xmm0
- comiss xmm0,xmm1
- jbe .arrived
- divss xmm1,xmm0
- mulss xmm2,xmm1
- mulss xmm3,xmm1
- addss xmm2,[rbx+ENTITY_X]
- addss xmm3,[rbx+ENTITY_Z]
- movss [rbx+ENTITY_X],xmm2
- movss [rbx+ENTITY_Z],xmm3
- jmp .insert
-.arrived:
- movss xmm0,[rsi+rdi*8]
- movss [rbx+ENTITY_X],xmm0
- movss xmm0,[rsi+rdi*8+4]
- movss [rbx+ENTITY_Z],xmm0
- jmp .insert
+ movaps xmm4,xmm1
+ jmp .terrain_step
 .retreat:
+ movss xmm2,[rbx+ENTITY_X]
  cmp dword [rbx+ENTITY_SIDE],0
  jne .retreat_right
- xorps xmm2,xmm2
- subss xmm2,xmm1
- movaps xmm1,xmm2
+ subss xmm2,[retreat_distance]
+ jmp .retreat_z
 .retreat_right:
+ addss xmm2,[retreat_distance]
+.retreat_z:
+ movss xmm3,[rbx+ENTITY_Z]
+ movaps xmm4,xmm1
+.terrain_step:
  movss xmm0,[rbx+ENTITY_X]
- addss xmm0,xmm1
- maxss xmm0,[zero]
- minss xmm0,[maximum]
+ movss xmm1,[rbx+ENTITY_Z]
+ mov edi,[rbx+ENTITY_KIND]
+ sub rsp,8
+ call terrain_move
+ add rsp,8
  movss [rbx+ENTITY_X],xmm0
+ movss [rbx+ENTITY_Z],xmm1
 .insert:
  movss xmm0,[rbx+ENTITY_X]
  mulss xmm0,[cell_scale]
@@ -378,7 +366,57 @@ sim_tick:
  addss xmm0,xmm1
  comiss xmm0,xmm6
  ja .chain
- movaps xmm6,xmm0
+ ; Only physically visible candidates can become authoritative targets.
+ movss [rsp+32],xmm4
+ movss [rsp+36],xmm5
+ movss [rsp+40],xmm6
+ movss [rsp+44],xmm0
+ mov [rsp+48],edi
+ movaps xmm0,xmm4
+ movaps xmm1,xmm5
+ sub rsp,8
+ call terrain_height
+ add rsp,8
+ addss xmm0,[eye_height]
+ cmp dword [rbx+ENTITY_KIND],3
+ jne .own_ground
+ addss xmm0,[air_height]
+.own_ground:
+ movss [rsp+52],xmm0
+ mov eax,ebp
+ imul rax,ENTITY_STRIDE
+ lea rdx,[sim_entities]
+ add rdx,rax
+ movss xmm0,[rdx+ENTITY_X]
+ movss xmm1,[rdx+ENTITY_Z]
+ sub rsp,8
+ call terrain_height
+ add rsp,8
+ addss xmm0,[eye_height]
+ mov eax,ebp
+ imul rax,ENTITY_STRIDE
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .target_ground
+ addss xmm0,[air_height]
+.target_ground:
+ movaps xmm4,xmm0
+ movss xmm0,[rsp+32]
+ movss xmm1,[rsp+52]
+ movss xmm2,[rsp+36]
+ movss xmm3,[rdx+ENTITY_X]
+ movss xmm5,[rdx+ENTITY_Z]
+ sub rsp,8
+ call terrain_los
+ add rsp,8
+ movss xmm4,[rsp+32]
+ movss xmm5,[rsp+36]
+ movss xmm6,[rsp+40]
+ mov edi,[rsp+48]
+ test eax,eax
+ jz .chain
+ movss xmm6,[rsp+44]
  mov r15d,ebp
 .chain:
  inc dword [rsp+16]
@@ -435,7 +473,7 @@ sim_tick:
  sub rsp,8
  call operation_tick
  add rsp,8
- add rsp,32
+ add rsp,96
  pop r15
  pop r14
  pop r13
