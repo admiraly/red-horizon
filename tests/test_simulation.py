@@ -4,6 +4,7 @@ import ctypes as C
 import json
 import subprocess
 import sys
+import time
 
 exe, library = sys.argv[1:]
 lib = C.CDLL(library)
@@ -90,6 +91,11 @@ assert lib.sim_fire(16, 1) == -1 and alive[1] == 15
 for args in (['--units', '1'], ['--ticks', '0'], ['--seed', '-1'],
              ['--seed', '4294967296'], ['--ticks', 'x'], ['--units'], ['--bogus', '2']):
     assert subprocess.run([exe, *args], capture_output=True).returncode == 2
+started = time.monotonic()
+realtime = json.loads(subprocess.check_output([exe, "--realtime", "--ticks", "3", "--units", "32"]))
+assert realtime["ticks"] == 3 and time.monotonic() - started >= 0.09
+unpaced = json.loads(subprocess.check_output([exe, "--ticks", "3", "--units", "32"]))
+assert realtime["checksum"] == unpaced["checksum"]
 results = []
 for _ in range(2):
     result = json.loads(subprocess.check_output([exe, '--units', '8192', '--ticks', '600', '--seed', '1']))
@@ -97,4 +103,4 @@ for _ in range(2):
     assert 0 <= result['tick_mean_ms'] and 0 <= result['tick_p95_ms']
     results.append(result)
 assert results[0]['checksum'] == results[1]['checksum']
-print('PASS: baseline/stretch replay, counts, roles, fronts, orders, casualties, bounds, local fire, side-swap symmetry and CLI')
+print('PASS: baseline/stretch replay, counts, roles, fronts, orders, casualties, bounds, local fire, side-swap symmetry, realtime pacing and CLI')

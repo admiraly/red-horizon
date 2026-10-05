@@ -39,3 +39,7 @@ Fresh seed-1, 600-tick measurements on the same i7-1355U:
 | 16384 | 1794/2038 | 3823 | 409163e45d7ba1e0 | 3.689628 | 5.228087 |
 
 Candidate work remains capped at 216 per actor and grid rebuild remains linear. Hash-modulo reservoir selection has minor statistical modulo bias; it is a practical bounded targeting sample, not a proof of uniform random sampling. Limited neighbor radius and missing LOS/terrain remain unchanged.
+
+## Real-time headless pacing
+
+`--realtime` optionally paces completed ticks to absolute CLOCK_MONOTONIC deadlines with `clock_nanosleep(TIMER_ABSTIME)` at 30 Hz. EINTR retries the same deadline. Default headless execution remains throughput mode. When a tick exceeds its deadline the subsequent sleep returns immediately; there is no skipped simulation tick or hidden outcome change. Tick timing still excludes sleeps. The suite verifies that three paced ticks consume at least 90 ms and produce exactly the unpaced checksum; baseline/stretch 30-tick paced runs were separately measured at approximately one second wall time. Pacing is single-threaded and does not claim a server networking loop.

@@ -1,15 +1,17 @@
 default rel
 extern sim_init, sim_tick, sim_checksum, sim_count, sim_alive, sim_engaged
-extern strcmp, strtoul, printf, puts, clock_gettime, qsort
+extern strcmp, strtoul, printf, puts, clock_gettime, clock_nanosleep, qsort
 section .rodata
+arg_realtime: db '--realtime',0
 arg_units: db '--units',0
 arg_ticks: db '--ticks',0
 arg_seed: db '--seed',0
-usage: db 'Usage: red-horizon-headless [--units EVEN_2..32768] [--ticks 1..100000] [--seed 0..4294967295]',0
+usage: db 'Usage: red-horizon-headless [--units EVEN_2..32768] [--ticks 1..100000] [--seed 0..4294967295] [--realtime]',0
 fmt: db '{"units":%u,"ticks":%u,"seed":%u,"alive":[%u,%u],"engaged":%u,"checksum":"%016lx","tick_mean_ms":%.6f,"tick_p95_ms":%.6f}',10,0
 million: dq 1000000.0
 section .bss
 samples: resq 100000
+deadline: resq 2
 section .text
 global main
 main:
@@ -26,11 +28,23 @@ main:
  mov r15d,600
  mov ebp,1
  mov ebx,1
- test r12d,1
- jz .bad
+ mov dword [rsp+52],0
 .parse:
  cmp ebx,r12d
  jae .init
+ mov rdi,[r13+rbx*8]
+ lea rsi,[arg_realtime]
+ call strcmp
+ test eax,eax
+ jnz .pair
+ mov dword [rsp+52],1
+ inc ebx
+ jmp .parse
+.pair:
+ mov eax,ebx
+ inc eax
+ cmp eax,r12d
+ jae .bad
  mov rdi,[r13+rbx*8]
  lea rsi,[arg_units]
  call strcmp
@@ -91,6 +105,11 @@ main:
  jnz .bad
  xor ebx,ebx
  mov qword [rsp+64],0
+ mov edi,1
+ lea rsi,[deadline]
+ call clock_gettime
+ test eax,eax
+ jnz .bad
 .tick:
  mov edi,1
  lea rsi,[rsp]
@@ -111,6 +130,24 @@ main:
  lea rcx,[samples]
  mov [rcx+rbx*8],rax
  add [rsp+64],rax
+ cmp dword [rsp+52],0
+ je .next_tick
+ add qword [deadline+8],33333333
+ cmp qword [deadline+8],1000000000
+ jb .sleep
+ sub qword [deadline+8],1000000000
+ inc qword [deadline]
+.sleep:
+ mov edi,1
+ mov esi,1
+ lea rdx,[deadline]
+ xor ecx,ecx
+ call clock_nanosleep
+ cmp eax,4
+ je .sleep
+ test eax,eax
+ jnz .bad
+.next_tick:
  inc ebx
  cmp ebx,r15d
  jb .tick
