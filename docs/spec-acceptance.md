@@ -326,3 +326,17 @@ counting decorative geometry, exclude readback from the ordinary frame budget,
 and record that additional pass cost separately. Frustum eligibility alone is
 insufficient. The current mesh instance identity already contains stable actor ID,
 side and role, so no shared entity/network layout change is needed.
+
+## Pixel visibility supplement
+
+The later optional final-frame census measures surviving opaque-depth actor IDs
+and high/low/marker classes, with exact productionGL occlusion fixtures and an
+independent raw attachment decoder. Source checkpoint10f76a5 hardware samples
+count1859front/1545hotspot actors, of which1058/1003 are actual source meshes.
+Zero invalid IDs and unchanged authority are required. A single sample, marker
+visibility and a short hardware timing run do not accept sustained massive
+operation, individually readable soldiers or human spectacle. Raw attachments,
+per-actor sample thresholds and frozen verification are in
+docs/evidence/visibility-session.json. The earlier missing census requirement is
+closed for captured frames only; four-rendered-client and sustained-density
+acceptance remain required.

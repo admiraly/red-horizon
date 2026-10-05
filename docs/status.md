@@ -1,5 +1,66 @@
 # Status — Linux shared-world prototype,2026-10-05
 
+The pixel-visibility continuation keeps the complete specification goal active.
+Integrated checkpoint `10f76a5` adds optional final-frame `--census` and
+`--census-map PATH.r32ui`. The actual geometry draw writes normal colour and a
+separate integer actor-ID attachment with high/low/marker classes. Opaque terrain,
+props, weapon and humans participate in depth occlusion; translucent effects and
+HUD preserve the ID attachment. Eight independent production-GL fixtures verify
+exact IDs/classes, offscreen/behind-camera/below-terrain exclusions, opaque bunker
+and aircraft occlusion, empty army and human exclusion. Before/after authoritative
+checksums and frozen authority bytes match. This caught and fixed distant marker
+instances incorrectly using actor ID0. A normal/capture image pair differs by at
+most2/255 per colour channel; byte-identical presentation is not claimed.
+
+The bounded NASM reducer checks actual live entity IDs, deduplicates pixels and
+rejects invalid/stale records. Actual GL framebuffer tests cover integer readback,
+attachment masks, default-buffer restoration, write failures and zero GL errors.
+Maximum CPU readback is33,177,600 bytes static storage plus32,768 class flags;
+normal runs leave it untouched and allocate no census GPU resources. Capture
+rejects changed authority, invalid pixels or GL errors. Strict CLI/report tests
+reject unbounded/malformed/duplicate capture requests and mismatched metadata.
+
+Actual ArcA770 600-frame1920x1080 seed42 final-frame counts are:
+
+| Fixture | Source tick | Depth-visible actors | High models | Low models | Markers | High/low union |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| scale-front |100|1859|36|1022|801|1058|
+| scale-hotspot |101|1545|54|949|542|1003|
+
+Both raw R32UI files independently decode to these exact ID/class sets, with
+matching hashes and zero invalid codes. Gzipped attachments and per-actor sample
+counts are retained. At least one sample counts as depth visibility: only272
+hotspot source models and297 front source models have at least16 pixel samples.
+This measures geometry visibility, not smoke perception, individually readable
+soldiers, art quality or sustained1024 visibility. The hotspot final frame
+exceeds1024 visible actors when its542 markers are included;1003 actual source
+models are visible. Earlier uncaptured reports remain unmeasured.
+
+Front CPUmean/p95/p99 is5.580/8.531/10.180ms and hotspot5.582/7.807/8.852ms;
+GPUdrawmean/p95/p99 is0.728/1.218/1.474ms front and0.805/0.847/1.548ms hotspot.
+Readback/reduction costs15.310/16.632ms separately. Allocation occurs at startup;
+final MRT drawing and the pre-draw checksum remain in the last CPU frame, while
+readback, reduction, blit, file writing and reporting occur after its timer ends.
+GPU timing can omit its last eight pending queries, including the capture draw.
+The hardware runs overlap frozen verification, use one thread and null ALSA, and
+have no excluded warmup. These short idle-view samples do not accept the complete
+operation, sustained density, physical audio or reference hardware envelope.
+
+Frozen full extended checkpoint `3b5ed1f86a51` passed232.06s at
+`10f76a50321059f4fc04e33895520b8e13b1a864-47d5165615f186d7`. All126authored
+inputs match this checkout and all three final frozen jobs byte-for-byte.
+Its44JSONsuite reports retain8k/16k motion/replay, realGL source aircraft/weather/
+animation/combat/player/vehicles, two-rendered-client movement/audio and UDP
+0/50/100/150ms+jitter/loss/reorder coverage, plus the exact census tests. All
+three root jobs, root focused checks and four clean isolated workers are
+reconciled. Source inventory, actual attachments, independent decodes, the
+reproduced marker alias failure and corrected oracle, timings and limits are in
+`docs/evidence/visibility-session.json`. No publication
+occurred; owner code-licence approval remains pending. Next work includes credible
+ground hazard/crowd tactics and commander plans, projectile allocation fairness,
+remote aircraft interpolation, four-rendered-client dense operation, full roster,
+streaming/live jobs/reload and Windows parity. Historical results follow below.
+
 Dense encounter continuation2026-10-05: full specification goal remains active and
 unachieved. Integrated source checkpoint `a0d2a8c` adds distinct local
 `scale-front`/`scale-hotspot` fixtures, strict Linux CLI/development forwarding,

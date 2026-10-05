@@ -1,0 +1,595 @@
+{
+  "objective_status": "active; full specification unachieved",
+  "source_commit": "10f76a50321059f4fc04e33895520b8e13b1a864",
+  "jobs": {
+    "extended": {
+      "job_id": "3b5ed1f86a51",
+      "result": {
+        "job_id": "3b5ed1f86a51",
+        "exit_code": 0,
+        "revision": "10f76a50321059f4fc04e33895520b8e13b1a864-47d5165615f186d7",
+        "seconds": 232.05594461200053,
+        "status": "passed"
+      },
+      "all_authored_inputs_match_checkout": true,
+      "authored_input_count": 126,
+      "log_sha256": "88598d943db4e73ea3a98a48b43c85dc20163a38ed802b47da4bdd34f6c859e8"
+    },
+    "hotspot_gpu": {
+      "job_id": "910a0d08cc10",
+      "result": {
+        "job_id": "910a0d08cc10",
+        "exit_code": 0,
+        "revision": "10f76a50321059f4fc04e33895520b8e13b1a864-47d5165615f186d7",
+        "seconds": 4.040030657999523,
+        "status": "passed"
+      },
+      "all_authored_inputs_match_checkout": true,
+      "authored_input_count": 126,
+      "log_sha256": "964f12e742b53d17c08196fc24c37a72407ddf2da3df77d11024a6361e1c3532"
+    },
+    "front_gpu": {
+      "job_id": "cae4d3ff2019",
+      "result": {
+        "job_id": "cae4d3ff2019",
+        "exit_code": 0,
+        "revision": "10f76a50321059f4fc04e33895520b8e13b1a864-47d5165615f186d7",
+        "seconds": 3.924143255000672,
+        "status": "passed"
+      },
+      "all_authored_inputs_match_checkout": true,
+      "authored_input_count": 126,
+      "log_sha256": "c7af8ea48bdb57b2ae3a1458ff4ec26f47a3a8cef0561aa8211986546c34d823"
+    }
+  },
+  "authored_inputs": [
+    {
+      "path": "src/ai/aircraft.asm",
+      "sha256": "8d6e802f0dc8bfd0136259cbd8720c26957146c83e4847eb6d7c2d0b2560dde8"
+    },
+    {
+      "path": "src/ai/tactics.asm",
+      "sha256": "2c4d935a01ceb7eed8219054b77e44a41e522d194cbb0136af7e274a94e906ab"
+    },
+    {
+      "path": "src/audio/audio.asm",
+      "sha256": "b31339b4bbb51d3be2be397a9d58ffadb736ee973b4d7ba1e8c3a3080c6a18e6"
+    },
+    {
+      "path": "src/audio/emitters.asm",
+      "sha256": "68d4d0945e79d89cf903af809fe8ab6990bb6840ad9367829ee23fa866b8590d"
+    },
+    {
+      "path": "src/audio/footsteps.asm",
+      "sha256": "59a74d18c280ccf26a2ce385a46bfa97973144d5986eeb29b8ebfd53470033ab"
+    },
+    {
+      "path": "src/game/player.asm",
+      "sha256": "7602438169a657c5bf97a9c6e3035c9fbdf41d584a0b1350a83b8d2d1dbb432c"
+    },
+    {
+      "path": "src/game/vehicles.asm",
+      "sha256": "f6969dacd671eb099983ad69c5ccb49c51b9caf86bef53ad75eac761907ff98b"
+    },
+    {
+      "path": "src/nav/squads.asm",
+      "sha256": "2792a4858aeee4cb0efcecdd471a456171b64e35d5765f4c0ea848e236eed18b"
+    },
+    {
+      "path": "src/nav/terrain.asm",
+      "sha256": "497a05eda7eaf56b8df0e84cd6cea1b217a6006ff1e004aebac1300c08f345bb"
+    },
+    {
+      "path": "src/net/client.asm",
+      "sha256": "64b3bb39deabc3a500f0f8ad5706f2a37f668ac3c75104e74d4b7ee47513d363"
+    },
+    {
+      "path": "src/net/coop_server.asm",
+      "sha256": "fe16a07d574b3e72cd87097a271536447007709bcc308d3680a58ba840fb74f5"
+    },
+    {
+      "path": "src/net/protocol.inc",
+      "sha256": "f44693c0984aabb000565cfc7e27301969760e7d9e76d37dc7e2d8c04f1a63d6"
+    },
+    {
+      "path": "src/net/schema.txt",
+      "sha256": "6d6a1299060d73c70dc36592815d66d86bd55d2de1cea1c4cc03349615225c97"
+    },
+    {
+      "path": "src/net/server.asm",
+      "sha256": "86c93f689cae06899be52db01663dc425915d14943eac58d47d7c516af2028e5"
+    },
+    {
+      "path": "src/platform/linux/client.asm",
+      "sha256": "265295f9f74c8b4f84a87ffb7e4ba78cf1ff159b645857c7e326b163d75c8361"
+    },
+    {
+      "path": "src/platform/linux/headless.asm",
+      "sha256": "1a59bdad309a90e5d3b35fd647ac51841467f015f235765c379c419c5c505252"
+    },
+    {
+      "path": "src/reload/abi.inc",
+      "sha256": "5f40a98a616e028c397da3a67797a829cb8b561993de84de7e3711b36a91e301"
+    },
+    {
+      "path": "src/reload/host.asm",
+      "sha256": "50fcfa20ec97db65f981305e0987ffecc50b2259183b353e932fdbc1025b0fc4"
+    },
+    {
+      "path": "src/reload/module.asm",
+      "sha256": "e68e11e66104d86936e92dfdcd74921aa664a0c701dac0b051246b61af36449e"
+    },
+    {
+      "path": "src/render/air_trails.asm",
+      "sha256": "0e52116dd9daa8c8313e4bd414caf7c138d881c13095d81688b34c5a0963becc"
+    },
+    {
+      "path": "src/render/battle_metrics.asm",
+      "sha256": "65da4422ac866216873ff467cff9f45e402873d1e660e45052fd7f95ac756eaf"
+    },
+    {
+      "path": "src/render/effects.asm",
+      "sha256": "ded8b5a1f9d2e8d9c40266c735c91b32e9478255f5ce1073321218c5ec532a81"
+    },
+    {
+      "path": "src/render/environment.asm",
+      "sha256": "b28a909e541c580df22fecb9ad1d8e44e999b46330da01d124d80f19ff66627c"
+    },
+    {
+      "path": "src/render/mesh_assets.asm",
+      "sha256": "99abf465193b92972ff4c8847a2c5220d9a7246e2cf48b9ff2dd6d32b496b09e"
+    },
+    {
+      "path": "src/render/mesh_shaders.asm",
+      "sha256": "b12583e7a97f66497f535707733fa622c8547f7ff43868d5c87e7d4d2625694c"
+    },
+    {
+      "path": "src/render/meshes.asm",
+      "sha256": "1dd9315f569067b60854a673cc11e0817baf17a0570c37e4ebb0126b93b8dd9b"
+    },
+    {
+      "path": "src/render/metrics.asm",
+      "sha256": "e37989512b5d40b6c7cc0db430ef8bf66f326de4f9a8e1d94235fbaac339cdd3"
+    },
+    {
+      "path": "src/render/shaders.asm",
+      "sha256": "e14ee5f0e56eb0691b3b1636cf18f465fd82cc6def93cfa6b65d817c5cd1e922"
+    },
+    {
+      "path": "src/render/view_settings.asm",
+      "sha256": "2ce27fe9d0ec66044cc374232d4b8535dd86dddf2326428f9d5acd0323dbcd44"
+    },
+    {
+      "path": "src/render/visibility_census.asm",
+      "sha256": "15693977b0693a229ef74004b487e0684114dd2da8bd0dc2e0534c2713ac8986"
+    },
+    {
+      "path": "src/sim/operation.asm",
+      "sha256": "a6e0ef492353b260474e35eb498c1e7727fd416c04e1c041611342aa9b1c6d7f"
+    },
+    {
+      "path": "src/sim/projectiles.asm",
+      "sha256": "341e8b7b4243fd820d697f4beae138523cfb8ff0dce16a4ad889bf9574822c5c"
+    },
+    {
+      "path": "src/sim/scenarios.asm",
+      "sha256": "82fd7646724f99a5309143cd2ee11757b19b87076a6375368fc2dada41557b97"
+    },
+    {
+      "path": "src/sim/world.asm",
+      "sha256": "482c7c2c5395837ad576a343c9638e09c6cc27f835310338855154804f245004"
+    },
+    {
+      "path": "shaders/battle.frag",
+      "sha256": "511e4af983cb48e1c78b92e163c0eefe754b0be90e6b3ddbe48aebbb8f183d4e"
+    },
+    {
+      "path": "shaders/battle.vert",
+      "sha256": "879bd7fccb44b3bf42961c885bf34b248bf0dca26c823f0f72461db2fcd53d28"
+    },
+    {
+      "path": "shaders/mesh.frag",
+      "sha256": "d5e777a19bbb6c050cad6fb08f1f39da96eb82d2c9b40a892ad07a8791c86b21"
+    },
+    {
+      "path": "shaders/mesh.vert",
+      "sha256": "b948b8b365d180da361eaf5a0053874a53d9e0ebb642471893b6046b8f2e5f47"
+    },
+    {
+      "path": "content/CREDITS.md",
+      "sha256": "af7d123494f291947cdfa72c76ecd5712c96708b6c281743f5c9b9fd4ed58977"
+    },
+    {
+      "path": "content/asset-manifest.json",
+      "sha256": "b2e7c728e6587c3e1cc3e874816d932c3653beccc02a5cd34b0293c07e36a2b9"
+    },
+    {
+      "path": "content/audio/LICENSE-source.txt",
+      "sha256": "6b6ae9aad2e86c7f6d8981f64712c242bac7b959755308238281cde592780185"
+    },
+    {
+      "path": "content/audio/explosion.pcm",
+      "sha256": "975d72b65599e40a3d25cc43de012050b4568959f110b67c290ad5c00c7ed547"
+    },
+    {
+      "path": "content/audio/footstep.pcm",
+      "sha256": "8c44c375ea796e1362ed19afe75dda6ec8bf966b8e88df4d9922ebb721bfe80d"
+    },
+    {
+      "path": "content/audio/rifle.pcm",
+      "sha256": "45cdff67e811ba54eaf892dcc2b0c48e51a048af7e66efe0b6e1987a77585463"
+    },
+    {
+      "path": "content/audio/sources/01-footstep.ogg",
+      "sha256": "33c9bef5e8aeb1069455699a34a0c5e1ef1787fd3f61594b0859d7e6bb9f9dec"
+    },
+    {
+      "path": "content/audio/sources/muffled-distant-explosion.wav",
+      "sha256": "13a0bf75af94ec6d332bc71cba489b573466e05c4b17288158b3d683b41de39f"
+    },
+    {
+      "path": "content/licenses/Captain-Ahab-Fighter-Jets.txt",
+      "sha256": "ff64959fc52828a2654558fce59f9efc61a4017be2a053e170e3219813edef6b"
+    },
+    {
+      "path": "content/licenses/Kenney-Space-Kit.txt",
+      "sha256": "bd4e050e69d41351282c4d53f943cd4d80a80b968593e60653ba5292637941b7"
+    },
+    {
+      "path": "content/licenses/Quaternius-Animated-Tanks.txt",
+      "sha256": "83d8959f9fc56353ed571fbe2dc52e4bcd64508e2399501cd45ac2ce3df0bf8c"
+    },
+    {
+      "path": "content/licenses/explosion-license-evidence.json",
+      "sha256": "077beee49e77f2db9f618b7b4bb9a8f8140a0f3393c754ebbb746a34358f7997"
+    },
+    {
+      "path": "content/licenses/footstep-license-evidence.json",
+      "sha256": "0137b9107d14fdf7ff38fecfa282fa82b7039186f00fbdf48ddf135c5792b01a"
+    },
+    {
+      "path": "content/licenses/model-license-evidence.json",
+      "sha256": "d7fda95e4b06fe6543ce89524719bd7f84dbb5ef509415e6dfbfb226e85b7618"
+    },
+    {
+      "path": "content/licenses/texture-license-evidence.json",
+      "sha256": "b62413219f14128d41c1415176182b5077703db25086f45a7a07be61a0f64325"
+    },
+    {
+      "path": "content/model-sources.json",
+      "sha256": "17bcd8683d52581b21dc8fb7d1bb0b720ae7ddf1ae1cf83ae71f09e41e56e377"
+    },
+    {
+      "path": "content/models/bake-report.json",
+      "sha256": "9e200b6c24f1e2cca7c197211592b9dd284445358f7f0b3fa06a584acf9881ca"
+    },
+    {
+      "path": "content/models/battle.rham",
+      "sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9"
+    },
+    {
+      "path": "content/texture-sources.json",
+      "sha256": "0b0bca4064920d9fa1d0c436ce57c15dadf87cdefa9decf63bb663fff1f3147d"
+    },
+    {
+      "path": "content/textures/bake-report.json",
+      "sha256": "3b1b9e1e92cd45614b1c095356ff545bffd3b9edd1ae61ef7e314981f88e77be"
+    },
+    {
+      "path": "content/textures/terrain.rhtx",
+      "sha256": "9abd8af59d55a19fb123f5d5a64dd9a16f27e653c908ac342c192d1cfaf836bc"
+    },
+    {
+      "path": "schemas/aircraft.inc",
+      "sha256": "5e8394aa5fa94afa23d95f9c7370257c1b97384d2b44f9dcbf8f0cefe43cd788"
+    },
+    {
+      "path": "schemas/combat.inc",
+      "sha256": "3f5c40304ff394ba7eeb00bff636f6572421ff0fcfd751d04e199046b4ac5fee"
+    },
+    {
+      "path": "schemas/entity.inc",
+      "sha256": "a5ff3f51a85ab92bf1921f42b74d0b83e2ac46b9dd432460fa1a1cd32c12e965"
+    },
+    {
+      "path": "schemas/entity.json",
+      "sha256": "be6ac9c5e0d62d1b786f7d076a231acd7de48bd269b8cf381840fc63bf328795"
+    },
+    {
+      "path": "schemas/player.inc",
+      "sha256": "99120bafa2f4c61b463afee3a9f0bf4752cdf38025aab478057b41555b5017ac"
+    },
+    {
+      "path": "tools/assets.py",
+      "sha256": "d1a9b6f57ccd7585c89fd680eca36084b5d72fd740e122d963bfb5168329eeaf"
+    },
+    {
+      "path": "tools/audio_assets.py",
+      "sha256": "e1a3b62aacc3e91a80818aff9c25b4330f534f580bdb05a60a96c836138b0d5c"
+    },
+    {
+      "path": "tools/bake_models.py",
+      "sha256": "b7f5ae7342eede9bfbdbe0d3298004124f016e69cef0c0045da2b08f77e4bf91"
+    },
+    {
+      "path": "tools/bake_textures.py",
+      "sha256": "747d0698b4f4e726d16d2ae9237bb830d7aaaf4ef26285e6b45566da1bb83549"
+    },
+    {
+      "path": "tools/bootstrap-nasm.sh",
+      "sha256": "39d6843e05f2eb691b8c3bf786e7144f2922163525ddcd73bd484c257eb5ccef"
+    },
+    {
+      "path": "tools/capture_air_battle.py",
+      "sha256": "f070cb4c73223b1b74188c69ed259abcd3d83e6d05da28c04c66d7bc8c92003c"
+    },
+    {
+      "path": "tools/dev.py",
+      "sha256": "668f77f2d806c985c2965c4ade110fcac5242904e9d5b79cc65c2ea6ca46d109"
+    },
+    {
+      "path": "tools/fetch_models.py",
+      "sha256": "edb092d4d34491dbc9e3d402a08c5c2deeb82dfa296126645d504d3093d9667e"
+    },
+    {
+      "path": "tools/footstep_assets.py",
+      "sha256": "67afe0973eb81104598c045086df0967e89eb78f06cb740647c22376f64e19fe"
+    },
+    {
+      "path": "tools/models.py",
+      "sha256": "1c2d09af84b9f6c43c6ab7ee9705e07dec9161c15ebff70aed1c5583290c5fd0"
+    },
+    {
+      "path": "tools/schema.py",
+      "sha256": "b1597c9cafd0f1ffc8e455d941a52e3327b2039f736f6620a461a6e1aeb2a5de"
+    },
+    {
+      "path": "tools/textures.py",
+      "sha256": "81d303fd98330f54a3cb82fe1439e47b6aff49a8bb99c58a501382125cc8ee6b"
+    },
+    {
+      "path": "tests/probe_visibility_reduce.asm",
+      "sha256": "9cedf702a433574d0708e0b749836fc3294e7bbfebd599f82ef629bfd0dbf023"
+    },
+    {
+      "path": "tests/terrain_probe.asm",
+      "sha256": "6ff222ac5ca22f070f93b27d6a6491d25b89bbd40ae64fc550fd1c7ed6c2ebfb"
+    },
+    {
+      "path": "tests/test_air_trails.py",
+      "sha256": "ce76e1d57d774c7378a3abadae37e76b9a4a62685b4931e194cfeb09e4a620bb"
+    },
+    {
+      "path": "tests/test_aircraft.py",
+      "sha256": "653470fb889c6cd7a129f8233463afe2b978d88b476c2d5a42d3c841f42d3494"
+    },
+    {
+      "path": "tests/test_audio.py",
+      "sha256": "44cc6c4530e4f3ffbedd515ac896bcaf39810e815c49befddfd0e5bf592fffda"
+    },
+    {
+      "path": "tests/test_audio_battle.py",
+      "sha256": "6a2f0649ee4462b52708b2b66f147f831dc72df85d27fc31beb525a56688531f"
+    },
+    {
+      "path": "tests/test_audio_emitters.py",
+      "sha256": "d093b85045b8621455eebd2fd6ec474b5cd14ceb045d37482f63c7ba46a7b58e"
+    },
+    {
+      "path": "tests/test_battle_metrics.py",
+      "sha256": "fbc2ee38cf92fc2145a421dcbd3248ecd48230b960993b25bfa6827e6aff3aae"
+    },
+    {
+      "path": "tests/test_census_cli.py",
+      "sha256": "037a1b8f79679e1b9dbdc0f26103f88fa94bb4dba5e695e69b9b004188112876"
+    },
+    {
+      "path": "tests/test_client_aircraft.py",
+      "sha256": "7bdd8592c5538c3b0fca4f11f28c36d0f4b71afca3a083f44ccd260605995814"
+    },
+    {
+      "path": "tests/test_client_coop.py",
+      "sha256": "a9334a2272d5888a6b76956ce634fed8a3b5685b69532cfdd5833a5846c2d942"
+    },
+    {
+      "path": "tests/test_client_effects.py",
+      "sha256": "f95a829560bd412f5e36713469700519c772ee8b3ade87d3d82742937b1d9658"
+    },
+    {
+      "path": "tests/test_client_environment.py",
+      "sha256": "781f70ca142786d7c4bec859dc980b952157c0bb50f9e366d0161115dae85246"
+    },
+    {
+      "path": "tests/test_client_gameplay.py",
+      "sha256": "f5a0bae86f8c6fa1a6b7335adbf059dc493a0bbe4f4a1e36bfd422f527b90bf9"
+    },
+    {
+      "path": "tests/test_client_meshes.py",
+      "sha256": "026df8ae74bec23ceac4a38a6a0c878d833cf6f3dd4c2f6672b12f2151dadb6d"
+    },
+    {
+      "path": "tests/test_client_shells.py",
+      "sha256": "11ec3c428d2efdf122b8b40977bf6d6083f9300ce9a22b864cf0f0c00ae02226"
+    },
+    {
+      "path": "tests/test_client_view_projection.py",
+      "sha256": "2391ac7baba7cb42a33ee6b1fd2322b7df64dfac24c032ae65d012066fb17815"
+    },
+    {
+      "path": "tests/test_combat.py",
+      "sha256": "e1b42c5e5b5240db714dfd7394a100fd82f52e04c44b83ef65870de1a68d7afc"
+    },
+    {
+      "path": "tests/test_controls.py",
+      "sha256": "1daf2daf75439b7e03150e89551b29c93062f928ffee5721bb98fff6d681b8f4"
+    },
+    {
+      "path": "tests/test_coop.py",
+      "sha256": "00214d97a5f4a2f78787ea11a7231d9151426921fce3b0a39d4f010836a5314d"
+    },
+    {
+      "path": "tests/test_coop_combat.py",
+      "sha256": "a304d8466c819379dfd036f1d29b99b6b4e8a529337e1d3e42ffc6044cdb86c9"
+    },
+    {
+      "path": "tests/test_coop_movement.py",
+      "sha256": "8fb49ca45b00b100431459ece07719a759475fa42f49bdb603bd20bc649055d3"
+    },
+    {
+      "path": "tests/test_dense_client.py",
+      "sha256": "88812eee1bc0f1404c3047f3d2f5dc64619d972057b970f97879a323b0c4ac50"
+    },
+    {
+      "path": "tests/test_dense_driver.py",
+      "sha256": "27e9f020411a57b5f395863b51edb6af46590f062e1ec9b27e40a0a7c6ee19f7"
+    },
+    {
+      "path": "tests/test_dense_scenarios.py",
+      "sha256": "c9a88052391b53bc0bfdfc9d164cffb9c7751b092664ebadfde0129d0941f1fd"
+    },
+    {
+      "path": "tests/test_effects.py",
+      "sha256": "5a3c4d4be44e76516c94f1df42827cd57d833a41459e5f8e025f4005499993ff"
+    },
+    {
+      "path": "tests/test_fast.py",
+      "sha256": "2a33729e859760447c401fa660a63a82b097bffe1201d68b957569c261cd9f89"
+    },
+    {
+      "path": "tests/test_footsteps.py",
+      "sha256": "267907e455083e2c3f7663797ba6228ed36f85f1edb034e419f403ea738d5df0"
+    },
+    {
+      "path": "tests/test_graphics.py",
+      "sha256": "e5363aa34efb3b2146581559f6b398d01827f6faed21f10f4651ba860ea9ad14"
+    },
+    {
+      "path": "tests/test_mesh_assets.py",
+      "sha256": "2f9592f340454b7431d570a0dc6665143208eb4d6e5b1cd15b34c64586038322"
+    },
+    {
+      "path": "tests/test_navigation.py",
+      "sha256": "5a1f5634cb8cd71fdd04482fa13d6abeda67bcf298f08eacee7acb33af1dab5f"
+    },
+    {
+      "path": "tests/test_net.py",
+      "sha256": "d82bbdb1e27800c8500d6b4e72c017844fbc4257766e22939dd8aebb7e5a6a92"
+    },
+    {
+      "path": "tests/test_net_events.py",
+      "sha256": "a852ab57e88bf525e6ae52d925fd465b970c9a3c0e46559d70385698325454a5"
+    },
+    {
+      "path": "tests/test_net_projectiles.py",
+      "sha256": "310e7b582bf8b9689c392793de3f85e744775f76fe516bf1eb7dc300c5bd8a18"
+    },
+    {
+      "path": "tests/test_operation.py",
+      "sha256": "26b74a47ab5ef2fcad18d42a9c3c46e18a53abd66428f2ef40c5939b93e5db50"
+    },
+    {
+      "path": "tests/test_player.py",
+      "sha256": "c2c0691fb6de9765d1b6fc212fbd597f2ca3bd1d082b8e64ea86b2304a5e6f1c"
+    },
+    {
+      "path": "tests/test_reload.py",
+      "sha256": "fdafa60f328ae77d1534bdd07ecbc698bf6725cc6c73eb5e4652993d36bfea01"
+    },
+    {
+      "path": "tests/test_scenarios.py",
+      "sha256": "0f074cae6705b52b252a1f2ba5260bd2b81e7383506a5827566a0fde758b59f9"
+    },
+    {
+      "path": "tests/test_simulation.py",
+      "sha256": "be0e2de0f92171e12f743d97407c37ec0c2d84ceab56075b217b47c3fb1c1cc6"
+    },
+    {
+      "path": "tests/test_tactics.py",
+      "sha256": "6223f938e74deb00b4c9b2588fddce05c9996b3e03ef8551b15df59fde00a875"
+    },
+    {
+      "path": "tests/test_terrain.py",
+      "sha256": "370df208bba8b106941fd54bb0d5293f13e2e87f66a2e9c9b1df691d61414f1e"
+    },
+    {
+      "path": "tests/test_texture_assets.py",
+      "sha256": "2f72bef861e82e92971a2f308005bf54cb271c25949e69bafabd64cd444414c1"
+    },
+    {
+      "path": "tests/test_tools.py",
+      "sha256": "263a07080e53443d46ea787a22719293d15b03d771e9fd7021cf6683f4444323"
+    },
+    {
+      "path": "tests/test_vehicles.py",
+      "sha256": "acab300d057cc3b1f58893d79c8e570741f4fa633d8687b34a0d01a60b30bc03"
+    },
+    {
+      "path": "tests/test_view_settings.py",
+      "sha256": "a5410f5adf03c8572d5623035e0163f673b6962ec97c99e9d3f6a319be55ea1a"
+    },
+    {
+      "path": "tests/test_view_settings_kernel.py",
+      "sha256": "bc9e61771ab03d7499ab8dee5b91ccefedb8a9a8e3768a915b51b48bce3edd0e"
+    },
+    {
+      "path": "tests/test_visibility_framebuffer.py",
+      "sha256": "4576ef119392774a216941c4744b0eb222982a66dae8feaf0ab11b4db43bc8b6"
+    },
+    {
+      "path": "tests/test_visibility_gl.py",
+      "sha256": "023637988f2eb5dd961b6a4400002e88005ae571bfeab03fa620e8ec632dec74"
+    },
+    {
+      "path": "tests/test_visibility_reduce.py",
+      "sha256": "823f0c16141bf883ea88c9e3d9ec6a493d1dbca702b1a2561e4b1f11625b4c95"
+    },
+    {
+      "path": "tests/test_waypoints.py",
+      "sha256": "4ff6b3530fa06cf2df1047d5c9b04ae652550b978d5043c57fae51fed49105c7"
+    }
+  ],
+  "extended_suite_reports": 44,
+  "all_workers_and_root_checks_reconciled": true,
+  "root_focused_checks": {
+    "fast_exit_code": 0,
+    "census_cli_invalid_cases": 12,
+    "mocked_driver_cases": 16,
+    "real_module_reducer_and_framebuffer_exit_code": 0
+  },
+  "worker_patches": {
+    "shaders": "3607b82",
+    "capture": "a05b795",
+    "framebuffer": "1a0f467",
+    "independent_gl": "cf06b50",
+    "driver": "d55123c"
+  },
+  "integration_findings": [
+    "Independent production GL oracle reproduced distant markers using actor0 instead of their stable IDs; corrected marker instances pass exact ID sets",
+    "Review caught visibility_finish returning low authoritative checksum bits; explicit0/-1 plus checksum/invalidpixel/GLerror rejection verified",
+    "Normal/captured presentation differs at most2/255 per channel in frozen pair; exact pixel identity not claimed"
+  ],
+  "artifacts_sha256": {
+    "visibility-extended-suites.json": "5efcd39d59dedc08d2eee2c48429fcc485e26135352a1ba5091f3aa1501b8527",
+    "visibility-oracle-passed.log": "e0afa7c83071f4b91d43e5f3efb98aea3ed5c8626288924be4dc042436dbfa00",
+    "visibility-hotspot_gpu.json": "c2e95d17131977bdb8a2fb0a5b0919d4556b4b603dc65e262bfe3c9b5e363c25",
+    "visibility-oracle-marker-alias-failed.log": "6fe2ec2c0fc33c2c073d0acae1dfe00928c0ff3d5151784c8626c85c94742d5a",
+    "visibility-front_gpu.png": "34b2a16301e054492bd17528cfc7d2a5f1785ccad6a03d9cb803bc17543fd2c7",
+    "visibility-front_gpu.json": "bf6946aa833e3278102c9fed71a48157d517b9b43c7ed892bed85ba6a86c34a7",
+    "visibility-front-map.r32ui.gz": "42bd08f9e336a9f68003e78eac13ed6c23bcfbaefcba8c30f0fe1304812a5f9b",
+    "visibility-front-decode.json": "052c09a1ef25992b155ca21afc6d02cd310e1fd3e8a067c6a81175e040fbf363",
+    "visibility-hotspot-decode.json": "d23cad80eb0a44c40da73d37aab4a8783d1e14b84065bd2cc7b0ff24f0bfc934",
+    "visibility-hotspot_gpu.png": "4deab9ee68b655d45f08b0586a1165a34fd630068dff44ab70bedb4200837445",
+    "visibility-hotspot-map.r32ui.gz": "d38a3fda3dff452ec5c3b1b066a337fe2dfb3405bba62521fb4f12e6bb5a6122"
+  },
+  "limits": [
+    "Opaque world depth before translucent cosmetics/HUD, with opaque weapon occlusion; no smoke perception/readability acceptance",
+    "One actual sampled frame, not a sustained population or complete-operation budget",
+    "At least1pixel sample counts as visibility; markers are distinct from geometric models; per-actor pixel thresholds retained",
+    "Census readback/reduction is opt-in expensive separate synchronization; never a per-frame production budget promise",
+    "Startup allocation outside frame timers; finalMRTdraw+pre-drawhash included finalCPUframe; readback/reduction/blit/file/report excluded; finalGPUquerymayremainpending",
+    "Fixed single-thread/null-ALSA hardware run concurrent with frozen verification; physical audio/uninterrupted hardware and human playtests pending",
+    "Complete roster, credible armies/commander/hazard behavior,4-rendered-client scale, streamed operation/livejobs/reload/Windows remain incomplete",
+    "No remote publication; owner licence approval pending"
+  ],
+  "image_review": "Both final1920x1080 hardware normal-colour screenshots visually inspected: retained source aircraft, dense infantry/armor silhouettes, visible impacts/projectiles and HUD. Scope excludes art quality/complete-operation acceptance."
+}

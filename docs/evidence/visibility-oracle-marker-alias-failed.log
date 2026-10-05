@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/visibility-oracle/tests/test_visibility_gl.py", line 207, in <module>
+    assert report['visible_actors'] == sum(expected), (label, report)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('three_classes', {'visibility_census': True, 'visible_actors': 2, 'visible_high': 1, 'visible_low': 1, 'visible_markers': 1, 'individually_detailed_actors': 2, 'width': 1280, 'height': 720, 'source_tick': 5, 'invalid_codes': 0, 'readback_reduce_ms': 6.686523, 'scope': 'opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included', 'authority_readonly': True, 'authority_before': '3b0b783c3e3108b4', 'authority_after': '3b0b783c3e3108b4', 'decoded_actor_classes': {0: [1, 3], 1: [2]}})
