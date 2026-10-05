@@ -1,0 +1,101 @@
+{
+  "scenario": "scale-hotspot",
+  "revision": "938646fddbee60d4da947bc039f9fd7594a8f583-c458b81039231208",
+  "seed": 42,
+  "wall_seconds": 2.5548822970013134,
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "realtime": false,
+  "runtime": {
+    "units": 8192,
+    "ticks": 900,
+    "seed": 42,
+    "alive": [
+      2215,
+      1940
+    ],
+    "engaged": 727,
+    "checksum": "e77547fb1aa7a865",
+    "tick_mean_ms": 2.832512,
+    "tick_p95_ms": 3.854301,
+    "operation_state": 0,
+    "requisition": [
+      1270,
+      640
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 410,
+    "projectile_peak": 480,
+    "projectile_dropped": 368753,
+    "navigation": {
+      "pending": 14,
+      "completed": 7192,
+      "overflow": 445084,
+      "cache_hits": 780489,
+      "stuck_replans": 0,
+      "cover_choices": 0,
+      "processed_last_tick": 8,
+      "processed_max": 8
+    },
+    "air_events": {
+      "bomb_launches": 67,
+      "bomb_impacts": 62,
+      "gun_bursts": 5527,
+      "aircraft_destroyed": 173,
+      "overwritten_unobserved": 191
+    },
+    "hazards": {
+      "predictions": 107431,
+      "tile_overflow": 90072,
+      "acquired": 18416,
+      "dispersions": 18413,
+      "shelters": 3,
+      "los_calls": 40473,
+      "budget_skipped": 0,
+      "active_goals": 262
+    },
+    "ordnance_admission": [
+      {
+        "submitted": 173342,
+        "admitted": 1100,
+        "capacity_denied": 172242,
+        "invalidated": 0
+      },
+      {
+        "submitted": 17501,
+        "admitted": 1031,
+        "capacity_denied": 16470,
+        "invalidated": 0
+      },
+      {
+        "submitted": 167580,
+        "admitted": 1092,
+        "capacity_denied": 166488,
+        "invalidated": 0
+      },
+      {
+        "submitted": 13064,
+        "admitted": 996,
+        "capacity_denied": 12068,
+        "invalidated": 0
+      }
+    ]
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 11624,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": 14,
+    "network_bandwidth": "unmeasured in CPU-only headless benchmark"
+  }
+}

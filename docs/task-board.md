@@ -31,6 +31,7 @@
 | Physical dense front/hotspot fixtures and frame diagnostics | four isolated workers + integrator | scenario/client contracts | frozen extendeda87c322acfd7 passed224.83s; fivejobs120matchedinputs; real regionaltargets2560/3837 and actual GL concurrentcombat/audio;1024pixel-visible census remains pending |
 | Optional actual actor/detail pixel census | four isolated workers + integrator | renderer identity + GL capture | frozenextended3b5ed1f86a51 passed232.06s; exactGLocclusion/IDfixtures and realGPU rawdecodes; sustaineddensity/readability still pending |
 | Observed shell/bomb danger, physical evasion and local warnings | four isolated workers + integrator | private hazard contract/terrain/projectiles | runtime aed6e55; frozen extended c7edbd70ea56 passed241.57s,50suite reports/137matched inputs; physical blast survival, readonly warning GL and budget pass; bounded cells may omit threats; exact integration evidence in docs/evidence/hazard-session.json |
+| Ground ordnance admission fairness | three isolated workers + integrator | causal physical pressure + same-tick queues | runtime a9c7b99; balanced actual mixed grants and sustained mirrored pressure, full-world health/queue order label symmetry; exact verification in docs/evidence/ordnance-session.json; air contention remains pending |
 | Wider vehicles, layered recorded sound pack, production art/effects | next ready | current combat batch |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
 
@@ -71,3 +72,10 @@ air480 threshold and true512 pool exhaustion, with eligible ammunition/cooldown/
 LOS sources counted by side and kind; reverse side/index ordering with the same
 physical fixture before choosing fair admission. Keep human cannon headroom and
 finite stores; cosmetic trails or event counts cannot substitute for shots.
+
+Ground admission continuation establishes caller-order saturation and fixes
+side/role interleaving plus source rotation using physical canonical group order.
+Existing per-actor400tick side-label symmetry is retained. Next coupled ordnance
+task: apply actual generation-validated ready release admission to aircraft while
+preserving continuous FSM updates, finite stores and success-only bomber egress;
+instrument cross-class competition and distinguish fighters from bombers.

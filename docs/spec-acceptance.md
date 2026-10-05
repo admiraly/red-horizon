@@ -359,3 +359,28 @@ or remote player warning path. Observation phases may delay response8ticks; each
 cell retains only8threats and may omit others. Ground intercept estimates do not
 predict all wall/actor collisions or narrow terrain crests. Exact integration and
 scale evidence belongs in `docs/evidence/hazard-session.json` and `docs/status.md`.
+
+## Ground ordnance fairness supplement
+
+Runtime checkpoint `a9c7b99` introduces same-tick ready armor/artillery queues,
+interleaves the four actual side/weapon groups and rotates successful participant
+cursors. Priority ranks groups by stable physical source IDs, so changing faction
+labels preserves physical processing order. The existing400-tick per-actor health
+symmetry check caught the earlier side-index priority regression and remains
+required. Ground weapons now use their actual30/90-tick cooldowns; infantry keeps
+its8tick direct-damage phase. Same-tick generation/driver/ammunition/cooldown checks,
+production trajectory/damage paths and416AI/480air/512physical ceilings remain.
+
+Controlled real-world pressure proves the old fixed-index pass could give416
+rounds to one side and none to the other despite equal physical eligibility.
+Default admission gives208per side and104per side/role in saturated mixed cases.
+Sustained physical comparisons include real impacts, losses and finite stores;
+these initialized16k-ID fixtures have1024 living tank sources, and are distinct
+from complete8192-living-army natural dense scenarios. Final frozen evidence and
+limitations are recorded separately in `docs/evidence/ordnance-session.json`.
+
+This improvesR05/10c/10e/15 but accepts no complete combined-arms or tactical
+intelligence requirement. Ground fairness does not solve fixed-ID air release,
+air-role contention, crowd avoidance, multi-weapon priorities or commander plans.
+Pressure counters now count ready retries everytick and cannot be compared as
+equivalent-cadence drop rates against the old eight-phase attempts.

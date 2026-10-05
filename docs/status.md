@@ -1,5 +1,67 @@
 # Status — Linux shared-world prototype,2026-10-05
 
+The ground-ordnance continuation keeps the full specification goal active.
+Runtime checkpoint `a9c7b99` replaces fixed-ID immediate armor/artillery fire with
+bounded same-tick ready requests interleaved across actual side/weapon groups.
+Each group rotates after its last successful source; group priority ranks stable
+physical source IDs and rotates each tick. Generation, living/driver, ammunition
+and cooldown checks repeat before the unchanged production spawn. Ground weapons
+use their real30/90tick cooldown; infantry retains its8tick direct-damage phase.
+The416AI/480air/512physical ceilings and human headroom are preserved.
+
+Actual causal fixtures reproduce legacy grants416/0 despite512ready sources per
+side. Mirroring labels reverses the advantage. Accepted admission gives208/208
+for a saturated single role and104per side/role in mixed pressure. A sustained
+16,384-ID fixture with512living tank sources per side runs120additional real
+ticks: legacy launches862/0 and leaves512/320sources; accepted admission launches
+451/451 and leaves272/272. Finite64round stores, projectile flight, physical
+impacts, casualties and world ticks remain production behavior. The final mirror
+preserves physical poses. These1024living-source fixtures are not full16karmy
+acceptance; natural dense scenarios separately preserve8192initial living actors.
+
+The controlled NASM queue test processes32768requests, grants104per group,
+admits128distinct pressure winners in128one-slot rounds, rejects duplicate/
+invalid/stale/boarded/not-ready requests, preserves ABI/hash rules and compares
+complete firing sequences over24ticks under label swap, including sparsegroups.
+The actual400tick full-world per-actor health symmetry check is retained and
+passes. It caught a real regression in the initial side-index group priority;
+canonical physical order fixes it. Ordinary order-direction checks explicitly
+isolate danger interrupts, while later fresh replay worlds keep evasion enabled.
+Three explicit-launch collision/hazard/effect fixtures now use a one-tick initial
+cooldown to build the grid before their manual shot, retaining real cooldown
+consumption rather than relying on the removed eight-phase gate.
+
+Final seed42/900tick one-thread headless runs on the i7-14700K are:
+
+| Fixture | Initial living actors | Tick mean/p95 ms | Tank grants side0/1 | Artillery grants side0/1 | Final living side0/1 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scale-hotspot |8192|2.857/3.825|1062/1066|1008/965|2162/1953|
+| scale-stretch |16384|8.273/9.265|536/455|525/403|6990/6589|
+
+These benchmarks overlap each other and frozen regression work. Different
+casualties/eligibility and concurrent loads prevent a causal speedup claim.
+Actual admission counters distinguish ready submissions, successful grants,
+capacity denials and invalidations. Whole-pool drop counts373330/978056 include
+every-tick ready retries, so they are not equivalent-cadence comparisons with
+legacy phase-restricted drops. Natural unequal grants remain possible because
+targets, stores and surviving populations differ. Air fixed-ID release, bomber
+versus fighter contention, crowd avoidance, combined-arms plans and complete
+operation acceptance remain open.
+
+Frozen full extended job `f7f9d6ddc9bf` passed in241.607s at source
+`a9c7b99-ace39ac0bc23b65c`, with53suite JSON reports (52explicit pass markers;
+`hazard_outcomes` emits assertions/results without a pass marker). Actual GL,
+rendered aircraft, shared-world graphical co-op and UDP fault suites complete.
+All142authored inputs match the final frozen regression and both final benchmark
+snapshots. The first extended job `17be91839209` failed the order-direction
+fixture in7.558s; subsequent focused work also found and corrected the genuine
+side-label symmetry regression, preserving that assertion. Both earlier benchmark
+jobs, the failed checkpoint, all three final jobs and three clean worker commits
+are reconciled. Exact manifests, hashes, suite reports, controls and retained
+failures are in `docs/evidence/ordnance-session.json`. Graphics use private Xvfb
+software GL; these checks do not establish new hardware frame budgets or full
+operation/commander/Windows/four-client acceptance. No remote publication occurs.
+
 The observed-danger continuation keeps the full specification goal active.
 Runtime checkpoint `aed6e55` observes actual hostile artillery and bomb flight
 within300m and terrain LOS, predicts bounded ground interception, and temporarily

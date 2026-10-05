@@ -1,0 +1,777 @@
+{
+  "library_sha256": "86b63246bdaeb5f3a7a868face2c4fd82e5345a4df9b403b4ff3f5bc69267bb8",
+  "mode": "legacy-fixed-index",
+  "isolated_world_allocations": [
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        768,
+        768
+      ],
+      "kind": 0,
+      "side_labels_mirrored": false,
+      "negative": null,
+      "eligible_sources": [
+        768,
+        768
+      ],
+      "actual_retained_launches": [
+        256,
+        160
+      ],
+      "actual_ammunition_spent": [
+        256,
+        160
+      ],
+      "pool_count": 416,
+      "dropped": 1120,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 256,
+        "1:1": 0,
+        "1:2": 160
+      },
+      "checksum": "ba82a7e4fee45fa7"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        768,
+        768
+      ],
+      "kind": 0,
+      "side_labels_mirrored": true,
+      "negative": null,
+      "eligible_sources": [
+        768,
+        768
+      ],
+      "actual_retained_launches": [
+        160,
+        256
+      ],
+      "actual_ammunition_spent": [
+        160,
+        256
+      ],
+      "pool_count": 416,
+      "dropped": 1120,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 160,
+        "1:1": 0,
+        "1:2": 256
+      },
+      "checksum": "745807de61f56aaf"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 1,
+      "side_labels_mirrored": false,
+      "negative": null,
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        256,
+        160
+      ],
+      "actual_ammunition_spent": [
+        256,
+        160
+      ],
+      "pool_count": 416,
+      "dropped": 96,
+      "actual_launches_by_side_kind": {
+        "0:1": 256,
+        "0:2": 0,
+        "1:1": 160,
+        "1:2": 0
+      },
+      "checksum": "e0ccdaf6d990088e"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 1,
+      "side_labels_mirrored": true,
+      "negative": null,
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        160,
+        256
+      ],
+      "actual_ammunition_spent": [
+        160,
+        256
+      ],
+      "pool_count": 416,
+      "dropped": 96,
+      "actual_launches_by_side_kind": {
+        "0:1": 160,
+        "0:2": 0,
+        "1:1": 256,
+        "1:2": 0
+      },
+      "checksum": "3aa4aeb7aca6aa1e"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 2,
+      "side_labels_mirrored": false,
+      "negative": null,
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        256,
+        160
+      ],
+      "actual_ammunition_spent": [
+        256,
+        160
+      ],
+      "pool_count": 416,
+      "dropped": 96,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 256,
+        "1:1": 0,
+        "1:2": 160
+      },
+      "checksum": "adffc3065fd5d726"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 2,
+      "side_labels_mirrored": true,
+      "negative": null,
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        160,
+        256
+      ],
+      "actual_ammunition_spent": [
+        160,
+        256
+      ],
+      "pool_count": 416,
+      "dropped": 96,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 160,
+        "1:1": 0,
+        "1:2": 256
+      },
+      "checksum": "69dd7f5e94c79efe"
+    },
+    {
+      "units": 16384,
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        1536,
+        1536
+      ],
+      "kind": 0,
+      "side_labels_mirrored": false,
+      "negative": null,
+      "eligible_sources": [
+        1536,
+        1536
+      ],
+      "actual_retained_launches": [
+        416,
+        0
+      ],
+      "actual_ammunition_spent": [
+        416,
+        0
+      ],
+      "pool_count": 416,
+      "dropped": 2656,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 416,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "556ac4bb46e49ff5"
+    },
+    {
+      "units": 16384,
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        1536,
+        1536
+      ],
+      "kind": 0,
+      "side_labels_mirrored": true,
+      "negative": null,
+      "eligible_sources": [
+        1536,
+        1536
+      ],
+      "actual_retained_launches": [
+        0,
+        416
+      ],
+      "actual_ammunition_spent": [
+        0,
+        416
+      ],
+      "pool_count": 416,
+      "dropped": 2656,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 416
+      },
+      "checksum": "068bbd7dfdbdc0f5"
+    },
+    {
+      "units": 16384,
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        512,
+        512
+      ],
+      "kind": 1,
+      "side_labels_mirrored": false,
+      "negative": null,
+      "eligible_sources": [
+        512,
+        512
+      ],
+      "actual_retained_launches": [
+        416,
+        0
+      ],
+      "actual_ammunition_spent": [
+        416,
+        0
+      ],
+      "pool_count": 416,
+      "dropped": 608,
+      "actual_launches_by_side_kind": {
+        "0:1": 416,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "9a3c1184d169409e"
+    },
+    {
+      "units": 16384,
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        512,
+        512
+      ],
+      "kind": 1,
+      "side_labels_mirrored": true,
+      "negative": null,
+      "eligible_sources": [
+        512,
+        512
+      ],
+      "actual_retained_launches": [
+        0,
+        416
+      ],
+      "actual_ammunition_spent": [
+        0,
+        416
+      ],
+      "pool_count": 416,
+      "dropped": 608,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 416,
+        "1:2": 0
+      },
+      "checksum": "e3b33e3d4ed9ceb6"
+    },
+    {
+      "units": 16384,
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        512,
+        512
+      ],
+      "kind": 2,
+      "side_labels_mirrored": false,
+      "negative": null,
+      "eligible_sources": [
+        512,
+        512
+      ],
+      "actual_retained_launches": [
+        416,
+        0
+      ],
+      "actual_ammunition_spent": [
+        416,
+        0
+      ],
+      "pool_count": 416,
+      "dropped": 608,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 416,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "f0d744a3ab5a40d2"
+    },
+    {
+      "units": 16384,
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        512,
+        512
+      ],
+      "kind": 2,
+      "side_labels_mirrored": true,
+      "negative": null,
+      "eligible_sources": [
+        512,
+        512
+      ],
+      "actual_retained_launches": [
+        0,
+        416
+      ],
+      "actual_ammunition_spent": [
+        0,
+        416
+      ],
+      "pool_count": 416,
+      "dropped": 608,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 416
+      },
+      "checksum": "37d2bb5df4968582"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 1,
+      "side_labels_mirrored": false,
+      "negative": "ammo",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "3d604671ab2bfe6e"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 2,
+      "side_labels_mirrored": false,
+      "negative": "ammo",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "66701008b615eda6"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 1,
+      "side_labels_mirrored": false,
+      "negative": "cooldown",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "2999d1efbaddfe6e"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 2,
+      "side_labels_mirrored": false,
+      "negative": "cooldown",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "af902368b2cbeda6"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 1,
+      "side_labels_mirrored": false,
+      "negative": "no-los",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "d2c88e010210223e"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        256,
+        256
+      ],
+      "kind": 2,
+      "side_labels_mirrored": false,
+      "negative": "no-los",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "0e11ac7f7b89c516"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        0,
+        0
+      ],
+      "kind": 1,
+      "side_labels_mirrored": false,
+      "negative": "dead",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "509c8659a8c04ea6"
+    },
+    {
+      "units": 8192,
+      "initialized_entities": 8192,
+      "initial_living_sources": [
+        0,
+        0
+      ],
+      "kind": 2,
+      "side_labels_mirrored": false,
+      "negative": "dead",
+      "eligible_sources": [
+        256,
+        256
+      ],
+      "actual_retained_launches": [
+        0,
+        0
+      ],
+      "actual_ammunition_spent": [
+        0,
+        0
+      ],
+      "pool_count": 0,
+      "dropped": 0,
+      "actual_launches_by_side_kind": {
+        "0:1": 0,
+        "0:2": 0,
+        "1:1": 0,
+        "1:2": 0
+      },
+      "checksum": "be3ff815759ed1c2"
+    }
+  ],
+  "sustained_physical_pressure": [
+    {
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        512,
+        512
+      ],
+      "side_labels_mirrored": false,
+      "continued_ticks": 120,
+      "initial_volley": [
+        416,
+        0
+      ],
+      "all_actual_launches_from_finite_ammo": [
+        862,
+        0
+      ],
+      "physical_ready_source_tick_samples": [
+        33438,
+        52512
+      ],
+      "ticks_starting_at_AI_ground_limit": 106,
+      "surviving_original_sources": [
+        512,
+        320
+      ],
+      "dropped": 11708,
+      "checksum": "a45a23b08678246d"
+    },
+    {
+      "initialized_entities": 16384,
+      "initial_living_sources": [
+        512,
+        512
+      ],
+      "side_labels_mirrored": true,
+      "continued_ticks": 120,
+      "initial_volley": [
+        0,
+        416
+      ],
+      "all_actual_launches_from_finite_ammo": [
+        0,
+        862
+      ],
+      "physical_ready_source_tick_samples": [
+        52512,
+        33438
+      ],
+      "ticks_starting_at_AI_ground_limit": 106,
+      "surviving_original_sources": [
+        320,
+        512
+      ],
+      "dropped": 11708,
+      "checksum": "a46008fd939db93b"
+    }
+  ],
+  "dense_world_samples": [
+    {
+      "scenario": "scale-front",
+      "seed": 42,
+      "ticks": 120,
+      "initialized_entities": 8192,
+      "initial_living_army": [
+        4096,
+        4096
+      ],
+      "retained_new_generations": {
+        "0:1": 334,
+        "0:2": 221,
+        "0:3": 24,
+        "0:4": 561,
+        "1:1": 33,
+        "1:2": 125,
+        "1:3": 8,
+        "1:4": 320
+      },
+      "distinct_retained_sources": {
+        "0:1": 174,
+        "0:2": 147,
+        "0:3": 24,
+        "0:4": 110,
+        "1:1": 28,
+        "1:2": 125,
+        "1:3": 8,
+        "1:4": 92
+      },
+      "pool_peak": 480,
+      "dropped": 7772,
+      "checksum": "f1760901a6ccf832"
+    },
+    {
+      "scenario": "scale-hotspot",
+      "seed": 42,
+      "ticks": 120,
+      "initialized_entities": 8192,
+      "initial_living_army": [
+        4096,
+        4096
+      ],
+      "retained_new_generations": {
+        "0:1": 341,
+        "0:2": 283,
+        "0:3": 15,
+        "0:4": 554,
+        "1:1": 28,
+        "1:2": 154,
+        "1:3": 10,
+        "1:4": 363
+      },
+      "distinct_retained_sources": {
+        "0:1": 209,
+        "0:2": 172,
+        "0:3": 15,
+        "0:4": 113,
+        "1:1": 28,
+        "1:2": 154,
+        "1:3": 10,
+        "1:4": 99
+      },
+      "pool_peak": 480,
+      "dropped": 9793,
+      "checksum": "2b6dfbfae8de08ff"
+    }
+  ],
+  "limits": [
+    "dense launch samples omit same-tick retirement",
+    "isolated allocation fixture uses overlapping initial sources",
+    "no graphics/audio/network/combined-arms acceptance claim"
+  ]
+}
