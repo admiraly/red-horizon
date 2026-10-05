@@ -1,0 +1,420 @@
+{
+  "session": "2026-10-05 shared-authority terrain/tactics/player/co-op",
+  "jobs": [
+    {
+      "job_id": "59e764eb582f",
+      "exit_code": 0,
+      "revision": "0590eeb212b3f20913b7f6b5ae3e51135cbfff35-ef1bb661b19230d0",
+      "seconds": 18.832847670000774,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "headless"
+      ]
+    },
+    {
+      "job_id": "cef4b1aa5363",
+      "exit_code": 0,
+      "revision": "d164e213b4935a069230a205f11e569695b6183b-2cdaaeb3ad123b4e",
+      "seconds": 27.22588874900248,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "graphics"
+      ]
+    },
+    {
+      "job_id": "e771af161689",
+      "exit_code": 0,
+      "revision": "e02d3aee9b28f24c6ab20be837c4ee8ea6b2ced8-3f259813f816a93b",
+      "seconds": 10.628352875999553,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "network"
+      ]
+    },
+    {
+      "job_id": "1b3efc8d201b",
+      "exit_code": 0,
+      "revision": "e74e521a03b150f6a23604a82fdd27c3e515f66a-4cfa80c091cb05ea",
+      "seconds": 33.398375764001685,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "headless"
+      ]
+    },
+    {
+      "job_id": "e89591f3a4d0",
+      "exit_code": 0,
+      "revision": "e74e521a03b150f6a23604a82fdd27c3e515f66a-4cfa80c091cb05ea",
+      "seconds": 2.6856522009984474,
+      "status": "passed",
+      "command": [
+        "bench",
+        "--scenario",
+        "scale-open",
+        "--ticks",
+        "600"
+      ]
+    },
+    {
+      "job_id": "2884dedf6bcd",
+      "exit_code": 0,
+      "revision": "e74e521a03b150f6a23604a82fdd27c3e515f66a-4cfa80c091cb05ea",
+      "seconds": 6.465320988001622,
+      "status": "passed",
+      "command": [
+        "bench",
+        "--scenario",
+        "scale-stretch",
+        "--ticks",
+        "600"
+      ]
+    },
+    {
+      "job_id": "4fe1396459ce",
+      "exit_code": 0,
+      "revision": "a56ee69715dcf8b005f0c6c077bf1893b626371d-af160978a9f70430",
+      "seconds": 41.60090214400043,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "network",
+        "--extended"
+      ]
+    },
+    {
+      "job_id": "10e63877ab3e",
+      "exit_code": 0,
+      "revision": "330d8ad3783d6b7ec9ea7cafbe549a25d64e9691-6ebc7eddbc84088c",
+      "seconds": 26.18818797499989,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "headless"
+      ]
+    },
+    {
+      "job_id": "2699ac0fcf9c",
+      "exit_code": 0,
+      "revision": "1f5ab892a8849fa461f21d2ca1781c013989310d-cbed3b1751d43e0f",
+      "seconds": 97.78833854199911,
+      "status": "passed",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ]
+    }
+  ],
+  "review": "Independent review of player/nav/AI/world: no material defect found; finite floats, aircraft-threat deployment and bounded edge movement checked.",
+  "final_test_revision": "1f5ab892a8849fa461f21d2ca1781c013989310d-cbed3b1751d43e0f",
+  "desktop_environment_removed": true,
+  "package": {
+    "revision": "1f5ab892a8849fa461f21d2ca1781c013989310d-cbed3b1751d43e0f",
+    "sha256": "4b27ca6e0f4bdf4be9f924b0c416b6c09219ad9c547cdde44c7f9d8c1d295835",
+    "manifest_files_verified": 34,
+    "packaged_headless_and_coop_executables_passed": true,
+    "public_release": false
+  },
+  "integrated_outcomes": [
+    {
+      "suite": "cooperative-world",
+      "passed": true,
+      "server": {
+        "ticks": 180,
+        "simulated": 8192,
+        "bytes_in": 69228,
+        "bytes_out": 600384,
+        "entity_records": 12352,
+        "rejected": 13,
+        "disconnects": 2,
+        "distinct_client_entity_pairs": 10902,
+        "nearby_interest": 8192,
+        "unseen_interest": 1962
+      },
+      "combat": {
+        "death": true,
+        "safe_redeployment": true,
+        "fixture_writes": "entity positions only"
+      },
+      "faults": [
+        {
+          "received": 209,
+          "dropped": 10,
+          "reordered": 28,
+          "accepted_inputs": 27,
+          "one_way_delay_ms": 0,
+          "jitter_ms": 10
+        },
+        {
+          "received": 200,
+          "dropped": 10,
+          "reordered": 27,
+          "accepted_inputs": 12,
+          "one_way_delay_ms": 50,
+          "jitter_ms": 10
+        },
+        {
+          "received": 188,
+          "dropped": 9,
+          "reordered": 25,
+          "accepted_inputs": 8,
+          "one_way_delay_ms": 100,
+          "jitter_ms": 10
+        },
+        {
+          "received": 198,
+          "dropped": 9,
+          "reordered": 27,
+          "accepted_inputs": 7,
+          "one_way_delay_ms": 150,
+          "jitter_ms": 10
+        }
+      ]
+    },
+    {
+      "suite": "authoritative-client-gameplay",
+      "passed": true,
+      "spawn": {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 0,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 1
+      },
+      "moved_metres": 2.0009765625,
+      "final": {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 0,
+        "generation": 2
+      },
+      "rendered_health_title": true,
+      "accepted_hits": 1,
+      "redeploy_pixel": [
+        230,
+        56,
+        41
+      ],
+      "damaged": {
+        "x": 2000.0,
+        "y": 17.80500030517578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 70,
+        "ammo": 26,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 25,
+        "generation": 1
+      },
+      "dead": {
+        "x": 2000.0,
+        "y": 17.80500030517578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 0,
+        "ammo": 26,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 30,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 88,
+        "generation": 1
+      },
+      "redeployed": {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 34,
+        "hits": 1,
+        "suppression": 0,
+        "generation": 2
+      },
+      "stdout": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":471,\"gpu_samples\":462,\"cpu_frame_mean_ms\":27.125184,\"cpu_frame_p95_ms\":48.007540,\"gpu_draw_mean_ms\":0.964252,\"gpu_draw_p95_ms\":2.168859}\nclient frames=470 submitted_entities=8192 screenshot=(none)\ncamera_x=3780.00 camera_z=3900.00 shots=34 hits=1 last_order=0\nweapon ammo=30 reloads=1 front=1\noperation state=0 req=568 supply=600 waypoint_orders=0\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=3900.000\n"
+    },
+    {
+      "suite": "graphical-coop",
+      "passed": true,
+      "port": 43519,
+      "starts": [
+        {
+          "x": 3780.0,
+          "y": 30.543399810791016,
+          "z": 1300.0,
+          "yaw": 0.0,
+          "pitch": -0.03999999910593033,
+          "hp": 100,
+          "ammo": 30,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 0,
+          "connected": 1,
+          "shots": 0,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 1
+        },
+        {
+          "x": 3780.0,
+          "y": 26.903400421142578,
+          "z": 3900.0,
+          "yaw": 0.0,
+          "pitch": 0.0,
+          "hp": 100,
+          "ammo": 30,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 1,
+          "connected": 1,
+          "shots": 0,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 1
+        }
+      ],
+      "remote_player_pixels": [
+        18,
+        24
+      ],
+      "final": [
+        {
+          "x": 3780.0,
+          "y": 30.543399810791016,
+          "z": 1300.0,
+          "yaw": 0.0,
+          "pitch": -0.03999999910593033,
+          "hp": 100,
+          "ammo": 30,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 0,
+          "connected": 1,
+          "shots": 4,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 2
+        },
+        {
+          "x": 3780.0,
+          "y": 26.903202056884766,
+          "z": 3902.0009765625,
+          "yaw": 0.0,
+          "pitch": -0.03999999910593033,
+          "hp": 90,
+          "ammo": 26,
+          "reload": 0,
+          "cooldown": 0,
+          "respawn": 0,
+          "front": 1,
+          "connected": 1,
+          "shots": 4,
+          "hits": 0,
+          "suppression": 0,
+          "generation": 1
+        }
+      ],
+      "cost": 5,
+      "rejected_ack_preserved_goal": true,
+      "owned_goal": [
+        4994.375,
+        3904.444091796875
+      ],
+      "dead": {
+        "x": 2000.0,
+        "y": 17.80500030517578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 0,
+        "ammo": 26,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 30,
+        "front": 0,
+        "connected": 1,
+        "shots": 4,
+        "hits": 0,
+        "suppression": 79,
+        "generation": 1
+      },
+      "recovered": {
+        "x": 3780.0,
+        "y": 30.543399810791016,
+        "z": 1300.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 0,
+        "connected": 1,
+        "shots": 4,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 2
+      },
+      "client_stdout": [
+        "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":452,\"gpu_samples\":443,\"cpu_frame_mean_ms\":25.995883,\"cpu_frame_p95_ms\":43.723281,\"gpu_draw_mean_ms\":2.100041,\"gpu_draw_p95_ms\":4.206543}\nclient frames=451 submitted_entities=8192 screenshot=(none)\ncamera_x=3780.00 camera_z=1300.00 shots=4 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=0\noperation state=0 req=519 supply=600 waypoint_orders=1\nselected_goal_x=4994.375 selected_goal_z=3904.444\nplayer id=0 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=1300.000\nnetwork connected=1 player=0 front=0 server_tick=354 known_living=112 local_sim_ticks=0\n",
+        "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":473,\"gpu_samples\":464,\"cpu_frame_mean_ms\":25.294093,\"cpu_frame_p95_ms\":44.749909,\"gpu_draw_mean_ms\":1.417387,\"gpu_draw_p95_ms\":3.070200}\nclient frames=472 submitted_entities=8192 screenshot=(none)\ncamera_x=3780.00 camera_z=3902.00 shots=4 hits=0 last_order=0\nweapon ammo=26 reloads=0 front=1\noperation state=0 req=558 supply=600 waypoint_orders=1\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=1 hp=90 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\nnetwork connected=1 player=1 front=1 server_tick=363 known_living=2459 local_sim_ticks=0\n"
+      ]
+    }
+  ]
+}

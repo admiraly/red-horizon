@@ -19,7 +19,7 @@
 | Windows parity | ready/unassigned | platform ABI |pending |
 | Shared terrain/LOS/local detours and observed tactics | simulation worker | spatial/world |physical wall rejection, scout→defender defeat→capture, flank bounds, observed/supply retreat and override tests pass |
 | Hierarchical navigation/cover selection/strategic pacing | next ready | terrain/controller |pending |
-| Authoritative players and shared-world co-op | integrator + workers | terrain/player/UDP |four real slots, movement/fire/order authority, duplicate spending, snapshots and disconnect recovery pass; combined graphical co-op verification in progress |
+| Authoritative players and shared-world co-op | integrator + workers | terrain/player/UDP |four real slots, movement/fire/order authority, duplicate spending, snapshots and disconnect recovery pass; two actual rendered clients, remote-player pixels, rejected ACK rollback and server freeze checks pass; full extended integrated job2699ac0fcf9c passed |
 | Ground vehicles,artillery,VFX,licensed sound pack | next ready | world/render/audio |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
 

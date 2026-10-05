@@ -20,7 +20,7 @@ Thirty-frame first-person and tactical runs both exited0, submitted8192 entity i
 
 Immutable actual object inputs used in the worker's isolated build: world hooks SHA256 `a4bacc57108205e665ecfc3d82a58368e722342a4c7d2ecc0c03b1eee0ead944`; player `ae992985c6779549e32c6a5aad40176e5b2bc4b3cb32eb6d54e8b54655b28f66`; terrain `58779e34f28e9422a777189bf7f3b2f894de6316dc078fd0e858c884e6db8cdb`; tactics `410c6fac1292ab4f3322757d40b04bbae7e5c3bb569403308a06c453b85542d7`. They were copied from actual root/tactics worktree builds; no gameplay stub or private fixed-tick wrapper was linked.
 
-This establishes a bounded playable local FPS loop with real vulnerability and recovery. Human weapon feel, audio quality, art, strategic balance, full operation and multiplayer remain separate acceptance work.
+This establishes a bounded playable local FPS loop with real vulnerability and recovery. Human weapon feel, audio quality, art, strategic balance and full operation remain separate acceptance work; the following section records the added co-op path.
 
 ## Dedicated co-op client path
 
