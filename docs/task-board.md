@@ -36,3 +36,13 @@ Current local FPS health/suppression/death/redeployment also passes actual XTest
 No milestone completion claim: M0 needs live host reload/jobs diagnostics and Windows; M1 needs quality/action/art/audio performance evidence; M2–M5 acceptance remains largely outstanding. No percentages. Keep one integrator owning contracts and worker patches isolated. Reconcile launched jobs before handoff.
 
 The full requirement ledger and dependency-ready streams are in docs/spec-acceptance.md. Next high-value batches: weapon roster/data with support warnings, dynamic wreck/terrain cover with hazard responses, credible commander/squad plans and intelligence, complete production/recovery operation, streamed navigation, real runtime jobs/reload/snapshot, Windows and dense-front/hotspot4-client performance. Owner licence and human craft/playtest gates do not block independent implementation.
+
+Dense encounter continuation in progress: integrator owns contracts/integration,
+`work/dense-scenarios` owns initial real layouts and core replay,
+`work/dense-cli` owns Linux mode parsing,
+`work/dense-driver` owns development forwarding/report scope,
+`work/dense-verification` owns an independent physical engagement oracle.
+Modes0/1 retain default/air-battle;2/3 are fresh8192+ front/hotspot initial layouts.
+Integrator adds read-only frame diagnostic peaks and real GL smoke.
+Full hotspot pixel-visible census, four-rendered-client and sustained dense battle
+acceptance remain required independently of the initial layout or model submissions.

@@ -22,6 +22,8 @@ python3 tools/dev.py test --suite player # focused module check
 python3 tools/dev.py test --suite all --extended --background # integration checkpoint
 python3 tools/dev.py bench --scenario scale-open --ticks 600
 python3 tools/dev.py bench --scenario scale-stretch --ticks 600
+python3 tools/dev.py bench --scenario scale-front --seed 42 --ticks 300
+python3 tools/dev.py bench --scenario scale-hotspot --seed 42 --ticks 300
 python3 tools/dev.py server --headless --ticks 300 --realtime
 python3 tools/dev.py reload
 python3 tools/dev.py build --target client
@@ -29,6 +31,8 @@ python3 tools/dev.py run --client
 python3 tools/dev.py run --client --weather rain
 python3 tools/dev.py run --client --width 1920 --height 1080 --fov 70 --sensitivity 0.002
 python3 tools/dev.py run --client --scenario air-battle
+python3 tools/dev.py run --client --scenario scale-hotspot
+python3 tools/dev.py bench --client --scenario scale-hotspot --seed 42 --width 1920 --height 1080 --frames 600
 # Direct-IP/LAN hosting and joining (in separate terminals):
 python3 tools/dev.py coop --port 7777
 python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
@@ -53,3 +57,5 @@ Project code licence is pending owner approval. Public visibility does not grant
 Additional verified slices: twelve capture sites with supply connectivity and operation outcomes; formation waypoints; a standalone four-client UDP proof (`python3 tools/dev.py test --suite network`). The rifle has magazine/reload/recoil feedback. `python3 tools/dev.py package` builds a local Linux archive with checksums and credits; it does not publish a release. `run --client --frames 30 --screenshot /tmp/frame.ppm --tactical` provides a finite visual smoke.
 
 Headless verification: `env -u DISPLAY -u WAYLAND_DISPLAY python3 tools/dev.py test --suite all` runs CPU, operation, reload, audio, UDP, build-tool and actual-client software graphics checks. `--suite headless` runs the CPU/audio/UDP/tooling checks without opening a graphics context (the texture-loader test links system OpenGL); `--suite graphics` checks the renderer alone using an isolated Xvfb display and llvmpipe. Test graphics are smoke evidence, not target GPU performance.
+
+Dense front/hotspot fixtures retain all8,192 actors and concentrate mixed real forces before normal combat begins. See [physical layouts and measured engagement limits](docs/scenario-layout.md). They are local fixtures. Frame diagnostics distinguish submitted model counts from unmeasured pixel-visible actors; independent peak counts need not occur simultaneously.

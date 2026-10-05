@@ -254,6 +254,7 @@ def main():
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(probe),'-lm'])
             if suite in ('all','headless','fast'): execute([sys.executable,'tests/test_fast.py',str(exe),str(library)])
             if suite in ('all','headless','fast','simulation') and (ROOT/'tests/test_scenarios.py').exists():execute([sys.executable,'tests/test_scenarios.py',str(library)])
+            if suite in ('all','headless','fast','simulation') and (ROOT/'tests/test_dense_scenarios.py').exists():execute([sys.executable,'tests/test_dense_scenarios.py',str(library)])
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
@@ -302,6 +303,7 @@ def main():
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(environment_library),str(environment_object),'-lGL'])
             execute([sys.executable,'tests/test_texture_assets.py',str(environment_library),str(ROOT/'content/textures/terrain.rhtx')])
         if suite in ('all','graphics'):
+            execute([sys.executable,'tests/test_battle_metrics.py'])
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
             view_library=BUILD/'libviewsettings.so'
@@ -309,6 +311,7 @@ def main():
             execute([sys.executable,'tests/test_view_settings_kernel.py',str(view_library)])
             execute([sys.executable,'tests/test_view_settings.py',str(client)])
             execute([sys.executable,'tests/test_client_view_projection.py',str(client)])
+            execute([sys.executable,'tests/test_dense_client.py',str(client)])
             if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])

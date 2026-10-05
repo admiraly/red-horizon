@@ -11,6 +11,7 @@ extern air_trails_update,air_trails_records,air_trails_active
 extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
+extern battle_metrics_reset,battle_metrics_capture,battle_metrics_report
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
@@ -596,6 +597,7 @@ main:
  call audio_init
  call audio_footsteps_reset
  call metrics_init
+ call battle_metrics_reset
 .loop:
  call metrics_frame_begin
  call audio_update
@@ -898,6 +900,7 @@ main:
  call glEnable
 .nohud:
  call metrics_gpu_end
+ call battle_metrics_capture
  inc dword [frame_count]
  mov eax,[frame_limit]
  test eax,eax
@@ -919,6 +922,7 @@ main:
 .done:
  call metrics_frame_end
  call metrics_report
+ call battle_metrics_report
  sub rsp,16
  lea rdi,[mesh_metrics]
  mov esi,[mesh_asset_count]
