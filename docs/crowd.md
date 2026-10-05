@@ -88,3 +88,32 @@ at8192 infantry mean10.087073 ms/p9510.20287 ms with87,183,168 inspections,
 max399/query and zero truncations. The final role-sized neighborhood avoids that
 unnecessary infantry work while retaining the larger vehicle body/sweep bound.
 Positive-infinite requested steps and zero-generation sources also reject safely.
+
+## Wall-adjacent recovery correction
+
+Root's production-world oracle exposed a real regression after mesh-sized circles:
+`wall_edge_pass` (armor3978,1094→4030,1094, held armor4000,1094) ended at
+3994.4197,1099.7109 after240 ticks, arrival error36.0357 m despite preserving body
+separation. Independent production probing also found the longer actual terrain
+route (3970,1300→4030,1300 beside that held body) oscillating near the z1100 wall
+edge after1600 ticks. Safe single-tick endpoints did not prove navigation recovery.
+
+Two causes are corrected in the worker kernel. The uncorrected forward candidate
+now supplies the caller's actual long navigation/hazard goal to `terrain_move`,
+preserving its corridor/corner route rather than substituting a short pseudo-goal
+that repeatedly alternated against the wall. Its actual returned endpoint remains
+subject to the same swept body tests. Exactly coincident ID recovery remains a
+short directed goal. For corrected sidesteps, a bounded production
+`terrain_path_clear` query screens the next12 m in the proposed direction before
+accepting the short terrain-safe endpoint. This rejects wall-facing detours when
+the other side of a held body is open. Ten candidate directions remain bounded;
+no future commitments or new hash bytes are introduced.
+
+The self-built NASM/production-terrain regression fixtures now reach both original
+wall-route goals exactly after240/1600 normal-step ticks. All prior ABI, swept body,
+vehicle-role, overlap recovery, convoy and causal controls remain passing. Final
+isolated8192-infantry mean3.445204 ms/p953.461469 ms with the same32,905,152
+inspections and zero truncations. Whole-world acceptance still belongs to root's
+independent integration oracle. The12 m corrected-direction screen is conservative:
+complex local mazes with body obstruction may still require richer route recovery;
+these two fixtures do not prove universal navigation convergence.

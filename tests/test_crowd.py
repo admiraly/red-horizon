@@ -143,6 +143,15 @@ assert all(math.dist((entities[i].x,entities[i].z),(entities[j].x,entities[j].z)
 reset([(3987.9,1200)])
 for t in range(10):tick({0:(4020,1200)})
 assert entities[0].x<3988 or entities[0].z<1100 or entities[0].z>1500
+# Wall-adjacent held tank must choose the open detour side rather than oscillate.
+wall_routes=[]
+for start,goal,blocker,ticks in (((3978,1094),(4030,1094),(4000,1094),240),
+                                  ((3970,1300),(4030,1300),(4000,1094),1600)):
+    reset([(*start,1),(*blocker,1)])
+    for _ in range(ticks):tick({0:goal})
+    error=math.dist((entities[0].x,entities[0].z),goal)
+    assert error<.6,(start,goal,error,(entities[0].x,entities[0].z))
+    wall_routes.append({'start':start,'goal':goal,'ticks':ticks,'arrival_error':error})
 # Neighbor generation retirement is observed safely, no stale body blocks source.
 reset([(1000,1000),(1001.3,1000)])
 entities[1].gen+=1
@@ -163,7 +172,7 @@ for n in (128,8192):
     bench.append({'actors':n,'ticks':30,'kernel_ms_mean':sum(times)/len(times),'kernel_ms_p95':sorted(times)[28],
                   'inspected':metrics[2],'maximum_inspected_query':metrics[7],'truncated':metrics[6]})
 print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,
-                  'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,
+                  'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,
                   'limitations':['512 inspected neighbors per query; denser 3x3 infantry or 5x5 vehicle cell chains conservatively yield',
                   'ground AI only; driven bodies included but source driver control not changed',
                   'initial overlap recovery is gradual, crowded unsatisfiable layouts may yield',

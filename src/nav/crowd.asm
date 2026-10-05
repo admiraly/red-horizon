@@ -6,7 +6,7 @@ default rel
 %define GRID_SIZE (GRID_SIDE*GRID_SIDE)
 %define SNAP_SIZE 32
 %define LIMIT 512
-extern sim_entities,sim_count,terrain_move,vehicle_entity_driver
+extern sim_entities,sim_count,terrain_move,terrain_path_clear,vehicle_entity_driver
 section .rodata align=16
 zero: dd 0.0
 one: dd 1.0
@@ -15,6 +15,7 @@ cell_scale: dd 0.125
 near_sq: dd 64.0
 vehicle_near_sq: dd 256.0
 epsilon: dd 0.000001
+lookahead: dd 12.0
 radii: dd 0.55,3.55,4.49
 steps: dd 0.12,0.5,0.2
 driver_step: dd 0.6
@@ -378,6 +379,25 @@ crowd_move:
  mulss xmm8,xmm6
  subss xmm2,xmm8
  addss xmm3,xmm7
+ movss [rsp+104],xmm2
+ movss [rsp+108],xmm3
+ test r15d,r15d
+ jz .terrain_candidate
+ ; A legal one-tick sidestep can lead straight into a wall beside a body.
+ ; Prefer bounded directions with a clear twelve-meter static corridor.
+ ; Source/body safety is still checked on the actual accepted short sweep.
+ mulss xmm2,[lookahead]
+ mulss xmm3,[lookahead]
+ addss xmm2,[rsp+12]
+ addss xmm3,[rsp+16]
+ movss xmm0,[rsp+12]
+ movss xmm1,[rsp+16]
+ call terrain_path_clear
+ test eax,eax
+ jz .reject
+.terrain_candidate:
+ movss xmm2,[rsp+104]
+ movss xmm3,[rsp+108]
  mulss xmm2,[rsp+8]
  mulss xmm3,[rsp+8]
  addss xmm2,[rsp+12]
@@ -385,6 +405,15 @@ crowd_move:
  movss xmm0,[rsp+12]
  movss xmm1,[rsp+16]
  movss xmm4,[rsp+8]
+ test r15d,r15d
+ jnz .steering_goal
+ cmp dword [rsp+92],0
+ jne .steering_goal
+ ; Preserve terrain's long-corridor routing for the uncorrected direction.
+ ; A one-step pseudo-goal can otherwise alternate against a wall forever.
+ movss xmm2,[rsp+20]
+ movss xmm3,[rsp+24]
+.steering_goal:
  mov edi,[rsp+4]
  call terrain_move
  movss [rsp+36],xmm0
