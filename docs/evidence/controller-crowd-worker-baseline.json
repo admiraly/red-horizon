@@ -1,9 +1,10 @@
 {
   "suite": "controller-crowd-outcomes",
   "status": "PASS",
+  "passed": true,
   "legacy": true,
   "library_sha256": "81c5782fece521c7acd424ba2d2dc34d1759bc0a5d7dbf71d2748950415af394",
-  "observer_sha256": "4221f397bc2061fc9b5e0ef444b26b8357befc29342c5cc4e04b7ca28284e116",
+  "observer_sha256": "7813428f2dba6468c8c1b945dc58f421d315368cfff410366b770a5948059a08",
   "cases": [
     {
       "name": "human_vs_infantry",
@@ -466,6 +467,26 @@
       "checksum": "6d489e437575273c"
     },
     {
+      "name": "driver_vs_driver_moving",
+      "mode": "driver",
+      "obstacle": "driver",
+      "ticks": 120,
+      "start": [
+        3480,
+        2000
+      ],
+      "final": [
+        3552.01171875,
+        2000.0
+      ],
+      "swept_overlap_ticks": 1,
+      "initial_overlap_ticks": 12,
+      "minimum_relative_distance": 0.0,
+      "progress_m": 72.01171875,
+      "trace_sha256": "f4f7648a4a4fea2ff0a3c37b2f6a57b983c389a9d8a9dc58148a6949d130c149",
+      "checksum": "cda956e7dd333168"
+    },
+    {
       "name": "human_vs_human_death",
       "mode": "human",
       "obstacle": "human",
@@ -565,6 +586,88 @@
       "trace_sha256": "469e7a1a5ec244ce7b407063cbffce1df2d5097cb3f1fa605d2a959f59e84079",
       "checksum": "6d489e437575273c"
     }
+  ],
+  "four_controllers": [
+    {
+      "driven": false,
+      "reversed_slots": false,
+      "ticks": 120,
+      "swept_overlap_ticks": 32,
+      "progress_m": [
+        36.005859375,
+        36.005859375,
+        36.005859375,
+        36.005859375
+      ],
+      "physical_trace_sha256": [
+        "89bd410f1116789f61809caa0de2afc1a411c1382711a3fbdf4e45e5bc71929a",
+        "2a44fb18c465695bd65d8812147cd780ebc7160e9b0e78bb48a8fb99cf77e66e",
+        "4a128aa5fa6e60e557b3748cea31487a1c90d414b2e36e63972bd5c6ddea5c2e",
+        "25f3e609ffd98d5f108effd78abfe73bebec32a8238b4edb5d38736c57240880"
+      ],
+      "checksum": "88ee294b1cf57f3c"
+    },
+    {
+      "driven": false,
+      "reversed_slots": true,
+      "ticks": 120,
+      "swept_overlap_ticks": 32,
+      "progress_m": [
+        36.005859375,
+        36.005859375,
+        36.005859375,
+        36.005859375
+      ],
+      "physical_trace_sha256": [
+        "89bd410f1116789f61809caa0de2afc1a411c1382711a3fbdf4e45e5bc71929a",
+        "2a44fb18c465695bd65d8812147cd780ebc7160e9b0e78bb48a8fb99cf77e66e",
+        "4a128aa5fa6e60e557b3748cea31487a1c90d414b2e36e63972bd5c6ddea5c2e",
+        "25f3e609ffd98d5f108effd78abfe73bebec32a8238b4edb5d38736c57240880"
+      ],
+      "checksum": "4b31b4b69180e5b8"
+    },
+    {
+      "driven": true,
+      "reversed_slots": false,
+      "ticks": 120,
+      "swept_overlap_ticks": 96,
+      "progress_m": [
+        72.01171875,
+        72.01171875,
+        71.998779296875,
+        71.9970703125
+      ],
+      "physical_trace_sha256": [
+        "875161023a2ddb61327883ddf95024ae0d6806a7888fba2d45f5165298d80abb",
+        "ff0fce7d82d052d313bc384ac9743f986139b6657a721b3c9b2fae5b2cf80f43",
+        "3a7d60a1175476de7d0951ed07b15f8c0e006012cad4a5ba1c3950576a7cbc3e",
+        "a6ad987790d069ee8ac4d5cdb7ee6260b19a872ade0d974f955fbca235f8b248"
+      ],
+      "checksum": "ae5f85d0bd86a4ce"
+    },
+    {
+      "driven": true,
+      "reversed_slots": true,
+      "ticks": 120,
+      "swept_overlap_ticks": 96,
+      "progress_m": [
+        72.01171875,
+        72.01171875,
+        71.998779296875,
+        71.9970703125
+      ],
+      "physical_trace_sha256": [
+        "875161023a2ddb61327883ddf95024ae0d6806a7888fba2d45f5165298d80abb",
+        "ff0fce7d82d052d313bc384ac9743f986139b6657a721b3c9b2fae5b2cf80f43",
+        "3a7d60a1175476de7d0951ed07b15f8c0e006012cad4a5ba1c3950576a7cbc3e",
+        "a6ad987790d069ee8ac4d5cdb7ee6260b19a872ade0d974f955fbca235f8b248"
+      ],
+      "checksum": "c20d9dc6ba265226"
+    }
+  ],
+  "slot_physical_trace_invariance": [
+    true,
+    true
   ],
   "placements": [
     {

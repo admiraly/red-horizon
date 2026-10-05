@@ -9,16 +9,24 @@ planar centers over each whole tick independently and compares nominal physical
 radius sums (human/infantry0.55m, tank3.55m, artillery4.49m), with2mm float tolerance.
 Manual inputs retain norm, signs and individual requested component bounds.
 
-The28 controlled120-tick cases cover humans and driven tanks against held
+The29 controlled120-tick cases cover humans and driven tanks against held
 infantry, tanks, artillery and humans; near-contact diagonal free-axis sliding;
 preexisting inward/outward contact; opposing moving humans; death, disconnect
-and generation/position changes; and AI movement against held/moving humans.
-All28 controlled fixtures repeat exactly, including physical trace and
+and generation/position changes; AI movement against held/moving humans, and opposing legitimately driven tanks.
+All29 controlled fixtures repeat exactly, including physical trace and
 checksum. AI physical traces also compare swapped army faction labels without
 changing IDs, positions, goals, fronts or commands. Straight blockades need useful
 approach but may hold at contact; the observer does not demand manual autopilot.
 Outward overlap fixtures require eventual clearance and useful recovery. Existing
 penetration must not deepen. Boarded drivers remain attached to their actual hull.
+
+Four additional120-tick arrangements send four humans or four legitimately
+boarded tanks toward a common intersection, each in forward and reversed slot
+assignment. Every pair receives a relative swept-circle check and each controller
+retains its requested input components and useful approach. Each arrangement
+repeats exactly. Physical per-body trace equivalence between slot orders is
+reported explicitly, since the contract permits bounded late-stage live-human
+queries; safety, input fidelity and useful progress must hold in both orders.
 
 Placement controls occupy all12 authored site positions and8 front0 near-field
 candidate positions; a live publication overlapping the artillery body is rejected.

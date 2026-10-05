@@ -43,12 +43,13 @@ def intent(before,after,v,speed,name,tick):
 
 def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=False,mirror=False,transition=None):
  reset();name=f'{mode}_vs_{obstacle}'+('_diagonal' if diagonal else '')+('_overlap_out' if overlap and outward else '_overlap_in' if overlap else '')+('_moving' if moving else '')+('_'+transition if transition else '')
- k={'infantry':0,'tank':1,'artillery':2}.get(obstacle);br=.55 if k is None else R[k];sr=3.55 if mode=='driver' else .55
+ k={'infantry':0,'tank':1,'artillery':2}.get(obstacle);br=3.55 if obstacle=='driver' else .55 if k is None else R[k];sr=3.55 if mode=='driver' else .55
  start=(3500-sr-br+.1,2000) if overlap else (3500-sr-br-.3,2000) if diagonal else (3488,2000) if mode=='ai' else (3480,2000)
  if mode=='human':source=human(0,start)
  elif mode=='driver':source=drive(0,12,start)
  else:source=actor(12,0,start,int(mirror))
- if obstacle=='human':other=human(1,(3500,2000))
+ if obstacle=='driver':other=drive(1,13,(3500,2000))
+ elif obstacle=='human':other=human(1,(3500,2000))
  else:other=actor(13,k,(3500,2000),int(mirror))
  v=(-1,0) if outward else (1,1) if diagonal else (1,0)
  if mode=='ai':assert lib.sim_waypoint(int(mirror),0,3540,2000)==0;assert lib.sim_order(int(mirror),0,0)==0
@@ -92,11 +93,36 @@ for mode in ('human','driver'):
 for mode in ('human','driver'):
  for out in (False,True):rows.append(checked(mode,'human',overlap=True,outward=out))
 for mode in ('human','driver','ai'):rows.append(checked(mode,'human',moving=True))
+rows.append(checked('driver','driver',moving=True))
 for transition in ('death','disconnect','generation'):rows.append(checked('human','human',transition=transition))
 for moving in (False,True):
  r=checked('ai','human',moving=moving);m=fixture('ai','human',moving=moving,mirror=True);assert r['trace_sha256']==m['trace_sha256'],'faction label dependent movement';rows.append(r)
 if a.legacy:assert all(r['swept_overlap_ticks']>0 for r in rows if r['name'] in [f'{m}_vs_{o}' for m in ('human','driver') for o in ('infantry','tank','artillery','human')]),'baseline controls did not expose real collisions'
 
+
+
+def four_controllers(driven=False,reverse=False):
+ reset();starts=((3485,2000),(3515,2000),(3500,1985),(3500,2015));vectors=((1,0),(-1,0),(0,1),(0,-1));bodies=[]
+ for physical,(xy,v) in enumerate(zip(starts,vectors)):
+  slot=3-physical if reverse else physical
+  body=drive(slot,8+physical,xy) if driven else human(slot,xy);input_(slot,v);bodies.append(body)
+ radius=3.55 if driven else .55;speed=.6 if driven else .3;faults=0;traces=[hashlib.sha256() for b in bodies];progress=[0.]*4
+ for t in range(120):
+  old=[pos(b) for b in bodies];lib.sim_tick();new=[pos(b) for b in bodies]
+  for i in range(4):
+   assert bodies[i].hp>0;intent(old[i],new[i],vectors[i],speed,'four_drivers' if driven else 'four_humans',t);progress[i]+=math.dist(old[i],new[i]);traces[i].update(struct.pack('<ff',*new[i]))
+   for j in range(i):
+    d=closest(old[i],new[i],old[j],new[j])
+    if d<2*radius-TOL:
+     faults+=1
+     if not a.legacy:raise AssertionError(('four controllers relative sweep',driven,reverse,t,i,j,d,2*radius))
+ assert min(progress)>2,('four controllers no useful approach',driven,reverse,progress)
+ return dict(driven=driven,reversed_slots=reverse,ticks=120,swept_overlap_ticks=faults,progress_m=progress,physical_trace_sha256=[h.hexdigest() for h in traces],checksum=f'{lib.sim_checksum():016x}')
+four=[]
+for driven in (False,True):
+ for reverse in (False,True):
+  r=four_controllers(driven,reverse);assert r==four_controllers(driven,reverse),'four controller exact replay';four.append(r)
+slot_trace_invariance=[four[i]['physical_trace_sha256']==four[i+1]['physical_trace_sha256'] for i in (0,2)]
 
 # Occupied publication locations must not create a fresh body overlap.
 def placements():
@@ -178,6 +204,6 @@ def census(n):
  hp1=sum(e.hp for e in E[:n]);assert hp1<hp0,('real combat absent',n,hp0,hp1)
  return dict(units=n,ticks=a.dense_ticks,near_relative_sweep_checks=checks,controller_pair_sweep_checks=controller_pair_checks,controller_pair_new_overlap_ticks=controller_pair_faults,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 dense=[census(n) for n in (8192,16384)]
-report=dict(suite='controller-crowd-outcomes',status='PASS',legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
+report=dict(suite='controller-crowd-outcomes',status='PASS',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,four_controllers=four,slot_physical_trace_invariance=slot_trace_invariance,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))
