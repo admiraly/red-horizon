@@ -384,3 +384,22 @@ intelligence requirement. Ground fairness does not solve fixed-ID air release,
 air-role contention, crowd avoidance, multi-weapon priorities or commander plans.
 Pressure counters now count ready retries everytick and cannot be compared as
 equivalent-cadence drop rates against the old eight-phase attempts.
+
+## Aircraft admission supplement
+
+Runtime `4e1b699` extends generation-safe real release admission to four aircraft
+side/role groups while keeping continuous flight and genuine LOS/aim/bomb geometry.
+Only actual success consumes finite ammunition and commits bomber egress. Controlled
+production pressure gives240/240 side grants and120per side/role instead of480/0;
+labels-only deployment mirrors preserve actual firing sources. Original32-slot
+direct-weapon headroom and480air/512physical pool limits remain. Independent natural
+finite-store accounting includes launches that retire between observed samples.
+
+This improves bounded admission withinR05/10e/15 and preserves physical bombing/
+interception portions ofR06/9/12. It does not accept full realism, wingman planning,
+combined-arms priorities, crowd motion, audiovisual craft, complete operation,
+four-client rendered massive warfare or hardware frame-budget requirements.
+Ground and air ceilings remain total active-count policy; air lifetime/eligibility
+can legitimately produce unequal natural grants and block ground weapons.
+Exact integration/benchmark evidence belongs in docs/status.md and the aircraft
+admission session manifest, separate from the worker baseline diagnosis.

@@ -79,3 +79,16 @@ Existing per-actor400tick side-label symmetry is retained. Next coupled ordnance
 task: apply actual generation-validated ready release admission to aircraft while
 preserving continuous FSM updates, finite stores and success-only bomber egress;
 instrument cross-class competition and distinguish fighters from bombers.
+
+
+Aircraft allocation continuation: two isolated workers own bounded kernel/control
+probe and independent production release/finite-store oracle. Root owns contracts,
+aircraft FSM integration/hash, headless diagnostics, suite registration and frozen
+verification. Actual saturated requests now interleave side/role with success-only
+store/egress commits and labels-only firing sequence symmetry. This closes the
+previous aircraft-order task, not complete air tactics or combined-arms acceptance.
+Next physical movement task: bounded friendly separation/avoidance with actual
+role footprints, stable generation-safe snapshot queries and no observer-dependent
+movement; verify doorway/convoy progress, dense overlaps, opposing battle fronts,
+real terrain collision and scaled budgets. Diagnose shared ground/air pool pressure
+separately before changing lifetime or reserved capacity.

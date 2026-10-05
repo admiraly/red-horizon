@@ -1,5 +1,74 @@
 # Status — Linux shared-world prototype,2026-10-05
 
+The aircraft-admission continuation keeps the complete game goal active.
+Runtime checkpoint `4e1b699` queues only actual ready, observed and flight-aligned
+releases after the existing continuous aircraft update. Four side/bomber-fighter
+queues interleave in physical source order with rotating successful participant
+cursors. Source/target generations, living/opposing sides, active matching
+sidecars, role, acquired target, attack mode, finite ammunition, cooldown and
+pass commitment repeat before actual production launch. Only success spends a
+round, sets cooldown3 and makes a bomber egress/pass210/clear its target.
+No flight speed, turn/climb/bank, range/LOS, gun cone, bomb lead/cross-track,
+trajectory, collision, damage, event, entity or wire layout changes occur.
+
+Production saturated mixed controls with1024 living aircraft in16,384 initialized
+IDs reproduce legacy480/0 real launches, reversing reported faction advantage
+under labels-only swaps with physical poses unchanged. Accepted policy launches
+240/240, including120 per side/role. Actual416 finite-store tank preload leaves
+64air slots: accepted16 per side/role versus legacy32bombs/32guns to one side.
+The preload uses production primitives300m from LOS-clear targets; it does not
+exercise ground acquisition or prove ongoing combined-arms allocation. Pure-role
+and32,768-ID envelopes, labels-only physical source identity and repeated replay
+pass. Fourteen actual readiness/perception negatives launch nothing. At480air
+rounds,32actual direct tank launches use remaining headroom through512; the513th
+fails without ammo/cooldown consumption. This tests the weapon primitive, not GUI.
+
+Production bomb and gun fixtures continue through real world flight, impacts and
+damage: first respective victim damage is at tick143/8, with exact replay.
+The retained aircraft suite passes continuous held flight, bounded yaw/bank,
+interception, physical gun contact, damage jink/bomber abort and finite stores.
+A controlled NASM oracle visits32768fighter requests once; mixed32764sources
+plus4nonair targets give120grants per group.128one-slot rounds admit128distinct
+sources; full24tick attempted source sequence/cursor/diagnostic symmetry, sparse
+queues, generation/state rejection, exact20byteFNV and SysV ABI pass. A deliberately
+biased temporary priority variant fails the symmetry oracle. Scratch is512KiB
+static, cleared per aircraft pass; policy/cursors join replay, scratch/metrics do not.
+
+Natural8192-living-army seed42/120tick comparisons count all actual air launches
+independently from original finite stores, including rounds retired within a tick.
+Front accepted side0bomb/gun,side1bomb/gun counts31/527/28/506 versus legacy
+27/643/2/321; hotspot22/570/22/434 versus15/668/7/379. Separate sampled retained
+projectile generations are lower; they are not total firing. These outcomes do
+not establish equal losses, tactical intelligence, crowd quality or full operation.
+
+Final seed42/900tick one-thread headless benchmarks on i7-14700K are:
+
+| Fixture | Initial living actors | Tick mean/p95 ms | Actual bomb grants side0/1 | Actual gun grants side0/1 | Final living side0/1 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scale-hotspot |8192|2.826/3.787|43/43|2843/2489|2165/1900|
+| scale-stretch |16384|8.077/9.020|12/27|5943/3285|6952/6563|
+
+Both benchmarks overlap frozen regression and routine tests. These are CPU-only
+measurements, without a causal speedup or new graphical budget claim. Admission
+counts match independent observed bomb/gun launch events, with whole event losses
+191/224 retained explicitly. Unequal natural requests/stores/casualties can yield
+unequal grants. Whole-pool capacity denials remain345051/933694. Ground416/air480/
+physical512 are total-count ceilings; persistent air rounds can still stall ground
+fire. Cross-class allocation, bounded crowd avoidance, wingman coordination,
+complete commander/operation, remote aircraft interpolation, recorded engine
+quality and Windows/four-client massive battle acceptance remain open.
+
+Frozen full extended job `419d575bad52` passes in244.443s at
+`4e1b699-ad5cf8245ac82c3f`:56suite reports,55explicit pass markers and the assertion-
+based `hazard_outcomes` report. It includes strict400tick per-actor health symmetry,
+8k/16k motion/replay, actual GL aircraft/effects/player actions, two graphical
+co-op clients and UDP fault coverage. All147authored inputs match all three frozen
+snapshots exactly. Focused default/legacy controls match their frozen equivalents
+apart from the library binary hash. Routine fast verification passes; all three
+foreground sessions, three frozen jobs and two clean workers are reconciled.
+Evidence/hashes, causal controls, benchmark counter/event agreement and precise
+limitations are in `docs/evidence/air-admission-session.json`. No remote publication.
+
 The ground-ordnance continuation keeps the full specification goal active.
 Runtime checkpoint `a9c7b99` replaces fixed-ID immediate armor/artillery fire with
 bounded same-tick ready requests interleaved across actual side/weapon groups.
