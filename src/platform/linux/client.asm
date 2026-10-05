@@ -4,6 +4,7 @@ default rel
 %include "schemas/combat.inc"
 global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
+extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
 extern sim_scenario
 extern net_projectiles,net_projectiles_update
 extern air_trails_update,air_trails_records,air_trails_active
@@ -47,7 +48,7 @@ map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario air-battle] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario air-battle] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -59,6 +60,8 @@ net_sent_text: db 'ORDER ACCEPTED: COST 5',0
 net_reject_text: db 'SERVER REJECTED REQUEST',0
 mesh_metrics: db 'meshes loaded=%u high=%u low=%u markers=%u source_triangles=%u animation_frame=%u',10,0
 net_metrics: db 'network connected=%u player=%u front=%u server_tick=%u known_living=%u local_sim_ticks=%u',10,0
+projection_name: db 'projection',0
+ppm_format: db 'P6',10,'%u %u',10,'255',10,0
 cam_name: db 'camera',0
 angle_name: db 'angle',0
 terrain_name: db 'terrain',0
@@ -72,8 +75,8 @@ vehicle_fmt: db 'ARMOR #%u CANNON %u COOLDOWN %u HULL %u | Q exit',0
 onfoot_text: db 'ON FOOT | E board Q exit',0
 local_name: db 'localPlayer',0
 write_mode: db 'wb',0
-ppm_header: db 'P6',10,'1280 720',10,'255',10
-ppm_header_len equ $-ppm_header
+
+view_failure: db 'Invalid view setting: supply each flag once; width 320..3840 and height 240..2160 integer pixels; vertical FOV 35..110 degrees; sensitivity 0.00001..0.05 radians/pixel. Use --help.',0
 failure: db 'Client context/shader creation failed.',0
 shader_error: db 'Shader/program error:',0
 metrics: db 'camera_x=%.2f camera_z=%.2f shots=%u hits=%u last_order=%u',10,0
@@ -105,11 +108,10 @@ smooth_rate: dd 15.0
 snap_distance: dd 25.0
 sixty: dd 60.0
 onehundred: dd 100.0
-sensitivity: dd 0.002
+
 pitch_max: dd 1.3
 pitch_min: dd -1.3
-map_half_x: dd 640.0
-map_half_y: dd 360.0
+
 map_scale: dd 4300.0
 map_centre: dd 4000.0
 req_scale: dd 1000.0
@@ -141,6 +143,7 @@ window: resq 1
 program: resd 1
 vao: resd 1
 vbo: resd 1
+projection_loc: resd 1
 cam_loc: resd 1
 angle_loc: resd 1
 terrain_loc: resd 1
@@ -219,7 +222,10 @@ weather_title_buf: resb 768
 title_buf: resb 384
 net_title_buf: resb 640
 glfw_version: resd 3
-pixels: resb 2764800
+ppm_header: resb 64
+ppm_header_len: resd 1
+row_bytes: resd 1
+pixels: resb 24883200 ; bounded 3840x2160 RGB maximum
 section .text
 main:
  push rbp
@@ -236,6 +242,20 @@ main:
 .args:
  cmp ebx,r12d
  jge .init
+ mov rdi,[r13+rbx*8]
+ xor esi,esi
+ lea eax,[rbx+1]
+ cmp eax,r12d
+ jge .viewparse
+ mov rsi,[r13+rax*8]
+.viewparse:
+ call view_settings_parse
+ test eax,eax
+ js .viewinvalid
+ jz .ordinaryarg
+ inc ebx
+ jmp .nextarg
+.ordinaryarg:
  mov rdi,[r13+rbx*8]
  lea rsi,[frames_opt]
  call strcmp
@@ -351,10 +371,16 @@ main:
  call puts
  xor eax,eax
  jmp .exit
+.viewinvalid:
+ lea rdi,[view_failure]
+ call puts
+ mov eax,1
+ jmp .exit
 .nextarg:
  inc ebx
  jmp .args
 .init:
+ call view_settings_apply
  cmp dword [network_mode],0
  jne .networkinit
  mov edi,8192
@@ -410,8 +436,8 @@ main:
  mov edi,0x20003 ; nonresizable: fixed screenshot/viewport dimensions
  xor esi,esi
  call glfwWindowHint
- mov edi,1280
- mov esi,720
+ mov edi,[view_width]
+ mov esi,[view_height]
  lea rdx,[title]
  xor ecx,ecx
  xor r8d,r8d
@@ -471,6 +497,7 @@ main:
  call glGetUniformLocation
  mov [%2],eax
 %endmacro
+ UNIFORM projection_name,projection_loc
  UNIFORM cam_name,cam_loc
  UNIFORM angle_name,angle_loc
  UNIFORM terrain_name,terrain_loc
@@ -520,8 +547,8 @@ main:
  call glEnable
  xor edi,edi
  xor esi,esi
- mov edx,1280
- mov ecx,720
+ mov edx,[view_width]
+ mov ecx,[view_height]
  call glViewport
  mov rdi,[window]
  lea rsi,[old_x]
@@ -635,6 +662,10 @@ main:
  movss xmm1,[camera+4]
  movss xmm2,[camera+8]
  call glUniform3f
+ mov edi,[projection_loc]
+ movss xmm0,[view_projection]
+ movss xmm1,[view_projection+4]
+ call glUniform2f
  mov edi,[angle_loc]
  movss xmm0,[yaw]
  movss xmm1,[pitch]
@@ -1140,13 +1171,13 @@ update_input:
  movsd xmm0,[cursor_x]
  subsd xmm0,[old_x]
  cvtsd2ss xmm0,xmm0
- mulss xmm0,[sensitivity]
+ mulss xmm0,[view_sensitivity]
  addss xmm0,[yaw]
  movss [yaw],xmm0
  movsd xmm0,[cursor_y]
  subsd xmm0,[old_y]
  cvtsd2ss xmm0,xmm0
- mulss xmm0,[sensitivity]
+ mulss xmm0,[view_sensitivity]
  mulss xmm0,[minus]
  addss xmm0,[pitch]
  minss xmm0,[pitch_max]
@@ -1307,12 +1338,12 @@ tactical_click:
  jne .return
  mov dword [map_down],1
  cvtsd2ss xmm0,[cursor_x]
- divss xmm0,[map_half_x]
+ divss xmm0,[view_half_size]
  subss xmm0,[fone]
  mulss xmm0,[map_scale]
  addss xmm0,[map_centre]
  cvtsd2ss xmm1,[cursor_y]
- divss xmm1,[map_half_y]
+ divss xmm1,[view_half_size+4]
  movss xmm2,[fone]
  subss xmm2,xmm1
  movaps xmm1,xmm2
@@ -1838,8 +1869,8 @@ screenshot:
  mov [rsp],rax
  xor edi,edi
  xor esi,esi
- mov edx,1280
- mov ecx,720
+ mov edx,[view_width]
+ mov ecx,[view_height]
  mov r8d,0x1907
  mov r9d,0x1401
  call glReadPixels
@@ -1851,22 +1882,35 @@ screenshot:
  jz .error
  mov rbx,rax
  lea rdi,[ppm_header]
+ mov esi,64
+ lea rdx,[ppm_format]
+ mov ecx,[view_width]
+ mov r8d,[view_height]
+ xor eax,eax
+ call snprintf
+ mov [ppm_header_len],eax
+ mov eax,[view_width]
+ imul eax,3
+ mov [row_bytes],eax
+ lea rdi,[ppm_header]
  mov esi,1
- mov edx,ppm_header_len
+ mov edx,[ppm_header_len]
  mov rcx,rbx
  call fwrite
- cmp eax,ppm_header_len
+ cmp eax,[ppm_header_len]
  jne .closeerror
- mov r12d,719
+ mov r12d,[view_height]
+ dec r12d
 .rows:
- imul eax,r12d,3840
+ mov eax,r12d
+ imul eax,[row_bytes]
  lea rdi,[pixels]
  add rdi,rax
  mov esi,1
- mov edx,3840
+ mov edx,[row_bytes]
  mov rcx,rbx
  call fwrite
- cmp eax,3840
+ cmp eax,[row_bytes]
  jne .closeerror
  dec r12d
  jns .rows

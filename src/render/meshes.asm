@@ -3,6 +3,7 @@ default rel
 %include "schemas/entity.inc"
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
+extern view_projection,view_half_size
 extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
@@ -20,6 +21,8 @@ extern glDrawArraysInstanced,atan2f,puts
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
+projection_name: db 'projection',0
+viewport_name: db 'halfViewport',0
 camera_name: db 'camera',0
 angle_name: db 'angle',0
 geometry_name: db 'meshGeometry',0
@@ -48,6 +51,8 @@ mesh_program: resd 1
 mesh_vao: resd 1
 instance_vbo: resd 1
 source_ssbo: resd 1
+projection_loc: resd 1
+viewport_loc: resd 1
 camera_loc: resd 1
 angle_loc: resd 1
 geometry_loc: resd 1
@@ -133,6 +138,8 @@ meshes_init:
  call glGetUniformLocation wrt ..plt
  mov [%2],eax
 %endmacro
+ LOCATION projection_name,projection_loc
+ LOCATION viewport_name,viewport_loc
  LOCATION camera_name,camera_loc
  LOCATION angle_name,angle_loc
  LOCATION geometry_name,geometry_loc
@@ -279,6 +286,14 @@ meshes_draw:
  movss xmm1,[view_camera+4]
  movss xmm2,[view_camera+8]
  call glUniform3f wrt ..plt
+ mov edi,[projection_loc]
+ movss xmm0,[view_projection]
+ movss xmm1,[view_projection+4]
+ call glUniform2f wrt ..plt
+ mov edi,[viewport_loc]
+ movss xmm0,[view_half_size]
+ movss xmm1,[view_half_size+4]
+ call glUniform2f wrt ..plt
  mov edi,[angle_loc]
  movss xmm0,[view_angle]
  movss xmm1,[view_angle+4]

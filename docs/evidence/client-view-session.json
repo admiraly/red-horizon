@@ -1,0 +1,158 @@
+{
+  "runtime_files_sha256": {
+    "src/render/view_settings.asm": "2ce27fe9d0ec66044cc374232d4b8535dd86dddf2326428f9d5acd0323dbcd44",
+    "src/platform/linux/client.asm": "c9e6f6f5d3affca4a24b174f130cae6060002db26399822859c302d9537e9f49",
+    "src/render/meshes.asm": "925a52b5adc1eb07743ba18d31750f3190e0eee54d2d00a264b1bbc26a7086c4",
+    "shaders/battle.vert": "879bd7fccb44b3bf42961c885bf34b248bf0dca26c823f0f72461db2fcd53d28",
+    "shaders/mesh.vert": "b6300d9a5f927bdf46a31e530543885c030361b23d4e3dadcf31fc9316bf7f3b"
+  },
+  "settings_cli": {
+    "invalid_cases": 23,
+    "resolutions": [
+      [
+        1280,
+        720
+      ],
+      [
+        1920,
+        1080
+      ],
+      [
+        800,
+        600
+      ]
+    ],
+    "default_dimension_changed_pixels": 100,
+    "fov45_vs90_changed_pixels": 520309,
+    "1080p_corners": [
+      [
+        51,
+        101,
+        148
+      ],
+      [
+        51,
+        101,
+        148
+      ],
+      [
+        132,
+        112,
+        89
+      ],
+      [
+        129,
+        118,
+        94
+      ]
+    ],
+    "context": "private Xvfb, software OpenGL, one render frame, full 8192 actors; no target-GPU performance claim"
+  },
+  "projection_GL": {
+    "suite": "view-projection-actual-gl",
+    "passed": true,
+    "fov45_aircraft_pixels": 3496,
+    "fov90_aircraft_pixels": 590,
+    "authority_unchanged": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-fov-45-aircraft.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fov-90-aircraft.ppm"
+    ],
+    "context": "private Xvfb software GL; initial pose fixture, frozen simulation, cosmetic projection changes only"
+  },
+  "default_aircraft_GL": {
+    "suite": "rendered-aircraft",
+    "passed": true,
+    "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+    "bomber_pixels": 8908,
+    "normalized_silhouette_iou": 0.6224,
+    "bank_changed_pixels": 12052,
+    "trail_changed_pixels": 24,
+    "trail_authority_unchanged": true,
+    "bomb_pixels": 2196,
+    "air_round_pixels": 1196,
+    "actual_bomb_launch": [
+      2169.998291015625,
+      127.34989929199219,
+      1999.5015869140625,
+      6,
+      0,
+      34,
+      36.0,
+      1
+    ],
+    "actual_bomb_impact": [
+      2881.189697265625,
+      15.261004447937012,
+      1996.1678466796875,
+      7,
+      0,
+      176,
+      36.0,
+      2
+    ],
+    "actual_air_gun": [
+      2006.994384765625,
+      157.0974884033203,
+      2499.719970703125,
+      8,
+      0,
+      1,
+      0.0,
+      1
+    ],
+    "actual_air_destroyed": [
+      2345.005615234375,
+      156.0974884033203,
+      2499.706298828125,
+      9,
+      1,
+      15,
+      2.0,
+      11
+    ],
+    "actual_impact_effect_pixels": 4933,
+    "actual_destroy_effect_pixels": 604,
+    "mid_distant_map_absolute_y": true,
+    "stale_generation_fallback": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm"
+    ]
+  },
+  "fast_exit_code": 0,
+  "shader_pair_links": [
+    "battle.vert+battle.frag",
+    "mesh.vert+mesh.frag"
+  ],
+  "kernel_default_projection_bit_exact": true,
+  "failed_development_checks": [
+    {
+      "check": "first shared-library link",
+      "cause": "absolute name pointers in rodata",
+      "resolution": "relative offset table; shared-library kernel passed"
+    },
+    {
+      "check": "separate startup framebuffer equality",
+      "cause": "startup shader compilation may advance distinct simulation ticks",
+      "resolution": "raw separate-run difference diagnostic only; exact coefficient kernel and frozen pose tests establish compatibility"
+    }
+  ],
+  "limitations": [
+    "Linux only",
+    "startup settings; no persistence or key remapping",
+    "fixed nonresizable window; no HiDPI callback",
+    "software GL proof is not hardware performance acceptance",
+    "maximum screenshot BSS 24883200 bytes"
+  ],
+  "jobs_reconciled": true
+}

@@ -8,6 +8,7 @@ uniform vec4 weather;
 out vec3 worldPosition;
 flat out int materialMode;
 uniform vec2 angle;
+uniform vec2 projection;
 uniform int terrain;
 uniform int tactical;
 uniform vec2 selectedGoal;
@@ -110,5 +111,5 @@ void main(){
  worldPosition=world;
  vec3 p=world-camera;
  if(tactical!=0){gl_Position=vec4((world.x-4000)/4300,(world.z-4000)/4300,-world.y/1000,1); distanceFog=0;}
- else {float cy=cos(angle.x),sy=sin(angle.x),cp=cos(angle.y),sp=sin(angle.y); vec3 q=vec3(cy*p.x-sy*p.z,p.y,sy*p.x+cy*p.z); q=vec3(q.x,cp*q.y-sp*q.z,sp*q.y+cp*q.z); gl_Position=vec4(q.x*1.05,q.y*1.87,q.z*1.00002-.2,q.z); distanceFog=length(p);}
+ else {float cy=cos(angle.x),sy=sin(angle.x),cp=cos(angle.y),sp=sin(angle.y); vec3 q=vec3(cy*p.x-sy*p.z,p.y,sy*p.x+cy*p.z); q=vec3(q.x,cp*q.y-sp*q.z,sp*q.y+cp*q.z); gl_Position=vec4(q.x*projection.x,q.y*projection.y,q.z*1.00002-.2,q.z); distanceFog=length(p);}
 }

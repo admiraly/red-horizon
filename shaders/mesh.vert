@@ -7,6 +7,8 @@ layout(std430,binding=3) readonly buffer BakedSourceVertices { vec4 sourceVertex
 uniform vec3 camera;
 uniform vec4 weather;
 uniform vec2 angle;
+uniform vec2 projection;
+uniform vec2 halfViewport;
 uniform ivec2 meshGeometry; // base vec4 offset,vertices per source frame
 uniform float meshScale;
 uniform int meshMode; // 0 source mesh,1 distant/map glyph,2 real first-person weapon
@@ -43,7 +45,7 @@ void main(){
  if(meshMode==2){
   vec3 q=local*.8+vec3(.24,-.42,.95);
   q.z-=min(.08,weaponMotion.x*.4);q.y+=min(.03,weaponMotion.x*.08)-weaponMotion.y*.12;
-  gl_Position=vec4(q.x*1.05,q.y*1.87,q.z*1.00002-.2,q.z);
+  gl_Position=vec4(q.x*projection.x,q.y*projection.y,q.z*1.00002-.2,q.z);
   colour=material*(.45+.55*max(0.,normal.y));distanceFog=0;return;
  }
  vec3 p=world-camera;
@@ -53,12 +55,12 @@ void main(){
   float ca=cos(angle.x),sa=sin(angle.x),cp=cos(angle.y),sp=sin(angle.y);
   vec3 q=vec3(ca*p.x-sa*p.z,p.y,sa*p.x+ca*p.z);
   q=vec3(q.x,cp*q.y-sp*q.z,sp*q.y+cp*q.z);
-  gl_Position=vec4(q.x*1.05,q.y*1.87,q.z*1.00002-.2,q.z);distanceFog=length(p);
+  gl_Position=vec4(q.x*projection.x,q.y*projection.y,q.z*1.00002-.2,q.z);distanceFog=length(p);
  }
  if(meshMode==1){
   const vec2 glyph[3]=vec2[3](vec2(0,1),vec2(-.75,-.7),vec2(.75,-.7));
   float pixels=identity.y==2?5.:(identity.z==0?1.5:2.5);
   if(tactical!=0)pixels=identity.y==2?5.:(identity.z==0?2.:3.5);
-  gl_Position.xy+=glyph[gl_VertexID]*vec2(pixels/640.,pixels/360.)*gl_Position.w;
+  gl_Position.xy+=glyph[gl_VertexID]*vec2(pixels)/halfViewport*gl_Position.w;
  }
 }
