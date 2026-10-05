@@ -43,10 +43,12 @@ def build(target):
 def build_locked(target):
     start=time.perf_counter(); tool=nasm(); execute([sys.executable,'tools/schema.py'])
     BUILD.mkdir(exist_ok=True)
-    sources=list((ROOT/'src/sim').glob('*.asm'))
-    if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=[]; name='red-horizon-server'
+    sources=[p for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
+    if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=['-lm']; name='red-horizon-server'
+    elif target=='coop':
+        sources += [ROOT/'src/net/coop_server.asm']; libs=['-lm']; name='red-horizon-coop-server'
     elif target=='client':
-        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']; libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; name='red-horizon'
+        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; name='red-horizon'
     else: raise RuntimeError('Unsupported target')
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
@@ -137,7 +139,7 @@ def main():
     p=argparse.ArgumentParser(description=__doc__); sub=p.add_subparsers(dest='command',required=True)
     for name in ('doctor','configure','jobs','package'): sub.add_parser(name)
     q=sub.add_parser('collect'); q.add_argument('job_id')
-    q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--background',action='store_true')
@@ -159,7 +161,15 @@ def main():
     elif args.command=='collect': jobs(args.job_id)
     elif args.command in ('test','reload'):
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','headless','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)]); execute([sys.executable,'tests/test_operation.py',str(library)]); execute([sys.executable,'tests/test_waypoints.py',str(library)])
+        if suite in ('all','headless','simulation'):
+            exe=build('headless'); library=BUILD/'libsim.so'
+            objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
+            probe=BUILD/'terrain_probe.o'
+            execute([nasm(),'-f','elf64','tests/terrain_probe.asm','-o',str(probe)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(probe),'-lm'])
+            execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
+            for test in ('operation','waypoints','terrain','player','tactics'):
+                if (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
         if suite in ('all','headless','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
         if suite in ('all','headless','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
         if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
