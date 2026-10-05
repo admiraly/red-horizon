@@ -2,6 +2,7 @@
 default rel
 %include "schemas/player.inc"
 global main
+extern effects_update,effects_records,effects_tracers,effects_active
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_init,audio_shot,audio_update,audio_shutdown
 extern glfwGetVersion
@@ -492,6 +493,8 @@ main:
 .render:
  call sync_player
  call update_visual
+ movss xmm0,[frame_delta]
+ call effects_update
  call metrics_gpu_begin
  mov edi,32
  call set_instance_layout
@@ -586,6 +589,19 @@ main:
  call glDrawArraysInstanced
  mov edi,32
  call set_instance_layout
+ mov edi,0x8892
+ mov esi,2048
+ lea rdx,[effects_records]
+ mov ecx,0x88e0
+ call glBufferData
+ mov edi,[terrain_loc]
+ mov esi,7
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,6
+ mov ecx,64
+ call glDrawArraysInstanced
  mov edi,[operation_loc]
  cvtsi2ss xmm0,[sim_requisition]
  divss xmm0,[req_scale]
