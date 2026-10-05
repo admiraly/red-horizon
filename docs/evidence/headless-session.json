@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-05",
+  "validated_revision": "76e9d00e3bf6fa5ecad0f1230f2a622d6d733893-38c61ecced0b6b06",
+  "full_headless_suite": {
+    "exit_code": 0,
+    "revision": "76e9d00e3bf6fa5ecad0f1230f2a622d6d733893-38c61ecced0b6b06",
+    "seconds": 25.050398735998897,
+    "status": "passed"
+  },
+  "coverage": [
+    "assembly simulation/replay/bounds",
+    "capture/supply/spending/victory/recovery",
+    "waypoints/physical arrival and capture",
+    "compatible module/parameter reload",
+    "128-voice mixer/ALSA null",
+    "four endpoint UDP loss/reorder/bounds/ownership proof",
+    "incremental builds/frozen source jobs",
+    "actual GL client both views/private Xvfb/software rendering",
+    "movement/rifle exhaustion/reload/front/map waypoint controls",
+    "asset manifest hashes"
+  ],
+  "graphics": {
+    "renderer": "llvmpipe",
+    "resolution": [
+      1280,
+      720
+    ],
+    "controls": {
+      "suite": "controls",
+      "passed": true,
+      "shots": 33,
+      "ammo": 27,
+      "reloads": 1,
+      "front": 1,
+      "waypoint_orders": 1,
+      "goal": [
+        4994.375,
+        3904.444
+      ],
+      "first_title": "RED HORIZON | 8192 units | rifle 30/30 TACTICAL | front 0 order 0 | REQ 100 SUP 600 | OPERATION ACTIVE | TAB map/click F1-F3 front R reload",
+      "last_title": "RED HORIZON | 8192 units | rifle 27/30 FIRST PERSON | front 1 order 0 | REQ 412 SUP 600 | OPERATION ACTIVE | TAB map/click F1-F3 front R reload"
+    },
+    "timings": [
+      {
+        "mode": "first-person",
+        "samples": [
+          {
+            "client_metrics": true,
+            "cpu_samples": 30,
+            "gpu_samples": 22,
+            "cpu_frame_mean_ms": 30.076795,
+            "cpu_frame_p95_ms": 36.311685,
+            "gpu_draw_mean_ms": 1.729829,
+            "gpu_draw_p95_ms": 2.601507
+          }
+        ]
+      },
+      {
+        "mode": "tactical",
+        "samples": [
+          {
+            "client_metrics": true,
+            "cpu_samples": 30,
+            "gpu_samples": 22,
+            "cpu_frame_mean_ms": 29.221305,
+            "cpu_frame_p95_ms": 44.551553,
+            "gpu_draw_mean_ms": 2.001566,
+            "gpu_draw_p95_ms": 3.187886
+          }
+        ]
+      }
+    ]
+  },
+  "limits": [
+    "not complete game",
+    "no playable gameplay co-op",
+    "no Windows acceptance",
+    "no physical audio quality",
+    "no target GPU frame-rate claim",
+    "no human playtest"
+  ]
+}
