@@ -41,7 +41,7 @@ def build_locked(target):
     sources=list((ROOT/'src/sim').glob('*.asm'))
     if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=[]; name='red-horizon-server'
     elif target=='client':
-        sources += list((ROOT/'src/render').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']; libs=['-Wl,-l:libglfw.so.3','-lGL','-lm']; name='red-horizon'
+        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']; libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; name='red-horizon'
     else: raise RuntimeError('Unsupported target')
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
@@ -71,6 +71,7 @@ def run_headless(args,benchmark=False):
     if scenario in ('scale-front','scale-hotspot'):
         raise RuntimeError(f'{scenario} fixture not implemented; refusing to relabel scale-open')
     cmd=[str(exe),'--units',str(args.units or SCENARIOS[scenario]),'--ticks',str(args.ticks),'--seed',str(args.seed)]
+    if args.realtime: cmd.append('--realtime')
     start=time.perf_counter(); r=subprocess.run(cmd,cwd=exe.parent,check=True,capture_output=True,text=True)
     try: metrics=json.loads(r.stdout)
     except json.JSONDecodeError: raise RuntimeError('Runtime did not emit valid JSON: '+r.stdout[:1000])
@@ -113,8 +114,8 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload'],default='all'); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','simulation','reload','audio'],default='all'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if getattr(args,'background',False): background(args); return 0
@@ -132,6 +133,8 @@ def main():
         suite='reload' if args.command=='reload' else args.suite
         if suite in ('all','simulation'): exe=build('headless'); library=BUILD/'libsim.so'; execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*[str(o) for o in BUILD.glob('src_sim_*.o')]]); execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
         if suite in ('all','reload'): execute([sys.executable,'tests/test_reload.py','--nasm',nasm()])
+        if suite in ('all','audio'): execute([sys.executable,'tests/test_audio.py','--nasm',nasm()])
+        if suite=='all': execute([sys.executable,'tools/assets.py'])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())
