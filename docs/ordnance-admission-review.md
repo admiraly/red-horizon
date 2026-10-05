@@ -100,12 +100,24 @@ Continue to call the production spawn function. Update a group's participant
 cursor after its last successful admission. Advancing past every rejected item
 when a pool is full can repeatedly restore the same eligible prefix.
 
-**Avoid scheduling aliasing:** `startGroup = tick & 3` always presents the same
-leader to actors whose eligibility repeats every8 ticks. A counter advanced once
-per tick has the same failure when all eight phases have requests. Use, for
-example, `(tick >> 3) & 3`, so each existing fire phase sees all four leading
-groups over32 ticks, or maintain a separate start cursor for each firing phase.
-Keep this private future-affecting state in replay checksums if stored.
+**Avoid scheduling aliasing if preserving the old gate:** `startGroup = tick & 3`
+always presents the same leader to actors whose eligibility repeats every8 ticks.
+A counter advanced once per tick has the same failure when all eight phases have
+requests. `(tick >> 3) & 3` or phase-specific starts avoid that aliasing.
+
+The integrator's later contract `2fd67aa` instead removes the eight-tick eligibility
+gate **only for armour/artillery**, retaining infantry's existing damage phase.
+The actual30/90tick weapon cooldown remains authoritative. In the reviewed old
+loop, the eight-tick gate rounded effective successful cadences to32/96 ticks;
+removing it permits the specified30/90 cadence. Capacity-denied actors retain
+stores and zero cooldown and can request again on the next tick, so `tick & 3`
+rotation no longer aliases that old eight-phase schedule. This is a sound runtime
+direction, not a verified implementation claim from this read-only worker.
+Keep legacy phasing only as an explicit negative-control mode, not the default.
+Queue collection under saturation can see up to eight times as many ready
+requests, but remains O(N); existing target acquisition already runs every tick.
+Measure the actual cost and bounded-drain diagnostics. Keep any stored private
+future-affecting cursors in replay checksums.
 
 With request collection and a single drain, work is O(entity count + requests),
 with no allocation and a bounded pool search per successful launch. Stop launching
@@ -117,7 +129,9 @@ no policy can promise every ready actor a shot while the physical pool is full.
 Finite flight lifetimes and repeated opportunities are required for a waiting
 bound. Do not report equal active occupancy as the definition of fairness.
 
-Aircraft can use the same four groups `side × {bomber,fighter}`. Preserve the
+Aircraft fairness remains a separate pending runtime change; the new ground
+contract does not itself fix the aircraft ascending-ID loop. Aircraft can use
+the same four groups `side × {bomber,fighter}`. Preserve the
 entire existing bounded target/LOS/alignment evaluation for each actor, and queue
 only a fully ready release. On admission, revalidate source/target generations,
 liveness, side, role, sidecar generation, defense/pass commitment, stores,
@@ -139,8 +153,10 @@ and be included in private authority hashing. Do not hash diagnostic counters.
 
 - Symmetric live sources and real observed targets under controlled physical pool
   pressure: both sides and both roles obtain actual launches; reverse ID/group
-  assignment and compare admission service. Include all eight ground fire phases
-  and more than32 ticks to expose phase aliasing.
+  assignment and compare admission service. Verify default armour/artillery
+  cooldown30/90 cadence and unchanged infantry eight-tick phasing. The explicit
+  legacy negative control must retain its old schedule; if that schedule is ever
+  paired with fair admission, cover all eight phases and more than32 ticks.
 - Several eligible participants per group, restricted repeated free capacity:
   late IDs receive real physical launches, not merely a nonzero request count.
   Use existing finite ammunition and release real slots through flight/impact.
