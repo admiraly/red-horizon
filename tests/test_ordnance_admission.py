@@ -112,6 +112,34 @@ for t in range(128):
     assert sources[0]==round_order[t]
 assert hash_state()==first_hash
 
+# Label symmetry: identical physical actors/roles/requests must retain the entire
+# spawn attempt sequence under a global side-label flip, including refusals and
+# the next-tick success cursor. Compare diagnostics/cursors after group remapping.
+def symmetry_run(n, swapped, sparse=False):
+    reset(n)
+    if swapped:
+        for i in range(n):actors[i].side ^= 1
+    sequences=[]
+    for t in range(24):
+        tick.value=t;calls.value=0;pool.value=415-(t%5)
+        C.memset(C.addressof(cooldown),0,C.sizeof(cooldown))
+        lib.ordnance_begin()
+        for i in range(n):
+            # Eligibility changes are physical-ID based and identical in both.
+            if sparse and (i%4 in (2,3) or (i+t)%7==0):continue
+            target_id=2 if (i%4)//2==0 else 0
+            assert lib.ordnance_request(i,target_id)==0
+        lib.ordnance_flush()
+        sequences.append(tuple(sources[:calls.value]))
+    state=tuple(cursors)
+    counters=tuple(tuple(metrics[g*4:g*4+4]) for g in range(4))
+    if swapped:
+        state=tuple(state[g^2] for g in range(4))
+        counters=tuple(counters[g^2] for g in range(4))
+    return sequences,state,counters
+for n,sparse in [(128,False),(128,True),(32768,False)]:
+    assert symmetry_run(n,False,sparse)==symmetry_run(n,True,sparse),(n,sparse)
+
 # Requests reject malformed IDs, sides, state, generations and boarded sources.
 for field,value in [('hp',0),('kind',0),('kind',3),('side',2),('generation',0)]:
     reset();setattr(actors[0],field,value);unchanged_request(0,2,-1)
@@ -133,4 +161,4 @@ reset();assert lib.ordnance_request(0,2)==0;fail.value=1;lib.ordnance_flush()
 assert calls.value==1 and metrics[2]==0 and metrics[3]==1 and cursors[0]==-1
 # Clearing drops stale work; no request persistence or automatic source reselection.
 reset();assert lib.ordnance_request(0,2)==0;lib.ordnance_begin();lib.ordnance_flush();assert calls.value==0
-print(json.dumps({'suite':'ordnance-admission','passed':True,'ordnance_admission':'passed','maximum_requests':32768,'controlled_capacity':416,'equal_group_admissions':[104]*4,'pressure_rounds':128,'unique_pressure_winners':128,'production_trajectories':False}))
+print(json.dumps({'suite':'ordnance-admission','passed':True,'ordnance_admission':'passed','maximum_requests':32768,'controlled_capacity':416,'equal_group_admissions':[104]*4,'pressure_rounds':128,'unique_pressure_winners':128,'side_label_attempt_symmetry':True,'production_trajectories':False}))

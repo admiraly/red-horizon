@@ -17,6 +17,7 @@ tails: resd ORDNANCE_GROUPS
 counts: resd ORDNANCE_GROUPS
 iters: resd ORDNANCE_GROUPS
 remaining: resd ORDNANCE_GROUPS
+ranks: resd ORDNANCE_GROUPS
 section .text
 global ordnance_init,ordnance_begin,ordnance_request,ordnance_flush,ordnance_hash
 ordnance_init:
@@ -177,11 +178,45 @@ ordnance_flush:
  inc ebx
  cmp ebx,ORDNANCE_GROUPS
  jb .prepare
- mov ebx,[sim_tick_count]
- and ebx,3
+ ; Rank nonempty groups by physical lowest source ID, not side labels.
+ ; Empty heads are unsigned UINT_MAX and sort last. Constant four-way sort.
+ lea r8,[ranks]
+ mov dword [r8],0
+ mov dword [r8+4],1
+ mov dword [r8+8],2
+ mov dword [r8+12],3
+ lea r9,[heads]
+ xor edi,edi
+.sort_outer:
+ mov esi,edi
+ mov ecx,edi
+ inc ecx
+.sort_inner:
+ mov eax,[r8+rsi*4]
+ mov r10d,[r9+rax*4]
+ mov eax,[r8+rcx*4]
+ mov r11d,[r9+rax*4]
+ cmp r11d,r10d
+ jae .sort_next
+ mov esi,ecx
+.sort_next:
+ inc ecx
+ cmp ecx,ORDNANCE_GROUPS
+ jb .sort_inner
+ mov eax,[r8+rdi*4]
+ mov edx,[r8+rsi*4]
+ mov [r8+rdi*4],edx
+ mov [r8+rsi*4],eax
+ inc edi
+ cmp edi,ORDNANCE_GROUPS-1
+ jb .sort_outer
+ mov r15d,[sim_tick_count]
+ and r15d,3
 .visit:
  test r14d,r14d
  jz .done
+ lea rax,[ranks]
+ mov ebx,[rax+r15*4]
  lea rax,[remaining]
  cmp dword [rax+rbx*4],0
  je .next_group
@@ -240,8 +275,8 @@ ordnance_flush:
  lea rdx,[ordnance_metrics]
  inc qword [rdx+rax+24]
 .next_group:
- inc ebx
- and ebx,3
+ inc r15d
+ and r15d,3
  jmp .visit
 .done:
  add rsp,24
