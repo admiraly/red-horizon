@@ -6,6 +6,7 @@ extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, terrain_los, terrain_blocked
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
 extern crowd_init,crowd_begin,crowd_move,crowd_hash
+extern terrain_body_init,terrain_body_hash
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
@@ -128,6 +129,7 @@ sim_init:
  cmp r12d,[sim_count]
  jb .loop
  sub rsp,8
+ call terrain_body_init
  call operation_init
  call player_init
  call ai_init
@@ -678,6 +680,7 @@ sim_checksum:
  call air_hash
  call nav_hash
  call crowd_hash
+ call terrain_body_hash
  call hazard_hash
  add rsp,8
  jmp player_hash

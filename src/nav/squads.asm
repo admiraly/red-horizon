@@ -7,7 +7,7 @@ default rel
 %define QCAP 512
 %define NODES 22
 extern sim_count,sim_entities,sim_tick_count,ai_fronts
-extern terrain_obstacles,terrain_obstacle_count,terrain_path_clear,terrain_height,terrain_los
+extern terrain_obstacles,terrain_obstacle_count,terrain_body_path_clear,terrain_height,terrain_los
 section .bss align=64
 global nav_metrics
 ; pending, completed, overflow, cache_hits, stuck_replans, cover_choices,
@@ -27,6 +27,7 @@ visited: resd NODES
 section .rodata
 zero: dd 0.0
 one: dd 1.0
+route_margin: dd 6.0
 margin: dd 4.0
 infinity: dd 1.0e30
 changed2: dd 4096.0
@@ -124,24 +125,24 @@ build_route:
  cmp r13d,[terrain_obstacle_count]
  jae .init
  movss xmm0,[rsi]
- subss xmm0,[margin]
+ subss xmm0,[route_margin]
  movss xmm1,[rsi+4]
- subss xmm1,[margin]
+ subss xmm1,[route_margin]
  movss [rbx+r12*8],xmm0
  movss [rbx+r12*8+4],xmm1
  inc r12d
  movss xmm0,[rsi+8]
- addss xmm0,[margin]
+ addss xmm0,[route_margin]
  movss [rbx+r12*8],xmm0
  movss [rbx+r12*8+4],xmm1
  inc r12d
  movss xmm1,[rsi+12]
- addss xmm1,[margin]
+ addss xmm1,[route_margin]
  movss [rbx+r12*8],xmm0
  movss [rbx+r12*8+4],xmm1
  inc r12d
  movss xmm0,[rsi]
- subss xmm0,[margin]
+ subss xmm0,[route_margin]
  movss [rbx+r12*8],xmm0
  movss [rbx+r12*8+4],xmm1
  inc r12d
@@ -194,7 +195,8 @@ build_route:
  movss xmm1,[rbx+r13*8+4]
  movss xmm2,[rbx+r14*8]
  movss xmm3,[rbx+r14*8+4]
- call terrain_path_clear
+ mov edi,2
+ call terrain_body_path_clear
  test eax,eax
  jz .edge_next
  movss xmm0,[rbx+r13*8]
@@ -343,7 +345,8 @@ nav_entity_goal:
  movss xmm1,[rbx+4]
  movss xmm2,[rsp]
  movss xmm3,[rsp+4]
- call terrain_path_clear
+ mov edi,[rbx+ENTITY_KIND]
+ call terrain_body_path_clear
  test eax,eax
  jnz .original
  cmp dword [rbp],2
@@ -356,7 +359,8 @@ nav_entity_goal:
  movss xmm1,[rbx+4]
  movss xmm2,[rbp+24+r13*8]
  movss xmm3,[rbp+28+r13*8]
- call terrain_path_clear
+ mov edi,[rbx+ENTITY_KIND]
+ call terrain_body_path_clear
  test eax,eax
  jnz .routed
  inc r13d
@@ -495,7 +499,8 @@ choose_cover:
  movss xmm1,[rbx+4]
  movss xmm2,[rsp+8]
  movss xmm3,[rsp+12]
- call terrain_path_clear
+ mov edi,[rbx+ENTITY_KIND]
+ call terrain_body_path_clear
  test eax,eax
  jz .next
  movss xmm0,[rsp+8]

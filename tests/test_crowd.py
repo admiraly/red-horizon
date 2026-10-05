@@ -6,7 +6,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 tmp=tempfile.TemporaryDirectory(prefix='rh-crowd-')
 nasm=os.environ.get('RED_HORIZON_NASM') or shutil.which('nasm') or str(ROOT/'.tools/nasm/nasm')
 objs=[]
-for path in ('src/nav/crowd.asm','src/nav/terrain.asm','tests/crowd_probe.asm'):
+for path in ('src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_body.asm','tests/crowd_probe.asm'):
     obj=pathlib.Path(tmp.name)/(pathlib.Path(path).stem+'.o')
     subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/path),'-o',str(obj)],check=True)
     objs.append(str(obj))
@@ -29,7 +29,7 @@ def reset(rows):
     for i,row in enumerate(rows):
         x,z,*kind=row;k=kind[0] if kind else 0
         entities[i]=E(x,z,100,i%2,k,0,0,i+1)
-    lib.crowd_init();lib.crowd_begin()
+    lib.terrain_body_init();lib.crowd_init();lib.crowd_begin()
 def move(i,goal,step=None):
     e=entities[i];a=(C.c_float*5)(e.x,e.z,*goal,S[e.kind] if step is None else step)
     before=bytes(entities) if verify_readonly else None

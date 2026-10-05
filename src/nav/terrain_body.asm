@@ -1,6 +1,6 @@
 ; Conservative circular-body enclosure against static ground solids.
 default rel
-%include "terrain_body.inc"
+%include "schemas/terrain_body.inc"
 extern terrain_obstacles, terrain_obstacle_count
 extern terrain_blocked, terrain_path_clear, terrain_move
 section .data

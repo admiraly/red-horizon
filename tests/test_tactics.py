@@ -152,15 +152,17 @@ assert default_run(8192)==first
 default_run(16384,True)
 # Real controller + terrain recovery from a wall face: both direct scout and
 # flank support armour cross around a solid without teleporting or getting stuck.
+# Start4m from its face: the old3m start overlapped the authored3.55m hull.
 reset()
-scout=unit(0,3985,1300,kind=1,hp=400)
-support=unit(1,3985,1330,kind=1,hp=400)
+scout=unit(0,3984,1300,kind=1,hp=400)
+support=unit(1,3984,1330,kind=1,hp=400)
 for _ in range(1200):
     before=[(e.x,e.z) for e in (scout,support)]
     lib.sim_tick()
     for e,(x,z) in zip((scout,support),before):
         assert math.hypot(e.x-x,e.z-z)<=.501
         assert lib.terrain_blocked(e.x,e.z,e.kind)==0
+        assert lib.terrain_body_blocked(C.c_float(e.x),C.c_float(e.z),e.kind)==0
 assert scout.x>4050 and support.x>4050
 print('PASS: physical scouting/support, real obstacle/defender defeat/capture, flank approach, observed-threat retreat, supply withdrawal, explicit override, wall recovery and default 8k/16k motion/replay')
 print(json.dumps(dict(suite='tactics-default-motion',passed=True,evidence=evidence)))

@@ -4,7 +4,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
-extern terrain_height,terrain_blocked,terrain_move,terrain_los,sinf,cosf
+extern terrain_height,terrain_body_blocked,terrain_body_move,terrain_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
 section .bss align=64
 global sim_players,player_deaths,player_respawns
@@ -262,8 +262,13 @@ player_tick:
  jz .move
  movss xmm4,[sprint_step]
 .move:
+ ; Local intent may point beyond the finite map. Clamp its goal, not the pose.
+ maxss xmm2,[zero]
+ minss xmm2,[world_max]
+ maxss xmm3,[zero]
+ minss xmm3,[world_max]
  xor edi,edi
- call terrain_move
+ call terrain_body_move
  movss [rbx+PLAYER_X],xmm0
  movss [rbx+PLAYER_Z],xmm1
  call motion_vertical
@@ -574,7 +579,7 @@ safe_candidate:
  movss xmm0,[candidate_x]
  movss xmm1,[candidate_z]
  xor edi,edi
- call terrain_blocked
+ call terrain_body_blocked
  test eax,eax
  jnz .bad
  movss xmm0,[candidate_x]

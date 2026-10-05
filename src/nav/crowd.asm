@@ -1,12 +1,13 @@
 ; Immutable ground body snapshots and bounded conservative local steering.
 %include "schemas/entity.inc"
+%include "schemas/terrain_body.inc"
 %include "schemas/crowd.inc"
 default rel
 %define GRID_SIDE 1001
 %define GRID_SIZE (GRID_SIDE*GRID_SIDE)
 %define SNAP_SIZE 32
 %define LIMIT 512
-extern sim_entities,sim_count,sim_tick_count,terrain_move,terrain_path_clear,vehicle_entity_driver
+extern sim_entities,sim_count,sim_tick_count,terrain_body_move,terrain_body_path_clear,vehicle_entity_driver
 section .rodata align=16
 zero: dd 0.0
 one: dd 1.0
@@ -16,7 +17,7 @@ near_sq: dd 64.0
 vehicle_near_sq: dd 256.0
 epsilon: dd 0.000001
 lookahead: dd 12.0
-radii: dd 0.55,3.55,4.49
+radii: dd BODY_INF_RADIUS,BODY_TANK_RADIUS,BODY_ARTY_RADIUS
 steps: dd 0.12,0.5,0.2
 driver_step: dd 0.6
 ; Forward, right/left30,60,90,135, and backwards. Goal-relative handedness
@@ -403,7 +404,8 @@ crowd_move:
  addss xmm3,[rsp+16]
  movss xmm0,[rsp+12]
  movss xmm1,[rsp+16]
- call terrain_path_clear
+ mov edi,[rsp+4]
+ call terrain_body_path_clear
  test eax,eax
  jz .reject
 .terrain_candidate:
@@ -424,7 +426,7 @@ crowd_move:
  movss xmm3,[rsp+24]
 .steering_goal:
  mov edi,[rsp+4]
- call terrain_move
+ call terrain_body_move
  movss [rsp+36],xmm0
  movss [rsp+40],xmm1
  subss xmm0,[rsp+12]
@@ -572,7 +574,7 @@ crowd_move:
  movss xmm2,[rsp+20]
  movss xmm3,[rsp+24]
  movss xmm4,[rsp+8]
- call terrain_move
+ call terrain_body_move
  jmp .out
 .unchanged:
  movss xmm0,[rsp+12]

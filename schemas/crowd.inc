@@ -7,7 +7,7 @@
 ; navigation or hazard goal X/Z, XMM4 maximum metres/tick. Returns XMM0/1 actual
 ; terrain-safe endpoint. No authoritative entity/HP/order/ammo/target writes.
 ; Source kind/generation/living state must match snapshot and valid live actor.
-; Respect requested step and role limits0.12/0.5/0.2; keep terrain_move swept
+; Respect requested step and role limits0.12/0.5/0.2; keep terrain_body_move swept
 ; collision and map bounds on every candidate. Query only nearby physical bodies.
 ; Deterministic role-sized separation, bounded side steps/yielding and gradual
 ; overlap recovery; no teleportation, unchecked count/ID, heap or O(N^2) scans.
@@ -17,7 +17,8 @@
 ; Explain any truncation/overlap recovery limits and expose exact diagnostics.
 ; Caller keeps explicit/AI hold untouched. Driven sources use existing vehicle
 ; control path; this module does not claim player collision/steering acceptance.
-; enabled0 delegates original terrain_move (EDI kind) as explicit negative control.
+; enabled0 delegates terrain_body_move (EDI kind) without actor avoidance;
+; terrain_body_enabled0 separately selects legacy point terrain as a control.
 ; crowd_hash(RAX,R8 FNV): enabled and all private future-affecting commitments;
 ; derived snapshot/index/diagnostics excluded. No silent future state omission.
 ; Kernel owns layout/constants/storage except this shared API contract.

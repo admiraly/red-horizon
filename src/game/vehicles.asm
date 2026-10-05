@@ -5,7 +5,7 @@
 default rel
 extern sim_entities,sim_count,sim_players,player_deaths
 extern sim_shell_ammo,sim_shell_cooldown,projectile_launch,combat_event
-extern terrain_height,terrain_blocked,terrain_move,terrain_los,sinf,cosf
+extern terrain_height,terrain_body_blocked,terrain_body_move,terrain_los,sinf,cosf
 section .bss align=64
 global sim_vehicles,sim_player_vehicle,vehicle_entity_driver,vehicle_shots
 sim_vehicles: resb VEHICLE_CAPACITY*VEHICLE_STRIDE
@@ -197,7 +197,7 @@ vehicle_enter:
  movss xmm0,[r15+ENTITY_X]
  movss xmm1,[r15+ENTITY_Z]
  mov edi,1
- call terrain_blocked
+ call terrain_body_blocked
  test eax,eax
  jnz .failed
  movss xmm0,[r15+ENTITY_X]
@@ -286,7 +286,7 @@ vehicle_exit:
  movss [rsp],xmm0
  movss [rsp+4],xmm1
  xor edi,edi
- call terrain_blocked
+ call terrain_body_blocked
  test eax,eax
  jnz .next
  movss xmm0,[rsp]
@@ -463,9 +463,14 @@ vehicle_tick_player:
  addss xmm3,xmm1
  movss xmm0,[r15+ENTITY_X]
  movss xmm1,[r15+ENTITY_Z]
+ ; Clamp locally generated intent at map edges before footprint validation.
+ maxss xmm2,[zero]
+ minss xmm2,[world_max]
+ maxss xmm3,[zero]
+ minss xmm3,[world_max]
  movss xmm4,[drive_step]
  mov edi,1
- call terrain_move
+ call terrain_body_move
  movss [r15+ENTITY_X],xmm0
  movss [r15+ENTITY_Z],xmm1
  movss [rbx+PLAYER_X],xmm0
