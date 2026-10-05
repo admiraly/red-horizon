@@ -66,14 +66,15 @@ assert lib.sim_order(0,0,1) == 0
 old_b = (b.x,b.z)
 lib.sim_tick()
 assert (a.x,a.z) == arrival and (b.x,b.z) != old_b
-# Role speeds use metres per fixed 1/30-second tick.
+# Role speeds use metres per fixed 1/30-second tick. Start with clear body
+# spacing so valid crowd recovery/yield does not replace unrestricted movement.
 reset()
 for kind in range(4):
-    unit(kind,1000,1000,0,0,kind)
+    unit(kind,1000,1000+kind*20,0,0,kind)
 lib.sim_tick()
 for kind,expected in enumerate((0.12,0.5,0.2,5.0)):
     actor = entities[kind]
-    assert math.isclose(math.hypot(actor.x-1000,actor.z-1000),expected,abs_tol=0.0001)
+    assert math.isclose(math.hypot(actor.x-1000,actor.z-(1000+kind*20)),expected,abs_tol=0.0001)
 # Explicit advance is a movement command even while a visible target survives.
 reset()
 a=unit(0,3500,1000,0,0)
