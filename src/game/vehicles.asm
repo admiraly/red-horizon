@@ -5,7 +5,7 @@
 default rel
 extern sim_entities,sim_count,sim_players,player_deaths
 extern sim_shell_ammo,sim_shell_cooldown,projectile_launch,combat_event
-extern terrain_height,terrain_body_blocked,terrain_body_move,terrain_los,sinf,cosf
+extern terrain_height,terrain_body_blocked,terrain_body_step,terrain_los,sinf,cosf
 section .bss align=64
 global sim_vehicles,sim_player_vehicle,vehicle_entity_driver,vehicle_shots
 sim_vehicles: resb VEHICLE_CAPACITY*VEHICLE_STRIDE
@@ -470,7 +470,7 @@ vehicle_tick_player:
  minss xmm3,[world_max]
  movss xmm4,[drive_step]
  mov edi,1
- call terrain_body_move
+ call terrain_body_step
  movss [r15+ENTITY_X],xmm0
  movss [r15+ENTITY_Z],xmm1
  movss [rbx+PLAYER_X],xmm0

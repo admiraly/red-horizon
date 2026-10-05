@@ -4,7 +4,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
-extern terrain_height,terrain_body_blocked,terrain_body_move,terrain_los,sinf,cosf
+extern terrain_height,terrain_body_blocked,terrain_body_step,terrain_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
 section .bss align=64
 global sim_players,player_deaths,player_respawns
@@ -268,7 +268,7 @@ player_tick:
  maxss xmm3,[zero]
  minss xmm3,[world_max]
  xor edi,edi
- call terrain_body_move
+ call terrain_body_step
  movss [rbx+PLAYER_X],xmm0
  movss [rbx+PLAYER_Z],xmm1
  call motion_vertical

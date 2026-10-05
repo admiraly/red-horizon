@@ -13,6 +13,10 @@
 ; as clearance evidence. Each accepted sweep from a clear start must remain clear.
 ; Use actual long goal for route planning; don't substitute only a tiny endpoint.
 ; Conservative expanded AABBs may be used; disclose corner overconservatism.
+; terrain_body_step: same inputs/return/bounds asmove; directmanualcontroller
+; collision-and-component slides only, no autonomous detour/corner steering.
+; Pure-axis input must not produce orthogonal movement; diagonal slides remain
+; within requested signs and step bound. Rootplayer/driven callstep, AI calls move.
 ; Ground-solid flags govern body terrain, LOS/projectile point paths stay distinct.
 ; Air retains original continuous independent flight behavior and finite validation.
 ; No entity/player/network layout change or camera/faction-dependent movement.
