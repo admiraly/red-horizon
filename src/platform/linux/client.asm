@@ -42,6 +42,8 @@ weather_opt: db '--weather',0
 weather_suffix: db '%s | WEATHER %s (F4 cycle)',0
 scenario_opt: db '--scenario',0
 air_battle_name: db 'air-battle',0
+scale_front_name: db 'scale-front',0
+scale_hotspot_name: db 'scale-hotspot',0
 scale_open_name: db 'scale-open',0
 frames_opt: db '--frames',0
 shot_opt: db '--screenshot',0
@@ -49,7 +51,7 @@ map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario air-battle] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -161,6 +163,7 @@ local_player: resd 1
 connect_address: resq 1
 network_mode: resd 1
 scenario_mode: resd 1
+scenario_seen: resd 1
 network_joined: resd 1
 last_net_tick: resd 1
 last_net_time: resq 1
@@ -345,6 +348,9 @@ main:
  call strcmp
  test eax,eax
  jnz .helparg
+ cmp dword [scenario_seen],0
+ jne .fail
+ mov dword [scenario_seen],1
  inc ebx
  cmp ebx,r12d
  jge .fail
@@ -352,8 +358,24 @@ main:
  lea rsi,[air_battle_name]
  call strcmp
  test eax,eax
- jnz .defaultscenario
+ jnz .frontscenario
  mov dword [scenario_mode],1
+ jmp .nextarg
+.frontscenario:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[scale_front_name]
+ call strcmp
+ test eax,eax
+ jnz .hotspotscenario
+ mov dword [scenario_mode],2
+ jmp .nextarg
+.hotspotscenario:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[scale_hotspot_name]
+ call strcmp
+ test eax,eax
+ jnz .defaultscenario
+ mov dword [scenario_mode],3
  jmp .nextarg
 .defaultscenario:
  mov rdi,[r13+rbx*8]

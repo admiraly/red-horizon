@@ -10,11 +10,14 @@ extern strcmp, strtoul, printf, puts, clock_gettime, clock_nanosleep, qsort
 section .rodata
 arg_scenario: db '--scenario',0
 air_battle_name: db 'air-battle',0
+scale_front_name: db 'scale-front',0
+scale_hotspot_name: db 'scale-hotspot',0
+scale_open_name: db 'scale-open',0
 arg_realtime: db '--realtime',0
 arg_units: db '--units',0
 arg_ticks: db '--ticks',0
 arg_seed: db '--seed',0
-usage: db 'Usage: red-horizon-headless [--units EVEN_2..32768] [--ticks 1..100000] [--seed 0..4294967295] [--realtime] [--scenario air-battle]',0
+usage: db 'Usage: red-horizon-headless [--units EVEN_2..32768] [--ticks 1..100000] [--seed 0..4294967295] [--realtime] [--scenario scale-open|air-battle|scale-front|scale-hotspot]',0
 fmt: db '{"units":%u,"ticks":%u,"seed":%u,"alive":[%u,%u],"engaged":%u,"checksum":"%016lx","tick_mean_ms":%.6f,"tick_p95_ms":%.6f,"operation_state":%u,"requisition":[%u,%u],"supply":[%u,%u],"projectiles":%u,"projectile_peak":%u,"projectile_dropped":%u,"navigation":{"pending":%u,"completed":%u,"overflow":%u,"cache_hits":%u,"stuck_replans":%u,"cover_choices":%u,"processed_last_tick":%u,"processed_max":%u},"air_events":{"bomb_launches":%u,"bomb_impacts":%u,"gun_bursts":%u,"aircraft_destroyed":%u,"overwritten_unobserved":%u}}',10,0
 million: dq 1000000.0
 section .bss
@@ -22,6 +25,7 @@ samples: resq 100000
 deadline: resq 2
 projectile_peak: resd 1
 scenario_mode: resd 1
+scenario_seen: resd 1
 event_cursor: resd 1
 event_counts: resd 10
 events_unobserved: resd 1
@@ -81,12 +85,39 @@ main:
  mov dword [rsp+48],2
  jmp .value
 .scenario:
+ cmp dword [scenario_seen],0
+ jne .bad
+ mov dword [scenario_seen],1
  mov rdi,[r13+rbx*8+8]
  lea rsi,[air_battle_name]
  call strcmp
  test eax,eax
- jnz .bad
+ jnz .frontscenario
  mov dword [scenario_mode],1
+ jmp .parsed
+.frontscenario:
+ mov rdi,[r13+rbx*8+8]
+ lea rsi,[scale_front_name]
+ call strcmp
+ test eax,eax
+ jnz .hotspotscenario
+ mov dword [scenario_mode],2
+ jmp .parsed
+.hotspotscenario:
+ mov rdi,[r13+rbx*8+8]
+ lea rsi,[scale_hotspot_name]
+ call strcmp
+ test eax,eax
+ jnz .defaultscenario
+ mov dword [scenario_mode],3
+ jmp .parsed
+.defaultscenario:
+ mov rdi,[r13+rbx*8+8]
+ lea rsi,[scale_open_name]
+ call strcmp
+ test eax,eax
+ jnz .bad
+ mov dword [scenario_mode],0
  jmp .parsed
 .units: mov dword [rsp+48],0
  jmp .value
