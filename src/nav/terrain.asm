@@ -25,7 +25,7 @@ margin: dd 4.0
 corner_near: dd 2.0
 ray_eighth: dd 0.125
 section .text
-global terrain_height, terrain_blocked, terrain_los, terrain_move
+global terrain_height, terrain_blocked, terrain_los, terrain_move, terrain_path_clear
 terrain_height:
  subss xmm0,[center]
  subss xmm1,[center]
@@ -78,6 +78,11 @@ terrain_blocked:
 ; Segment/AABB slab test. Inputs start/end xyz packed in stack record RDI:
 ; x1,y1,z1,x2,y2,z2. RSI obstacle. EAX1 hits, 0 misses. No calls.
 slab:
+ xor r9d,r9d
+ jmp slab_common
+slab_ground:
+ mov r9d,1
+slab_common:
  movss xmm6,[zero]
  movss xmm7,[one]
  xor ecx,ecx
@@ -122,6 +127,12 @@ slab:
  ja .miss
 .next:
  inc ecx
+ cmp ecx,1
+ jne .axis_check
+ test r9d,r9d
+ jz .axis_check
+ inc ecx
+.axis_check:
  cmp ecx,3
  jb .axis
  mov eax,1
@@ -180,6 +191,50 @@ terrain_los:
 .blocked: xor eax,eax
 .out:
  add rsp,64
+ pop rbx
+ ret
+ ; Exact ground-solid XZ segment query; ignores obstacle height by design.
+; XMM0/1 start XZ, XMM2/3 end XZ -> EAX1 clear, EAX0 blocked.
+terrain_path_clear:
+ push rbx
+ sub rsp,32
+ movss [rsp],xmm0
+ movss [rsp+8],xmm1
+ movss [rsp+12],xmm2
+ movss [rsp+20],xmm3
+ mov dword [rsp+4],0x41f00000
+ mov dword [rsp+16],0x41f00000
+ xor edi,edi
+ call terrain_blocked
+ test eax,eax
+ jnz .blocked
+ movss xmm0,[rsp+12]
+ movss xmm1,[rsp+20]
+ xor edi,edi
+ call terrain_blocked
+ test eax,eax
+ jnz .blocked
+ lea rbx,[terrain_obstacles]
+ mov dword [rsp+24],0
+.loop:
+ test dword [rbx+24],1
+ jz .next
+ mov rdi,rsp
+ mov rsi,rbx
+ call slab_ground
+ test eax,eax
+ jnz .blocked
+.next:
+ add rbx,32
+ inc dword [rsp+24]
+ mov eax,[rsp+24]
+ cmp eax,[terrain_obstacle_count]
+ jb .loop
+ mov eax,1
+ jmp .done
+.blocked: xor eax,eax
+.done:
+ add rsp,32
  pop rbx
  ret
 terrain_move:
