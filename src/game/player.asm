@@ -262,11 +262,6 @@ player_tick:
  jz .move
  movss xmm4,[sprint_step]
 .move:
- ; Local intent may point beyond the finite map. Clamp its goal, not the pose.
- maxss xmm2,[zero]
- minss xmm2,[world_max]
- maxss xmm3,[zero]
- minss xmm3,[world_max]
  xor edi,edi
  call terrain_body_step
  movss [rbx+PLAYER_X],xmm0

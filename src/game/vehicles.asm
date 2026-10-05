@@ -463,11 +463,6 @@ vehicle_tick_player:
  addss xmm3,xmm1
  movss xmm0,[r15+ENTITY_X]
  movss xmm1,[r15+ENTITY_Z]
- ; Clamp locally generated intent at map edges before footprint validation.
- maxss xmm2,[zero]
- minss xmm2,[world_max]
- maxss xmm3,[zero]
- minss xmm3,[world_max]
  movss xmm4,[drive_step]
  mov edi,1
  call terrain_body_step
