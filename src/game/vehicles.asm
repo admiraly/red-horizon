@@ -5,7 +5,8 @@
 default rel
 extern sim_entities,sim_count,sim_players,player_deaths
 extern sim_shell_ammo,sim_shell_cooldown,projectile_launch,combat_event
-extern terrain_height,terrain_body_blocked,terrain_body_step,terrain_los,sinf,cosf
+extern crowd_begin,crowd_step,crowd_occupied
+extern terrain_height,terrain_body_blocked,terrain_los,sinf,cosf
 section .bss align=64
 global sim_vehicles,sim_player_vehicle,vehicle_entity_driver,vehicle_shots
 sim_vehicles: resb VEHICLE_CAPACITY*VEHICLE_STRIDE
@@ -19,8 +20,6 @@ zero: dd 0.0
 one: dd 1.0
 minus_one: dd -1.0
 entry_radius2: dd 64.0
-occupancy_radius2: dd 16.0
-player_radius2: dd 4.0
 eye: dd 1.8
 hull_eye: dd 3.0
 drive_step: dd 0.6
@@ -276,6 +275,8 @@ vehicle_exit:
  shl eax,6
  lea rbx,[sim_players]
  add rbx,rax
+ ; Rebuild once before bounded disembark candidate queries.
+ call crowd_begin
  xor r13d,r13d
 .candidate:
  lea rax,[exit_offsets]
@@ -303,54 +304,14 @@ vehicle_exit:
  call terrain_los
  test eax,eax
  jz .next
- xor ecx,ecx
- lea rdx,[sim_entities]
-.actors:
- cmp ecx,[sim_count]
- jae .players
- cmp ecx,r14d
- je .actor_next
- cmp dword [rdx+ENTITY_HP],0
- je .actor_next
- cmp dword [rdx+ENTITY_KIND],3
- je .actor_next
- movss xmm0,[rdx+ENTITY_X]
- subss xmm0,[rsp]
- mulss xmm0,xmm0
- movss xmm1,[rdx+ENTITY_Z]
- subss xmm1,[rsp+4]
- mulss xmm1,xmm1
- addss xmm0,xmm1
- ucomiss xmm0,[occupancy_radius2]
- jb .next
-.actor_next:
- add rdx,ENTITY_STRIDE
- inc ecx
- jmp .actors
-.players:
- xor ecx,ecx
- lea rdx,[sim_players]
-.player:
- cmp ecx,r12d
- je .player_next
- cmp dword [rdx+PLAYER_CONNECTED],1
- jne .player_next
- cmp dword [rdx+PLAYER_HP],0
- je .player_next
- movss xmm0,[rdx+PLAYER_X]
- subss xmm0,[rsp]
- mulss xmm0,xmm0
- movss xmm1,[rdx+PLAYER_Z]
- subss xmm1,[rsp+4]
- mulss xmm1,xmm1
- addss xmm0,xmm1
- ucomiss xmm0,[player_radius2]
- jb .next
-.player_next:
- add rdx,PLAYER_STRIDE
- inc ecx
- cmp ecx,PLAYER_CAPACITY
- jb .player
+ mov edi,r12d
+ add edi,ENTITY_CAPACITY
+ xor esi,esi
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ call crowd_occupied
+ test eax,eax
+ jnz .next
  mov eax,[rsp]
  mov [rbx+PLAYER_X],eax
  mov eax,[rsp+4]
@@ -454,6 +415,9 @@ vehicle_tick_player:
  mov r14d,eax
  mov r15,rdx
 .drive:
+ ; Direct helper calls also refresh bounded bodies; common-player calls may
+ ; have just boarded/exited another slot. No stale placement/controller index.
+ call crowd_begin
  ; Direct and common-player inputs were validated before interaction edges.
  movss xmm0,[rsp]
  movss xmm1,[rsp+4]
@@ -464,8 +428,8 @@ vehicle_tick_player:
  movss xmm0,[r15+ENTITY_X]
  movss xmm1,[r15+ENTITY_Z]
  movss xmm4,[drive_step]
- mov edi,1
- call terrain_body_step
+ mov edi,r14d
+ call crowd_step
  movss [r15+ENTITY_X],xmm0
  movss [r15+ENTITY_Z],xmm1
  movss [rbx+PLAYER_X],xmm0

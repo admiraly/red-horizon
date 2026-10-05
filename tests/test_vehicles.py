@@ -54,6 +54,12 @@ assert lib.vehicle_enter(0)==-1
 assert lib.player_join(1,0)==0
 players[1].x,players[1].z=e.x+2,e.z;players[1].y=p.y
 assert lib.vehicle_enter(1)==-1 and mapping[1]==-1 and owners[12]==0
+# The ownership negative leaves a real unboarded human inside the hull footprint.
+# Driving toward that peer must hold, then the free-drive test moves it clear.
+blocked=e.x,e.z
+assert lib.vehicle_tick_player(0,0,1,0)==1 and (e.x,e.z)==blocked
+players[1].x,players[1].z=e.x-6,e.z+10
+players[1].y=lib.terrain_height(players[1].x,players[1].z)+1.8
 start=e.x
 for _ in range(30):assert lib.vehicle_tick_player(0,0,1,0)==1
 assert abs(e.x-start-18)<.02 and p.x==e.x and p.z==e.z

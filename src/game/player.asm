@@ -4,8 +4,9 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
-extern terrain_height,terrain_body_blocked,terrain_body_step,terrain_los,sinf,cosf
+extern terrain_height,terrain_body_blocked,terrain_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
+extern crowd_begin,crowd_step,crowd_occupied
 section .bss align=64
 global sim_players,player_deaths,player_respawns
 sim_players: resb PLAYER_CAPACITY*PLAYER_STRIDE
@@ -186,6 +187,22 @@ player_tick:
  push rbx
  push r12
  push r13
+ ; Army-only ticks need no second snapshot. Living controllers use final-army
+ ; positions; deployment refreshes separately when a dead player respawns.
+ lea rax,[sim_players]
+ mov ecx,PLAYER_CAPACITY
+.body_scan:
+ cmp dword [rax+PLAYER_CONNECTED],1
+ jne .body_next
+ cmp dword [rax+PLAYER_HP],0
+ jne .body_refresh
+.body_next:
+ add rax,PLAYER_STRIDE
+ loop .body_scan
+ jmp .body_ready
+.body_refresh:
+ call crowd_begin
+.body_ready:
  xor r12d,r12d
  lea rbx,[sim_players]
 .loop:
@@ -262,8 +279,9 @@ player_tick:
  jz .move
  movss xmm4,[sprint_step]
 .move:
- xor edi,edi
- call terrain_body_step
+ mov edi,r12d
+ add edi,ENTITY_CAPACITY
+ call crowd_step
  movss [rbx+PLAYER_X],xmm0
  movss [rbx+PLAYER_Z],xmm1
  call motion_vertical
@@ -462,6 +480,8 @@ spawn_player:
  push r14
  push r15
  sub rsp,8
+ ; Joins/redeployment use current generation-safe bodies, independent of camera.
+ call crowd_begin
  mov eax,[rbx+PLAYER_FRONT]
  shl eax,7
  lea rdx,[sim_sites]
@@ -566,11 +586,22 @@ spawn_player:
  pop r13
  pop r12
  ret
-; 0safe,-1unsafe. Checks solid occupancy plus observed enemy threat within160m.
+; 0safe,-1unsafe. Checks body/solid occupancy plus observed enemy threat within160m.
 safe_candidate:
  push r12
  push r13
  push r14
+ mov rdi,rbx
+ lea rax,[sim_players]
+ sub rdi,rax
+ shr edi,6
+ add edi,ENTITY_CAPACITY
+ xor esi,esi
+ movss xmm0,[candidate_x]
+ movss xmm1,[candidate_z]
+ call crowd_occupied
+ test eax,eax
+ jnz .bad
  movss xmm0,[candidate_x]
  movss xmm1,[candidate_z]
  xor edi,edi
