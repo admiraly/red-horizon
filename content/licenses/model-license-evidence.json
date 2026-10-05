@@ -1,0 +1,26 @@
+{
+  "pack_pages": [
+    {
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "retrieved_utc": "2026-10-05",
+      "page_sha256": "3c21854edc387cf79da656980974d8cc811c93dc4e766592f3942f0394e7c077",
+      "pack_specific_license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "source_url": "https://quaternius.com/packs/animatedtanks.html",
+      "retrieved_utc": "2026-10-05",
+      "page_sha256": "37f7740d889bba2e170589743cf8dca4a6fe5b47e98d22f946e1ea19637633cc",
+      "pack_specific_license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    },
+    {
+      "source_url": "https://kenney.nl/assets/space-kit",
+      "retrieved_utc": "2026-10-05",
+      "page_sha256": "427a74614160728fdccd0396f2702901eb502ddf23f1fe1661d7ba286a4aa910",
+      "pack_specific_license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/"
+    }
+  ],
+  "note": "Quaternius selected 2019/2022 pack pages explicitly link CC0. The current global license page describes QALv1.0 (2026-08-28); this is not evidence that every Quaternius asset is CC0. These particular pack-specific grants and the downloaded Animated Tanks CC0 license are the provenance used here. Only integrated baked game data is distributed; raw source models are not included."
+}

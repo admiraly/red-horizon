@@ -1,0 +1,97 @@
+{
+  "version": 1,
+  "purpose": "Optional offline rebake inputs; not loaded by the game. Original sources are excluded from the repository and release.",
+  "sources": [
+    {
+      "filename": "Character_Soldier.blend",
+      "sha256": "466f6cce8eb00d324cc433c7a4d9f760ab97bc20a9c20630020607f31ac75774",
+      "bytes": 4493508,
+      "role": 0,
+      "author": "Quaternius",
+      "title": "Toon Shooter Game Kit",
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=1slT5WT-qgNgfogjEDd8EsJ4Mk9gSeQJh",
+      "license": "CC0-1.0"
+    },
+    {
+      "filename": "Tank.blend",
+      "sha256": "1949b020efda14164b62f153e8d186e624aa4b6edb8d3539a31d42e2286a5692",
+      "bytes": 1279620,
+      "role": 1,
+      "author": "Quaternius",
+      "title": "Animated Tanks Pack",
+      "source_url": "https://quaternius.com/packs/animatedtanks.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=1uaTlQ-HqN27if0knwsGTpL2NiQKFEKms",
+      "license": "CC0-1.0"
+    },
+    {
+      "filename": "Tank3.blend",
+      "sha256": "882975a599e7d265803f971424b2ffe7ca6d7aab5736cec98058e99239092e7d",
+      "bytes": 1653716,
+      "role": 2,
+      "author": "Quaternius",
+      "title": "Animated Tanks Pack",
+      "source_url": "https://quaternius.com/packs/animatedtanks.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=1z_CR2nhFwz8n2z0JM6sI5bXD-2iC4_r5",
+      "license": "CC0-1.0"
+    },
+    {
+      "filename": "craft_speederD.glb",
+      "sha256": "a5780b9f6cc40d6f348f4211bb43c9501fa199729197361be6bfb522a42c56ad",
+      "bytes": 22876,
+      "role": 3,
+      "author": "Kenney",
+      "title": "Space Kit (2.0)",
+      "source_url": "https://kenney.nl/assets/space-kit",
+      "download_url": "https://kenney.nl/media/pages/assets/space-kit/20874c75ac-1677698978/kenney_space-kit.zip",
+      "archive_member": "Models/GLTF format/craft_speederD.glb",
+      "archive_sha256": "d5d7cdf2635ed5a43a9187deaf409b6f47484e402321128341d3c3698e9ef4d9",
+      "license": "CC0-1.0",
+      "limitation": "Stylized winged twin-engine space craft used as aircraft-role surrogate; not a military aircraft model"
+    },
+    {
+      "filename": "AK.blend",
+      "sha256": "7454db57bd3a0875ec7876fd427119c57edf76842206fb279a28ee3bfacaf633",
+      "bytes": 621872,
+      "role": 4,
+      "author": "Quaternius",
+      "title": "Toon Shooter Game Kit",
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=1xnOQ6HjSfMBhtVFhW14iz1P1tUqJ5rgW",
+      "license": "CC0-1.0"
+    },
+    {
+      "filename": "BrickWall_1.blend",
+      "sha256": "2b276a15217f14a75171375f1685e1ed43f8f07a0b29a38387a1bb817cf28bc4",
+      "bytes": 504080,
+      "role": 5,
+      "author": "Quaternius",
+      "title": "Toon Shooter Game Kit",
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=1RWudAjg9lYM5NN6ZE-RIrM51zEd2jD_Q",
+      "license": "CC0-1.0"
+    },
+    {
+      "filename": "Tree_1.blend",
+      "sha256": "400557f29ad3c9c2ec2274e2ef8efc0bf48f34e70a45edbe7d77e1216ec504df",
+      "bytes": 661700,
+      "role": 6,
+      "author": "Quaternius",
+      "title": "Toon Shooter Game Kit",
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=1PantwHyyWfc7leGELVEFyBDBUkntIisi",
+      "license": "CC0-1.0"
+    },
+    {
+      "filename": "Structure_1.blend",
+      "sha256": "3a9bf0308289d13a4b44e87302c7cb9c16d048e3c4a3e3d8f08cb9dbb24f8a64",
+      "bytes": 873236,
+      "role": 7,
+      "author": "Quaternius",
+      "title": "Toon Shooter Game Kit",
+      "source_url": "https://quaternius.com/packs/toonshootergamekit.html",
+      "download_url": "https://drive.google.com/uc?export=download&id=14lGg1-M5k4q0tSlSpAbiWqWu89Tyw1Yi",
+      "license": "CC0-1.0"
+    }
+  ]
+}
