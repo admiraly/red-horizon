@@ -1,3 +1,13 @@
+Current main integrates area defense0b475d9c at source fingerprint86121082753f4ae7.
+Matching main client/co-op/headless builds and31 scoped reports pass: tactics7,
+network18, two rendered fault/remapped input checks and environment/effects/
+minimum-view/CLI4. All360 authored inputs match the verified feature branch.
+Exact source/binary hashes, original8192 transport and graphical artifacts:
+[company-defend-main.json](evidence/company-defend-main.json). Frozen full
+extended job100a30b45dda is RUNNING at this exact merge/input fingerprint;
+PID113382 is confirmed live, result pending. It is not a full pass. The prior
+full controls failure7cc8322a2c38 is terminal and collected, as detailed below.
+
 Area defense batch verified on isolated feature/company-defend before integration:
 mode4 assigns physical mixed-role perimeter/rear-artillery positions with actual
 terrain footprint/grade projection. Default5 and upper-right contextual sector
@@ -19,8 +29,7 @@ E board Q exit expectation in the later effects test) passes both fixtures on
 the SAME frozen controls executable and the new defense executable. Original
 visual/physics assertions and declared fixtures stay intact. The failed full
 run remains failed. Evidence: input-bindings-full-summary.json and focused
-old/new environment/effects recovery logs. Matching-main/full defense results
-will be recorded after integration. Earlier integration history follows.
+old/new environment/effects recovery logs. Matching-main scoped defense results pass; the new full run remains pending. Earlier integration history follows.
 
 # Status — Linux shared-world prototype, 2026-10-06
 

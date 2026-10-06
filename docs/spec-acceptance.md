@@ -53,7 +53,7 @@ Status vocabulary: **Verified slice** means the stated implemented behavior has 
 
 | ID | Required outcome | Baseline evidence / remaining acceptance |
 |---|---|---|
-| R01 | First-person shooter and real-time strategy in one playable game | **Partial:** E4/E7 direct combat and live tactical view/front destinations exist. Rich squad ownership, command wheel, recruitment, placement and assault planning are missing. |
+| R01 | First-person shooter and real-time strategy in one playable game | **Partial:** direct combat, live tactical view, exclusive company leases and terrain-targeting command wheel exist with scoped evidence. Independent squad selection, recruitment, placement and shared player assault planning remain incomplete. |
 | R02 | Pure cooperation against AI | **Verified slice:** E4/E6 ally/human direct-fire rejection and allied player slots; no PvP path found. Validate every new weapon/explosion and final operation policy. |
 | R03 | Thousands of real individual units on each side | **Verified slice:** E1/E8 4,096 and 8,192 per side at initialization; actual motion/casualties and per-entity state. Complete-operation persistence, dense visible/detail and four-front-client scale still unaccepted. |
 | R04 | Multiple fronts, large varied maps, combined arms | **Partial:** three fronts, 8 km coordinate extent, 12 sites, infantry/armor/artillery/air. No full streamed authored settlements/roads/woodland/bridges/fortifications operation or full combined-arms roster. |
@@ -109,11 +109,11 @@ Status vocabulary: **Verified slice** means the stated implemented behavior has 
 
 | ID | Requirement | Evidence / gap |
 |---|---|---|
-| 7a | Company assignment, autonomous squad tactics and army command outside human ownership | **Partial:** slots map to front assignments (fourth assists front0), autonomy and side/front orders. Actual company/squad membership/primary ownership absent; fronts are too coarse for final requirement. |
-| 7b | Wheel: move/attack/defend/suppress/flank/regroup/retreat/follow/embark/disembark/support; pointing, acknowledgement, intent, remap | **Partial:** advance/hold/retreat and map waypoint/ACK. Wheel, target semantics, remaining orders, intent presentation and remapping missing. |
+| 7a | Company assignment, autonomous squad tactics and army command outside human ownership | **Verified slice:** stable128-ID mixed ground company cohorts have exclusive primary human leases, body-generation recovery, accepted intent and consented transfer; non-owned actors retain autonomous goals. Company-focused evidence in status.md. Independent squad selection and the complete allied command/tactics acceptance remain incomplete. |
+| 7b | Wheel: move/attack/defend/suppress/flank/regroup/retreat/follow/embark/disembark/support; pointing, acknowledgement, intent, remap | **Verified slice:** move/hold/retreat/follow/defend wheel choices, visible crosshair terrain, authority ACK, map intent and saved31-action remapping. Defense physical/terrain/hazard and real fault-UDP/GL evidence in company-defend-focused.json and status.md. Attack/suppress/flank/regroup/embark/disembark/support, unit/structure targeting and human quality remain incomplete. |
 | 7c | Live multiplayer tactical map selects formations, supply/intel, waypoints/objectives/recruit/placement/scheduled assaults | **Partial:** live view, front/site/resource markers and one destination E7/E6. Formation selection, fog/intel, multi-waypoint plans/recruit/placement/schedule missing. |
 | 7d | Shared voluntary ready/timing/countdown artillery+infantry+armor plans; cancel/delay/emergency without pause | **Missing:** no assault-plan state/protocol/UI in inspected baseline. |
-| 7e | One primary owner/squad; transfer/assist, conflicting order prevention, reservation/atomic spend; no mandatory FPS-excluding commander | **Partial:** E6 front ownership and duplicate cost guards. Slot3/front0 shared assistance has no squad ownership transfer/reservation model. Final squad conflict and economic transaction contracts missing. |
+| 7e | One primary owner/squad; transfer/assist, conflicting order prevention, reservation/atomic spend; no mandatory FPS-excluding commander | **Verified slice:** bidirectional company leases and exact generations gate orders; explicit recipient-consented exchanges preserve bodies/intents; duplicate transport requests spend once. Four-endpoint original8192 and graphical fault tests exist. Independent squad ownership, assistance requests and general recruit/build/support reservations remain incomplete. |
 
 ## Section 8 — economy/logistics
 
