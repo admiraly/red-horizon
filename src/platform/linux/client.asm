@@ -2,6 +2,7 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
+%include "schemas/company_control.inc"
 global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
 extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
@@ -45,9 +46,9 @@ extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArr
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
-command_panel_fmt: db 'COMPANY %d | FRONT %u | 1 ADVANCE 2 HOLD 3 RETREAT | TAB MAP',0
+command_panel_fmt: db 'COMPANY %d | FRONT %u | 1 ADVANCE 2 HOLD 3 RETREAT 4 FOLLOW',0
 command_panel_lost: db 'CO-OP CONNECTION LOST - COMPANY COMMANDS UNAVAILABLE',0
-title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3 advance/hold/retreat | ESC quit',0
+title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3/4 advance/hold/retreat/follow | ESC quit',0
 weather_opt: db '--weather',0
 weather_suffix: db '%s | WEATHER %s (F4 cycle)',0
 scenario_opt: db '--scenario',0
@@ -63,7 +64,7 @@ map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 transfer_none: db 'F5-F8: request exchange with P0-P3 | F11: cancel own offer',0
 transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | F9 accept | F10 decline | F11 cancel own',0
 transfer_changed: db 'COMPANY ASSIGNMENT UPDATED',0
@@ -84,6 +85,7 @@ net_denied_text: db 'ORDER DENIED: SELECT YOUR OWN FRONT',0
 net_bounds_text: db 'ORDER DENIED: POINT OUTSIDE MAP',0
 net_queue_text: db 'ORDER QUEUED',0
 net_busy_text: db 'ORDER BUSY: WAIT FOR SERVER ACK',0
+follow_sent_text: db 'ORDER ACCEPTED: FOLLOW COMPANY OWNER - COST 5',0
 net_sent_text: db 'ORDER ACCEPTED: COST 5',0
 net_reject_text: db 'SERVER REJECTED REQUEST',0
 mesh_metrics: db 'meshes loaded=%u high=%u low=%u markers=%u source_triangles=%u animation_frame=%u',10,0
@@ -127,6 +129,8 @@ fps_text: db 'FIRST PERSON',0
 map_text: db 'TACTICAL',0
 fzero: dd 0.0
 world_max: dd 8000.0
+follow_margin: dd COMPANY_FOLLOW_MARGIN
+follow_max_anchor: dd COMPANY_FOLLOW_MAX_ANCHOR
 fone: dd 1.0
 crouch_prediction: dd 0.083333333
 walk_prediction: dd 0.166666667
@@ -1334,6 +1338,7 @@ update_input:
  movss xmm1,[rdx+4]
  jmp .havegoal
 .playergoal:
+ mov edi,[local_player]
  call player_pointer
  movss xmm0,[rax+PLAYER_X]
  movss xmm1,[rax+PLAYER_Z]
@@ -1354,7 +1359,7 @@ update_input:
  btr dword [order_down_mask],ecx
 .nextorder:
  inc ebx
- cmp ebx,52
+ cmp ebx,53
  jb .orderloop
  mov rdi,[window]
  lea rsi,[cursor_x]
@@ -1807,6 +1812,8 @@ selected_goal:
  sub rsp,8
  call selected_order_goal
  add rsp,8
+ cmp edx,3
+ je .follow
  cmp edx,2
  jne .done
  mov eax,[selected_front]
@@ -1817,7 +1824,27 @@ selected_goal:
  movss xmm1,[rcx+rax*8+4]
 .done:
  ret
-; XMM0/1 accepted waypoint, EDX accepted mode or -1 when unknown.
+.follow:
+ ; ECX is the corroborated owner from the same raw intent lookup.
+ cmp ecx,4
+ jae .hidden
+ shl ecx,6
+ lea rax,[sim_players]
+ add rax,rcx
+ cmp dword [rax+PLAYER_HP],0
+ je .hidden
+ movss xmm0,[rax+PLAYER_X]
+ movss xmm1,[rax+PLAYER_Z]
+ maxss xmm0,[follow_margin]
+ minss xmm0,[follow_max_anchor]
+ maxss xmm1,[follow_margin]
+ minss xmm1,[follow_max_anchor]
+ ret
+.hidden:
+ movss xmm0,[offscreen]
+ movaps xmm1,xmm0
+ ret
+; XMM0/1 accepted waypoint, EDX mode and ECX owner (or -1 unknown).
 selected_order_goal:
  mov eax,[selected_front]
  cmp dword [network_mode],0
@@ -1839,6 +1866,7 @@ selected_order_goal:
  movss xmm0,[rdx+rax+16]
  movss xmm1,[rdx+rax+20]
  mov edx,[rdx+rax+8]
+ mov ecx,[local_player]
  pop rbx
  ret
 .localunknown:
@@ -1892,6 +1920,7 @@ selected_order_goal:
  movss xmm0,[rdx+rax+24]
  movss xmm1,[rdx+rax+28]
  mov edx,[rdx+rax+16]
+ mov ecx,r12d
  xor eax,eax
  ret
 .remote_missing:
@@ -1929,6 +1958,10 @@ queue_local_order:
  mov eax,[rsp+4]
  mov [order_mode],eax
  lea rax,[net_sent_text]
+ cmp dword [rsp+4],3
+ jne .feedback
+ lea rax,[follow_sent_text]
+.feedback:
  mov [command_message],rax
  xor eax,eax
  jmp .done
@@ -2179,6 +2212,10 @@ network_tick:
  lea rdx,[net_goal_valid]
  mov dword [rdx+rax*4],1
  lea rax,[net_sent_text]
+ cmp dword [command_mode],3
+ jne .feedback
+ lea rax,[follow_sent_text]
+.feedback:
  mov [command_message],rax
  jmp .return
 .rejected:

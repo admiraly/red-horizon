@@ -31,7 +31,7 @@ with tempfile.TemporaryDirectory(prefix='rh-company-ownership-') as name:
   assert keys[0]//256==keys[3]//256==0 and keys[0]!=keys[3]
   return keys
  keys=prepare();before=l.sim_checksum()
- for player,key,mode,x,z in [(0,keys[3],0,2200,1800),(3,keys[0],0,2200,1800),(4,keys[0],0,2200,1800),(0,1536,0,2200,1800),(0,keys[0],3,2200,1800),(0,keys[0],0,math.nan,1800),(0,keys[0],0,2200,math.inf),(0,keys[0],0,-1,1800),(0,keys[0],0,8001,1800),(0,keys[0],0,4000,1300)]:
+ for player,key,mode,x,z in [(0,keys[3],0,2200,1800),(3,keys[0],0,2200,1800),(4,keys[0],0,2200,1800),(0,1536,0,2200,1800),(0,keys[0],4,2200,1800),(0,keys[0],0,math.nan,1800),(0,keys[0],0,2200,math.inf),(0,keys[0],0,-1,1800),(0,keys[0],0,8001,1800),(0,keys[0],0,4000,1300)]:
   assert l.company_control_order(player,key,mode,x,z)<0
   assert l.sim_checksum()==before
  for i in (256,32768,0xffffffff):assert goal(i)==-1

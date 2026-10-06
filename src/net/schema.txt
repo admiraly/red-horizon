@@ -1,9 +1,9 @@
-RED HORIZON gameplay UDP schema v25
-little-endian u32 header[10]: magic=0x52484332 version=25 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v26
+little-endian u32 header[10]: magic=0x52484332 version=26 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
-order=4 payload16 front:u32 mode:u32 goalx:f32 goalz:f32
+order=4 payload16 front:u32 mode:u32(0advance1hold2retreat3follow-primary-owner) goalx:f32 goalz:f32
 leave=5 payload0
 state=100 payload808 count:u32 operation:u32 requisition:u32[2] supply:u32[2] players:64bytes[4] sites:32bytes[12] vehicles:32bytes[4] player_vehicle:i32[4]
 entities=101 payload4+36*n n:u32 records(index:u32 entity:32bytes)[n<=32]
@@ -67,3 +67,6 @@ company interest: the same bounded64 rolling entity records/snapshot include own
 
 company transfers: NET_TRANSFER6 payload12 action0propose/1accept/2decline/3cancel,otherPlayer,exactProposalSequence(0 on propose). Reliable endpoint/session/sequence dedup applies. Explicit recipient consent swaps two current allied companies atomically; live generation/key/lease guards and450tick expiry. Both companies retain accepted intents and both players retain bodies, stores and one company; authoritative fronts follow the exchanged cohorts.
 companies107 payload356: count4, existing record40[4], then proposal48[4] indexed requester: active,target,requesterKey,targetKey,requesterGen,targetGen,requesterLease,targetLease,expires,sequence,reserved64. Inactive metadata zero except sequence. Company leases and proposals are atomically validated as one packet; no stale consent across generations/lease changes.
+
+Company follow3 uses stable8x16 slots12m apart behind the current owner in worldX,24m trail,224m world-edge anchor margin; hold while ownerHP0; owner body generation/lease validation remains mandatory. Accepted goal remains preserved; follow destinations are derived from own connected current playerXZ, never hidden enemies.
+Follow slots use actual terrain body footprint/grade validation, then at most4 backward12m projections; no clear candidate yields hold while hazard priority remains active. Placement is derived/read-only and preserves normal movement caps.
