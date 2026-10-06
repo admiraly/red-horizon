@@ -348,3 +348,14 @@ hotspot47.952ms/stretch44.704ms still miss33.3ms. New fullcccb5e085005 is live
 at8534fd5-e6a5f9beaf846fcc. Root v19 remains accepted. Independent next work:
 physically coupled bank/turn/roll and safe air routing, shared company/air intent,
 timed support and remaining scale/spectacle requirements.
+
+2026-10-06 current accepted main: fullac6766acbf40 PASSED1156.8059s with125
+structured reports and all315 authored inputs matching integration. UDPv20 now
+includes generation-bound own-bomber missions, trailing/flank goals and physically
+perceived threat priority. Rebuilt root actual escort controls and8192/180tick peers
+pass. Initial cccb5 failed independent stale v19 test literals; failure is retained.
+The earlier live/unintegrated paragraphs are historical. Current independent
+v21 bank/roll/pitch/lead, staged strike recovery and boundary latch candidate is
+committed00c3d9e; focused/admission/actualGL pass, frozen fast195a64c32e56 running.
+Full verification, scale budget, safe arbitrary birth/ingress, shared company support
+intent/UI, separation/rearming and human spectacle quality remain open.

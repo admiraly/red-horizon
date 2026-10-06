@@ -284,10 +284,17 @@ candidates; their combination requires recomputed compatibility and an exact
 combined full checkpoint. Persistent company records remain private authority,
 not a replicated or player-ownership interface.
 
-Verified combined gameplay UDPv19/schema0xe683e0bb/content0xe310d315 at the
+Previous verified combined gameplay UDPv19/schema0xe683e0bb/content0xe310d315 at the
 4f9cf0815524 checkpoint. Packet layouts remain unchanged. company_assault.inc
 specifies1536x128 persistent plan records and normal hash participation; the
 full-range acquisition heap is bounded private scratch with original distance/
 reservoir-rank tie semantics. Wreck row projection changes only conservative
 candidate enumeration, retaining exact slabs/escape/source/identity rules.
-Air-escort candidate v20 remains isolated.
+Verified gameplay UDPv20/schema0xf1a4fcab/content0xe84a7d53 now integrates
+own-bomber escort policy1 and air acquisition2, fullac6766acbf40 passed.
+Persistent16byte mission per owner contains leader ID/generation, owner generation
+and expiry; own-side/front finite-store validity controls trailing/flank goals.
+Only actual750m range/LOS acquisition admits enemy threat priority. Hash includes
+missions; entity32/player64/aircraft64 and packet layouts remain unchanged.
+Private v21 coordinated bank/strike/boundary contracts remain isolated in
+feature/air-bank-flight; docs/air-bank-flight.md records scope and test changes.
