@@ -1,0 +1,153 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_entity_samples": [
+        "86646252604a7274",
+        "77af1e32c85aa562",
+        "19622964dcc70f82",
+        "e7e4090be9619163",
+        "bc8a52c731300600",
+        "3b1af83e52afc082",
+        "b7c84e6a32dfa4cf",
+        "0a239e4c5c5e076f",
+        "c95c9d71d53df945",
+        "91f5c24ba9e2715f",
+        "7d2ed03baa63a558",
+        "f2bd012f67e4bbb0",
+        "7e6f73c96cc8fabd",
+        "251bf11275c42b52",
+        "1f0b2dd50aa930a1",
+        "20f06a7725bfc530",
+        "dfd0e4c7fd965562",
+        "69e885778ecbaf24",
+        "bcb1ddbf981de9e6",
+        "b5f54f05abe29013",
+        "07a69d0d2babab6d",
+        "780338d5e33ecfbe",
+        "e85c115245a7a902",
+        "ceedb3658027fcae",
+        "73507629635210be",
+        "63b062417326c0f6",
+        "08f5a20d58a9f661",
+        "cb2b220e7ed73731",
+        "09e77e5b89e6902d",
+        "4378c8838c77c1be"
+      ],
+      "timings": [
+        {
+          "mean_ms": 14.896308225555556,
+          "p95_ms": 17.699845
+        },
+        {
+          "mean_ms": 16.603581496666667,
+          "p95_ms": 19.678501
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "equal_checksum_and_entity_samples": [
+        "a9426b6108e651b1",
+        "97e19a362fbcde60",
+        "25edeef199168253",
+        "53300c95a02fe57f",
+        "62499046c1443777",
+        "e00cd784fed90948",
+        "cbd13a86e65e0610",
+        "f1a59caece34851c",
+        "c6bdf95040b8869d",
+        "f6e6601b8c367dd4",
+        "1efab67c1b0781b0",
+        "54674e65cd647fe2",
+        "e7e8dc05e199717e",
+        "182deef98466530e",
+        "2d2d29151ee0fbd9",
+        "88d99da281196a33",
+        "55d41de6cdf041aa",
+        "0d607b410be07eee",
+        "0873c6cba7111ef5",
+        "2c266acf86885318",
+        "ae0213fbc04b046b",
+        "fcbff1b8c4cb5df0",
+        "fc36f1a832f4bbed",
+        "b3ba9fbe55f84eab",
+        "6d69a142b8dba1e4",
+        "f3b17b42b60d5698",
+        "bd96fc35c7f39841",
+        "abe4f44175267002",
+        "9896f4bd05bde04d",
+        "dfd63101d0584745"
+      ],
+      "timings": [
+        {
+          "mean_ms": 53.09044478444445,
+          "p95_ms": 67.333433
+        },
+        {
+          "mean_ms": 48.452854585555556,
+          "p95_ms": 65.723995
+        }
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_entity_samples": [
+        "ba29a1d84fc3d650",
+        "bd24f260764c20b4",
+        "42edc9e6a95c4b7f",
+        "3590cea5bada572e",
+        "d91c478b29499785",
+        "fb134e96f6be294d",
+        "87e75b7100ce647f",
+        "4a42d0062ada1fdc",
+        "f96d667c85bad489",
+        "3f20c8824e5c3864",
+        "b2048670c354bd57",
+        "c1d66fae0db18b2d",
+        "fe47a977c608cb40",
+        "09eac8c9061f800e",
+        "109d121c5de0be5b",
+        "8c28cde1d03696c2",
+        "99068ef51263cc0d",
+        "a7e9d1d84703fb77",
+        "98ee45ed547e71f7",
+        "de689a45152953f8",
+        "3a96d97fc289c9c5",
+        "dbc1ef2de2e86ddb",
+        "020935008a7326a1",
+        "ec70bf95d1762b9f",
+        "5e9605d9ea79f880",
+        "af70ba65189bfb1b",
+        "2883b23b61355617",
+        "f09a3ffadf6ec692",
+        "0ce14e3597bb11ba",
+        "c2d663c338bca69c"
+      ],
+      "timings": [
+        {
+          "mean_ms": 31.71808736,
+          "p95_ms": 40.070921
+        },
+        {
+          "mean_ms": 34.89528638888889,
+          "p95_ms": 43.830728
+        }
+      ]
+    }
+  ],
+  "world_source_sha256": "cc2750c11cd3721c9f19623269a3391d5b009a53e321fd08f6fec451c55019f0",
+  "library_sha256": "d6e69382ee63027a7d76e752307c0b18a68828a4c56c2ce79f0149e39655913c",
+  "limits": [
+    "900 ticks, production versus generated NASM acquisition loop, concurrent frozen checkpoints.",
+    "Exact authoritative hash/all entity bytes each30 ticks; unchanged nearest distance and original reservoir-order tie precedence.",
+    "Not full scale or integration acceptance."
+  ]
+}

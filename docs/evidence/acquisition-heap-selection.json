@@ -1,0 +1,495 @@
+{
+  "passed": true,
+  "seed": 52913,
+  "cases": [
+    {
+      "side": 0,
+      "case": 0,
+      "target": 97,
+      "visible_candidates": 2
+    },
+    {
+      "side": 0,
+      "case": 1,
+      "target": 97,
+      "visible_candidates": 1
+    },
+    {
+      "side": 0,
+      "case": 2,
+      "target": 115,
+      "visible_candidates": 37
+    },
+    {
+      "side": 0,
+      "case": 3,
+      "target": 147,
+      "visible_candidates": 29
+    },
+    {
+      "side": 0,
+      "case": 4,
+      "target": 120,
+      "visible_candidates": 41
+    },
+    {
+      "side": 0,
+      "case": 5,
+      "target": 132,
+      "visible_candidates": 37
+    },
+    {
+      "side": 0,
+      "case": 6,
+      "target": 141,
+      "visible_candidates": 35
+    },
+    {
+      "side": 0,
+      "case": 7,
+      "target": 108,
+      "visible_candidates": 26
+    },
+    {
+      "side": 0,
+      "case": 8,
+      "target": 119,
+      "visible_candidates": 33
+    },
+    {
+      "side": 0,
+      "case": 9,
+      "target": 141,
+      "visible_candidates": 21
+    },
+    {
+      "side": 0,
+      "case": 10,
+      "target": 146,
+      "visible_candidates": 31
+    },
+    {
+      "side": 0,
+      "case": 11,
+      "target": 139,
+      "visible_candidates": 40
+    },
+    {
+      "side": 0,
+      "case": 12,
+      "target": 135,
+      "visible_candidates": 39
+    },
+    {
+      "side": 0,
+      "case": 13,
+      "target": 169,
+      "visible_candidates": 40
+    },
+    {
+      "side": 0,
+      "case": 14,
+      "target": 139,
+      "visible_candidates": 33
+    },
+    {
+      "side": 0,
+      "case": 15,
+      "target": 108,
+      "visible_candidates": 35
+    },
+    {
+      "side": 0,
+      "case": 16,
+      "target": 148,
+      "visible_candidates": 29
+    },
+    {
+      "side": 0,
+      "case": 17,
+      "target": 163,
+      "visible_candidates": 38
+    },
+    {
+      "side": 0,
+      "case": 18,
+      "target": 146,
+      "visible_candidates": 40
+    },
+    {
+      "side": 0,
+      "case": 19,
+      "target": 171,
+      "visible_candidates": 40
+    },
+    {
+      "side": 0,
+      "case": 20,
+      "target": 102,
+      "visible_candidates": 34
+    },
+    {
+      "side": 0,
+      "case": 21,
+      "target": 173,
+      "visible_candidates": 41
+    },
+    {
+      "side": 0,
+      "case": 22,
+      "target": 113,
+      "visible_candidates": 29
+    },
+    {
+      "side": 0,
+      "case": 23,
+      "target": 173,
+      "visible_candidates": 30
+    },
+    {
+      "side": 0,
+      "case": 24,
+      "target": 101,
+      "visible_candidates": 38
+    },
+    {
+      "side": 0,
+      "case": 25,
+      "target": 143,
+      "visible_candidates": 33
+    },
+    {
+      "side": 0,
+      "case": 26,
+      "target": 109,
+      "visible_candidates": 35
+    },
+    {
+      "side": 0,
+      "case": 27,
+      "target": 100,
+      "visible_candidates": 42
+    },
+    {
+      "side": 0,
+      "case": 28,
+      "target": 118,
+      "visible_candidates": 29
+    },
+    {
+      "side": 0,
+      "case": 29,
+      "target": 129,
+      "visible_candidates": 33
+    },
+    {
+      "side": 0,
+      "case": 30,
+      "target": 115,
+      "visible_candidates": 40
+    },
+    {
+      "side": 0,
+      "case": 31,
+      "target": 129,
+      "visible_candidates": 36
+    },
+    {
+      "side": 0,
+      "case": 32,
+      "target": 117,
+      "visible_candidates": 27
+    },
+    {
+      "side": 0,
+      "case": 33,
+      "target": 110,
+      "visible_candidates": 36
+    },
+    {
+      "side": 0,
+      "case": 34,
+      "target": 120,
+      "visible_candidates": 32
+    },
+    {
+      "side": 0,
+      "case": 35,
+      "target": 112,
+      "visible_candidates": 31
+    },
+    {
+      "side": 0,
+      "case": 36,
+      "target": 158,
+      "visible_candidates": 29
+    },
+    {
+      "side": 0,
+      "case": 37,
+      "target": 119,
+      "visible_candidates": 30
+    },
+    {
+      "side": 0,
+      "case": 38,
+      "target": 148,
+      "visible_candidates": 42
+    },
+    {
+      "side": 0,
+      "case": 39,
+      "target": 143,
+      "visible_candidates": 35
+    },
+    {
+      "side": 1,
+      "case": 0,
+      "target": 1,
+      "visible_candidates": 2
+    },
+    {
+      "side": 1,
+      "case": 1,
+      "target": 1,
+      "visible_candidates": 1
+    },
+    {
+      "side": 1,
+      "case": 2,
+      "target": 28,
+      "visible_candidates": 32
+    },
+    {
+      "side": 1,
+      "case": 3,
+      "target": 71,
+      "visible_candidates": 37
+    },
+    {
+      "side": 1,
+      "case": 4,
+      "target": 35,
+      "visible_candidates": 37
+    },
+    {
+      "side": 1,
+      "case": 5,
+      "target": 30,
+      "visible_candidates": 31
+    },
+    {
+      "side": 1,
+      "case": 6,
+      "target": 48,
+      "visible_candidates": 29
+    },
+    {
+      "side": 1,
+      "case": 7,
+      "target": 11,
+      "visible_candidates": 37
+    },
+    {
+      "side": 1,
+      "case": 8,
+      "target": 75,
+      "visible_candidates": 34
+    },
+    {
+      "side": 1,
+      "case": 9,
+      "target": 76,
+      "visible_candidates": 33
+    },
+    {
+      "side": 1,
+      "case": 10,
+      "target": 6,
+      "visible_candidates": 29
+    },
+    {
+      "side": 1,
+      "case": 11,
+      "target": 56,
+      "visible_candidates": 34
+    },
+    {
+      "side": 1,
+      "case": 12,
+      "target": 60,
+      "visible_candidates": 37
+    },
+    {
+      "side": 1,
+      "case": 13,
+      "target": 75,
+      "visible_candidates": 41
+    },
+    {
+      "side": 1,
+      "case": 14,
+      "target": 20,
+      "visible_candidates": 27
+    },
+    {
+      "side": 1,
+      "case": 15,
+      "target": 44,
+      "visible_candidates": 34
+    },
+    {
+      "side": 1,
+      "case": 16,
+      "target": 67,
+      "visible_candidates": 35
+    },
+    {
+      "side": 1,
+      "case": 17,
+      "target": 61,
+      "visible_candidates": 34
+    },
+    {
+      "side": 1,
+      "case": 18,
+      "target": 0,
+      "visible_candidates": 35
+    },
+    {
+      "side": 1,
+      "case": 19,
+      "target": 57,
+      "visible_candidates": 26
+    },
+    {
+      "side": 1,
+      "case": 20,
+      "target": 18,
+      "visible_candidates": 38
+    },
+    {
+      "side": 1,
+      "case": 21,
+      "target": 20,
+      "visible_candidates": 37
+    },
+    {
+      "side": 1,
+      "case": 22,
+      "target": 66,
+      "visible_candidates": 31
+    },
+    {
+      "side": 1,
+      "case": 23,
+      "target": 27,
+      "visible_candidates": 40
+    },
+    {
+      "side": 1,
+      "case": 24,
+      "target": 71,
+      "visible_candidates": 28
+    },
+    {
+      "side": 1,
+      "case": 25,
+      "target": 11,
+      "visible_candidates": 31
+    },
+    {
+      "side": 1,
+      "case": 26,
+      "target": 31,
+      "visible_candidates": 42
+    },
+    {
+      "side": 1,
+      "case": 27,
+      "target": 49,
+      "visible_candidates": 30
+    },
+    {
+      "side": 1,
+      "case": 28,
+      "target": 71,
+      "visible_candidates": 35
+    },
+    {
+      "side": 1,
+      "case": 29,
+      "target": 11,
+      "visible_candidates": 35
+    },
+    {
+      "side": 1,
+      "case": 30,
+      "target": 23,
+      "visible_candidates": 31
+    },
+    {
+      "side": 1,
+      "case": 31,
+      "target": 37,
+      "visible_candidates": 47
+    },
+    {
+      "side": 1,
+      "case": 32,
+      "target": 54,
+      "visible_candidates": 35
+    },
+    {
+      "side": 1,
+      "case": 33,
+      "target": 34,
+      "visible_candidates": 32
+    },
+    {
+      "side": 1,
+      "case": 34,
+      "target": 73,
+      "visible_candidates": 40
+    },
+    {
+      "side": 1,
+      "case": 35,
+      "target": 58,
+      "visible_candidates": 34
+    },
+    {
+      "side": 1,
+      "case": 36,
+      "target": 2,
+      "visible_candidates": 25
+    },
+    {
+      "side": 1,
+      "case": 37,
+      "target": 33,
+      "visible_candidates": 40
+    },
+    {
+      "side": 1,
+      "case": 38,
+      "target": 12,
+      "visible_candidates": 40
+    },
+    {
+      "side": 1,
+      "case": 39,
+      "target": 2,
+      "visible_candidates": 35
+    }
+  ],
+  "libraries_sha256": {
+    "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/build/libsim.so": "172c3ad67a0063c755e95fd25d010686f1a35b47aacef463ea090e88c5497f9b",
+    "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/build/libacquisition-heap.so": "d6e69382ee63027a7d76e752307c0b18a68828a4c56c2ce79f0149e39655913c"
+  },
+  "limits": [
+    "Initial sparse fixtures and stale hints only; two actual world ticks and unchanged complete authority.",
+    "Independent exhaustive distance/visibility oracle in unsaturated relevant cells; physical LOS uses production geometry queries.",
+    "Equal-distance tie case preserves original reservoir rank; hidden closest target selects farther visible target."
+  ]
+}

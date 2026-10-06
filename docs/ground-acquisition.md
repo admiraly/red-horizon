@@ -40,3 +40,43 @@ ring experiment is retained separately. The final generated source/library
 hashes are in acquisition-order-probe.json. Neither loop is promoted: more
 cost diagnosis, causal controls and original full-scale gates remain required.
 Full combined routing/assault/compatibility verification precedes integration.
+
+Continuation: exact nearest-visible selection now uses a bounded2904-entry
+private stack heap (23360-byte world frame). Eligible candidates retain their
+original f32 distance and inverse original cell/sample rank; the first physically
+visible heap result is therefore the same nearest target and equal-distance
+winner. No stored targeting/intel policy or weapon range changes. Malformed
+capacity cannot overrun scratch; candidate cells/samples remain bounded.
+
+The generated loop matches full authoritative checksums and all entity bytes
+every30ticks through900 for8kopen/hotspot/16kopen, without pose/health/store/clock
+renewal. Paired p95ms is17.700→19.679,67.333→65.724,40.071→43.831 respectively;
+means14.896→16.604,53.090→48.453,31.718→34.895. The300tick mean benefit did not
+establish long-operation cost; hotspot and stretch remain over33.3ms. The900tick
+report completed at12:50:14+02 before production-library relinking at12:52:06+02;
+there was no live-artifact replacement overlap. Source/library hashes and sampled
+states are retained in acquisition-heap-900.json.
+
+80 sparse fixtures per paired comparison pass exhaustive nearest-visible
+checks, mirrored labels, original tie preference, a hidden nearer versus visible
+farther target, stale initial hints and a second real tick. An independent single
+production-library oracle is now registered in fast/simulation/combat. The
+physical449m/649m travel/hit and range/LOS negatives pass on the heap prototype.
+The production heap passes the complete fast suite after replacing numeric frame
+sizes with equivalent named scratch constants; canonical acquisition policy2
+compatibility remains unchanged. Fast source is static throughout.
+
+Revalidated previous-target and conservative cell-side-mask prototypes also
+preserve sampled authority, but give only small gains in these workloads and
+add complexity. Their source, reports and logs are retained; neither is promoted.
+The next coherent candidate combines this range/selection implementation with
+accepted main's query/deployment/quit fixes and the ground company slice. Full
+combined verification and additional measured query/decision cost work remain.
+
+Causal priority control reverses only the heap root comparison. The unchanged
+public nearest-visible fixture rejects its wrong equal-distance target with
+AssertionError; exact source/library hashes and terminal output are retained.
+The superseded near-first development tool reads the verified archived simple
+source explicitly, with a source hash/precondition check, rather than silently
+transforming the now different production loop. This tooling repair is outside
+the preceding fast run; it changes no runtime source.

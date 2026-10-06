@@ -1,0 +1,8 @@
+{
+  "passed": true,
+  "fault": "Reverse root priority comparison, all gameplay modules otherwise unchanged.",
+  "observer": "Unchanged independent public target selection fixture rejects actual wrong target/tie result.",
+  "exit_code": 1,
+  "world_source_sha256": "dc463f793a0c6182ab65dcf4ffef54ee2322c32859f1016249f066509286c8ea",
+  "library_sha256": "6a166b86566b9bfb260d1dd23369688afe354e92b741ced32b5f0ca145d785b3"
+}

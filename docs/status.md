@@ -86,8 +86,12 @@ later authoritative snapshot, preserving all original movement assertions and
 server rate policy. Corrected focused movement passes against the frozen runtime.
 Candidate b7154c6 fullc2b6c894af84 FAILED919.5569s (source
  b7154c6-d9abe7f21d2cd76f), at unchanged dense scene variety. Its co-op movement
-now passes; it still inherits the old deployment/quit paths. A combined isolated
-candidate is being prepared on acceptedv17. No company runtime integration yet. Exact failure/source hashes and causal
+now passes; it still inherits the old deployment/quit paths. The exact frozen client repeats with48 hotspot colours and healthy generation2
+camera1000/1300; inspection shows its site wall filling the view. The unchanged
+assertion, original telemetry and image are retained in company-dense-rejected-* .
+A combined isolated candidateccff52f on acceptedv17 passes fast and is now
+frozen in fullb0240f5853b8 (sourceccff52f-1a1492e3fb5e47c0), verified live.
+No company or acquisition runtime integration into main yet. Exact failure/source hashes and causal
 reports are in docs/evidence/company-assault-full-failed.json and
  company-coop-input-rate.json. This ground slice observes
 ordinary artillery fire; reserved support targets, bomber/fighter coordination,
@@ -97,7 +101,7 @@ Exact progress/limits: docs/company-assault-progress.md. Private UDPv16 policy i
 separate from integratedv17; combine/recompute compatibility and run
 another exact full checkpoint before integrating the company slice.
 
-An independent ground acquisition candidate205136b is outside main. Tanks
+Ground acquisition candidate4e6ac80 (tool follow-up8cdcf28) is outside main. Tanks
 search2-cell and artillery3-cell envelopes for their unchanged450m/650m ranges.
 Actual ticks hit449m tanks at45 and649m artillery at107–109; mirrored sides,
 cardinal directions and replay pass. Beyond-range/diagonal/wall-hidden targets
@@ -109,12 +113,23 @@ Concurrent300tick original/candidate p95ms is10.756/14.752 (8kopen),
 these are not isolated query costs; hotspot fails33.3ms. A generated near-first
 heavy-weapon loop matches authority hashes and all entity bytes every30ticks
 through300 while lowering hotspot p9553.490→48.542ms; open slightly worsens.
-It remains an unpromoted experiment. More cost diagnosis and full integration
-are required. Privatev18 compatibility is separate fromv16/v17 branches.
+That ring experiment remains unpromoted. The candidate now uses a bounded
+2904-key nearest-visible heap with original f32 distance/sample-rank ordering.
+80 mirrored sparse nearest/hidden/tie/stale-hint fixtures and the original range
+outcomes pass; a reversed priority control fails the unchanged observer. Fast
+passes. Through900 ticks, baseline/heap authority and all entity bytes match
+every30ticks for8kopen/hotspot/16kopen. Paired p95ms is17.700→19.679,
+67.333→65.724,40.071→43.831: long-run performance remains over budget despite
+short-run improvements. More query/decision cost diagnosis is required.
+Combinedccff52f includes acceptedv17 deployment/query fixes, company1,
+acquisition2 and the corrected co-op observer. Private UDPv19/schema0xe683e0bb/
+content0xe310d315 is canonical union, with unchanged packet layouts. Exact fast
+source hashes and full handle are in combined-assault-* and pending-jobs.json. Privatev18 compatibility is separate fromv16/v17 branches.
 Exact source, logs, negative control and limits: docs/ground-acquisition.md.
 
 All previously launched foreground checks are terminal. Profile97b74ea394b4
-is reconciled passed; companyc2b6c894af84 is reconciled failed;
+is reconciled passed; companyc2b6c894af84 is reconciled failed. Combined
+b0240f5853b8 is the only currently verified-live frozen full checkpoint;
 exact handles are docs/evidence/wreck-dense-pending-jobs.json. Failed runs and
 exploratory fixtures are retained. No remote publication; full-game goal active.
 

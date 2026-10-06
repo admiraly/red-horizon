@@ -291,3 +291,15 @@ Prior two failed checkpoints remain retained. Companyc2b6c894af84 remains
 live/unintegrated; range candidate205136b remains isolated with hotspot cost
 gap. Next measure exact nearest-visible heap prototype and preserve original
 scale gates before any range/assault integration.
+
+2026-10-06 coherent candidate: company rerunc2b6c894af84 FAILED919.5569s at
+inherited dense deployment. Frozen unchanged repeat proves48 hotspot colours,
+actual healthy redeployed1000/1300 and site wall in view. Combinedccff52f based
+on accepted07d6536 includes company1 + full-range/heap acquisition2 + corrected
+co-op observer and accepted deployment/query/input fixes. Its fast suite passes;
+fullb0240f5853b8 is verified live atccff52f-1a1492e3fb5e47c0. Private UDPv19
+union is not main. Nearest priority fault is detected;900tick exact-state paired
+comparison retains outcomes but hotspot/stretch still fail tick budget. Ready:
+measure finer wreck-query grid/mixed ray lengths or scheduled target decisions
+without weakening actual range/LOS/health/motion/arrival/recovery gates. Protected
+air missions and visible shared company intent remain gameplay acceptance work.

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/tests/test_ground_target_selection.py", line 47, in <module>
+    if case==0:assert e[source].target==ids[1]
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

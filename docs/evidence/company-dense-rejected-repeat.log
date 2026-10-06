@@ -1,0 +1,32 @@
+PIXEL_DIAGNOSTIC scale-front 53048 4.6 (Core Profile) Mesa 26.2.3
+{"client_metrics":true,"cpu_samples":120,"gpu_samples":112,"cpu_frame_mean_ms":82.903886,"cpu_frame_p95_ms":122.253648,"cpu_frame_p99_ms":135.091076,"gpu_draw_mean_ms":21.755926,"gpu_draw_p95_ms":38.201625,"gpu_draw_p99_ms":45.726768}
+{"battle_metrics":true,"samples":120,"simultaneous_projectiles_effects_audio_frames":119,"peak_living":8192,"peak_engaged":3282,"peak_projectiles":479,"peak_submitted_high":71,"peak_submitted_low":2775,"peak_submitted_markers":5354,"peak_effect_records":64,"peak_trail_records":128,"peak_audio_voices":128,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}
+meshes loaded=18 high=44 low=1319 markers=4995 source_triangles=445181 animation_frame=29
+client frames=120 submitted_entities=8192 screenshot=/tmp/rh-dense-company-repeat/scale-front.ppm
+camera_x=3515.00 camera_z=2280.00 shots=0 hits=0 last_order=0
+weapon ammo=30 reloads=0 front=1
+operation state=0 req=451 supply=600 waypoint_orders=0
+selected_goal_x=5000.000 selected_goal_z=3900.000
+player id=0 hp=80 suppression=23 respawn=0 generation=1
+start_player_x=3515.000 start_player_z=2280.000
+
+PIXEL_DIAGNOSTIC scale-hotspot 48 4.6 (Core Profile) Mesa 26.2.3
+{"client_metrics":true,"cpu_samples":120,"gpu_samples":112,"cpu_frame_mean_ms":153.265569,"cpu_frame_p95_ms":196.665640,"cpu_frame_p99_ms":205.053879,"gpu_draw_mean_ms":43.161326,"gpu_draw_p95_ms":53.442941,"gpu_draw_p99_ms":64.939466}
+{"battle_metrics":true,"samples":120,"simultaneous_projectiles_effects_audio_frames":118,"peak_living":8192,"peak_engaged":4411,"peak_projectiles":480,"peak_submitted_high":88,"peak_submitted_low":3948,"peak_submitted_markers":5698,"peak_effect_records":64,"peak_trail_records":128,"peak_audio_voices":128,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}
+meshes loaded=18 high=0 low=0 markers=5679 source_triangles=32688 animation_frame=28
+client frames=120 submitted_entities=8192 screenshot=/tmp/rh-dense-company-repeat/scale-hotspot.ppm
+camera_x=1000.00 camera_z=1300.00 shots=0 hits=0 last_order=0
+weapon ammo=30 reloads=0 front=1
+operation state=0 req=529 supply=600 waypoint_orders=0
+selected_goal_x=5000.000 selected_goal_z=3900.000
+player id=0 hp=100 suppression=0 respawn=0 generation=2
+start_player_x=3452.000 start_player_z=2300.000
+
+Traceback (most recent call last):
+  File "/tmp/rh-dense-company-repeat.py", line 6, in <module>
+    exec(compile(s,str(root/'tests/test_dense_client.py'),'exec'))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/c2b6c894af84/source/tests/test_dense_client.py", line 32, in <module>
+    print(json.dumps({'suite':'dense-client','passed':True,'actual_GL':True,'runtime_pose_or_damage_writes':False,'frame_peaks':results,'pixel_visible_actor_count':'unmeasured','audio_device':'null; waveform routing only'}))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: empty/unvaried scene

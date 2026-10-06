@@ -1,0 +1,17 @@
+{
+  "job": "c2b6c894af84",
+  "source": "b7154c6-d9abe7f21d2cd76f",
+  "repeat_exit": 1,
+  "unchanged_variety_assertion": true,
+  "front_colors": 53048,
+  "hotspot_colors": 48,
+  "hotspot_camera_xz": [
+    1000,
+    1300
+  ],
+  "hotspot_player_hp": 100,
+  "hotspot_player_generation": 2,
+  "ppm_sha256": "5b5bc05724faa4acb684e8abcc326dd2be1628af8cac46a459fe7f42e9a5c144",
+  "png_sha256": "97740499fd2074e4985a4bb66c7ba51a2ab958899b9413eb5964adc8ed813a0d",
+  "observer": "Original frozen test, only retaining output and printing pixel count/actual telemetry; all assertions unchanged."
+}

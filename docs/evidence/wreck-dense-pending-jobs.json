@@ -1,8 +1,8 @@
 [
   {
-    "job_id": "97b74ea394b4",
-    "revision": "db54418a82aeeb6017d0d0897112fca656c9049c-9ad5aacfc94bf30c",
-    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/97b74ea394b4/source",
+    "job_id": "b0240f5853b8",
+    "revision": "ccff52f768e702de59233630e992866088f1d64f-1a1492e3fb5e47c0",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/b0240f5853b8/source",
     "command": [
       "test",
       "--suite",
@@ -10,33 +10,12 @@
       "--extended"
     ],
     "status": "running",
-    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/97b74ea394b4/job.log",
-    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/97b74ea394b4/result.json",
-    "pid": 1461643,
-    "observed_utc": "2026-10-06T10:31:08.089196+00:00",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/b0240f5853b8/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/b0240f5853b8/result.json",
+    "pid": 1903131,
+    "observed_utc": "2026-10-06T11:05:44.947614+00:00",
     "verified_live": true,
-    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile",
-    "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/tools/dev.py _worker 97b74ea394b4 test --suite all --extended ",
-    "proc_state": "State:\tS (sleeping)"
-  },
-  {
-    "job_id": "c2b6c894af84",
-    "revision": "b7154c6260dadcdaef3f4a58f445d09edd7d006d-d9abe7f21d2cd76f",
-    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/c2b6c894af84/source",
-    "command": [
-      "test",
-      "--suite",
-      "all",
-      "--extended"
-    ],
-    "status": "running",
-    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/c2b6c894af84/job.log",
-    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/c2b6c894af84/result.json",
-    "pid": 1592721,
-    "observed_utc": "2026-10-06T10:31:08.090172+00:00",
-    "verified_live": true,
-    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault",
-    "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/company-assault/tools/dev.py _worker c2b6c894af84 test --suite all --extended ",
+    "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/combined-assault/tools/dev.py _worker b0240f5853b8 test --suite all --extended ",
     "proc_state": "State:\tS (sleeping)"
   }
 ]
