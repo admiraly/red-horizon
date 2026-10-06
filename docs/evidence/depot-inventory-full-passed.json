@@ -1,0 +1,17 @@
+{
+  "job_id": "902e4f699f7a",
+  "exit_code": 0,
+  "revision": "03e2b2e8e61c3d53c2c30babace485034b704249-f06718573c8dd39a",
+  "seconds": 1384.3051596940059,
+  "status": "passed",
+  "log_path": "runs/jobs/902e4f699f7a/job.log",
+  "log_sha256": "8e6b842baf6fbe1813481deabc899001f9ad33976bc6698033cb2c075a0af5d4",
+  "explicit_pass_reports": 182,
+  "collected": true,
+  "scope": "Full existing suite on corrected depot inventory checkpoint, not complete specification or later infantry detours.",
+  "earlier_failures_remain_failed": [
+    "590455b4b201",
+    "412520d69630",
+    "1433fa199da8"
+  ]
+}

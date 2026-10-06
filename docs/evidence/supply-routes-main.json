@@ -1,0 +1,81 @@
+{
+  "main_revision": "43e2439129940cd57611c9b5a8a741b71056e4a1-a5675e2e443c6c49",
+  "authored_inputs_match_verified_worker": 387,
+  "reports": {
+    "main-build": {
+      "path": "docs/evidence/supply-routes-main-build.log",
+      "sha256": "1c99dea8fbaf0fbea254fb4f04d1f4c0a5c3faf752a5a01db58673619c3285e8",
+      "exit_code": 0,
+      "explicit_pass_reports": 0
+    },
+    "main-combat": {
+      "path": "docs/evidence/supply-routes-main-combat.log",
+      "sha256": "37cd9a1e240199642260991292a825e8b8fbaa1be7b5563185999fa6e64da4b5",
+      "exit_code": 0,
+      "explicit_pass_reports": 27
+    },
+    "main-client": {
+      "path": "docs/evidence/supply-routes-main-client.log",
+      "sha256": "b6fa3fd241d433e85aca77e59ad83db0c3d24fa23bb715b2ef5983a536f10fb2",
+      "exit_code": 0,
+      "explicit_pass_reports": 0
+    },
+    "main-coop": {
+      "path": "docs/evidence/supply-routes-main-coop.log",
+      "sha256": "e822954dce44b6b9b02a928b18205939b127e9af0774d3651dc59b1a6799bd7b",
+      "exit_code": 0,
+      "explicit_pass_reports": 0
+    },
+    "main-graphics": {
+      "path": "docs/evidence/supply-routes-main-graphics.log",
+      "sha256": "10d78af4e117eaa47ad516e1bcb6d4d3eb47e45a3a415e6da9ae1c0939b77e3b",
+      "exit_code": 0,
+      "explicit_pass_reports": 1
+    },
+    "main-udp": {
+      "path": "docs/evidence/supply-routes-main-udp.log",
+      "sha256": "aa789269856f49dac7415914318d1dd68fff7bdae652fcb3fc1a42fc8f0a49e4",
+      "exit_code": 0,
+      "explicit_pass_reports": 1
+    },
+    "main-coop-graphics": {
+      "path": "docs/evidence/supply-routes-main-coop-graphics.log",
+      "sha256": "de725a80ea5bfae08cf24c945f428e3be0ca64bd25493f0abc1fc62a5d606120",
+      "exit_code": 0,
+      "explicit_pass_reports": 1
+    }
+  },
+  "new_full_checkpoint": {
+    "job_id": "2f3064f06f08",
+    "revision": "43e2439129940cd57611c9b5a8a741b71056e4a1-a5675e2e443c6c49",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/2f3064f06f08/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/2f3064f06f08/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/2f3064f06f08/result.json",
+    "pid": 1241983
+  },
+  "previous_full_checkpoint": {
+    "job_id": "902e4f699f7a",
+    "exit_code": 0,
+    "revision": "03e2b2e8e61c3d53c2c30babace485034b704249-f06718573c8dd39a",
+    "seconds": 1384.3051596940059,
+    "status": "passed",
+    "log_path": "runs/jobs/902e4f699f7a/job.log",
+    "log_sha256": "8e6b842baf6fbe1813481deabc899001f9ad33976bc6698033cb2c075a0af5d4",
+    "explicit_pass_reports": 182,
+    "collected": true,
+    "scope": "Full existing suite on corrected depot inventory checkpoint, not complete specification or later infantry detours.",
+    "earlier_failures_remain_failed": [
+      "590455b4b201",
+      "412520d69630",
+      "1433fa199da8"
+    ]
+  },
+  "scope": "Main same-input core combat, linked client/co-op builds, real UDP and solo/co-op software GL checks. Full detour checkpoint is pending."
+}

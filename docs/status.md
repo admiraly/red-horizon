@@ -1,33 +1,41 @@
-Build dependency correction is integrated in03e2b2e at authored fingerprint
-f06718573c8dd39a; runtime unchanged from verified depot c42284b. Exact player.inc
-consumer sets now include the new report modules while preserving both direct
-and nested invalidation, single-module/shader isolation, source preservation,
-private fast-core and terminal job/error checks. Corrected tools checks PASS
-against copied frozen e02e872 sources (9 consumers) and current depot sources
-(11 consumers). Frozen inputs were not changed. Evidence:
-[evidence/supply-dependencies-recheck.json](evidence/supply-dependencies-recheck.json).
+Physical nearby infantry resupply detours are integrated in43e2439, authored
+fingerprinta5675e2e443c6c49; all387 authored inputs exactly match the verified
+worker. Low-stock moving infantry selects an allied healthy connected uncontested
+finite depot within600m, walks at actual role speed through a separate bounded
+corridor cache, receives only through the existing proximity/LOS debit and resumes
+the unchanged primary goal. Human hold/retreat/follow/defend and autonomous
+withdrawal are excluded; hazard movement retains precedence. No live pose/HP/
+clock/stock renewal. Protocol32/schema0x125478c2/content0xcfc42bc9.
 
-Corrected frozen full902e4f699f7a is RUNNING at03e2b2e-f06718573c8dd39a,
-PID1038625 confirmed live. Earlier depot full590455b4b201 FAILED and is collected
-at c42284b-eeab15cc132fdc7a: exit1 after861.607859s, stale exact tools assertion
-expected8 player.inc consumers versus correctly rebuilt11. Its failure remains
-recorded in evidence/depot-inventory-full-failed.json;03e2b2e corrects the fixture. Prior full1433fa199da8 and412520d69630 are failed/collected, unchanged.
-Current infantry detour candidate is undergoing foreground fast/network/scale
-and real graphics checks; its edits are not yet integrated.
+Sparse genuine1500-tick movement credits90 rounds at360, depot12000→11910,
+carried12→102, conserves total rounds and preserves primary command bytes.
+Actual command-root occupation cuts supply at600 and cancels the other journey
+with zero credit. Selector32 ABI calls, malformed/finite/radius/label gates,
+static200-query normal/supply cache isolation and read-only query268 ABI calls
+pass. Worker fast84 explicit pass reports, network22, unchanged8192/16384 replay/
+health-label symmetry, software GL two modes and exact12-consumer direct/nested
+build dependencies pass. Matching main27 combat reports, linked client/co-op,
+real8192 UDP and solo/co-op software graphics also pass. Exact source/binary
+contexts and limits: evidence/supply-routes-focused.json and supply-routes-main.json.
 
-Next gameplay work is isolated feature/infantry-supply-routes at
-/mnt/titan_nv3/projects/red-horizon-workers/infantry-supply-routes. Read-only
-carried-round query prerequisite passes268 ABI calls, independent initial and
-actual120-tick live-world queries, malformed-stock checks and focused combat24.
-The candidate now also implements a temporary detour/world hook, with sparse
-physical arrival/resumption/capture-cut checks passing. It is NOT integrated;
-remaining regressions are in progress. See that worktree's
-docs/supply-routes.md and evidence/supply-routes-query.json. Physical detours must
-preserve primary orders/hazard precedence and use a separate corridor namespace
-from existing16-ID squad routes, with actual finite debit only upon arrival.
-Full specification remains incomplete; no publication and license pending approval.
+Frozen full2f3064f06f08 is RUNNING at43e2439-a5675e2e443c6c49, PID1241983
+confirmed live. It is pending, not a pass. Corrected preceding depot full902e4f699f7a
+PASSED and is collected:03e2b2e-f06718573c8dd39a, exit0 in1384.305159s,
+182 explicit pass reports. Evidence: evidence/depot-inventory-full-passed.json.
+Earlier590455b4b201 FAILED/collected: exit1 in861.607859s, stale exact consumer
+assertion expected8 versus correctly rebuilt11;03e2b2e corrects it. Historical
+412520d69630 and1433fa199da8 remain failed/collected; no snapshots were changed.
+All foreground jobs are terminal and reconciled. Main and feature are committed.
 
-Current main integrates finite allied depot reports and tactical-map inventory
+Limitations: stateless nearby infantry detours, no hysteresis or route reachability
+preflight, no convoys/production/player/vehicle/air rearm, no actual UDP-specific
+detour journey oracle or new hardware-budget/human/art acceptance. Existing
+cover/wreck responses can delay travel. Next useful checks are causal detour
+hazard/terrain/UDP journeys, followed by further finite unit logistics and the
+remaining full-spec implementation. Persistent whole-game goal remains active;
+full specification is incomplete, no publication, licence pending owner approval.
+
+Previous depot inventory batch integrated finite allied depot reports and tactical-map inventory
 in c42284b at authored fingerprinteeab15cc132fdc7a; all381 authored files match
 verified feature. Matching main client/co-op/headless builds and11 scoped reports
 pass: company API1, depot producer/cache2, fast core1, real UDP2, solo1, co-op1,

@@ -1,0 +1,1 @@
+{"suite": "cooperative-world", "passed": true, "server": {"ticks": 180, "simulated": 8192, "bytes_in": 69284, "bytes_out": 1628016, "entity_records": 12352, "rejected": 13, "disconnects": 2, "distinct_client_entity_pairs": 10710, "nearby_interest": 5439, "unseen_interest": 0, "aircraft_records": 3240, "air_xz_refreshes_verified": 1179}}
