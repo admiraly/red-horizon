@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from hud_pixels import text_visible
 
 EXE = pathlib.Path(sys.argv[1]).resolve()
 X = C.CDLL(ctypes.util.find_library('X11'))
@@ -99,10 +100,13 @@ try:
             XT.XTestFakeButtonEvent(display, 1, int(down), 0); X.XFlush(display)
 
         spawn = player(); assert spawn['hp'] == 100 and spawn['connected'] == 1, spawn
+        until(lambda:text_visible(X,display,window,0,'COMPANY '),3)
+        until(lambda:text_visible(X,display,window,1,'COMPANY '),3)
         # Real solo GUI commands address one exclusive company, stay edge-triggered
         # while the key is held, and leave the autonomous front waypoint untouched.
         def u32(name,offset=0):return struct.unpack('<I',os.pread(memory,4,symbols[name]+offset))[0]
         company=u32('player_companies');assert company<1536
+        until(lambda:text_visible(X,display,window,0,'|',column=len(f'COMPANY {company} ')),3)
         control=symbols['company_controls']+company*32
         def company_record():return struct.unpack('<4I2f2I',os.pread(memory,32,control))
         def actor_rows():
@@ -148,7 +152,8 @@ try:
         tick_after=u32('sim_tick_count');funds_after=u32('sim_requisition')
         assert funds_after==funds_before+39*(tick_after//30-tick_before//30)-5
         assert player()['shots']==shots_before and os.pread(memory,24,symbols['sim_waypoints'])==waypoint_before
-        solo_company={'key':company,'held_safe_infantry':len(held_initial),'held_travel_m':held_travel,
+        until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED'),3)
+        solo_company={'framebuffer_company_and_accepted_text':True,'key':company,'held_safe_infantry':len(held_initial),'held_travel_m':held_travel,
                       'one_charge_per_key_press':True,'foreign_front_denied':True,
                       'autonomous_front_waypoints_preserved':True,'physical_advance':True,'tactical_click_one_charge':True,'tactical_point':[ordered[4],ordered[5]]}
         # Actual tactical pixels distinguish owned formation from allies on

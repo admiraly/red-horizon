@@ -14,8 +14,85 @@ layout(location=0) out vec4 outputColour;
 layout(location=1) out uint outputActorCode;
 float noise(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 float smoothNoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(noise(i),noise(i+vec2(1,0)),f.x),mix(noise(i+vec2(0,1)),noise(i+vec2(1)),f.x),f.y);}
+// Authored 5x7 command font, ASCII32..95; slot92 is pipe (normalized by NASM).
+const uvec2 commandFont[64]=uvec2[64](
+ uvec2(0u,0u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(2515893578u,2u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(1015808u,0u),
+ uvec2(134217728u,1u),
+ uvec2(1109533200u,0u),
+ uvec2(2738546222u,3u),
+ uvec2(2286031044u,3u),
+ uvec2(3292807726u,7u),
+ uvec2(3775349263u,3u),
+ uvec2(301246856u,2u),
+ uvec2(3775366207u,3u),
+ uvec2(2736227374u,3u),
+ uvec2(2216829471u,0u),
+ uvec2(2736211502u,3u),
+ uvec2(2702132782u,3u),
+ uvec2(138416256u,0u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(1663026734u,4u),
+ uvec2(3809986095u,3u),
+ uvec2(2182120510u,7u),
+ uvec2(3810051631u,3u),
+ uvec2(3256321087u,7u),
+ uvec2(1108837439u,0u),
+ uvec2(2736686142u,7u),
+ uvec2(1663026737u,4u),
+ uvec2(3359772831u,7u),
+ uvec2(2458132764u,1u),
+ uvec2(1381078321u,4u),
+ uvec2(3255862305u,7u),
+ uvec2(1662703473u,4u),
+ uvec2(1662834289u,4u),
+ uvec2(2736309806u,3u),
+ uvec2(1108854319u,0u),
+ uvec2(2472068654u,5u),
+ uvec2(1381484079u,4u),
+ uvec2(3775333438u,3u),
+ uvec2(138547359u,1u),
+ uvec2(2736309809u,3u),
+ uvec2(353945137u,1u),
+ uvec2(2874852913u,2u),
+ uvec2(1654794801u,4u),
+ uvec2(138553905u,1u),
+ uvec2(3257016863u,7u),
+ uvec2(4473390u,1u),
+ uvec2(138547332u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u),
+ uvec2(4473390u,1u));
 void main(){
  outputActorCode=0u;
+ if(materialMode==12){
+  ivec2 cell=ivec2(floor(effectUV*vec2(6,8)));
+  bool lit=false;
+  if(cell.x>=0&&cell.x<5&&cell.y>=0&&cell.y<7){
+   int bit=cell.y*5+cell.x;
+   uvec2 mask=commandFont[clamp(effectType-32,0,63)];
+   lit=((bit<32?mask.x:mask.y)>>uint(bit%32)&1u)!=0u;
+  }
+  outputColour=vec4(lit?vec3(.84,.94,.90):vec3(.035,.06,.075),1);
+  return;
+ }
  vec3 fogColour=mix(vec3(.49,.61,.68),vec3(.49,.53,.55),weather.y);
  if(materialMode==9){
   vec2 uv=effectUV;float elevation=clamp(uv.y*.5+.5+angle.y*.5,0.,1.);

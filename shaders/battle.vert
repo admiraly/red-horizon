@@ -12,6 +12,9 @@ uniform vec2 projection;
 uniform int terrain;
 uniform int tactical;
 uniform vec2 selectedGoal;
+uniform int commandGlyphs[128];
+uniform vec2 commandViewport;
+uniform vec2 commandOrigin;
 uniform vec4 incomingThreat; // active, bearing/pi, estimated ETA seconds, blast radius metres
 uniform vec4 playerHealth; // health, suppression, redeploy progress, damage flash
 uniform int localPlayer;
@@ -41,6 +44,14 @@ float terrainTileHeight(vec2 p){
 }
 void main(){
  effectAlpha=1.;effectUV=vec2(0);effectType=0;worldPosition=vec3(0);materialMode=terrain==11?1:terrain;
+ if(terrain==12){
+  int v=gl_VertexID%6;
+  vec2 uv=vec2((v==1||v==2||v==4)?1:0,(v==2||v==4||v==5)?1:0);
+  vec2 pixel=commandOrigin+vec2(float(gl_InstanceID)*12.,0)+uv*vec2(12,16);
+  gl_Position=vec4(pixel/commandViewport*vec2(2,-2)+vec2(-1,1),0,1);
+  effectUV=uv;effectType=commandGlyphs[gl_InstanceID];colour=vec3(1);distanceFog=0;
+  return;
+ }
  if(terrain==9){const vec2 sky[3]=vec2[3](vec2(-1,-1),vec2(3,-1),vec2(-1,3));effectUV=sky[gl_VertexID];gl_Position=vec4(effectUV,.99999,1);colour=vec3(1);distanceFog=0;return;}
  if(terrain==4){int v=gl_VertexID%6,bar=gl_VertexID/6;vec2 c=vec2((v==1||v==2||v==4)?1:-1,(v==2||v==4||v==5)?1:-1);vec2 size=bar==0?vec2(.015,.002):vec2(.0012,.026); gl_Position=vec4((selectedGoal-vec2(4000))/4300+c*size,0,1);colour=vec3(.65,1,.45);distanceFog=0;return;}
  if(terrain==2){

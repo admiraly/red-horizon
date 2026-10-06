@@ -551,6 +551,7 @@ def main():
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--timeout'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer-fault'])
+                execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer-hud'])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())
