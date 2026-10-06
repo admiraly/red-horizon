@@ -2,7 +2,8 @@
 """Verify incremental dependencies and frozen background jobs in an isolated repo."""
 import argparse,json,os,pathlib,shutil,subprocess,tempfile,time
 ROOT=pathlib.Path(__file__).resolve().parents[1]
-p=argparse.ArgumentParser();p.add_argument('--nasm',required=True);args=p.parse_args()
+p=argparse.ArgumentParser();p.add_argument('--nasm',required=True);p.add_argument('--source-root',type=pathlib.Path);args=p.parse_args()
+if args.source_root:ROOT=args.source_root.resolve()
 with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
     root=pathlib.Path(temp)
     for folder in ('tools','src','schemas','shaders','content','tests'):
@@ -38,11 +39,16 @@ with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
     include=root/'schemas/player.inc'
     nested=root/'schemas/test-nested.inc';nested.write_text('; nested fixture\n')
     include.write_text(include.read_text()+'\n%ifidn __OUTPUT_FORMAT__,elf64\n%include "schemas/test-nested.inc"\n%endif\n')
+    player_dependencies={'src/sim/scenarios.asm','src/sim/company_remote.asm','src/nav/crowd.asm','src/ai/company_control.asm','src/ai/company_transfer.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'}
+    # These report modules deliberately include player.inc. Preserve exact-set
+    # invalidation checks across historical frozen and current source fixtures.
+    for name in ('src/ai/company_supply.asm','src/ai/depot_supply.asm','src/sim/depot_supply_remote.asm'):
+        if (root/name).is_file():player_dependencies.add(name)
     player_build=json.loads(dev('build'))
-    assert set(player_build['assembled_sources'])=={'src/sim/scenarios.asm','src/sim/company_remote.asm','src/nav/crowd.asm','src/ai/company_control.asm','src/ai/company_transfer.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'},player_build
+    assert set(player_build['assembled_sources'])==player_dependencies,player_build
     nested.write_text('; nested fixture changed\n')
     player_build=json.loads(dev('build'))
-    assert set(player_build['assembled_sources'])=={'src/sim/scenarios.asm','src/sim/company_remote.asm','src/nav/crowd.asm','src/ai/company_control.asm','src/ai/company_transfer.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'},player_build
+    assert set(player_build['assembled_sources'])==player_dependencies,player_build
     client_build=json.loads(dev('build','--target','client','--objects-only'))
     assert set(client_build['assembled_sources'])=={'src/platform/linux/client.asm','src/net/client.asm','src/render/effects.asm','src/render/meshes.asm','src/audio/emitters.asm','src/render/air_trails.asm','src/audio/footsteps.asm','src/render/hazard_warning.asm'},client_build
     inputs={str(p.relative_to(root)):p.read_bytes() for folder in ('src','shaders','schemas') for p in (root/folder).rglob('*') if p.is_file()}

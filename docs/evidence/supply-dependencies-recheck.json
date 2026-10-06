@@ -1,0 +1,59 @@
+{
+  "scope": "Development exact include-dependency checks; no runtime/game changes.",
+  "frozen_source": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/source",
+  "logs": {
+    "frozen": {
+      "path": "docs/evidence/supply-dependencies-frozen-tools.log",
+      "sha256": "973e365dfdb3b784c06eb536e334d39227ed348a157cb1b8254304137be57223",
+      "reports": [
+        {
+          "suite": "tools",
+          "passed": true,
+          "checks": [
+            "cold/incremental",
+            "single module invalidation",
+            "shader isolation",
+            "transitive includes",
+            "source preservation",
+            "failed build preserves previous objects",
+            "fast real-core suite",
+            "immutable background source",
+            "revision identity",
+            "failed assembly reported",
+            "job collection",
+            "terminal missing-NASM worker setup"
+          ]
+        }
+      ]
+    },
+    "current": {
+      "path": "docs/evidence/supply-dependencies-current-tools.log",
+      "sha256": "ea1d47ce8078acbd19d81075b6ddc51bdad1f8c56db1cb89708c68396b2d62ab",
+      "reports": [
+        {
+          "suite": "tools",
+          "passed": true,
+          "checks": [
+            "cold/incremental",
+            "single module invalidation",
+            "shader isolation",
+            "transitive includes",
+            "source preservation",
+            "failed build preserves previous objects",
+            "fast real-core suite",
+            "immutable background source",
+            "revision identity",
+            "failed assembly reported",
+            "job collection",
+            "terminal missing-NASM worker setup"
+          ]
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Existing failed frozen full checkpoints stay failed.",
+    "Frozen source copied into a private fixture; no frozen input mutation.",
+    "Exact dependency sets, full fast core, isolation and terminal background setup/error behavior; not Windows/hardware/art acceptance."
+  ]
+}
