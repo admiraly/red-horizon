@@ -1,0 +1,283 @@
+{
+  "exit_code": 0,
+  "source_epoch": "8e3527bd30f5ef8cc735bdc6366d40441d0960ad-769725a07f8fd860",
+  "log_sha256": "3e6c22beed50e4b9355d0f521a44e1d74190940fe65d24a3a8e4365fd451fa0d",
+  "reports": [
+    {
+      "terrain_roads": 19,
+      "checked": true
+    },
+    {
+      "terrain_relief_fields": 1,
+      "checked": true
+    },
+    {
+      "terrain_grade_facets": 9,
+      "checked": true
+    },
+    {
+      "terrain_world_checked": true,
+      "patch": {
+        "x": [
+          5375,
+          5875
+        ],
+        "z": [
+          4750,
+          5625
+        ],
+        "spacing": 5,
+        "max_height_error": 0.027,
+        "route_margin": 6,
+        "node_limit": 27
+      },
+      "interior_height_bound": 0.025009375,
+      "seam_correction_bound": 0.0009765625,
+      "roundoff_allowance": 0.0001
+    },
+    {
+      "ground_content": "0x2ee63137",
+      "canonical_sha256": "2ee63137837a863bb4b845d63a60ee2a286a858f1e0202bfd577b0379d6df25a",
+      "checked": true
+    },
+    {
+      "suite": "physical-human-blast-four-endpoint-UDP",
+      "passed": true,
+      "units": 8192,
+      "endpoints": 4,
+      "startup_fixture_tick": 5,
+      "production_adapter_owner": 0,
+      "native_and_wire_real_death": true,
+      "dead_own_stock_explicit_unknown": true,
+      "genuine_new_body30_plus90": true,
+      "same_tick_exact_public_body_comparisons": 136,
+      "finite_shells_before_after": [
+        64,
+        60
+      ],
+      "real_hostile_impacts": [
+        [
+          2000.024169921875,
+          18.015295028686523,
+          3904.003662109375,
+          3,
+          1,
+          80,
+          18.0,
+          1148
+        ],
+        [
+          2000.024169921875,
+          18.015295028686523,
+          3904.003662109375,
+          3,
+          1,
+          110,
+          18.0,
+          1475
+        ]
+      ],
+      "samples": [
+        [
+          8,
+          100,
+          30,
+          0,
+          0,
+          0,
+          90,
+          1
+        ],
+        [
+          80,
+          20,
+          30,
+          0,
+          0,
+          0,
+          90,
+          1
+        ],
+        [
+          110,
+          0,
+          30,
+          0,
+          0,
+          29,
+          90,
+          1
+        ],
+        [
+          111,
+          0,
+          30,
+          0,
+          0,
+          28,
+          90,
+          1
+        ],
+        [
+          112,
+          0,
+          30,
+          0,
+          0,
+          27,
+          90,
+          1
+        ],
+        [
+          116,
+          0,
+          30,
+          0,
+          0,
+          23,
+          90,
+          1
+        ],
+        [
+          117,
+          0,
+          30,
+          0,
+          0,
+          22,
+          90,
+          1
+        ],
+        [
+          118,
+          0,
+          30,
+          0,
+          0,
+          21,
+          90,
+          1
+        ],
+        [
+          122,
+          0,
+          30,
+          0,
+          0,
+          17,
+          90,
+          1
+        ],
+        [
+          123,
+          0,
+          30,
+          0,
+          0,
+          16,
+          90,
+          1
+        ],
+        [
+          124,
+          0,
+          30,
+          0,
+          0,
+          15,
+          90,
+          1
+        ],
+        [
+          128,
+          0,
+          30,
+          0,
+          0,
+          11,
+          90,
+          1
+        ],
+        [
+          129,
+          0,
+          30,
+          0,
+          0,
+          10,
+          90,
+          1
+        ],
+        [
+          130,
+          0,
+          30,
+          0,
+          0,
+          9,
+          90,
+          1
+        ],
+        [
+          134,
+          0,
+          30,
+          0,
+          0,
+          5,
+          90,
+          1
+        ],
+        [
+          135,
+          0,
+          30,
+          0,
+          0,
+          4,
+          90,
+          1
+        ],
+        [
+          136,
+          0,
+          30,
+          0,
+          0,
+          3,
+          90,
+          1
+        ],
+        [
+          140,
+          100,
+          30,
+          0,
+          0,
+          0,
+          90,
+          2
+        ]
+      ],
+      "stable_read_retries": 621,
+      "server_sha256": "829526181b1c89d9e9927b0a155256098e63e11b07ccd52fbab05bfdd53de34a",
+      "adapter_sha256": "0800b885385c42d4ef65a949f4e3098af6020dbe31c2b40177b6f94f4daffd30",
+      "limits": [
+        "One startup pose/order fixture, retaining original8192 army HP/kind/generation/finite stores. Read-only and unfrozen afterward.",
+        "Production state/own report transport verified; dedicated rendered multiplayer blast pixel and bomber UDP traces separate."
+      ]
+    },
+    {
+      "target": "coop",
+      "revision": "8e3527bd30f5ef8cc735bdc6366d40441d0960ad-769725a07f8fd860",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.4596714210056234,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/8e3527bd30f5ef8cc735bdc6366d40441d0960ad-769725a07f8fd860/red-horizon-coop-server"
+    }
+  ],
+  "all410_common_authored_inputs_equal_worker": true,
+  "authored_inputs_compared": 410
+}

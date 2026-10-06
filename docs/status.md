@@ -1,3 +1,19 @@
+Dedicated physical human-blast UDP proof is integrated in8e3527b as a later
+development-only regression. Actual8192/four endpoints, production adapter0:
+finite shells64→60, real impacts80/110, human100→20→0; authority/UDP dead body
+and explicit zero/unknown own-stock report observed. Genuine generation2
+redeploys100HP/30mag/90reserve at140.137 worker and136 matching-main exact
+same-native-tick public body comparisons pass. One startup pose/order fixture
+preserves all army HP/kind/generation/stocks; read-only, unfrozen afterward.
+Matching-main checks exit0; all410 common authored inputs match worker. Exact
+separate binaries/reports and failed wrong-headless invocation retained in
+ evidence/player-blast-UDP.json and evidence/player-blast-main-UDP.json.
+Registered in network suite; the frozen full5c24e859ca9b predates this later
+registration and remains running at its documented300a1a3812f46c76 epoch.
+CPU runtime unchanged by this regression. Dedicated multiplayer rendered blast
+pixel and bomber UDP traces remain separate. Foreground checks collected;
+full3ed19c6f8298 and5c24e859ca9b tracked as RUNNING, never claimed passed.
+
 Physical human blast damage is integrated in7365608 (runtime/helper contracts
 in53e2475 and950e4ea), source epoch 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76.
 Hostile tank shells, artillery shells and bomber bombs now affect human players
@@ -40,7 +56,7 @@ Frozen full5c24e859ca9b RUNNING at 7365608ee3e87580fcdba9682be58fdfc39915de-300a
 PID2000914; evidence/player-blast-full-pending.json. Earlier full
 3ed19c6f8298 remains running at its distinct v34 epoch;06b65992aceb remains
 FAILED despite successful focused corrected-observer rechecks. Full checkpoint,
-dedicated multiplayer blast pixel/transport evidence, complete human capsule,
+dedicated multiplayer blast pixel evidence, complete human capsule,
 fighter-human contact/target designation, shared infantry shot scheduling,
 vehicle/air rearm, hardware quality/performance and full specification remain.
 Whole-game goal active; licence pending owner approval, no remote publication.
