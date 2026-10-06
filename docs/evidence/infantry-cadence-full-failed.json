@@ -1,0 +1,25 @@
+{
+  "job_id": "6c0e578a78f7",
+  "exit_code": 1,
+  "revision": "86a85731eb1f9cc3e51b21d28136277a399cb8a6-1c87bd9c49b149b5",
+  "seconds": 486.7796244839992,
+  "status": "failed",
+  "metadata": {
+    "job_id": "6c0e578a78f7",
+    "revision": "86a85731eb1f9cc3e51b21d28136277a399cb8a6-1c87bd9c49b149b5",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6c0e578a78f7/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6c0e578a78f7/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6c0e578a78f7/result.json",
+    "pid": 2138286
+  },
+  "collected": true,
+  "log_sha256": "f7cad784b81933eb7647a8602b624c53cfd45ffef508bf532e493156987cdf53",
+  "failure": "Same legacy dense controller-oracle genuine new-body deployment classified as movement; snapshot predates the verified ba9e027 lifecycle correction."
+}

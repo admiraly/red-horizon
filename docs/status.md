@@ -1,7 +1,14 @@
+Frozen cadence full6c0e578a78f7 FAILED/collected at
+86a8573-1c87bd9c49b149b5,exit1,486.779624s. Its immutable source predates
+ba9e027 and hit the same legacy genuine birth-as-movement oracle error already
+corrected/verified below. No runtime defect inferred or full pass claimed.
+Current corrected full4c0ad8c85882 remains live atba9e027-43bee270c6526ea5.
+Exact immutable result/log: evidence/infantry-cadence-full-failed.json.
+
 Current corrected frozen full4c0ad8c85882 RUNNING,
 ba9e027fdce46b0709b8967c67e59d694fdcc91e-43bee270c6526ea5,PID2158264.
 Metadata: evidence/cadence-lifecycle-full-pending.json. Separate6c0e578a78f7
-remains live at its pre-lifecycle-observer epoch; neither is claimed passed.
+FAILED/collected at its pre-lifecycle-observer epoch; neither is claimed passed.
 All foreground checks collected; whole-game goal remains active/incomplete.
 
 Controller lifecycle correction passes on the exact failed v35 core in legacy
@@ -20,7 +27,7 @@ redeployment. Focused lifecycle correction now verifies actual death→generatio
 100HP/30ammo/respawn0 and full living-ground/current-controller spawn clearance;
 every same-body speed/input/sweep bound and original8192/16384/60tick counts
 remain. Rechecks running; no corrected pass inferred. Frozen cadence
-full6c0e578a78f7 remains running at its immutable earlier observer epoch.
+full6c0e578a78f7 FAILED/collected at its immutable earlier observer epoch.
 Exact failed epoch/log: evidence/blast-corrected-full-failed.json.
 
 Shared actual infantry firing cadence is integrated in86a8573; runtime contracts
@@ -62,7 +69,7 @@ host CPU experiment, not sustained/hardware graphics or per-actor label-health
 proof. Exact reports: evidence/infantry-cadence-benchmark.json.
 
 Matching-main focused player checks exit0; all168 runtime inputs equal the
-verified worker. Exact evidence/infantry-cadence-main-player.json. Frozen full6c0e578a78f7 RUNNING,
+verified worker. Exact evidence/infantry-cadence-main-player.json. Frozen full6c0e578a78f7 FAILED/collected,
 86a85731eb1f9cc3e51b21d28136277a399cb8a6-1c87bd9c49b149b5,PID2138286; metadata
  evidence/infantry-cadence-full-pending.json. Previous corrected blast
 fulld8f5c5b64ed3 FAILED/collected at its earlier epoch. Failed3ed19c6f8298 and
