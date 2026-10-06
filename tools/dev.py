@@ -509,6 +509,7 @@ def main():
             execute([sys.executable,'tests/test_infantry_ammunition_network.py',str(server),str(library),'--resupply-encounter'])
             execute([sys.executable,'tests/test_supply_route_network.py',str(server)])
             execute([sys.executable,'tests/test_player_ammunition_network.py',str(server),str(library)])
+            execute([sys.executable,'tests/test_player_blast_network.py',str(server),str(library)])
             execute([sys.executable,'tests/test_player_ammunition_udp_faults.py',str(library)])
             if (ROOT/'tests/test_coop_movement.py').exists():execute([sys.executable,'tests/test_coop_movement.py',str(server),str(library)])
             if (ROOT/'tests/test_net_projectiles.py').exists():execute([sys.executable,'tests/test_net_projectiles.py',str(library),str(server)])
