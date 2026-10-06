@@ -32,4 +32,8 @@
 %define BODY_INF_RADIUS 0.55
 %define BODY_TANK_RADIUS 3.55
 %define BODY_ARTY_RADIUS 4.49
+; Shared exact inflated sweep/grade radii; nominal road-contact radii stay above.
+%define BODY_INF_SWEEP_RADIUS 0.551
+%define BODY_TANK_SWEEP_RADIUS 3.551
+%define BODY_ARTY_SWEEP_RADIUS 4.491
 %endif
