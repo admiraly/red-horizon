@@ -56,8 +56,17 @@ try:
     X.XFree(C.cast(name,D))
   if children:X.XFree(children)
   assert window
-  def capture(label):
-   frame=u32('frame_count');os.kill(process.pid,signal.SIGCONT);until(lambda:u32('frame_count')>=frame+5);stop()
+  def capture(label,source_record=None,instances=0,instance_bytes=None):
+   deadline=time.monotonic()+15
+   while True:
+    os.kill(process.pid,signal.SIGCONT)
+    if network and source_record is not None:
+     until(lambda:get('net_wrecks',64)==source_record)
+    frame=u32('frame_count');until(lambda:u32('frame_count')>=frame+5);stop()
+    # SIGSTOP can land after mesh counters reset inside the next draw. Only
+    # inspect a stopped state with the required completed fixture telemetry.
+    if u32('mesh_wreck_instances')==instances and (instance_bytes is None or get('mesh_wreck_pose',64)==instance_bytes):break
+    assert time.monotonic()<deadline,'completed wreck draw telemetry timeout'
    image=X.XGetImage(display,window,0,0,640,360,W(-1).value,2);assert image;pixels=bytearray()
    for y in range(360):
     for x in range(640):
@@ -73,15 +82,16 @@ try:
     put('sim_players',struct.pack('<5f',5750,fields[1]+8,5200-distance,0,-.05));put('yaw',struct.pack('<f',0));put('pitch',struct.pack('<f',-.05));put('tactical',struct.pack('<I',tactical));put('sim_count',struct.pack('<I',1 if network else 0))
     if network:
      # Source-clock tombstone removes prior fixture, then a new immutable slot.
+     background_record=None
      if sequence:
-      clock+=1800;old=bytearray(last_record);struct.pack_into('<I',old,52,fields_flags&2);send(struct.pack('<I',0)+old,clock)
+      clock+=1800;old=bytearray(last_record);struct.pack_into('<I',old,52,fields_flags&2);send(struct.pack('<I',0)+old,clock);background_record=bytes(old)
     else:put('sim_wrecks',bytes(65536));put('sim_wreck_count',struct.pack('<I',0))
-    background,_,_=capture(f'{role}-{mode}-background');before_counts=tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'));assert u32('mesh_wreck_instances')==0
+    background,_,_=capture(f'{role}-{mode}-background',background_record if network else None);before_counts=tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'));assert u32('mesh_wreck_instances')==0
     sequence+=1;record=bytearray(record);struct.pack_into('<III',record,40,clock,(clock+1800)&0xffffffff,sequence);record=bytes(record);last_record=record;fields_flags=struct.unpack_from('<I',record,52)[0]
     if network:send(struct.pack('<I',0)+record,clock)
     else:put('sim_wrecks',record);put('sim_wreck_count',struct.pack('<I',1))
-    pixels,path,pose=capture(f'{role}-{mode}')
     expected=struct.pack('<16f',fields[0],fields[1],fields[2],fields[3],0,0,0,fields[4],1,1,1,fields[5],-1,3,role,1)
+    pixels,path,pose=capture(f'{role}-{mode}',record if network else None,0 if mode=='far' else 1,None if mode=='far' else expected)
     assert u32('mesh_wreck_instances')==(0 if mode=='far' else 1),(role,mode,u32('net_connected'),u32('net_wreck_count'),get('camera',12),pose)
     if mode!='far':assert struct.pack('<16f',*pose)==expected,(role,mode,pose)
     source='net_wrecks' if network else 'sim_wrecks';assert get(source,64)==record,'renderer changed death pose'
@@ -90,7 +100,7 @@ try:
     if mode in ('near','mid'):assert changed>(25 if mode=='near' else 0),(role,mode,changed)
     rows.append({'role':role,'mode':mode,'changed_pixels':changed,'wreck_instances':u32('mesh_wreck_instances'),'screenshot':path})
     assert ticks==u32('local_sim_ticks'),'stopped-clock render ticked gameplay'
-  print(json.dumps({'suite':'wreck-client-draw','passed':True,'network_transport':network,'client_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest(),'cases':rows,'immutable_death_pose':True,'living_instance_counts_unchanged':True,'scope':'Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets.'}))
+  print(json.dumps({'suite':'wreck-client-draw','passed':True,'network_transport':network,'client_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest(),'cases':rows,'received_record_then_completed_draw_observed':True,'immutable_death_pose':True,'living_instance_counts_unchanged':True,'scope':'Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets.'}))
 
 finally:
  if relay:relay.close()
