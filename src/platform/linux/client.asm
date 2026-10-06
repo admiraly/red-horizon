@@ -30,6 +30,7 @@ extern net_connected,net_player_id,net_front,net_server_tick,net_last_status,net
 extern terrain_height,terrain_obstacles,terrain_obstacle_count
 extern world_body_step_context,net_wrecks,net_wreck_count,net_wreck_query_revision
 extern battle_vertex_source,battle_fragment_source
+extern command_hud_init,command_hud_begin,command_hud_draw
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
 extern glfwWindowShouldClose,glfwGetKey,glfwGetMouseButton,glfwGetCursorPos
@@ -44,6 +45,8 @@ extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArr
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
+command_panel_fmt: db 'COMPANY %d | FRONT %u | 1 ADVANCE 2 HOLD 3 RETREAT | TAB MAP',0
+command_panel_lost: db 'CO-OP CONNECTION LOST - COMPANY COMMANDS UNAVAILABLE',0
 title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3 advance/hold/retreat | ESC quit',0
 weather_opt: db '--weather',0
 weather_suffix: db '%s | WEATHER %s (F4 cycle)',0
@@ -166,6 +169,7 @@ mouse_seed: dd 3
 server_port: dd 7777
 command_message: dq net_ready_text
 section .bss
+command_panel: resb 160
 quit_latched: resd 1
 window: resq 1
 program: resd 1
@@ -670,6 +674,10 @@ main:
  call meshes_init
  test eax,eax
  jnz .destroyfail
+ mov edi,[program]
+ call command_hud_init
+ test eax,eax
+ jnz .destroyfail
  cmp dword [census_requested],0
  je .nocensusinit
  call visibility_init
@@ -1020,6 +1028,7 @@ main:
  mov edx,12
  call glDrawArrays
 .restoredepth:
+ call command_panel_draw
  mov edi,0xb71
  call glEnable
 .nohud:
@@ -1744,6 +1753,51 @@ poll_network:
  jmp .scan
 .done:
  mov [known_entities],edx
+ pop rbx
+ ret
+
+; Display current validated company identity and existing command feedback.
+command_panel_draw:
+ push rbx
+ call command_hud_begin
+ cmp dword [network_mode],0
+ jne .remote
+ mov edi,[local_player]
+ call company_for_player
+ jmp .format
+.remote:
+ cmp dword [net_connected],1
+ jne .lost
+ mov edi,[local_player]
+ call net_company_for_player
+.format:
+ lea rdi,[command_panel]
+ mov esi,160
+ lea rdx,[command_panel_fmt]
+ mov ecx,eax
+ mov r8d,[selected_front]
+ xor eax,eax
+ call snprintf
+ lea rbx,[command_panel]
+ jmp .draw
+.lost:
+ lea rbx,[command_panel_lost]
+.draw:
+ mov edi,[terrain_loc]
+ mov esi,12
+ call glUniform1i
+ mov rdi,rbx
+ xor esi,esi
+ call command_hud_draw
+ mov rdi,[command_message]
+ mov esi,1
+ call command_hud_draw
+ cmp dword [network_mode],0
+ je .done
+ lea rdi,[transfer_info]
+ mov esi,2
+ call command_hud_draw
+.done:
  pop rbx
  ret
 

@@ -16,6 +16,7 @@ import subprocess
 import sys
 import tempfile
 import time
+from hud_pixels import text_visible
 
 CLIENT, SERVER = (pathlib.Path(arg).resolve() for arg in sys.argv[1:3])
 D, W = C.c_void_p, C.c_ulong
@@ -228,7 +229,7 @@ try:
                               'accepted_waypoints_preserved':True,'local_simulation_ticks':0,
                               'limits':['Software GL, actual two-client UDP; no hardware GPU quality/performance acceptance.']}))
             raise SystemExit(0)
-        if '--transfer' in sys.argv or '--transfer-fault' in sys.argv:
+        if '--transfer' in sys.argv or '--transfer-fault' in sys.argv or '--transfer-hud' in sys.argv:
             original_keys=[remote_company(i,i)[1]for i in range(2)]
             key(0,ord('2'));until(lambda:read_u32(clients[0]['memory'],client_symbols,'waypoint_orders')==1)
             key(1,ord('1'));until(lambda:read_u32(clients[1]['memory'],client_symbols,'waypoint_orders')==1)
@@ -236,14 +237,22 @@ try:
             queued_behind_movement=False
             if relays:
                 focus(0)
+                # Flush the preceding75ms ACKs, then hold a real movement
+                # roundtrip long enough to observe queuing independent of FPS.
+                relays[0].latency_ms=500
+                time.sleep(.5)
                 until(lambda:read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,2)
                 code=X.XKeysymToKeycode(display,0xffc3)
                 XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)
-                until(lambda:read_u32(clients[0]['memory'],client_symbols,'transfer_pending')==1 and read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,1)
+                try:
+                    until(lambda:read_u32(clients[0]['memory'],client_symbols,'transfer_pending')==1 and read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,1)
+                finally:relays[0].latency_ms=75
                 queued_behind_movement=True
                 time.sleep(.7);XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display);time.sleep(.1)
             else:key(0,0xffc3,.7) # F6 requests P1, held key is one request.
             until(lambda:'P0 OFFERS COMPANY EXCHANGE' in title(clients[1]['window']))
+            if '--transfer-hud' in sys.argv:
+                focus(1);until(lambda:text_visible(X,display,clients[1]['window'],2,'P0 OFFERS COMPANY EXCHANGE'),3)
             proposal=struct.unpack('<12I',os.pread(host_memory,48,server_symbols['company_transfers']))
             assert proposal[0:4]==(1,1,*original_keys) and proposal[9]==1,proposal
             assert [remote_company(i,i)[1]for i in range(2)]==original_keys
@@ -256,6 +265,8 @@ try:
             assert [p['front']for p in after_players]==[1,0]
             assert all(os.pread(host_memory,24,server_symbols['company_controls']+k*32+8)==intent for k,intent in zip(original_keys,intents))
             until(lambda:'COMPANY EXCHANGE ACCEPTED' in title(clients[1]['window']))
+            if '--transfer-hud' in sys.argv:
+                focus(1);until(lambda:text_visible(X,display,clients[1]['window'],1,'COMPANY EXCHANGE ACCEPTED'),3)
             assert all(f'CO-OP P{i} OWN FRONT {1-i}' in title(clients[i]['window'])for i in range(2))
             # Inspection remains permitted, but commands require the exchanged front.
             key(0,0xffbe);key(0,ord('2'))
@@ -267,7 +278,7 @@ try:
             for index in (1,0):
                 key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
                 assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
-            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual window-title feedback and F5-F11 default keys; full contextual wheel/remapping/fullscreen text presentation remains separate.']}))
+            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'queue_observation_one_way_delay_ms':500 if relays else None,'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'framebuffer_offer_and_acceptance':('--transfer-hud' in sys.argv),'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual framebuffer offer and acceptance text verified.' if '--transfer-hud' in sys.argv else 'Actual window-title feedback and default F5-F11 keys verified.','Contextual wheel, remapping and human readability review remain separate.']}))
             raise SystemExit(0)
         if '--timeout' in sys.argv:
             host.terminate();host.communicate(timeout=5)
@@ -277,9 +288,10 @@ try:
             until(lambda:all(read_u32(c['memory'],client_symbols,'view_company')==0xffffffff for c in clients),2)
             assert all(read_u32(c['memory'],client_symbols,'net_company_valid')==0 and read_u32(c['memory'],client_symbols,'local_sim_ticks')==0 for c in clients)
             for index in (1,0):
+                focus(index);until(lambda:text_visible(X,display,clients[index]['window'],0,'CO-OP CONNECTION LOST'),3)
                 key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
                 assert clients[index]['process'].returncode==0,(stdout,stderr)
-            print(json.dumps({'suite':'graphical-company-timeout','passed':True,'company_marker_pixels_before_timeout':company_pixels,'both_remote_leases_hidden':True,'remote_validity_reset':True,'no_solo_lease_fallback':True,'local_simulation_ticks':0}))
+            print(json.dumps({'suite':'graphical-company-timeout','passed':True,'company_marker_pixels_before_timeout':company_pixels,'both_remote_leases_hidden':True,'framebuffer_connection_lost_text':True,'remote_validity_reset':True,'no_solo_lease_fallback':True,'local_simulation_ticks':0}))
             raise SystemExit(0)
         # Both graphical clients receive separate real player records and scopes.
         assert all(read_u32(c['memory'],client_symbols,'net_player_id')==i for i,c in enumerate(clients))

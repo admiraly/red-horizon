@@ -1,0 +1,169 @@
+{
+  "passed": true,
+  "graphics_reports": 31,
+  "graphics_suites": [
+    "battle-metrics",
+    "visibility_reduce",
+    "visibility_framebuffer",
+    "graphics",
+    "wreck-instance-kernel-shader",
+    "hazard-warning-actual-gl",
+    "census_cli",
+    "view-projection-actual-gl",
+    "dense-client",
+    "visibility-actual-gl",
+    "rendered-aircraft",
+    "rendered-ground-heading",
+    "canonical-road-material-gl",
+    "terrain-relief-geometry-gl",
+    "ground-support-actual-gl",
+    "ground-support-client",
+    "wreck-client-draw",
+    "wreck-client-draw",
+    "ground-eye-client",
+    "client-environment",
+    "animated-source-meshes",
+    "rendered-shell-lifecycle",
+    "rendered-tracer",
+    "authoritative-client-gameplay",
+    "actual-solo-company-command",
+    "actual-client-quit-event",
+    "graphical-coop",
+    "graphical-company-timeout",
+    "graphical-consented-company-transfer",
+    "graphical-consented-company-transfer",
+    "graphical-consented-company-transfer"
+  ],
+  "consent_and_timeout_reports": [
+    {
+      "suite": "graphical-company-timeout",
+      "passed": true,
+      "company_marker_pixels_before_timeout": [
+        {
+          "player": 0,
+          "company": 19,
+          "owned_green_pixels": 8,
+          "foreign_allied_blue_pixels": 44
+        },
+        {
+          "player": 1,
+          "company": 285,
+          "owned_green_pixels": 8,
+          "foreign_allied_blue_pixels": 44
+        }
+      ],
+      "both_remote_leases_hidden": true,
+      "framebuffer_connection_lost_text": true,
+      "remote_validity_reset": true,
+      "no_solo_lease_fallback": true,
+      "local_simulation_ticks": 0
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "before_keys": [
+        19,
+        276
+      ],
+      "after_keys": [
+        276,
+        19
+      ],
+      "held_proposal_key_one_request": true,
+      "queued_behind_inflight_movement": true,
+      "queue_observation_one_way_delay_ms": 500,
+      "fault_relays": [
+        {
+          "latency_ms": 75,
+          "received": 714,
+          "dropped": 35,
+          "reordered": 97
+        },
+        {
+          "latency_ms": 75,
+          "received": 661,
+          "dropped": 33,
+          "reordered": 90
+        }
+      ],
+      "visible_recipient_offer_and_acceptance": true,
+      "framebuffer_offer_and_acceptance": false,
+      "body_generation_and_positions_preserved": true,
+      "fronts_and_ownership_highlights_updated": true,
+      "company_intents_preserved": true,
+      "old_front_denied_new_front_accepted": true,
+      "local_simulation_ticks": 0,
+      "limits": [
+        "Actual window-title feedback and default F5-F11 keys verified.",
+        "Contextual wheel, remapping and human readability review remain separate."
+      ]
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "before_keys": [
+        19,
+        285
+      ],
+      "after_keys": [
+        285,
+        19
+      ],
+      "held_proposal_key_one_request": true,
+      "queued_behind_inflight_movement": false,
+      "queue_observation_one_way_delay_ms": null,
+      "fault_relays": [],
+      "visible_recipient_offer_and_acceptance": true,
+      "framebuffer_offer_and_acceptance": true,
+      "body_generation_and_positions_preserved": true,
+      "fronts_and_ownership_highlights_updated": true,
+      "company_intents_preserved": true,
+      "old_front_denied_new_front_accepted": true,
+      "local_simulation_ticks": 0,
+      "limits": [
+        "Actual framebuffer offer and acceptance text verified.",
+        "Contextual wheel, remapping and human readability review remain separate."
+      ]
+    }
+  ],
+  "tool_reports": [
+    {
+      "suite": "dense_driver",
+      "passed": true,
+      "cases": 16,
+      "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"
+    },
+    {
+      "suite": "tools",
+      "passed": true,
+      "checks": [
+        "cold/incremental",
+        "single module invalidation",
+        "shader isolation",
+        "transitive includes",
+        "source preservation",
+        "failed build preserves previous objects",
+        "fast real-core suite",
+        "immutable background source",
+        "revision identity",
+        "failed assembly reported",
+        "job collection",
+        "terminal missing-NASM worker setup"
+      ]
+    }
+  ],
+  "client_build": {
+    "target": "client",
+    "revision": "7a54781f44c989cee68edf2df82a1dda248c86f3-2967addaa964c956",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.339063088002149,
+    "executable": "/mnt/titan_nv3/projects/red-horizon-workers/command-hud/build/revisions/7a54781f44c989cee68edf2df82a1dda248c86f3-2967addaa964c956/red-horizon"
+  },
+  "client_sha256": "8eafd439838fb942b34254f2faa8b896af79a2cd7aae70cb7d9010896082381c",
+  "scope": [
+    "HUD NASM + OpenGL; focused shader compile/link, original graphics/census/dense/UDP tests",
+    "The final pixel oracle additions do not change executable bytes; matching main merged runtime is verified separately."
+  ],
+  "corrected_failure": "Original fault fixture raced a naturally arriving ACK before the next frame. Relay now temporarily adds500ms one-way delay for queue observation, restores75ms baseline, retaining loss, jitter, reorder and real transport. No runtime/state/clock rewrites."
+}
