@@ -1,0 +1,51 @@
+{
+  "candidate_revision": "646ea71e98ed7412a77d122e262126249b41d94f-1d1c6916dffe4340",
+  "full_checkpoint": {
+    "job_id": "86ca2085d678",
+    "status": "passed",
+    "seconds": 540.5882697140041,
+    "recorded_reports": 84,
+    "authored_inputs": 183,
+    "current_source_mismatches": []
+  },
+  "root_jobs": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "running": 0,
+    "all_collected": true
+  },
+  "software_client_session": {
+    "exec_session_id": 18759,
+    "exit_code": 0,
+    "result": "docs/evidence/ground-support-software-budget.json",
+    "coverage": "Software GL live hotspot, not hardware acceptance or isolated overhead"
+  },
+  "workers": "docs/evidence/ground-support-workers.json",
+  "content_fingerprint": "0x0fb51f27",
+  "content_sha256": "0fb51f27537bbf5bc2ca6ca0c3a7ceb6404a74c2bc37689c43ccbff278a0cf2e",
+  "negative_evidence": {
+    "upright_actual_gl_faults": 24,
+    "kernel_actual_assembled_faults": 3,
+    "support_policy_stale_fingerprint": "docs/evidence/ground-support-content-negative.json",
+    "worker_initial_negative_fixture_failures": "Retained separately; corrected fixtures and final proofs pass without relabeling initial failure"
+  },
+  "scope": [
+    "Stateless five-height chassis support and exact yaw/pitch/bank orthonormal frame",
+    "Actual source mesh vertex positions and transformed normal lighting, two LODs and frames0/9",
+    "Actual assembly client generation-safe near/mid/distant/map instances and actor pixels",
+    "Complete sampled authority read-only, unchanged previous terrain headless checksums",
+    "Full original motion/health/replay, real graphics/co-op/UDP fault/build-tool gates"
+  ],
+  "limitations": [
+    "Cosmetic stateless support, not dynamic suspension or oriented/vertical physical collision",
+    "Five sample heights and 48 tested vertex cases do not prove continuous whole-mesh clearance universally",
+    "Driver seat/cannon origin authority retains original upright contract; no tilted attachment claim",
+    "Software GL budget misses hardware goals; target-GPU/four-client performance and human craft remain unaccepted",
+    "Full roster, wreck/damage states, complete operation/intelligence, streaming, Windows and runtime jobs/reload/snapshots remain required"
+  ],
+  "next_prepared_component": "docs/evidence/suspension-prepared.json",
+  "full_game_goal": "active, unbounded and unachieved",
+  "full_client_sha256": "8dd1b105307240b42efd132c5e3a63c63854a679d024358544bae60d483165c1",
+  "full_library_sha256": "8020dcdba2e2d01f62145591f9710507cab502aed536fc422c44f0a448d0188b"
+}

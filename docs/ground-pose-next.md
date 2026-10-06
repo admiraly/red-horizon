@@ -1,7 +1,9 @@
-# Terrain-supported ground presentation — ready contract
+# Terrain-supported ground presentation — contract and next response
 
-This is an implementation contract based on the actual cc90b6d renderer audit,
-not accepted pitch, roll or suspension behavior. Current near and mid instances
+The stateless frame and renderer are integrated at 646ea71 with focused proof;
+full checkpoint 86ca2085d678 passed 540.59s/84 reports with 183 matched inputs. See ground-support-rendering.md.
+The following historical implementation contract records the cc90b6d audit
+before support integration. At that revision, near and mid instances
 are populated at meshes.asm:.appendarmy. .ground_pose copies the stamped physical
 heading after checking role, generation and active flag, and leaves pitch/bank
 zero. mesh.vert banks/pitches sourced geometry only through animation.w/scale.w;

@@ -1,0 +1,631 @@
+[
+  {
+    "flat_stub_samples": 8,
+    "ground_support_samples": 9712,
+    "invalid_preserved": 58,
+    "library_sha256": "5c0e50c362081c5fa635efe9cb8d27179e27fdea7eab85013b29296fdccc7ee6",
+    "max_cpu_fit_error": [
+      1.0042908641594295e-05,
+      1.0530724088853027e-06,
+      1.2796113554869315e-06
+    ],
+    "negative_controls": [
+      "flat_pitch",
+      "wrong_forward",
+      "center_only"
+    ],
+    "scope": "stateless five-height support and exact mesh rotation; no runtime caller, suspension, oriented collision, entire mesh clearance or rendered acceptance",
+    "source_sha256": "bb6dbe014a499c309c3f9991aebe21e595e9cdfe6fe993f6649f7c06fd0d9651",
+    "stack_alignment_errors": 0,
+    "world_entities": 8192,
+    "world_library_sha256": "5b8402c589f154cac860ea6b6b441a770698277916415317d7a40c13e61fa04e",
+    "world_readonly_checksum": "a7d5f9699df660cc"
+  },
+  {
+    "suite": "ground-support-actual-gl",
+    "passed": true,
+    "legacy": false,
+    "shader_sha256": "d3b2378d6eb7db6274d2b4d16c38fec01e29a55ff8d3c200adf16b1961f4870b",
+    "library_sha256": "87d34a1ed9fe49b133723cdf99c114332f12bcb655d13e55733f65ff8cf971bc",
+    "vertices": 103536,
+    "cases": [
+      {
+        "fixture": "shallow",
+        "role": 1,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.011943817138671875,
+        "position_max_error": 3.053846285183681e-05,
+        "lighting_max_error": 5.7852913348810375e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 1,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.012470245361328125,
+        "position_max_error": 0.00024405642034253106,
+        "lighting_max_error": 5.7000562825315626e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 1,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.0124664306640625,
+        "position_max_error": 0.00024388846577494405,
+        "lighting_max_error": 6.546946373919837e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 1,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.02069091796875,
+        "position_max_error": 0.00024409141315118177,
+        "lighting_max_error": 6.515475081680933e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 1,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.014064788818359375,
+        "position_max_error": 0.00047797781371627934,
+        "lighting_max_error": 6.634824833984254e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 1,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.01195526123046875,
+        "position_max_error": 0.0004864041211476433,
+        "lighting_max_error": 5.756805343537508e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 1,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.007829666137695312,
+        "position_max_error": 3.053846285183681e-05,
+        "lighting_max_error": 5.7852913348810375e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 1,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.00817108154296875,
+        "position_max_error": 0.00024405642034253106,
+        "lighting_max_error": 5.7000562825315626e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 1,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.00823211669921875,
+        "position_max_error": 0.00024388846577494405,
+        "lighting_max_error": 6.546946373919837e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 1,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.02837371826171875,
+        "position_max_error": 0.00024409141315118177,
+        "lighting_max_error": 6.515475081680933e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 1,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.01114654541015625,
+        "position_max_error": 0.0004844751138080028,
+        "lighting_max_error": 6.634824833984254e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 1,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 3966,
+        "minimum_ground_gap": 0.007843017578125,
+        "position_max_error": 0.00048477575273864204,
+        "lighting_max_error": 5.756805343537508e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 1,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.018428802490234375,
+        "position_max_error": 3.056586285765661e-05,
+        "lighting_max_error": 4.7491343746486336e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 1,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.019390106201171875,
+        "position_max_error": 0.00024309162381541682,
+        "lighting_max_error": 6.327196039324079e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 1,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.019317626953125,
+        "position_max_error": 0.00024115343967423541,
+        "lighting_max_error": 3.700117506832967e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 1,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.24175262451171875,
+        "position_max_error": 0.00024262210354208946,
+        "lighting_max_error": 4.2183112836102765e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 1,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.021678924560546875,
+        "position_max_error": 0.0004341793546700501,
+        "lighting_max_error": 4.612611970156166e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 1,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.01844024658203125,
+        "position_max_error": 0.00047610068668291206,
+        "lighting_max_error": 4.570479866794486e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 1,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.018426895141601562,
+        "position_max_error": 3.052397050851141e-05,
+        "lighting_max_error": 4.7491343746486336e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 1,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.01926422119140625,
+        "position_max_error": 0.00024307087460329058,
+        "lighting_max_error": 6.327196039324079e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 1,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.019321441650390625,
+        "position_max_error": 0.00024353511162189534,
+        "lighting_max_error": 3.700117506832967e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 1,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.1488494873046875,
+        "position_max_error": 0.00024262210354208946,
+        "lighting_max_error": 4.2183112836102765e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 1,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.021221160888671875,
+        "position_max_error": 0.0004341793546700501,
+        "lighting_max_error": 4.612611970156166e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 1,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.0184326171875,
+        "position_max_error": 0.00043262498184049036,
+        "lighting_max_error": 4.570479866794486e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 2,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.016326904296875,
+        "position_max_error": 3.0509941893797077e-05,
+        "lighting_max_error": 6.470195623720087e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 2,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.017040252685546875,
+        "position_max_error": 0.00024402083272434538,
+        "lighting_max_error": 7.3283025370241e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 2,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.017063140869140625,
+        "position_max_error": 0.00024399070662184386,
+        "lighting_max_error": 6.673823155223246e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 2,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.03563690185546875,
+        "position_max_error": 0.00024401410155405756,
+        "lighting_max_error": 7.046899380691585e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 2,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.0196990966796875,
+        "position_max_error": 0.00047256813195417635,
+        "lighting_max_error": 6.361831789147843e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 2,
+        "lod": 0,
+        "frame": 0,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.016326904296875,
+        "position_max_error": 0.0004760790661748615,
+        "lighting_max_error": 7.3440610315334e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 2,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.01070404052734375,
+        "position_max_error": 3.0509941893797077e-05,
+        "lighting_max_error": 6.470195623720087e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 2,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.01119232177734375,
+        "position_max_error": 0.00024402083272434538,
+        "lighting_max_error": 7.3283025370241e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 2,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.01116943359375,
+        "position_max_error": 0.00024399070662184386,
+        "lighting_max_error": 6.673823155223246e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 2,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.03650665283203125,
+        "position_max_error": 0.00024404061059613014,
+        "lighting_max_error": 7.046899380691585e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 2,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.016681671142578125,
+        "position_max_error": 0.00047256813195417635,
+        "lighting_max_error": 6.361831789147843e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 2,
+        "lod": 0,
+        "frame": 9,
+        "vertices": 4086,
+        "minimum_ground_gap": 0.01070404052734375,
+        "position_max_error": 0.0004760790661748615,
+        "lighting_max_error": 7.3440610315334e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 2,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.023633956909179688,
+        "position_max_error": 3.0289309506770223e-05,
+        "lighting_max_error": 4.761967498101427e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 2,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.024749755859375,
+        "position_max_error": 0.0002431162893117289,
+        "lighting_max_error": 4.03794023218218e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 2,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.024707794189453125,
+        "position_max_error": 0.00024247247529274318,
+        "lighting_max_error": 3.290432337710314e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 2,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.12444305419921875,
+        "position_max_error": 0.00024311942615895532,
+        "lighting_max_error": 4.3605858701667444e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 2,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.027507781982421875,
+        "position_max_error": 0.00046729644964216277,
+        "lighting_max_error": 4.772002393238495e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 2,
+        "lod": 1,
+        "frame": 0,
+        "vertices": 288,
+        "minimum_ground_gap": 0.0236358642578125,
+        "position_max_error": 0.00046264402681117645,
+        "lighting_max_error": 3.67742322704423e-08
+      },
+      {
+        "fixture": "shallow",
+        "role": 2,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.023637771606445312,
+        "position_max_error": 3.0511737691085727e-05,
+        "lighting_max_error": 4.761967498101427e-08
+      },
+      {
+        "fixture": "gentle_forward",
+        "role": 2,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.024814605712890625,
+        "position_max_error": 0.00024329298412339995,
+        "lighting_max_error": 4.03794023218218e-08
+      },
+      {
+        "fixture": "gentle_cross",
+        "role": 2,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.0247039794921875,
+        "position_max_error": 0.00024092600142466836,
+        "lighting_max_error": 3.3257103182471326e-08
+      },
+      {
+        "fixture": "crest",
+        "role": 2,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.1164703369140625,
+        "position_max_error": 0.00024335445505130338,
+        "lighting_max_error": 4.350289348198366e-08
+      },
+      {
+        "fixture": "combined",
+        "role": 2,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.02777862548828125,
+        "position_max_error": 0.0004499067663346068,
+        "lighting_max_error": 4.7518394025169997e-08
+      },
+      {
+        "fixture": "plateau",
+        "role": 2,
+        "lod": 1,
+        "frame": 9,
+        "vertices": 288,
+        "minimum_ground_gap": 0.02364349365234375,
+        "position_max_error": 0.00046264402681117645,
+        "lighting_max_error": 3.67742322704423e-08
+      }
+    ],
+    "detected_upright_faults": 0,
+    "authority_unchanged": true,
+    "software_context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Compatibility Profile) Mesa 26.2.3",
+    "scope": "Actual embedded shader/source geometry/frame inputs and transformed normals, not actual instance-hook or suspension acceptance"
+  },
+  {
+    "suite": "ground-support-client",
+    "passed": true,
+    "client_sha256": "073fe3909b9c52697d109b32ab24afd5f20e36e1fcd5fb7457799dc871368c4c",
+    "cases": [
+      {
+        "role": 1,
+        "mode": "near",
+        "changed_source_pixels": 1005,
+        "pose_y_pitch_bank": [
+          38.182498931884766,
+          -0.3065318167209625,
+          -0.001143538043834269
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-1-near.ppm"
+      },
+      {
+        "role": 1,
+        "mode": "mid",
+        "changed_source_pixels": 3,
+        "pose_y_pitch_bank": [
+          38.182498931884766,
+          -0.3065318167209625,
+          -0.001143538043834269
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-1-mid.ppm"
+      },
+      {
+        "role": 1,
+        "mode": "distant",
+        "changed_source_pixels": 2,
+        "pose_y_pitch_bank": [
+          38.182498931884766,
+          -0.3065318167209625,
+          -0.001143538043834269
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-1-distant.ppm"
+      },
+      {
+        "role": 1,
+        "mode": "map",
+        "changed_source_pixels": 9,
+        "pose_y_pitch_bank": [
+          38.182498931884766,
+          -0.3065318167209625,
+          -0.001143538043834269
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-1-map.ppm"
+      },
+      {
+        "role": 2,
+        "mode": "near",
+        "changed_source_pixels": 2227,
+        "pose_y_pitch_bank": [
+          38.182518005371094,
+          -0.3065193295478821,
+          -0.001143726403824985
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-2-near.ppm"
+      },
+      {
+        "role": 2,
+        "mode": "mid",
+        "changed_source_pixels": 6,
+        "pose_y_pitch_bank": [
+          38.182518005371094,
+          -0.3065193295478821,
+          -0.001143726403824985
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-2-mid.ppm"
+      },
+      {
+        "role": 2,
+        "mode": "distant",
+        "changed_source_pixels": 2,
+        "pose_y_pitch_bank": [
+          38.182518005371094,
+          -0.3065193295478821,
+          -0.001143726403824985
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-2-distant.ppm"
+      },
+      {
+        "role": 2,
+        "mode": "map",
+        "changed_source_pixels": 9,
+        "pose_y_pitch_bank": [
+          38.182518005371094,
+          -0.3065193295478821,
+          -0.001143726403824985
+        ],
+        "screenshot": "/home/levy/optane-tmp/red-horizon-support-2-map.ppm"
+      }
+    ],
+    "authority_unchanged": true,
+    "stale_inactive_fallback": true,
+    "scope": "Actual sourced-client instance hooks, near/mid/distant/map GL and read-only frozen fixtures; no natural gameplay or suspension acceptance"
+  },
+  {
+    "suite": "rendered-ground-heading",
+    "passed": true,
+    "fixture": "development-only frozen stamped hull poses; real source meshes and GL",
+    "hull_pixels": 2954,
+    "stationary_pivot_changed_pixels": 2853,
+    "near_mid_distant_map_heading": true,
+    "stale_generation_and_inactive_fallback": true,
+    "render_authority_unchanged": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-ground-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-ground-forward.ppm",
+      "/home/levy/optane-tmp/red-horizon-ground-stationary-pivot.ppm"
+    ]
+  }
+]

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/suspension-kernel/tests/test_suspension.py", line 117, in <module>
+    else:raise AssertionError('fault escaped '+tag)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: fault escaped stale_reads

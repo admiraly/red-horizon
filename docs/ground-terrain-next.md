@@ -32,16 +32,14 @@ profile; global coarse ridge interpolation and arbitrary terrain are not accepte
 The inspected normal-texture client screenshot is a frozen camera fixture,
 not natural combat, human art acceptance or target-GPU performance.
 
-The next vehicle prerequisite is terrain-aligned presentation and chassis support.
-Current sourced hulls rotate about yaw only and are translated onto world height;
-this cannot establish pitch/roll, suspension or wheel/track ground contact. Before
-implementation define a shared read-only terrain pose contract, sample the whole
-chassis rather than trusting a cusp-center normal, preserve heading and actor IDs,
-and make near/mid/distant/map paths agree without renderer authority writes.
-Separate collision semantics from cosmetic suspension; a visual tilted hull alone
-does not establish oriented or vertical physical collision. Verify gentle and
-combined slopes, crest/cusp transitions, stale generations, driver handoff,
-actual mesh pixels and replay with continuous controls outside the raised field.
+Terrain-aligned stateless presentation is now integrated at 646ea71, with
+actual CPU/GPU/client proof and a passing full checkpoint, 86ca2085d678. See
+ground-support-rendering.md. Current geometry has pitch/roll from a shared
+five-height chassis frame, matching all visual LODs without authority writes.
+Next is bounded cosmetic suspension response with resampled contact for its
+intermediate angles; a verified response kernel is isolated and not integrated.
+Driver seats/projectile origins remain governed by their original physical
+contracts. Visual tilt does not establish oriented/vertical body collision.
 
 Road-preferring navigation, wheeled roles, oriented physical hulls, vertical
 interactions, safe formation spacing, traffic recovery, damage states and useful

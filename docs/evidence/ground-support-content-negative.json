@@ -1,0 +1,75 @@
+{
+  "scope": "Isolated stale-fingerprint negatives; no runtime changes",
+  "source_sha256": {
+    "tools/ground_content.py": "a882b37edd70cb4fd73d8fc01748110508d583a5e9f655412d05e3e8f8bf13f3",
+    "tools/terrain_world.py": "7dcd825d7571f57d51352a37bc8001538934520b6d38c367478936a709eaec78",
+    "schemas/terrain_grade.inc": "9d9e998359170f0b8dc68fdf4a9a9e79281347dcfeb14e9e4c82d5d05bfe2e1c",
+    "schemas/terrain_body.inc": "d93faa9c64814c67eeefae976f4d9b16c82053461267fb053c8a0f7db553457a",
+    "content/terrain/relief.json": "14f6ff27a80651705d5b41a7c17873f678dc47515b685a0ec8d9ab33280ada97",
+    "src/net/protocol.inc": "fa62ae3da44b9e1155a1dd9efd5dfa16879a23d587b84ca80d3ddd66f22b941f",
+    "schemas/ground_support.inc": "dfb0f427054f217e8013587972974ae20342144429b27569ee999e68f46177c8"
+  },
+  "mutations": [
+    {
+      "mutation": "relief_height",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0xe9ed114a"
+    },
+    {
+      "mutation": "tank_grade",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x96493da3"
+    },
+    {
+      "mutation": "tank_skin",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0xc0efc5fd"
+    },
+    {
+      "mutation": "render_spacing",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x04de39ce"
+    },
+    {
+      "mutation": "support_width",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x210f656e"
+    },
+    {
+      "mutation": "support_offset",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0xb395601d"
+    }
+  ],
+  "world_guard_mutations": [
+    {
+      "mutation": "tile_support",
+      "rejected": true,
+      "exit_code": 2,
+      "diagnostic": "terrain world: Relief support must fit inside refined tile"
+    },
+    {
+      "mutation": "unaligned_cusp",
+      "rejected": true,
+      "exit_code": 2,
+      "diagnostic": "terrain world: Relief cusp must align with refined mesh"
+    },
+    {
+      "mutation": "height_budget",
+      "rejected": true,
+      "exit_code": 2,
+      "diagnostic": "terrain world: Relief exceeds actual triangle error budget"
+    }
+  ],
+  "restored_check": {
+    "ground_content": "0x0fb51f27",
+    "canonical_sha256": "0fb51f27537bbf5bc2ca6ca0c3a7ceb6404a74c2bc37689c43ccbff278a0cf2e",
+    "checked": true
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "ground-support-hotspot-software.png": {
+    "sha256": "f06efe4f442806dd86daecbad2ae507300c98cf25298042e7fb1425334f94889",
+    "bytes": 569026,
+    "provenance": "Separate live software-GL hotspot observation, 120frames/8192actors, exact linked-client SHA in ground-support-software-budget.json",
+    "linked_client_sha256": "073fe3909b9c52697d109b32ab24afd5f20e36e1fcd5fb7457799dc871368c4c",
+    "scope": "Inspected lossless PNG from actual X/GL client screenshot; no target-GPU/human-quality acceptance"
+  },
+  "ground-support-2-near.png": {
+    "sha256": "fa14c9ede4a992f1caa9d307209eb0ce8959e71b7e6361cad842c3fa0aa433d0",
+    "bytes": 147255,
+    "provenance": "Full frozen job86ca2085d678 actual linked client, private sparse frozen scene",
+    "linked_client_sha256": "8dd1b105307240b42efd132c5e3a63c63854a679d024358544bae60d483165c1",
+    "scope": "Inspected lossless PNG from actual X/GL client screenshot; no target-GPU/human-quality acceptance"
+  },
+  "ground-support-1-near.png": {
+    "sha256": "dd32eae7fe8efbd6a47acc5143aabc9aae111c1e9c9f3cf8942bef9b93c0b578",
+    "bytes": 147130,
+    "provenance": "Full frozen job86ca2085d678 actual linked client, private sparse frozen scene",
+    "linked_client_sha256": "8dd1b105307240b42efd132c5e3a63c63854a679d024358544bae60d483165c1",
+    "scope": "Inspected lossless PNG from actual X/GL client screenshot; no target-GPU/human-quality acceptance"
+  }
+}

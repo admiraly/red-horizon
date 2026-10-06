@@ -153,3 +153,15 @@ and XMM4–15 expected by established callers. CPU and GPU use canonical relief,
 and a localized 105,000-vertex tile bounds analytic interpolation error to
 0.027 m. Full checkpoint 3d022b3c7d8e passed; see status.md and the terrain
 integration contract for exact evidence and remaining limitations.
+
+Stateless ground presentation: ground_support ABI v1 in schemas/ground_support.inc
+reads actual terrain at four rotated chassis corners and the centre, validates
+all support samples, and publishes a 64-byte caller-owned Y/pitch/bank/frame
+record atomically on success. Invalid input preserves output. Tank/artillery
+policy is common across LODs and remains within physical circle bounds. Valid
+stamped renderer sidecars populate existing instance pitch/bank and absolute-Y
+fields; stale/inactive/invalid support uses upright relative-height fallback.
+Geometry and normals share yaw × pitch × bank. No entity, motion, player or wire
+stride changes; content 0x0fb51f27 includes support ABI/chassis dimensions.
+Full checkpoint 86ca2085d678 proves scoped integration. Smoothed suspension
+response remains isolated and requires corrected contact for intermediate angles.

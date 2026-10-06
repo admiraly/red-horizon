@@ -1,5 +1,30 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Terrain-supported tracked presentation is integrated at 646ea71; full-game goal
+remains active. Focused frozen job 361553e92439 passed 13.91s. Independent kernel
+proof covers 9,712 actual-height cases and ABI/read-only/invalid controls. Actual
+GL checks 103,536 source vertices in 48 slope/crest/LOD/clip cases; minimum
+canonical ground gap +0.00783 m replaces the prior upright penetration faults.
+Actual client near/mid/distant/map instances match height/pitch/bank and preserve
+complete authority; stale/inactive sidecars keep upright fallback. Exact scope
+is in ground-support-rendering.md. Full extended job 86ca2085d678 passed 540.59s/84 recorded reports at
+646ea71e98ed7412a77d122e262126249b41d94f-1d1c6916dffe4340, with all 183 authored
+inputs matched. All four root batch jobs and the software-client session are
+terminal and collected; both worker worktrees are clean with sessions reconciled.
+Original army motion/health symmetry, arrival, replay, real graphics, UDP faults
+and build-tool preservation gates pass. Exact source/commands/scope are in
+evidence/ground-support-jobs.json and evidence/ground-support-session.json.
+Seed42/900tick headless p95 is 6.658ms at 8k and 13.892ms at 16k; checksums
+exactly match the prior terrain checkpoint. CPU timings overlap verification,
+render/replicate zero actors and establish no isolated speedup.
+Content fingerprint 0x0fb51f27 includes support/chassis policy; wire/schema stay v7.
+This is a stateless cosmetic support frame. Dynamic suspension, corrected contact
+for its intermediate angles, physical oriented/vertical hulls and seat/muzzle
+attachments remain required. Software GL/sparse frozen fixtures do not establish
+target-GPU performance, natural combat or human visual acceptance.
+
+Historical accepted terrain checkpoint follows.
+
 Raised terrain is integrated and verified at `cc90b6d`; full-game goal remains
 active. Frozen full extended job `3d022b3c7d8e` passed in 533.82 seconds at
 `cc90b6da2f9507100f1a3fa12535729d5d9bc0db-74794c2441fc12c2`,

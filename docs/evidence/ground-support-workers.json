@@ -1,0 +1,16 @@
+{
+  "support": {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-support-kernel",
+    "commit": "68d5a1c8934281f89be4ff85a47c3a8b5b53d1b9",
+    "clean": true,
+    "sessions": "terminal and collected; exact worker documentation and focused logs retained",
+    "integration": "support kernel integrated at 6c8bc78"
+  },
+  "response": {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/suspension-kernel",
+    "commit": "3a3a6aeaacff57466a16963e81e2900b3495d1ab",
+    "clean": true,
+    "sessions": "terminal and collected; exact worker documentation and focused logs retained",
+    "integration": "isolated prepared prerequisite only, no root hooks or suspension acceptance"
+  }
+}

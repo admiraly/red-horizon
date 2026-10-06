@@ -52,7 +52,9 @@ materials and physical whole-hull contact. Off-road tanks/artillery accelerate
 and travel at 0.8/0.7 of their paved targets, with bounded braking when leaving
 pavement; see [surface outcomes](docs/ground-surface-outcomes.md) and
 [current verification](docs/status.md). Raised terrain and whole-body slope admission are integrated with focused
-proof and a passing full extended checkpoint. See [terrain integration](docs/ground-terrain-next.md).
+proof and a passing full extended checkpoint. Tracked source hulls also follow
+terrain pitch/roll through a shared chassis support frame; dynamic suspension
+and oriented physical collision remain pending. See [terrain integration](docs/ground-terrain-next.md).
 Road-preferring routes,
 wheeled vehicles, articulated turrets and useful wreck cover remain open work.
 

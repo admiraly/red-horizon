@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-support-kernel/tests/test_ground_support.py", line 97, in <module>
+    else:raise AssertionError('negative implementation accepted: '+tag)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: negative implementation accepted: center_only

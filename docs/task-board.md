@@ -176,3 +176,11 @@ damage handling and useful wreck cover remain required. Complete operation,
 intelligence, streaming, Windows, runtime jobs, recorded audiovisual craft and
 four-client hardware quality remain independently required. The full-game goal
 stays active; no partial physical batch establishes complete vehicle realism.
+
+Terrain support continuation: root 646ea71 integrates the verified NASM five-height
+chassis frame and actual sourced-mesh pitch/bank/absolute height. Isolated kernel
+68d5a1c is clean and verified. Root focused 361553e92439 passes with GPU source
+vertex/normal and actual client instance/pixel proofs. Full job 86ca2085d678
+passed 540.59s/84reports with all 183 authored inputs matched. Independent next
+spring-response kernel work stays isolated; it cannot
+be integrated before intermediate-frame contact correction is specified/verified.

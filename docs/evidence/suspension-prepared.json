@@ -1,0 +1,14 @@
+{
+  "contract_commit": "e639ebb",
+  "component_commit": "3a3a6aeaacff57466a16963e81e2900b3495d1ab",
+  "source_sha256": {
+    "schemas/suspension.inc": "494a38d20d9e9ae6c4c36b7ec4338366773f72ad9639902f9b394e4ee661dfc2",
+    "src/render/suspension.asm": "3e5fb2c016ef2a9651319b012774994d39167e9c2a200487e464984b248663df",
+    "tests/probe_suspension.asm": "df4fab03a28b471c2a3d966d47265871d12b5308601d4a7e405b70edb89dab03",
+    "tests/test_suspension.py": "d6614a1af41c2be02590c29a82231099ef59eee9a34ec6780a2c4b5ae95fa8cd",
+    "docs/suspension-kernel.md": "e09c60f05db30c0991bc5fcccfa59388c6732c051719c3a9eff8c7c18259c032"
+  },
+  "proof_log": "docs/evidence/ground-support-suspension-kernel.log",
+  "scope": "Isolated assembly bounded critical damping and validation, not runtime renderer integration or gameplay suspension",
+  "required_next_action": "Recompute contact support at intermediate smoothed angles before rendering; generation-safe derived cache and real frame/mesh tests required"
+}
