@@ -3,8 +3,10 @@ default rel
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
 %include "schemas/company_control.inc"
+%include "schemas/input_bindings.inc"
 global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
+extern bindings_load,bindings_down,bindings_label,bindings_report,binding_codes,bindings_error_line
 extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
 extern visibility_init,visibility_begin,visibility_world_end,visibility_finish,visibility_report,visibility_shutdown,visibility_write_map
 extern hazard_warning_update,hazard_warning_uniform
@@ -36,7 +38,7 @@ extern command_wheel_select,command_terrain_point,command_wheel_hud_init,command
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
 extern glfwWindowShouldClose,glfwGetKey,glfwGetMouseButton,glfwGetCursorPos
-extern glfwSetCursorPos,glfwSetInputMode,glfwSetWindowTitle,glfwGetTime,glfwSetKeyCallback
+extern glfwSetCursorPos,glfwSetInputMode,glfwSetWindowTitle,glfwGetTime,glfwSetKeyCallback,glfwSetMouseButtonCallback
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glGetProgramInfoLog
 extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i,glUniform4f
@@ -47,14 +49,14 @@ extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArr
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
-command_panel_fmt: db 'COMPANY %d | FRONT %u | 1 ADVANCE 2 HOLD 3 RETREAT 4 FOLLOW',0
+command_panel_fmt: db 'COMPANY %d | FRONT %u | %s ADVANCE %s HOLD %s RETREAT %s FOLLOW',0
 wheel_ready_text: db 'COMMAND WHEEL: RELEASE TO ORDER / RIGHT CLICK CANCEL',0
 wheel_cancel_text: db 'COMMAND CANCELLED',0
 wheel_no_point_text: db 'MOVE DENIED: NO VISIBLE TERRAIN WITHIN 2048M',0
 command_panel_lost: db 'CO-OP CONNECTION LOST - COMPANY COMMANDS UNAVAILABLE',0
-title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3/4 advance/hold/retreat/follow | ESC quit',0
+title: db 'RED HORIZON | controls loaded at startup; --bindings FILE remaps actions',0
 weather_opt: db '--weather',0
-weather_suffix: db '%s | WEATHER %s (F4 cycle)',0
+weather_suffix: db '%s | WEATHER %s (%s CYCLE)',0
 scenario_opt: db '--scenario',0
 air_battle_name: db 'air-battle',0
 scale_front_name: db 'scale-front',0
@@ -67,10 +69,13 @@ census_map_opt: db '--census-map',0
 map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
+bindings_opt: db '--bindings',0
+bindings_failure: db 'Invalid bindings file: use one regular file up to4096 bytes, known action=KEY entries, no duplicate actions or conflicting physical inputs.',0
+bindings_line_fmt: db 'Binding failure at or after line %u (0 means file access/type/size).',10,0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
-transfer_none: db 'F5-F8: request exchange with P0-P3 | F11: cancel own offer',0
-transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | F9 accept | F10 decline | F11 cancel own',0
+help_text: db 'RED HORIZON: [--bindings FILE] [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'DEFAULTS: WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+transfer_none: db '%s/%s/%s/%s: EXCHANGE P0-P3 | %s: CANCEL',0
+transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | %s ACCEPT | %s DECLINE | %s CANCEL',0
 transfer_changed: db 'COMPANY ASSIGNMENT UPDATED',0
 transfer_proposed: db 'COMPANY EXCHANGE REQUEST SENT',0
 transfer_accepted: db 'COMPANY EXCHANGE ACCEPTED',0
@@ -106,8 +111,8 @@ goal_name: db 'selectedGoal',0
 health_name: db 'playerHealth',0
 vehicle_name: db 'vehicleState',0
 incoming_name: db 'incomingThreat',0
-vehicle_fmt: db 'ARMOR #%u CANNON %u COOLDOWN %u HULL %u | Q exit',0
-onfoot_text: db 'ON FOOT | E board Q exit',0
+vehicle_fmt: db 'ARMOR #%u CANNON %u COOLDOWN %u HULL %u | %s EXIT',0
+onfoot_text: db 'ON FOOT | %s BOARD %s EXIT',0
 local_name: db 'localPlayer',0
 write_mode: db 'wb',0
 
@@ -117,7 +122,7 @@ shader_error: db 'Shader/program error:',0
 metrics: db 'camera_x=%.2f camera_z=%.2f shots=%u hits=%u last_order=%u',10,0
 summary: db 'client frames=%u submitted_entities=%u screenshot=%s',10,0
 no_shot: db '(none)',0
-title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | REQ %u SUP %u | %s | HP %u SUPPRESS %u REDEPLOY %u | %s | TAB map/click F1-F3 front R reload',0
+title_fmt: db 'RED HORIZON | %u units | rifle %u/30 %s | front %u order %u | REQ %u SUP %u | %s | HP %u SUPPRESS %u REDEPLOY %u | %s | TACTICAL MAP / RELOAD',0
 state_ongoing: db 'OPERATION ACTIVE',0
 state_victory: db 'VICTORY',0
 state_defeat: db 'DEFEAT',0
@@ -179,6 +184,7 @@ server_port: dd 7777
 command_message: dq net_ready_text
 section .bss
 command_panel: resb 160
+bindings_path: resq 1
 quit_latched: resd 1
 wheel_active: resd 1
 wheel_down: resd 1
@@ -323,6 +329,20 @@ main:
  inc ebx
  jmp .nextarg
 .ordinaryarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[bindings_opt]
+ call strcmp
+ test eax,eax
+ jnz .framearg
+ cmp qword [bindings_path],0
+ jne .bindingsinvalid
+ inc ebx
+ cmp ebx,r12d
+ jge .bindingsinvalid
+ mov rax,[r13+rbx*8]
+ mov [bindings_path],rax
+ jmp .nextarg
+.framearg:
  mov rdi,[r13+rbx*8]
  lea rsi,[frames_opt]
  call strcmp
@@ -483,6 +503,14 @@ main:
  call puts
  xor eax,eax
  jmp .exit
+.bindingsinvalid:
+ lea rdi,[bindings_failure]
+ call puts
+ lea rdi,[bindings_line_fmt]
+ mov esi,[bindings_error_line]
+ xor eax,eax
+ call printf
+ jmp .fail
 .viewinvalid:
  lea rdi,[view_failure]
  call puts
@@ -503,6 +531,14 @@ main:
  cmp dword [frame_limit],10000
  ja .fail
 .viewready:
+ mov rdi,[bindings_path]
+ test rdi,rdi
+ jz .bindingsready
+ call bindings_load
+ test eax,eax
+ jnz .bindingsinvalid
+.bindingsready:
+ call bindings_report
  call view_settings_apply
  cmp dword [network_mode],0
  jne .networkinit
@@ -573,6 +609,9 @@ main:
  mov rdi,rax
  lea rsi,[quit_key_event]
  call glfwSetKeyCallback
+ mov rdi,[window]
+ lea rsi,[quit_mouse_event]
+ call glfwSetMouseButtonCallback
  mov rdi,[window]
  call glfwMakeContextCurrent
  mov edi,1
@@ -1267,9 +1306,11 @@ compile_shader:
 ; Continuous controls are polled. A delivered Escape press survives a slow
 ; frame even when release is delivered in the same glfwPollEvents batch.
 quit_key_event:
- cmp esi,256
- jne .done
  cmp ecx,1
+ jne .done
+ cmp esi,[binding_codes+BIND_COMMAND_CANCEL*4]
+ je .cancel
+ cmp esi,[binding_codes+BIND_QUIT*4]
  jne .done
  cmp dword [wheel_active],0
  je .quit
@@ -1282,17 +1323,26 @@ quit_key_event:
  mov dword [quit_latched],1
 .done:
  ret
+.cancel:
+ sub rsp,8
+ call wheel_close
+ add rsp,8
+ ret
+quit_mouse_event:
+ or esi,65536
+ mov ecx,edx
+ jmp quit_key_event
 
 %macro KEY 1
  mov rdi,[window]
  mov esi,%1
- call glfwGetKey
+ call bindings_down
 %endmacro
 update_input:
  push rbx
  cmp dword [quit_latched],0
  jne .quit
- KEY 256
+ KEY BIND_QUIT
  test eax,eax
  jz .escapeup
  cmp dword [wheel_escape_down],0
@@ -1305,7 +1355,7 @@ update_input:
 .escapeup:
  mov dword [wheel_escape_down],0
 .escapedone:
- KEY 258
+ KEY BIND_TACTICAL_MAP
  test eax,eax
  jz .tabup
  cmp dword [tab_down],0
@@ -1326,7 +1376,7 @@ update_input:
 .tabup:
  mov dword [tab_down],0
 .orders:
- KEY 293
+ KEY BIND_WEATHER
  test eax,eax
  jz .weatherup
  cmp dword [weather_down],0
@@ -1339,32 +1389,32 @@ update_input:
 .weatherdone:
  call transfer_refresh
  call transfer_keys
- mov ebx,290
+ mov ebx,BIND_FRONT_1
 .frontloop:
  mov rdi,[window]
  mov esi,ebx
- call glfwGetKey
+ call bindings_down
  test eax,eax
  jz .nextfront
  mov eax,ebx
- sub eax,290
+ sub eax,BIND_FRONT_1
  mov [selected_front],eax
 .nextfront:
  inc ebx
- cmp ebx,293
+ cmp ebx,BIND_WEATHER
  jb .frontloop
  call wheel_update
  cmp dword [wheel_input_block],0
  je .directorders
  ; Consume direct-key edges while the menu owns order input. A key held across
  ; menu close must not become a second charged order on the next frame.
- mov ebx,49
+ mov ebx,BIND_ADVANCE
 .suppressedkeys:
  mov rdi,[window]
  mov esi,ebx
- call glfwGetKey
+ call bindings_down
  mov ecx,ebx
- sub ecx,49
+ sub ecx,BIND_ADVANCE
  test eax,eax
  jz .suppressedup
  bts dword [order_down_mask],ecx
@@ -1373,27 +1423,27 @@ update_input:
  btr dword [order_down_mask],ecx
 .suppressednext:
  inc ebx
- cmp ebx,53
+ cmp ebx,BIND_FRONT_1
  jb .suppressedkeys
  jmp .cursorread
 .directorders:
- mov ebx,49
+ mov ebx,BIND_ADVANCE
 .orderloop:
  mov rdi,[window]
  mov esi,ebx
- call glfwGetKey
+ call bindings_down
  test eax,eax
  jz .keyreleased
 .networkorder:
  mov ecx,ebx
- sub ecx,49
+ sub ecx,BIND_ADVANCE
  bts dword [order_down_mask],ecx
  jc .nextorder
  call selected_order_goal
  ; First advance selects the next hostile deployment/command site in this row.
  comiss xmm0,[fzero]
  jae .havegoal
- cmp ebx,49
+ cmp ebx,BIND_ADVANCE
  jne .playergoal
  mov eax,[selected_front]
  shl eax,7
@@ -1414,7 +1464,7 @@ update_input:
 .havegoal:
  mov edi,[selected_front]
  mov esi,ebx
- sub esi,49
+ sub esi,BIND_ADVANCE
  cmp dword [network_mode],0
  jne .sendnetwork
  call queue_local_order
@@ -1424,11 +1474,11 @@ update_input:
  jmp .nextorder
 .keyreleased:
  mov ecx,ebx
- sub ecx,49
+ sub ecx,BIND_ADVANCE
  btr dword [order_down_mask],ecx
 .nextorder:
  inc ebx
- cmp ebx,53
+ cmp ebx,BIND_FRONT_1
  jb .orderloop
 .cursorread:
  mov rdi,[window]
@@ -1502,19 +1552,39 @@ update_input:
  lea rdi,[vehicle_buf]
  mov esi,160
  lea rdx,[vehicle_fmt]
- sub rsp,16
+ sub rsp,32
  mov eax,ecx
  shl eax,5
  lea r10,[sim_entities]
  mov eax,[r10+rax+8]
  mov [rsp],rax
+ mov edi,BIND_EXIT_VEHICLE
+ call bindings_label
+ mov [rsp+8],rax
+ lea rdi,[vehicle_buf]
+ mov esi,160
+ lea rdx,[vehicle_fmt]
+ xor eax,eax
+ call snprintf
+ add rsp,32
+ lea rbx,[vehicle_buf]
+ jmp .havevehicletitle
+.onfoottitle:
+ sub rsp,16
+ mov edi,BIND_EXIT_VEHICLE
+ call bindings_label
+ mov [rsp],rax
+ mov edi,BIND_ENTER_VEHICLE
+ call bindings_label
+ mov rcx,rax
+ mov r8,[rsp]
+ lea rdi,[vehicle_buf]
+ mov esi,160
+ lea rdx,[onfoot_text]
  xor eax,eax
  call snprintf
  add rsp,16
  lea rbx,[vehicle_buf]
- jmp .havevehicletitle
-.onfoottitle:
- lea rbx,[onfoot_text]
 .havevehicletitle:
  sub rsp,80
  mov [rsp+64],rbx
@@ -1646,8 +1716,8 @@ wheel_update:
  push rbx
  mov dword [wheel_input_block],0
  mov rdi,[window]
- mov esi,2
- call glfwGetMouseButton
+ mov esi,BIND_COMMAND_WHEEL
+ call bindings_down
  test eax,eax
  jz .released
  mov dword [wheel_input_block],1
@@ -1708,8 +1778,8 @@ wheel_update:
  cmp dword [wheel_active],0
  je .done
  mov rdi,[window]
- mov esi,1
- call glfwGetMouseButton
+ mov esi,BIND_COMMAND_CANCEL
+ call bindings_down
  test eax,eax
  jnz .cancel
  call wheel_select_cursor
@@ -1781,8 +1851,8 @@ wheel_select_cursor:
 tactical_click:
  push rbx
  mov rdi,[window]
- xor esi,esi
- call glfwGetMouseButton
+ mov esi,BIND_FIRE
+ call bindings_down
  test eax,eax
  jz .up
  cmp dword [map_down],0
@@ -1824,26 +1894,26 @@ collect_intent:
  mov dword [forward_axis],0
  mov dword [right_axis],0
  mov dword [intent_buttons],0
- KEY 87
+ KEY BIND_FORWARD
  test eax,eax
  jz .back
  movss xmm0,[fone]
  movss [forward_axis],xmm0
 .back:
- KEY 83
+ KEY BIND_BACK
  test eax,eax
  jz .left
  movss xmm0,[forward_axis]
  subss xmm0,[fone]
  movss [forward_axis],xmm0
 .left:
- KEY 65
+ KEY BIND_LEFT
  test eax,eax
  jz .right
  movss xmm0,[minus]
  movss [right_axis],xmm0
 .right:
- KEY 68
+ KEY BIND_RIGHT
  test eax,eax
  jz .direction
  movss xmm0,[right_axis]
@@ -1873,32 +1943,32 @@ collect_intent:
  divss xmm1,xmm2
  movss [wish_x],xmm0
  movss [wish_z],xmm1
- KEY 340
+ KEY BIND_SPRINT
  test eax,eax
  jz .crouch
  or dword [intent_buttons],INPUT_SPRINT
 .crouch:
- KEY 341
+ KEY BIND_CROUCH
  test eax,eax
  jz .jump
  or dword [intent_buttons],INPUT_CROUCH
 .jump:
- KEY 32
+ KEY BIND_JUMP
  test eax,eax
  jz .reload
  or dword [intent_buttons],INPUT_JUMP
 .reload:
- KEY 82
+ KEY BIND_RELOAD
  test eax,eax
  jz .trigger
  or dword [intent_buttons],INPUT_RELOAD
 .trigger:
- KEY 69
+ KEY BIND_ENTER_VEHICLE
  test eax,eax
  jz .exitvehicle
  or dword [intent_buttons],INPUT_ENTER
 .exitvehicle:
- KEY 81
+ KEY BIND_EXIT_VEHICLE
  test eax,eax
  jz .firevehicle
  or dword [intent_buttons],INPUT_EXIT
@@ -1908,8 +1978,8 @@ collect_intent:
  cmp dword [tactical],0
  jne .return
  mov rdi,[window]
- xor esi,esi
- call glfwGetMouseButton
+ mov esi,BIND_FIRE
+ call bindings_down
  test eax,eax
  jz .return
  or dword [intent_buttons],INPUT_FIRE
@@ -2006,13 +2076,28 @@ command_panel_draw:
  mov edi,[local_player]
  call net_company_for_player
 .format:
+ mov ebx,eax
+ sub rsp,32
+ mov edi,BIND_HOLD
+ call bindings_label
+ mov [rsp],rax
+ mov edi,BIND_RETREAT
+ call bindings_label
+ mov [rsp+8],rax
+ mov edi,BIND_FOLLOW
+ call bindings_label
+ mov [rsp+16],rax
+ mov edi,BIND_ADVANCE
+ call bindings_label
+ mov r9,rax
  lea rdi,[command_panel]
  mov esi,160
  lea rdx,[command_panel_fmt]
- mov ecx,eax
+ mov ecx,ebx
  mov r8d,[selected_front]
  xor eax,eax
  call snprintf
+ add rsp,32
  lea rbx,[command_panel]
  jmp .draw
 .lost:
@@ -2228,21 +2313,52 @@ transfer_refresh:
  cmp r12d,4
  jb .scan
 .none:
+ sub rsp,32
+ mov edi,BIND_EXCHANGE_3
+ call bindings_label
+ mov [rsp],rax
+ mov edi,BIND_EXCHANGE_CANCEL
+ call bindings_label
+ mov [rsp+8],rax
+ mov edi,BIND_EXCHANGE_2
+ call bindings_label
+ mov [rsp+16],rax
+ mov edi,BIND_EXCHANGE_1
+ call bindings_label
+ mov [rsp+24],rax
+ mov edi,BIND_EXCHANGE_0
+ call bindings_label
+ mov rcx,rax
+ mov r8,[rsp+24]
+ mov r9,[rsp+16]
  lea rdi,[transfer_info]
  mov esi,192
  lea rdx,[transfer_none]
  xor eax,eax
  call snprintf
+ add rsp,32
  jmp .done
 .offer:
  mov [incoming_owner],r12d
  mov [incoming_sequence],eax
+ sub rsp,16
+ mov edi,BIND_EXCHANGE_CANCEL
+ call bindings_label
+ mov [rsp],rax
+ mov edi,BIND_EXCHANGE_DECLINE
+ call bindings_label
+ mov [rsp+8],rax
+ mov edi,BIND_EXCHANGE_ACCEPT
+ call bindings_label
+ mov r8,rax
+ mov r9,[rsp+8]
  lea rdi,[transfer_info]
  mov esi,192
  lea rdx,[transfer_offer_fmt]
  mov ecx,r12d
  xor eax,eax
  call snprintf
+ add rsp,16
 .done:
  add rsp,8
  pop r12
@@ -2250,27 +2366,27 @@ transfer_refresh:
  ret
 transfer_keys:
  push rbx
- mov ebx,294
+ mov ebx,BIND_EXCHANGE_0
 .loop:
  mov rdi,[window]
  mov esi,ebx
- call glfwGetKey
+ call bindings_down
  mov ecx,ebx
- sub ecx,294
+ sub ecx,BIND_EXCHANGE_0
  test eax,eax
  jz .released
  bts dword [transfer_key_mask],ecx
  jc .next
- cmp ebx,298
+ cmp ebx,BIND_EXCHANGE_ACCEPT
  jae .response
  xor edi,edi
  mov esi,ebx
- sub esi,294
+ sub esi,BIND_EXCHANGE_0
  xor edx,edx
  jmp .submit
 .response:
  mov edi,ebx
- sub edi,297
+ sub edi,BIND_EXCHANGE_ACCEPT-1
  cmp edi,3
  je .cancel
  mov esi,[incoming_owner]
@@ -2299,7 +2415,7 @@ transfer_keys:
  btr dword [transfer_key_mask],ecx
 .next:
  inc ebx
- cmp ebx,301
+ cmp ebx,BINDING_COUNT
  jb .loop
  pop rbx
  ret
@@ -2819,7 +2935,11 @@ set_weather_title:
  mov rbx,rdi
  mov r12,rsi
  call environment_name
- mov r8,rax
+ mov [rsp],rax
+ mov edi,BIND_WEATHER
+ call bindings_label
+ mov r9,rax
+ mov r8,[rsp]
  mov rcx,r12
  lea rdi,[weather_title_buf]
  mov esi,768

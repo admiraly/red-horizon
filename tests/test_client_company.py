@@ -84,7 +84,7 @@ try:
         for line in subprocess.check_output(['nm', '-n', str(EXE)], text=True).splitlines():
             columns = line.split()
             if len(columns) == 3: symbols[columns[2]] = int(columns[0], 16)
-        memory = os.open(f'/proc/{process.pid}/mem', os.O_RDWR)
+        memory = os.open(f'/proc/{process.pid}/mem', os.O_RDONLY)
         player_address = symbols['sim_players']
 
         def player():
@@ -109,6 +109,16 @@ try:
         until(lambda:text_visible(X,display,window,0,'|',column=len(f'COMPANY {company} ')),3)
         control=symbols['company_controls']+company*32
         def company_record():return struct.unpack('<4I2f2I',os.pread(memory,32,control))
+        def economic_snapshot():
+            # Authority tick increments at entry, while local_sim_ticks stamps
+            # completion after the entire world/economy pass. Never sample an
+            # unfinished income tick as though its replenishment already ran.
+            deadline=time.monotonic()+3
+            while time.monotonic()<deadline:
+                a=u32('local_sim_ticks');b=u32('sim_tick_count');funds=u32('sim_requisition');c=u32('sim_tick_count');d=u32('local_sim_ticks')
+                if a==b==c==d:return a,funds
+                time.sleep(.001)
+            raise AssertionError('no completed authority economic snapshot')
         def actor_rows():
             data=os.pread(memory,8192*32,symbols['sim_entities'])
             return [struct.unpack_from('<2f6I',data,i*32)for i in range(8192)]
@@ -123,12 +133,12 @@ try:
         until(lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(window),2)
         assert company_record()[6]==sequence and os.pread(memory,24,symbols['sim_waypoints'])==waypoint_before
         key(0xffbf) # F2 returns to the assigned company front.
-        tick_before=u32('sim_tick_count');funds_before=u32('sim_requisition')
+        tick_before,funds_before=economic_snapshot()
         key(ord('2'),.7)
         until(lambda:'ORDER ACCEPTED: COST 5' in title(window),2)
-        tick_after=u32('sim_tick_count');funds_after=u32('sim_requisition')
+        tick_after,funds_after=economic_snapshot()
         assert company_record()[6]==sequence+1,'held order key issued multiple charged commands'
-        assert funds_after==funds_before+39*(tick_after//30-tick_before//30)-5
+        assert funds_after==funds_before+39*(tick_after//30-tick_before//30)-5,(tick_before,tick_after,funds_before,funds_after,company_record())
         held_initial=safe_company_infantry();assert len(held_initial)>=8,held_initial
         start_tick=u32('sim_tick_count');until(lambda:u32('sim_tick_count')>=start_tick+30,3)
         held_final=safe_company_infantry()
@@ -144,17 +154,17 @@ try:
         assert f'COMPANY {company} | ORDER ACCEPTED' in title(window)
         # Actual tactical click selects a finite company point and charges once.
         key(0xff09);until(lambda:'TACTICAL' in title(window),2)
-        shots_before=player()['shots'];tick_before=u32('sim_tick_count');funds_before=u32('sim_requisition')
+        shots_before=player()['shots'];tick_before,funds_before=economic_snapshot()
         XT.XTestFakeMotionEvent(display,-1,788,368,0);X.XFlush(display);time.sleep(.12)
         button(True);time.sleep(.4);button(False);time.sleep(.12)
         until(lambda:company_record()[6]==sequence+3,2)
         ordered=company_record();assert abs(ordered[4]-4994.375)<.01 and abs(ordered[5]-3904.44444)<.01,ordered
-        tick_after=u32('sim_tick_count');funds_after=u32('sim_requisition')
-        assert funds_after==funds_before+39*(tick_after//30-tick_before//30)-5
+        tick_after,funds_after=economic_snapshot()
+        assert funds_after==funds_before+39*(tick_after//30-tick_before//30)-5,(tick_before,tick_after,funds_before,funds_after,company_record())
         assert player()['shots']==shots_before and os.pread(memory,24,symbols['sim_waypoints'])==waypoint_before
         until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED'),3)
         solo_company={'framebuffer_company_and_accepted_text':True,'key':company,'held_safe_infantry':len(held_initial),'held_travel_m':held_travel,
-                      'one_charge_per_key_press':True,'foreign_front_denied':True,
+                      'completed_tick_economic_observation':True,'one_charge_per_key_press':True,'foreign_front_denied':True,
                       'autonomous_front_waypoints_preserved':True,'physical_advance':True,'tactical_click_one_charge':True,'tactical_point':[ordered[4],ordered[5]]}
         # Actual tactical pixels distinguish owned formation from allies on
         # another front within the same128-ID block. Observer never writes state.

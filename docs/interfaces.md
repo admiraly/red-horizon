@@ -333,3 +333,16 @@ actor/enemy coordinates. command_hud_draw_at(RDI text,ESI x,EDX y) provides
 bounded128glyph, width-clipped pixel placement; command_hud_draw keeps rows0..2.
 command_wheel_hud_init/draw own only cosmetic OpenGL uniforms/draws. No wire,
 player/entity, lease, cost or authoritative clock contract change.
+
+
+Local input binding contract v1 (schemas/input_bindings.inc):30 logical actions,
+keyboard GLFW codes or bit16-tagged mouse0..7 codes. No network/content-policy
+or entity layout change. bindings_load(RDI regular-file path) returns0 after
+atomic publication or-1 with published codes/label indexes unchanged; fixed4096
+byte input and staging buffers, SysV preserved GPRs/aligned calls. It is
+startup-only and not concurrent. bindings_down(RDI GLFW window,ESI action)
+returns the bound physical state; invalid action returns0. bindings_label(EDI
+index) returns an immutable ASCII label or empty string; clobbers only RAX/RDX.
+bindings_report prints loaded action/key names once. Client key/mouse callbacks
+compare logical quit/cancel codes, preserving queued short taps and wheel cancel.
+Actual movement/fire/order/transfer controllers still own all authority checks.

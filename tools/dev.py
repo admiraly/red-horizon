@@ -56,7 +56,7 @@ def build_locked(target,objects_only=False):
     elif target=='coop':
         sources += [ROOT/'src/net/coop_server.asm']; libs=['-lm']; executable_name='red-horizon-coop-server'
     elif target=='client':
-        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
+        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm',ROOT/'src/platform/linux/input_bindings.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
     else: raise RuntimeError('Unsupported target')
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
@@ -120,8 +120,8 @@ def run_headless(args,benchmark=False):
     result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':metrics.get('navigation',{}).get('pending','unmeasured'),'network_bandwidth':'unmeasured in CPU-only headless benchmark'}}
     path=RUNS/('bench-'+uuid.uuid4().hex[:10]+'.json'); atomic(path,result); print(json.dumps(result,indent=2)); print('Report: '+str(path))
 def client_view_args(args):
-    return [value for name in ('width','height','fov','sensitivity') if getattr(args,name,None) is not None
-            for value in ('--'+name,str(getattr(args,name)))]
+    return [value for name in ('width','height','fov','sensitivity','bindings') if getattr(args,name,None) is not None
+            for value in ('--'+name,str(pathlib.Path(args.bindings).resolve()) if name=='bindings' else str(getattr(args,name)))]
 def client_scenario_args(args):
     if args.scenario not in CLIENT_SCENARIOS:
         raise RuntimeError('Client scenarios implemented only for '+', '.join(CLIENT_SCENARIOS))
@@ -300,7 +300,7 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--bindings'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','ground-surfaces','terrain-body','terrain-grade','ground-support','wrecks','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
@@ -310,7 +310,7 @@ def main():
     if args.command in ('doctor','configure'): doctor()
     elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
-        if (args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity require --client')
+        if (args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity/--bindings require --client')
         if args.command=='bench' and args.client:
             gpu_benchmark(args)
         elif args.client:
@@ -364,6 +364,7 @@ def main():
             execute([sys.executable,'tests/test_company_transfer.py'])
             execute([sys.executable,'tests/test_company_follow.py'])
             execute([sys.executable,'tests/test_command_wheel.py'])
+            execute([sys.executable,'tests/test_input_bindings.py'])
         if suite in ('all','headless','fast','simulation','combat'):
             execute([sys.executable,'tests/test_ground_acquisition.py',str(library)])
             execute([sys.executable,'tests/test_ground_target_selection.py',str(library)])
@@ -550,6 +551,8 @@ def main():
             execute([sys.executable,'tests/test_quit_event.py',str(client)])
             execute([sys.executable,'tests/test_client_command_wheel.py',str(client)])
             execute([sys.executable,'tests/test_client_command_wheel.py',str(client),'--small'])
+            execute([sys.executable,'tests/test_client_bindings.py',str(client)])
+            execute([sys.executable,'tests/test_bindings_cli.py',str(client)])
             if (ROOT/'tests/test_client_coop.py').exists():
                 server=build('coop')
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server)])
@@ -560,6 +563,7 @@ def main():
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--follow'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--wheel-fault'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer-hud'])
+                execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer-hud','--mixed-bindings','--transfer-fault'])
     return 0
 if __name__=='__main__':
     try: sys.exit(main())

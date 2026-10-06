@@ -95,6 +95,14 @@ try:
         def focus(index):
             win=clients[index]['window'];X.XRaiseWindow(display,win);X.XSetInputFocus(display,win,2,0);X.XFlush(display);time.sleep(.1)
         def key(index,symbol,hold=.10):
+            if '--bindings' in sys.argv or ('--mixed-bindings' in sys.argv and index==1):
+                symbol={ord('w'):0xff52,ord('s'):0xff54,ord('a'):0xff51,ord('d'):0xff53,
+                        ord('1'):ord('5'),ord('2'):ord('6'),ord('3'):ord('7'),ord('4'):ord('8'),
+                        0xffbe:0xff50,0xffbf:0xff57,0xffc0:0xff63,0xffc1:0xffc9,
+                        0xffc2:0xffbe,0xffc3:0xffbf,0xffc4:0xffc0,0xffc5:0xffc1,
+                        0xffc6:0xffc2,0xffc7:0xffc3,0xffc8:0xffc4,0xff09:ord('m')}.get(symbol,symbol)
+                if symbol==0xff1b:
+                    focus(index);XT.XTestFakeButtonEvent(display,2,1,0);XT.XTestFakeButtonEvent(display,2,0,0);X.XFlush(display);time.sleep(.1);return
             focus(index);code=X.XKeysymToKeycode(display,symbol);assert code
             XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display);time.sleep(hold)
             XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display);time.sleep(.1)
@@ -117,7 +125,7 @@ try:
             if '--transfer-fault' in sys.argv or '--wheel-fault' in sys.argv:
                 from test_coop import FaultRelay
                 relay=FaultRelay(('127.0.0.1',port),latency_ms=75);relays.append(relay);connection_port=relay.socket.getsockname()[1]
-            process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(connection_port),'--tactical'],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+            process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(connection_port),'--tactical']+(['--bindings',str(pathlib.Path(__file__).with_name('bindings-remapped.cfg').resolve())] if '--bindings' in sys.argv or ('--mixed-bindings' in sys.argv and index==1) else []),cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
             processes.append(process)
             memory=os.open(f'/proc/{process.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv else os.O_RDWR);memories.append(memory)
             clients.append({'process':process,'memory':memory,'window':0})
@@ -340,6 +348,7 @@ try:
             until(lambda:'P0 OFFERS COMPANY EXCHANGE' in title(clients[1]['window']))
             if '--transfer-hud' in sys.argv:
                 focus(1);until(lambda:text_visible(X,display,clients[1]['window'],2,'P0 OFFERS COMPANY EXCHANGE'),3)
+                if '--bindings' in sys.argv or '--mixed-bindings' in sys.argv:until(lambda:text_visible(X,display,clients[1]['window'],2,'F5 ACCEPT',column=len('P0 OFFERS COMPANY EXCHANGE | ')),3)
             proposal=struct.unpack('<12I',os.pread(host_memory,48,server_symbols['company_transfers']))
             assert proposal[0:4]==(1,1,*original_keys) and proposal[9]==1,proposal
             assert [remote_company(i,i)[1]for i in range(2)]==original_keys
@@ -365,7 +374,7 @@ try:
             for index in (1,0):
                 key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
                 assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
-            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'queue_observation_one_way_delay_ms':500 if relays else None,'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'framebuffer_offer_and_acceptance':('--transfer-hud' in sys.argv),'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual framebuffer offer and acceptance text verified.' if '--transfer-hud' in sys.argv else 'Actual window-title feedback and default F5-F11 keys verified.','Contextual wheel, remapping and human readability review remain separate.']}))
+            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'remapped_controls':('--bindings' in sys.argv or '--mixed-bindings' in sys.argv),'different_client_profiles':('--mixed-bindings' in sys.argv),'framebuffer_remapped_accept_hint':(('--bindings' in sys.argv or '--mixed-bindings' in sys.argv) and '--transfer-hud' in sys.argv),'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'queue_observation_one_way_delay_ms':500 if relays else None,'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'framebuffer_offer_and_acceptance':('--transfer-hud' in sys.argv),'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual framebuffer offer and acceptance text verified.' if '--transfer-hud' in sys.argv else 'Actual window-title feedback and default F5-F11 keys verified.','Contextual wheel, remapping and human readability review remain separate.']}))
             raise SystemExit(0)
         if '--timeout' in sys.argv:
             host.terminate();host.communicate(timeout=5)
