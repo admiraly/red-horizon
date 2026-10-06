@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v6
-little-endian u32 header[10]: magic=0x52484332 version=6 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v7
+little-endian u32 header[10]: magic=0x52484332 version=7 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -20,3 +20,8 @@ aircraft speed metres/fixed30Hz tick 0..10; y -100..1200; abs heading<=6.4; abs 
 projectiles=104 payload4+64*n n:u32 records(index:u32 projectile60)[n<=18]; max1196bytes; independent fair nearby pool cursor, includes inactive generation-stamped tombstones
 projectile60 x:f32 y:f32 z:f32 vx:f32 vy:f32 vz:f32 ttl:u32 side:u32 kind:u32 damage:u32 radius:f32 source:u32 generation:u32 active:u32 source_generation:u32; velocity metres/fixed30Hz tick; kind1tank2artillery3bomb4airgun; ttl0..240 active0..1 generation/source_generation>0; finite world XYZ and velocity abs<=1000; whole packet validation before mutation; duplicate indices rejected
 projectiles client cosmetic512x64 separate from authority; per-slot tick and generation reject stale/reordered/reused slots, dead equal-generation cannot revive; render linear1/4 gravity0.0109metres/tick2 for2/3; refresh horizon120ticks and remaining TTL bound prediction; disconnect clears cosmetic pool; missed short-lived launches are not invented
+
+ground=105 payload4+64*n n:u32 records(index:u32 entity32 heading:f32 speed:f32 turn:f32 vx:f32 vz:f32 flags:u32 reserved:u32=0)[n<=18]; max1196bytes; version7/schema0x7231a4e0
+Self-contained generation-stamped tank/artillery heading and motion; zero heading +Z, speed/velocity metres per fixed30Hz tick, turn radians/tick. Server prioritizes legitimate owned hulls then independent fair nearby cursor, no duplicate record IDs.
+Ground entity kind1HP0..400 orkind2HP0..160, side0..1 front0..2 generation>0, target-1orvalidindex, finite worldXZ; absheading<=6.4 speedabs<=.61 turnabs<=.1 velocitynorm<=.611; flags1living/0dead, reservedzero. Whole batch validates before ANY entity/pose/timestamp mutation; duplicates reject.
+Ground packet warmup independent of sparse entity chunks; matching ground pose uses entity generation/kind, ignores stale tick/generation and dead equal-generation resurrection. Newer same-tick ground XZ/pose wins entity refresh; disconnect clears client ground presentation validity. Heading persists while stationary; renderer read-only. Entity32/state848 unchanged; content hash unchanged.

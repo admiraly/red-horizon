@@ -1,7 +1,7 @@
-; Actual gameplay UDP v6. Change both version/fingerprints on incompatible edits.
+; Actual gameplay UDP v7. Change both version/fingerprints on incompatible edits.
 %define NET_MAGIC 0x52484332
-%define NET_VERSION 6
-%define NET_SCHEMA 0x6d6a1299
+%define NET_VERSION 7
+%define NET_SCHEMA 0x7231a4e0
 %define NET_CONTENT 0xb2e7c728
 %define NET_HEADER 40
 %define NET_MTU 1200
@@ -15,6 +15,7 @@
 %define NET_EVENTS 102
 %define NET_AIRCRAFT 103
 %define NET_PROJECTILES 104
+%define NET_GROUND 105
 %define NET_STATE_SIZE 848
 %define NET_TIMEOUT 90
 %define NET_RECORD 48
