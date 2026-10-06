@@ -1,0 +1,12 @@
+{
+  "job_id": "2f3064f06f08",
+  "exit_code": 0,
+  "revision": "43e2439129940cd57611c9b5a8a741b71056e4a1-a5675e2e443c6c49",
+  "seconds": 1401.249173010001,
+  "status": "passed",
+  "collected": true,
+  "explicit_pass_reports": 184,
+  "log_path": "runs/jobs/2f3064f06f08/job.log",
+  "log_sha256": "3d58ca383fba743e870e1138a5ee1a8ba9d6f32060a2c2e415fefaf001526a94",
+  "scope": "Full existing suite at this frozen infantry-supply epoch; does not cover later player-ammunition candidate or complete specification."
+}

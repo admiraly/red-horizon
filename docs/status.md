@@ -16,12 +16,15 @@ arrival6223, then30-tick hold. Independent0.551m expanded-wall slabs check all
 6223 physical segments and role speeds/primary bytes/conservation remain valid.
 These sparse fixtures do not establish streaming, hardware or authored-site art.
 
-Frozen full8ea5d34ac91d is RUNNING at a1aa80f-fdd0559a26913e58, PID1331941
-confirmed live. Earlier detour full2f3064f06f08 also remains RUNNING,
-PID1241983 confirmed live. Both are pending; no restarted snapshots or premature
-passes. All foreground checks are terminal/reconciled; both feature branches
-and main are committed. The preceding depot full902e4f699f7a remains passed/
-collected; older failed checkpoints remain failed as recorded below.
+Frozen full8ea5d34ac91d PASSED and was collected at
+ a1aa80f-fdd0559a26913e58: exit0,1416.791323s,186 explicit pass reports.
+ Earlier detour full2f3064f06f08 also PASSED/collected at
+43e2439-a5675e2e443c6c49: exit0,1401.249173s,184 explicit pass reports.
+Exact log hashes/epochs are in evidence/supply-route-causal-full-passed.json
+and evidence/supply-routes-full-passed.json. These checkpoints cover those
+frozen infantry epochs, not the later isolated player-ammunition work.
+The preceding depot full902e4f699f7a remains passed/collected; older failed
+checkpoints remain failed as recorded below.
 
 Next gameplay implementation: the player rifle still creates30 rounds on every
 reload, without finite reserve accounting. docs/player-ammunition-design.md
