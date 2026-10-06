@@ -30,6 +30,11 @@ unavailable after real server timeout at both resolutions without memory writes.
 The rifle row is below transfer text; shorter empty wording fits minimum width.
 Original movement/hit/suppression/death/redeployment/input pixel gates pass.
 
+Matching main checks also pass: all399 authored inputs equal the worker,
+main original8192/four endpoints133 exact native tick reports, focused player
+checks and actual320x240 co-op120-shot depletion. Exact main library/binary
+epochs: evidence/player-ammunition-main.json.
+
 Exact separate source/binary epochs, reports, screenshots, fixture corrections
 and limitations: evidence/player-ammunition-session.json. Dependency prefix
 proves exact14 headless and8 client include consumers; full tools tail pending.

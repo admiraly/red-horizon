@@ -1,0 +1,2902 @@
+{
+  "source_revision": "a46fbe23e688da6cb5e79a6c5574d884cbb99121-2969032aadf8d434",
+  "integration_commit": "ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a",
+  "all_authored_inputs_equal_worker": 399,
+  "main_core_library_sha256": "ca49a66b07dc6820cd26b9a429be50b72ffecb25d333286cdec456c783e83401",
+  "checks": {
+    "player": {
+      "exit_code": 0,
+      "raw_log_sha256": "a3278b7c7435021121ff352f4313184150480ad700e117068684e8084c1e7248",
+      "reports": [
+        {
+          "terrain_roads": 19,
+          "checked": true
+        },
+        {
+          "terrain_relief_fields": 1,
+          "checked": true
+        },
+        {
+          "terrain_grade_facets": 9,
+          "checked": true
+        },
+        {
+          "terrain_world_checked": true,
+          "patch": {
+            "x": [
+              5375,
+              5875
+            ],
+            "z": [
+              4750,
+              5625
+            ],
+            "spacing": 5,
+            "max_height_error": 0.027,
+            "route_margin": 6,
+            "node_limit": 27
+          },
+          "interior_height_bound": 0.025009375,
+          "seam_correction_bound": 0.0009765625,
+          "roundoff_allowance": 0.0001
+        },
+        {
+          "ground_content": "0xe4212358",
+          "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+          "checked": true
+        },
+        {
+          "suite": "finite-player-ammunition",
+          "passed": true,
+          "actual_depletion": {
+            "actual_shots": 120,
+            "spent": 120,
+            "empty_request_ticks": 180,
+            "magazine_samples": [
+              [
+                178,
+                30,
+                60,
+                30
+              ],
+              [
+                356,
+                30,
+                30,
+                60
+              ],
+              [
+                534,
+                30,
+                0,
+                90
+              ],
+              [
+                651,
+                0,
+                0,
+                120
+              ]
+            ]
+          },
+          "partial_reload": {
+            "unchanged_magazine_during_animation": 28,
+            "final_magazine": 30,
+            "final_reserve": 88,
+            "actual_spent": 2
+          },
+          "physical_depot_walk": {
+            "initial_distance_m": 80,
+            "actual_credit_tick": 150,
+            "final_position": [
+              1050.00732421875,
+              3900.0
+            ],
+            "received": 90,
+            "depot_remaining": 11910,
+            "magazine_unchanged": 30
+          },
+          "fresh_body_and_retired_receipts": {
+            "fresh_join_generation": 2,
+            "fresh_body_equipment": 120,
+            "retained_lifetime_receipts": 90,
+            "retained_depot_issued": 90,
+            "actual_death_tick": 160,
+            "actual_safe_deploy_tick": 190,
+            "dead_stock_frozen": true,
+            "failed_spawn_actual_ticks_without_equipment": 120
+          },
+          "actual_finite_store_exhaustion": {
+            "actual_rifle_shots": 12120,
+            "depot_received": 12000,
+            "remaining": 0,
+            "spent": 12120,
+            "ticks": 72031,
+            "empty_requests": 180,
+            "original_count": 2
+          },
+          "rejected_static_cases": [
+            "generation",
+            "reserve",
+            "spent",
+            "received",
+            "initial",
+            "reserved0",
+            "reserved1",
+            "player_ammo",
+            "player_reload",
+            "player_hp",
+            "player_hp",
+            "player_connected",
+            "player_front",
+            "player_generation",
+            "pose_x",
+            "pose_z",
+            "pose_x",
+            "pose_z",
+            "pose_y",
+            "pose_y",
+            "enemy",
+            "role",
+            "cut",
+            "destroyed",
+            "contested"
+          ],
+          "same_body_never_reequips": true,
+          "inactive_and_lifetime_state_hashed": true,
+          "library_sha256": "ca49a66b07dc6820cd26b9a429be50b72ffecb25d333286cdec456c783e83401",
+          "limits": [
+            "Sparse actual public rifle input/ticks; startup stock declarations are distinct from no-renewal depletion/exhaustion. Static API faults are separate.",
+            "Own authority only: no network/HUD/broader weapon or vehicle/air rearm acceptance."
+          ]
+        },
+        {
+          "suite": "player-ammunition-producer-and-remote-cache",
+          "passed": true,
+          "readonly_guarded_reports": 25,
+          "malformed_cases": [
+            "foreign owner",
+            "generation",
+            "magazine",
+            "reserve",
+            "spent bound",
+            "conservation",
+            "receipt bound",
+            "receipt timestamp without credit",
+            "initial",
+            "flags",
+            "reserved"
+          ],
+          "whole_payload_atomic": true,
+          "actual_shot_magazine_corroboration": true,
+          "actual_new_body_generation_reordering": true,
+          "actual90tick_age_boundary": true,
+          "explicit_unknown_zero_quantities": true,
+          "reset_clears": true,
+          "library_sha256": "ca49a66b07dc6820cd26b9a429be50b72ffecb25d333286cdec456c783e83401",
+          "limits": [
+            "Actual CPU producer/cache and genuine shots/new body/age ticks; malformed field fixtures are separate.",
+            "No transport authentication, actual UDP delivery or GL feedback acceptance from these cache calls alone."
+          ]
+        },
+        {
+          "suite": "player-ammunition-ABI",
+          "passed": true,
+          "entry_points": 7,
+          "calls": 21,
+          "six_nonvolatile_registers_and_stack_preserved": true,
+          "readonly_invalid_hash_and_output_guards": true,
+          "core_sha256": "ca49a66b07dc6820cd26b9a429be50b72ffecb25d333286cdec456c783e83401",
+          "limits": [
+            "Development ABI wrapper; runtime input/tick, UDP and graphics outcomes are separate."
+          ]
+        },
+        {
+          "suite": "exterior-site-deployment",
+          "passed": true,
+          "negative_centre": false,
+          "clear_four_player_poses": [
+            [
+              920.0,
+              26.931398391723633,
+              1300.0
+            ],
+            [
+              1000.0,
+              26.23219871520996,
+              1380.0
+            ],
+            [
+              1000.0,
+              26.664199829101562,
+              1220.0
+            ],
+            [
+              850.0,
+              27.36749839782715,
+              1300.0
+            ]
+          ],
+          "unsafe_exterior_candidates_rejected": true,
+          "initial_fixture_only": true,
+          "limits": [
+            "Authored site-model centres; no full physical building/nav/destruction integration claim."
+          ]
+        },
+        {
+          "suite": "controller-crowd-outcomes",
+          "status": "PASS",
+          "passed": true,
+          "legacy": false,
+          "library_sha256": "ca49a66b07dc6820cd26b9a429be50b72ffecb25d333286cdec456c783e83401",
+          "observer_sha256": "04d852ab7c0b4aa5fcc52d2bb5111c396f130c390113e2e88599f85fce532cc0",
+          "cases": [
+            {
+              "name": "human_vs_infantry",
+              "mode": "human",
+              "obstacle": "infantry",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3498.60302734375,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.39697265625,
+              "progress_m": 18.60302734375,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "8463c6e3f02c5646968097f60bc375ada97f7ea460d1f6b6ea0f7d64469eb713",
+              "checksum": "9d935a2923c3e68d"
+            },
+            {
+              "name": "human_vs_infantry_diagonal",
+              "mode": "human",
+              "obstacle": "infantry",
+              "ticks": 120,
+              "start": [
+                3498.5999999999995,
+                2000
+              ],
+              "final": [
+                3523.634765625,
+                2025.458984375
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.2612614939820905,
+              "progress_m": 35.82868337716356,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "af7f508185c42bfe27247a8e7d93f1676b21470c0e81f909b9553b3b7fb6bfd2",
+              "checksum": "90eaff71f6748458"
+            },
+            {
+              "name": "human_vs_tank",
+              "mode": "human",
+              "obstacle": "tank",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3495.00244140625,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.99755859375,
+              "progress_m": 15.00244140625,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "a0862b4d932b3df665ac64f7926ff5d4a1ba7b9b85f765d9e1de64f7c03d3389",
+              "checksum": "b1e4ca880df59a5a"
+            },
+            {
+              "name": "human_vs_tank_diagonal",
+              "mode": "human",
+              "obstacle": "tank",
+              "ticks": 120,
+              "start": [
+                3495.5999999999995,
+                2000
+              ],
+              "final": [
+                3518.725341796875,
+                2025.458984375
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.39990234375,
+              "progress_m": 35.03777413123583,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "05b6bf92befa9f2cb6d739e9facbe0c6c07fb5d72aca86d15e090d27f7623c75",
+              "checksum": "eee7ca98ee0d0baf"
+            },
+            {
+              "name": "human_vs_artillery",
+              "mode": "human",
+              "obstacle": "artillery",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3494.702392578125,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 5.297607421875,
+              "progress_m": 14.702392578125,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "ab1b96a1f0ca973f8a39da580915e3ad9f7d97e5d2051634329e06c42fcacbd3",
+              "checksum": "98b7b4ca340d1a62"
+            },
+            {
+              "name": "human_vs_artillery_diagonal",
+              "mode": "human",
+              "obstacle": "artillery",
+              "ticks": 120,
+              "start": [
+                3494.66,
+                2000
+              ],
+              "final": [
+                3517.997314453125,
+                2025.458984375
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 5.250744840600434,
+              "progress_m": 35.12565293633891,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "15148b4703a5b5b65b682af5ff3ac3c44a7ba79beca72a62c5aa71aa8939e44c",
+              "checksum": "e356221dbdb5b741"
+            },
+            {
+              "name": "human_vs_human",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3498.302978515625,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.697021484375,
+              "progress_m": 18.302978515625,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "db71b4451904ddb6e86b2127e784f919ba0d84b8fa35866f9f47181f3b0b02e2",
+              "checksum": "fdcedba6dff88a51"
+            },
+            {
+              "name": "human_vs_human_diagonal",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3498.5999999999995,
+                2000
+              ],
+              "final": [
+                3523.422607421875,
+                2025.458984375
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.39990234375,
+              "progress_m": 35.740804572060476,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "0e0cea6ca63e3f776fd50aa2461392ad0af312653e9fc2e058284f31c77f5650",
+              "checksum": "24e37c7efee6a7f4"
+            },
+            {
+              "name": "driver_vs_infantry",
+              "mode": "driver",
+              "obstacle": "infantry",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3495.771484375,
+                2000.0518798828125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.22883387154305,
+              "progress_m": 15.775590115547995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "39a2aeee7a70658c4936b69cbd4885e5064d59b76b67d69c05b648a2fe9f9aab",
+              "checksum": "cf8a2fdd0745fe47"
+            },
+            {
+              "name": "driver_vs_infantry_diagonal",
+              "mode": "driver",
+              "obstacle": "infantry",
+              "ticks": 120,
+              "start": [
+                3495.5999999999995,
+                2000
+              ],
+              "final": [
+                3495.7822265625,
+                2033.461181640625
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.220160474584789,
+              "progress_m": 33.56703565425997,
+              "explicit_driver_contact_steering": true,
+              "trace_sha256": "133c1b288d9b0872e43cf5e4fad1a1d768e32398bf0eef5123baf40005cc7938",
+              "checksum": "421b5d40e2cd61d2"
+            },
+            {
+              "name": "driver_vs_tank",
+              "mode": "driver",
+              "obstacle": "tank",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3492.299560546875,
+                2000.0518798828125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 7.700614215339234,
+              "progress_m": 12.303666287422995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "f6d5e0630160c7fa296403abf456fee4713070154777c9805736321d6d6c03b2",
+              "checksum": "47428b50fdbda4ec"
+            },
+            {
+              "name": "driver_vs_tank_diagonal",
+              "mode": "driver",
+              "obstacle": "tank",
+              "ticks": 120,
+              "start": [
+                3492.5999999999995,
+                2000
+              ],
+              "final": [
+                3492.60009765625,
+                2032.8790283203125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 7.39990234375,
+              "progress_m": 32.8790283203125,
+              "explicit_driver_contact_steering": true,
+              "trace_sha256": "0ecbbe14d84270a2ba9f5104360e2acce01a58ee3b97bcb5963dc6a1d9804ea7",
+              "checksum": "69c260587fccf8e1"
+            },
+            {
+              "name": "driver_vs_artillery",
+              "mode": "driver",
+              "obstacle": "artillery",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3491.75537109375,
+                2000.0518798828125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 8.24479213346302,
+              "progress_m": 11.759476834297995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "164cbccb2547e52145d077d136d5d7c368b752e628c6970e86a81f12b8629e94",
+              "checksum": "665f4622f59f0c9b"
+            },
+            {
+              "name": "driver_vs_artillery_diagonal",
+              "mode": "driver",
+              "obstacle": "artillery",
+              "ticks": 120,
+              "start": [
+                3491.66,
+                2000
+              ],
+              "final": [
+                3491.759765625,
+                2032.929443359375
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 8.240388597092695,
+              "progress_m": 32.991027438811415,
+              "explicit_driver_contact_steering": true,
+              "trace_sha256": "e6ebc7db6f91798bf93c2358ffdeff8e46b32e709794f9a26fb386bf68316071",
+              "checksum": "ca40c3f6302c076b"
+            },
+            {
+              "name": "driver_vs_human",
+              "mode": "driver",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3495.59521484375,
+                2000.0518798828125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.405090668188452,
+              "progress_m": 15.599320584297995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "633945ce7aaa9ab07fcd9c5615f6fdcc2e948bf697ef8ea6446431459d1c742c",
+              "checksum": "e19ebcc31663712a"
+            },
+            {
+              "name": "driver_vs_human_diagonal",
+              "mode": "driver",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3495.5999999999995,
+                2000
+              ],
+              "final": [
+                3495.60009765625,
+                2032.8790283203125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.39990234375,
+              "progress_m": 32.8790283203125,
+              "explicit_driver_contact_steering": true,
+              "trace_sha256": "0a7cfd77f8a3a35fca6b705d70cce5a34a08a7d7f21a8cdbf3f2916112059e3b",
+              "checksum": "c9b62ea3ca9b359b"
+            },
+            {
+              "name": "human_vs_human_overlap_in",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3498.9999999999995,
+                2000
+              ],
+              "final": [
+                3499.0,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 120,
+              "minimum_relative_distance": 1.0,
+              "progress_m": 0.0,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "f11b297d2016f14beb2ac230f77642d6f5185a7d33829219c38194f658807fb4",
+              "checksum": "904819c757a1fae1"
+            },
+            {
+              "name": "human_vs_human_overlap_out",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3498.9999999999995,
+                2000
+              ],
+              "final": [
+                3462.994140625,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 1,
+              "minimum_relative_distance": 1.0,
+              "progress_m": 36.005859375,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "19e654b19c2573d4f9201a3742fbe5e7f79419c9bb3af8bff3dc810fb0d3dc8e",
+              "checksum": "c94dd0a5a0024bff"
+            },
+            {
+              "name": "driver_vs_human_overlap_in",
+              "mode": "driver",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3495.9999999999995,
+                2000
+              ],
+              "final": [
+                3496.0,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 120,
+              "minimum_relative_distance": 4.0,
+              "progress_m": 0.0,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "5f10e248c8344fc75235672b2ccf93451f0a865ced2b5b216d639e27ccd38ec8",
+              "checksum": "6d729840c6749b22"
+            },
+            {
+              "name": "driver_vs_human_overlap_out",
+              "mode": "driver",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3495.9999999999995,
+                2000
+              ],
+              "final": [
+                3479.295654296875,
+                1999.9481201171875
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 4,
+              "minimum_relative_distance": 4.0,
+              "progress_m": 16.708451443672995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "6840539685213f9c3df97feafab3cb5268b94493c06fd7210bfc4571295be5ff",
+              "checksum": "3eb7761ff25b3c0f"
+            },
+            {
+              "name": "human_vs_human_moving",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3489.301513671875,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.697021484375,
+              "progress_m": 9.301513671875,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "dc201d65fc38e910da87b1f182ebe34dae5a763063061af6243e1d0d60433faa",
+              "checksum": "28315d71c43530b7"
+            },
+            {
+              "name": "driver_vs_human_moving",
+              "mode": "driver",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3486.95556640625,
+                2000.0518798828125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 4.34332743482959,
+              "progress_m": 6.959672146797995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "1411c90eb26ed4fe1e747a0eefb894d0cd91b2977cfc94575ae23ba6576185fd",
+              "checksum": "30854fc86e747d3d"
+            },
+            {
+              "name": "ai_vs_human_moving",
+              "mode": "ai",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3488,
+                2000
+              ],
+              "final": [
+                3501.55322265625,
+                2001.0577392578125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.2314341315443293,
+              "progress_m": 14.396171608919069,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "b16975bab21778ebd80fb6c13c653bd8c8ae85f6218e2a1c304d3c5c329df813",
+              "checksum": "db21140f49193a0c"
+            },
+            {
+              "name": "driver_vs_driver_moving",
+              "mode": "driver",
+              "obstacle": "driver",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3488.3955078125,
+                2000.0518798828125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 7.702681000547486,
+              "progress_m": 8.399613553047995,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "63a0c2a99fb533fed5780f0ed9decb2e1c6fa9bb553682baa9080404998d1b00",
+              "checksum": "4f4af693c5ef6811"
+            },
+            {
+              "name": "human_vs_human_death",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3511.80517578125,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 0.44431878820330134,
+              "progress_m": 31.80517578125,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "55e486608dfc3180038b73c6f2ec40aa79b07a73e0653e65cbf1ded4abb20667",
+              "checksum": "f5b9f0f150d0a439"
+            },
+            {
+              "name": "human_vs_human_disconnect",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3511.80517578125,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 0.0,
+              "progress_m": 31.80517578125,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "ed652dd35e7d23e4b76eeb8909944a35f807296f6f3d3f6635e2fffcc4294046",
+              "checksum": "490dcbd063057d75"
+            },
+            {
+              "name": "human_vs_human_generation",
+              "mode": "human",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3480,
+                2000
+              ],
+              "final": [
+                3511.80517578125,
+                2000.0
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.697021484375,
+              "progress_m": 31.80517578125,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "3901168c8652b660004e37dd21560347b3fc4f4a00351c08eaed192a15fbdfcc",
+              "checksum": "557eecfa51291ae1"
+            },
+            {
+              "name": "ai_vs_human",
+              "mode": "ai",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3488,
+                2000
+              ],
+              "final": [
+                3501.55517578125,
+                2001.353759765625
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.4053218109521388,
+              "progress_m": 14.409394589253688,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "27c4643ebfddfc094aa070fc535b713e4e8713e1f3e5f58564fd7c9ad1a9932b",
+              "checksum": "6648b36c78adefbc"
+            },
+            {
+              "name": "ai_vs_human_moving",
+              "mode": "ai",
+              "obstacle": "human",
+              "ticks": 120,
+              "start": [
+                3488,
+                2000
+              ],
+              "final": [
+                3501.55322265625,
+                2001.0577392578125
+              ],
+              "swept_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "minimum_relative_distance": 1.2314341315443293,
+              "progress_m": 14.396171608919069,
+              "explicit_driver_contact_steering": false,
+              "trace_sha256": "b16975bab21778ebd80fb6c13c653bd8c8ae85f6218e2a1c304d3c5c329df813",
+              "checksum": "db21140f49193a0c"
+            }
+          ],
+          "four_controllers": [
+            {
+              "driven": false,
+              "reversed_slots": false,
+              "ticks": 120,
+              "swept_overlap_ticks": 0,
+              "progress_m": [
+                14.102294921875,
+                14.102294921875,
+                13.80224609375,
+                13.80224609375
+              ],
+              "physical_trace_sha256": [
+                "a060e06d872fbee21dcd2d0d7366bbd50258d68ac86835451af3d9867c65cef6",
+                "fad0823b00e08dddf95db9da521c2547e34c9150f9c6ae2305d6b65841f0387d",
+                "c17fdb21dd2f2685a93c82bec4a833e51df77e2ed6d52e13af01db66fa97dc57",
+                "d424e31a78e1fdce8831d7ebb978417978852921a084713d26e5add3b10a7de5"
+              ],
+              "checksum": "e34848cd49d81534"
+            },
+            {
+              "driven": false,
+              "reversed_slots": true,
+              "ticks": 120,
+              "swept_overlap_ticks": 0,
+              "progress_m": [
+                13.80224609375,
+                13.80224609375,
+                14.102294921875,
+                14.102294921875
+              ],
+              "physical_trace_sha256": [
+                "dc5ee6bced4b293eb982a5eb0f82700f39f07c864f0afbff34c78c3d61fb3ec0",
+                "752ac04c451534421cda977e798746cd543709597ae19ff200fcce0591af6e0a",
+                "d0ffebfdff4a503b5d12788af64737dc797a6e7f5a65c9ed4a494c34fbee6904",
+                "deb626245558530b83eb0d3f48c71be1a44aa7aec12f45a21ff096360e57a82e"
+              ],
+              "checksum": "335bae8c759ec65f"
+            },
+            {
+              "driven": true,
+              "reversed_slots": false,
+              "ticks": 120,
+              "swept_overlap_ticks": 0,
+              "progress_m": [
+                11.27977112829429,
+                8.00280207381673,
+                9.823681397194377,
+                9.855979164127005
+              ],
+              "physical_trace_sha256": [
+                "06fe4ab30421e5db1446f302646f0154b5e4b4c35473ab709280dc2c619d219a",
+                "485688504227418d19c76e618459ee91e48e279e193edbb09edcd34953d8236c",
+                "5dbefdd2cc1586a1d2c6a00773710e5349f0ba4cd2113571a42e82c742dbb8a8",
+                "22ddc3145289bc426953b4a681167a4badbf1682179e33faf31320a5a16be6e0"
+              ],
+              "checksum": "f85d0b9a01a9ff70"
+            },
+            {
+              "driven": true,
+              "reversed_slots": true,
+              "ticks": 120,
+              "swept_overlap_ticks": 0,
+              "progress_m": [
+                10.81590394079429,
+                7.57067316756673,
+                10.319775147194377,
+                10.335959632877005
+              ],
+              "physical_trace_sha256": [
+                "f9f7dfb12c0391dc661d57a62ff170f909def7219eed60dabb91e86a843409e8",
+                "84b9137153fa9fb6836c834849e391eea6cd4a89eca9671f4b5b1885fe0461cb",
+                "ccd2f734252697116de42ccb3d2f466fcafe94965c9bac68c77858028c074e5d",
+                "68aab894a95ccf92f1d76df85078545a8537ca3ec77ef3d6b03cf1271323a7eb"
+              ],
+              "checksum": "3536af67f330e3b3"
+            }
+          ],
+          "slot_physical_trace_invariance": [
+            false,
+            false
+          ],
+          "placements": [
+            {
+              "name": "fully_occupied_deployment",
+              "living_player": true,
+              "published_body_overlaps": 0
+            },
+            {
+              "name": "artillery_ring_exit",
+              "return_code": -1,
+              "published_body_overlaps": 0,
+              "boarded": true
+            }
+          ],
+          "dense": [
+            {
+              "units": 8192,
+              "ticks": 60,
+              "near_relative_sweep_checks": 256,
+              "controller_pair_sweep_checks": 360,
+              "controller_pair_new_overlap_ticks": 0,
+              "new_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "controller_moving_ticks": 183,
+              "army_hp_before": 1208320,
+              "army_hp_after": 1102426,
+              "dead_before": 0,
+              "dead_after": 549,
+              "trace_sha256": "fbd56d9ba52332945f4d4384c3f3656b86bdac29ae514ed2fb370627680fcb84",
+              "checksum": "d053a0d65e689904"
+            },
+            {
+              "units": 16384,
+              "ticks": 60,
+              "near_relative_sweep_checks": 253,
+              "controller_pair_sweep_checks": 360,
+              "controller_pair_new_overlap_ticks": 0,
+              "new_overlap_ticks": 0,
+              "initial_overlap_ticks": 0,
+              "controller_moving_ticks": 184,
+              "army_hp_before": 2416640,
+              "army_hp_after": 2303241,
+              "dead_before": 0,
+              "dead_after": 550,
+              "trace_sha256": "9c5d49bac27619917e61b0068071f18f17a0e051d56bd2020bac93909f9ae74f",
+              "checksum": "61821bb7ea0b9689"
+            }
+          ],
+          "limits": [
+            "Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.",
+            "Dense checks controller-to-army only, not every army mutual pair.",
+            "Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.",
+            "Human input component/sign/amplitude gates remain; driven hulls use real stamped hull-axis/speed/velocity whole-segment coherence.",
+            "Legacy causal control disables crowd and shared ground policy together when available; original frozen baseline has no ground module.",
+            "Deployment uses current authored site/near-field candidate set; no streamed-map claim."
+          ]
+        },
+        {
+          "suite": "terrain-body",
+          "passed": true,
+          "seed": 19381,
+          "random_sweeps": 5980,
+          "route_ticks": [
+            3621,
+            3621,
+            4302,
+            35296,
+            892,
+            892,
+            1043,
+            8477,
+            2245,
+            2245,
+            2614,
+            21204,
+            743,
+            743,
+            870,
+            7064
+          ],
+          "controller_ticks": 400,
+          "controller_edge_ticks": 800,
+          "radii": [
+            0.55,
+            3.55,
+            4.49,
+            0
+          ],
+          "invalid_start_policy": "safe hold",
+          "geometry": "expanded AABBs"
+        },
+        {
+          "suite": "terrain-body-outcomes",
+          "passed": true,
+          "legacy": false,
+          "terrain_body_module_present": true,
+          "library_sha256": "ca49a66b07dc6820cd26b9a429be50b72ffecb25d333286cdec456c783e83401",
+          "oracle_sha256": "54c69f9921c0ca1823164bcc18421aff16114e199ae8473ae22cfe6ab740e245",
+          "expanded_rectangle_radii_m": [
+            0.55,
+            3.55,
+            4.49
+          ],
+          "solid_boxes": [
+            [
+              3988.0,
+              1100.0,
+              4012.0,
+              1500.0
+            ],
+            [
+              3988.0,
+              3700.0,
+              4012.0,
+              4100.0
+            ],
+            [
+              3988.0,
+              6300.0,
+              4012.0,
+              6700.0
+            ],
+            [
+              5170.0,
+              1540.0,
+              5230.0,
+              1600.0
+            ],
+            [
+              2770.0,
+              3540.0,
+              2830.0,
+              3600.0
+            ]
+          ],
+          "controlled_encounters": [
+            {
+              "name": "infantry_wall_skirt",
+              "mode": "army",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 800,
+              "start": [
+                3970,
+                1099.6
+              ],
+              "goal": [
+                4030,
+                1099.6
+              ],
+              "final": [
+                4030.0,
+                1099.5999755859375
+              ],
+              "final_goal_error": 2.441406240905053e-05,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3973.574951171875,
+                    1099.1917724609375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3984.379638671875,
+                    1099.2005615234375
+                  ]
+                },
+                {
+                  "tick": 800,
+                  "pose": [
+                    4030.0,
+                    1099.5999755859375
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "996f9f7ef4d7b1c5fce5e6c4fa75341d04d66a58699a80725722f2a06e8a0643",
+              "checksum": "764b0dfe4d72f811"
+            },
+            {
+              "name": "tank_wall_skirt",
+              "mode": "army",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 400,
+              "start": [
+                3970,
+                1097
+              ],
+              "goal": [
+                4030,
+                1097
+              ],
+              "final": [
+                4030.0,
+                1097.0
+              ],
+              "final_goal_error": 0.0,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3977.181884765625,
+                    1096.6278076171875
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    4013.131591796875,
+                    1096.322509765625
+                  ]
+                },
+                {
+                  "tick": 400,
+                  "pose": [
+                    4030.0,
+                    1097.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "370a2ec1173df957f9eac395f74b996600f2d6c49ccbc211138f93cb1adfb40f",
+              "checksum": "b99cc58c99a15b58"
+            },
+            {
+              "name": "artillery_wall_skirt",
+              "mode": "army",
+              "kind": 2,
+              "radius_m": 4.49,
+              "ticks": 800,
+              "start": [
+                3970,
+                1096
+              ],
+              "goal": [
+                4030,
+                1096
+              ],
+              "final": [
+                4030.0,
+                1096.0
+              ],
+              "final_goal_error": 0.0,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3972.832763671875,
+                    1095.5355224609375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3985.3212890625,
+                    1094.264892578125
+                  ]
+                },
+                {
+                  "tick": 800,
+                  "pose": [
+                    4030.0,
+                    1096.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "de8b074232350df303b9310443c28c1718f2117380f9dec705decc8132b526d3",
+              "checksum": "c86f4bf2362aec90"
+            },
+            {
+              "name": "tank_wall_route",
+              "mode": "army",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 1800,
+              "start": [
+                3970,
+                1300
+              ],
+              "goal": [
+                4030,
+                1300
+              ],
+              "final": [
+                4030.0,
+                1300.0001220703125
+              ],
+              "final_goal_error": 0.0001220703125,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3971.020263671875,
+                    1298.68505859375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3973.408935546875,
+                    1263.71875
+                  ]
+                },
+                {
+                  "tick": 1800,
+                  "pose": [
+                    4030.0,
+                    1300.0001220703125
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "a2f7b529938c6ead80e053e125da6922312b924fff0dc4134baab27c0cf2ff5f",
+              "checksum": "1cd8d997c7e801e8"
+            },
+            {
+              "name": "artillery_wall_route",
+              "mode": "army",
+              "kind": 2,
+              "radius_m": 4.49,
+              "ticks": 4200,
+              "start": [
+                3970,
+                1300
+              ],
+              "goal": [
+                4030,
+                1300
+              ],
+              "final": [
+                4030.0,
+                1300.0001220703125
+              ],
+              "final_goal_error": 0.0001220703125,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3970.25341796875,
+                    1299.81396484375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3972.326171875,
+                    1288.0718994140625
+                  ]
+                },
+                {
+                  "tick": 4200,
+                  "pose": [
+                    4030.0,
+                    1300.0001220703125
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "3fbcc58787293278275c7e53fa0a426b0da2a4830766fdb8f0dd0ae890c0962f",
+              "checksum": "22d267eebb128983"
+            },
+            {
+              "name": "tank_structure_route",
+              "mode": "army",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 600,
+              "start": [
+                5150,
+                1570
+              ],
+              "goal": [
+                5250,
+                1570
+              ],
+              "final": [
+                5250.0,
+                1570.000244140625
+              ],
+              "final_goal_error": 0.000244140625,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    5152.2529296875,
+                    1568.025634765625
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    5163.85595703125,
+                    1535.0716552734375
+                  ]
+                },
+                {
+                  "tick": 600,
+                  "pose": [
+                    5250.0,
+                    1570.000244140625
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "530b29658362c099566e24197834dd78495c1711d9be919aaaeb5504c89b0fc1",
+              "checksum": "1f38a0414e33d2bb"
+            },
+            {
+              "name": "infantry_edge_goal",
+              "mode": "army",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 100,
+              "start": [
+                5,
+                2000
+              ],
+              "goal": [
+                0,
+                2000
+              ],
+              "final": [
+                0.5509999990463257,
+                2000.0
+              ],
+              "final_goal_error": 0.5509999990463257,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    1.4000028371810913,
+                    2000.0
+                  ]
+                },
+                {
+                  "tick": 100,
+                  "pose": [
+                    0.5509999990463257,
+                    2000.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "d9a00e130c529a7aaba9bb8af418c5006f7380651952f4710a2c528cf8213c13",
+              "checksum": "074fba57c5d07fd4"
+            },
+            {
+              "name": "tank_edge_goal",
+              "mode": "army",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 100,
+              "start": [
+                10,
+                2000
+              ],
+              "goal": [
+                0,
+                2000
+              ],
+              "final": [
+                3.5510013103485107,
+                1999.9681396484375
+              ],
+              "final_goal_error": 3.5511442364537276,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    10.0,
+                    2000.0
+                  ]
+                },
+                {
+                  "tick": 100,
+                  "pose": [
+                    3.5510013103485107,
+                    1999.9681396484375
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "a19127910f2119b799d720452ed695761955613d04dd4c1941c59271cf54eb24",
+              "checksum": "6c150b04553b2713"
+            },
+            {
+              "name": "artillery_edge_goal",
+              "mode": "army",
+              "kind": 2,
+              "radius_m": 4.49,
+              "ticks": 100,
+              "start": [
+                10,
+                2000
+              ],
+              "goal": [
+                0,
+                2000
+              ],
+              "final": [
+                4.491000175476074,
+                2000.0
+              ],
+              "final_goal_error": 4.491000175476074,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": null,
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    7.130001544952393,
+                    2000.0
+                  ]
+                },
+                {
+                  "tick": 100,
+                  "pose": [
+                    4.491000175476074,
+                    2000.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "16924c8b283c63ad844fdcb5d8a8e83a6c0f12e78742f0954e3651f86aa9f52b",
+              "checksum": "42093707b29fe62e"
+            },
+            {
+              "name": "player_wall_skirt",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 240,
+              "start": [
+                3970,
+                1099.6
+              ],
+              "goal": null,
+              "final": [
+                3987.40283203125,
+                1099.5999755859375
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3979.00146484375,
+                    1099.5999755859375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3987.40283203125,
+                    1099.5999755859375
+                  ]
+                },
+                {
+                  "tick": 240,
+                  "pose": [
+                    3987.40283203125,
+                    1099.5999755859375
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "59b59a8911a5a9b60224b948da0ae2162cc15df5d42b9b28897f5f39303b5436",
+              "checksum": "c64ca8c93e734240"
+            },
+            {
+              "name": "player_jump_wall_skirt",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 240,
+              "start": [
+                3970,
+                1099.6
+              ],
+              "goal": null,
+              "final": [
+                3987.40283203125,
+                1099.5999755859375
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                68,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3979.00146484375,
+                    1099.5999755859375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3987.40283203125,
+                    1099.5999755859375
+                  ]
+                },
+                {
+                  "tick": 240,
+                  "pose": [
+                    3987.40283203125,
+                    1099.5999755859375
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "59b59a8911a5a9b60224b948da0ae2162cc15df5d42b9b28897f5f39303b5436",
+              "checksum": "ab8a517afe941800"
+            },
+            {
+              "name": "player_crouch_wall_skirt",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 800,
+              "start": [
+                3970,
+                1099.6
+              ],
+              "goal": null,
+              "final": [
+                3987.399658203125,
+                1099.5999755859375
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                32,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3972.49755859375,
+                    1099.5999755859375
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3979.990234375,
+                    1099.5999755859375
+                  ]
+                },
+                {
+                  "tick": 800,
+                  "pose": [
+                    3987.399658203125,
+                    1099.5999755859375
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "a5ecff91b0cab8d556a8ddf20d36d23006cfb2169538439ce75d3adbc9e2b663",
+              "checksum": "9fee96ac96187536"
+            },
+            {
+              "name": "player_wall",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 90,
+              "start": [
+                3980,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3987.201171875,
+                1300.0
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3987.201171875,
+                    1300.0
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    3987.201171875,
+                    1300.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "1f9462bf1ef07a0dcc69202062b22498f0499476279913068338c778bf02786f",
+              "checksum": "2edaa50e6ec24838"
+            },
+            {
+              "name": "player_jump_wall",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 90,
+              "start": [
+                3980,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3987.201171875,
+                1300.0
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                68,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3987.201171875,
+                    1300.0
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    3987.201171875,
+                    1300.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "1f9462bf1ef07a0dcc69202062b22498f0499476279913068338c778bf02786f",
+              "checksum": "df0bb1449afa6578"
+            },
+            {
+              "name": "player_crouch_wall",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 180,
+              "start": [
+                3980,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3987.409423828125,
+                1300.0
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                32,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3982.49755859375,
+                    1300.0
+                  ]
+                },
+                {
+                  "tick": 120,
+                  "pose": [
+                    3987.409423828125,
+                    1300.0
+                  ]
+                },
+                {
+                  "tick": 180,
+                  "pose": [
+                    3987.409423828125,
+                    1300.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "e685d2b76828abd9070fd038f448610f375e3aaba9ac1af9cc2a46ae1cb15639",
+              "checksum": "99504fbe4f4411ba"
+            },
+            {
+              "name": "driven_tank_wall",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                3980,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3984.44384765625,
+                1300.0518798828125
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3984.44384765625,
+                    1300.0518798828125
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    3984.44384765625,
+                    1300.0518798828125
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "147fa2c44f6408f546e16636ef618c6e7cdc5ee5155cefa1a15b5810255424e8",
+              "checksum": "4e0007e27022bf93"
+            },
+            {
+              "name": "player_diagonal_wall",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 90,
+              "start": [
+                3980,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3987.425537109375,
+                1319.09423828125
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                1,
+                1
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 55,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3986.36474609375,
+                    1306.36474609375
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    3987.425537109375,
+                    1319.09423828125
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "6f2f10e8096b3ad04af5c758201fb31e00a1fb22c0fa9c885100f8f62c1c0eff",
+              "checksum": "f56bd5d61d8408a6"
+            },
+            {
+              "name": "driven_tank_diagonal_wall",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                3980,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3984.4482421875,
+                1321.50634765625
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                1,
+                1
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3984.347412109375,
+                    1304.25
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    3984.4482421875,
+                    1321.50634765625
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "cd65c58224abdff9e5422b84011591b67fdeaa73fe11870da66b41e45c9e10a8",
+              "checksum": "32bf6dbe1a1462e2"
+            },
+            {
+              "name": "player_edge",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 90,
+              "start": [
+                5,
+                2000
+              ],
+              "goal": null,
+              "final": [
+                0.5509999990463257,
+                2000.0
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                -1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    0.5509999990463257,
+                    2000.0
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    0.5509999990463257,
+                    2000.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "ec94191cebec97922e778ff583ade688795a33a18d5d8dfbc5106caacf2c8d02",
+              "checksum": "a947f96c2165f90e"
+            },
+            {
+              "name": "driven_tank_edge",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                10,
+                2000
+              ],
+              "goal": null,
+              "final": [
+                3.5560877323150635,
+                1999.9481201171875
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                -1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    6.260088920593262,
+                    1999.9481201171875
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    3.5560877323150635,
+                    1999.9481201171875
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "c9ffcf73963359af5fa178903bcc29db0c893032cceb100872111a6b08dbd9dd",
+              "checksum": "8643ff2c4cea93f7"
+            },
+            {
+              "name": "player_diagonal_lower_x_edge",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 50,
+              "start": [
+                0.8,
+                2000
+              ],
+              "goal": null,
+              "final": [
+                0.5509999990463257,
+                2010.60791015625
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                -0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 48,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    0.5509999990463257,
+                    2006.36474609375
+                  ]
+                },
+                {
+                  "tick": 50,
+                  "pose": [
+                    0.5509999990463257,
+                    2010.60791015625
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "34415d7a356a423e99e425bbc012fed4c51be373a59f68acbf90fd2e1e0dd90f",
+              "checksum": "55e7d6fb231cb397"
+            },
+            {
+              "name": "player_diagonal_upper_x_edge",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 50,
+              "start": [
+                7999.2,
+                2000
+              ],
+              "goal": null,
+              "final": [
+                7999.44873046875,
+                2010.60791015625
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 48,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    7999.44873046875,
+                    2006.36474609375
+                  ]
+                },
+                {
+                  "tick": 50,
+                  "pose": [
+                    7999.44873046875,
+                    2010.60791015625
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "71f3a5e9b55e652a7b0de150852b85dfcdbdf0f689a96ada9ecc5d62666b4633",
+              "checksum": "3f547aa276f6b7f3"
+            },
+            {
+              "name": "player_diagonal_lower_z_edge",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 50,
+              "start": [
+                2000,
+                0.8
+              ],
+              "goal": null,
+              "final": [
+                2010.60791015625,
+                0.5509999990463257
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                0.70710678,
+                -0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    2006.36474609375,
+                    0.5509999990463257
+                  ]
+                },
+                {
+                  "tick": 50,
+                  "pose": [
+                    2010.60791015625,
+                    0.5509999990463257
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "621eedc114fe0615d658d97241008adbf022e535f05b27e04b0fc30bc4c35231",
+              "checksum": "9bb26e22c25e9abd"
+            },
+            {
+              "name": "player_diagonal_upper_z_edge",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 50,
+              "start": [
+                2000,
+                7999.2
+              ],
+              "goal": null,
+              "final": [
+                2010.60791015625,
+                7999.44873046875
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    2006.36474609375,
+                    7999.44873046875
+                  ]
+                },
+                {
+                  "tick": 50,
+                  "pose": [
+                    2010.60791015625,
+                    7999.44873046875
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "15c181b0a0d99c80fa380903fb811124e04302eeec747572ea45532e1e35052e",
+              "checksum": "8481484e0b2f4a91"
+            },
+            {
+              "name": "player_diagonal_lower_corner",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 50,
+              "start": [
+                0.8,
+                0.8
+              ],
+              "goal": null,
+              "final": [
+                0.5509999990463257,
+                11.406607627868652
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                -0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 48,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    0.5509999990463257,
+                    7.163959980010986
+                  ]
+                },
+                {
+                  "tick": 50,
+                  "pose": [
+                    0.5509999990463257,
+                    11.406607627868652
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "612d48cece8abf29f64e81e893f54b27467e9a27e1d84e00ed991123dd36f005",
+              "checksum": "f3339e7e386929b9"
+            },
+            {
+              "name": "player_diagonal_upper_corner",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 50,
+              "start": [
+                7999.2,
+                7999.2
+              ],
+              "goal": null,
+              "final": [
+                7999.44873046875,
+                7988.6044921875
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                4,
+                0.70710678,
+                -0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 48,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    7999.44873046875,
+                    7992.8427734375
+                  ]
+                },
+                {
+                  "tick": 50,
+                  "pose": [
+                    7999.44873046875,
+                    7988.6044921875
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "5b17cb28b0475c760525e5962fdba322b49789db2426ea1fa51fd20a4dd48556",
+              "checksum": "9214183acf537382"
+            },
+            {
+              "name": "driven_tank_diagonal_lower_x_edge",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                3.8,
+                2000
+              ],
+              "goal": null,
+              "final": [
+                5.02107572555542,
+                2033.55615234375
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                -0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    5.02107572555542,
+                    2004.917236328125
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    5.02107572555542,
+                    2033.55615234375
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "fdfc9accec5558330db8bdc0c547163ec73b2ead280a6d3f5c319a6667528b37",
+              "checksum": "c3ffe28af3176649"
+            },
+            {
+              "name": "driven_tank_diagonal_upper_x_edge",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                7996.2,
+                2000
+              ],
+              "goal": null,
+              "final": [
+                7996.44873046875,
+                2025.841064453125
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    7996.44873046875,
+                    2000.7376708984375
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    7996.44873046875,
+                    2025.841064453125
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "35f1f6d8b393f1bece4c0833d3b9ce95daa6d965470ba7e9241d66b453c53c0f",
+              "checksum": "4cb6a11c6e34e725"
+            },
+            {
+              "name": "driven_tank_diagonal_lower_z_edge",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                2000,
+                3.8
+              ],
+              "goal": null,
+              "final": [
+                2035.2783203125,
+                3.8121817111968994
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                0.70710678,
+                -0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    2006.4954833984375,
+                    3.8121817111968994
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    2035.2783203125,
+                    3.8121817111968994
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "326f7cb116fc81cd1cf33470b92bbcdb449f05eb302e26af976db0e203bb200f",
+              "checksum": "5b4231b225ada286"
+            },
+            {
+              "name": "driven_tank_diagonal_upper_z_edge",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                2000,
+                7996.2
+              ],
+              "goal": null,
+              "final": [
+                2029.0589599609375,
+                7996.44873046875
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    2002.1798095703125,
+                    7996.44873046875
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    2029.0589599609375,
+                    7996.44873046875
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "cd51fe379689bf0a2648ab03ce1157e2163444cb7ece6c181965a95dc14c1643",
+              "checksum": "d6788f57fa3cface"
+            },
+            {
+              "name": "driven_tank_diagonal_lower_corner",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                3.8,
+                3.8
+              ],
+              "goal": null,
+              "final": [
+                5.02107572555542,
+                37.357051849365234
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                -0.70710678,
+                0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    5.02107572555542,
+                    8.717074394226074
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    5.02107572555542,
+                    37.357051849365234
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "42feb324974b400692c815c23aa402f6747da532c2d5237972e483e98e2dd170",
+              "checksum": "8cc2c8ce19e7699e"
+            },
+            {
+              "name": "driven_tank_diagonal_upper_corner",
+              "mode": "driver",
+              "kind": 1,
+              "radius_m": 3.55,
+              "ticks": 90,
+              "start": [
+                7996.2,
+                7996.2
+              ],
+              "goal": null,
+              "final": [
+                7996.4482421875,
+                7976.62890625
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 0,
+              "maximum_penetration_m": 0,
+              "input": [
+                0,
+                0.70710678,
+                -0.70710678
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": true,
+              "initial_invalid": false,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    7996.447265625,
+                    7996.0849609375
+                  ]
+                },
+                {
+                  "tick": 90,
+                  "pose": [
+                    7996.4482421875,
+                    7976.62890625
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "ada8917b2e226db18989eb0e336ca8f17f13be3034507e478effd442aee34208",
+              "checksum": "3490e9a142a4418b"
+            },
+            {
+              "name": "player_initial_invalid",
+              "mode": "player",
+              "kind": 0,
+              "radius_m": 0.55,
+              "ticks": 60,
+              "start": [
+                3987.8,
+                1300
+              ],
+              "goal": null,
+              "final": [
+                3987.800048828125,
+                1300.0
+              ],
+              "final_goal_error": null,
+              "body_collision_ticks": 60,
+              "maximum_penetration_m": 0.3500488281251819,
+              "input": [
+                4,
+                1,
+                0
+              ],
+              "intent_fault_ticks": 0,
+              "diagonal_contact_slide_steps": 0,
+              "explicit_driver_contact_steering": false,
+              "initial_invalid": true,
+              "samples": [
+                {
+                  "tick": 30,
+                  "pose": [
+                    3987.800048828125,
+                    1300.0
+                  ]
+                },
+                {
+                  "tick": 60,
+                  "pose": [
+                    3987.800048828125,
+                    1300.0
+                  ]
+                }
+              ],
+              "physical_trace_sha256": "28f93d224cb26a659f022a074b1deb78cf147f8e8f868c46caf875f245b559c9",
+              "checksum": "7c01c69fd4ccc9d1"
+            }
+          ],
+          "dense": [
+            {
+              "entities": 8192,
+              "scenario": "scale-hotspot",
+              "ticks": 120,
+              "seed": 42,
+              "initial_living_ground": 7680,
+              "initial_invalid_ground": 0,
+              "final_living_ground": 6688,
+              "final_invalid_ground": 0,
+              "invalid_ground_sweep_steps": 0,
+              "newly_invalid_clear_start_steps": 0,
+              "surviving_ground_moved_over_1m": 6490,
+              "alive": [
+                3611,
+                3589
+              ],
+              "checksum": "fa655150dfcbd0f1",
+              "scope": "Natural authored deployment; initial overlap and casualties are reported, not treated as clear-start acceptance"
+            },
+            {
+              "entities": 16384,
+              "scenario": "scale-hotspot",
+              "ticks": 120,
+              "seed": 42,
+              "initial_living_ground": 15360,
+              "initial_invalid_ground": 0,
+              "final_living_ground": 14324,
+              "final_invalid_ground": 0,
+              "invalid_ground_sweep_steps": 0,
+              "newly_invalid_clear_start_steps": 0,
+              "surviving_ground_moved_over_1m": 14096,
+              "alive": [
+                7716,
+                7632
+              ],
+              "checksum": "b23c4056e5cf2af5",
+              "scope": "Natural authored deployment; initial overlap and casualties are reported, not treated as clear-start acceptance"
+            }
+          ],
+          "deterministic_replay": true,
+          "physical_faction_label_swap": true,
+          "candidate_human_input_components_preserved": true,
+          "candidate_driver_hull_axis_coherence": true,
+          "driver_contact_recovery": "Explicit steering along free edge for shared tracked policy; human legal diagonal slides remain required.",
+          "legacy_control": "Terrain footprint and shared ground policy disabled together when present; actual historical baseline has no shared ground module.",
+          "scope": "Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance."
+        },
+        {
+          "target": "headless",
+          "revision": "ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a-2969032aadf8d434",
+          "assembled": 3,
+          "assembled_sources": [
+            "src/sim/player_ammunition_remote.asm",
+            "src/game/player.asm",
+            "src/game/player_ammunition.asm"
+          ],
+          "seconds": 0.410686147006345,
+          "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a-2969032aadf8d434/red-horizon-server"
+        }
+      ]
+    },
+    "udp": {
+      "exit_code": 0,
+      "raw_log_sha256": "a3160f03b8c32ae00b406ca474efbb34ee27b31bf3e92868d8989d7cb6093cef",
+      "reports": [
+        {
+          "suite": "player-ammunition-original-four-endpoint-udp",
+          "passed": true,
+          "units": 8192,
+          "production_adapter_owner": 3,
+          "endpoints": 4,
+          "unchanged_initial_world": true,
+          "observer_writes": false,
+          "actual_lifetime_rifle_shots": 120,
+          "observed_depleted_magazine": true,
+          "observed_reload": true,
+          "actual_body_generations": [
+            1,
+            2
+          ],
+          "public_sprint_rearward_input": true,
+          "same_tick_exact_authority_report_comparisons": 133,
+          "reserve_levels": [
+            30,
+            60,
+            90
+          ],
+          "magazine_samples": [
+            [
+              59,
+              1,
+              80,
+              19,
+              90,
+              11,
+              11
+            ],
+            [
+              119,
+              1,
+              40,
+              4,
+              90,
+              26,
+              26
+            ],
+            [
+              179,
+              1,
+              0,
+              0,
+              90,
+              30,
+              30
+            ],
+            [
+              239,
+              2,
+              100,
+              23,
+              90,
+              7,
+              37
+            ],
+            [
+              301,
+              2,
+              100,
+              7,
+              90,
+              23,
+              53
+            ],
+            [
+              361,
+              2,
+              100,
+              0,
+              90,
+              30,
+              60
+            ],
+            [
+              421,
+              2,
+              100,
+              26,
+              60,
+              34,
+              64
+            ],
+            [
+              483,
+              2,
+              100,
+              11,
+              60,
+              49,
+              79
+            ],
+            [
+              543,
+              2,
+              100,
+              0,
+              60,
+              60,
+              90
+            ],
+            [
+              603,
+              2,
+              100,
+              30,
+              30,
+              60,
+              90
+            ],
+            [
+              665,
+              2,
+              100,
+              14,
+              30,
+              76,
+              106
+            ]
+          ],
+          "stable_read_retries": 2,
+          "server_sha256": "ba3f0e7fa2c63d4f268d96b6cee9007360ab218b530e3c31669dbe1333dc3b67",
+          "adapter_sha256": "f2034cd88a7d1a394ef8c806b415e0e33de9d46998c585800e4e4e44b1ff357c",
+          "limits": [
+            "Own player report correlated exactly at observed native snapshot ticks; not every packet or whole-army stock replication.",
+            "Original8192/world and real public inputs, no setup/live pose/HP/stock/clock writes.",
+            "Tracks real damage/new bodies in the original battlefield. Single-body120-round depletion and finite-store exhaustion are separate genuine CPU traces.",
+            "Rendered reserve/empty/timeout feedback and broad faults are separate."
+          ]
+        }
+      ]
+    },
+    "hud": {
+      "exit_code": 0,
+      "raw_log_sha256": "39cded1638b01bed154ec6fb2d5c0ad314d6096c2e57a8a896e627c74fbe9a23",
+      "reports": [
+        {
+          "suite": "player-ammunition-real-coop-hud",
+          "passed": true,
+          "units": 8192,
+          "scenario": "original-army-one-authority-player-pose-fixture",
+          "resolution": [
+            320,
+            240
+          ],
+          "actual_same_body_shots": 120,
+          "stock_trace": [
+            [
+              30,
+              0,
+              90,
+              30
+            ],
+            [
+              60,
+              0,
+              60,
+              60
+            ],
+            [
+              90,
+              0,
+              30,
+              90
+            ],
+            [
+              120,
+              0,
+              0,
+              120
+            ]
+          ],
+          "actual_empty_fire_reload_blocked": true,
+          "framebuffer_reserve_reload_empty_text": true,
+          "initial_player_pose_fixture": [
+            2000,
+            17.8,
+            3900
+          ],
+          "live_pose_hp_stock_clock_renewal": false,
+          "limits": [
+            "Software GL, no hardware/frame-budget or human readability acceptance.",
+            "One rendered client; exact server correlation and multi-client timeout are separate."
+          ]
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Original 8192/four endpoints authority reports now133 exact native ticks; original player focused/deployment/terrain checks and real minimum-view rendered co-op120-shot depletion pass.",
+    "Separate compiled main binary/library hashes retained; full frozen checkpoint remains pending."
+  ]
+}
