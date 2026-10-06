@@ -272,3 +272,14 @@ rejects more than8 relevant wreck vertex sets safely; the separate VERSION2
 relevance prototype is not integrated until its own full checkpoint passes.
 Future commitments, FIFO and diagnostics enter nav_hash; graph scratch does not.
 No global invalidation on distant deaths. See wreck-body-routing.md and schemas.
+
+Verified integration07d6536: UDPv17/schema0x6aa0d743/content0x7138ea65.
+Packet layouts remain unchanged. WRECK_NAV_VERSION2 selects at most8 relevant
+vertices per bounded local graph, but all cover still participates in edge and
+actuator checks. PLAYER_DEPLOY_POLICY_VERSION2 tests exterior authored offsets
+rather than rendered site centres, retaining original safety validators. Query
+envelope rejection is conservative; original exact collision/radii/ties and
+initial-overlap escape remain. Companyv16 and acquisitionv18 are isolated policy
+candidates; their combination requires recomputed compatibility and an exact
+combined full checkpoint. Persistent company records remain private authority,
+not a replicated or player-ownership interface.

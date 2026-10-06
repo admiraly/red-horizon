@@ -1,0 +1,18 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x7138ea65", "canonical_sha256": "7138ea657e98c8e5ac5c86fd29121110244bbecdc1d0b5b09206b2eb1f73d7e7", "checked": true}
+{"target": "headless", "revision": "07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c", "assembled": 7, "assembled_sources": ["src/sim/scenarios.asm", "src/nav/crowd.asm", "src/nav/wreck_query.asm", "src/nav/wreck_nav.asm", "src/game/player.asm", "src/game/ground_motion.asm", "src/game/vehicles.asm"], "seconds": 0.40705112100113183, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon-server"}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x7138ea65", "canonical_sha256": "7138ea657e98c8e5ac5c86fd29121110244bbecdc1d0b5b09206b2eb1f73d7e7", "checked": true}
+{"target": "coop", "revision": "07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c", "assembled": 1, "assembled_sources": ["src/net/coop_server.asm"], "seconds": 0.3444899570022244, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon-coop-server"}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x7138ea65", "canonical_sha256": "7138ea657e98c8e5ac5c86fd29121110244bbecdc1d0b5b09206b2eb1f73d7e7", "checked": true}
+{"target": "client", "revision": "07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c", "assembled": 8, "assembled_sources": ["src/render/effects.asm", "src/render/air_trails.asm", "src/render/meshes.asm", "src/render/hazard_warning.asm", "src/audio/emitters.asm", "src/audio/footsteps.asm", "src/platform/linux/client.asm", "src/net/client.asm"], "seconds": 0.47584508199361153, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon"}

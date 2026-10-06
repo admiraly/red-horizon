@@ -1,0 +1,61 @@
+{
+  "builds": [
+    {
+      "target": "headless",
+      "revision": "07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c",
+      "assembled": 7,
+      "assembled_sources": [
+        "src/sim/scenarios.asm",
+        "src/nav/crowd.asm",
+        "src/nav/wreck_query.asm",
+        "src/nav/wreck_nav.asm",
+        "src/game/player.asm",
+        "src/game/ground_motion.asm",
+        "src/game/vehicles.asm"
+      ],
+      "seconds": 0.40705112100113183,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon-server"
+    },
+    {
+      "target": "coop",
+      "revision": "07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.3444899570022244,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon-coop-server"
+    },
+    {
+      "target": "client",
+      "revision": "07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c",
+      "assembled": 8,
+      "assembled_sources": [
+        "src/render/effects.asm",
+        "src/render/air_trails.asm",
+        "src/render/meshes.asm",
+        "src/render/hazard_warning.asm",
+        "src/audio/emitters.asm",
+        "src/audio/footsteps.asm",
+        "src/platform/linux/client.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.47584508199361153,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon"
+    }
+  ],
+  "sha256": {
+    "build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon-server": "2f97e448401046bb3bf2f50570735db246284a9d0f499e94a9faab92828ad0bf",
+    "build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon-coop-server": "00dfd26fe7f0e211ac4695da43b3219a608ce8df996d5040d12b041d02bf4a11",
+    "build/revisions/07d65364c1b7e5d13732ed9688b6ac0b953b11b0-9ad5aacfc94bf30c/red-horizon": "8eb1506d2330032da6b52d16d748f01d00d8a74a967c620cac5e4c285b8789ab",
+    "build/libsim.so": "1c27bbfd972109aa550ae83a8d26031a53ff2c17dd6080228303c0460fcdad4b",
+    "build/libcoopclient.so": "4198c15233a83d1cdf9d7ac27a33fee89e97433eea5e6c8a60b820ac6d42b2e2"
+  },
+  "source_checkpoint": "97b74ea394b4",
+  "source_inputs_match": 282,
+  "root_checks": {
+    "cooperative_world": "passed",
+    "exterior_deployment": "passed",
+    "actual_queued_escape_event": "passed"
+  }
+}

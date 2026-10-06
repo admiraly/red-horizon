@@ -30,7 +30,11 @@ finds no penetration; source pose/HP/ordnance/clock are not renewed in flight.
 Compatibility is UDPv14/schema0xda94decc/content0xd30d7e25, canonicalSHA256
  d30d7e25453a94308b2f9fd2ba2ab309cb148be0f22f12205abefa162425ddbf.
 
-Root headless/co-op/client builds succeed with fingerprint999ea2bdc1f0b1d9.
+The prior root headless/co-op/client builds below used fingerprint999ea2bdc1f0b1d9.
+Current root07d6536 headless/co-op/client and both simulation/client-adapter
+libraries are rebuilt at fingerprint9ad5aacfc94bf30c. Actual co-op world, four
+exterior joins/threat rejection and queued Escape GUI checks pass. Exact build
+artifact hashes and logs: docs/evidence/wreck-dense-main-build.json.
 Root fast suite passes (terminal exit0); exact build/fast log and artifact hashes
 are in docs/evidence/wreck-body-main-verification.json and the associated log.
 Rebuilt libcoopclient passes co-op checks. The rebuilt client also passes the
@@ -80,8 +84,10 @@ A causal frozen-server batch proves status1 then rate-limit7 in the same tick;
 valid crouch succeeds after a later observed tick. The observer now waits for a
 later authoritative snapshot, preserving all original movement assertions and
 server rate policy. Corrected focused movement passes against the frozen runtime.
-Candidate b7154c6 is now frozen in fullc2b6c894af84 (source
- b7154c6-d9abe7f21d2cd76f), verified live. Exact failure/source hashes and causal
+Candidate b7154c6 fullc2b6c894af84 FAILED919.5569s (source
+ b7154c6-d9abe7f21d2cd76f), at unchanged dense scene variety. Its co-op movement
+now passes; it still inherits the old deployment/quit paths. A combined isolated
+candidate is being prepared on acceptedv17. No company runtime integration yet. Exact failure/source hashes and causal
 reports are in docs/evidence/company-assault-full-failed.json and
  company-coop-input-rate.json. This ground slice observes
 ordinary artillery fire; reserved support targets, bomber/fighter coordination,
@@ -108,7 +114,7 @@ are required. Privatev18 compatibility is separate fromv16/v17 branches.
 Exact source, logs, negative control and limits: docs/ground-acquisition.md.
 
 All previously launched foreground checks are terminal. Profile97b74ea394b4
-is reconciled passed; companyc2b6c894af84 remains verified live;
+is reconciled passed; companyc2b6c894af84 is reconciled failed;
 exact handles are docs/evidence/wreck-dense-pending-jobs.json. Failed runs and
 exploratory fixtures are retained. No remote publication; full-game goal active.
 
