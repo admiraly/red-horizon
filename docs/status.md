@@ -1,5 +1,35 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current accepted main is the v21 bank-coupled flight/strike batch (0d3c803), with
+full831bb1419f53 PASSED1212.0483s and323 exact matching authored inputs. The
+223 structured JSON dictionaries include repeated build/content checks; they
+are not223 independent feature suites. Root aircraft/network checks and fully
+linked client pass; exact hashes: air-bank-integration.json and air-bank-main-build.json.
+
+Exclusive four-player ground-company control is implemented on isolated847deaa:
+actual same-front companies move/hold independently, one accepted command
+charges5, fourth-player production NASM adapter receives accepted ACK, disconnect
+restores autonomous movement, and genuine redeployment preserves company intent.
+Tactics, complete focused network and actual two-client software GL checks pass.
+Combined bank/ownership compatibility is private UDPv23/schema0xc5c97e5b/
+content0xa89260de, canonicalSHA256
+a89260de2597cbc3b3ac2a73ac2dccb2bdb95c20d6c9761f7a918f1813b70484.
+Frozen fasted14fd74253d PASSED253.5270s at847deaa-38301943d87f4a17;
+full51f07ec34ee0 is running on that exact snapshot.
+
+Isolated1e5712b also routes solo GUI commands to the owned company, with
+edge-triggered charging, company identity and accepted/denied title feedback.
+Read-only actual-client observer verifies29 safe infantry hold0m, real advance
+and finite map goal4994.375/3904.4441 with one charge and no rifle fire.
+Original solo gameplay and actual two-client co-op checks pass unchanged.
+Frozen full1ab1a888df47 runs at1e5712b-d43272bceaed8e49. These company
+batches remain unintegrated pending matching full checkpoints. Exact commands,
+initial failed fixtures and limitations: docs/company-control.md in those worktrees.
+Company membership replication/highlights, transfer/assistance and assignment
+recovery with no living ground cohort remain pending. The full-game goal remains
+active and incomplete; no completed AI/game, cinematic quality or performance claim.
+
+
 Main now integrates verified dc2c4fb: company staging/readiness/artillery-backed
 advance/withdrawal, full-range ground acquisition with exact nearest-visible
 selection, and conservative wreck row narrowing with the short-query fallback.

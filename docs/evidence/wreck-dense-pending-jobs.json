@@ -234,5 +234,62 @@
     },
     "exit_code": 0,
     "seconds": 1212.0483493799984
+  },
+  {
+    "job_id": "ed14fd74253d",
+    "revision": "847deaabe8df95571113cd8f7740362d1e638293-38301943d87f4a17",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/ed14fd74253d/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "passed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/ed14fd74253d/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/ed14fd74253d/result.json",
+    "pid": 2992108,
+    "terminal_result": {
+      "job_id": "ed14fd74253d",
+      "exit_code": 0,
+      "revision": "847deaabe8df95571113cd8f7740362d1e638293-38301943d87f4a17",
+      "seconds": 253.52700103299867,
+      "status": "passed"
+    },
+    "verified_live": false,
+    "observed_utc": "2026-10-06T13:26:03.238696+00:00"
+  },
+  {
+    "job_id": "51f07ec34ee0",
+    "revision": "847deaabe8df95571113cd8f7740362d1e638293-38301943d87f4a17",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/51f07ec34ee0/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/51f07ec34ee0/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/51f07ec34ee0/result.json",
+    "pid": 2992893,
+    "verified_live": true,
+    "observed_utc": "2026-10-06T13:26:03.238780+00:00"
+  },
+  {
+    "job_id": "1ab1a888df47",
+    "revision": "1e5712ba21efe6de25683bf1b344982091914ebf-d43272bceaed8e49",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/1ab1a888df47/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/1ab1a888df47/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/1ab1a888df47/result.json",
+    "pid": 3023663,
+    "verified_live": true,
+    "observed_utc": "2026-10-06T13:26:03.238857+00:00"
   }
 ]
