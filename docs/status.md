@@ -1639,3 +1639,14 @@ Remaining acceptance: human weapon feel and strategic pacing, reference GPU budg
 Development iteration now uses an explicit fast suite and focused operation/waypoints/terrain/player/tactics checks. Measured atf9e0122-4c5bc06e7799c120: fast0.54–0.60seconds, player0.15seconds, warm build0.048seconds with zero reassembly. NASM transitive includes/incbins and compiler/flags control object invalidation; shader changes affect one renderer object, nested headers affect only users. Objects-only builds support assembly checks without graphics linking. Tooling checks verify source preservation and retained valid outputs after failure. Full extended frozen jobfc32437a65c6 passed in94.62seconds, including scale, real graphical co-op and the UDP fault matrix. That earlier tooling-only batch changed no game runtime source. Exact timing/coverage context: docs/evidence/development-loop.json. Full verification remains required at integration/publication checkpoints and runs in the background while independent work continues.
 
 Current combat-scale evidence is in docs/evidence/combat-scale-{open,stretch}.json. Runs use600ticks and seed1, alongside active full verification and the other scale benchmark. The512-shell pool remains bounded; AI launches saturate at480, retain32 human slots and report refused launch requests. Saturation is a visible gameplay limitation, not a claim that all requested army shots fire. Crowd sampling can miss bodies/blast victims; network clients receive impact events but not moving shell trajectories. Reference GPU performance, physical audio listening, broader recorded layers, armor-facing damage, wreck cover and human pacing remain unverified.
+
+Current independent CPU diagnosis uses source-identical production versus private
+LFENCE/RDTSC wrappers, preserving every30tick authoritative checksum through900
+public ticks. Original helper profile attributes81.1% of measured hotspot helper
+cycles to world_los; nested LOS components attribute71.4% to wreck queries,20.9%
+to ground and7.7% to solids. Open-map component shares differ:85.7% ground,9.8%
+solids,4.5% wrecks. These are inclusive instrumented helper proportions, excluding
+main tick loops, not isolated whole-frame costs or accepted speedups. Exact source/
+library hashes and probe: company-control-pass-profile.json and company-control-
+nested-profile.json. The corrected exact dependency/tools suite exits0, including
+its nested fast suite and immutable-background/failed-build-preservation gates.
