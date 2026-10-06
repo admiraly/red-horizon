@@ -35,7 +35,13 @@ void main(){
   vec3 mud=texture(terrainTextures,vec3(uv*.8,1)).rgb;
   vec3 gravel=texture(terrainTextures,vec3(uv*1.1,2)).rgb;
   vec3 rock=texture(terrainTextures,vec3(uv*.7,3)).rgb;
-  float corridor=1.-smoothstep(10.,32.,min(min(abs(p.y-1300.),abs(p.y-3900.)),abs(p.y-6500.)));
+  // Canonical capsules match the authoritative road sampler. The 2 m blend
+  // outside the physical road is a visual shoulder, not road traction.
+  float roadEdge=1e20;
+  for(int i=0;i<terrainRoadCount;++i)
+   if((terrainRoadFlags[i]&1u)!=0u)
+    roadEdge=min(roadEdge,terrainRoadDistance(p,i)-terrainRoadHalfWidths[i]);
+  float corridor=1.-smoothstep(0.,2.,roadEdge);
   float objective=1.-smoothstep(28.,75.,length(vec2(mod(p.x+0.,2000.)-1000.,mod(p.y+0.,2600.)-1300.)));
   float patchiness=smoothNoise(p/55.);
   vec3 n=normalize(cross(dFdy(worldPosition),dFdx(worldPosition)));if(n.y<0.)n=-n;
