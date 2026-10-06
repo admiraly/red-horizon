@@ -1,0 +1,19 @@
+{
+  "fast_job": "f604660e9502",
+  "source_fingerprint": "e6a5f9beaf846fcc",
+  "sha256": {
+    "src/ai/air_escort.asm": "e73f86a40da8e3e66b3e7734caee1f7360ea76d6df0a88a7dc951736c7eda6f1",
+    "src/ai/aircraft.asm": "1e6b89e9663dd68bbc90ac651af9285c66fe430dd05b4ee4f2add022e96188cf",
+    "schemas/air_escort.inc": "fa58b296882549686749b708347e143f598ca374432974783a904620001ce74c",
+    "tests/test_air_escort.py": "533794e90b996e91b6587e3a02d3be76dc4c31c1467b24ff8a8233da9cf70999",
+    "tests/probe_air_escort.asm": "2c7d82f3189a7d95595d60d4103bec205a7421590fd8c64c302f453028de9d07",
+    "build/libsim.so": "09a127d7a33fc922c2068d957364dcd869a480a839b2e40f683249810d8d0b82",
+    "build/red-horizon": "a2be7f7135aea51016cc3c433043c8ed35970733ef8ad5fc1994ad5fa045bc21",
+    "docs/evidence/red-horizon-aircraft-actual-aircraft-destruction.png": "bb8b0c128f08fd05f686c9f27f4d032ace5be32542c931202517bc6924dca4fc",
+    "docs/evidence/red-horizon-aircraft-level-bomber.png": "613ba7f6d5dfafe622881a37d4f96aac5d28eee04f22584542e63abb2a11b967"
+  },
+  "mission_check_exit_code": 0,
+  "client_GL_exit_code": 0,
+  "initial_client_wrong_asset_path_exit_code": 1,
+  "limits": "No full checkpoint or human-quality acceptance; pixel screenshots are actual source frames converted losslessly from PPM."
+}

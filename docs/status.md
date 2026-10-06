@@ -22,8 +22,16 @@ focused1800public ticks show actual following, perceived threat damage and finit
 gun/bomb action, with adjacent-cell and priority-disabled NASM controls. Both
 contested bombers survive and the escort dies; no general survival advantage is
 claimed. Full details: docs/air-escort.md. Frozen fast f604660e9502 PASSED266.7072s
-at1c8ceb1-e6a5f9beaf846fcc. Full/scale/GL acceptance is pending; this candidate
-is not integrated. Timed company air support/shared mission UI remains open.
+at1c8ceb1-e6a5f9beaf846fcc. Actual GL aircraft encounters and paired cosmetic controls pass on the immutable
+client bundle; source frames were inspected. Sparse destruction effects do not
+prove cinematic quality. Its900tick production scale comparison shows mean/p95
+baseline→candidate:8k open16.398/19.216→16.397/19.297;8k hotspot36.894/48.287→
+36.764/47.952;16k open34.861/43.347→35.098/44.704ms. Decisions/hashes differ as
+expected, so these do not isolate a query cost. Candidate16k tick900 has138 valid
+living escort bindings. Dense/stretch budgets still fail. Fullcccb5e085005 is
+verified live at8534fd5-e6a5f9beaf846fcc. This candidate remains unintegrated;
+timed company air support/shared mission UI, physically coupled bank/turn/roll,
+aircraft separation/rearming and human spectacle quality remain open.
 
 Combined full b0240f5853b8 FAILED759.5345s at authentic wreck replay. An exact
 frozen repeat proves the selected last packet was dropped:17 previously unseen

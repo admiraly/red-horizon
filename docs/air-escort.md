@@ -43,7 +43,28 @@ physical gun/bomb action, not a survival benefit or universal competent tactics.
 No in-flight HP/pose/ammo/clock fixture updates occur; corrupt getter fixtures are
 separate. Exact logs/source hashes: docs/evidence/air-escort-*.
 
-Fast/full/scale, co-op graphics and human quality acceptance are pending. Timed
+Frozen fast f604660e9502 PASSED266.7072s at1c8ceb1-e6a5f9beaf846fcc,
+including final-source original core/air/admission/motion checks. The actual
+rendered-aircraft test passes production gun/bomb encounters, banking/silhouette,
+trails, real impacts and aircraft destruction, with paired cosmetic authority
+controls. A first command used the copied executable without its asset directory
+and exited at startup; corrected immutable bundled execution passes. Two actual
+frames were losslessly transcoded and inspected: level bomber silhouette is
+recognizable; the destruction test frame has sparse small effects. Neither the
+controlled sparse view nor pixel counts establishes spectacle/human-quality
+acceptance. Client artifact/log hashes are recorded with the evidence.
+
+Paired900tick production worlds on immutable v19/v20 libraries, seed42:
+mean/p95ms baseline→mission,8k open16.398/19.216→16.397/19.297,
+8k hotspot36.894/48.287→36.764/47.952,16k open34.861/43.347→35.098/44.704.
+Gameplay/hash changes are expected; timings do not isolate one decision cost.
+The candidate has138 valid living escort bindings at tick900 in the measured
+16k open world. Dense/stretch remain above33.3ms. This is concurrent local CPU
+wall timing, not GPU/network or reference-hardware acceptance. Scope, exact
+library/source hashes and both worlds' health/stores/mission samples are in
+ docs/evidence/air-mission-scale.json. No in-flight state renewal.
+
+Matching full verification, co-op mission graphics and human quality remain pending. Timed
 company strikes, explicit player-designated air missions, visible mission intent,
 formation capacity/ownership and target-generation sidecars remain open. Friendly
 nearest scans are periodic and spatially local but can be costly for pathological

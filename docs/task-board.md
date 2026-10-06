@@ -336,3 +336,15 @@ company ownership/UI/timed support, protected bomber missions and remaining full
 specification gates remain open. Air-escort policy1/air acquisition2 is implemented
 separately on feature/air-escort, focused flight/admission and1800tick controlled
 mission checks pass; not integrated and not covered by this ground checkpoint.
+
+2026-10-06 aircraft continuation: isolated1c8ceb1/8534fd5 escorts generation-valid
+own bombers, follows moving trailing/flank goals, prioritizes real-range/LOS-gated
+threats and fixes fighter750m cell coverage.1800public ticks and two assembled
+controls pass; real gun/bomb release and delayed ground kill are verified, without
+claiming a bomber survival benefit. Frozen fast f604660e9502 PASSED266.7072s;
+actual GL encounters pass after correcting the executable asset path. Three900tick
+scale runs retain original army sizes/finite stores but differ in decisions/hash;
+hotspot47.952ms/stretch44.704ms still miss33.3ms. New fullcccb5e085005 is live
+at8534fd5-e6a5f9beaf846fcc. Root v19 remains accepted. Independent next work:
+physically coupled bank/turn/roll and safe air routing, shared company/air intent,
+timed support and remaining scale/spectacle requirements.
