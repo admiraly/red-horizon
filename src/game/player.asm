@@ -3,6 +3,7 @@
 %include "schemas/player_ammunition.inc"
 %include "schemas/entity.inc"
 default rel
+extern infantry_weapon_fire
 extern player_ammunition_init,player_ammunition_equip,player_ammunition_reserve,player_ammunition_reload_finish,player_ammunition_fire,player_ammunition_resupply,player_ammunition_hash
 extern company_assign,company_release,company_control_init,company_redeploy
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
@@ -840,6 +841,15 @@ enemy_attack:
  call world_los
  test eax,eax
  jz .next
+ ; Infantry threats use the same finite current-body magazine as army shots.
+ ; Keep noninfantry's existing synthetic threat path explicitly separate.
+ cmp dword [r14+ENTITY_KIND],0
+ jne .threat_shot
+ mov edi,r12d
+ call infantry_weapon_fire
+ test eax,eax
+ jnz .next
+.threat_shot:
  add dword [rbx+PLAYER_SUPPRESSION],25
  cmp dword [rbx+PLAYER_SUPPRESSION],100
  jbe .damage

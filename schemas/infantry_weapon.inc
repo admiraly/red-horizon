@@ -1,7 +1,7 @@
 %ifndef INFANTRY_WEAPON_INC
 %define INFANTRY_WEAPON_INC
-; Authoritative army rifle policy2; player/vehicle weapons are independent.
-%define INFANTRY_WEAPON_VERSION 2
+; Authoritative army rifle policy3; human threat shots use this same finite stock.
+%define INFANTRY_WEAPON_VERSION 3
 %define INFANTRY_WEAPON_STRIDE 32
 %define INFANTRY_MAGAZINE 30
 %define INFANTRY_RESERVE 90
@@ -14,3 +14,5 @@
 ; actualShots16,emptyTick20,receivedRounds24,lastSupplyTick28.
 ; magazine+reserve+shots = initial120+received; received debits finite depots.
 %endif
+
+; v3: infantry-to-human threat shots also debit the same validated magazine.

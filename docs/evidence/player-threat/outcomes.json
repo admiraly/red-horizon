@@ -1,0 +1,450 @@
+{
+  "suite": "player-threat-finite-infantry-ammunition",
+  "passed": true,
+  "physical_ticks_per_case": 80,
+  "armed": {
+    "kind": 0,
+    "initial_stock": [
+      1,
+      30,
+      90,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_stock": [
+      1,
+      25,
+      90,
+      0,
+      5,
+      0,
+      0,
+      0
+    ],
+    "final_hp": 50,
+    "player_generation": 1,
+    "trace": [
+      [
+        16,
+        90,
+        25,
+        29,
+        90,
+        0,
+        1
+      ],
+      [
+        32,
+        80,
+        34,
+        28,
+        90,
+        0,
+        2
+      ],
+      [
+        48,
+        70,
+        43,
+        27,
+        90,
+        0,
+        3
+      ],
+      [
+        64,
+        60,
+        52,
+        26,
+        90,
+        0,
+        4
+      ],
+      [
+        80,
+        50,
+        61,
+        25,
+        90,
+        0,
+        5
+      ]
+    ],
+    "checksum": "8de7e3b768edaa7f"
+  },
+  "exhausted": {
+    "kind": 0,
+    "initial_stock": [
+      1,
+      0,
+      0,
+      0,
+      120,
+      0,
+      0,
+      0
+    ],
+    "final_stock": [
+      1,
+      0,
+      0,
+      0,
+      120,
+      0,
+      0,
+      0
+    ],
+    "final_hp": 100,
+    "player_generation": 1,
+    "trace": [
+      [
+        16,
+        100,
+        0,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        32,
+        100,
+        0,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        48,
+        100,
+        0,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        64,
+        100,
+        0,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        80,
+        100,
+        0,
+        0,
+        0,
+        0,
+        120
+      ]
+    ],
+    "checksum": "28d0d4a0cb720e0a"
+  },
+  "real_reload": {
+    "kind": 0,
+    "initial_stock": [
+      1,
+      0,
+      90,
+      60,
+      30,
+      0,
+      0,
+      0
+    ],
+    "final_stock": [
+      1,
+      28,
+      60,
+      0,
+      32,
+      0,
+      0,
+      0
+    ],
+    "final_hp": 80,
+    "player_generation": 1,
+    "trace": [
+      [
+        16,
+        100,
+        0,
+        0,
+        90,
+        44,
+        30
+      ],
+      [
+        32,
+        100,
+        0,
+        0,
+        90,
+        28,
+        30
+      ],
+      [
+        48,
+        100,
+        0,
+        0,
+        90,
+        12,
+        30
+      ],
+      [
+        64,
+        90,
+        25,
+        29,
+        60,
+        0,
+        31
+      ],
+      [
+        80,
+        80,
+        34,
+        28,
+        60,
+        0,
+        32
+      ]
+    ],
+    "checksum": "32f92d96cf13c46c"
+  },
+  "corrupt_gate": {
+    "kind": 0,
+    "initial_stock": [
+      1,
+      31,
+      90,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_stock": [
+      1,
+      31,
+      90,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_hp": 100,
+    "player_generation": 1,
+    "trace": [
+      [
+        16,
+        100,
+        0,
+        31,
+        90,
+        0,
+        0
+      ],
+      [
+        32,
+        100,
+        0,
+        31,
+        90,
+        0,
+        0
+      ],
+      [
+        48,
+        100,
+        0,
+        31,
+        90,
+        0,
+        0
+      ],
+      [
+        64,
+        100,
+        0,
+        31,
+        90,
+        0,
+        0
+      ],
+      [
+        80,
+        100,
+        0,
+        31,
+        90,
+        0,
+        0
+      ]
+    ],
+    "checksum": "a69617b6628dd8b3"
+  },
+  "actual_wall_no_debit": {
+    "kind": 0,
+    "initial_stock": [
+      1,
+      30,
+      90,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_stock": [
+      1,
+      30,
+      90,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "final_hp": 100,
+    "player_generation": 1,
+    "trace": [
+      [
+        16,
+        100,
+        0,
+        30,
+        90,
+        0,
+        0
+      ],
+      [
+        32,
+        100,
+        0,
+        30,
+        90,
+        0,
+        0
+      ],
+      [
+        48,
+        100,
+        0,
+        30,
+        90,
+        0,
+        0
+      ],
+      [
+        64,
+        100,
+        0,
+        30,
+        90,
+        0,
+        0
+      ],
+      [
+        80,
+        100,
+        0,
+        30,
+        90,
+        0,
+        0
+      ]
+    ],
+    "checksum": "1683353272d4cde1"
+  },
+  "existing_noninfantry_path_control": {
+    "kind": 1,
+    "initial_stock": [
+      1,
+      0,
+      0,
+      0,
+      120,
+      0,
+      0,
+      0
+    ],
+    "final_stock": [
+      1,
+      0,
+      0,
+      0,
+      120,
+      0,
+      0,
+      0
+    ],
+    "final_hp": 50,
+    "player_generation": 1,
+    "trace": [
+      [
+        16,
+        90,
+        25,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        32,
+        80,
+        34,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        48,
+        70,
+        43,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        64,
+        60,
+        52,
+        0,
+        0,
+        0,
+        120
+      ],
+      [
+        80,
+        50,
+        61,
+        0,
+        0,
+        0,
+        120
+      ]
+    ],
+    "checksum": "cbffccf6d859fa5e"
+  },
+  "active_same_build_replay": true,
+  "library_sha256": "adea05513fca7eb1e8f7bac107001cbd7750bf2e1eae409d2336c3dde1f8eec6",
+  "limits": [
+    "Declared sparse startup poses/prior expenditure/reload or malformed stock; actual damage/movement/weapon countdown thereafter, no live renewal.",
+    "Existing noninfantry synthetic threat damage and shared NPC fire cadence remain separate work.",
+    "Not full-scale/UDP/graphics/performance acceptance."
+  ]
+}
