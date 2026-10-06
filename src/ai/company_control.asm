@@ -13,7 +13,8 @@ section .rodata
 zero: dd 0.0
 maximum: dd 8000.0
 infinity: dd 0x7f800000
-homes: dd 1000.0,1300.0,1000.0,3900.0,1000.0,6500.0
+global company_home_goals
+company_home_goals: dd 1000.0,1300.0,1000.0,3900.0,1000.0,6500.0
 section .text
 global company_control_init,company_assign,company_release,company_for_player
  global company_control_order,company_control_goal,company_control_hash,company_redeploy
@@ -362,7 +363,7 @@ company_control_goal:
  cmp dword [rsi+8],2
  jne .move
  mov eax,[rdx+ENTITY_FRONT]
- lea rcx,[homes]
+ lea rcx,[company_home_goals]
  movss xmm0,[rcx+rax*8]
  movss xmm1,[rcx+rax*8+4]
 .move: xor eax,eax

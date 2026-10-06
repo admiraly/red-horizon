@@ -180,6 +180,54 @@ try:
             blue=max([pixels(r,False)for r in foreign],default=0)
             X.XDestroyImage(image);assert green>0 and blue>0,(index,company,green,blue,len(owned),read_u32(clients[index]['memory'],client_symbols,'view_company'),read_u32(clients[index]['memory'],client_symbols,'view_player'),remote_company(index,index),client_player(index,index))
             company_pixels.append({'player':index,'company':company,'owned_green_pixels':green,'foreign_allied_blue_pixels':blue})
+        if '--retreat' in sys.argv:
+            def goal_pixels(client,point):
+                px=round(((point[0]-4000)/4300+1)*640);py=round((1-(point[1]-4000)/4300)*360)
+                image=X.XGetImage(display,clients[client]['window'],0,0,1280,720,W(-1).value,2);assert image
+                try:
+                    return sum(160<((v>>16)&255)<175 and ((v>>8)&255)>245 and 105<(v&255)<125
+                               for dx in range(-7,8) for dy in range(-7,8)
+                               for v in [X.XGetPixel(image,px+dx,py+dy)])
+                finally:X.XDestroyImage(image)
+            cases=[]
+            for owner in range(2):
+                observer=1-owner
+                key(owner,0xffbe+owner)
+                click(owner,788,368)
+                until(lambda:read_u32(clients[owner]['memory'],client_symbols,'waypoint_orders')==1)
+                accepted=goal(owner)
+                until(lambda:read_u32(host_memory,server_symbols,'sim_tick_count')>=remote_company(owner,owner)[9]+15)
+                key(owner,ord('3'))
+                try:until(lambda:read_u32(clients[owner]['memory'],client_symbols,'waypoint_orders')==2)
+                except AssertionError:
+                    raise AssertionError({'owner':owner,'title':title(clients[owner]['window']),'selected_front':read_u32(clients[owner]['memory'],client_symbols,'selected_front'),'pending':read_u32(clients[owner]['memory'],client_symbols,'net_pending'),'record':remote_company(owner,owner)})
+                until(lambda:all(remote_company(c,owner)[4]==2 for c in range(2)))
+                assert goal(owner)==accepted
+                home=(1000.,1300.+2600*owner)
+                key(observer,0xffbe+owner)
+                pixels=[]
+                for c in (owner,observer):
+                    focus(c)
+                    pixels.append(until(lambda:goal_pixels(c,home),3))
+                    assert goal_pixels(c,accepted)==0,('old waypoint shown during retreat',c,owner)
+                until(lambda:read_u32(host_memory,server_symbols,'sim_tick_count')>=remote_company(owner,owner)[9]+15)
+                key(owner,ord('1'))
+                until(lambda:read_u32(clients[owner]['memory'],client_symbols,'waypoint_orders')==3)
+                until(lambda:all(remote_company(c,owner)[4]==0 for c in range(2)))
+                assert goal(owner)==accepted,'advance used retreat home instead of accepted waypoint'
+                advance=[]
+                for c in (owner,observer):
+                    focus(c);advance.append(until(lambda:goal_pixels(c,accepted),3))
+                    assert goal_pixels(c,home)==0
+                cases.append({'front':owner,'home':home,'accepted_waypoint':accepted,
+                              'owner_and_observer_retreat_pixels':pixels,'owner_and_observer_advance_pixels':advance})
+            for index in (1,0):
+                key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
+                assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
+            print(json.dumps({'suite':'graphical-company-retreat-intent','passed':True,'cases':cases,
+                              'accepted_waypoints_preserved':True,'local_simulation_ticks':0,
+                              'limits':['Software GL, actual two-client UDP; no hardware GPU quality/performance acceptance.']}))
+            raise SystemExit(0)
         if '--transfer' in sys.argv or '--transfer-fault' in sys.argv:
             original_keys=[remote_company(i,i)[1]for i in range(2)]
             key(0,ord('2'));until(lambda:read_u32(clients[0]['memory'],client_symbols,'waypoint_orders')==1)

@@ -173,6 +173,27 @@ try:
             assert owned_pixels>0 and unowned_pixels>0 and foreign_green==0,(owned_pixels,unowned_pixels,foreign_green,owned,unowned)
             solo_company.update(owned_marker_pixels=owned_pixels,same_ID_block_foreign_front_blue_pixels=unowned_pixels,foreign_front_owned_colour_pixels=foreign_green)
         finally:os.kill(process.pid,signal.SIGCONT)
+        # Retreat renders the effective home, retaining the accepted waypoint.
+        # Returning to advance must reuse that waypoint, not the displayed home.
+        def goal_pixels(point):
+            px=round(((point[0]-4000)/4300+1)*640);py=round((1-(point[1]-4000)/4300)*360)
+            image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+            try:
+                return sum(160<((v>>16)&255)<175 and ((v>>8)&255)>245 and 105<(v&255)<125
+                           for dx in range(-7,8) for dy in range(-7,8)
+                           for v in [X.XGetPixel(image,px+dx,py+dy)])
+            finally:X.XDestroyImage(image)
+        accepted=ordered[4:6];home=(1000.,3900.)
+        key(ord('3'));until(lambda:company_record()[6]==sequence+4,2)
+        assert company_record()[2]==2 and company_record()[4:6]==accepted
+        retreat_pixels=until(lambda:goal_pixels(home),3)
+        assert goal_pixels(accepted)==0,'retreat still displays old waypoint'
+        key(ord('1'));until(lambda:company_record()[6]==sequence+5,2)
+        assert company_record()[2]==0 and company_record()[4:6]==accepted
+        advance_pixels=until(lambda:goal_pixels(accepted),3)
+        assert goal_pixels(home)==0,'advance kept retreat display'
+        solo_company.update(retreat_home_pixels=retreat_pixels,advance_restored_pixels=advance_pixels,
+                            accepted_waypoint_preserved_after_retreat=True)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
         print(json.dumps({'suite':'actual-solo-company-command','passed':True,'company':solo_company,
