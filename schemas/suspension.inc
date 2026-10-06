@@ -1,4 +1,4 @@
-; Root-owned cosmetic critically damped response ABI v1; NOT integrated.
+; Root-owned cosmetic critically damped response ABI v1.
 %ifndef SUSPENSION_INC
 %define SUSPENSION_INC
 %define SUSPENSION_VERSION 1

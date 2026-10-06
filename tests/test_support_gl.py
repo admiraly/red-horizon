@@ -29,6 +29,7 @@ def main():
     world.terrain_height.argtypes=[C.c_float,C.c_float];world.terrain_height.restype=C.c_float
     before=world.sim_checksum()
     if not legacy:world.ground_support.argtypes=[C.c_void_p,C.c_uint,C.c_uint,C.c_float,C.c_float,C.c_float];world.ground_support.restype=C.c_int
+    if not legacy:world.ground_contact.argtypes=[C.c_void_p,C.c_uint,C.c_uint]+[C.c_float]*5;world.ground_contact.restype=C.c_int
     pack=(ROOT/'content/models/battle.rham').read_bytes();header=struct.unpack_from('<4s8I',pack);mo,vo=header[6],header[8];cases=[];queries=[]
     for index in range(header[4]):
         role,lod,count,frames,base,*_=struct.unpack_from('<8I',pack,mo+index*64)
@@ -43,6 +44,11 @@ def main():
                     output=(C.c_float*16)();assert world.ground_support(output,role,64,x,z,yaw)==0
                     y,pitch,bank=output[:3];absolute=1.;height=y;axes=(tuple(output[4:7]),tuple(output[8:11]),tuple(output[12:15]))
                 cases.append((label,role,lod,frame,count,base,scale,x,z,height,axes));queries.append((index,frame,x,y,z,yaw,pitch,bank,absolute))
+                if not legacy:
+                    for fraction in (.25,.5,.75):
+                        contact=(C.c_float*16)();assert world.ground_contact(contact,role,64,x,z,yaw,pitch*fraction,bank*fraction)==0
+                        yy,pp,bb=contact[:3];aa=(tuple(contact[4:7]),tuple(contact[8:11]),tuple(contact[12:15]))
+                        cases.append((label+'-intermediate-'+str(fraction),role,lod,frame,count,base,scale,x,z,yy,aa));queries.append((index,frame,x,yy,z,yaw,pp,bb,1.))
     read,write=os.pipe();server=None
     try:
         with tempfile.TemporaryDirectory(prefix='rh-support-gl-') as tmp:
@@ -70,7 +76,7 @@ def main():
                 rows.append({'fixture':label,'role':role,'lod':lod,'frame':frame,'vertices':count,'minimum_ground_gap':minimum,'position_max_error':position_error,'lighting_max_error':colour_error});total+=count
             assert not legacy or faults>=8,('upright negative failed to expose missing support',faults)
             assert world.sim_checksum()==before,'terrain support/GL query changed authority'
-            print(json.dumps({'suite':'ground-support-actual-gl','passed':True,'legacy':legacy,'shader_sha256':hashlib.sha256(shader).hexdigest(),'library_sha256':hashlib.sha256(library.read_bytes()).hexdigest(),'vertices':total,'cases':rows,'detected_upright_faults':faults,'authority_unchanged':True,'software_context':run.stderr.strip(),'scope':'Actual embedded shader/source geometry/frame inputs and transformed normals, not actual instance-hook or suspension acceptance'}))
+            print(json.dumps({'suite':'ground-support-actual-gl','passed':True,'legacy':legacy,'shader_sha256':hashlib.sha256(shader).hexdigest(),'library_sha256':hashlib.sha256(library.read_bytes()).hexdigest(),'vertices':total,'cases':rows,'detected_upright_faults':faults,'authority_unchanged':True,'software_context':run.stderr.strip(),'scope':'Actual embedded shader/source geometry/frame inputs and transformed normals, includes contact-corrected intermediate angles; not actual instance-hook or natural physical suspension acceptance'}))
     finally:
         if read>=0:os.close(read)
         if write>=0:os.close(write)

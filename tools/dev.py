@@ -348,6 +348,9 @@ def main():
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
         if suite in ('all','headless','terrain','vehicles','ground-support'):
             execute([sys.executable,'tests/test_ground_support.py'])
+            execute([sys.executable,'tests/test_ground_contact.py'])
+            execute([sys.executable,'tests/test_suspension.py'])
+            execute([sys.executable,'tests/test_ground_visual.py'])
         if suite in ('all','headless','simulation','terrain','vehicles','ground-motion','ground-surfaces','terrain-grade'):
             execute([sys.executable,'tests/test_terrain_relief.py'])
             execute([sys.executable,'tests/test_terrain_grade.py'])

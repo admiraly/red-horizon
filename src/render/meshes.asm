@@ -5,12 +5,13 @@ default rel
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
 %include "schemas/ground_support.inc"
+%include "schemas/ground_visual.inc"
 extern view_projection,view_half_size
 extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
-extern sim_ground_motion,ground_support
+extern sim_ground_motion,ground_visual
 extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
@@ -20,7 +21,7 @@ extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
 extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUniform1f
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
- global mesh_aircraft_pose,mesh_ground_pose
+ global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
@@ -77,6 +78,8 @@ view_tactical: resd 1
 view_player: resd 1
 view_vehicle: resd 1
 mesh_clock: resd 1
+mesh_frame: resd 1
+mesh_ground_cache: resb 32768*VISUAL_STRIDE
 mesh_high_instances: resd 1
 mesh_low_instances: resd 1
 mesh_marker_instances: resd 1
@@ -264,6 +267,10 @@ meshes_draw:
  movss [view_angle],xmm3
  movss [view_angle+4],xmm4
  maxss xmm5,[dt_min]
+ inc dword [mesh_frame]
+ jnz .frame_ok
+ inc dword [mesh_frame]
+.frame_ok:
  movss [view_dt],xmm5
  addss xmm5,[mesh_clock]
  movss [mesh_clock],xmm5
@@ -625,25 +632,31 @@ meshes_draw:
  lea rcx,[sim_ground_motion]
  add rcx,rdx
  cmp eax,[rcx+GROUND_KIND]
- jne .ground_record
+ jne .ground_stale
  mov edx,[rbx+ENTITY_GENERATION]
  cmp edx,[rcx+GROUND_GENERATION]
- jne .ground_record
+ jne .ground_stale
  test dword [rcx+GROUND_FLAGS],GROUND_ACTIVE
- jz .ground_record
+ jz .ground_stale
  mov eax,[rcx+GROUND_HEADING]
  mov [rdi+12],eax
- ; Read-only chassis frame; preserve the existing 64-byte instance contract.
+ ; Generation-safe derived suspension; same 64-byte instance contract.
  ; Invalid/off-map support retains upright relative-height fallback.
  push rdi
  sub rsp,SUPPORT_STRIDE
  movss xmm0,[rbx+ENTITY_X]
  movss xmm1,[rbx+ENTITY_Z]
  movss xmm2,[rdi+12]
- mov esi,[rbx+ENTITY_KIND]
- lea rdi,[rsp]
- mov edx,SUPPORT_STRIDE
- call ground_support
+ movss xmm3,[view_dt]
+ mov ecx,[rbx+ENTITY_KIND]
+ mov edx,[rbx+ENTITY_GENERATION]
+ mov r8d,[mesh_frame]
+ mov eax,r14d
+ shl eax,6
+ lea rdi,[mesh_ground_cache]
+ add rdi,rax
+ mov rsi,rsp
+ call ground_visual
  test eax,eax
  jnz .support_done
  mov rdi,[rsp+SUPPORT_STRIDE]
@@ -657,6 +670,12 @@ meshes_draw:
 .support_done:
  add rsp,SUPPORT_STRIDE
  pop rdi
+ jmp .ground_record
+.ground_stale:
+ mov eax,r14d
+ shl eax,6
+ lea rcx,[mesh_ground_cache]
+ mov dword [rcx+rax+SUSPENSION_FLAGS],0
 .ground_record:
  movups xmm0,[rdi]
  movups [mesh_ground_pose],xmm0
