@@ -1,0 +1,12 @@
+{
+  "job_id": "590455b4b201",
+  "exit_code": 1,
+  "revision": "c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a",
+  "seconds": 861.6078592339909,
+  "status": "failed",
+  "log_path": "runs/jobs/590455b4b201/job.log",
+  "log_sha256": "338dade836ecbd5390090cab738f51a81c05d1dddb1cf4920f7051fb84aa4d8f",
+  "failure": "Stale exact player.inc consumer assertion expected8; actual11 correctly includes company/depot report modules.",
+  "resolution": "Integrated03e2b2e and supply-dependencies-recheck.json verify exact current11 and historical9 consumers. Frozen job remains failed; no snapshot mutation.",
+  "corrected_full": "902e4f699f7a is still running, not a pass."
+}

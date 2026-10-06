@@ -8,16 +8,20 @@ against copied frozen e02e872 sources (9 consumers) and current depot sources
 [evidence/supply-dependencies-recheck.json](evidence/supply-dependencies-recheck.json).
 
 Corrected frozen full902e4f699f7a is RUNNING at03e2b2e-f06718573c8dd39a,
-PID1038625 confirmed live. Earlier depot full590455b4b201 remains RUNNING at
-c42284b-eeab15cc132fdc7a, PID970561 confirmed live, with its known stale tools
-assertion. Prior full1433fa199da8 and412520d69630 are failed/collected, unchanged.
-All foreground checks are terminal/reconciled; all worktrees are committed.
+PID1038625 confirmed live. Earlier depot full590455b4b201 FAILED and is collected
+at c42284b-eeab15cc132fdc7a: exit1 after861.607859s, stale exact tools assertion
+expected8 player.inc consumers versus correctly rebuilt11. Its failure remains
+recorded in evidence/depot-inventory-full-failed.json;03e2b2e corrects the fixture. Prior full1433fa199da8 and412520d69630 are failed/collected, unchanged.
+Current infantry detour candidate is undergoing foreground fast/network/scale
+and real graphics checks; its edits are not yet integrated.
 
 Next gameplay work is isolated feature/infantry-supply-routes at
 /mnt/titan_nv3/projects/red-horizon-workers/infantry-supply-routes. Read-only
 carried-round query prerequisite passes268 ABI calls, independent initial and
 actual120-tick live-world queries, malformed-stock checks and focused combat24.
-It is NOT integrated and no detour/world hook is claimed. See that worktree's
+The candidate now also implements a temporary detour/world hook, with sparse
+physical arrival/resumption/capture-cut checks passing. It is NOT integrated;
+remaining regressions are in progress. See that worktree's
 docs/supply-routes.md and evidence/supply-routes-query.json. Physical detours must
 preserve primary orders/hazard precedence and use a separate corridor namespace
 from existing16-ID squad routes, with actual finite debit only upon arrival.
