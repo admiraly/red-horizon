@@ -54,13 +54,23 @@ def reference_surface(point):
     h=12+x*x*.000001+z*z*.0000005+max(0,1-abs(x)/800)*18
     gx=x*.000002
     if 0<abs(x)<800:gx+=.0225 if x<0 else -.0225
-    return h,gx,z*.000001
+    field=json.loads((ROOT/'content/terrain/relief.json').read_text())['fields'][0]
+    def factor(value,breaks):
+        a,b,c,d=breaks
+        if value<=a or value>=d:return 0.,0.
+        if value==b or value==c:return 1.,0.
+        if value<b:return (value-a)/(b-a),1/(b-a)
+        if value>c:return (d-value)/(d-c),-1/(d-c)
+        return 1.,0.
+    fx,dx=factor(point[0],field['x']);fz,dz=factor(point[1],field['z'])
+    height=field['height']
+    return h+height*fx*fz,gx+height*dx*fz,z*.000001+height*fx*dz
 
 with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
     directory=Path(directory)
     nasm=os.environ.get('RED_HORIZON_NASM') or shutil.which('nasm') or str(ROOT/'.tools/nasm/nasm')
     objects=[]
-    for source in ('src/nav/terrain_surface.asm','src/nav/terrain.asm','tests/probe_terrain_surface.asm'):
+    for source in ('src/nav/terrain_surface.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','tests/probe_terrain_surface.asm'):
         output=directory/(Path(source).stem+'.o')
         subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(output)],check=True)
         objects.append(str(output))
@@ -89,7 +99,16 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
         assert struct.pack('<f',data[2])==struct.pack('<f',production[2]),'height differs from production terrain'
         analytical=reference_surface(actual_point)
         assert abs(data[2]-analytical[0])<=.00003,('height',actual_point,data[2],analytical)
-        assert abs(data[3]-analytical[1])<=5e-9 and abs(data[4]-analytical[2])<=1e-9,('gradient',actual_point,tuple(data[3:]),analytical)
+        # Retain original shallow-terrain precision gates. Relief adds up to
+        # six float32 rounding operations; use its forward-error bound only
+        # for components that actually contain relief, including cancellation.
+        bx=(actual_point[0]-4000)*.000002
+        if 0<abs(actual_point[0]-4000)<800:bx+=.0225 if actual_point[0]<4000 else -.0225
+        bz=(actual_point[1]-4000)*.000001
+        gamma=6*2**-24/(1-6*2**-24)
+        tx=5e-9 if analytical[1]==bx else 5e-9+gamma*(abs(bx)+abs(analytical[1]-bx))
+        tz=1e-9 if analytical[2]==bz else 1e-9+gamma*(abs(bz)+abs(analytical[2]-bz))
+        assert abs(data[3]-analytical[1])<=tx and abs(data[4]-analytical[2])<=tz,('gradient',actual_point,tuple(data[3:]),analytical,tx,tz)
         assert bytes(road_blob)==initial_roads and road_count.value==19,'sampler wrote rodata'
         category_counts[category]+=1
         points.append(actual_point)

@@ -1,4 +1,4 @@
-; Root-owned stateless raised terrain component ABI v1; NOT world-integrated.
+; Root-owned stateless raised terrain component ABI v1; shared CPU height/gradient and GPU geometry.
 %ifndef TERRAIN_RELIEF_INC
 %define TERRAIN_RELIEF_INC
 %define TERRAIN_RELIEF_VERSION 1
@@ -20,7 +20,7 @@
 ; Piecewise linear trapezoidX * trapezoidZ * height; choose factor derivative0
 ; at all four factor breaks. Continuousheight; cuspchoice DOES NOT prove grade
 ; clearance. SysV integer registers preserved, SSE2, readonlybounded1field,
-; no allocations, authoritative writes or profile state. No world/nav/render hooks.
+; no allocations, authoritative writes or profile state. Stateless helper; world/nav/render consume the same canonical field.
 ; Exportreadonlyterrain_relief_count,terrain_relief_fields. Field40=9f32+flagsu32.
 ; Root canonical x5400/5480/5620/5820,z4800/5000/5400/5600,height64m.
 ; Steep central ramp gradient.8, gentle gradient-.32, side fades.32 maximum.

@@ -1,13 +1,15 @@
 ; Bounded squad visibility corridors followed by existing local swept steering.
 %include "schemas/entity.inc"
+%include "schemas/terrain_relief.inc"
 default rel
 %define SQUAD_SLOTS 12288
 %define SLOTS (SQUAD_SLOTS+2048)
 %define STRIDE 256
 %define QCAP 512
-%define NODES 22
+%define NODES 27
 extern sim_count,sim_entities,sim_tick_count,ai_fronts
 extern terrain_obstacles,terrain_obstacle_count,terrain_body_path_clear,terrain_height,terrain_los
+extern terrain_relief_fields
 section .bss align=64
 global nav_metrics
 ; pending, completed, overflow, cache_hits, stuck_replans, cover_choices,
@@ -102,7 +104,8 @@ nav_tick:
  pop rbp
  ret
 ; Dijkstra over start, goal and four padded corners per physical static box.
-; Fixed 22 nodes = current five obstacles; reject table growth safely.
+; At most27 nodes: start/goal,20 box corners,5 canonical hill bypasses.
+; Shared graph stays artillery-conservative; live queries retain actual roles.
 build_route:
  push rbx
  push r12
@@ -123,7 +126,7 @@ build_route:
  xor r13d,r13d
 .corners:
  cmp r13d,[terrain_obstacle_count]
- jae .init
+ jae .relief_nodes
  movss xmm0,[rsi]
  subss xmm0,[route_margin]
  movss xmm1,[rsi+4]
@@ -149,6 +152,61 @@ build_route:
  add rsi,32
  inc r13d
  jmp .corners
+.relief_nodes:
+ lea rsi,[terrain_relief_fields]
+ test dword [rsi+RELIEF_FLAGS],RELIEF_ACTIVE
+ jz .init
+ ; Retain the original graph outside the start/goal rectangle near relief.
+ movss xmm0,[rbx]
+ maxss xmm0,[rbx+8]
+ addss xmm0,[route_margin]
+ ucomiss xmm0,[rsi+RELIEF_X0]
+ jb .init
+ movss xmm0,[rbx]
+ minss xmm0,[rbx+8]
+ subss xmm0,[route_margin]
+ ucomiss xmm0,[rsi+RELIEF_X3]
+ ja .init
+ movss xmm0,[rbx+4]
+ maxss xmm0,[rbx+12]
+ addss xmm0,[route_margin]
+ ucomiss xmm0,[rsi+RELIEF_Z0]
+ jb .init
+ movss xmm0,[rbx+4]
+ minss xmm0,[rbx+12]
+ subss xmm0,[route_margin]
+ ucomiss xmm0,[rsi+RELIEF_Z3]
+ ja .init
+ movss xmm0,[rsi+RELIEF_X0]
+ subss xmm0,[route_margin]
+ movss xmm1,[rsi+RELIEF_Z0]
+ subss xmm1,[route_margin]
+ movss [rbx+r12*8],xmm0
+ movss [rbx+r12*8+4],xmm1
+ inc r12d
+ movss xmm0,[rsi+RELIEF_X3]
+ addss xmm0,[route_margin]
+ movss [rbx+r12*8],xmm0
+ movss [rbx+r12*8+4],xmm1
+ inc r12d
+ movss xmm1,[rsi+RELIEF_Z3]
+ addss xmm1,[route_margin]
+ movss [rbx+r12*8],xmm0
+ movss [rbx+r12*8+4],xmm1
+ inc r12d
+ movss xmm2,[rsi+RELIEF_X0]
+ subss xmm2,[route_margin]
+ movss [rbx+r12*8],xmm2
+ movss [rbx+r12*8+4],xmm1
+ inc r12d
+ ; Explicit east gentle entrance prevents conservative diagonal boxes forcing
+ ; a needless second circuit around the hill to reach the plateau.
+ movss xmm1,[rsi+RELIEF_Z1]
+ addss xmm1,[rsi+RELIEF_Z2]
+ mulss xmm1,[half]
+ movss [rbx+r12*8],xmm0
+ movss [rbx+r12*8+4],xmm1
+ inc r12d
 .init:
  mov [rsp],r12d
  lea rdi,[distance]

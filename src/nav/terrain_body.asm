@@ -2,13 +2,15 @@
 default rel
 %include "schemas/terrain_body.inc"
 extern terrain_obstacles, terrain_obstacle_count
-extern terrain_blocked, terrain_path_clear, terrain_move
+extern terrain_blocked, terrain_path_clear, terrain_move, terrain_grade_clear
+extern terrain_relief_fields
+%include "schemas/terrain_relief.inc"
 section .data
 global terrain_body_enabled
 terrain_body_enabled: dd 1
 section .rodata align=16
 ; One millimetre safety inflation prevents float round-down at map/wall tangency.
-radii: dd 0.551,3.551,4.491,0.0
+radii: dd BODY_INF_SWEEP_RADIUS,BODY_TANK_SWEEP_RADIUS,BODY_ARTY_SWEEP_RADIUS,0.0
 zero: dd 0.0
 one: dd 1.0
 half: dd 0.5
@@ -72,16 +74,24 @@ terrain_body_blocked:
  cmp dword [terrain_body_enabled],0
  je terrain_blocked
  cmp edi,3
- je .clear
+ je .return_clear
  ucomiss xmm0,xmm5
  jb .blocked
  ucomiss xmm1,xmm5
  jb .blocked
- movss xmm6,[maximum]
- subss xmm6,xmm5
- ucomiss xmm0,xmm6
+ ; Match the strict whole-sweep inset, retaining the original scalar inputs
+ ; and radius while using only the existing point-query scratch registers.
+ cvtss2sd xmm6,[maximum]
+ cvtss2sd xmm5,xmm5
+ subsd xmm6,xmm5
+ cvtsd2ss xmm5,xmm5
+ cvtss2sd xmm0,xmm0
+ ucomisd xmm0,xmm6
+ cvtsd2ss xmm0,xmm0
  ja .blocked
- ucomiss xmm1,xmm6
+ cvtss2sd xmm1,xmm1
+ ucomisd xmm1,xmm6
+ cvtsd2ss xmm1,xmm1
  ja .blocked
  lea rsi,[terrain_obstacles]
  mov ecx,[terrain_obstacle_count]
@@ -103,7 +113,80 @@ terrain_body_blocked:
  add rsi,32
  dec ecx
  jnz .loop
-.clear: xor eax,eax
+.clear:
+ ; Fast conservative exclusion avoids a helper call for ordinary flat terrain.
+ movss xmm6,xmm0
+ addss xmm6,xmm5
+ ucomiss xmm6,[terrain_relief_fields+RELIEF_X0]
+ jb .return_clear
+ movss xmm6,xmm0
+ subss xmm6,xmm5
+ ucomiss xmm6,[terrain_relief_fields+RELIEF_X3]
+ ja .return_clear
+ movss xmm6,xmm1
+ addss xmm6,xmm5
+ ucomiss xmm6,[terrain_relief_fields+RELIEF_Z0]
+ jb .return_clear
+ movss xmm6,xmm1
+ subss xmm6,xmm5
+ ucomiss xmm6,[terrain_relief_fields+RELIEF_Z3]
+ ja .return_clear
+ ; Preserve old point-query observable SIMD/untouched caller GPR behavior,
+ ; especially radius XMM5 consumed by existing whole-segment static sweeps.
+ sub rsp,312
+ movaps [rsp+0],xmm0
+ movaps [rsp+16],xmm1
+ movaps [rsp+32],xmm2
+ movaps [rsp+48],xmm3
+ movaps [rsp+64],xmm4
+ movaps [rsp+80],xmm5
+ movaps [rsp+96],xmm6
+ movaps [rsp+112],xmm7
+ movaps [rsp+128],xmm8
+ movaps [rsp+144],xmm9
+ movaps [rsp+160],xmm10
+ movaps [rsp+176],xmm11
+ movaps [rsp+192],xmm12
+ movaps [rsp+208],xmm13
+ movaps [rsp+224],xmm14
+ movaps [rsp+240],xmm15
+ mov [rsp+256],rdi
+ mov [rsp+264],rdx
+ mov [rsp+272],r8
+ mov [rsp+280],r9
+ mov [rsp+288],r10
+ mov [rsp+296],r11
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ call terrain_grade_clear
+ movaps xmm0,[rsp+0]
+ movaps xmm1,[rsp+16]
+ movaps xmm2,[rsp+32]
+ movaps xmm3,[rsp+48]
+ movaps xmm4,[rsp+64]
+ movaps xmm5,[rsp+80]
+ movaps xmm6,[rsp+96]
+ movaps xmm7,[rsp+112]
+ movaps xmm8,[rsp+128]
+ movaps xmm9,[rsp+144]
+ movaps xmm10,[rsp+160]
+ movaps xmm11,[rsp+176]
+ movaps xmm12,[rsp+192]
+ movaps xmm13,[rsp+208]
+ movaps xmm14,[rsp+224]
+ movaps xmm15,[rsp+240]
+ mov rdi,[rsp+256]
+ mov rdx,[rsp+264]
+ mov r8,[rsp+272]
+ mov r9,[rsp+280]
+ mov r10,[rsp+288]
+ mov r11,[rsp+296]
+ add rsp,312
+ cmp eax,1
+ setne al
+ movzx eax,al
+ ret
+.return_clear: xor eax,eax
  ret
 .blocked: mov eax,1
  ret
@@ -179,7 +262,7 @@ terrain_body_path_clear:
 .loop:
  mov eax,[rsp+20]
  cmp eax,[terrain_obstacle_count]
- jae .clear
+ jae .grade
  test dword [rbx+24],1
  jz .next
  mov rsi,rbx
@@ -198,6 +281,15 @@ terrain_body_path_clear:
  movss xmm3,[rsp+12]
  call terrain_path_clear
  jmp .out
+.grade:
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ movss xmm2,[rsp+8]
+ movss xmm3,[rsp+12]
+ mov edi,[rsp+16]
+ call terrain_grade_clear
+ cmp eax,1
+ jne .blocked
 .clear: mov eax,1
  jmp .out
 .blocked: xor eax,eax
@@ -401,8 +493,21 @@ terrain_body_move:
  je .candidate
  ; Clip only the normalized actual endpoint, preserving requested components.
  movss xmm5,[rsp+24]
- movss xmm6,[maximum]
- subss xmm6,xmm5
+ ; Compute the true double upper inset, then round the stored float inward.
+ ; An outward rounded 8000-radius would fail the complete-circle grade query
+ ; and hold the final controller step, despite the unchanged one-mm skin.
+ cvtss2sd xmm6,[maximum]
+ cvtss2sd xmm7,xmm5
+ subsd xmm6,xmm7
+ cvtsd2ss xmm7,xmm6
+ cvtss2sd xmm8,xmm7
+ ucomisd xmm8,xmm6
+ jbe .inset_ready
+ movd eax,xmm7
+ dec eax
+ movd xmm7,eax
+.inset_ready:
+ movaps xmm6,xmm7
  maxss xmm2,xmm5
  minss xmm2,xmm6
  maxss xmm3,xmm5

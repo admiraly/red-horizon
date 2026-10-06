@@ -129,12 +129,27 @@ not. Retained boundary-crossing momentum decelerates through the actuator.
 Terminal arrival uses the exact discrete braking sum; AI body guidance previews
 at most 6 m without accepting any unchecked hull translation.
 
-UDPv7 content fingerprint `0x321a5da9` covers the actual asset-manifest hash,
-canonical roads and resolved handling policy. `tools/ground_content.py --check`
+UDPv7 content fingerprint `0xaee4fda3` covers the actual asset-manifest hash,
+canonical roads, relief, resolved handling and grade policy, sweep radii and
+the fixed refined rendering tile. `tools/ground_content.py --check`
 validates it before builds; co-op checks independently reconstruct it and retain
 incompatible-client rejection. Schema fingerprint and wire layouts are unchanged.
 
-Current shapes are planar conservative circles. Steep slopes, wheeled chassis,
+Current shapes are planar conservative circles. Wheeled chassis,
 oriented hulls, suspension, damage handling and wreck cover remain separate work.
 Focused worker evidence is in ground-motion.md, ground-motion-outcomes.md and
 ground-presentation.md; final integrated evidence belongs to status.md.
+
+Raised terrain candidate: `terrain_relief` ABI v1 contributes stateless height
+and derivatives to CPU world queries and both embedded GPU vertex shaders.
+`terrain_grade_clear` ABI v1 validates whole swept circles via nine closed
+facet intersections and four gradient corners per intersection, including both
+cusp sides. Foot/tank/artillery limits 45/35/25 degrees are design choices;
+air bypasses ground admission after coordinate validation. Expanded segment
+rectangles conservatively reject some valid diagonal sweeps. The bounded graph
+uses at most 27 nodes, adding four field corners and one gentle-side entrance;
+shared cached routes remain artillery-conservative. Height preserves all GPRs
+and XMM4–15 expected by established callers. CPU and GPU use canonical relief,
+and a localized 105,000-vertex tile bounds analytic interpolation error to
+0.027 m. Full checkpoint acceptance is pending; see status.md and the terrain
+integration contract for exact evidence and remaining limitations.

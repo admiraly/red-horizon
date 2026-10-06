@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 7, 0x4e2ac49b, 0x321a5da9
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 7, 0x4e2ac49b, 0xaee4fda3
 HEADER = struct.Struct('<10I')
 
 
@@ -472,7 +472,8 @@ def main():
     # Reconstruct it independently of the build-time fingerprint tool.
     definitions = dict(re.findall(r'^%define ([A-Z_]+) ([A-Za-z0-9_.]+)$',
         (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
-        (root / 'schemas/terrain_body.inc').read_text(), re.M))
+        (root / 'schemas/terrain_body.inc').read_text() + '\n' +
+        (root / 'schemas/terrain_grade.inc').read_text(), re.M))
     policy = {}
     for name in ('GROUND_SURFACE_VERSION', 'GROUND_TANK_OFFROAD',
                  'GROUND_ARTILLERY_OFFROAD', 'GROUND_TANK_RADIUS',
@@ -490,6 +491,10 @@ def main():
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
         'tracked_policy': policy,
     }
+    payload.update(relief_abi=1,grade_abi=1,
+        relief=json.loads((root/'content/terrain/relief.json').read_text()),
+        grade_policy={name:definitions[name] for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},
+        render_patch={'x':[5375,5875],'z':[4750,5625],'spacing':5,'max_height_error':0.027,'route_margin':6,'node_limit':27})
     encoded = json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()
     assert int(hashlib.sha256(encoded).hexdigest()[:8], 16) == CONTENT
     constants = (root / "src/net/protocol.inc").read_text()

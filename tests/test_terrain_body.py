@@ -5,7 +5,7 @@ root=pathlib.Path(__file__).resolve().parents[1]
 nasm=os.environ.get('RED_HORIZON_NASM',str(root/'.tools/nasm/nasm'))
 with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
     objs=[]
-    for source in ('src/nav/terrain_body.asm','src/nav/terrain.asm','tests/terrain_body_probe.asm'):
+    for source in ('src/nav/terrain_body.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','tests/terrain_body_probe.asm'):
         obj=pathlib.Path(out)/(pathlib.Path(source).stem+'.o');objs.append(str(obj))
         subprocess.run([nasm,'-f','elf64','-I',str(root/'schemas')+'/',str(root/source),'-o',str(obj)],check=True)
     library=pathlib.Path(out)/'body.so'
@@ -26,9 +26,41 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
     def f(v):return C.c_float(v).value
     def move(p,g,s,k):return struct.unpack('<ff',struct.pack('<Q',lib.test_body_move(*p,*g,s,k)))
     def controller(p,g,s,k):return struct.unpack('<ff',struct.pack('<Q',lib.test_body_step(*p,*g,s,k)))
+    field=json.loads((root/'content/terrain/relief.json').read_text())['fields'][0]
+    def grade_safe(p,q,k):
+        if k in (0,3):return True # canonical max<45deg; air bypasses ground
+        r=f((.551,3.551,4.491)[k])
+        low=[min(a,b)-r for a,b in zip(p,q)];high=[max(a,b)+r for a,b in zip(p,q)]
+        xs,zs=field['x'],field['z']
+        if high[0]<xs[0] or low[0]>xs[-1] or high[1]<zs[0] or low[1]>zs[-1]:return True
+        # Independent factor/one-sided derivative evaluation at all rectangle
+        # and field breaks; no generated coefficients or production helper.
+        def factor(v,axis):
+            a,b,c,d=axis
+            if v<a or v>d:return 0.,(0.,)
+            if v==a:return 0.,(0.,1/(b-a))
+            if v==b:return 1.,(1/(b-a),0.)
+            if v==c:return 1.,(0.,-1/(d-c))
+            if v==d:return 0.,(-1/(d-c),0.)
+            if v<b:return (v-a)/(b-a),(1/(b-a),)
+            if v>c:return (d-v)/(d-c),(-1/(d-c),)
+            return 1.,(0.,)
+        xc=sorted(set([max(low[0],xs[0]),min(high[0],xs[-1])]+[v for v in xs if low[0]<=v<=high[0]]))
+        zc=sorted(set([max(low[1],zs[0]),min(high[1],zs[-1])]+[v for v in zs if low[1]<=v<=high[1]]))
+        limit=math.tan(math.radians((45,35,25)[k]))**2
+        for x in xc:
+            fx,dxs=factor(x,xs)
+            for z in zc:
+                fz,dzs=factor(z,zs)
+                for dx in dxs:
+                    for dz in dzs:
+                        gx=(x-4000)*f(.000002)+field['height']*dx*fz
+                        gz=(z-4000)*f(.000001)+field['height']*fx*dz
+                        if gx*gx+gz*gz+1e-6>limit:return False
+        return True
     def blocked(p,k):
         r=radii[k]
-        return not all(r<=v<=8000-r for v in p) or (k!=3 and any(a-r<=p[0]<=c+r and b-r<=p[1]<=d+r for a,b,c,d in boxes))
+        return not all(r<=v<=8000-r for v in p) or (k!=3 and any(a-r<=p[0]<=c+r and b-r<=p[1]<=d+r for a,b,c,d in boxes)) or not grade_safe(p,p,k)
     def hit(p,q,box,r):
         low,high=0.,1.
         for x,y,a,b in ((p[0],q[0],box[0]-r,box[2]+r),(p[1],q[1],box[1]-r,box[3]+r)):
@@ -44,13 +76,14 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
         assert math.dist(p,q)<=s+.001,(p,q,s,k)
         assert not blocked(q,k),(p,q,k,'endpoint')
         assert k==3 or not any(hit(p,q,b,radii[k]) for b in boxes),(p,q,k,'sweep')
+        assert grade_safe(p,q,k),(p,q,k,'whole-body grade sweep')
         return q
     rng=random.Random(19381);samples=0
     for k in range(4):
         for _ in range(1500):
             p=tuple(f(v) for v in (rng.uniform(2500,5500),rng.uniform(500,7000)))
             q=tuple(f(v) for v in (rng.uniform(2500,5500),rng.uniform(500,7000)))
-            expected=not blocked(p,k) and not blocked(q,k) and (k==3 or not any(hit(p,q,b,radii[k]) for b in boxes))
+            expected=not blocked(p,k) and not blocked(q,k) and (k==3 or not any(hit(p,q,b,radii[k]) for b in boxes)) and grade_safe(p,q,k)
             assert bool(lib.test_body_path(*p,*q,k))==expected,(p,q,k)
             if not blocked(p,k):safe(p,q,rng.choice((.12,.2,.5,.6,1000,8000)),k);samples+=1
     routes=[]
@@ -82,6 +115,11 @@ with tempfile.TemporaryDirectory(prefix='rh-body-') as out:
         assert move((3900,1300),(4050,1300),step,1)==(3900,1300)
     assert lib.test_body_blocked(3900,1300,4)==1
     assert move((3900,1300),(4050,1300),.5,4)==(3900,1300)
+    # Rounded outward upper insets must not be advertised as safe point births.
+    # Actual manual endpoints round inward within the original .001m gate.
+    for k,r in enumerate((.551,3.551,4.491)):
+        radius=f(r);upper=f(8000-radius)
+        if upper+radius>8000:assert lib.test_body_blocked(upper,2000,k)==1
     # Real controller direction must remain commanded even while touching walls.
     controller_ticks=0
     for k,s in ((0,.3),(1,.6)):

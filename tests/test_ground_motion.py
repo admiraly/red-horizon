@@ -299,7 +299,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     print(json.dumps(actuator_report,sort_keys=True))
     # Independent production body/terrain path: same actuator, real collision code.
     real_objects=[]
-    sources=('src/game/ground_motion.asm','src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_body.asm','src/nav/terrain_surface.asm','tests/ground_motion_probe.asm')
+    sources=('src/game/ground_motion.asm','src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','src/nav/terrain_body.asm','src/nav/terrain_surface.asm','tests/ground_motion_probe.asm')
     for source in sources:
         obj=pathlib.Path(td)/(pathlib.Path(source).stem+'-real.o')
         subprocess.run([nasm,'-f','elf64','-DGROUND_REAL_COLLISION=1','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(obj)],check=True)
