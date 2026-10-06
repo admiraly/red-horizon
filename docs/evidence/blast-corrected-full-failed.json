@@ -1,0 +1,26 @@
+{
+  "job_id": "d8f5c5b64ed3",
+  "exit_code": 1,
+  "revision": "147e51d635774eee949715aecb1fa43de627b4c3-131f3b7ae59277b1",
+  "seconds": 490.11301977898984,
+  "status": "failed",
+  "metadata": {
+    "job_id": "d8f5c5b64ed3",
+    "revision": "147e51d635774eee949715aecb1fa43de627b4c3-131f3b7ae59277b1",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d8f5c5b64ed3/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d8f5c5b64ed3/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d8f5c5b64ed3/result.json",
+    "pid": 2074165
+  },
+  "collected": true,
+  "log_sha256": "51e897b311d1000f280a266047d9d711fc743d67b96e015d3d895f8beef2e5f7",
+  "failure": "Legacy controller dense oracle treated genuine human corpse-generation\u2192new-body safe redeployment as same-body locomotion. Tick58 displacement[-2532.333251953125,-1108.499267578125] exceeded0.3m intent bound.",
+  "correction_status": "Focused genuine generation/placement boundary recheck running; original bound retained for same body."
+}

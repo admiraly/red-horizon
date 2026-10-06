@@ -1,3 +1,13 @@
+Corrected blast fulld8f5c5b64ed3 FAILED/collected at
+147e51d-131f3b7ae59277b1,exit1,490.113020s. Legacy dense controller observer
+used corpse pose as a movement origin after genuine generation change/safe
+redeployment. Focused lifecycle correction now verifies actual death→generation+1,
+100HP/30ammo/respawn0 and full living-ground/current-controller spawn clearance;
+every same-body speed/input/sweep bound and original8192/16384/60tick counts
+remain. Rechecks running; no corrected pass inferred. Frozen cadence
+full6c0e578a78f7 remains running at its immutable earlier observer epoch.
+Exact failed epoch/log: evidence/blast-corrected-full-failed.json.
+
 Shared actual infantry firing cadence is integrated in86a8573; runtime contracts
 in94e8a92, policy4,UDPv36/schema6de33575/content487332b0. Both real army and
 human rifle-damage paths now call one finite validated shot gate. A successful
@@ -36,10 +46,11 @@ baseline13.223762ms/p9515.529005ms amid concurrent verification. This is one
 host CPU experiment, not sustained/hardware graphics or per-actor label-health
 proof. Exact reports: evidence/infantry-cadence-benchmark.json.
 
-Matching-main focused player checks running. Frozen full6c0e578a78f7 RUNNING,
+Matching-main focused player checks exit0; all168 runtime inputs equal the
+verified worker. Exact evidence/infantry-cadence-main-player.json. Frozen full6c0e578a78f7 RUNNING,
 86a85731eb1f9cc3e51b21d28136277a399cb8a6-1c87bd9c49b149b5,PID2138286; metadata
  evidence/infantry-cadence-full-pending.json. Previous corrected blast
-fulld8f5c5b64ed3 remains live at its earlier epoch. Failed3ed19c6f8298 and
+fulld8f5c5b64ed3 FAILED/collected at its earlier epoch. Failed3ed19c6f8298 and
 5c24e859ca9b remain failed/collected. No full pass or complete-game claim.
 Army-first processing and human16tick scans remain: fair joint target arbitration
 and actual NPC rifle shot audio/tracers are still incomplete. Broader spec,
