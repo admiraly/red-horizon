@@ -8,6 +8,9 @@ net_wrecks: resb WRECK_CAPACITY*WRECK_STRIDE
 net_wreck_count: resd 1
 slot_tick: resd WRECK_CAPACITY
 slot_valid: resb WRECK_CAPACITY
+alignb 8
+global net_wreck_query_revision
+net_wreck_query_revision: resq 1
 section .text
 global wreck_receive,wreck_remote_expire,wreck_remote_reset
 wreck_remote_reset:
@@ -15,6 +18,7 @@ wreck_remote_reset:
  xor eax,eax
  mov ecx,(WRECK_CAPACITY*WRECK_STRIDE+4+WRECK_CAPACITY*5)/4
  rep stosd
+ inc qword [net_wreck_query_revision]
  ret
 wreck_receive:
  test rdi,rdi
@@ -178,6 +182,18 @@ wreck_receive:
  mov [r8+rax*4],r14d
  mov byte [r9+rax],1
  lea rsi,[r15+4]
+ xor ecx,ecx
+.compare_geometry:
+ mov rdx,[rsi+rcx*8]
+ cmp rdx,[rdi+rcx*8]
+ jne .geometry_changed
+ inc ecx
+ cmp ecx,8
+ jb .compare_geometry
+ jmp .geometry_unchanged
+.geometry_changed:
+ inc qword [net_wreck_query_revision]
+.geometry_unchanged:
  mov ecx,8
  rep movsq
  inc r12d
@@ -212,6 +228,7 @@ wreck_remote_expire:
  cmp eax,WRECK_LIFETIME_TICKS
  jb .next
  and dword [rsi+WRECK_FLAGS],~WRECK_ACTIVE
+ inc qword [net_wreck_query_revision]
 .next:
  add rsi,WRECK_STRIDE
  loop .loop

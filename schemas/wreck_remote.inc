@@ -14,4 +14,7 @@
 ; wreck_remote_expire(EDI latest accepted server tick) clears expired ACTIVE only.
 ; wreck_remote_reset clears all client records/validity/timestamps/count.
 ; Dedicated client cache, never authoritative sim_wrecks/hash, no allocation.
+; Prepared net_wreck_query_revision:qword, outside record/validity arena/hash.
+; Advances for changed record bytes, actual expiry and reset, not identical
+; heartbeat, stale/invalid packet or no-op expiry. Sequential safe-point only.
 %endif

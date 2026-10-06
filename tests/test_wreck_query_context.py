@@ -42,6 +42,27 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
  lib.wreck_query.argtypes=[C.c_void_p,C.c_uint]+[C.c_float]*6
  out=C.create_string_buffer(24);assert lib.wreck_query(out,24,1090,101,1000,1110,101,1000)==0
  assert bytes(local)==before
+ # Actual remote lifecycle drives the supplied context revision, without authority writes.
+ obj=td/'remote.o';subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/sim/wreck_remote.asm'),'-o',str(obj)],check=True)
+ dll=td/'remote.so';subprocess.run(['cc','-shared','-Wl,-Bsymbolic',str(obj),'-o',str(dll)],check=True)
+ remote=C.CDLL(str(dll));remote.wreck_receive.argtypes=[C.c_void_p,C.c_uint,C.c_uint];remote.wreck_remote_expire.argtypes=[C.c_uint]
+ cache=(C.c_byte*65536).in_dll(remote,'net_wrecks');count=C.c_uint.in_dll(remote,'net_wreck_count');revision=C.c_uint64.in_dll(remote,'net_wreck_query_revision')
+ remote.wreck_remote_reset();initial_revision=revision.value
+ payload=C.create_string_buffer(struct.pack('<I',0)+record(1000,12,1));assert remote.wreck_receive(payload,68,0)==1;first_revision=revision.value;assert first_revision!=initial_revision
+ def remote_query(wanted):return query(point,C.addressof(cache),count.value,revision.value,(990,101,1000,1010,101,1000),wanted)
+ remote_query(1);assert remote.wreck_receive(payload,68,1)==1;assert revision.value==first_revision;remote_query(1)
+ remote.wreck_remote_expire(1799);assert revision.value==first_revision
+ remote.wreck_remote_expire(1800);assert revision.value!=first_revision;remote_query(0);expiry_revision=revision.value
+ remote.wreck_remote_expire(1801);assert revision.value==expiry_revision
+ # Malformed packet is atomic across cache, validity/timestamps and derived revision.
+ malformed=C.create_string_buffer(struct.pack('<I',1024)+record(1000,12,1));old=C.string_at(C.addressof(cache),70660)
+ assert remote.wreck_receive(malformed,68,1800)==-1;assert revision.value==expiry_revision;assert C.string_at(C.addressof(cache),70660)==old
+ # Delayed active snapshot cannot revive server-clock-expired geometry.
+ assert remote.wreck_receive(payload,68,1)==0;assert revision.value==expiry_revision;remote_query(0)
+ replacement=bytearray(record(1000,99,2));struct.pack_into('<2I',replacement,40,2000,3800);payload2=C.create_string_buffer(struct.pack('<I',0)+replacement)
+ assert remote.wreck_receive(payload2,68,2000)==1;hit=remote_query(1);assert hit[2:5]==(99,1,2)
+ replacement_revision=revision.value;remote.wreck_remote_reset();assert revision.value!=replacement_revision;remote_query(0)
+ assert bytes(local)==before
  # Actual assembled faults must expose cross-source and lifecycle cache mistakes.
  negatives=[];source=(ROOT/'src/nav/wreck_query.asm').read_text()
  for tag,text in [('source_key_omitted',source.replace(' cmp rax,[cache_source]\n jne .refresh',' nop\n nop')),('revision_key_omitted',source.replace(' cmp rax,[cache_revision]\n je .cached',' jmp .cached'))]:
@@ -54,4 +75,4 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
   else:
    C.memmove(rows[0],record(1200,99,3),64);rc=fn(out,24,rows[0],1,2,1190,101,1000,1210,101,1000);assert rc==0
   negatives.append(tag)
- print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'assembled_negatives':negatives,'same_revision_source_switches':128,'local_authority_unchanged':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Not connected-client hooks, packet-driven cache invalidation, actor movement, cover or scale acceptance.'}))
+ print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'assembled_negatives':negatives,'same_revision_source_switches':128,'local_authority_unchanged':True,'actual_remote_receive_expire_retire_reset_revision':True,'identical_heartbeat_retains_geometry_revision':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Actual remote-cache lifecycle revision is verified; no connected-client prediction hooks, actor movement, cover or scale acceptance.'}))
