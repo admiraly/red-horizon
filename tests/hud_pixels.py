@@ -1,6 +1,7 @@
 """Development-only readable text oracle over an actual X11 framebuffer."""
 # Independent expected strokes for the status/consent messages under test.
 ROWS={
+'8':('01110','10001','10001','01110','10001','10001','01110'),
 'B':('11110','10001','10001','11110','10001','10001','11110'),
 'U':('10001','10001','10001','10001','10001','10001','01110'),
 'K':('10001','10010','10100','11000','10100','10010','10001'),

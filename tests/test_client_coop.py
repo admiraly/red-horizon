@@ -147,6 +147,21 @@ try:
                     text=os.pread(clients[index]['memory'],64,client_symbols['supply_hud_text']).split(b'\0')[0].decode()
                     return 'UNKNOWN' in text and text_visible(X,display,clients[index]['window'],0,'UNKNOWN',column=text.index('UNKNOWN'),width=sw,height=sh,origin=(16,sh-136))
                 until(unknown_visible,5)
+                if '--depots' in sys.argv:
+                    until(lambda:read_u32(clients[index]['memory'],client_symbols,'depot_hud_available')==1,5)
+                    until(lambda:text_visible(X,display,clients[index]['window'],0,'OWN DEPOTS',width=sw,height=sh,origin=(16,10)),5)
+                    def depot_visible():
+                        text=os.pread(clients[index]['memory'],64,client_symbols['depot_hud_text']).split(b'\0')[0].decode()
+                        visible=read_u32(clients[index]['memory'],client_symbols,'depot_hud_visible')
+                        return visible>0 and 'R READY' in text and text_visible(X,display,clients[index]['window'],0,'R READY',column=text.index('R READY'),width=sw,height=sh,origin=(16,32+22*(visible-1)))
+                    until(depot_visible,5)
+                    if sw>=640:
+                        until(lambda:text_visible(X,display,clients[index]['window'],0,'D8',origin=(201,158)),5)
+                    raw=os.pread(clients[index]['memory'],304,client_symbols['depot_hud_report'])
+                    header=struct.unpack_from('<4I',raw);assert header[0]==index and header[1]==client_player(index,index)['generation']and header[2]==2 and header[3]==0
+                    for row in range(header[2]):
+                        site,remaining,issued,initial,flags,reserved=struct.unpack_from('<6I',raw,16+row*24)
+                        assert remaining+issued==initial==12000 and flags==19 and reserved==0
                 report=struct.unpack('<10I',os.pread(clients[index]['memory'],40,client_symbols['supply_hud_report']))
                 assert report[0]==index and report[1]==client_player(index,index)['generation'] and report[2]==remote_company(index,index)[1]
                 reports.append(list(report))
@@ -167,7 +182,9 @@ try:
                 until(lambda:read_u32(clients[index]['memory'],client_symbols,'net_connected')==0,8)
                 until(lambda:read_u32(clients[index]['memory'],client_symbols,'supply_hud_available')==0,5)
                 until(lambda:text_visible(X,display,clients[index]['window'],0,'OWN AMMO UNAVAILABLE',width=sw,height=sh,origin=(16,sh-158)),5)
-            print(json.dumps({'suite':'graphical-coop-company-supply','passed':True,'units':8192,'rendered_clients':2,'resolution':[sw,sh],'reports':reports,'actual_low_rounds_unknown_labels':True,'actual_transport_timeout_unavailable_label':True,'observer_memory_writes':False,'limits':['Real GL framebuffer text; solo low/empty/unknown fixtures remain separate.','No depot inventory presentation or supply-aware routes.']}))
+                if '--depots' in sys.argv:
+                    until(lambda:text_visible(X,display,clients[index]['window'],0,'DEPOTS UNAVAILABLE',width=sw,height=sh,origin=(16,10)),5)
+            print(json.dumps({'suite':'graphical-coop-company-supply','passed':True,'units':8192,'rendered_clients':2,'resolution':[sw,sh],'reports':reports,'actual_low_rounds_unknown_labels':True,'actual_transport_timeout_unavailable_label':True,'observer_memory_writes':False,'depot_inventory_and_timeout_labels':('--depots' in sys.argv),'limits':['Real GL framebuffer text; solo low/empty/unknown fixtures remain separate.','No supply-aware routes; rendered ordinary ready stores, not exhaustive visual-state fixtures.']}))
             raise SystemExit(0)
         remote_pixel_counts=[]
         for index in range(2):
@@ -387,13 +404,16 @@ try:
                 # Flush the preceding75ms ACKs, then hold a real movement
                 # roundtrip long enough to observe queuing independent of FPS.
                 relays[0].latency_ms=500
+                relays[0].hold_acks=True
                 time.sleep(.5)
                 until(lambda:read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,2)
                 code=X.XKeysymToKeycode(display,0xffc3)
                 XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)
                 try:
                     until(lambda:read_u32(clients[0]['memory'],client_symbols,'transfer_pending')==1 and read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,1)
-                finally:relays[0].latency_ms=75
+                finally:
+                    relays[0].hold_acks=False
+                    relays[0].latency_ms=75
                 queued_behind_movement=True
                 time.sleep(.7);XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display);time.sleep(.1)
             else:key(0,0xffc3,.7) # F6 requests P1, held key is one request.
@@ -426,7 +446,7 @@ try:
             for index in (1,0):
                 key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
                 assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
-            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'remapped_controls':('--bindings' in sys.argv or '--mixed-bindings' in sys.argv),'different_client_profiles':('--mixed-bindings' in sys.argv),'framebuffer_remapped_accept_hint':(('--bindings' in sys.argv or '--mixed-bindings' in sys.argv) and '--transfer-hud' in sys.argv),'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'queue_observation_one_way_delay_ms':500 if relays else None,'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'framebuffer_offer_and_acceptance':('--transfer-hud' in sys.argv),'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual framebuffer offer and acceptance text verified.' if '--transfer-hud' in sys.argv else 'Actual window-title feedback and default F5-F11 keys verified.','Contextual wheel, remapping and human readability review remain separate.']}))
+            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'remapped_controls':('--bindings' in sys.argv or '--mixed-bindings' in sys.argv),'different_client_profiles':('--mixed-bindings' in sys.argv),'framebuffer_remapped_accept_hint':(('--bindings' in sys.argv or '--mixed-bindings' in sys.argv) and '--transfer-hud' in sys.argv),'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'queue_observation_one_way_delay_ms':500 if relays else None,'queue_fixture_holds_actual_ack_until_observed':bool(relays),'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'framebuffer_offer_and_acceptance':('--transfer-hud' in sys.argv),'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual framebuffer offer and acceptance text verified.' if '--transfer-hud' in sys.argv else 'Actual window-title feedback and default F5-F11 keys verified.','Contextual wheel, remapping and human readability review remain separate.']}))
             raise SystemExit(0)
         if '--timeout' in sys.argv:
             host.terminate();host.communicate(timeout=5)

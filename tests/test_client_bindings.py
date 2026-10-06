@@ -52,7 +52,7 @@ try:
         env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
         env.pop('WAYLAND_DISPLAY', None)
         display = X.XOpenDisplay(env['DISPLAY'].encode()); assert display
-        process = subprocess.Popen([str(EXE),'--bindings',str(pathlib.Path(__file__).with_name('bindings-remapped.cfg').resolve())], cwd=EXE.parent, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        process = subprocess.Popen([str(EXE)]+(['--tactical']if '--depots' in sys.argv else [])+['--bindings',str(pathlib.Path(__file__).with_name('bindings-remapped.cfg').resolve())], cwd=EXE.parent, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         def title(win):
             name = C.c_char_p()
@@ -94,9 +94,18 @@ try:
                 text=os.pread(memory,64,symbols['supply_hud_text']).split(b'\0')[0].decode()
                 return 'UNKNOWN' in text and text_visible(X,display,window,0,'UNKNOWN',column=text.index('UNKNOWN'),origin=(16,584))
             until(supply_unknown_visible)
+            if '--depots' in sys.argv:
+                until(lambda:struct.unpack('<I',os.pread(memory,4,symbols['depot_hud_available']))[0]==1)
+                until(lambda:text_visible(X,display,window,0,'OWN DEPOTS',origin=(16,10)))
+                header=struct.unpack('<4I',os.pread(memory,16,symbols['depot_hud_report']))
+                assert header[0]==0 and header[1]>0 and header[2]==2 and header[3]==0
+                def depot_ready_visible():
+                    text=os.pread(memory,64,symbols['depot_hud_text']).split(b'\0')[0].decode()
+                    return 'R READY' in text and text_visible(X,display,window,0,'R READY',column=text.index('R READY'),origin=(16,54))
+                until(depot_ready_visible)
             report=struct.unpack('<10I',os.pread(memory,40,symbols['supply_hud_report']))
             assert report[0]==0 and report[1]>0 and report[2]<768 and report[5]<=report[4]<=report[3]-report[7] and report[8:]==(0,0)
-            print(json.dumps({'suite':'graphical-solo-company-supply','passed':True,'report':report,'actual_low_rounds_unknown_labels':True,'observer_memory_writes':False,'limits':['Live own-company HUD labels in ordinary solo authority, no constructed shortage fixture.','Low/empty/unknown arithmetic independently checked in API fixtures; not an art/hardware-quality claim.']}))
+            print(json.dumps({'suite':'graphical-solo-company-supply','passed':True,'report':report,'actual_low_rounds_unknown_labels':True,'observer_memory_writes':False,'depot_inventory_labels':('--depots' in sys.argv),'limits':['Live own-company HUD labels in ordinary solo authority, no constructed shortage fixture.','Low/empty/unknown arithmetic independently checked in API fixtures; not an art/hardware-quality claim.']}))
             raise SystemExit(0)
 
 

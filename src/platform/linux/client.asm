@@ -2,6 +2,7 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/company_supply.inc"
+%include "schemas/depot_supply.inc"
 %include "schemas/combat.inc"
 %include "schemas/company_control.inc"
 %include "schemas/input_bindings.inc"
@@ -23,6 +24,7 @@ extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
+extern depot_supply_report,net_depot_report
 extern company_supply_report,net_supply_report
 extern company_for_player,company_control_order,company_controls,company_home_goals,company_defend_anchor
 extern net_company_for_player,net_company_records,net_company_offer,net_company_transfers
@@ -52,6 +54,16 @@ extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArr
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
+depot_header_fmt: db 'OWN DEPOTS %u/%u',0
+depot_map_fmt: db 'D%u',0
+depot_line_fmt: db 'D%u %uR %s',0
+depot_unknown_fmt: db 'D%u UNKNOWN',0
+depot_ready: db 'READY',0
+depot_empty: db 'EMPTY',0
+depot_cut: db 'CUT',0
+depot_contested: db 'CONTESTED',0
+depot_down: db 'DOWN',0
+depot_unavailable: db 'DEPOTS UNAVAILABLE',0
 supply_low_fmt: db 'OWN LOW %u EMPTY %u',0
 supply_rounds_fmt: db 'RDS %u UNKNOWN %u',0
 supply_unavailable: db 'OWN AMMO UNAVAILABLE',0
@@ -191,6 +203,12 @@ mouse_seed: dd 3
 server_port: dd 7777
 command_message: dq net_ready_text
 section .bss
+global depot_hud_report,depot_hud_available,depot_hud_visible,depot_hud_text
+depot_hud_report: resb DEPOT_SUPPLY_BYTES
+depot_hud_available: resd 1
+depot_hud_visible: resd 1
+depot_hud_text: resb 64
+depot_map_text: resb 16
 global supply_hud_report,supply_hud_text,supply_hud_available
 supply_hud_report: resb COMPANY_SUPPLY_STRIDE
 supply_hud_text: resb 64
@@ -2129,6 +2147,7 @@ command_panel_draw:
  mov esi,1
  call command_hud_draw
  call supply_panel_draw
+ call depot_panel_draw
  cmp dword [network_mode],0
  je .done
  lea rdi,[transfer_info]
@@ -2190,6 +2209,141 @@ supply_panel_draw:
  sub edx,158
  call command_hud_draw_at
  pop rbx
+ ret
+
+ ; Bounded tactical map inventory list; clipped count is stated in header.
+depot_panel_draw:
+ cmp dword [tactical],1
+ jne .return
+ push rbx
+ push r12
+ push r13
+ mov dword [depot_hud_available],0
+ mov dword [depot_hud_visible],0
+ mov edi,[local_player]
+ lea rsi,[depot_hud_report]
+ mov edx,DEPOT_SUPPLY_BYTES
+ cmp dword [network_mode],0
+ jne .remote
+ call depot_supply_report
+ jmp .queried
+.remote:
+ cmp dword [net_connected],1
+ jne .unavailable
+ call net_depot_report
+.queried:
+ test eax,eax
+ jnz .unavailable
+ mov dword [depot_hud_available],1
+ mov eax,[view_height]
+ sub eax,176
+ xor edx,edx
+ mov ecx,22
+ div ecx
+ cmp eax,[depot_hud_report+8]
+ jbe .cap
+ mov eax,[depot_hud_report+8]
+.cap:
+ mov r13d,eax
+ mov [depot_hud_visible],eax
+ lea rdi,[depot_hud_text]
+ mov esi,64
+ lea rdx,[depot_header_fmt]
+ mov ecx,eax
+ mov r8d,[depot_hud_report+8]
+ xor eax,eax
+ call snprintf
+ lea rdi,[depot_hud_text]
+ mov esi,16
+ mov edx,10
+ call command_hud_draw_at
+ xor r12d,r12d
+ lea rbx,[depot_hud_report+16]
+.row:
+ cmp r12d,r13d
+ jae .done
+ mov eax,[rbx+16]
+ test eax,DEPOT_SUPPLY_KNOWN
+ jz .unknown
+ lea r9,[depot_down]
+ test eax,DEPOT_SUPPLY_DESTROYED
+ jnz .format
+ lea r9,[depot_contested]
+ test eax,DEPOT_SUPPLY_CONTESTED
+ jnz .format
+ lea r9,[depot_cut]
+ test eax,DEPOT_SUPPLY_CONNECTED
+ jz .format
+ lea r9,[depot_empty]
+ cmp dword [rbx+4],0
+ je .format
+ lea r9,[depot_ready]
+.format:
+ lea rdi,[depot_hud_text]
+ mov esi,64
+ lea rdx,[depot_line_fmt]
+ mov ecx,[rbx]
+ mov r8d,[rbx+4]
+ xor eax,eax
+ call snprintf
+ jmp .draw
+.unknown:
+ lea rdi,[depot_hud_text]
+ mov esi,64
+ lea rdx,[depot_unknown_fmt]
+ mov ecx,[rbx]
+ xor eax,eax
+ call snprintf
+.draw:
+ lea rdi,[depot_hud_text]
+ mov esi,16
+ imul edx,r12d,22
+ add edx,32
+ call command_hud_draw_at
+ ; Relate list IDs to actual map sites at normal window widths.
+ cmp dword [view_width],640
+ jb .advance
+ lea rdi,[depot_map_text]
+ mov esi,16
+ lea rdx,[depot_map_fmt]
+ mov ecx,[rbx]
+ xor eax,eax
+ call snprintf
+ mov eax,[rbx]
+ shl eax,5
+ lea rdx,[sim_sites]
+ add rdx,rax
+ movss xmm0,[rdx]
+ subss xmm0,[map_centre]
+ divss xmm0,[map_scale]
+ addss xmm0,[fone]
+ mulss xmm0,[view_half_size]
+ cvttss2si esi,xmm0
+ add esi,8
+ movss xmm0,[rdx+4]
+ subss xmm0,[map_centre]
+ divss xmm0,[map_scale]
+ movss xmm1,[fone]
+ subss xmm1,xmm0
+ mulss xmm1,[view_half_size+4]
+ cvttss2si edx,xmm1
+ add edx,8
+ lea rdi,[depot_map_text]
+ call command_hud_draw_at
+.advance:
+ add rbx,DEPOT_SUPPLY_RECORD
+ inc r12d
+ jmp .row
+.unavailable:
+ lea rdi,[depot_unavailable]
+ mov esi,16
+ mov edx,10
+ call command_hud_draw_at
+.done:
+ pop r13
+ pop r12
+ pop rbx
+.return:
  ret
 
 ; Render effective retreat destination without changing the accepted waypoint
