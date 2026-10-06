@@ -1,0 +1,64 @@
+{
+  "revision": "99a6e5f13eeb53d1c03ca056cecb1924751ae802-8a4fa4cff8cf5608",
+  "runs": {
+    "build": {
+      "exit_code": 0,
+      "suite_reports": 0,
+      "explicit_passes": 0,
+      "log": "depot-ammunition-main-build.log"
+    },
+    "combat": {
+      "exit_code": 0,
+      "suite_reports": 24,
+      "explicit_passes": 24,
+      "log": "depot-ammunition-main-combat.log"
+    },
+    "udp": {
+      "exit_code": 0,
+      "suite_reports": 2,
+      "explicit_passes": 2,
+      "log": "depot-ammunition-main-udp.log"
+    },
+    "coop": {
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-main-coop.log"
+    },
+    "scale": {
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-main-scale.log"
+    }
+  },
+  "inputs_match_worker": 370,
+  "binaries": {
+    "red-horizon-coop-server": "9f1dcac761e955b208fbebe3fbd1ab3a93b92818d5f44b50cd6beaf96e1fffda",
+    "red-horizon-server": "e15a69ce7e2caa35a650fea95e5b84e2913716818d81968f8579590bd237e17a",
+    "red-horizon": "3cc7eb6ec105e093abfa1cb0fc525f43ab2184924c7d7da0e282ba8d3f0e61f7"
+  },
+  "adapter_sha256": "75cbca76a7a89c020b85077b8e40bfc07587c0c152f81a9d7767c985c9a76ac7",
+  "limits": [
+    "Scoped integration evidence; not a full checkpoint pass.",
+    "Stock replication/UI, autonomous supply routes, player/vehicle/air rearm, convoys/production and full logistics remain unfinished.",
+    "Declared staged UDP encounter remains separate from unmodified original transport observer; no writes after setup.",
+    "Software GL is not target GPU/human quality acceptance; original scale thresholds and400tick side-label health symmetry preserved."
+  ],
+  "full_checkpoint": {
+    "job_id": "1433fa199da8",
+    "revision": "99a6e5f13eeb53d1c03ca056cecb1924751ae802-8a4fa4cff8cf5608",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/job.log",
+    "result": "pending",
+    "pid": 727224,
+    "observed_live": true
+  }
+}

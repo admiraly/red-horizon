@@ -1,3 +1,23 @@
+Current main integrates physical finite depot resupply99a6e5f at source
+fingerprint8a4fa4cff8cf5608, all370 authored inputs match the verified worker.
+Matching main client/co-op/headless builds and28 scoped reports pass: combat24,
+actual four-endpoint original/staged UDP2, graphical co-op1 and original scale1.
+Exact sources/binaries, fixture scopes and results:
+[evidence/depot-ammunition-main.json](evidence/depot-ammunition-main.json).
+Frozen full extended job1433fa199da8 is RUNNING at this exact merge/input epoch;
+PID727224 is confirmed live. Result pending; not a full pass. All foreground
+tests are terminal and reconciled. Previous infantry fullfd47f7a527c9 PASSED158
+reports at its own frozen epoch and is collected, as recorded below.
+
+Next independent owned-company supply report prerequisite is in isolated
+feature/company-supply-report at /mnt/titan_nv3/projects/red-horizon-workers/
+company-supply-report, based99a6e5f. It is NOT merged or visible HUD/network
+shortage support. Next: verify lease/generation/front-gated read-only snapshot,
+then version a bounded owner-authority packet and display truthful unknown/low/
+empty and finite depot information. Subsequent supply-aware return routes must
+preserve primary orders, hazards, actual navigation and finite inventory.
+Full specification remains incomplete; no publication, license pending approval.
+
 Finite nearby army rifle resupply is verified in isolated feature/depot-ammunition.
 Policy2 keeps30+90 carried rounds and60-tick reload, with cumulative received
 rounds conserving mag+reserve+shots=120+received. Actual owned healthy connected
