@@ -57,5 +57,21 @@
     "library_sha256": "fda639effe84417336421908d2f910ddc1db9b8fc9979fc86db94753b9ff0de4",
     "passed_cases": 16
   },
-  "full_client_sha256": "a89a7691320d6edd6ecb8726974d73d8d6db4b3d34814093bfb3721e8a4b3e04"
+  "full_client_sha256": "a89a7691320d6edd6ecb8726974d73d8d6db4b3d34814093bfb3721e8a4b3e04",
+  "public_trace_archives": [
+    {
+      "path": "docs/evidence/terrain-integration-grade-baseline-final.json.gz",
+      "uncompressed_sha256": "7af82abfc6a79c015e2b608f81ede79db4cbac4a7ec88ed27ff77dabdf270482",
+      "uncompressed_bytes": 9920980,
+      "compressed_bytes": 318679,
+      "encoding": "gzip, lossless exact trace JSON"
+    },
+    {
+      "path": "docs/evidence/terrain-integration-grade-candidate.json.gz",
+      "uncompressed_sha256": "3a479f0df7be883285fdf60dd67f097e3e9e4876f276a452680c25de1d841e20",
+      "uncompressed_bytes": 10281617,
+      "compressed_bytes": 530902,
+      "encoding": "gzip, lossless exact trace JSON"
+    }
+  ]
 }

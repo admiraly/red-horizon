@@ -23,17 +23,9 @@
     "sha256": "80c4bafa9806e3345c4e8da73875e5b67321a1d026bf8b7df8a74e4e4dc2d756",
     "bytes": 2205
   },
-  "terrain-integration-grade-candidate.json": {
-    "sha256": "3a479f0df7be883285fdf60dd67f097e3e9e4876f276a452680c25de1d841e20",
-    "bytes": 10281617
-  },
   "terrain-integration-terrain-height-focused.log": {
     "sha256": "e44b7fb4cb8a387c7c028e5349818238d6d4f1fc64dffb95624bd7a485508d86",
     "bytes": 1878
-  },
-  "terrain-integration-grade-baseline-final.json": {
-    "sha256": "7af82abfc6a79c015e2b608f81ede79db4cbac4a7ec88ed27ff77dabdf270482",
-    "bytes": 9920980
   },
   "terrain-grade-client.png": {
     "sha256": "df1443f041389324461506438c9a0e8294612b48acf44e9dd9974e1eff97016c",
@@ -48,5 +40,17 @@
     "full_job": "3d022b3c7d8e",
     "linked_client_sha256": "a89a7691320d6edd6ecb8726974d73d8d6db4b3d34814093bfb3721e8a4b3e04",
     "scope": "Actual linked-client frozen-camera or production-shader geometry software-GL fixture, lossless PNG from original PPM; inspected, no human craft or target-GPU acceptance"
+  },
+  "terrain-integration-grade-baseline-final.json.gz": {
+    "sha256": "c7e72db33d4fdc2fd4583a46d81b857699357163205c7d8a1d551d8228044df2",
+    "bytes": 318679,
+    "uncompressed_sha256": "7af82abfc6a79c015e2b608f81ede79db4cbac4a7ec88ed27ff77dabdf270482",
+    "encoding": "gzip, lossless exact trace JSON"
+  },
+  "terrain-integration-grade-candidate.json.gz": {
+    "sha256": "76f6abaec3b64414283a4ed3b6d26a1ea7c61713eb304acc6bc1b0bc0456f351",
+    "bytes": 530902,
+    "uncompressed_sha256": "3a479f0df7be883285fdf60dd67f097e3e9e4876f276a452680c25de1d841e20",
+    "encoding": "gzip, lossless exact trace JSON"
   }
 }
