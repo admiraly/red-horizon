@@ -1,5 +1,36 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integrates the combined company interfacee84cff2. Company identity,
+order acknowledgements, exchange offers/acceptance and connection loss now render
+inside first-person/tactical views through bounded NASM/OpenGL text. Retreat
+markers show the effective home shared with authority; returning to advance
+retains the accepted waypoint. Validated remote identity/consent remains server
+owned. No runtime Python, optimistic ownership or authority clock/HP/stores writes.
+
+Matching main client/co-op/headless binaries are rebuilt at
+e84cff28ad734b2a09c4910147dbd79ae177f201-295b06429a1fb970. Five actual rendered
+checks pass: solo company commands/text/retreat restoration; two-client retreat
+owner/observer views; framebuffer consent; delayed/lossy/reordered transfer with
+queue observation; and timeout text/lease clearing. All340 authored inputs match
+the frozen combined source. Exact hashes, reports and build logs:
+docs/evidence/company-interface-main.json. Independent worker graphics31,
+tooling2 and retreat fast60 reports pass in their recorded scopes. Initial
+rate-limit/ACK-observation failures are preserved with corrected fixture timing;
+production command rates and network behavior remain unchanged.
+
+New frozen full43d0d7f2c2bc is RUNNING at the exact combined revision above,
+not passed. All foreground jobs and the previous full transfer checkpoint are
+terminal and collected;43d0d7f2c2bc is the sole new running managed job. Previous
+full43d31a2cf5a3 PASSED1208.495s/139 reports on its338-input transfer snapshot.
+It precedes the combined interface changes and cannot substitute for their full
+checkpoint. The complete game goal remains active and unfinished.
+
+The compact font clips long lines in narrow windows. Contextual command wheel,
+remapping, human readability/quality review, assistance, squad splitting,
+recruitment, shared timed assaults and wider operation/content/platform work
+remain open. Hardware GPU/whole-frame targets are not established by software GL.
+
+
 Frozen transfer checkpoint43d31a2cf5a3 PASSED1208.4950s at
 7362317-9beb3e4179d7c827. Its338 authored inputs and complete raw results
 are recorded in docs/evidence/company-transfer-full-summary.json and
@@ -51,7 +82,7 @@ actual graphics/timeout/health gates; failures are preserved. At that earlier ha
 was the sole running managed job. The last passed checkpoint was3112ca82aa0d;
 it is now superseded by the passed transfer checkpoint above. No full-game completion claim is made.
 
-Transfer UI currently uses default keys/window-title feedback. Assistance,
+At that transfer checkpoint UI used default keys/window-title feedback. Assistance,
 squad splitting, recruitment, remappable contextual controls/fullscreen text,
 shared timed assaults, broader operation/content/platform requirements and
 hardware performance/human quality remain incomplete. The full-game goal is active.

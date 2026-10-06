@@ -414,3 +414,12 @@ command HUD is in feature/command-hud with actual solo/status and exchange-text
 pixel checks passing; broader graphics/tooling jobs are still pending. Full
 transfer checkpoint43d31a2cf5a3 remains independently tracked; no complete-game
 acceptance claim follows from these command-interface slices.
+
+Integrated command interfacee84cff2 combines effective retreat homes with NASM
+framebuffer company/order/consent/timeout text. HUD worker graphics31 and tooling2
+reports pass; initial ACK-observation race and corrected relay fixture are
+retained in command-hud evidence. Previous full transfer checkpoint43d31a2cf5a3
+PASSED1208.495s/139 reports and is collected. Matching main checks and the
+new frozen combined checkpoint43d0d7f2c2bc are tracked in docs/status.md.
+Contextual wheel, remapping, narrow-view wrapping, assistance/recruitment/timed
+plans and wider game requirements remain open.
