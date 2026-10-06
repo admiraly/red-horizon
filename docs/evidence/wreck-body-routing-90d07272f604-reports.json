@@ -1,0 +1,1585 @@
+[
+  {
+    "suite": "fast-combat",
+    "passed": true,
+    "fixture_units": 128,
+    "checks": [
+      "roles/fronts",
+      "physical combat/counts",
+      "same-run replay",
+      "side-swap symmetry",
+      "invalid-state preservation",
+      "guarded damage",
+      "CLI",
+      "fixed-tick pacing"
+    ],
+    "scale_coverage": false
+  },
+  {
+    "suite": "air-battle-scenario",
+    "passed": true,
+    "army": 8192,
+    "initial_relocated": 320,
+    "aircraft_per_side": 32,
+    "ground_per_side": 128,
+    "kind_side_front_HP_generation_preserved": true,
+    "no_fixture_weapon_or_event_writes": true,
+    "actual_300tick_events": {
+      "8": 2632,
+      "6": 49,
+      "9": 72,
+      "7": 46
+    },
+    "checksum": "0x5f04a69f8301a25a",
+    "replay": true
+  },
+  {
+    "suite": "dense-scenarios",
+    "passed": true,
+    "seed": 42,
+    "replay": true,
+    "no_fixture_weapon_or_event_writes": true,
+    "terrain_valid": true,
+    "visible_individual_count": "unmeasured",
+    "scenarios": [
+      {
+        "scenario": "scale-front",
+        "ground_per_side": 1280,
+        "aircraft_per_side": 32,
+        "army": 8192,
+        "initial_kind_mix": {
+          "0": 6144,
+          "1": 1024,
+          "2": 512,
+          "3": 512
+        },
+        "samples": [
+          {
+            "tick": 1,
+            "engaged_total": 3263,
+            "living_cohort_enemy_targets": 2560
+          },
+          {
+            "tick": 8,
+            "engaged_total": 3039,
+            "living_cohort_enemy_targets": 1481
+          },
+          {
+            "tick": 16,
+            "engaged_total": 2925,
+            "living_cohort_enemy_targets": 1093
+          },
+          {
+            "tick": 30,
+            "engaged_total": 2715,
+            "living_cohort_enemy_targets": 1046
+          }
+        ],
+        "moved_cohort": 2615,
+        "actual_hp_damage": 156976,
+        "dead": 851,
+        "actual_events": {
+          "1": 388,
+          "2": 222,
+          "6": 20,
+          "8": 1166,
+          "3": 417,
+          "4": 246,
+          "9": 5
+        },
+        "checksum": "0xbfc8062d270001b7"
+      },
+      {
+        "scenario": "scale-hotspot",
+        "ground_per_side": 1920,
+        "aircraft_per_side": 32,
+        "army": 8192,
+        "initial_kind_mix": {
+          "0": 6144,
+          "1": 1024,
+          "2": 512,
+          "3": 512
+        },
+        "samples": [
+          {
+            "tick": 1,
+            "engaged_total": 4459,
+            "living_cohort_enemy_targets": 3837
+          },
+          {
+            "tick": 8,
+            "engaged_total": 4133,
+            "living_cohort_enemy_targets": 1399
+          },
+          {
+            "tick": 16,
+            "engaged_total": 4106,
+            "living_cohort_enemy_targets": 1325
+          },
+          {
+            "tick": 30,
+            "engaged_total": 3888,
+            "living_cohort_enemy_targets": 2172
+          }
+        ],
+        "moved_cohort": 3766,
+        "actual_hp_damage": 194163,
+        "dead": 1003,
+        "actual_events": {
+          "1": 490,
+          "2": 296,
+          "6": 21,
+          "8": 947,
+          "3": 495,
+          "4": 294,
+          "9": 3
+        },
+        "checksum": "0xad76460cfe7da3a6"
+      }
+    ]
+  },
+  {
+    "suite": "dense-scenarios",
+    "passed": true,
+    "seed": 42,
+    "ticks_per_replay": 120,
+    "replays_per_scenario": 2,
+    "reports": [
+      {
+        "scenario": "scale-front",
+        "army_initial": 8192,
+        "initial_per_side": [
+          4096,
+          4096
+        ],
+        "initial_role_counts_per_side": [
+          3072,
+          512,
+          256,
+          256
+        ],
+        "relocated_ground_actors": 2560,
+        "physical_engagement_samples": [
+          {
+            "tick": 1,
+            "living_regional_target_valid": 2560,
+            "per_side": [
+              1280,
+              1280
+            ]
+          },
+          {
+            "tick": 8,
+            "living_regional_target_valid": 1481,
+            "per_side": [
+              720,
+              761
+            ]
+          },
+          {
+            "tick": 16,
+            "living_regional_target_valid": 1093,
+            "per_side": [
+              477,
+              616
+            ]
+          },
+          {
+            "tick": 30,
+            "living_regional_target_valid": 1046,
+            "per_side": [
+              349,
+              697
+            ]
+          }
+        ],
+        "regional_moved_120ticks": 2551,
+        "regional_damaged_120ticks": 1398,
+        "retained_actual_combat_events_120ticks": {
+          "1": 388,
+          "2": 222,
+          "6": 20,
+          "8": 1166,
+          "3": 417,
+          "4": 246,
+          "9": 5
+        },
+        "total_events_emitted_120ticks": 2661,
+        "projectile_peak": 479,
+        "projectile_dropped": 46442,
+        "alive_120ticks": [
+          3645,
+          3696
+        ],
+        "checksum_120ticks": "0xc495e353eed3261d"
+      },
+      {
+        "scenario": "scale-hotspot",
+        "army_initial": 8192,
+        "initial_per_side": [
+          4096,
+          4096
+        ],
+        "initial_role_counts_per_side": [
+          3072,
+          512,
+          256,
+          256
+        ],
+        "relocated_ground_actors": 3840,
+        "physical_engagement_samples": [
+          {
+            "tick": 1,
+            "living_regional_target_valid": 3837,
+            "per_side": [
+              1917,
+              1920
+            ]
+          },
+          {
+            "tick": 8,
+            "living_regional_target_valid": 1399,
+            "per_side": [
+              1046,
+              353
+            ]
+          },
+          {
+            "tick": 16,
+            "living_regional_target_valid": 1325,
+            "per_side": [
+              657,
+              668
+            ]
+          },
+          {
+            "tick": 30,
+            "living_regional_target_valid": 2172,
+            "per_side": [
+              685,
+              1487
+            ]
+          }
+        ],
+        "regional_moved_120ticks": 3702,
+        "regional_damaged_120ticks": 2164,
+        "retained_actual_combat_events_120ticks": {
+          "1": 490,
+          "2": 296,
+          "6": 21,
+          "8": 947,
+          "3": 495,
+          "4": 294,
+          "9": 3
+        },
+        "total_events_emitted_120ticks": 2744,
+        "projectile_peak": 480,
+        "projectile_dropped": 63997,
+        "alive_120ticks": [
+          3596,
+          3593
+        ],
+        "checksum_120ticks": "0x6aae20a5ba852f2e"
+      }
+    ],
+    "oracle": "living actual enemy targets; independent range and production terrain LOS",
+    "visible_actors": "unmeasured: this headless test does not establish pixel visibility",
+    "individually_detailed_actors": "unmeasured",
+    "no_fixture_damage_ordnance_or_event_fabrication": true
+  },
+  {
+    "suite": "tracked-retreat-orders",
+    "passed": true,
+    "ticks": 180,
+    "first_tick_stationary_pivot": true,
+    "retreat_metres": [
+      53.18988037109375,
+      14.32196044921875,
+      53.17529296875,
+      14.330078125
+    ],
+    "replay": true,
+    "runtime": "actual sim_tick; four sparse development births"
+  },
+  {
+    "suite": "bomb-inherited-velocity-release",
+    "passed": true,
+    "numeric_cases": 1004,
+    "invalid_cases": 7,
+    "maximum_float_root_error": 0.0,
+    "actual_flight_cases": [
+      {
+        "side": 0,
+        "initial_height": 90,
+        "inherited_vy": 0.5,
+        "impact_tick": 183,
+        "impact_error_m": 3.871881335638188,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      },
+      {
+        "side": 0,
+        "initial_height": 120,
+        "inherited_vy": -0.5,
+        "impact_tick": 109,
+        "impact_error_m": 3.9844967606468993,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      },
+      {
+        "side": 1,
+        "initial_height": 90,
+        "inherited_vy": 0.5,
+        "impact_tick": 183,
+        "impact_error_m": 3.871881335638188,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      },
+      {
+        "side": 1,
+        "initial_height": 120,
+        "inherited_vy": -0.5,
+        "impact_tick": 109,
+        "impact_error_m": 3.9844967606468993,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      }
+    ],
+    "no_inflight_renewal": true,
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "limits": [
+      "target-height prediction does not establish arbitrary terrain interception or moving-target lead",
+      "controlled initial fixtures; no graphics or artistic-quality acceptance"
+    ]
+  },
+  {
+    "suite": "terrain-swept-movement",
+    "passed": true,
+    "seed": 731,
+    "random_clear_start_cases": 1997,
+    "arrival_route_steps": 64973,
+    "nearest_obstacle_endpoint": [
+      5234.0,
+      1604.0
+    ],
+    "role_steps_metres": [
+      0.12,
+      0.2,
+      0.5,
+      1000
+    ],
+    "oracle": "independent double-precision segment/rectangle intersection"
+  },
+  {
+    "suite": "navigation",
+    "passed": true,
+    "oracle_cases": 2000,
+    "route_arrival_ticks": [
+      900,
+      8429,
+      6324,
+      5206
+    ],
+    "step_metres": 0.5,
+    "FIFO_admitted_requests": 1024,
+    "requests_per_tick_cap": 8,
+    "saturation_fallbacks": 512,
+    "cover_physical_LOS": true,
+    "stuck_replans": 1,
+    "scout_support_corridor_builds": 2,
+    "driver": "actual assembly corridor queries plus integrated sim_tick movement/replay",
+    "integrated_route_ticks": 10544,
+    "integrated_replay_checksum": "0xec350b5ec02ac8ca",
+    "aircraft_ground_capture_excluded": true
+  },
+  {
+    "suite": "tactics-default-motion",
+    "passed": true,
+    "evidence": [
+      {
+        "units": 8192,
+        "tick": 30,
+        "mean_ground_metres_by_front": [
+          3.76,
+          3.765,
+          3.762,
+          3.792,
+          3.764,
+          3.693
+        ],
+        "player_bubble_ground": 415,
+        "player_bubble_moving": 408
+      },
+      {
+        "units": 8192,
+        "tick": 120,
+        "mean_ground_metres_by_front": [
+          16.821,
+          17.098,
+          16.876,
+          16.837,
+          16.714,
+          16.432
+        ],
+        "player_bubble_ground": 429,
+        "player_bubble_moving": 429
+      },
+      {
+        "units": 8192,
+        "tick": 300,
+        "mean_ground_metres_by_front": [
+          42.591,
+          43.199,
+          42.373,
+          41.489,
+          41.242,
+          41.638
+        ],
+        "player_bubble_ground": 458,
+        "player_bubble_moving": 458
+      },
+      {
+        "units": 16384,
+        "tick": 30,
+        "mean_ground_metres_by_front": [
+          3.631,
+          3.672,
+          3.625,
+          3.632,
+          3.644,
+          3.653
+        ],
+        "player_bubble_ground": 845,
+        "player_bubble_moving": 821
+      },
+      {
+        "units": 16384,
+        "tick": 120,
+        "mean_ground_metres_by_front": [
+          16.239,
+          16.627,
+          16.081,
+          16.157,
+          16.248,
+          16.192
+        ],
+        "player_bubble_ground": 881,
+        "player_bubble_moving": 881
+      },
+      {
+        "units": 16384,
+        "tick": 300,
+        "mean_ground_metres_by_front": [
+          40.337,
+          41.134,
+          39.981,
+          39.881,
+          40.331,
+          40.319
+        ],
+        "player_bubble_ground": 935,
+        "player_bubble_moving": 935
+      }
+    ]
+  },
+  {
+    "suite": "vehicles",
+    "passed": true,
+    "actual_steady_drive_metres_per_second": 18,
+    "first30tick_acceleration_metres": 9.297427915912714,
+    "exclusive_ownership": true,
+    "generation_cleanup": true,
+    "safe_exit": true,
+    "persistent_cannon_ammo": true,
+    "swept_shell_damage": true,
+    "single_destruction_event": true,
+    "fixtures": "real assembly; development-only initial state setup"
+  },
+  {
+    "suite": "wreck-public-detour-arrival",
+    "passed": true,
+    "negative_no_route": false,
+    "cases": [
+      {
+        "role": 0,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 338,
+        "moving_ticks": 338,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "4864152403333e6422c101c64f06a4298507a27f4c6270530954154a07d3e16e",
+        "checksum": "34ad89060091dd73"
+      },
+      {
+        "role": 0,
+        "side": 1,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 338,
+        "moving_ticks": 338,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "4864152403333e6422c101c64f06a4298507a27f4c6270530954154a07d3e16e",
+        "checksum": "ad0ab5b592ae8698"
+      },
+      {
+        "role": 0,
+        "side": 0,
+        "crowd": 0,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 338,
+        "moving_ticks": 338,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "4864152403333e6422c101c64f06a4298507a27f4c6270530954154a07d3e16e",
+        "checksum": "156d4b011a76e5c2"
+      },
+      {
+        "role": 0,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 338,
+        "moving_ticks": 338,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "4864152403333e6422c101c64f06a4298507a27f4c6270530954154a07d3e16e",
+        "checksum": "34ad89060091dd73"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 124,
+        "moving_ticks": 124,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "cf9c285f93ecefe52b15baca2bf5c678678d49a0c637daa5f68161059a59756d",
+        "checksum": "ba7a59bf789dfd06"
+      },
+      {
+        "role": 1,
+        "side": 1,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 124,
+        "moving_ticks": 124,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "cf9c285f93ecefe52b15baca2bf5c678678d49a0c637daa5f68161059a59756d",
+        "checksum": "b0ce91014bf8c115"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 0,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 124,
+        "moving_ticks": 124,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "cf9c285f93ecefe52b15baca2bf5c678678d49a0c637daa5f68161059a59756d",
+        "checksum": "d9ba97c45eb8f4b7"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 124,
+        "moving_ticks": 124,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "cf9c285f93ecefe52b15baca2bf5c678678d49a0c637daa5f68161059a59756d",
+        "checksum": "ba7a59bf789dfd06"
+      },
+      {
+        "role": 2,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 326,
+        "moving_ticks": 327,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "aaeb1ebd8db8e5e8212b5a4684db6e9dd796dc959a9520055f1fa8dec52029eb",
+        "checksum": "9291fa7333438d4c"
+      },
+      {
+        "role": 2,
+        "side": 1,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 326,
+        "moving_ticks": 327,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "aaeb1ebd8db8e5e8212b5a4684db6e9dd796dc959a9520055f1fa8dec52029eb",
+        "checksum": "1a8ac7dcc05f1e2b"
+      },
+      {
+        "role": 2,
+        "side": 0,
+        "crowd": 0,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 326,
+        "moving_ticks": 327,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "aaeb1ebd8db8e5e8212b5a4684db6e9dd796dc959a9520055f1fa8dec52029eb",
+        "checksum": "b1d23878195e84fd"
+      },
+      {
+        "role": 2,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 326,
+        "moving_ticks": 327,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "aaeb1ebd8db8e5e8212b5a4684db6e9dd796dc959a9520055f1fa8dec52029eb",
+        "checksum": "9291fa7333438d4c"
+      },
+      {
+        "role": 0,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 154,
+        "moving_ticks": 155,
+        "max_builds_per_tick": 0,
+        "completed_builds": 0,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "c27c275315e787b80754ad389ef578c0ec65eaad216473fab8138876f9a26fc5",
+        "checksum": "01809d1d97f6b9ca"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 63,
+        "moving_ticks": 63,
+        "max_builds_per_tick": 0,
+        "completed_builds": 0,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "18344c06d7a9bc5765de5b5f795a632451838859295c1e0d7c1250cb4a09f154",
+        "checksum": "b62f3751f1c0f005"
+      },
+      {
+        "role": 2,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 144,
+        "moving_ticks": 145,
+        "max_builds_per_tick": 0,
+        "completed_builds": 0,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "11e4d06c18d3761998df5e4137c6e41ce27df9c104596a0b175c93ddf5d690ff",
+        "checksum": "0dcef67a678c1709"
+      },
+      {
+        "role": 0,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 2,
+        "later": null,
+        "arrival_tick": 421,
+        "moving_ticks": 422,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "ab8f239b01e577d9cc04be6b6c807222f336f2f2acfedacf54256550765baf70",
+        "checksum": "2873c51370eb4bc4"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 2,
+        "later": null,
+        "arrival_tick": 148,
+        "moving_ticks": 149,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "76e75881ba65470b9625a01379064e62e2fd13a16bee1a972ab19bf3fe672936",
+        "checksum": "2e12310e00bd29f9"
+      },
+      {
+        "role": 2,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 2,
+        "later": null,
+        "arrival_tick": 394,
+        "moving_ticks": 395,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "94d0cc23aa46d9b08c3f33507711c2ff02214c985e4e7a962164d2ef607a5099",
+        "checksum": "4bd9c457c2f91f38"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 2,
+        "later": null,
+        "arrival_tick": 482,
+        "moving_ticks": 438,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "225e5f638c9d0ae58ce0ae5eb85df7039319aaa6eea4b15d998c117a18c5a3e9",
+        "checksum": "934892f2f0ce0803"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": null,
+        "arrival_tick": 124,
+        "moving_ticks": 124,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "cf9c285f93ecefe52b15baca2bf5c678678d49a0c637daa5f68161059a59756d",
+        "checksum": "ba7a59bf789dfd06"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": [
+          7000.0,
+          7000.0
+        ],
+        "arrival_tick": 124,
+        "moving_ticks": 124,
+        "max_builds_per_tick": 1,
+        "completed_builds": 1,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "cf9c285f93ecefe52b15baca2bf5c678678d49a0c637daa5f68161059a59756d",
+        "checksum": "491115394b78ee38"
+      },
+      {
+        "role": 1,
+        "side": 0,
+        "crowd": 1,
+        "wrecks": 1,
+        "later": [
+          3508.0,
+          1990.0
+        ],
+        "arrival_tick": 397,
+        "moving_ticks": 295,
+        "max_builds_per_tick": 1,
+        "completed_builds": 2,
+        "graph_failures": 0,
+        "local_overflow": 0,
+        "trace_sha256": "9c98e290e23cf73e9f52e4af9efc24f4390cf0643854c1c4e97ecac30bc7d48d",
+        "checksum": "70e532f5752d8c57"
+      },
+      {
+        "case": "actual_expiry_manual_recovery",
+        "expiry_tick": 1800,
+        "held_x": 3496.34130859375,
+        "final_x": 3501.67724609375,
+        "no_clock_renewal": true
+      }
+    ],
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "original_radii": [
+      0.551,
+      3.551,
+      4.491
+    ],
+    "no_inflight_pose_health_clock_ordnance_renewal": true,
+    "oracle": "independent closed slabs, genuine public-tick displacement, exact arrival and final hold",
+    "limits": [
+      "Sparse fixtures; not scale, terrain streaming, art or co-op acceptance.",
+      "Queue/budget caps alone do not establish performance.",
+      "Finite local graph supports eight relevant wrecks; excess cover fails safely and is reported."
+    ]
+  },
+  {
+    "suite": "wreck-nav-fifo-contract",
+    "passed": true,
+    "requests": 1035,
+    "saturated_admissions": 512,
+    "safe_overflows": 512,
+    "drain_ticks": 64,
+    "build_cap": 8,
+    "pending_reuse_coalesced": true,
+    "complete_state_invalid_preservation": true,
+    "readonly_wrecks": true,
+    "GPR_stack_preserved": true,
+    "module_sha256": "9758e5d2fb8728bec394cc5771e7354f8fd26e37e1be4fe100c2b35765a184e5",
+    "probe_sha256": "1d61bb57e7e85ca0ce87872ffcb0337f0e1a693496639246859a2d7ef2bc8bd4",
+    "limits": [
+      "Actual module scheduler and proposals; no army-motion, performance or network acceptance.",
+      "Development-only dense initial requests and genuine casualty."
+    ]
+  },
+  {
+    "suite": "production-shell-first-entry",
+    "passed": true,
+    "calls": 207,
+    "random_paths": 200,
+    "cases": [
+      {
+        "name": "nearer_high_ID_before_far_low_ID",
+        "hit": 24,
+        "contact": [
+          1002.0,
+          27.464035034179688,
+          1000.0
+        ]
+      },
+      {
+        "name": "reverse_ray_reverses_nearest",
+        "hit": 0,
+        "contact": [
+          1015.9998168945312,
+          27.464035034179688,
+          1000.0
+        ]
+      },
+      {
+        "name": "equal_contact_physical_ID_tie",
+        "hit": 0
+      }
+    ],
+    "max_contact_xyz_error_m": 1.9073486328125e-06,
+    "radius_m": 4,
+    "readonly_checksum_ABI": true,
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "source_sha256": "2a3d2e2df6f62b12f6c2dff87c90e13d18b8ababc983f451473531fc6d5125e3",
+    "scope": "Actual production index/query from declared initial births and one public tick. Nearest among at most216sampled live opposing4m contact envelopes, not all-actor or oriented hitbox/terrain/wreck arbitration acceptance."
+  },
+  {
+    "suite": "typed-world-contact-arbitration",
+    "passed": true,
+    "calls": 2031,
+    "random_source_orders": 2000,
+    "negative_controls": [
+      "later_hit",
+      "actor_wreck_alias"
+    ],
+    "source_readonly_ABI": true,
+    "source_sha256": "df98603b9dd35c19064601629a9cd400d8e21b419d51f5838498f39bf82f30a4",
+    "scope": "Actual NASM arbitration with assembled observable source-contract stubs; not production geometry or projectile hook acceptance."
+  },
+  {
+    "suite": "prepared-world-los-contract",
+    "passed": true,
+    "cases": 64,
+    "negative_controls": [
+      "ground_fault_clear",
+      "source_alias"
+    ],
+    "readonly_ABI": true,
+    "source_sha256": "7605e6ebf163660deb9e999ebadee2b3a1d9fd8d279aa3aa0e1deb3644c99d1a",
+    "scope": "Assembled cover-contract stubs/source forwarding only, no real geometry/gameplay/remote prediction acceptance."
+  },
+  {
+    "suite": "prepared-world-los-geometry",
+    "passed": true,
+    "calls": 18,
+    "genuine_casualty_wreck": true,
+    "same_revision_source_switches": 4,
+    "readonly_authority_and_sources": true,
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "scope": "Prepared production geometry composition and explicit source isolation only. No gameplay callers/body/nav/network prediction/scale acceptance."
+  },
+  {
+    "suite": "production-wreck-cover-outcomes",
+    "passed": true,
+    "cases": [
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 0,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 0,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 1,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 1,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 0,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 0,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 1,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 1,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 0,
+        "ids": [
+          24,
+          26
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 0,
+        "ids": [
+          26,
+          24
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 1,
+        "ids": [
+          24,
+          26
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 1,
+        "ids": [
+          26,
+          24
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "public_rifle_and_enemy_threat",
+        "cover_kind": 0,
+        "hits": 1,
+        "victim_hp": 66,
+        "player_hp": 90
+      },
+      {
+        "case": "public_rifle_and_enemy_threat",
+        "cover_kind": 1,
+        "hits": 0,
+        "victim_hp": 100,
+        "player_hp": 100
+      },
+      {
+        "case": "public_rifle_and_enemy_threat",
+        "cover_kind": 2,
+        "hits": 0,
+        "victim_hp": 100,
+        "player_hp": 100
+      },
+      {
+        "case": "new_cover_blocks_actual_acquisition_and_infantry_damage",
+        "ticks": 16,
+        "HP": [
+          100,
+          100
+        ]
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          1000,
+          2000
+        ],
+        "impact": [
+          1000.0,
+          23.0020809173584,
+          1999.959228515625
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          3300,
+          2000
+        ],
+        "impact": [
+          3300.0,
+          16.742082595825195,
+          1999.959228515625
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          4000,
+          2000
+        ],
+        "impact": [
+          4000.0,
+          32.00208282470703,
+          1999.9591064453125
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          5470,
+          5150
+        ],
+        "impact": [
+          5470.0,
+          70.82410430908203,
+          5149.9609375
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          5600,
+          5200
+        ],
+        "impact": [
+          5600.0,
+          79.28195190429688,
+          5199.9609375
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "public_bomb_ground_burst",
+        "source": [
+          1000,
+          143.0,
+          2000
+        ],
+        "impact": [
+          1004.9984130859375,
+          21.57874298095703,
+          2898.44775390625
+        ],
+        "ticks": 150,
+        "victim_hp": 0
+      },
+      {
+        "case": "public_bomb_ground_burst",
+        "source": [
+          4000,
+          152.0,
+          2000
+        ],
+        "impact": [
+          4004.99853515625,
+          30.495929718017578,
+          2898.753662109375
+        ],
+        "ticks": 150,
+        "victim_hp": 0
+      },
+      {
+        "case": "public_bomb_ground_burst",
+        "source": [
+          5600,
+          134.60499954223633,
+          4300
+        ],
+        "impact": [
+          5604.99853515625,
+          68.08502960205078,
+          4965.751953125
+        ],
+        "ticks": 111,
+        "victim_hp": 0
+      }
+    ],
+    "no_inflight_health_pose_clock_ordnance_renewal": true,
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "scope": "Actual corpse capture/blast atomicity/world acquisition/infantry/human rifle and gravity artillery/bomb damage. Controlled initial births; no body/nav/remote prediction or artistic/whole-operation acceptance."
+  },
+  {
+    "suite": "prepared-blast-visibility-batch",
+    "passed": true,
+    "cases": 8,
+    "negative_immediate_casualty": true,
+    "SysV": true,
+    "source_sha256": "d4f2a7205058edea045f5f5968e2eab9c66bd7b7d87db6dc9d3f3b49f5172e37",
+    "scope": "Actual production blast routine with assembled mutable visibility/casualty contract stubs. Establishes collect-before-apply ordering, not real wreck shielding or gameplay hook acceptance."
+  },
+  {
+    "suite": "projectile-contact-damage-type",
+    "passed": true,
+    "cases": 11,
+    "negative_controls": [
+      "cover_alias",
+      "retired_generation"
+    ],
+    "source_sha256": "1f6e3ddb00e8d0e1f06601dff44bb9b7fa8a7538e2637c3232e5534c821bba00",
+    "scope": "Actual public air-gun launch and projectile tick with assembled scripted contact source/damage observer. Cover/recycled-identity routing, not natural dogfight or production collision acceptance."
+  },
+  {
+    "suite": "production-world-contact-outcomes",
+    "passed": true,
+    "query_calls": 4,
+    "cases": [
+      {
+        "case": "actor_before_later_solid",
+        "result": [
+          0.12010006606578827,
+          4,
+          24,
+          42,
+          0,
+          0
+        ]
+      },
+      {
+        "case": "solid_before_later_actor",
+        "result": [
+          0.2857142984867096,
+          2,
+          3,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "case": "narrow_relief_before_clear_endpoint",
+        "result": [
+          0.6820899844169617,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "case": "genuine_wreck_before_solid_and_actor",
+        "result": [
+          0.07531467080116272,
+          3,
+          12,
+          42,
+          1,
+          0
+        ]
+      },
+      {
+        "case": "public_tank_shell_stops_at_genuine_wreck",
+        "impact_xyz": [
+          5136.7783203125,
+          18.26975440979004,
+          1570.0
+        ],
+        "actor_behind_hp": 100
+      }
+    ],
+    "readonly_query_checksum_ABI": true,
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "scope": "Actual authored solids/continuous relief/current sampled actor index/genuine casualty wreck and publicly launched tank shell. No mid-flight health/pose/projectile renewal. No wreck blast shielding/body/navigation/remote prediction acceptance."
+  },
+  {
+    "suite": "prepared-world-body-contract",
+    "passed": true,
+    "cases": 48,
+    "negative_controls": [
+      "source_alias",
+      "radius_flattened",
+      "source_fault_clear",
+      "occupation_inverted"
+    ],
+    "readonly_ABI": true,
+    "source_sha256": "3c3a85feaa6e35639dceb285e1e86ffb081eec7e394419b72ba08da8943e6c6b",
+    "scope": "Assembled composition/source/role/radius/alignment contracts only; no gameplay movement/nav/remote prediction acceptance."
+  },
+  {
+    "suite": "prepared-world-body-geometry",
+    "passed": true,
+    "calls": 70,
+    "genuine_casualty_wreck": true,
+    "same_revision_source_switches": 12,
+    "original_radii": [
+      0.551,
+      3.551,
+      4.491
+    ],
+    "readonly_authority_and_sources": true,
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "scope": "Prepared terrain/body/grade and explicit wreck source composition only. No gameplay movement/nav/controller/network prediction/scale acceptance."
+  },
+  {
+    "suite": "wreck-public-movement",
+    "passed": true,
+    "legacy_control": false,
+    "cases": [
+      {
+        "mode": "ai",
+        "role": 0,
+        "crowd": 0,
+        "z": 2000.0,
+        "moving_ticks": 240,
+        "end": [
+          3508.152099609375,
+          1997.3438720703125
+        ],
+        "goal_error_m": 12.14198333243124,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 1,
+        "crowd": 0,
+        "z": 2000.0,
+        "moving_ticks": 127,
+        "end": [
+          3520.0,
+          2000.0
+        ],
+        "goal_error_m": 0.0,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 2,
+        "crowd": 0,
+        "z": 2000.0,
+        "moving_ticks": 240,
+        "end": [
+          3509.318603515625,
+          1992.3109130859375
+        ],
+        "goal_error_m": 13.161089940746768,
+        "penetrations": 0
+      },
+      {
+        "mode": "foot",
+        "role": 0,
+        "crowd": 0,
+        "z": 2000.0,
+        "moving_ticks": 95,
+        "end": [
+          3495.841064453125,
+          2000.0
+        ],
+        "goal_error_m": 24.158935546875,
+        "penetrations": 0
+      },
+      {
+        "mode": "driver",
+        "role": 1,
+        "crowd": 0,
+        "z": 2000.0,
+        "moving_ticks": 45,
+        "end": [
+          3492.867919921875,
+          1999.8851318359375
+        ],
+        "goal_error_m": 27.132323233753915,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 0,
+        "crowd": 1,
+        "z": 2000.0,
+        "moving_ticks": 240,
+        "end": [
+          3508.152099609375,
+          1997.3438720703125
+        ],
+        "goal_error_m": 12.14198333243124,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 1,
+        "crowd": 1,
+        "z": 2000.0,
+        "moving_ticks": 127,
+        "end": [
+          3520.0,
+          2000.0
+        ],
+        "goal_error_m": 0.0,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 2,
+        "crowd": 1,
+        "z": 2000.0,
+        "moving_ticks": 240,
+        "end": [
+          3509.318603515625,
+          1992.3109130859375
+        ],
+        "goal_error_m": 13.161089940746768,
+        "penetrations": 0
+      },
+      {
+        "mode": "foot",
+        "role": 0,
+        "crowd": 1,
+        "z": 2000.0,
+        "moving_ticks": 95,
+        "end": [
+          3495.841064453125,
+          2000.0
+        ],
+        "goal_error_m": 24.158935546875,
+        "penetrations": 0
+      },
+      {
+        "mode": "driver",
+        "role": 1,
+        "crowd": 1,
+        "z": 2000.0,
+        "moving_ticks": 45,
+        "end": [
+          3492.867919921875,
+          1999.8851318359375
+        ],
+        "goal_error_m": 27.132323233753915,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 0,
+        "crowd": 1,
+        "z": 2010.0,
+        "moving_ticks": 240,
+        "end": [
+          3508.828125,
+          2010.0
+        ],
+        "goal_error_m": 11.171875,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 1,
+        "crowd": 1,
+        "z": 2010.0,
+        "moving_ticks": 117,
+        "end": [
+          3520.0,
+          2010.0
+        ],
+        "goal_error_m": 0.0,
+        "penetrations": 0
+      },
+      {
+        "mode": "ai",
+        "role": 2,
+        "crowd": 1,
+        "z": 2010.0,
+        "moving_ticks": 240,
+        "end": [
+          3512.228759765625,
+          2009.969482421875
+        ],
+        "goal_error_m": 7.771300155247088,
+        "penetrations": 0
+      }
+    ],
+    "causal_violations": [],
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "genuine_casualty": true,
+    "no_inflight_pose_health_clock_ordnance_renewal": true,
+    "oracle": "independent closed XZ slabs from captured production bounds plus original role radius",
+    "limits": [
+      "Sparse initial fixtures only; no scale or graphics acceptance.",
+      "Reported goal error does not establish autonomous wreck detour acceptance.",
+      "No expiry, arbitrary orientation or remote prediction acceptance."
+    ]
+  },
+  {
+    "suite": "actual-client-wreck-foot-preview",
+    "passed": true,
+    "cases": [
+      {
+        "name": "authority_wreck_remote_empty",
+        "target": [
+          3496.0068359375,
+          47.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "admitted_remote_wreck_blocks",
+        "target": [
+          3495.840087890625,
+          47.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "remote_wreck_authority_empty",
+        "target": [
+          3495.840087890625,
+          47.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "remote_retirement_allows",
+        "target": [
+          3496.0068359375,
+          47.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "stale_packet_no_preview",
+        "target": [
+          3495.840087890625,
+          47.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "boarded_no_foot_preview",
+        "target": [
+          3495.840087890625,
+          47.0,
+          2000.0
+        ]
+      },
+      {
+        "name": "disconnected_no_preview",
+        "target": [
+          3495.840087890625,
+          47.0,
+          2000.0
+        ]
+      }
+    ],
+    "readonly_authority_and_sources": true,
+    "client_source_sha256": "c491e60b367dc13a0512ee698eca5836660105ab4c984e3c472c189d3af04c61",
+    "library_sha256": "89d88474195d9c85457f0735b5c6660de1ee5c5360de82cdbc94338f7a40ba9e",
+    "probe_binary_sha256": "ae1a2e0f6d992c709e56df503f0ce207b4a9ee29d663bae4789d2149584ef1db",
+    "limits": [
+      "Extracted actual preview prefix with development clock stub; no full GUI or network packet admission evidence.",
+      "The remote cache fair delivery delay remains; empty cache admits motion.",
+      "No camera smoothing, HUD hazard or vehicle prediction acceptance."
+    ]
+  }
+]

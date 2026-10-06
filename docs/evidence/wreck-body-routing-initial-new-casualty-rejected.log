@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-world/tests/test_wreck_nav_outcomes.py", line 83, in <module>
+    run(1,later=(3508.,1990.))
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-world/tests/test_wreck_nav_outcomes.py", line 72, in run
+    else:assert arrival is not None and max(math.dist(q,goal) for q in trace[-10:])<.01,(role,side,crowd,goal,trace[-1],list(m))
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (1, 0, 1, (3520.0, 2000.0), (3492.388427734375, 1993.5506591796875), [0, 1, 0, 699, 0, 0, 0, 1])

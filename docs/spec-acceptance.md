@@ -1,11 +1,13 @@
 # Specification acceptance ledger
 
-Current continuation integrates captured frame0 wreck presentation and UDPv8
-immutable replication. It verifies local/co-op display fixtures, genuine server
-casualty streaming, late join,1800tick expiry and separate authority/cache state.
-Physical body/weapon/LOS/navigation cover, useful far/map visibility and hardware
-readability/budgets remain unaccepted. Prepared body/source-context work is
-isolated. Exact current full checkpoint status is in status.md.
+Current continuation integrates continuous projectile/LOS wreck cover and ground
+body sweeps with bounded local detours at f8d80b8. Frozen full43b83242e4da
+passes946.8517s/123 reports;278 authored inputs match. Explicit replicated-cache
+foot prediction, actual local/co-op draw fixtures and keyboard-driven UDP preview
+have scoped proof. Dense route overflow, useful far/map visibility, reliable
+nearby cover freshness, oriented/vertical hulls and hardware budgets remain open.
+Exact acceptance and limitations are in status.md and wreck-body-routing.md.
+The requirement rows below retain the dated baseline except recorded updates.
 
 Current tracked-vehicle scope includes authoritative heading, acceleration/braking,
 bounded turning, slow reverse, complete-segment collision, generation-safe ownership
@@ -20,7 +22,7 @@ is owned by `status.md` and `docs/evidence/ground-surfaces-session.json`.
 This is progress toward §6g/§10e/§15/§16, not full vehicle realism. Raised relief and whole-hull steep-slope limits are integrated at `cc90b6d`;
 focused public/kernel/GL evidence passes and full checkpoint `3d022b3c7d8e`
 passed 533.82s/81reports with 177 matched inputs. Road-preferring navigation, wheeled roles, oriented hulls, physical suspension,
-damage handling and useful wreck cover remain open. The earlier full hull checkpoint
+damage handling and complete-operation wreck usability remain open. The earlier full hull checkpoint
 `8e107f76cc77` remains historical evidence at its recorded `7d37522` source.
 
 Audit baseline: `716bbd011cfc2f788d64223951ff9c533b7fc470`, 2026-10-05. This is a requirement ledger for the complete `docs/spec.txt`, not a declaration that the game is complete. Root work on player motion, view settings and footsteps is concurrent and **not accepted by this audit**. Later integrations must supply their own exact source identity and scoped evidence.
@@ -100,7 +102,7 @@ Status vocabulary: **Verified slice** means the stated implemented behavior has 
 | 6d | Immediate fire, recoil recovery, hit feedback, material impacts, suppression and strong near-field audio; weapon appropriate tracers | **Partial:** E4/E7 rifle response/recoil/HUD/tracer cadence and E10 sound. Cosmetic recoil does not modify aim, material-specific impact sets and complete near-field craft missing. |
 | 6e | Friendly direct fire off, explicit configurable large-friendly-explosion policy consistently applied | **Verified slice:** rifle/shell/bomb enemy-only tests. Configurable documented player-facing policy and coverage across future weapons remain missing. |
 | 6f | Transport/APC/MBT/self-propelled artillery/scout drone/AI strike planes; player ground driving/weapons | **Partial:** controllable generic allied armor/cannon, autonomous shell artillery and E5 planes. Distinct transports/APC/drone roles, troop seats/embarkation and all vehicle weapons missing. Pilotable aircraft are later scope. |
-| 6g | Wheeled/tracked approximations, slope limits, road/off-road difference, readable damage and useful temporary wreck cover | **Partial:** tracked yaw/acceleration/braking and whole-circle road handling have recorded full checkpoints. Whole-sweep grade, raised CPU/GPU terrain and useful bypasses are integrated with focused proof; full checkpoint 3d022b3c7d8e passed 533.82s/81reports with 177 matched inputs. Stateless terrain-supported hull pitch/roll and transformed normals pass CPU/GPU/client and full checkpoint 86ca2085d678 (540.59s/84 reports, 183 matched inputs). Cosmetic damped suspension/contact is integrated at71c61c7 with focused proof; full dfc1f67207e7 passed545.82s/87reports with195matched inputs. Wheeled chassis, oriented/vertical physical hulls, physical suspension, readable damage and gameplay wreck cover remain required. |
+| 6g | Wheeled/tracked approximations, slope limits, road/off-road difference, readable damage and useful temporary wreck cover | **Partial:** tracked yaw/acceleration/braking and whole-circle road handling have recorded full checkpoints. Whole-sweep grade, raised CPU/GPU terrain and useful bypasses are integrated with focused proof; full checkpoint 3d022b3c7d8e passed 533.82s/81reports with 177 matched inputs. Stateless terrain-supported hull pitch/roll and transformed normals pass CPU/GPU/client and full checkpoint 86ca2085d678 (540.59s/84 reports, 183 matched inputs). Cosmetic damped suspension/contact is integrated at71c61c7 with focused proof; full dfc1f67207e7 passed545.82s/87reports with195matched inputs. Continuous projectile/LOS shielding and ground body sweeps with bounded local wreck detours are now verified at f8d80b8/full43b83242e4da (278 matching inputs). Wheeled chassis, oriented/vertical physical hulls, physical suspension, readable damage, reliable nearby cover freshness and dense route usability remain required. |
 | 6h | Brief revive then safe fast forward/squad deployment; dead players can command/mark; no spawn camping/blast-zone repeat | **Partial:** E4 30-tick retry and safe enemy-LOS deployment tested. Revive, blast hazard safe spawn, explicit deployment/map choice and dead-player commands/marks require integration tests. |
 
 ## Section 7 — command and cooperative interface

@@ -1,5 +1,50 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Wreck body collision, bounded dynamic detours and explicit replicated-cover foot
+prediction are integrated at f8d80b8. Original infantry/tank/artillery radii,
+speed, controller momentum, terrain and grade checks remain. Placement, exits,
+manual slides, crowd and legacy movement sweep every accepted fragment against
+captured wrecks. Persistent local routes use a512-slot FIFO and at most8 builds
+per tick; new intervening wrecks trigger local replanning.
+
+Frozen full43b83242e4da PASSED946.8517s/123 reports. All278 authored inputs
+match main exactly, from snapshot
+09c6ce82aa24871bacf0170522ebe413aed980e7-999ea2bdc1f0b1d9.
+Extended network634d5a189315 PASSED131.7513s/11 reports. Original8k/16k
+motion/replay,400tick health/label symmetry,360tick held arrival,1200tick recovery,
+real local/co-op GL, audio and UDP faults remain exercised. The23 actual-route
+fixtures include casualty creation, exact held arrivals, initial-overlap escape,
+intervening casualty and natural tick1800 expiry. Independent slab observation
+finds no penetration; source pose/HP/ordnance/clock are not renewed in flight.
+Compatibility is UDPv14/schema0xda94decc/content0xd30d7e25, canonicalSHA256
+ d30d7e25453a94308b2f9fd2ba2ab309cb148be0f22f12205abefa162425ddbf.
+
+Root headless/co-op/client builds succeed with fingerprint999ea2bdc1f0b1d9.
+Root fast suite passes (terminal exit0); exact build/fast log and artifact hashes
+are in docs/evidence/wreck-body-main-verification.json and the associated log.
+Rebuilt libcoopclient passes co-op checks. The rebuilt client also passes the
+real keyboard-driven UDP/software-GL preview: empty-cache movement,
+admitted-cover blocking and retirement recovery (root exact logs:
+ docs/evidence/wreck-body-main-gui.log and wreck-body-main-network.log).
+This fixture uses frozen
+public-tick state with synthetic transport freshness, so it does not establish
+natural lossy-server prediction parity. Exact checkpoints, screenshots and
+limitations: docs/wreck-body-routing.md and
+ docs/evidence/wreck-body-routing-jobs.json.
+
+Natural concurrent900tick timing measured p95 at11.556ms (8k open),26.519ms
+(16k open),39.742ms (8k hotspot). Hotspot exceeds33.3ms; these are not isolated
+hardware GPU acceptance measurements. More than8 relevant local wrecks currently
+fail route construction safely. A separate relevance prototype at7e75121 (source evidence0b224d6) remains
+outside main pending its own full checkpoint;24 focused route cases pass, but
+its hotspot p95 remains41.002ms under concurrent observation. Reliable nearby-cover freshness, remote
+hazard warnings, oriented/vertical hulls, streamed hierarchy, graphics/playtest
+quality and broader specification requirements remain open. The full-game goal
+remains active; code license awaits owner approval. No remote publication.
+
+The following paragraphs retain earlier checkpoint history. Claims of pending
+body integration below describe those earlier revisions, not current main.
+
 Authoritative wreck cover, inherited-velocity bomber release and owned-cannon
 replication are integrated at6226468. Gameplay sight/fire callers now use the
 continuous ground/authored-solid/captured-wreck LOS composition. Blast eligibility

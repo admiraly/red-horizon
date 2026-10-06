@@ -1,0 +1,387 @@
+{
+  "suite": "natural-army-wreck-route-timing",
+  "passed": true,
+  "library_sha256": "760383de528f417ded44ee48228cdb438f9c7bea353bf3a1f1520335f82d7b91",
+  "platform": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "processor": "",
+  "cpus_available": 20,
+  "concurrent_frozen_verification": true,
+  "reports": [
+    {
+      "units_initial": 8192,
+      "initial_per_side": [
+        4096,
+        4096
+      ],
+      "scenario": "scale-open",
+      "ticks": 900,
+      "seed": 42,
+      "seconds": 8.612122313999862,
+      "tick_ms_mean": 9.563687541111111,
+      "tick_ms_p95": 11.556162,
+      "tick_ms_p99": 12.000007,
+      "tick_ms_max": 13.74802,
+      "peak_pending": 23,
+      "peak_builds_per_tick": 8,
+      "peak_wrecks": 294,
+      "final_route_metrics": [
+        22,
+        2097,
+        0,
+        40236,
+        1703,
+        255,
+        8,
+        8
+      ],
+      "surviving_original_ground": 6317,
+      "surviving_ground_moved_over_1m": 6317,
+      "samples": [
+        {
+          "tick": 30,
+          "alive": [
+            4091,
+            4063
+          ],
+          "wrecks": 2,
+          "route_metrics": [
+            0,
+            2,
+            0,
+            18,
+            0,
+            0,
+            0,
+            2
+          ]
+        },
+        {
+          "tick": 120,
+          "alive": [
+            4016,
+            3896
+          ],
+          "wrecks": 20,
+          "route_metrics": [
+            0,
+            14,
+            0,
+            409,
+            0,
+            0,
+            1,
+            3
+          ]
+        },
+        {
+          "tick": 300,
+          "alive": [
+            3857,
+            3677
+          ],
+          "wrecks": 74,
+          "route_metrics": [
+            0,
+            52,
+            0,
+            3921,
+            0,
+            0,
+            2,
+            4
+          ]
+        },
+        {
+          "tick": 600,
+          "alive": [
+            3660,
+            3434
+          ],
+          "wrecks": 165,
+          "route_metrics": [
+            3,
+            373,
+            0,
+            15060,
+            209,
+            0,
+            4,
+            7
+          ]
+        },
+        {
+          "tick": 900,
+          "alive": [
+            3451,
+            3210
+          ],
+          "wrecks": 294,
+          "route_metrics": [
+            22,
+            2097,
+            0,
+            40236,
+            1703,
+            255,
+            8,
+            8
+          ]
+        }
+      ],
+      "checksum": "3e7457f7cee4514a"
+    },
+    {
+      "units_initial": 16384,
+      "initial_per_side": [
+        8192,
+        8192
+      ],
+      "scenario": "scale-open",
+      "ticks": 900,
+      "seed": 42,
+      "seconds": 19.15374877800059,
+      "tick_ms_mean": 21.27212375111111,
+      "tick_ms_p95": 26.519444,
+      "tick_ms_p99": 27.395238,
+      "tick_ms_max": 27.807974,
+      "peak_pending": 44,
+      "peak_builds_per_tick": 8,
+      "peak_wrecks": 388,
+      "final_route_metrics": [
+        35,
+        2944,
+        0,
+        104298,
+        1729,
+        1187,
+        8,
+        8
+      ],
+      "surviving_original_ground": 13354,
+      "surviving_ground_moved_over_1m": 13354,
+      "samples": [
+        {
+          "tick": 30,
+          "alive": [
+            8163,
+            8150
+          ],
+          "wrecks": 7,
+          "route_metrics": [
+            0,
+            7,
+            0,
+            53,
+            0,
+            0,
+            0,
+            4
+          ]
+        },
+        {
+          "tick": 120,
+          "alive": [
+            8097,
+            7916
+          ],
+          "wrecks": 23,
+          "route_metrics": [
+            0,
+            29,
+            0,
+            1181,
+            0,
+            0,
+            0,
+            4
+          ]
+        },
+        {
+          "tick": 300,
+          "alive": [
+            7874,
+            7564
+          ],
+          "wrecks": 130,
+          "route_metrics": [
+            0,
+            154,
+            0,
+            10743,
+            0,
+            0,
+            0,
+            6
+          ]
+        },
+        {
+          "tick": 600,
+          "alive": [
+            7511,
+            7178
+          ],
+          "wrecks": 256,
+          "route_metrics": [
+            1,
+            799,
+            0,
+            46096,
+            170,
+            53,
+            4,
+            8
+          ]
+        },
+        {
+          "tick": 900,
+          "alive": [
+            7179,
+            6843
+          ],
+          "wrecks": 388,
+          "route_metrics": [
+            35,
+            2944,
+            0,
+            104298,
+            1729,
+            1187,
+            8,
+            8
+          ]
+        }
+      ],
+      "checksum": "464873deed7b74be"
+    },
+    {
+      "units_initial": 8192,
+      "initial_per_side": [
+        4096,
+        4096
+      ],
+      "scenario": "scale-hotspot",
+      "ticks": 900,
+      "seed": 42,
+      "seconds": 29.538021421998565,
+      "tick_ms_mean": 32.815030585555554,
+      "tick_ms_p95": 39.741839,
+      "tick_ms_p99": 40.516596,
+      "tick_ms_max": 41.018792,
+      "peak_pending": 185,
+      "peak_builds_per_tick": 8,
+      "peak_wrecks": 579,
+      "final_route_metrics": [
+        182,
+        6506,
+        0,
+        231991,
+        5103,
+        4816,
+        8,
+        8
+      ],
+      "surviving_original_ground": 4169,
+      "surviving_ground_moved_over_1m": 4169,
+      "samples": [
+        {
+          "tick": 30,
+          "alive": [
+            3906,
+            3974
+          ],
+          "wrecks": 16,
+          "route_metrics": [
+            4,
+            44,
+            0,
+            378,
+            2,
+            0,
+            0,
+            8
+          ]
+        },
+        {
+          "tick": 120,
+          "alive": [
+            3596,
+            3593
+          ],
+          "wrecks": 83,
+          "route_metrics": [
+            0,
+            369,
+            0,
+            10872,
+            15,
+            12,
+            4,
+            8
+          ]
+        },
+        {
+          "tick": 300,
+          "alive": [
+            3028,
+            2954
+          ],
+          "wrecks": 235,
+          "route_metrics": [
+            93,
+            1706,
+            0,
+            41135,
+            993,
+            940,
+            8,
+            8
+          ]
+        },
+        {
+          "tick": 600,
+          "alive": [
+            2560,
+            2424
+          ],
+          "wrecks": 447,
+          "route_metrics": [
+            146,
+            4106,
+            0,
+            115582,
+            2943,
+            2772,
+            8,
+            8
+          ]
+        },
+        {
+          "tick": 900,
+          "alive": [
+            2298,
+            2209
+          ],
+          "wrecks": 579,
+          "route_metrics": [
+            182,
+            6506,
+            0,
+            231991,
+            5103,
+            4816,
+            8,
+            8
+          ]
+        }
+      ],
+      "checksum": "558c1919954c129a"
+    }
+  ],
+  "limits": [
+    "Single-thread actual sim_tick wall times; Python observation is outside each timed call.",
+    "Concurrent full and software-GL jobs may affect timings; not isolated target-hardware acceptance.",
+    "Natural HP/combat/pose/clock/ordnance remain unchanged by the observer.",
+    "Visible, detailed, replicated and audio counts unmeasured in this headless run.",
+    "Motion over900ticks is descriptive, not a substitute for original95percent tests."
+  ]
+}

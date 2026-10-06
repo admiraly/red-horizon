@@ -2,14 +2,16 @@
 
 This is an implementation contract from the caller audit, not feature acceptance.
 Authoritative wreck vision and rifle/blast shielding are integrated at6226468
-after full frozenffd071da659c passed. Movement, navigation and connected
-prediction remain open. They need a coherent batch with the original physical/
-motion/arrival/recovery/health/label-symmetry gates.
+after full frozenffd071da659c passed. Movement, bounded wreck navigation and connected foot prediction are integrated
+at f8d80b8, with full43b83242e4da passing all278 matching authored inputs.
+The audit below retains the earlier integration contract; remaining work includes
+relevant-cover freshness, overflow/performance, remote hazards and physical/visual
+geometry parity. See docs/wreck-body-routing.md for exact evidence and limits.
 
-Prepared gameplay hooks919a48b now have13 actual movement and seven extracted
+Historical prepared gameplay hooks919a48b had13 actual movement and seven extracted
 client-source controls. Zero penetrations are verified, but every direct wreck-
-blocked AI route fails240tick arrival. Evidence69e899f is retained; do not integrate
-until bounded persistent detours and the complete checkpoint pass.
+blocked AI route fails240tick arrival. Evidence69e899f is retained. This blocker was resolved by bounded persistent
+detours and the complete checkpoint; the historical audit follows.
 
 ## Vision and fire
 
