@@ -89,6 +89,8 @@ def paired(kind,driver):
  check(abs(on['last_step']-cap)<TOL,f'{kind}/{driver}: road steady cap')
  check(abs(off['last_step']-cap*factor)<TOL,f'{kind}/{driver}: offroad steady cap')
  check(on['distance']>off['distance']*1.1,f'{kind}/{driver}: useful road advantage')
+ for label,result,scale in (('road',on,1),('offroad',off,factor)):
+  check(all(abs(r['speed']-min(r['old_speed']+acc*scale,cap*scale))<TOL for r in result['trace']),f'{kind}/{driver}: {label} sustained acceleration envelope')
  return dict(name='paired_'+('driver_tank' if driver else 'ai_tank' if kind==1 else 'ai_artillery'),factor=factor,road=on,offroad=off)
 
 for kind,driver in ((1,False),(2,False),(1,True)):cases.append(paired(kind,driver))
