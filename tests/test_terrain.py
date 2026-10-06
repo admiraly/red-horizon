@@ -114,10 +114,14 @@ entities[0].x,entities[0].z,entities[0].kind=3950,1300,1
 entities[1].x,entities[1].z=7000,1300
 assert lib.sim_order(1,0,1)==0
 assert lib.sim_waypoint(0,0,4050,1300)==0
-for _ in range(1200):
+for tick in range(1200):
+    if tick==1190: settling_start=(entities[0].x,entities[0].z)
     lib.sim_tick()
     assert lib.terrain_blocked(entities[0].x,entities[0].z,1)==0
-assert (entities[0].x,entities[0].z)==(4050,1300)
+# Physical terminal braking converges without snapping coordinates. Retain the
+# 1200-tick deadline and require millimetre arrival plus a settled final interval.
+assert math.dist((entities[0].x,entities[0].z),(4050,1300))<.002
+assert math.dist(settling_start,(entities[0].x,entities[0].z))<.002
 # Default full-capacity spawn validation, including no hidden solid overlap.
 assert lib.sim_init(32768,1)==0
 assert all(lib.terrain_blocked(e.x,e.z,e.kind)==0 for e in entities[:32768])
