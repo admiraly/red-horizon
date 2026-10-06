@@ -372,6 +372,8 @@ def main():
             execute([sys.executable,'tests/test_infantry_ammunition.py',str(library)])
             execute([sys.executable,'tests/test_depot_ammunition.py'])
             execute([sys.executable,'tests/test_infantry_resupply.py',str(library)])
+            execute([sys.executable,'tests/test_infantry_rounds.py',str(library)])
+            execute([sys.executable,'tests/test_supply_routes.py',str(library)])
             execute([sys.executable,'tests/test_infantry_weapon_abi.py'])
             execute([sys.executable,'tests/test_ground_acquisition.py',str(library)])
             execute([sys.executable,'tests/test_ground_target_selection.py',str(library)])
