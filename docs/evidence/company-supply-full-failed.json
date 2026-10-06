@@ -1,0 +1,34 @@
+{
+  "job": {
+    "job_id": "412520d69630",
+    "revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/result.json",
+    "pid": 847578
+  },
+  "result": {
+    "job_id": "412520d69630",
+    "exit_code": 1,
+    "revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+    "seconds": 860.6190282280004,
+    "status": "failed"
+  },
+  "reports": 118,
+  "explicit_passes": 117,
+  "raw_log": "docs/evidence/company-supply-full-failed.log",
+  "raw_sha256": "89eb7c815346fb35c9607ba02282f163e0e399a12bc0534fa6a16cb6abe70dcd",
+  "failure": "Exact player.inc dependency assertion omitted new company_supply.asm. Actual rebuild9 matches the added include; fixture expected8.",
+  "correction": "Precise expected-set adds report modules that exist in historical/current source fixture. Independent frozen/current tools checks running in isolated fix/supply-build-dependencies; not yet integrated.",
+  "limitations": [
+    "Failure is retained; no whole-suite pass.",
+    "Source-root option selects copied fixture source; frozen inputs are not modified."
+  ]
+}

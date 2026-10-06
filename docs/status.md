@@ -1,3 +1,33 @@
+Current main integrates finite allied depot reports and tactical-map inventory
+in c42284b at authored fingerprinteeab15cc132fdc7a; all381 authored files match
+verified feature. Matching main client/co-op/headless builds and11 scoped reports
+pass: company API1, depot producer/cache2, fast core1, real UDP2, solo1, co-op1,
+320x240 co-op1, graphical transfer-fault1 and original8192/16384 scale1. Worker
+fast72 reports (71 explicit plus hazard outcomes), network22 explicit and actual
+finite debit/exhaustion/capture/unknown/gates/ABI, fourteen malformed depot UDP
+packets, unchanged four-endpoint world and rendered real timeout/map IDs pass.
+UDP31/schema0x4ae7e53c/content0xf2a0dc69; packet304bytes/344datagram. No inventory
+regeneration or gameplay-state mutation by reports. READY rendered ordinarily;
+EMPTY/CUT/CONTESTED/DOWN/UNKNOWN flags API verified, exhaustive GUI states open.
+Small viewport lists two rows with visible/total count; no list scrolling yet.
+Exact epochs and evidence: [evidence/depot-supply-main.json](evidence/depot-supply-main.json)
+and [evidence/depot-supply-focused.json](evidence/depot-supply-focused.json).
+
+Frozen company-HUD checkpoint412520d69630 FAILED/collected: exit1 after860.619s,
+118 reports/117 explicit passes, e02e872-2c6c9a8caf52601e. Build dependency test
+expected8 player.inc consumers; new company report makes9 actual consumers.
+Its exact-set assertion is being updated in isolated supply-build-dependencies,
+with copied frozen/current source tools verification running. Full remains failed:
+[evidence/company-supply-full-failed.json](evidence/company-supply-full-failed.json).
+Frozen depot-inventory checkpoint590455b4b201 is RUNNING at matching current
+merge/input c42284b-eeab15cc132fdc7a, PID970561 confirmed live; it still contains
+the known stale tools assertion. Do not treat it as a pass or alter frozen inputs.
+Prior depot full1433fa199da8 is failed/collected as below. Current feature
+foreground tests are terminal; tools-fix checks are live and being reconciled.
+Next gameplay: supply-aware detours through existing navigation and hazards,
+preserving primary company orders and finite stock; then broader logistics.
+Full specification remains incomplete; no publication, license pending approval.
+
 Frozen depot checkpoint1433fa199da8 is FAILED/collected: exit1 after
 1338.028361s, 155 reports/154 explicit passes at99a6e5f-8a4fa4cff8cf5608.
 Graphical transfer-fault fixture missed queued-state observation while a movement

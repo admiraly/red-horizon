@@ -1,0 +1,129 @@
+{
+  "merge_commit": "c42284b2dc26ddda3e9840d014ca283eb612dc7a",
+  "input_revision": "c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a",
+  "matching_feature_authored_files": 381,
+  "scoped_reports": 11,
+  "foreground_exit_code": 0,
+  "logs": {
+    "company-api": {
+      "path": "docs/evidence/depot-supply-main-company-api.log",
+      "sha256": "8a40700d0e192ea012629806495b11cc259ab6b0512a2af6acd95835acf77082",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "depot-api": {
+      "path": "docs/evidence/depot-supply-main-depot-api.log",
+      "sha256": "fbd2a17557ea8991a47077d9baf69427ae66be6db75489eb1cc093e3ca1a06d0",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "fast": {
+      "path": "docs/evidence/depot-supply-main-fast.log",
+      "sha256": "88536760bfd79cc501b4e3f26f4f913335bc0b82c4aa1ce2b906b6908582946f",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "udp": {
+      "path": "docs/evidence/depot-supply-main-udp.log",
+      "sha256": "a7d9cb5848342c8447c265d244fa78947c6a18d33ed817d22004c86cf9de7d3d",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "solo": {
+      "path": "docs/evidence/depot-supply-main-solo.log",
+      "sha256": "b2e06fa9fbf025fccf4771b6731dbbb525efab5609b844f190bbadbc7046fe36",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "coop": {
+      "path": "docs/evidence/depot-supply-main-coop.log",
+      "sha256": "0516f1188a74747483cff423daa55e07e17e4a2a8efb81c151ca18c61f3318a1",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "small": {
+      "path": "docs/evidence/depot-supply-main-small.log",
+      "sha256": "674ad1083402f1c829ae0ae4513e659450c1a48b1070066a741ac462b93db29c",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "fault": {
+      "path": "docs/evidence/depot-supply-main-fault.log",
+      "sha256": "ea397c7bd41f5bc67ca3cef6977925a674ccef5b89c2e3fec6182d6471806201",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "scale": {
+      "path": "docs/evidence/depot-supply-main-scale.log",
+      "sha256": "9ffb0f5ac69d24f30574ebb11b907df205ac5a74013042b3ea9f353a045c9663",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "client-build": {
+      "path": "docs/evidence/depot-supply-main-client-build.log",
+      "sha256": "6417f23df62a9efd5cf75b2595bb07776130c4fc691197e485ec30818c8c95ad",
+      "reports": 0,
+      "explicit_passes": 0
+    },
+    "coop-build": {
+      "path": "docs/evidence/depot-supply-main-coop-build.log",
+      "sha256": "6375dab50695064b0ae687bf3ed67b22aab72a87701121f471e8868a93adec1b",
+      "reports": 0,
+      "explicit_passes": 0
+    },
+    "headless-build": {
+      "path": "docs/evidence/depot-supply-main-headless-build.log",
+      "sha256": "6d2e2fae89242acb9ebf355c3bedd7d6e46afd8d1b19dcee4f76bff3e8b9aaee",
+      "reports": 0,
+      "explicit_passes": 0
+    }
+  },
+  "builds": {
+    "client": {
+      "metadata": {
+        "target": "client",
+        "revision": "c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a",
+        "assembled": 4,
+        "assembled_sources": [
+          "src/sim/depot_supply_remote.asm",
+          "src/ai/depot_supply.asm",
+          "src/platform/linux/client.asm",
+          "src/net/client.asm"
+        ],
+        "seconds": 0.4796421939972788,
+        "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a/red-horizon"
+      },
+      "sha256": "622eb821d09411594035a9d6addba00c3e9312e9d07dc96bd3e0a25e485d4099"
+    },
+    "coop": {
+      "metadata": {
+        "target": "coop",
+        "revision": "c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a",
+        "assembled": 1,
+        "assembled_sources": [
+          "src/net/coop_server.asm"
+        ],
+        "seconds": 0.3294960909988731,
+        "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a/red-horizon-coop-server"
+      },
+      "sha256": "f393830403f333b1ec15e3cd756b6ce890972438aecd4cd6c745a03228b363d6"
+    },
+    "headless": {
+      "metadata": {
+        "target": "headless",
+        "revision": "c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a",
+        "assembled": 0,
+        "assembled_sources": [],
+        "seconds": 0.30801354099821765,
+        "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/c42284b2dc26ddda3e9840d014ca283eb612dc7a-eeab15cc132fdc7a/red-horizon-server"
+      },
+      "sha256": "b7fb0a821663e8aea7559cd3313a92756db3c1278a2fb08e4c5e53a9331f5996"
+    }
+  },
+  "extended_checkpoint": "590455b4b201",
+  "limitations": [
+    "Frozen checkpoints remain independent; prior full failures remain failed.",
+    "Rendered ready/timeout inventory; other states API-verified, not exhaustive rendered fixtures.",
+    "No scrolling at small viewport, supply-aware routes, full logistics, Windows/hardware/art or whole-spec acceptance."
+  ]
+}

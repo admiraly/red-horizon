@@ -1,0 +1,1 @@
+{"suite": "fast-combat", "passed": true, "fixture_units": 128, "checks": ["roles/fronts", "physical combat/counts", "same-run replay", "side-swap symmetry", "invalid-state preservation", "guarded damage", "CLI", "fixed-tick pacing"], "scale_coverage": false}
