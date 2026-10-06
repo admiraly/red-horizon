@@ -100,7 +100,11 @@
       "pid": 3662878
     },
     "observed_state": {
-      "status": "running"
+      "job_id": "72366ca35c1e",
+      "exit_code": 1,
+      "revision": "52e2a2ae8a5d49e08d1eb59f24476401c137e059-dd448cce99006975",
+      "seconds": 1155.5020917660004,
+      "status": "failed"
     }
   },
   "jobs_reconciled": {
@@ -108,13 +112,13 @@
     "new_background_jobs": [
       {
         "id": "72366ca35c1e",
-        "status": "running",
+        "status": "failed",
         "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-replication/runs/jobs/72366ca35c1e/result.json"
       }
     ]
   },
   "limits": [
-    "Full extended checkpoint is pending; focused acceptance does not imply full specification completion.",
+    "Full72366ca35c1e failed at final Xvfb display-open startup; no passed complete checkpoint. Corrected actual timeout fixture passes.",
     "Actual software GL checks establish implemented rendering paths, not target GPU budgets or human quality."
   ]
 }

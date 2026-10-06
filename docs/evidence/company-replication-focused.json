@@ -1169,7 +1169,7 @@
   },
   "limits": [
     "Focused results are scoped; earlier fast/tools/graphics runs precede final canonical macro and remote-mode guard edits. Final actual timeout verifies the new guard.",
-    "The complete frozen extended checkpoint is running, not passed.",
+    "Frozen extended72366ca35c1e failed at final Xvfb startup, not passed.",
     "No target GPU or human quality acceptance. Full game, transfer, assistance, recruitment, shared timed plans, wider controls/content/platform acceptance remain unfinished."
   ],
   "corrected_fixture_failures": [
@@ -1180,5 +1180,12 @@
     "Owned cohort records must arrive before a pixel observation; dense owned markers draw last.",
     "Observe the other owner before that owner exits and releases intent.",
     "Initial baseline companies have no far member; explicitly declare one initial birth and observe subsequent genuine retirement without requiring it to stay alive."
-  ]
+  ],
+  "frozen_extended_result": {
+    "job_id": "72366ca35c1e",
+    "exit_code": 1,
+    "revision": "52e2a2ae8a5d49e08d1eb59f24476401c137e059-dd448cce99006975",
+    "seconds": 1155.5020917660004,
+    "status": "failed"
+  }
 }

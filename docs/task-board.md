@@ -390,8 +390,9 @@ own-company region exception, solo/co-op green formations, actual shared goal
 pixels and timeout clearing are focused verified. The four-peer original8192
 world test remains read-only; the separate remote stream test declares one
 initial far infantry birth and never renews live state. Main matches all333
-frozen authored inputs. Full72366ca35c1e remains RUNNING, not accepted; prior
-full3112ca82aa0d is still the last complete checkpoint. Continue collecting the
-immutable job without starting a duplicate. Transfers/assistance, recruitment,
+frozen authored inputs. Full72366ca35c1e FAILED at the final private-Xvfb display-open fixture; prior
+full3112ca82aa0d is still the last complete checkpoint. The135 preceding suite reports passed, including rendered co-op. Bounded
+display-open retry retains the actual timeout gates and the focused rerun passes.
+Preserve the failed result; the isolated consent-transfer batch continues. Transfers/assistance, recruitment,
 formation selection, remappable contextual commands, shared countdown/support,
 full operation/content and target performance/human quality remain open.

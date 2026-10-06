@@ -23,10 +23,14 @@ Main headless/co-op/client and both CPU libraries are rebuilt at727f145-dd448cce
 Matching main company API, actual four-player/production-adapter transport,
 actual two-client shared goal/redeployment and timeout checks all pass.
 Exact artifact hashes and logs: docs/evidence/company-replication-main.json.
-All foreground checks are terminal. Full72366ca35c1e is the sole new running
-managed job; its process is live and its exact snapshot/result paths are recorded.
+All foreground checks and72366ca35c1e are terminal and reconciled.
 
-Frozen full72366ca35c1e is RUNNING at52e2a2a-dd448cce99006975; it has not passed.
+Frozen full72366ca35c1e FAILED1155.5021s at52e2a2a-dd448cce99006975.
+Its final timeout fixture could not open the just-started private Xvfb display;
+the preceding actual graphical co-op passed. A bounded display-open retry now
+retains all actual GL/timeout gates. Failure reports/log are preserved in
+docs/evidence/company-replication-full-failed.{json,log}. No passed full checkpoint
+is claimed for this batch. The independent transfer worktree continues.
 Its snapshot includes333 exact authored inputs. The preceding fully accepted
 checkpoint remains3112ca82aa0d below. Focused checks and this pending run do not
 establish full-game completion or target GPU/human quality. Shared timed plans,
