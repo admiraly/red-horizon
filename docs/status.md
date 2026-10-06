@@ -1,3 +1,9 @@
+Current corrected frozen full4c0ad8c85882 RUNNING,
+ba9e027fdce46b0709b8967c67e59d694fdcc91e-43bee270c6526ea5,PID2158264.
+Metadata: evidence/cadence-lifecycle-full-pending.json. Separate6c0e578a78f7
+remains live at its pre-lifecycle-observer epoch; neither is claimed passed.
+All foreground checks collected; whole-game goal remains active/incomplete.
+
 Controller lifecycle correction passes on the exact failed v35 core in legacy
 mode and on the shared-cadence active core, with original8192/16384 counts and
 60ticks. Actual legacy generation2 births are endpoint placements; full living
