@@ -1,5 +1,15 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Frozen transfer checkpoint43d31a2cf5a3 PASSED1208.4950s at
+7362317-9beb3e4179d7c827. Its338 authored inputs and complete raw results
+are recorded in docs/evidence/company-transfer-full-summary.json and
+company-transfer-full-passed.{json,log}. This validates the previous transfer
+snapshot, including original scale/health, real GL and UDP fault gates; it
+precedes the retreat/HUD changes now being integrated. The job is terminal
+and collected. Complete game and target hardware/human-quality acceptance
+remain open.
+
+
 Main also integrates7402233: company retreat markers now show the effective
 home shared with authority, while subsequent advance retains the accepted
 waypoint. Actual solo GL and two rendered UDP clients pass both owner/other-owner
@@ -33,13 +43,13 @@ read-only original8192 four-peer/production-adapter UDP and actual rendered faul
 checks all pass. All338 authored inputs match the frozen source. Exact artifacts:
 docs/evidence/company-transfer-main.json and its matching main logs.
 
-Frozen full43d31a2cf5a3 is RUNNING at7362317-9beb3e4179d7c827,
-not passed. Prior72366ca35c1e remains FAILED1155.5021s after135 passing suite
+Frozen full43d31a2cf5a3 subsequently PASSED at7362317-9beb3e4179d7c827
+as recorded above. Prior72366ca35c1e remains FAILED1155.5021s after135 passing suite
 reports, at private Xvfb startup for the final timeout fixture. The corrected
 bounded display-open retry and strict final gameplay observation retain the
-actual graphics/timeout/health gates; failures are preserved. All foreground
-jobs are terminal;43d31a2cf5a3 is the sole running managed job. Last fully passed
-checkpoint remains3112ca82aa0d. No full-game completion claim is made.
+actual graphics/timeout/health gates; failures are preserved. At that earlier handoff, all foreground jobs were terminal and43d31a2cf5a3
+was the sole running managed job. The last passed checkpoint was3112ca82aa0d;
+it is now superseded by the passed transfer checkpoint above. No full-game completion claim is made.
 
 Transfer UI currently uses default keys/window-title feedback. Assistance,
 squad splitting, recruitment, remappable contextual controls/fullscreen text,
