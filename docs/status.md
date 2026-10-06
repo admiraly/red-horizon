@@ -1,3 +1,49 @@
+Finite player ammunition is integrated in ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a,
+authored fingerprint2969032aadf8d434,399 inputs. Public player64/state848 bytes
+remain; UDPv33/schema8bdfbab4/contente4212358 carries own40-byte message110.
+Actual births equip30+90; reload transfers finite reserves, every actual shot
+spends one, and nearby on-foot rearm debits current healthy allied connected
+uncontested finite depots through physical ground+1m LOS. Lifetime receipts
+retain issued debit accounting across new bodies. Read-only own reports/cache
+validate conservation/body/owner/age; invalid/unknown never fabricates stocks.
+
+Focused actual core proof:120 shots then180 empty request ticks; partial28-round
+reload conserves reserve88/spent2. Actual80m walk credits90 at150, depot11910,
+magazine30 unchanged. Genuine death160/deployment190 freezes old body then
+creates only new-body120; failed spawn gets no equipment. A72,031-tick
+same-body endurance fires12,120 rounds, consumes the12,000-round depot then
+stays empty, with every-tick stock/depot conservation and no live renewal.
+Readonly guarded report25-query and7-entry/21-call NASM ABI gates pass.
+Fast runner exits0 with77 explicit passed:true JSON reports (not a frozen full
+checkpoint); unchanged existing network regressions exit0 with23 reports.
+
+Original8192/four-endpoint UDP production adapter follows real damage and body
+changes with142 exact same-native-tick stock reports and120 lifetime shots;
+observer is read-only, original world unchanged.21 actual UDP parser fault
+packets preserve authority/cache on failure; stale/old bodies/session/sender,
+explicit unknown and real close/reconnect/timeout clearing pass. Actual GL
+solo/co-op120 same-body shots show reserve90/60/30/0, reload/empty and blocked
+empty requests at1280x720 and320x240. These depletion HUD fixtures declare one
+initial authority player pose, retaining all8192 actors and never renewing
+HP/ammo/pose/clock. Two original-world rendered clients display stock90 then
+unavailable after real server timeout at both resolutions without memory writes.
+The rifle row is below transfer text; shorter empty wording fits minimum width.
+Original movement/hit/suppression/death/redeployment/input pixel gates pass.
+
+Exact separate source/binary epochs, reports, screenshots, fixture corrections
+and limitations: evidence/player-ammunition-session.json. Dependency prefix
+proves exact14 headless and8 client include consumers; full tools tail pending.
+Frozen full06b65992aceb RUNNING at ee97d37-2969032aadf8d434, PID1673694;
+its initial snapshot is frozen and has not passed. Previous infantry full jobs
+are passed/collected below. Player full checkpoint will cover original scale,
+real graphics and broad UDP faults; focused tests alone do not establish them.
+
+Remaining: dedicated rendered unknown rifle label, broader weapons, vehicle/air
+rearm, convoys/production, hardware quality/performance and full specification.
+Existing synthetic enemy_attack can still bypass NPC stocks/role-specific weapons;
+that independent corrective batch is next. Whole-game goal remains active,
+licence pending owner approval; no remote publication authorization.
+
 Causal supply regressions are integrated ina1aa80f, authored fingerprint
 fdd0559a26913e58; all389 authored inputs match the verified worker. CPU runtime,
 assets and protocol policy remain unchanged from43e2439. Focused combat28 reports
@@ -26,13 +72,6 @@ frozen infantry epochs, not the later isolated player-ammunition work.
 The preceding depot full902e4f699f7a remains passed/collected; older failed
 checkpoints remain failed as recorded below.
 
-Next gameplay implementation: the player rifle still creates30 rounds on every
-reload, without finite reserve accounting. docs/player-ammunition-design.md
-records the unimplemented per-body conservation, real finite depot rearm,
-body-only equipment, unchanged64-byte player ABI, own-server report/cache,
-solo/co-op reserve display and required evidence. No completed player rearm is
-claimed. Whole-game goal stays active; specification incomplete, licence
-pending owner approval and no remote publication authorization.
 
 Physical nearby infantry resupply detours are integrated in43e2439, authored
 fingerprinta5675e2e443c6c49; all387 authored inputs exactly match the verified

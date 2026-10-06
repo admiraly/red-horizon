@@ -495,3 +495,13 @@ other weapon rearm and full logistics acceptance remain open. Next independent
 slice: generation/lease-gated owned-company shortage and depot inventory report
 for solo/co-op tactical HUD, bounded packet validation and truthful no-data/reset
 states; then supply-aware physical return routes without overriding urgent hazards.
+
+Finite player ammunition (root, integrated ee97d37):30+90 per actual body,
+conserved60-tick reload, bounded real finite depot credit, own server message110
+and client-only validated cache. Actual CPU depletion/store exhaustion, guarded
+ABI/report, original8192/four-endpoint exact-stock and fault UDP, solo/co-op
+full/minimum GL depletion and real two-client timeout pass. Frozen full
+06b65992aceb is pending. See player-ammunition-session.json for exact epochs and
+fixture/quality limits. Next weapon authority task: NPC damage against humans
+must consume actual finite rifle stock and respect role weapons; existing
+enemy_attack's16-tick synthetic threat damage bypass remains unaccepted.

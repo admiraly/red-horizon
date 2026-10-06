@@ -1,0 +1,15 @@
+{
+  "job_id": "06b65992aceb",
+  "revision": "ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a-2969032aadf8d434",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/06b65992aceb/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/06b65992aceb/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/06b65992aceb/result.json",
+  "pid": 1673694
+}
