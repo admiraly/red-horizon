@@ -19,12 +19,14 @@
 ; XMM2/3 desired steering pointXZ, XMM4 desired maxforwardstep) -> XMM0/1 endpoint.
 ; Mode1 requires a valid living allied tank with bidirectional driver claim.
 ; Validate count, ID, kind, generation, all finite input and source pose before
-; mutation. Preserve invalid input state. Normal AI speed caps tank0.5/arty0.2;
+; mutation. SourceXZ [0,8000], local goals [-8000,16000]. Preserve invalid input
+; state. Normal AI speed caps tank0.5/arty0.2;
 ; driver cap0.6. Shared physical tank envelope0.6 permits bounded braking across
 ; AI/driver handoff; no instant reversal or camera-driven sideways translation.
 ; No desired movement applies bounded braking; keep stopped hull heading.
 ; Desired heading changes by bounded turn, sharp turns reduce target speed.
-; Reverse uses a bounded lower cap and brakes through zero before reversing.
+; Human reverse uses a bounded lower cap and brakes through zero. AI detours
+; pivot forward; AI terminal braking uses original navigation-point range.
 ; Collision uses crowd_hull_step with ONLY the physically reachable segment;
 ; accepted movement parallel to the actual hull axis, no X/Z component slide or
 ; autonomous endpoint rotation. Contact may stop speed immediately for safety,
