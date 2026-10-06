@@ -102,7 +102,8 @@
   },
   "epochs": {
     "final_runtime": "5b4126d3735ea917;370 authored inputs; stride pass, shared stock validation, corruption guards and5-entry ABI. Fast69/network19/private scale pass.",
-    "review": "8a4fa4cff8cf5608;370 inputs. Only test_infantry_ammunition_network.py, test_client_bindings.py and tools/dev.py change (staged UDP registration and actual-mode/input observation). Registered network20 and both graphical fixtures pass."
+    "review": "8a4fa4cff8cf5608;370 inputs. Only test_infantry_ammunition_network.py, test_client_bindings.py and tools/dev.py change (staged UDP registration and actual-mode/input observation). Registered network20 and both graphical fixtures pass.",
+    "pre_stride": "Focused combat24 at2f61ee2be369475e, before converting full scan with per-actor modulo to equivalent strided visitor. Final fast/resupply/original scale checks cover strided implementation."
   },
   "input_delta": [
     "tools/dev.py",

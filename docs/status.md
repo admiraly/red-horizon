@@ -7,8 +7,8 @@ after operation evaluation. Current map four stores/48000 rounds; capture/repair
 route restoration never refills. Existing firing/movement/HP/roles remain unchanged.
 UDP29/schema0xc400bad2/content0x5964d91f; no wire stock fields or shortage UI.
 
-Final runtime fast69 reports (68 explicit passes plus hazard outcomes), focused
-combat24, network20, original8192/16384 and actual graphical solo/co-op/remapped
+Pre-stride focused combat24 passes. Final runtime fast69 reports (68 explicit
+passes plus hazard outcomes), network20, original8192/16384 and actual graphical solo/co-op/remapped
 fault wheel pass. Original400tick side-label health symmetry remains unchanged.
 Physical trace receives30 at300/600/900/1200, fires134 and kills400HP target at
 1296. Actual root occupation restores a cut supply path at600; contested
