@@ -4613,6 +4613,167 @@
       "sha256": "f5f4bcb1223cef2389dd59bb0efa581b5c3cb8ed66ec58107ad1bd8f6226e95f",
       "explicit_passes": 0,
       "reports": []
+    },
+    {
+      "name": "GL-gameplay-coherent-fixture",
+      "exit_code": 0,
+      "log": "docs/evidence/player-blast/GL-gameplay-coherent-fixture.log",
+      "sha256": "ab5fa34eaa9014911413ae559144828035ec3f166dacaea67632bf88c5c74119",
+      "explicit_passes": 1,
+      "reports": [
+        {
+          "suite": "authoritative-client-gameplay",
+          "passed": true,
+          "spawn": {
+            "x": 3780.0,
+            "y": 26.903400421142578,
+            "z": 3900.0,
+            "yaw": 0.0,
+            "pitch": -0.03999999910593033,
+            "hp": 100,
+            "ammo": 30,
+            "reload": 0,
+            "cooldown": 0,
+            "respawn": 0,
+            "front": 1,
+            "connected": 1,
+            "shots": 0,
+            "hits": 0,
+            "suppression": 0,
+            "generation": 1
+          },
+          "moved_metres": 1.00048828125,
+          "final": {
+            "x": 3780.0,
+            "y": 26.903400421142578,
+            "z": 3900.0,
+            "yaw": 0.0,
+            "pitch": -0.03999999910593033,
+            "hp": 100,
+            "ammo": 30,
+            "reload": 0,
+            "cooldown": 0,
+            "respawn": 0,
+            "front": 1,
+            "connected": 1,
+            "shots": 34,
+            "hits": 1,
+            "suppression": 0,
+            "generation": 2
+          },
+          "exit_hp_is_last_rendered_hud_value": 100,
+          "rendered_health_title": true,
+          "accepted_hits": 1,
+          "redeploy_pixel": [
+            230,
+            56,
+            41
+          ],
+          "damage_source_actual_infantry_id": 4097,
+          "initial_attacker_weapon": [
+            1,
+            30,
+            90,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "attacker_hp_generation_preserved": true,
+          "damaged": {
+            "x": 2000.0,
+            "y": 17.80500030517578,
+            "z": 3900.0,
+            "yaw": 0.0,
+            "pitch": -0.03999999910593033,
+            "hp": 90,
+            "ammo": 26,
+            "reload": 0,
+            "cooldown": 2,
+            "respawn": 0,
+            "front": 1,
+            "connected": 1,
+            "shots": 34,
+            "hits": 1,
+            "suppression": 21,
+            "generation": 1
+          },
+          "dead": {
+            "x": 2000.0,
+            "y": 17.80500030517578,
+            "z": 3900.0,
+            "yaw": 0.0,
+            "pitch": -0.03999999910593033,
+            "hp": 0,
+            "ammo": 26,
+            "reload": 0,
+            "cooldown": 0,
+            "respawn": 30,
+            "front": 1,
+            "connected": 1,
+            "shots": 34,
+            "hits": 1,
+            "suppression": 100,
+            "generation": 1
+          },
+          "redeployed": {
+            "x": 3780.0,
+            "y": 26.903400421142578,
+            "z": 3900.0,
+            "yaw": 0.0,
+            "pitch": -0.03999999910593033,
+            "hp": 100,
+            "ammo": 30,
+            "reload": 0,
+            "cooldown": 0,
+            "respawn": 0,
+            "front": 1,
+            "connected": 1,
+            "shots": 34,
+            "hits": 1,
+            "suppression": 0,
+            "generation": 2
+          },
+          "stdout": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":134,\"gpu_samples\":125,\"cpu_frame_mean_ms\":151.637312,\"cpu_frame_p95_ms\":198.523053,\"cpu_frame_p99_ms\":270.265798,\"gpu_draw_mean_ms\":17.084260,\"gpu_draw_p95_ms\":30.297256,\"gpu_draw_p99_ms\":36.983224}\n{\"battle_metrics\":true,\"samples\":133,\"simultaneous_projectiles_effects_audio_frames\":125,\"peak_living\":8192,\"peak_engaged\":1095,\"peak_projectiles\":480,\"peak_submitted_high\":87,\"peak_submitted_low\":2548,\"peak_submitted_markers\":7729,\"peak_effect_records\":64,\"peak_trail_records\":128,\"peak_audio_voices\":128,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=0 low=0 markers=7506 source_triangles=142974 animation_frame=15\nclient frames=133 submitted_entities=8192 screenshot=(none)\ncamera_x=3780.00 camera_z=3900.00 shots=34 hits=1 last_order=0\nweapon ammo=30 reloads=1 front=1\noperation state=0 req=607 supply=600 waypoint_orders=0\nselected_goal_x=-20000.000 selected_goal_z=-20000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=3900.000\n"
+        }
+      ]
+    },
+    {
+      "name": "prewreck-initial-symbol",
+      "exit_code": 1,
+      "log": "docs/evidence/player-blast/prewreck-initial-symbol.log",
+      "sha256": "e87563df3ba9337a052de0c04f28d666ebb93d00fc9d384daa02250b8d0e18ec",
+      "explicit_passes": 0,
+      "reports": []
+    },
+    {
+      "name": "prewreck-corrected",
+      "exit_code": 0,
+      "log": "docs/evidence/player-blast/prewreck-corrected.log",
+      "sha256": "cb15d84040f4fc42738c404c4630fe7480c0033dd302313b2f6c3a00f9cedc11",
+      "explicit_passes": 1,
+      "reports": [
+        {
+          "suite": "player-blast-atomic-lifecycle-gates",
+          "passed": true,
+          "invalid_cases": 26,
+          "friendly_damage_preserves": true,
+          "corrupt_disconnected_bodies_skipped": true,
+          "actual_wall_no_damage": true,
+          "two_humans_same_blast": true,
+          "genuine_boarding_shields_crew": true,
+          "actual_death_clears_motion_without_ammo_birth": true,
+          "no_duplicate_death": true,
+          "actual30tick_redeployment_equips_only_new_body": true,
+          "same_explosion_player_exposure_before_actual_occluding_wreck": true,
+          "library_sha256": "909a71c0d61eb3c6ac65a8c0876589df34716635ea0e1636f6ab40578c11fa25",
+          "limits": [
+            "Declared static body/geometry gates, genuine public boarding/exit/damage/deployment lifecycle. Cannon/bomb physical traces are separate.",
+            "Eye point and on-foot blasts; full body shape/armour penetration/fighter contact/hardware are separate."
+          ]
+        }
+      ]
     }
   ],
   "limitations": [
@@ -4625,6 +4786,7 @@
   "fixture_corrections": [
     "Artillery event observer must use actual eventkind4, not tank shellkind3; failed first iteration retained.",
     "Old GL gameplay changed an infantry record to a tank without physical shell equipment; genuine finite living infantry now owns damage. HP/generation/stocks retained.",
-    "Bound real shot counts and Tab/reload acknowledgement instead of assuming wall-clock key/fire duration under concurrent software GL load. Failed iterations retained."
+    "Bound real shot counts and Tab/reload acknowledgement instead of assuming wall-clock key/fire duration under concurrent software GL load. Failed iterations retained.",
+    "Pause only the one infantry startup relocation, preserve coherent actual HP/generation/weapon bytes, then resume; successful actual rendered death/redeployment retained. New wreck gate corrected initial observer symbol wreck_count to actual sim_wreck_count; failed first observer retained."
   ]
 }

@@ -34,4 +34,19 @@ assert bytes(motion[:32])==bytes(32)and bytes(stock)==before_stock and deaths.va
 before=l.sim_checksum();assert l.player_apply_damage(0,100,1)==0 and l.sim_checksum()==before and deaths.value==old_deaths+1
 for _ in range(30):l.sim_tick()
 assert players[5]==100 and players[15]==generation+1 and players[6]==30 and stock[1]==90
-print(json.dumps({'suite':'player-blast-atomic-lifecycle-gates','passed':True,'invalid_cases':cases,'friendly_damage_preserves':True,'corrupt_disconnected_bodies_skipped':True,'actual_wall_no_damage':True,'two_humans_same_blast':True,'genuine_boarding_shields_crew':True,'actual_death_clears_motion_without_ammo_birth':True,'no_duplicate_death':True,'actual30tick_redeployment_equips_only_new_body':True,'library_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'limits':['Declared static body/geometry gates, genuine public boarding/exit/damage/deployment lifecycle. Cannon/bomb physical traces are separate.','Eye point and on-foot blasts; full body shape/armour penetration/fighter contact/hardware are separate.']}))
+# Same-explosion eligibility precedes its newly created vehicle wreck cover.
+assert l.sim_init(32,47)==0 and l.player_join(0,1)==0
+for ident in range(32):entities[ident*8+2]=0
+entities[12*8+2]=80;entity_poses[12*8]=2000.;entity_poses[12*8+1]=3900.
+(C.c_uint*2).in_dll(l,'sim_alive')[:]=[1,0];pose(0,2000.,3907.)
+assert l.sim_order(0,0,1)==l.sim_order(0,1,1)==l.sim_order(0,2,1)==0
+l.sim_tick()
+l.world_los.argtypes=[C.c_float]*6;l.sim_blast.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4
+origin=(2000.,l.terrain_height(2000.,3880.)+1.,3880.)
+endpoint=(poses[0],poses[1],poses[2])
+assert l.world_los(*origin,*endpoint)==1
+wrecks=C.c_uint.in_dll(l,'sim_wreck_count');before_wrecks=wrecks.value
+assert l.sim_blast(1,100,origin[0],origin[2],35.,origin[1])==1
+assert entities[12*8+2]==0 and players[5]==0 and wrecks.value==before_wrecks+1
+assert l.world_los(*origin,*endpoint)==0,'new wreck must actually occlude the same ray'
+print(json.dumps({'suite':'player-blast-atomic-lifecycle-gates','passed':True,'invalid_cases':cases,'friendly_damage_preserves':True,'corrupt_disconnected_bodies_skipped':True,'actual_wall_no_damage':True,'two_humans_same_blast':True,'genuine_boarding_shields_crew':True,'actual_death_clears_motion_without_ammo_birth':True,'no_duplicate_death':True,'actual30tick_redeployment_equips_only_new_body':True,'same_explosion_player_exposure_before_actual_occluding_wreck':True,'library_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'limits':['Declared static body/geometry gates, genuine public boarding/exit/damage/deployment lifecycle. Cannon/bomb physical traces are separate.','Eye point and on-foot blasts; full body shape/armour penetration/fighter contact/hardware are separate.']}))

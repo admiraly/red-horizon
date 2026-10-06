@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/player-blast/tests/test_player_blast_gates.py", line 48, in <module>
+    wrecks=C.c_uint.in_dll(l,'wreck_count');before_wrecks=wrecks.value
+ValueError: /mnt/titan_nv3/projects/red-horizon-workers/player-blast/build/libsim.so: undefined symbol: wreck_count

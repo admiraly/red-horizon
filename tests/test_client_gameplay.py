@@ -135,16 +135,21 @@ try:
         # tank shells and relied on synthetic tank-as-rifle human damage.
         # Preserve actual HP/generation/ammunition; relocate once, then let the
         # real infantry weapon, death and safe deployment run without renewal.
-        attacker=None
-        for ident in range(4096,8192):
-            if ident==4096:continue
-            values=struct.unpack('<ff6I',os.pread(memory,32,symbols['sim_entities']+ident*32))
-            weapon=struct.unpack('<8I',os.pread(memory,32,symbols['infantry_weapons']+ident*32))
-            if values[2]>0 and values[3]==1 and values[4]==0 and weapon[0]==values[7] and weapon[1]>=10:
-                attacker=(ident,values,weapon);break
-        assert attacker,'no genuinely armed living infantry fixture source'
-        ident,values,weapon=attacker
-        os.pwrite(memory,struct.pack('<ff6I',2040.,3900.,values[2],1,0,1,0xffffffff,values[7]),symbols['sim_entities']+ident*32)
+        os.kill(process.pid,signal.SIGSTOP)
+        try:
+            _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+            attacker=None
+            for ident in range(4096,8192):
+                if ident==4096:continue
+                values=struct.unpack('<ff6I',os.pread(memory,32,symbols['sim_entities']+ident*32))
+                weapon=struct.unpack('<8I',os.pread(memory,32,symbols['infantry_weapons']+ident*32))
+                if values[2]>0 and values[3]==1 and values[4]==0 and weapon[0]==values[7] and weapon[1]>=10:
+                    attacker=(ident,values,weapon);break
+            assert attacker,'no genuinely armed living infantry fixture source'
+            ident,values,weapon=attacker
+            os.pwrite(memory,struct.pack('<ff6I',2040.,3900.,values[2],1,0,1,0xffffffff,values[7]),symbols['sim_entities']+ident*32)
+            assert struct.unpack('<8I',os.pread(memory,32,symbols['infantry_weapons']+ident*32))==weapon
+        finally:os.kill(process.pid,signal.SIGCONT)
         damaged = until(lambda: p if (p := player())['hp'] < 100 and p['suppression'] > 0 else None, 3)
         assert damaged['suppression'] > 0, damaged
         until(lambda: player()['hp'] == 0, 9)
