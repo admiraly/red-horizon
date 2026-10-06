@@ -7,7 +7,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
 definitions = dict(re.findall(r'^%define ([A-Z_]+) ([-+A-Za-z0-9_.]+)$',
-    (ROOT/'schemas/ground_surfaces.inc').read_text()+'\n'+(ROOT/'schemas/terrain_body.inc').read_text()+'\n'+(ROOT/'schemas/terrain_grade.inc').read_text()+'\n'+(ROOT/'schemas/ground_support.inc').read_text()+'\n'+(ROOT/'schemas/ground_contact.inc').read_text()+'\n'+(ROOT/'schemas/suspension.inc').read_text()+'\n'+(ROOT/'schemas/ground_visual.inc').read_text()+'\n'+(ROOT/'schemas/ground_eye.inc').read_text()+'\n'+(ROOT/'schemas/wreck.inc').read_text()+'\n'+(ROOT/'schemas/wreck_remote.inc').read_text(), re.M))
+    (ROOT/'schemas/ground_surfaces.inc').read_text()+'\n'+(ROOT/'schemas/terrain_body.inc').read_text()+'\n'+(ROOT/'schemas/terrain_grade.inc').read_text()+'\n'+(ROOT/'schemas/ground_support.inc').read_text()+'\n'+(ROOT/'schemas/ground_contact.inc').read_text()+'\n'+(ROOT/'schemas/suspension.inc').read_text()+'\n'+(ROOT/'schemas/ground_visual.inc').read_text()+'\n'+(ROOT/'schemas/ground_eye.inc').read_text()+'\n'+(ROOT/'schemas/wreck.inc').read_text()+'\n'+(ROOT/'schemas/wreck_remote.inc').read_text()+'\n'+(ROOT/'schemas/shell_contact.inc').read_text(), re.M))
 keys = ('GROUND_SURFACE_VERSION', 'GROUND_TANK_OFFROAD', 'GROUND_ARTILLERY_OFFROAD', 'GROUND_TANK_RADIUS', 'GROUND_ARTILLERY_RADIUS')
 def resolve(name, seen=()):
     assert name not in seen, 'Circular surface policy definition'
@@ -24,6 +24,7 @@ payload = {'previous_content': asset_fingerprint, 'terrain_surface_abi': 1,
            'relief': json.loads((ROOT/'content/terrain/relief.json').read_text()),
            'grade_policy': {name: resolve(name) for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},
            'wreck_presentation': {name: resolve(name) for name in ('WRECK_REMOTE_VERSION','WRECK_WIRE_STRIDE','WRECK_WIRE_MAX','WRECK_PRESENTATION_VERSION','WRECK_PRESENTATION_FRAME','WRECK_PRESENTATION_LOD')},
+           'shell_contact': {name: resolve(name) for name in ('SHELL_CONTACT_VERSION','SHELL_CONTACT_RADIUS','SHELL_CONTACT_MAX_SAMPLES')},
            'wreck_registry': {name: resolve(name) for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},
            'ground_eye': {name: resolve(name) for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},
            'ground_visual': {name: resolve(name) for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},

@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v8
-little-endian u32 header[10]: magic=0x52484332 version=8 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v9
+little-endian u32 header[10]: magic=0x52484332 version=9 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -30,3 +30,5 @@ wrecks=106 payload68*n without count prefix, n derived from payload_bytes/68,1..
 wreck64 x:f32 y:f32 z:f32 heading:f32 pitch:f32 bank:f32 kind:u32 side:u32 entity:u32 generation:u32 birth:u32 expiry:u32 sequence:u32 flags:u32 reserved:u32[2]=0. Slot0..1023,kind1tank2artillery,side0..1,entity0..32767,generation/sequence>0,finiteXZ0..8000,Yabs<=2000,anglesabs<=16. Flags ACTIVE1/UPRIGHT2 only; upright angles all canonical0; expiry=birth+1800 modular ticks; birth not future,active age<1800,inactive age>=1800.
 Whole packet validates before any dedicated client cache/timestamp mutation, including duplicate slots and same-sequence immutable conflicts. Per-slot modular source-tick/sequence guards reject stale updates, equal sequence cannot resurrect inactive state. New source generation may retain old wreck history in other slots. Latest accepted server tick expires active remote records; no local clock/ticking/pose animation changes death geometry. Disconnect/timeout clears cache. Server ring replacement publishes new immutable slot sequence; later old-slot packets cannot revive retired geometry. Global fair stream recovers late-join used slots in at most61snapshot opportunities absent loss at full capacity; loss recovery through repetition, no reliable completion barrier promised.
 Wreck rendering uses high-detail frame0 geometry for all source-mesh distances,unit scale,absolute capturedXYZ/heading/pitch/bank,negative army censusID/scenery identity. Wreck records do not enter live entity count or damage/HP authority. Body/LOS/rifle/shell/nav cover consumption remains separate. Entity32/state848 unchanged; version/schema/content identity changed explicitly.
+
+actor_contact_policy_v2: ground shells/bombs/air guns select nearest first entry among at most216sampled opposing live actor4m contact spheres; equal f32 entry ties by physical entity ID. Existing terrain precedence remains; nearest terrain/wreck arbitration and oriented mesh hitboxes are not yet integrated. Policy version/radius/sample bound join content fingerprint; all packet layouts remain unchanged.

@@ -351,12 +351,15 @@ def main():
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','combat'):
+            execute([sys.executable,'tests/test_shell_contact.py',str(library)])
         if suite in ('all','headless','fast','simulation','terrain','vehicles','ground-support'):
             execute([sys.executable,'tests/test_ground_eye_outcomes.py',str(library)])
         if suite in ('all','headless','fast','simulation','combat','vehicles','wrecks'):
             execute([sys.executable,'tests/test_wrecks.py'])
             execute([sys.executable,'tests/test_wreck_remote.py'])
             execute([sys.executable,'tests/test_segment_box.py'])
+            execute([sys.executable,'tests/test_segment_sphere.py'])
             execute([sys.executable,'tests/test_wreck_query.py'])
             execute([sys.executable,'tests/test_wreck_outcomes.py',str(library)])
             if getattr(args,'extended',False) or suite=='wrecks':execute([sys.executable,'tests/test_wreck_scale.py',str(library)])

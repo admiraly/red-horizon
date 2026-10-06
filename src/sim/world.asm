@@ -1,5 +1,6 @@
 ; ABI v1. All routines preserve SysV nonvolatile registers. Fixed 30 Hz steps.
 %include "schemas/entity.inc"
+%include "schemas/shell_contact.inc"
 %include "schemas/aircraft.inc"
 default rel
 extern operation_init, operation_tick, operation_hash
@@ -18,6 +19,7 @@ extern air_hit,air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
 extern ground_init,ground_step,ground_hash
 extern wreck_init,wreck_register,wreck_tick,wreck_hash
+extern segment_sphere
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -879,7 +881,9 @@ sim_blast:
  pop rbx
  ret
 ; Swept shell/actor contact. XYZ endpoints in XMM0..5, EDI source side.
-; Returns opposing entity index or -1. Queries at most216 sampled actors.
+; Returns nearest first-entry opposing entity index or-1, ties physical ID.
+; Hit XYZ in XMM0..2 and first t in XMM3; floating outputs unspecified on clear.
+; Queries at most216 sampled actors; retained4m contact sphere is not a hull hitbox.
 sim_shell_contact:
  push rbx
  push rbp
@@ -898,6 +902,27 @@ sim_shell_contact:
  movss [rsp+12],xmm3
  movss [rsp+16],xmm4
  movss [rsp+20],xmm5
+ ; Sound swept XZ envelope rejects distant sampled actors before height/trig.
+ movss xmm6,[rsp]
+ movss xmm7,[rsp+12]
+ addss xmm7,xmm6
+ movaps xmm8,xmm6
+ minss xmm6,xmm7
+ maxss xmm8,xmm7
+ subss xmm6,[shell_contact_radius]
+ addss xmm8,[shell_contact_radius]
+ movss [rsp+80],xmm6
+ movss [rsp+84],xmm8
+ movss xmm6,[rsp+8]
+ movss xmm7,[rsp+20]
+ addss xmm7,xmm6
+ movaps xmm8,xmm6
+ minss xmm6,xmm7
+ maxss xmm8,xmm7
+ subss xmm6,[shell_contact_radius]
+ addss xmm8,[shell_contact_radius]
+ movss [rsp+88],xmm6
+ movss [rsp+92],xmm8
  mulss xmm3,xmm3
  mulss xmm4,xmm4
  mulss xmm5,xmm5
@@ -962,47 +987,54 @@ sim_shell_contact:
  je .chain
  cmp [rbx+ENTITY_SIDE],r12d
  je .chain
+ movss xmm0,[rbx+ENTITY_X]
+ ucomiss xmm0,[rsp+80]
+ jb .chain
+ ucomiss xmm0,[rsp+84]
+ ja .chain
+ movss xmm0,[rbx+ENTITY_Z]
+ ucomiss xmm0,[rsp+88]
+ jb .chain
+ ucomiss xmm0,[rsp+92]
+ ja .chain
  mov rdi,rbx
  lea rax,[sim_entities]
  sub rdi,rax
  shr edi,5
  call sim_entity_height
 
- subss xmm0,[rsp+4]
- movss xmm1,[rbx+ENTITY_X]
- subss xmm1,[rsp]
- movss xmm2,[rbx+ENTITY_Z]
- subss xmm2,[rsp+8]
- movaps xmm3,xmm1
- mulss xmm3,[rsp+12]
- movaps xmm4,xmm0
- mulss xmm4,[rsp+16]
- addss xmm3,xmm4
- movaps xmm4,xmm2
- mulss xmm4,[rsp+20]
- addss xmm3,xmm4
- divss xmm3,[rsp+24]
- maxss xmm3,[zero]
- minss xmm3,[shell_one]
- movss xmm4,[rsp+12]
- mulss xmm4,xmm3
- subss xmm1,xmm4
+ ; The retained4m sphere is the existing proximity/contact envelope, not
+ ; an oriented mesh hitbox. Select its first entry across all sampled actors.
+ movss [rsp+68],xmm0
+ movss xmm0,[rbx+ENTITY_X]
+ movss [rsp+64],xmm0
+ movss xmm0,[rbx+ENTITY_Z]
+ movss [rsp+72],xmm0
+ mov dword [rsp+76],__float32__(SHELL_CONTACT_RADIUS)
+ lea rdi,[rsp+64]
+ mov esi,16
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ movss xmm2,[rsp+8]
+ movss xmm3,[rsp+12]
+ addss xmm3,xmm0
  movss xmm4,[rsp+16]
- mulss xmm4,xmm3
- subss xmm0,xmm4
- movss xmm4,[rsp+20]
- mulss xmm4,xmm3
- subss xmm2,xmm4
- mulss xmm0,xmm0
- mulss xmm1,xmm1
- mulss xmm2,xmm2
- addss xmm0,xmm1
- addss xmm0,xmm2
- comiss xmm0,[contact_radius2]
+ addss xmm4,xmm1
+ movss xmm5,[rsp+20]
+ addss xmm5,xmm2
+ call segment_sphere
+ cmp eax,1
+ jne .chain
+ cmp dword [rsp+28],-1
+ je .select_contact
+ ucomiss xmm0,[rsp+60]
  ja .chain
+ jb .select_contact
+ cmp ebp,[rsp+28]
+ jae .chain
+.select_contact:
  mov [rsp+28],ebp
- movss [rsp+60],xmm3
- jmp .done
+ movss [rsp+60],xmm0
 .chain:
  inc dword [rsp+52]
  dec dword [rsp+44]
@@ -1040,7 +1072,7 @@ sim_shell_contact:
  ret
 section .rodata
 shell_one: dd 1.0
-contact_radius2: dd 16.0
+shell_contact_radius: dd SHELL_CONTACT_RADIUS
 
 section .text
 global sim_air_damage
