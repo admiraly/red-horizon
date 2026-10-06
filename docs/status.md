@@ -1,20 +1,35 @@
-Owned-company ammunition HUD and recipient-only UDP supply report are now
-implemented in isolated feature/company-supply-report. Authority query passes
-37 ABI calls, malformed-stock/atomic-output fixtures and independent exhaustive
-8192/16384 ownership oracles through actual consented company exchange. Core
-fast passes70 reports (69 explicit plus hazard outcomes); final network regression
-passes22 explicit reports. Final focused parser rejects20 malformed/foreign packets and
-preserves unknown/empty data, generation/front/key/lease/age visibility and
-close/reconnect/timeout resets. Production unchanged8192/four-endpoint delivery
-passes. Actual GL solo and two co-op clients show low/empty/rounds/unknown labels;
-1280x720 and320x240 co-op timeout shows OWN AMMO UNAVAILABLE. All GUI observers
-are read-only. UDP30/schema0xb1751128/content0xcb303189. Existing entity/player/
-state sizes unchanged. Exact source/binary epochs and limits:
+Current main integrates owned-company ammunition report, recipient-only UDP
+and solo/co-op HUD in e02e872 at authored fingerprint2c6c9a8caf52601e. All376
+authored files match verified feature08297f9. Matching main client/co-op/headless
+builds and8 scoped reports pass: API1, core fast1, UDP2, solo1, co-op1, minimum
+320x240 co-op1, original8192/16384 simulation/replay/side-swap1. Exact evidence:
+[evidence/company-supply-main.json](evidence/company-supply-main.json).
+
+Read-only report preserves37 ABI calls and matches independent exhaustive
+ownership/stock oracles through real consented exchange at8192/16384 units.
+Worker core fast passes70 reports (69 explicit plus hazard outcomes), final
+network22 explicit reports, and actual GL solo/two-client shortage-label checks.
+Final parser rejects20 malformed/foreign packets, enforces attainable round
+sums, accepts all-empty/all-unknown reports, gates body/front/key/lease/age and
+clears close/reconnect/timeout cache. Actual unchanged8192/four-endpoint delivery
+passes. GUI observers are read-only; low/empty/rounds/unknown labels and real
+server-timeout OWN AMMO UNAVAILABLE are readable at1280x720 and320x240. UDP30/
+schema0xb1751128/content0xcb303189; entity/player/state layouts unchanged.
+Worker fast began before final remote sum-bound strengthening; network verifies
+that final remote path. Epoch distinctions, harness corrections and limits:
 [evidence/company-supply-focused.json](evidence/company-supply-focused.json).
-Not yet integrated; next matching-main checks and frozen extended checkpoint.
-Depot stock presentation, supply-aware routes and whole-spec acceptance remain
-open. Prior depot full1433fa199da8 remains running at its own immutable epoch.
-No publication; license pending owner approval.
+
+New frozen extended checkpoint412520d69630 is RUNNING at matching merge/input
+epoch e02e872-2c6c9a8caf52601e, PID847578 confirmed live. Prior full depot
+1433fa199da8 remains RUNNING at99a6e5f-8a4fa4cff8cf5608, PID727224 confirmed
+live. Neither is a full pass yet. All foreground tests are terminal/reconciled;
+no other active agents. Current main and feature worktree are committed locally.
+Next: allied finite depot inventory with truthful unknown/exhausted/cut/contested
+states, then supply-aware return routes preserving primary orders, navigation,
+hazards and finite stores. Full specification remains incomplete; no publication
+and code license pending owner approval.
+
+Historical prerequisite and earlier checkpoint notes follow.
 
 Owned-company supply report prerequisite is now committedd78ec36 in isolated
 feature/company-supply-report. Static query tests against frozen actual NASM

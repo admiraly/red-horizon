@@ -1,0 +1,155 @@
+{
+  "merge_commit": "e02e8729066a4eb06627187183f396493240761d",
+  "input_revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+  "matching_worker_authored_files": 376,
+  "verified_feature_commit": "08297f9",
+  "logs": {
+    "api": {
+      "path": "docs/evidence/company-supply-main-api.log",
+      "sha256": "96d9de286c9cd89c9d47f9bdfc7612ab0efdfed9853a1301d38e2bbb41db9056",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "fast": {
+      "path": "docs/evidence/company-supply-main-fast.log",
+      "sha256": "88536760bfd79cc501b4e3f26f4f913335bc0b82c4aa1ce2b906b6908582946f",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "udp": {
+      "path": "docs/evidence/company-supply-main-udp.log",
+      "sha256": "b91dbd67d50cd475c3d7147fa27e5d2dacd3c892c1a1381ae0052f3e48e38f7b",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "solo": {
+      "path": "docs/evidence/company-supply-main-solo.log",
+      "sha256": "67282b495be85a5d5d2f814b5866f02a3113db3e3dbbe5654b2aaa184769cb38",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "coop": {
+      "path": "docs/evidence/company-supply-main-coop.log",
+      "sha256": "9d646c20d91c9d58f7312d808030eb19616c508145662794c8861d415fa503cd",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "small": {
+      "path": "docs/evidence/company-supply-main-small.log",
+      "sha256": "d14e6b9156d817c47502efa83bc0cfd8df6ad3b8521256ec9ca9ea25fbca0444",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "scale": {
+      "path": "docs/evidence/company-supply-main-scale.log",
+      "sha256": "9ffb0f5ac69d24f30574ebb11b907df205ac5a74013042b3ea9f353a045c9663",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "client-build": {
+      "path": "docs/evidence/company-supply-main-client-build.log",
+      "sha256": "50c9dc99b69b317523e3760b528c4cd3f3ca85bba4c159e5441c35a4ce646372",
+      "reports": 0,
+      "explicit_passes": 0
+    },
+    "coop-build": {
+      "path": "docs/evidence/company-supply-main-coop-build.log",
+      "sha256": "9c88e2792ca11f1480b90a82f0a5140cffd3bbf7c7c689d34658423ffcfdf3c6",
+      "reports": 0,
+      "explicit_passes": 0
+    },
+    "headless-build": {
+      "path": "docs/evidence/company-supply-main-headless-build.log",
+      "sha256": "46dd9e344e9bbb973fb57cb6db0dcb1bb673c74e086f8fdb0e3e5252be3c1053",
+      "reports": 0,
+      "explicit_passes": 0
+    }
+  },
+  "builds": {
+    "client": {
+      "metadata": {
+        "target": "client",
+        "revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+        "assembled": 4,
+        "assembled_sources": [
+          "src/sim/company_supply_remote.asm",
+          "src/ai/company_supply.asm",
+          "src/platform/linux/client.asm",
+          "src/net/client.asm"
+        ],
+        "seconds": 0.565190370005439,
+        "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e/red-horizon"
+      },
+      "binary_sha256": "7fec68068947a472d18c1175a6979ac06de34599dca6f734e311172fb3993b6c"
+    },
+    "coop": {
+      "metadata": {
+        "target": "coop",
+        "revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+        "assembled": 1,
+        "assembled_sources": [
+          "src/net/coop_server.asm"
+        ],
+        "seconds": 0.3380881990015041,
+        "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e/red-horizon-coop-server"
+      },
+      "binary_sha256": "c9787afe3f341a3e5eaa1d5251326f2a112bb28ebe525eba1fbf810bb84abe83"
+    },
+    "headless": {
+      "metadata": {
+        "target": "headless",
+        "revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+        "assembled": 0,
+        "assembled_sources": [],
+        "seconds": 0.3580200389988022,
+        "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e/red-horizon-server"
+      },
+      "binary_sha256": "e2f637fd1832a4d1e111a7220a33cd6d5ab9f7cc23d84f77b60e2af7b126125e"
+    }
+  },
+  "extended_checkpoint": "412520d69630",
+  "prior_checkpoint": "1433fa199da8",
+  "limits": [
+    "Full extended checkpoints are still running at separate frozen epochs.",
+    "No finite depot inventory UI or supply-aware routes.",
+    "Rendered labels in ordinary worlds and independent API shortage fixtures; not exhaustive constructed visual-state or hardware/art acceptance."
+  ],
+  "foreground_exit_code": 0,
+  "scoped_reports": 8,
+  "explicit_passes": 8,
+  "recorded_utc": "2026-10-06T21:08:54.524705+00:00",
+  "background_checkpoints": {
+    "412520d69630": {
+      "job_id": "412520d69630",
+      "revision": "e02e8729066a4eb06627187183f396493240761d-2c6c9a8caf52601e",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/412520d69630/result.json",
+      "pid": 847578,
+      "process_observation": "PID STAT     ELAPSED COMMAND\n 847578 Ss         01:49 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon/tools/dev.py _worker 412520d69630 test --suite all --extended"
+    },
+    "1433fa199da8": {
+      "job_id": "1433fa199da8",
+      "revision": "99a6e5f13eeb53d1c03ca056cecb1924751ae802-8a4fa4cff8cf5608",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/result.json",
+      "pid": 727224,
+      "process_observation": "PID STAT     ELAPSED COMMAND\n 727224 Ss         19:47 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon/tools/dev.py _worker 1433fa199da8 test --suite all --extended"
+    }
+  }
+}
