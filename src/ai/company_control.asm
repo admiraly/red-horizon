@@ -3,7 +3,7 @@
 %include "schemas/player.inc"
 %include "schemas/company_control.inc"
 default rel
-extern company_transfer_init,company_transfer_hash,company_follow_place
+extern company_transfer_init,company_transfer_hash,company_follow_place,company_defend_goal
 extern sim_entities,sim_count,sim_players,sim_tick_count,terrain_blocked,sim_spend
 section .bss align=64
 global company_controls,player_companies
@@ -368,6 +368,8 @@ company_control_goal:
  je .follow
  movss xmm0,[rsi+16]
  movss xmm1,[rsi+20]
+ cmp dword [rsi+8],4
+ je company_defend_goal
  cmp dword [rsi+8],2
  jne .move
  mov eax,[rdx+ENTITY_FRONT]

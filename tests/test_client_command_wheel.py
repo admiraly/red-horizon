@@ -111,7 +111,7 @@ try:
         key(0xffbf) # Own front1, no authority edits.
         if '--small' in sys.argv:
             mouse(2,True);until(lambda:u32('wheel_active')==1,2)
-            labels={'MOVE':(136,43),'HOLD':(67,112),'FOLLOW':(193,112),'RETREAT':(118,181)}
+            labels={'MOVE':(136,43),'HOLD':(67,112),'FOLLOW':(193,112),'RETREAT':(118,181),'DEFEND':(165,71)}
             for word,origin in labels.items():until(lambda:text_visible(X,display,window,0,word,width=320,height=240,origin=origin),3)
             image=X.XGetImage(display,window,0,0,320,240,W(-1).value,2);assert image
             try:
@@ -123,7 +123,7 @@ try:
             finally:X.XDestroyImage(image)
             mouse(2,False);assert u32('wheel_active')==0 and record()[6]==0
             key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-            print(json.dumps({'suite':'actual-small-command-wheel','passed':True,'viewport':[320,240],'four_framebuffer_labels':labels,'center_cancel_uncharged':True,'capture':'/tmp/command-wheel-small.ppm','limits':['Minimum viewport software GL label/layout check; human readability unverified.']}))
+            print(json.dumps({'suite':'actual-small-command-wheel','passed':True,'viewport':[320,240],'five_framebuffer_labels':labels,'center_cancel_uncharged':True,'capture':'/tmp/command-wheel-small.ppm','limits':['Minimum viewport software GL label/layout check; human readability unverified.']}))
             raise SystemExit(0)
         initial=record();shots=player()['shots'];yaw=f32('yaw');pitch=f32('pitch')
         mouse(2,True);until(lambda:u32('wheel_active')==1,2)
@@ -134,6 +134,7 @@ try:
         until(lambda:text_visible(X,display,window,0,'HOLD',origin=(530,352)),3)
         until(lambda:text_visible(X,display,window,0,'FOLLOW',origin=(690,352)),3)
         until(lambda:text_visible(X,display,window,0,'RETREAT',origin=(598,438)),3)
+        until(lambda:text_visible(X,display,window,0,'DEFEND',origin=(655,301)),3)
         tick=u32('sim_tick_count');motion(640,280)
         until(lambda:u32('wheel_selected')==0,2)
         assert abs(f32('yaw')-yaw)<.00001 and abs(f32('pitch')-pitch)<.00001,'menu cursor changed aim'
@@ -174,8 +175,19 @@ try:
         until(lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(window),2);assert record()[6]==seq
         # A middle hold on tactical map cannot start a hidden first-person menu.
         key(0xff09);mouse(2,True);time.sleep(.3);assert u32('wheel_active')==0;mouse(2,False)
+        key(0xff09);key(0xffbf);before=record();mouse(2,True);until(lambda:u32('wheel_active')==1,2)
+        assert u32('wheel_point_valid')==1
+        defense_point=struct.unpack('<2f',os.pread(memory,8,symbols['wheel_point']))
+        motion(700,300);until(lambda:u32('wheel_selected')==4,2)
+        image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+        selected_pixel=X.XGetPixel(image,705,295);X.XDestroyImage(image)
+        r,g,b=(selected_pixel>>16)&255,(selected_pixel>>8)&255,selected_pixel&255
+        assert 20<r<40 and 70<g<90 and 55<b<75,('defend wedge colour',r,g,b)
+        mouse(2,False);until(lambda:record()[6]==before[6]+1,2)
+        assert record()[2]==4 and math.dist(record()[4:6],defense_point)<.001
+        until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED: DEFEND AREA'),3)
         key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'actual-solo-command-wheel','passed':True,'crosshair_point':aimed,'committed_point':ordered[4:6],'four_framebuffer_labels':True,'selection_colour_rgb':[r,g,b],'release_one_charge':True,'held_input_no_fire_or_order':True,'direct_key_held_through_close_consumed':True,'escape_same_event_batch_cancels':True,'world_continues':True,'aim_frozen_and_cursor_restored':True,'center_right_escape_cancel':True,'follow_hold_preserve_waypoint':True,'release_uses_final_cursor':True,'foreign_front_rejected':True,'tactical_middle_suppressed':True,'executable_sha256':__import__('hashlib').sha256(EXE.read_bytes()).hexdigest(),'limits':['Actual GLFW/GL/XTest on private software GL, not target hardware quality.','Four existing orders only; full contextual roster/remapping separate.']}))
+        print(json.dumps({'suite':'actual-solo-command-wheel','passed':True,'crosshair_point':aimed,'committed_point':ordered[4:6],'four_framebuffer_labels':True,'selection_colour_rgb':[r,g,b],'release_one_charge':True,'held_input_no_fire_or_order':True,'direct_key_held_through_close_consumed':True,'escape_same_event_batch_cancels':True,'world_continues':True,'aim_frozen_and_cursor_restored':True,'center_right_escape_cancel':True,'follow_hold_preserve_waypoint':True,'release_uses_final_cursor':True,'defend_framebuffer_sector_ack_and_crosshair_point':True,'foreign_front_rejected':True,'tactical_middle_suppressed':True,'executable_sha256':__import__('hashlib').sha256(EXE.read_bytes()).hexdigest(),'limits':['Actual GLFW/GL/XTest on private software GL, not target hardware quality.','Five command modes; remaining contextual roster and human quality acceptance separate.']}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

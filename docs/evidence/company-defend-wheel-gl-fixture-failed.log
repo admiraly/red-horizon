@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-defend/tests/test_client_command_wheel.py", line 178, in <module>
+    key(0xffbf);before=record();mouse(2,True);until(lambda:u32('wheel_active')==1,2)
+                                              ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-defend/tests/test_client_command_wheel.py", line 69, in until
+    raise AssertionError('condition timed out: ' + (title(window) if window else 'startup'))
+AssertionError: condition timed out: RED HORIZON | 8192 units | rifle 30/30 DOWN: SAFE REDEPLOY | front 1 order 1 | REQ 319 SUP 600 | OPERATION ACTIVE | HP 0 SUPPRESS 100 REDEPLOY 1 | ON FOOT | E BOARD Q EXIT | TACTICAL MAP / RELOAD | COMPANY 285 | ORDER DENIED: SELECT YOUR OWN FRONT | WEATHER clear (F4 CYCLE)

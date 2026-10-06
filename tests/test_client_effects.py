@@ -317,7 +317,7 @@ try:
         pathlib.Path('/tmp/red-horizon-vehicle-hud.ppm').write_bytes(b'P6\n1280 720\n255\n'+rgb)
         os.kill(process.pid,signal.SIGCONT)
         key(ord('q'));until(lambda:attached()==-1,2)
-        until(lambda:'ON FOOT | E board Q exit' in title(window),2)
+        until(lambda:'ON FOOT | E BOARD Q EXIT' in title(window),2)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
         print(json.dumps({'suite':'rendered-tracer','passed':True,'shots':shots,'tracers':total,'yellow_pixels':yellow,'screenshot':'/tmp/red-horizon-tracer.ppm','shell_source':tank,'impact_pixels':orange,'impact_events':impacts,'event_sequence':events,'actual_launch':actual_launch,'actual_impact':actual_impact,'drive_metres':drive_distance,'cannon_launch':cannon_launch,'cannon_hud_pixel':[red,green,blue],'fixture':'development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL','observer_enemy_metres':200,'pool_before_encounter':pool_before_encounter,'control_terrain_orange_pixels':control_orange,'paired_changed_pixels':changed_pixels,'paired_render_authority_unchanged':True,'paired_acquired_effects_restored':True}))

@@ -47,12 +47,12 @@ the previous published table in the isolated API. Reported line is the current
 parse line, or the final validation position for conflicts;0 denotes file IO,
 type or size. No options are silently ignored.
 
-The client prints all30 loaded bindings at startup. Company order, exchange,
+The client prints all31 loaded bindings at startup. Company order, exchange,
 weather, vehicle and wheel-cancel hints use the loaded labels. General help
 labels its fixed controls as defaults. A delivered key or mouse quit press
 survives press/release in one event batch; inside the wheel it cancels instead.
 Default controls continue to use the same physical inputs. Client-local
-bindings do not change UDPv26, costs, ownership, entity layouts or server policy;
+bindings do not change UDPv27, costs, ownership, entity layouts or server policy;
 cooperating clients may use different profiles.
 
 NASM owns file parsing and dispatch. Disk access and formatting happen at
@@ -66,3 +66,10 @@ focused checks pass. Exact epochs, executable/library hashes, malformed cases,
 fault counts and corrected read-only fixtures:
 docs/evidence/input-bindings-focused.json. Main matching/full evidence is recorded
 in docs/status.md; no whole-game completion is implied.
+
+Binding contract2 appends `defend` as action30, default5. Existing action IDs
+remain stable. Profiles remapping advance to5 must also remap defend to avoid
+a conflict. The complete test profile uses defend9. The co-op transfer controller
+stops at exchange_cancel rather than treating newly appended actions as
+transfer responses. Defend authority policy and scoped evidence are described
+in company-defend.md and status.md.

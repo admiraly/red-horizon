@@ -87,9 +87,12 @@ void main(){
   float r=length(effectUV),radius=worldPosition.x;
   if(r>1.)discard;
   int sector=abs(effectUV.x)>abs(effectUV.y)?(effectUV.x<0.?1:3):(effectUV.y<0.?0:2);
+  bool northeast=effectUV.x>0.&&effectUV.y<0.;
+  if(northeast&&effectUV.x>=-.5*effectUV.y&&effectUV.x<=-2.*effectUV.y)sector=4;
   bool selected=r*radius>=38.&&sector==commandWheelMode;
   vec3 shade=selected?vec3(.12,.32,.25):vec3(.035,.06,.075);
-  if(r>.985||abs(abs(effectUV.x)-abs(effectUV.y))<.012)shade=vec3(.24,.45,.39);
+  bool boundary=northeast?(abs(effectUV.x+.5*effectUV.y)<.012||abs(effectUV.x+2.*effectUV.y)<.012):abs(abs(effectUV.x)-abs(effectUV.y))<.012;
+  if(r>.985||boundary)shade=vec3(.24,.45,.39);
   if(r*radius<38.)shade=vec3(.035,.06,.075);
   outputColour=vec4(shade,1);return;
  }

@@ -11,6 +11,7 @@ move_text: db 'MOVE',0
 hold_text: db 'HOLD',0
 retreat_text: db 'RETREAT',0
 follow_text: db 'FOLLOW',0
+defend_text: db 'DEFEND',0
 release_text: db 'RELEASE / %s CANCEL',0
 half: dd 0.5
 scale: dd 0.4
@@ -109,6 +110,19 @@ command_wheel_hud_draw:
  sub esi,42
  mov edx,[rsp+4]
  add edx,[rsp+8]
+ sub edx,8
+ call command_hud_draw_at
+ lea rdi,[defend_text]
+ mov eax,[rsp+8]
+ imul eax,3
+ xor edx,edx
+ mov ecx,5
+ div ecx
+ mov esi,[rsp]
+ add esi,eax
+ sub esi,36
+ mov edx,[rsp+4]
+ sub edx,eax
  sub edx,8
  call command_hud_draw_at
  mov edi,BIND_COMMAND_CANCEL

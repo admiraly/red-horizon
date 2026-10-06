@@ -1,5 +1,5 @@
-; Local client binding contract v1; no wire or gameplay layout changes.
-%define BINDING_COUNT 30
+; Local client binding contract v2; no wire or gameplay layout changes.
+%define BINDING_COUNT 31
 %define BIND_FORWARD 0
 %define BIND_BACK 1
 %define BIND_LEFT 2
@@ -30,3 +30,4 @@
 %define BIND_EXCHANGE_ACCEPT 27
 %define BIND_EXCHANGE_DECLINE 28
 %define BIND_EXCHANGE_CANCEL 29
+%define BIND_DEFEND 30

@@ -447,3 +447,11 @@ reorder. Main builds/six checks pass at3bc7e5d-f52a43dfd074c4e1; frozen full
 7cc8322a2c38 is running with357 source inputs.
 In-game editing, wider commands/assistance/recruitment/plans and full game
 acceptance remain open. Evidence: docs/evidence/input-bindings-focused.json.
+
+
+Area defense batch (integrator, feature/company-defend): authority, fixed
+role-aware formation, terrain projection, remappable input and fifth wheel
+sector implemented. Physical/terrain/hazard, solo/minimum-view, four-endpoint
+UDP and two-rendered-client delay/loss/reorder checks pass. Final frozen-input
+fast65 and network18 regressions pass; integration evidence is pending. Adaptive defensive cover, remaining
+commands and shared player assault plans remain ready subsequent work.

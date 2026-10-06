@@ -13,10 +13,11 @@ norm_max: dd 1.01
 deadzone_squared: dd 1444.0
 step: dd 4.0
 half: dd 0.5
+two: dd 2.0
 surface_margin: dd 0.05
 section .text
 global command_wheel_select,command_terrain_point
-; XMM0/1 finite screen dx/dy -> EAX mode0move,1hold,2retreat,3follow;
+; XMM0/1 finite screen dx/dy -> EAX mode0move,1hold,2retreat,3follow,4defend;
 ; -1 center/cancel. Screen Y grows down. Boundary ties favor vertical.
 command_wheel_select:
  movaps xmm2,xmm0
@@ -36,6 +37,22 @@ command_wheel_select:
  addss xmm4,xmm5
  comiss xmm4,[deadzone_squared]
  jb .none
+ ; Upper-right diagonal wedge has its own defense action.
+ comiss xmm0,[zero]
+ jbe .cardinal
+ comiss xmm1,[zero]
+ jae .cardinal
+ movaps xmm4,xmm3
+ mulss xmm4,[half]
+ comiss xmm2,xmm4
+ jb .cardinal
+ movaps xmm4,xmm3
+ mulss xmm4,[two]
+ comiss xmm2,xmm4
+ ja .cardinal
+ mov eax,4
+ ret
+.cardinal:
  comiss xmm2,xmm3
  ja .horizontal
  xor eax,eax

@@ -53,7 +53,7 @@ net_company_receive:
  jae .bad
  cmp dword [rsi+8],0
  je .bad
- cmp dword [rsi+16],3
+ cmp dword [rsi+16],4
  ja .bad
  cmp dword [rsi+20],1
  ja .bad

@@ -480,7 +480,7 @@ handle_packet:
  mov eax,[rcx+rax+PLAYER_FRONT]
  cmp [packet+40],eax
  jne .ownership
- cmp dword [packet+44],3
+ cmp dword [packet+44],4
  ja .ack
  mov eax,[sim_tick_count]
  sub eax,[r13+SLOT_ORDERTICK]
