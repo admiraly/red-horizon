@@ -19,7 +19,7 @@ bounded braking. Boarding and exiting do not reset the sidecar.
 
 Heading zero faces +Z and positive rotates toward +X. Stopped tanks can pivot
 0.06 radians/tick, moving tanks 0.04; artillery uses 0.025 in either case. A
-steering error above 0.7 radians requests zero target speed, producing a tracked
+steering error above 60 degrees requests zero target speed, producing a tracked
 pivot after braking. Human requests more than 135 degrees behind the hull select slow
 reverse with a bounded steering adjustment. AI navigation detours always select
 forward pivots, so rearward local avoidance intent does not lock opposing vehicles
@@ -61,7 +61,7 @@ Verification command:
 RED_HORIZON_NASM=/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm python3 tests/test_ground_motion.py
 ```
 
-The terminal worker run `/tmp/rh-ground-motion-worker.log` passed 13 actuator
+The terminal worker run `/tmp/rh-ground-motion-worker.log` passed 15 actuator
 groups and 48 malformed cases. The first library deliberately stubs collision
 with explicit clear/blocked/partial results and legacy normalized movement; it
 proves actuator math, ABI, state preservation, ownership, handoff, generation
@@ -92,3 +92,37 @@ preference allows both to traverse bounded clear segments around opposite wall
 ends; observed final X4221.823730/X4215.236816. The old automatic AI reverse
 selection oscillated and failed that original recovery gate. Driver reverse
 semantics are unchanged. Full tactics and integration evidence belongs to root.
+
+AI arrival applies a range-proportional terminal target speed (0.15 times remaining
+metres per tick) before ordinary bounded braking. Remaining range is measured
+against the original navigation steering destination, before crowd avoidance
+reduces it to a one-tick steering intent. This avoids full-speed goal overshoot
+and subsequent long tracked U-turns. Human controls use local wish points, so the
+arrival taper applies only to AI. A 60-degree forward steering arc permits tracked
+movement while turning toward reachable detours; larger errors still brake and
+pivot. Every translated segment still follows the hull axis and passes unchanged
+exact body/terrain collision. There is no endpoint snap or arrival teleport.
+
+Terminal followup evidence: `/tmp/rh-ground-motion-approach-focused.log` passed
+15 actuator groups, 48 malformed cases and five production-kernel scenarios.
+Both roles approached straight fixed destinations over120ticks with0.000183m
+remaining error and no overshoot; a human tank using moving1m steering points
+retained18m of steady travel over30ticks. These tests distinguish actual arrival
+from human wish-point controls.
+
+The unchanged `tests/test_crowd_outcomes.py` ran against frozen private actual
+world library SHA256
+`1dd16f62e477f999ecfcb4670e11b53d706caf8e2a589fd23f771003d64b6de5`
+and passed all original controlled encounter, step, terrain, body sweep, deadline,
+arrival, replay and faction-label-swap gates, plus120tick8k dense scenarios.
+`/tmp/rh-ground-motion-arrival-crowd.log` records tank240tick arrival error0.000984m,
+artillery360tick0.007426m, wall-edge240tick0.000819m and wall-route1600tick0.000953m.
+No deadline, target or acceptance bound was changed. Unchanged actual-world
+`test_tactics.py` also passed wall recovery1200ticks, physical scouting/defender
+capture and8k/16k95%movement/replay gates in
+`/tmp/rh-ground-motion-approach-tactics.log`. `test_vehicles.py` retained9.297428m
+initial30tick acceleration and18m/s steady drive in
+`/tmp/rh-ground-motion-approach-vehicles.log`. These private-world proofs precede
+root's latest renderer/protocol/kernel integration; they are not final full
+checkpoint or target-GPU acceptance evidence. All worker jobs were collected
+terminal before handoff.

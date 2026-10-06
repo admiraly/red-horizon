@@ -24,7 +24,8 @@ roundoff: dd 0.001
 pi: dd 3.141592653589793
 tau: dd 6.283185307179586
 reverse_threshold: dd 2.35619449
-sharp: dd 0.7
+sharp: dd 1.04719755
+approach_gain: dd 0.15
 source_max: dd 8000.0
 map_min: dd -8000.0
 map_max: dd 16000.0
@@ -168,7 +169,8 @@ seed:
  ret
 ; EDI entity, ESI AI/driver. Input five floats; returns physical endpoint.
 ; Stack: input0..16, desiredangle20, delta24, targetspeed28, newheading32,
-; signed speed36, endpoint40/44, sin48/cos52, role index56, mode60, ID64.
+; signed speed36, endpoint40/44, sin48/cos52, role index56, mode60, ID64,
+; original navigation goal distance68.
 ground_step:
  push rbx
  push rbp
@@ -345,6 +347,16 @@ ground_step:
  minss xmm4,[caps]
 .intent:
  movss [rsp+16],xmm4
+ ; Preserve distance to actual nav goal, not the crowd's one-tick intent point.
+ movss xmm0,[rsp+8]
+ subss xmm0,[rsp]
+ mulss xmm0,xmm0
+ movss xmm1,[rsp+12]
+ subss xmm1,[rsp+4]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ sqrtss xmm0,xmm0
+ movss [rsp+68],xmm0
  cmp dword [rsp+60],GROUND_AI
  jne .target
  ; Existing bounded AI navigation contributes intent, never free displacement.
@@ -368,6 +380,15 @@ ground_step:
  addss xmm2,xmm3
  sqrtss xmm2,xmm2
  minss xmm2,[rsp+16]
+ cmp dword [rsp+60],GROUND_AI
+ jne .target_speed
+ ; Range-proportional terminal approach begins braking before crossing the goal.
+ ; 0.15/tick terminal gain is below both roles' maximum-speed stopping envelope.
+ ; Translation still follows the bounded hull axis; no endpoint snap is used.
+ movss xmm3,[rsp+68]
+ mulss xmm3,[approach_gain]
+ minss xmm2,xmm3
+.target_speed:
  movss [rsp+28],xmm2
  ucomiss xmm2,[zero]
  je .no_intent

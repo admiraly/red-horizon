@@ -67,6 +67,25 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         assert abs(speeds[-1]-cap)<1e-6
         acceleration[str(kind)]={'first_speed':speeds[0],'last_speed':speeds[-1]}
     checks.append('role acceleration and distinct forward caps')
+    approaches={}
+    for kind,distance,cap in ((1,12,.5),(2,8,.2)):
+        reset(kind);goal=(1000,1000+distance);maximum=1000;oldspeed=0
+        for t in range(120):
+            step(goal,cap)
+            maximum=max(maximum,entities[0].z)
+            assert entities[0].z<=goal[1]+.0002,'AI arrival overshot fixed destination'
+            assert abs(states[0].speed-oldspeed)<= (.040001 if kind==1 else .025001)
+            oldspeed=states[0].speed
+        error=math.dist((entities[0].x,entities[0].z),goal)
+        assert error<.001 and states[0].speed<.0002
+        approaches[str(kind)]={'arrival_error':error,'maximum_forward_coordinate':maximum}
+    checks.append('AI fixed-goal terminal braking converges without snap or overshoot')
+    reset();board()
+    for t in range(40):step((1000,2000),.6,1)
+    start=(entities[0].x,entities[0].z)
+    for t in range(30):step((entities[0].x,entities[0].z+1),.6,1)
+    assert math.dist(start,(entities[0].x,entities[0].z))>17.99 and abs(states[0].speed-.6)<1e-6
+    checks.append('driver local steering points retain full steady speed')
     reset(); board()
     for t in range(35):step((1000,2000),.6,1)
     assert abs(states[0].speed-.6)<1e-6
@@ -195,7 +214,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     enabled.value=0;assert lib.test_ground_hash(seed,prime)!=expected
     checks.append('FNV policy and every persistent state field including inactive tail')
     actuator_report={'suite':'ground-motion-actuator','passed':True,'library_sha256':lib_sha,'checks':checks,
-      'invalid_rejected_cases':invalid,'acceleration':acceleration,'turn':turn,'reverse':reverse,
+      'invalid_rejected_cases':invalid,'acceleration':acceleration,'turn':turn,'reverse':reverse,'approaches':approaches,
       'collision_evidence':'Explicit development clear/blocked/partial stub; not production collision or scale evidence',
       'runtime':'Actual NASM x86-64 SSE2 module; Python development observer'}
     print(json.dumps(actuator_report,sort_keys=True))
