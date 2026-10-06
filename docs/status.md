@@ -47,7 +47,8 @@ Initial manual adapter linking omitted its simulation objects, then a child
 probe lacked the NASM environment; corrected link/peer checks pass. Exact
 artifact hashes and retained logs: air-escort-main-build.json and associated logs.
 
-Isolated v21 bank/flight/strike candidate00c3d9e is not integrated. Coordinated
+The v21 bank/flight/strike batch is now integrated from corrected1f3ed26.
+Initial00c3d9e was rejected for the boundary failures recorded below. Coordinated
 roll/yaw/pitch, projectile-time fighter lead, own last-observed staged strike
 retry and boundary recovery latch pass focused aircraft/admission checks.
 2020 equation/17invalid cases and assembled sign/instant-roll controls pass;
@@ -63,14 +64,18 @@ finds6 distinct living fighters crossing world edges. This supersedes its fast
 acceptance for integration. Flight policy2 activates every edge at1200m to leave
 bank-reversal clearance. Original8192/900ticks now observes459956 bounded living
 aircraft steps,211.7851m minimum clearance and9/9/3594/3 actual air events.
-Corrected1f3ed26 frozen fast558332fecbfd is live at
-1f3ed26-42bc0ec70974dc4c (PID2831613). Earlier GL/UDP/timings cover00c3d9e;
+Corrected1f3ed26 frozen fast558332fecbfd PASSED255.8889s at
+1f3ed26-42bc0ec70974dc4c. Earlier GL/UDP/timings cover00c3d9e;
 matching corrected GL and8192/180tick UDP checks now pass. Every public living
 aircraft remains inside the map across original8k open/hotspot/16k open900tick
 runs:1,839,823 total steps; minimum clearances211.7851/380.8945/234.6461m.
 Exact reports and prior boundary failures are retained under air-bank-*.
-Frozen full831bb1419f53 is also verified live on the same
-1f3ed26-42bc0ec70974dc4c (PID2839489); full integration acceptance remains pending.
+Frozen full831bb1419f53 PASSED1212.0483s on the same
+1f3ed26-42bc0ec70974dc4c; matching authored source is now integrated on main.
+Exact input SHA256s and structured report count: docs/evidence/air-bank-integration.json.
+Current compatibility is UDPv21/schema0x3296bf93/content0x551748ea, canonicalSHA256
+551748eabefaa269c2c67d31e1339dc3de4fb82a7fa2ca725f71461be70a1973.
+Root artifacts are being rebuilt; previous v20 artifacts above are historical.
 Unsafe diagonal700m corner births and arbitrary edge strike ingress remain
 unaccepted; exact earlier failures and fixture changes: docs/air-bank-flight.md.
 

@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v20
-little-endian u32 header[10]: magic=0x52484332 version=20 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v21
+little-endian u32 header[10]: magic=0x52484332 version=21 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -51,3 +51,9 @@ company assault policy1: private1536x128 records, actual scouted staging/readine
 ground acquisition policy2: infantry radius1, tank radius2, artillery radius3 in250m cells; unchanged weapon range/LOS and24-ID cell reservoir; exact nearest-visible heap preserves original sample-rank ties; private bounded scratch, no packet layout change.
 
 air escort policy1: own live same-front bomber assignment, generations and180tick commitment,30tick reviews; trailing/flank goals and original continuous flight; observed threat proximity weights actual range/LOS-gated fighter targets. Fighter cell envelope3 covers750m; original8-ID air reservoir remains. Persistent16byte mission participates in hash; wire layouts unchanged.
+
+air flight policy2: gradual role-limited roll; coordinated level yaw=-g*tan(bank)/speed using fixed30Hz units and existing yaw/speed bounds; corner lookahead and emergency bank caps. Positive bank raises local+X wing. New aircraft generations clear old pose-sidecar/store clocks before finite initial stores. Wire layouts unchanged.
+
+air flight strike memory:40byte own-generation, observed XZ/target identity/expiry/approach direction/stage; defensive abort stages1800m before observed point,150m arrival then straight strike,100m overshoot retries; only actual range/LOS sight refreshes,2400tick expiry. Recall does not read enemies. Pitch follows atan2(vertical,horizontal speed); fighter intercept solves projectile travel time.
+
+air boundary recovery:4byte own latch per actor; every edge activates at1200m clearance; edge/corner turn keeps centre steering until both axes inside1200..6800. Hash/init/generation reset include latch; wire unchanged.

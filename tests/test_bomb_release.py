@@ -61,7 +61,10 @@ for side in (0,1):
  for height,vy in [(90,.5),(120,-.5)]:
   x,z=1000,2000;y=l.terrain_height(x,z)+height;hit=predict(x,y,z,0,vy,6)
   reset([(15,x,z,side,3,1000),(24,hit[0]+10,hit[1],1-side,0,100)],prime=False)
-  a[15]=Air(y,0,0,0,6,0,0,24,0,1,42,0,vy,6,0,1);e[15].target=24
+  # Initial heading/velocity explicitly align with the intended strike. A
+  # physically rolled aircraft cannot snap heading at the first flight tick.
+  heading=math.atan2(10,hit[1]-z)
+  a[15]=Air(y,heading,0,0,6,0,0,24,0,1,42,6*math.sin(heading),vy,6*math.cos(heading),0,1);e[15].target=24
   launched=False
   for tick in range(1,241):
    l.sim_tick()

@@ -165,8 +165,14 @@ for index in (15,31):
  assert lib.sim_checksum()==before and e[index].hp==200
  lib.sim_air_damage(index,1)
  assert e[index].hp==199 and a[index].mode==2
- old_y=a[index].y;lib.sim_tick()
- assert a[index].y>=old_y+.499 and abs(a[index].bank)>.4
+ old_y=a[index].y;old_bank=a[index].bank;lib.sim_tick()
+ assert a[index].y>=old_y+.499
+ if hasattr(lib,'air_bank_step'):
+  # Coupled flight begins a bounded roll, rather than snapping the visible bank.
+  assert 0<abs(a[index].bank-old_bank)<=(.06001 if index==15 else .10001)
+  for _ in range(10):lib.sim_tick()
+  assert abs(a[index].bank)>.4
+ else:assert abs(a[index].bank)>.4
 # A real gun-contact survivor breaks away without a direct test air_hit call.
 reset();actor(31,2000,2500,0);actor(63,2450,2500,1)
 observed=False
@@ -191,9 +197,17 @@ class Event(C.Structure):
  _fields_=[(n,C.c_float)for n in('x','y','z')]+[(n,C.c_uint)for n in('kind','side','tick')]+[('radius',C.c_float),('sequence',C.c_uint)]
 ev=(Event*256).in_dll(lib,'sim_events');counts={6:0,7:0,8:0,9:0}
 assert lib.sim_init(8192,42)==0
+air_ids=[i for i in range(8192) if e[i].kind==3];air_bound_steps=0;minimum_air_clearance=8000.
 for t in range(1,901):
  lib.sim_tick()
+ if hasattr(lib,'air_bank_step'):
+  for i in air_ids:
+   if not e[i].hp:continue
+   assert 0<=e[i].x<=8000 and 0<=e[i].z<=8000,('default-army-air-bounds',t,i,e[i].x,e[i].z)
+   minimum_air_clearance=min(minimum_air_clearance,e[i].x,e[i].z,8000-e[i].x,8000-e[i].z);air_bound_steps+=1
  for v in ev:
   if v.tick==t and v.kind in counts:counts[v.kind]+=1
 assert min(counts.values())>0,counts
 print('Default8192 actual air events over900 ticks:',counts)
+
+if hasattr(lib,'air_bank_step'):print('Default8192 bounded living aircraft steps:',air_bound_steps,'minimum edge clearance:',minimum_air_clearance)

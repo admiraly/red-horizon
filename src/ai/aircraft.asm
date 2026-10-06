@@ -2,8 +2,10 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/air_escort.inc"
+%include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
+extern air_bank_step
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
 extern air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
 extern air_admission_init,air_admission_begin,air_admission_request
@@ -13,6 +15,10 @@ global sim_aircraft
 sim_aircraft: resb ENTITY_CAPACITY*AIR_STRIDE
 ; Private fixed state: remaining maneuver and refractory ticks, indexed by stable ID.
 air_defense: resd ENTITY_CAPACITY*2
+air_boundary: resd ENTITY_CAPACITY
+; Last physically observed strike position; no enemy reads during recall.
+global sim_air_strikes
+sim_air_strikes: resb ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE
 air_counts: resd 1024
 air_samples: resd 1024*8
 section .rodata
@@ -28,12 +34,13 @@ tau: dd 6.2831853
 negative: dd -1.0
 climb: dd 0.5
 minus_climb: dd -0.5
-bank_scale: dd 18.0
+corner_margin: dd AIR_FLIGHT_CORNER_MARGIN
+corner_edge: dd 6800.0 ; fixed8000m map minus policy1200m corner margin
 pitch_scale: dd 0.15
 half: dd 0.5
 scale: dd 0.004
-margin: dd 650.0
-edge: dd 7350.0
+margin: dd AIR_FLIGHT_CORNER_MARGIN
+edge: dd 6800.0
 centre: dd 4000.0
 homes: dd 1000.0,7000.0
 range2: dd 562500.0
@@ -44,7 +51,11 @@ release_margin: dd 18.0
 grav: dd 0.0109
 bomb_max_fall: dd 240.0
 two: dd 2.0
-lead_ticks: dd 8.0
+round_speed2: dd 784.0
+world_edge: dd 8000.0
+strike_approach: dd AIR_FLIGHT_STRIKE_APPROACH
+strike_reached: dd AIR_FLIGHT_STRIKE_REACHED_SQ
+strike_passed: dd -100.0
 escort_weight: dd AIR_ESCORT_THREAT_WEIGHT
 align 16
 abs_mask: dd 0x7fffffff,0,0,0
@@ -92,6 +103,12 @@ air_init:
  lea rdi,[air_defense]
  mov ecx,ENTITY_CAPACITY*2
  rep stosd
+ lea rdi,[air_boundary]
+ mov ecx,ENTITY_CAPACITY
+ rep stosd
+ lea rdi,[sim_air_strikes]
+ mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
+ rep stosd
  sub rsp,8
  call air_escort_init
  add rsp,8
@@ -132,6 +149,9 @@ air_hit:
 .commit:
  mov [rdx+rdi*8],eax
  mov [rdx+rdi*8+4],esi
+ imul eax,edi,AIR_FLIGHT_STRIKE_STRIDE
+ lea rdx,[sim_air_strikes]
+ mov dword [rdx+rax+32],0 ; defensive abort requires a fresh straight approach
  mov dword [rcx+AIR_TARGET],-1
  mov dword [rcx+AIR_PASS_TICKS],0
  mov dword [rcx+AIR_MODE],AIR_EGRESS
@@ -157,8 +177,23 @@ air_tick:
  test dword [rbp+AIR_FLAGS],AIR_ACTIVE
  jnz .ready
 .init:
+ ; Genuine new/uninitialized generation, not an in-flight recovery refill.
+ xorps xmm0,xmm0
+ movups [rbp],xmm0
+ movups [rbp+16],xmm0
+ movups [rbp+32],xmm0
+ movups [rbp+48],xmm0
  lea rcx,[air_defense]
  mov qword [rcx+r12*8],0
+ lea rcx,[air_boundary]
+ mov dword [rcx+r12*4],0
+ imul edx,r12d,AIR_FLIGHT_STRIKE_STRIDE
+ lea rcx,[sim_air_strikes]
+ mov qword [rcx+rdx],0
+ mov qword [rcx+rdx+8],0
+ mov qword [rcx+rdx+16],0
+ mov qword [rcx+rdx+24],0
+ mov qword [rcx+rdx+32],0
  mov [rbp+AIR_GENERATION],eax
  mov dword [rbp+AIR_FLAGS],AIR_ACTIVE
  mov eax,r12d
@@ -241,7 +276,44 @@ air_tick:
  cmp eax,[sim_count]
  jb .enemy_goal
  cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
- jne .boundary
+ je .escort_goal
+.strike_goal:
+ mov edi,r12d
+ call air_strike_goal
+ test eax,eax
+ jz .boundary
+ imul edx,r12d,AIR_FLIGHT_STRIKE_STRIDE
+ lea rcx,[sim_air_strikes]
+ add rcx,rdx
+ cmp dword [rcx+32],0
+ jne .passed_strike
+ movaps xmm2,xmm0
+ subss xmm2,[rbx+ENTITY_X]
+ movaps xmm3,xmm1
+ subss xmm3,[rbx+ENTITY_Z]
+ mulss xmm2,xmm2
+ mulss xmm3,xmm3
+ addss xmm2,xmm3
+ comiss xmm2,[strike_reached]
+ ja .boundary
+ mov dword [rcx+32],1
+ jmp .strike_recall
+.passed_strike:
+ movaps xmm2,xmm0
+ subss xmm2,[rbx+ENTITY_X]
+ mulss xmm2,[rcx+24]
+ movaps xmm3,xmm1
+ subss xmm3,[rbx+ENTITY_Z]
+ mulss xmm3,[rcx+28]
+ addss xmm2,xmm3
+ comiss xmm2,[strike_passed]
+ jae .boundary
+ mov dword [rcx+32],0
+.strike_recall:
+ mov edi,r12d
+ call air_strike_goal
+ jmp .boundary
+.escort_goal:
  mov edi,r12d
  call air_escort_goal
  jmp .boundary
@@ -252,18 +324,62 @@ air_tick:
  movss xmm0,[rcx+ENTITY_X]
  movss xmm1,[rcx+ENTITY_Z]
  cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
- jne .boundary
+ jne .strike_goal
  mov eax,[rbp+AIR_TARGET]
  shl eax,6
  lea rcx,[sim_aircraft]
- movss xmm2,[rcx+rax+AIR_VX]
- mulss xmm2,[lead_ticks]
- addss xmm0,xmm2
- movss xmm2,[rcx+rax+AIR_VZ]
- mulss xmm2,[lead_ticks]
- addss xmm1,xmm2
+ ; Intercept the perceived target at the projectile travel time, rather
+ ; than a fixed eight ticks. Solve |r+v*t| = round_speed*t in the XZ plane.
+ movaps xmm3,xmm0
+ subss xmm3,[rbx+ENTITY_X]
+ movaps xmm4,xmm1
+ subss xmm4,[rbx+ENTITY_Z]
+ movss xmm5,[rcx+rax+AIR_VX]
+ movss xmm6,[rcx+rax+AIR_VZ]
+ movaps xmm2,xmm3
+ mulss xmm2,xmm5
+ movaps xmm7,xmm4
+ mulss xmm7,xmm6
+ addss xmm2,xmm7 ; r dot v
+ mulss xmm3,xmm3
+ mulss xmm4,xmm4
+ addss xmm3,xmm4 ; |r| squared
+ movaps xmm4,xmm5
+ mulss xmm4,xmm4
+ movaps xmm7,xmm6
+ mulss xmm7,xmm7
+ addss xmm4,xmm7
+ movss xmm7,[round_speed2]
+ subss xmm7,xmm4 ; s squared - |v| squared, positive for aircraft
+ mulss xmm3,xmm7
+ movaps xmm4,xmm2
+ mulss xmm4,xmm4
+ addss xmm3,xmm4
+ sqrtss xmm3,xmm3
+ addss xmm3,xmm2
+ divss xmm3,xmm7
+ mulss xmm5,xmm3
+ mulss xmm6,xmm3
+ addss xmm0,xmm5
+ addss xmm1,xmm6
 .boundary:
  mov dword [rsp+48],0
+ lea rcx,[air_boundary]
+ cmp dword [rcx+r12*4],0
+ je .boundary_check
+ ; Finish the banked recovery before handing steering back to the mission.
+ movss xmm2,[rbx+ENTITY_X]
+ comiss xmm2,[corner_margin]
+ jb .centre
+ comiss xmm2,[corner_edge]
+ ja .centre
+ movss xmm2,[rbx+ENTITY_Z]
+ comiss xmm2,[corner_margin]
+ jb .centre
+ comiss xmm2,[corner_edge]
+ ja .centre
+ mov dword [rcx+r12*4],0
+.boundary_check:
  movss xmm2,[rbx+ENTITY_X]
  comiss xmm2,[margin]
  jb .centre
@@ -273,8 +389,22 @@ air_tick:
  comiss xmm2,[margin]
  jb .centre
  comiss xmm2,[edge]
+ ja .centre
+ ; Corner turn envelopes need more room than single-edge turns.
+ movss xmm2,[rbx+ENTITY_X]
+ comiss xmm2,[corner_margin]
+ jb .corner_z
+ comiss xmm2,[corner_edge]
+ jbe .steer
+.corner_z:
+ movss xmm2,[rbx+ENTITY_Z]
+ comiss xmm2,[corner_margin]
+ jb .centre
+ comiss xmm2,[corner_edge]
  jbe .steer
 .centre:
+ lea rcx,[air_boundary]
+ mov dword [rcx+r12*4],1
  mov dword [rsp+48],1
  movss xmm0,[centre]
  movaps xmm1,xmm0
@@ -317,14 +447,11 @@ air_tick:
  ja .turn_limit
  xorps xmm0,xmm0 ; sustain the new egress heading after the initial break
 .turn_limit:
- mov eax,[rbp+AIR_ROLE]
- lea rcx,[turns]
- movss xmm1,[rcx+rax*4]
- minss xmm0,xmm1
- mulss xmm1,[negative]
- maxss xmm0,xmm1
- movaps xmm1,xmm0
- mulss xmm1,[bank_scale]
+ mov edi,[rbp+AIR_ROLE]
+ mov esi,[rsp+48]
+ movss xmm1,[rbp+AIR_SPEED]
+ movss xmm2,[rbp+AIR_BANK]
+ call air_bank_step
  movss [rbp+AIR_BANK],xmm1
  addss xmm0,[rbp+AIR_HEADING]
  comiss xmm0,[pi]
@@ -383,7 +510,8 @@ air_tick:
  addss xmm0,[rbp+AIR_Y]
  movss [rbp+AIR_Y],xmm0
  movss xmm0,[rbp+AIR_VY]
- mulss xmm0,[pitch_scale]
+ movss xmm1,[rbp+AIR_SPEED]
+ call atan2f wrt ..plt
  movss [rbp+AIR_PITCH],xmm0
 .next:
  add rbx,ENTITY_STRIDE
@@ -618,6 +746,35 @@ air_combat_tick:
  lea r14,[sim_entities]
  add r14,rax
 .observed:
+ cmp dword [rbp+AIR_ROLE],AIR_BOMBER
+ jne .strike_saved
+ imul edx,r12d,AIR_FLIGHT_STRIKE_STRIDE
+ lea rcx,[sim_air_strikes]
+ add rcx,rdx
+ mov eax,[rbx+ENTITY_GENERATION]
+ cmp eax,[rcx+16]
+ je .strike_direction_saved
+ movss xmm0,[rbp+AIR_VX]
+ divss xmm0,[rbp+AIR_SPEED]
+ movss [rcx+24],xmm0
+ movss xmm0,[rbp+AIR_VZ]
+ divss xmm0,[rbp+AIR_SPEED]
+ movss [rcx+28],xmm0
+ mov dword [rcx+32],1
+.strike_direction_saved:
+ mov eax,[r14+ENTITY_X]
+ mov [rcx],eax
+ mov eax,[r14+ENTITY_Z]
+ mov [rcx+4],eax
+ mov [rcx+8],r13d
+ mov eax,[r14+ENTITY_GENERATION]
+ mov [rcx+12],eax
+ mov eax,[rbx+ENTITY_GENERATION]
+ mov [rcx+16],eax
+ mov eax,[sim_tick_count]
+ add eax,AIR_FLIGHT_STRIKE_MEMORY
+ mov [rcx+20],eax
+.strike_saved:
  mov dword [rbp+AIR_MODE],AIR_ATTACK
  mov [rbp+AIR_TARGET],r13d
  mov [rbx+ENTITY_TARGET],r13d
@@ -735,6 +892,74 @@ air_combat_tick:
  shl edx,5
  add eax,edx
  ret
+global air_strike_goal
+; EDI owner, XMM0/1 fallback -> EAX valid, XMM0/1 remembered XZ if valid.
+; Stored target identity is audit data; recall never reads the target entity.
+air_strike_goal:
+ cmp edi,[sim_count]
+ jae .invalid
+ cmp edi,ENTITY_CAPACITY
+ jae .invalid
+ mov eax,edi
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_HP],0
+ je .invalid
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .invalid
+ mov eax,edi
+ shl eax,6
+ lea rcx,[sim_aircraft]
+ add rcx,rax
+ test dword [rcx+AIR_FLAGS],AIR_ACTIVE
+ jz .invalid
+ cmp dword [rcx+AIR_ROLE],AIR_BOMBER
+ jne .invalid
+ cmp dword [rcx+AIR_AMMO],0
+ je .invalid
+ mov eax,[rdx+ENTITY_GENERATION]
+ cmp eax,[rcx+AIR_GENERATION]
+ jne .invalid
+ imul edi,AIR_FLIGHT_STRIKE_STRIDE
+ lea rcx,[sim_air_strikes]
+ add rcx,rdi
+ cmp eax,[rcx+16]
+ jne .invalid
+ mov eax,[rcx+20]
+ sub eax,[sim_tick_count]
+ jle .invalid
+ cmp eax,AIR_FLIGHT_STRIKE_MEMORY
+ ja .invalid
+ movss xmm2,[rcx]
+ ucomiss xmm2,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm2,[world_edge]
+ ja .invalid
+ movss xmm3,[rcx+4]
+ ucomiss xmm3,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm3,[world_edge]
+ ja .invalid
+ movss xmm0,[rcx]
+ movss xmm1,[rcx+4]
+ cmp dword [rcx+32],0
+ jne .success
+ movss xmm2,[rcx+24]
+ mulss xmm2,[strike_approach]
+ subss xmm0,xmm2
+ movss xmm2,[rcx+28]
+ mulss xmm2,[strike_approach]
+ subss xmm1,xmm2
+.success:
+ mov eax,1
+ ret
+.invalid:
+ xor eax,eax
+ ret
+
 air_hash:
  lea rsi,[sim_aircraft]
  mov ecx,[sim_count]
@@ -762,6 +987,31 @@ air_hash:
  dec ecx
  jnz .defense_bytes
 .return:
+ lea rsi,[air_boundary]
+ mov ecx,[sim_count]
+ shl ecx,2
+ test ecx,ecx
+ jz .strikes
+.boundary_bytes:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .boundary_bytes
+.strikes:
+ lea rsi,[sim_air_strikes]
+ imul ecx,[sim_count],AIR_FLIGHT_STRIKE_STRIDE
+ test ecx,ecx
+ jz .missions
+.strike_bytes:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .strike_bytes
+.missions:
  sub rsp,8
  call air_escort_hash
  add rsp,8
