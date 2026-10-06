@@ -42,4 +42,16 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
  lib.wreck_query.argtypes=[C.c_void_p,C.c_uint]+[C.c_float]*6
  out=C.create_string_buffer(24);assert lib.wreck_query(out,24,1090,101,1000,1110,101,1000)==0
  assert bytes(local)==before
- print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'same_revision_source_switches':128,'local_authority_unchanged':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Not connected-client hooks, packet-driven cache invalidation, actor movement, cover or scale acceptance.'}))
+ # Actual assembled faults must expose cross-source and lifecycle cache mistakes.
+ negatives=[];source=(ROOT/'src/nav/wreck_query.asm').read_text()
+ for tag,text in [('source_key_omitted',source.replace(' cmp rax,[cache_source]\n jne .refresh',' nop\n nop')),('revision_key_omitted',source.replace(' cmp rax,[cache_revision]\n je .cached',' jmp .cached'))]:
+  asm=td/(tag+'.asm');asm.write_text(text);obj=td/(tag+'.o');subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(asm),'-o',str(obj)],check=True)
+  altered=list(objs);altered[1]=str(obj);dll=td/(tag+'.so');subprocess.run(['cc','-shared','-Wl,-Bsymbolic',*altered,*['-Wl,--wrap='+s for s in ('ground_support','ground_contact','terrain_height','sinf','cosf','atan2f')],'-lm','-o',str(dll)],check=True)
+  bad=C.CDLL(str(dll));fn=bad.wreck_query_context;fn.argtypes=point.argtypes;rows=[C.create_string_buffer(65536) for _ in range(2)]
+  for i,src in enumerate(rows):C.memmove(src,record(1000+100*i,12+i,i+1),64)
+  out=C.create_string_buffer(24);assert fn(out,24,rows[0],1,1,990,101,1000,1010,101,1000)==1
+  if tag=='source_key_omitted':rc=fn(out,24,rows[1],1,1,990,101,1000,1010,101,1000);assert rc==1
+  else:
+   C.memmove(rows[0],record(1200,99,3),64);rc=fn(out,24,rows[0],1,2,1190,101,1000,1210,101,1000);assert rc==0
+  negatives.append(tag)
+ print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'assembled_negatives':negatives,'same_revision_source_switches':128,'local_authority_unchanged':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Not connected-client hooks, packet-driven cache invalidation, actor movement, cover or scale acceptance.'}))
