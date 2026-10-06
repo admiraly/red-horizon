@@ -55,3 +55,16 @@
 ; Derived snapshots/metrics remain unchecksummed; enabled policy is sole future
 ; state unless additional commitments are explicitly included in crowd_hash.
 ; Diagnostics must count the actual visited-record local, not grid coordinates.
+
+; Ground-hull actuator extension v3 (root contract, isolated kernel owner).
+; crowd_hull_step(EDI validtank/artyID,ESI AI0/legitimate driver1,
+; XMM0/1currentXZ,XMM2/3physically reachable exactendpointXZ,XMM4stepbudget)
+; -> XMM0/1endpoint. Query ONLY this whole segment: full acceptance or safehold,
+; never normalize a shorter segment to a larger step, no component slides or
+; sideways avoidance. Validate source/snapshot/generation/kind and driver claim;
+; bound all record/candidate work as before; malformed/saturated safehold.
+; Tank physical sweep envelope0.6m/tick for gradual driver->AI braking even after
+; ownership clears, artillery0.2. Immutable AI snapshots and current late human
+; queries retain their existing phase distinction. Nearby tank anticipation must
+; cover0.6m even when no claim is present. Legacy control still checks full terrain
+; footprint and exact segment (not a terrain detour). No authoritative actor writes.
