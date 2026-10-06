@@ -1,5 +1,36 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integrates company follow5f0687c, UDPv26/schema0x42ffc407/
+content0xb5f51cbd. Default4 sends one five-point order: living ground actors
+follow the corroborated current owner in stable12m formation slots. Actual
+role-sized terrain/grade projection avoids blocked destinations; impossible
+slots hold and re-evaluate as the owner moves. Dead owners hold, genuine
+redeployment resumes, disconnect restores autonomy, and consented exchanges
+follow the new owner without moving bodies or changing stored waypoints.
+The first hold/retreat/follow fallback now uses the actual local player slot.
+
+Scoped worker checks exit0: fast62 reports (61 explicit passes plus hazard
+outcomes), network17, physical API1, actual rendered GUI6. Exact343-input source
+fingerprint283c45927fee1cf5, reports, build revisions and fixture corrections:
+docs/evidence/company-follow-focused.json. Main client/co-op/headless are rebuilt
+at5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5.
+Matching-main physical and actual two-client graphical follow checks pass.
+Final isolated tooling2 reports pass; all foreground jobs are terminal and
+collected. The frozen full job below is the sole running managed checkpoint.
+Frozen full extended jobc881a96c1725 is RUNNING on this exact343-input revision;
+no full follow pass is claimed. Matching binaries and job metadata are recorded
+in docs/evidence/company-follow-main.json.
+
+The previous combined HUD/retreat frozen checkpoint43d0d7f2c2bc PASSED
+1218.121s/141 reports on340 authored inputs. It precedes follow and is terminal
+and collected; see docs/evidence/company-interface-full-summary.json.
+Fixed world-axis slots, bounded placement and software GL are scoped proofs:
+adaptive formation rotation/traffic, target hardware performance, human visual
+quality, contextual wheel/remapping, assistance/recruitment/shared plans and
+wider game acceptance remain open. The complete game goal remains unfinished.
+
+Previous checkpoint history follows.
+
 Current main integrates the combined company interfacee84cff2. Company identity,
 order acknowledgements, exchange offers/acceptance and connection loss now render
 inside first-person/tactical views through bounded NASM/OpenGL text. Retreat

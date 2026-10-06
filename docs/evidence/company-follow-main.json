@@ -1,0 +1,236 @@
+{
+  "source_revision": "5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5",
+  "builds": {
+    "client": {
+      "target": "client",
+      "revision": "5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5",
+      "assembled": 6,
+      "assembled_sources": [
+        "src/sim/company_remote.asm",
+        "src/ai/company_control.asm",
+        "src/ai/company_follow.asm",
+        "src/ai/company_transfer.asm",
+        "src/platform/linux/client.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.43778467300580814,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5/red-horizon",
+      "executable_sha256": "22f4e2741ff5094e35dca4367a50ce4bc80337c7be18f2542cf722d46001ab58"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.320436071997392,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5/red-horizon-coop-server",
+      "executable_sha256": "012c54521236b46f6a2418b48e9ba378d2b3d518f41e9f21c84ca96cc9bcbd97"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.3438565709948307,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5/red-horizon-server",
+      "executable_sha256": "1a4513f60be7ccfd9b729211c5acfc2c1be5b4152234e7f6cc7ad4b89139c423"
+    }
+  },
+  "checks": [
+    {
+      "suite": "company-follow-physical",
+      "passed": true,
+      "follow": {
+        "mode": 3,
+        "player_movement_m": 23.994140625,
+        "actor_travel_m": [
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8941650390625,
+          19.8143310546875,
+          19.8143310546875,
+          19.744874949058666,
+          19.748659888581116
+        ],
+        "unique_destinations": 16,
+        "maximum_steps_by_role": {
+          "0": 0.1199951171875,
+          "1": 0.35933504711811715,
+          "2": 0.14007934033642663
+        },
+        "hashes": [
+          "92734cf71858cbdf",
+          "0a03750175f281e8",
+          "cb541fed030bf9d8",
+          "782e3d1711badf9d",
+          "2d6e68b0279505b1",
+          "c786b62b16c4a52c",
+          "09dc703cab6c3a7c",
+          "7eaf0a04947c5e7b"
+        ]
+      },
+      "fixed_waypoint_control": {
+        "mode": 0,
+        "player_movement_m": 23.994140625,
+        "actor_travel_m": [
+          28.803357906089,
+          28.8016891222575,
+          28.8134132621159,
+          28.80054177728327,
+          28.742484718490648,
+          28.794357247694577,
+          28.801555019359686,
+          28.809197888262837,
+          28.809972490842398,
+          28.797695568396595,
+          28.814426051574248,
+          28.80679946742853,
+          84.05795931624323,
+          89.00044155764743,
+          31.40778749911017,
+          31.272875110840328
+        ],
+        "unique_destinations": 1,
+        "maximum_steps_by_role": {
+          "0": 0.12006010854822603,
+          "1": 0.4000713657254367,
+          "2": 0.14006205307541525
+        },
+        "hashes": [
+          "dbc02d20f3768d31",
+          "03d77b0d75d93d25",
+          "64eddc5d558e89c7",
+          "e672162bc7369a7e",
+          "d9d9044424597c90",
+          "e65298354f42d7f5",
+          "183f17ed5f6cba7c",
+          "fbd05ad6b240d43a"
+        ]
+      },
+      "distinct_mixed_role_slots": 16,
+      "dead_owner_holds_genuine_redeployment_resumes": true,
+      "edge_margin_bounds": true,
+      "mouse_aim_does_not_rotate_formation": true,
+      "role_footprints_project_out_of_wall": true,
+      "blocked_slots_hold_and_recover_after_owner_movement": true,
+      "stale_generation_rejected": true,
+      "invalid_pose_holds": true,
+      "consented_cross_front_transfer_follows_new_owner": true,
+      "transfer_body_and_entity_poses_preserved": true,
+      "transferred_company_travel_m": 14.402386658296539,
+      "disconnect_restores_autonomy": true,
+      "getter_readonly_ABI": true,
+      "library_sha256": "12924c670f9d34b041f63a2601602d712e7410ed2ffa5243e9a92c7bcdb5f40b",
+      "limits": [
+        "Controlled declared initial cohorts and own-player public inputs; separate dead/corrupt fixtures.",
+        "Fixed world-axis slots; complex terrain route/traffic, target GPU, full scale/network/UI acceptance are separate."
+      ]
+    },
+    {
+      "suite": "graphical-company-follow",
+      "passed": true,
+      "cases": [
+        {
+          "owner": 0,
+          "owner_displacement_m": 4.998779296875,
+          "same_body_walk": true,
+          "body_generations": [
+            1,
+            1
+          ],
+          "accepted_waypoint": [
+            3780.0,
+            1300.0
+          ],
+          "owner_and_observer_anchor_pixels": [
+            43,
+            43
+          ]
+        },
+        {
+          "owner": 1,
+          "owner_displacement_m": 75.497802734375,
+          "same_body_walk": false,
+          "body_generations": [
+            1,
+            2
+          ],
+          "accepted_waypoint": [
+            3780.0,
+            3900.0
+          ],
+          "owner_and_observer_anchor_pixels": [
+            43,
+            43
+          ]
+        }
+      ],
+      "framebuffer_follow_acknowledgement": true,
+      "first_command_own_body_point": true,
+      "accepted_waypoints_preserved": true,
+      "held_key_one_command": true,
+      "local_simulation_ticks": 0,
+      "limits": [
+        "Actual two-render-client UDP/GL commands and owner/observer anchors; reported generation changes are genuine redeployments, separate from walking. Formation trajectories verified separately."
+      ]
+    }
+  ],
+  "full_checkpoint": {
+    "job_id": "c881a96c1725",
+    "revision": "5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c881a96c1725/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c881a96c1725/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c881a96c1725/result.json",
+    "pid": 4041033
+  },
+  "final_worker_tooling": {
+    "exit_code": 0,
+    "reports": [
+      {
+        "suite": "dense_driver",
+        "passed": true,
+        "cases": 16,
+        "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"
+      },
+      {
+        "suite": "tools",
+        "passed": true,
+        "checks": [
+          "cold/incremental",
+          "single module invalidation",
+          "shader isolation",
+          "transitive includes",
+          "source preservation",
+          "failed build preserves previous objects",
+          "fast real-core suite",
+          "immutable background source",
+          "revision identity",
+          "failed assembly reported",
+          "job collection",
+          "terminal missing-NASM worker setup"
+        ]
+      }
+    ],
+    "source_fingerprint": "283c45927fee1cf5",
+    "log": "docs/evidence/company-follow-tools.log"
+  },
+  "foreground_jobs": "All terminal, successful and collected"
+}
