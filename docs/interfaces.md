@@ -311,5 +311,13 @@ funds; validates before one5REQ charge and one sequence change. company_control_
 (EDI actor) is readonly, returns0/XMMXZ move,1 hold,-1 autonomous. Hazard escape
 retains priority. company_release clears ownership/intent on disconnect. Internal
 company_redeploy preserves intent and updates the matching immediately preceding
-body-generation lease after genuine successful redeploy only. These contracts are integrated on main with focused tests; the matching
-combined extended checkpoint remains pending.
+body-generation lease after genuine successful redeploy only. These contracts are integrated on main with focused tests; the matching combined
+extended checkpoint3112ca82aa0d now passes.
+
+Current LOS optimization (c0c8f04/main): wreck_occlusion_context(RDI output24,
+ESI bytes>=24,RDX stable1024x64 source,ECX active count,R8 revision,XMM0..5
+start/endXYZ) returns0clear,1one real blocker,-1caller fault,-2source fault.
+Its contact output is not promised nearest. Complete source validation/prepared
+revision discipline precedes early exit. Only world_los consumes it; regular
+wreck_query_context/body/projectile APIs retain closest contact and identity ties.
+All original geometry/range/visibility/weapon/health/motion thresholds are retained.

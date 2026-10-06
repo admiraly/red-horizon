@@ -18,7 +18,11 @@ These concurrent CPU measurements do not establish GPU or whole-frame budgets.
 16k p95 remains42.719ms; human quality, shared company membership/plan UI,
 transfer/assistance, wider units, full operations/streaming/audio and platform
 requirements remain incomplete. The full-game goal remains active.
-Root artifacts are being rebuilt on this accepted source. Solo company tint
+Root headless/co-op/client and both libraries rebuilt at4e8fec843f3ed8e856a319f9853d331cd436478e-507ba71505a61d3a.
+Matching company API, boolean LOS/nearest-contact contracts, actual four-peer
+plus fourth-player NASM adapter and actual solo GUI checks pass on these artifacts.
+Exact hashes/logs: occlusion-main-build.json and occlusion-main-checks.log.
+All15 recorded background jobs are reconciled; none remain running. Solo company tint
 remains an independently tested isolated prototype, not current main rendering.
 
 
@@ -29,7 +33,7 @@ FAILED1179.9040s at the old graphical mesh fixture ordering an unowned front. Ro
 Matching company API, read-only actual four-peer movement, fourth-player NASM
 adapter, solo GUI map/keys and actual two-client co-op checks all pass. Exact
 artifact hashes and logs: company-main-build.json and company-main-build-and-checks.log.
-Current extended acceptance is pending. The prior
+This earlier focused integration has now been superseded by the passing full3112ca82aa0d checkpoint above. The prior
 fully accepted baseline is v21 bank-coupled flight/strike (0d3c803), with
 full831bb1419f53 PASSED1212.0483s and323 exact matching authored inputs. The
 223 structured JSON dictionaries include repeated build/content checks; they
@@ -64,9 +68,9 @@ Matching focused mesh check passes with owned actor3712,1.6787m actual movement
 and1816 changed idle-pose pixels. Complete focused graphics recheck exits0 with27 actual suite reports, including
 owned mesh movement/poses, aircraft, support/wreck/eye, effects, unchanged original
 solo gameplay, own-company map/keys, quit delivery and two-client co-op. Exact
-log: company-main-graphics-corrected.log. Current matching full checkpoint remains
-pending, including the separately isolated LOS occlusion optimization below. The company batches are now integrated as a coherent focused-verified batch;
-matching full acceptance remains pending. Exact commands,
+log: company-main-graphics-corrected.log. That earlier graphics correction is included in the fully passing combined
+checkpoint3112ca82aa0d above. The company batches are now integrated as a coherent focused-verified batch;
+matching full acceptance was pending at that earlier checkpoint; full3112ca82aa0d now passes. Exact commands,
 initial failed fixtures and limitations: docs/company-control.md in those worktrees.
 Company membership replication/highlights, transfer/assistance and assignment
 recovery with no living ground cohort remain pending. The full-game goal remains
@@ -1689,8 +1693,8 @@ corrupt farther-source and nearest-after-any controls. Original8k open/hotspot/
 16k open900tick paired whole-authority/entity samples match every30ticks.
 Concurrent hotspot mean/p95 changes35.333/45.306→19.498/22.477ms;16k remains
 over33.3ms and graphics/frame budgets are unaccepted. Frozen fast2ac346c0f764
-PASSED251.5267s. Matching full3112ca82aa0d is live atc0c8f04-507ba71505a61d3a,
-with the corrected owned graphical fixture. Candidate is not integrated yet.
+PASSED251.5267s. Matching full3112ca82aa0d PASSED1201.1398s atc0c8f04-507ba71505a61d3a,
+with the corrected owned graphical fixture; this candidate is now integrated.
 
 Isolateddfb8a95 adds derived solo company glyph tint. A validated current human
 lease selects only living allied ground actors with the same front/128-ID cohort.

@@ -1,0 +1,12 @@
+{
+  "revision": "4e8fec843f3ed8e856a319f9853d331cd436478e-507ba71505a61d3a",
+  "passed": true,
+  "artifacts": {
+    "build/revisions/4e8fec843f3ed8e856a319f9853d331cd436478e-507ba71505a61d3a/red-horizon-server": "c3f4eb89c9d0f45879937b6d29fa23689171d8a332d9ea5b9f6dcb2c7217474d",
+    "build/revisions/4e8fec843f3ed8e856a319f9853d331cd436478e-507ba71505a61d3a/red-horizon": "97ef6e082db50725b3cc106b8c8497fdc6f3b0fa8701e27cb57d680a740a6620",
+    "build/revisions/4e8fec843f3ed8e856a319f9853d331cd436478e-507ba71505a61d3a/red-horizon-coop-server": "66b33be7e90a223dcc057993dd2e5979afff47d8415caad1ce1c82ca5c7652fe",
+    "build/libsim.so": "f8fd37a4a761e443da9fdd828c3088a3040c88778a08649b697672b1c25f3855",
+    "build/libcoopclient.so": "294210e70115d5d6b4a9aa07cb15caef64cc053e41191d82a39705a895243b64"
+  },
+  "scope": "Matching rebuilt main company API, boolean cover contracts/closest identity, actual four-peer plus fourth-player NASM adapter and solo GUI; supplements exact frozen full3112ca82aa0d."
+}

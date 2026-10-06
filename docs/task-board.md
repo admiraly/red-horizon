@@ -375,3 +375,11 @@ Matching extended0b0739a72b85 remains pending after correcting the exact nested-
 build dependency assertion. No transfer/shared membership UI or completed game claim.
 The modest concave terrain-clear optimization remains isolated:40060 identical query
 results and900tick sampled whole-state parity do not show a useful hotspot speedup.
+
+Current accepted main4e8fec8: fully matching c0c8f04 aircraft/company/GUI/LOS
+batch, full3112ca82aa0d PASSED1201.1398s,330 authored inputs,133 suite reports.
+Boolean cover optimization retains all sampled authority and roughly halves
+measured8k hotspot CPU tick time;16k/GPU/human quality remain incomplete.
+Solo formation tint dfb8a95 is an isolated27-report actual graphics prototype.
+Earlier company dependency/mesh-fixture failures above are superseded by this
+passing full checkpoint; raw evidence remains preserved.
