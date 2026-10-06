@@ -13,6 +13,14 @@ with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
         return subprocess.check_output(argv,cwd=root,env=env,text=True)
     run('git','init','-q');run('git','config','user.name','Test');run('git','config','user.email','test@example.invalid');run('git','add','.');run('git','commit','-qm','isolated fixture')
     def dev(*argv): return run('python3','tools/dev.py',*argv)
+    # Setup failure must also leave a terminal result, not permanently 'running'.
+    missing_env=dict(env);missing_env['RED_HORIZON_NASM']=str(root/'missing-nasm')
+    setup_job=json.loads(subprocess.check_output(['python3','tools/dev.py','bench','--ticks','1','--background'],cwd=root,env=missing_env,text=True))
+    setup_result=pathlib.Path(setup_job['result']);deadline=time.monotonic()+10
+    while not setup_result.exists() and time.monotonic()<deadline:time.sleep(.05)
+    assert setup_result.exists(),'worker setup failure has no terminal result'
+    setup=json.loads(setup_result.read_text());assert setup['status']=='failed' and setup['stage']=='worker_setup' and setup['exit_code']==1
+    assert json.loads(dev('collect',setup_job['job_id']))['status']=='failed'
     inputs={str(p.relative_to(root)):p.read_bytes() for folder in ('src','shaders','schemas') for p in (root/folder).rglob('*') if p.is_file()}
     cold=json.loads(dev('build'));warm=json.loads(dev('build','--changed'))
     assert pathlib.Path(cold['executable']).is_relative_to(root/'build/revisions'), 'executable escaped build tree'
@@ -58,4 +66,4 @@ with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
     assert (root/'build/red-horizon-server').read_bytes()==previous_exe
     assert (root/'build/src_sim_world.asm.o').read_bytes()==previous_obj
     status=json.loads(dev('collect',job['job_id']));assert status['status']=='passed'
-print(json.dumps({'suite':'tools','passed':True,'checks':['cold/incremental','single module invalidation','shader isolation','transitive includes','source preservation','failed build preserves previous objects','fast real-core suite','immutable background source','revision identity','failed assembly reported','job collection']}))
+print(json.dumps({'suite':'tools','passed':True,'checks':['cold/incremental','single module invalidation','shader isolation','transitive includes','source preservation','failed build preserves previous objects','fast real-core suite','immutable background source','revision identity','failed assembly reported','job collection','terminal missing-NASM worker setup']}))

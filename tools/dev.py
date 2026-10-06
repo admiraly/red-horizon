@@ -260,7 +260,12 @@ def background(args):
 def worker(job,argv):
     folder=RUNS/'jobs'/job; begin=time.perf_counter()
     metadata=json.loads((folder/'job.json').read_text())
-    env=os.environ.copy(); env['RED_HORIZON_SOURCE_COMMIT']=metadata['revision'].split('-')[0]; env['RED_HORIZON_NASM']=nasm()
+    env=os.environ.copy(); env['RED_HORIZON_SOURCE_COMMIT']=metadata['revision'].split('-')[0]
+    try:
+        env['RED_HORIZON_NASM']=nasm()
+    except Exception as error:
+        atomic(folder/'result.json',{'job_id':job,'exit_code':1,'revision':metadata['revision'],'seconds':time.perf_counter()-begin,'status':'failed','stage':'worker_setup','error':str(error)})
+        raise
     snapshot=folder/'source'
     code=subprocess.run([sys.executable,str(snapshot/'tools/dev.py'),*argv],cwd=snapshot,env=env).returncode
     atomic(folder/'result.json',{'job_id':job,'exit_code':code,'revision':metadata['revision'],'seconds':time.perf_counter()-begin,'status':'passed' if code==0 else 'failed'})
@@ -350,6 +355,8 @@ def main():
             execute([sys.executable,'tests/test_ground_eye_outcomes.py',str(library)])
         if suite in ('all','headless','fast','simulation','combat','vehicles','wrecks'):
             execute([sys.executable,'tests/test_wrecks.py'])
+            execute([sys.executable,'tests/test_segment_box.py'])
+            execute([sys.executable,'tests/test_wreck_query.py'])
             execute([sys.executable,'tests/test_wreck_outcomes.py',str(library)])
             if getattr(args,'extended',False) or suite=='wrecks':execute([sys.executable,'tests/test_wreck_scale.py',str(library)])
         if suite in ('all','headless','terrain','vehicles','ground-support'):

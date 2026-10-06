@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Census genuine vehicle casualties/registry state in unchanged massive combat."""
-import argparse,ctypes as C,hashlib,json,time,statistics
+import argparse,ctypes as C,hashlib,json,time,statistics,struct
 from pathlib import Path
 p=argparse.ArgumentParser();p.add_argument('library');p.add_argument('--ticks',type=int,default=120);a=p.parse_args();path=Path(a.library).resolve();lib=C.CDLL(str(path))
 class E(C.Structure):
@@ -8,10 +8,24 @@ class E(C.Structure):
 class W(C.Structure):
  _fields_=[(n,C.c_float) for n in ('x','y','z','heading','pitch','bank')]+[(n,C.c_uint) for n in ('kind','side','entity','generation','birth','expiry','sequence','flags','reserved0','reserved1')]
 entities=(E*32768).in_dll(lib,'sim_entities');wrecks=(W*1024).in_dll(lib,'sim_wrecks');count=C.c_uint.in_dll(lib,'sim_wreck_count');seq=C.c_uint.in_dll(lib,'sim_wreck_sequence');lib.sim_init.argtypes=[C.c_uint,C.c_uint];lib.sim_checksum.restype=C.c_uint64
+lib.wreck_query.argtypes=[C.c_void_p,C.c_uint]+[C.c_float]*6
+bounds=(C.c_float*(1024*6)).in_dll(lib,'wreck_query_bounds')
+candidates=C.c_uint.in_dll(lib,'wreck_query_candidates')
+def clip(box,start,end):
+ lo,hi=0.,1.
+ for i in range(3):
+  d=end[i]-start[i]
+  if not d:
+   if not box[i]<=start[i]<=box[i+3]:return None
+  else:
+   a,b=sorted(((box[i]-start[i])/d,(box[i+3]-start[i])/d));lo=max(lo,a);hi=min(hi,b)
+   if lo>hi:return None
+ return lo
 rows=[]
 assert 1<=a.ticks<1800
 for n in (8192,16384):
  assert lib.sim_init(n,42)==0 and lib.sim_scenario(3)==0
+ query_calls=0;query_peak=0
  hp0=sum(e.hp for e in entities[:n]);ids=[i for i in range(n) if entities[i].kind in (1,2)];deaths={};samples=[];max_count=0
  for tick in range(1,a.ticks+1):
   old=[(i,entities[i].hp,entities[i].generation) for i in ids if entities[i].hp]
@@ -27,6 +41,19 @@ for n in (8192,16384):
   for w in current:
    assert (w.birth,w.generation,w.x,w.z,w.kind,w.side)==deaths[w.entity]
    assert w.expiry==w.birth+1800 and w.flags in (1,3)
+  if tick%10==0:
+   before=lib.sim_checksum()
+   for w in current:
+    y=C.c_float(w.y+1).value;start=(C.c_float(w.x-10).value,y,w.z);end=(C.c_float(w.x+10).value,y,w.z)
+    out=C.create_string_buffer(24);assert lib.wreck_query(out,24,*start,*end)==1
+    value=struct.unpack('<f5I',out.raw);hits=[]
+    for slot,record in enumerate(wrecks):
+     if record.flags&1:
+      box=tuple(bounds[slot*6+i] for i in range(6));t=clip(box,start,end)
+      if t is not None:hits.append((C.c_float(t).value,record.entity,record.generation,record.sequence,slot))
+    expected=min(hits);assert value==(expected[0],expected[4],expected[1],expected[2],expected[3],0)
+    assert candidates.value<=count.value;query_peak=max(query_peak,candidates.value);query_calls+=1
+   assert lib.sim_checksum()==before
  hp1=sum(e.hp for e in entities[:n]);assert hp1<hp0 and deaths,'real combat casualty fixture is absent'
- rows.append(dict(units=n,ticks=a.ticks,seed=42,scenario='scale-hotspot',initial_ground_vehicles=len(ids),actual_vehicle_deaths=len(deaths),active_wrecks=count.value,peak_wrecks=max_count,retired_wrecks=max(0,len(deaths)-1024),army_hp_before=hp0,army_hp_after=hp1,tick_mean_ms=statistics.mean(samples),tick_p95_ms=sorted(samples)[int(len(samples)*.95)-1],checksum=f'{lib.sim_checksum():016x}'))
-print(json.dumps({'suite':'wreck-mass-casualties','passed':True,'cases':rows,'library_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'scope':'Actual unchanged8k/16k combat, no HP/motion injections; verifies casualty registration and bounded registry only. Timing includes ctypes and overlaps development; no graphics, cover or network acceptance.'}))
+ rows.append(dict(units=n,ticks=a.ticks,seed=42,scenario='scale-hotspot',initial_ground_vehicles=len(ids),actual_vehicle_deaths=len(deaths),actual_wreck_queries=query_calls,peak_query_candidates=query_peak,active_wrecks=count.value,peak_wrecks=max_count,retired_wrecks=max(0,len(deaths)-1024),army_hp_before=hp0,army_hp_after=hp1,tick_mean_ms=statistics.mean(samples),tick_p95_ms=sorted(samples)[int(len(samples)*.95)-1],checksum=f'{lib.sim_checksum():016x}'))
+print(json.dumps({'suite':'wreck-mass-casualties','passed':True,'cases':rows,'library_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'scope':'Actual unchanged8k/16k combat, no HP/motion injections; verifies casualty registration, bounded registry and read-only first-contact queries against an all-record interval oracle. No gameplay obstruction hooks. Timing includes ctypes and overlaps development; no graphics, cover or network acceptance.'}))

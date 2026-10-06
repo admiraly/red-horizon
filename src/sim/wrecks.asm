@@ -13,6 +13,9 @@ seen_generation: resd ENTITY_CAPACITY
 sim_wreck_count: resd 1
 cursor: resd 1
 sim_wreck_sequence: resd 1
+; Derived query cache invalidation, excluded from the authoritative hash arena.
+global wreck_query_revision
+wreck_query_revision: resq 1
 section .rodata
 zero: dd 0.0
 maximum: dd 8000.0
@@ -21,6 +24,7 @@ y_maximum: dd 2000.0
 section .text
 global wreck_init,wreck_register,wreck_tick,wreck_hash
 wreck_init:
+ inc qword [wreck_query_revision]
  lea rdi,[sim_wrecks]
  xor eax,eax
  mov ecx,(WRECK_CAPACITY*WRECK_STRIDE+ENTITY_CAPACITY*4+12)/4
@@ -118,6 +122,7 @@ wreck_register:
  jb .invalid
  ucomiss xmm0,[y_maximum]
  ja .invalid
+ inc qword [wreck_query_revision]
  ; Commit only after every dependency and input has passed validation.
  mov eax,[cursor]
  shl eax,6
@@ -190,6 +195,7 @@ wreck_tick:
  sub eax,[rdx+WRECK_BIRTH]
  cmp eax,WRECK_LIFETIME_TICKS
  jb .next
+ inc qword [wreck_query_revision]
  and dword [rdx+WRECK_FLAGS],~WRECK_ACTIVE
  dec dword [sim_wreck_count]
 .next:
