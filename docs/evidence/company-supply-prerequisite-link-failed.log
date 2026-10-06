@@ -1,0 +1,16 @@
+/usr/bin/ld.bfd: warning: type and size of dynamic symbol `sim_entities' are not defined
+/usr/bin/ld.bfd: warning: type and size of dynamic symbol `company_for_player' are not defined
+/usr/bin/ld.bfd: warning: type and size of dynamic symbol `infantry_weapons' are not defined
+/usr/bin/ld.bfd: warning: type and size of dynamic symbol `sim_count' are not defined
+/usr/bin/ld.bfd: /home/levy/optane-tmp/rh-company-supply-z_z4937d/supply.o: warning: relocation against `sim_entities' in read-only section `.text'
+/usr/bin/ld.bfd: /home/levy/optane-tmp/rh-company-supply-z_z4937d/supply.o: relocation R_X86_64_PC32 against symbol `sim_count' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld.bfd: final link failed: bad value
+collect2: error: ld returned 1 exit status
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-supply-report/tests/test_company_supply.py", line 9, in <module>
+    subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(lib),str(obj),'-L'+str(td),'-lsim','-Wl,-rpath,$ORIGIN'],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['gcc', '-shared', '-Wl,-Bsymbolic', '-o', '/home/levy/optane-tmp/rh-company-supply-z_z4937d/supply.so', '/home/levy/optane-tmp/rh-company-supply-z_z4937d/supply.o', '-L/home/levy/optane-tmp/rh-company-supply-z_z4937d', '-lsim', '-Wl,-rpath,$ORIGIN']' returned non-zero exit status 1.
