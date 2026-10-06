@@ -13,10 +13,10 @@ y=C.c_float.from_buffer_copy(bytes(wrecks)[4:8]).value+1.5
 local=C.create_string_buffer(65536);remote=C.create_string_buffer(bytes(wrecks),65536)
 def query(points,expected,context=None):
  global calls
- before=l.sim_checksum();source=bytes(context[0]) if context else None
+ before=l.sim_checksum();source=bytes(context[0]) if context and context[0] is not None else None
  result=l.world_los_context(*context,*points) if context else l.world_los(*points)
  assert result==expected,(points,result,expected);assert l.sim_checksum()==before
- if context:assert bytes(context[0])==source
+ if context and context[0] is not None:assert bytes(context[0])==source
  calls+=1
 query((0,100,5000,8000,100,5000),1)
 query((0,60,5000,8000,60,5000),0)
@@ -26,4 +26,7 @@ ray=(5130,y,1570,5150,y,1570)
 query(ray,0);query(ray,1,(local,0,79));query(ray,0,(remote,1,79));query(ray,1,(local,0,79));query(ray,0,(remote,1,79))
 # Malformed declared alternate-source pose fails closed; authority is untouched.
 C.c_float.from_buffer(remote,0).value=float('nan');query(ray,0,(remote,1,80))
+for index in range(6):
+ points=list(ray);points[index]=float('nan');query(points,0)
+query(ray,0,(None,0,80));query(ray,0,(local,1025,80))
 print(json.dumps({'suite':'prepared-world-los-geometry','passed':True,'calls':calls,'genuine_casualty_wreck':True,'same_revision_source_switches':4,'readonly_authority_and_sources':True,'library_sha256':hashlib.sha256(PATH.read_bytes()).hexdigest(),'scope':'Prepared production geometry composition and explicit source isolation only. No gameplay callers/body/nav/network prediction/scale acceptance.'}))

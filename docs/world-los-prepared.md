@@ -11,10 +11,10 @@ SysV register/stack preservation, readonly source bytes, short-circuit policy
 and exact64-bit source/revision forwarding. Two assembled faults ignore a
 ground source error or substitute authority for the supplied source; both fail.
 
-Freshly assembled/linked production geometry verifies10 calls: clear high ray,
+Freshly assembled/linked production geometry verifies18 calls: clear high ray,
 narrow raised relief, authored wall, above-wall clearance, genuine captured
 vehicle casualty and four same-revision local/alternate-source switches. An
-alternate malformed pose is blocked. Authority checksum and supplied source
+alternate malformed pose, nonfinite endpoints, absent storage and invalid count are blocked. Authority checksum and supplied source
 bytes are unchanged. No gameplay caller, network prediction, blast shielding,
 body/nav or game-scale acceptance is implied. The next integration contract
 in the main checkout records caller and simultaneous-explosion hazards.
