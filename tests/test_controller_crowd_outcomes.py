@@ -8,7 +8,11 @@ class Entity(C.Structure):
  _fields_=[('x',C.c_float),('z',C.c_float)]+[(n,C.c_uint) for n in ('hp','side','kind','front')]+[('target',C.c_int),('generation',C.c_uint)]
 class Player(C.Structure):
  _fields_=[(n,C.c_float) for n in ('x','y','z','yaw','pitch')]+[(n,C.c_uint) for n in ('hp','ammo','reload','cooldown','respawn','front','connected','shots','hits','suppression','generation')]
+class Ground(C.Structure):
+ _fields_=[(n,C.c_float) for n in ('heading','speed','turn','vx','vz')]+[(n,C.c_uint) for n in ('generation','kind','flags')]
 E=(Entity*32768).in_dll(lib,'sim_entities');P=(Player*4).in_dll(lib,'sim_players');V=(C.c_int*4).in_dll(lib,'sim_player_vehicle');alive=(C.c_uint*2).in_dll(lib,'sim_alive');enabled=C.c_uint.in_dll(lib,'crowd_enabled')
+try:G=(Ground*32768).in_dll(lib,'sim_ground_motion');ground_enabled=C.c_uint.in_dll(lib,'ground_enabled')
+except ValueError:G=ground_enabled=None
 lib.sim_init.argtypes=[C.c_uint,C.c_uint];lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float];lib.player_input.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4;lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.sim_checksum.restype=C.c_uint64
 R=(.55,3.55,4.49);TOL=.002
 
@@ -20,6 +24,7 @@ def closest(a0,a1,b0,b1):
 
 def reset(n=32):
  assert lib.sim_init(n,42)==0;enabled.value=int(not a.legacy);C.c_uint.in_dll(lib,'hazard_enabled').value=0
+ if ground_enabled is not None:ground_enabled.value=int(not a.legacy)
  for e in E[:n]:e.hp=0
  alive[0]=alive[1]=0
  for side in (0,1):
@@ -40,6 +45,16 @@ def intent(before,after,v,speed,name,tick):
  norm=max(1,math.hypot(*v));ds=[q-p for p,q in zip(before,after)]
  assert math.hypot(*ds)<=speed+.0015,(name,'norm',tick,ds)
  assert all(abs(d)<=.0015 if x==0 else d*x>=-TOL and abs(d)<=speed*abs(x)/norm+.0015 for d,x in zip(ds,v)),(name,'input component/sign',tick,ds,v)
+
+def driven_intent(before,after,v,body,name,tick):
+ if G is None or a.legacy:return intent(before,after,v,.6,name,tick)
+ i=(C.addressof(body)-C.addressof(E))//C.sizeof(Entity);g=G[i];dx,dz=after[0]-before[0],after[1]-before[1]
+ assert g.generation==body.generation and g.kind==1 and g.flags&1,(name,'unstamped actual driven hull',tick)
+ assert all(math.isfinite(x) for x in (g.heading,g.speed,g.turn,g.vx,g.vz)),(name,'nonfinite motion',tick)
+ assert math.hypot(dx,dz)<=.6015 and abs(g.turn)<=.152,(name,'physical envelope/turn',tick)
+ ux,uz=math.sin(g.heading),math.cos(g.heading)
+ assert abs(dx*uz-dz*ux)<=TOL,(name,'autonomous axis slide or strafe',tick,dx,dz,g.heading)
+ assert math.dist((dx,dz),(g.vx,g.vz))<=TOL and abs(dx*ux+dz*uz-g.speed)<=TOL,(name,'motion differs from real hull displacement',tick)
 
 def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=False,mirror=False,transition=None):
  reset();name=f'{mode}_vs_{obstacle}'+('_diagonal' if diagonal else '')+('_overlap_out' if overlap and outward else '_overlap_in' if overlap else '')+('_moving' if moving else '')+('_'+transition if transition else '')
@@ -64,7 +79,8 @@ def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=Fals
    elif transition=='generation':other.generation+=1;other.x,other.z=3550,2000
    released=True
   s0,b0=pos(source),pos(other);live=bool(other.hp and (obstacle!='human' or other.connected));lib.sim_tick();s1,b1=pos(source),pos(other)
-  if mode!='ai':intent(s0,s1,v,speed,name,t)
+  if mode=='driver':driven_intent(s0,s1,v,source,name,t)
+  elif mode=='human':intent(s0,s1,v,speed,name,t)
   assert source.hp>0,(name,'fixture polluted by damage',t)
   d0=math.dist(s0,b0);d1=math.dist(s1,b1);d=closest(s0,s1,b0,b1);minimum=min(minimum,d)
   if live and other.hp:
@@ -110,7 +126,10 @@ def four_controllers(driven=False,reverse=False):
  for t in range(120):
   old=[pos(b) for b in bodies];lib.sim_tick();new=[pos(b) for b in bodies]
   for i in range(4):
-   assert bodies[i].hp>0;intent(old[i],new[i],vectors[i],speed,'four_drivers' if driven else 'four_humans',t);progress[i]+=math.dist(old[i],new[i]);traces[i].update(struct.pack('<ff',*new[i]))
+   assert bodies[i].hp>0
+   if driven:driven_intent(old[i],new[i],vectors[i],bodies[i],'four_drivers',t)
+   else:intent(old[i],new[i],vectors[i],speed,'four_humans',t)
+   progress[i]+=math.dist(old[i],new[i]);traces[i].update(struct.pack('<ff',*new[i]))
    for j in range(i):
     d=closest(old[i],new[i],old[j],new[j])
     if d<2*radius-TOL:
@@ -153,6 +172,7 @@ placement_rows=placements()
 # overlap is not newly introduced overlap, and is counted explicitly.
 def census(n):
  assert lib.sim_init(n,42)==0 and lib.sim_scenario(3)==0;enabled.value=int(not a.legacy)
+ if ground_enabled is not None:ground_enabled.value=int(not a.legacy)
  controllers=[]
  for slot in range(4):
   assert lib.player_join(slot,slot%3)==0
@@ -172,7 +192,10 @@ def census(n):
   army=[(i,pos(e),e.kind,e.generation,e.hp) for i,e in enumerate(E[:n]) if e.hp and e.kind<3];old=[pos(x[0]) for x in controllers];lib.sim_tick()
   for c,(body,r,slot) in enumerate(controllers):
    if not body.hp:continue
-   new=pos(body);intent(old[c],new,(1,.3 if slot&1 else 0),.6 if slot==3 else .3,'dense',t);moves+=math.dist(old[c],new)>.001;trace.update(struct.pack('<ff',*new))
+   new=pos(body)
+   if slot==3:driven_intent(old[c],new,(1,.3),body,'dense',t)
+   else:intent(old[c],new,(1,.3 if slot&1 else 0),.3,'dense',t)
+   moves+=math.dist(old[c],new)>.001;trace.update(struct.pack('<ff',*new))
    for i,b0,k,g,hp in army:
     e=E[i]
     if V[slot]==i:continue
@@ -204,6 +227,6 @@ def census(n):
  hp1=sum(e.hp for e in E[:n]);assert hp1<hp0,('real combat absent',n,hp0,hp1)
  return dict(units=n,ticks=a.dense_ticks,near_relative_sweep_checks=checks,controller_pair_sweep_checks=controller_pair_checks,controller_pair_new_overlap_ticks=controller_pair_faults,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 dense=[census(n) for n in (8192,16384)]
-report=dict(suite='controller-crowd-outcomes',status='PASS',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,four_controllers=four,slot_physical_trace_invariance=slot_trace_invariance,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
+report=dict(suite='controller-crowd-outcomes',status='PASS',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,four_controllers=four,slot_physical_trace_invariance=slot_trace_invariance,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Human input component/sign/amplitude gates remain; driven hulls use real stamped hull-axis/speed/velocity whole-segment coherence.','Legacy causal control disables crowd and shared ground policy together when available; original frozen baseline has no ground module.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))

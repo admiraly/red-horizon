@@ -19,9 +19,13 @@ class Entity(C.Structure):
     _fields_=[('x',C.c_float),('z',C.c_float)]+[(n,C.c_uint) for n in ('hp','side','kind','front')]+[('target',C.c_int),('generation',C.c_uint)]
 class Player(C.Structure):
     _fields_=[(n,C.c_float) for n in ('x','y','z','yaw','pitch')]+[(n,C.c_uint) for n in ('hp','ammo','reload','cooldown','respawn','front','connected','shots','hits','suppression','generation')]
+class Ground(C.Structure):
+    _fields_=[(n,C.c_float) for n in ('heading','speed','turn','vx','vz')]+[(n,C.c_uint) for n in ('generation','kind','flags')]
 entities=(Entity*32768).in_dll(lib,'sim_entities')
 players=(Player*4).in_dll(lib,'sim_players')
 alive=(C.c_uint*2).in_dll(lib,'sim_alive')
+try:ground=(Ground*32768).in_dll(lib,'sim_ground_motion');ground_enabled=C.c_uint.in_dll(lib,'ground_enabled')
+except ValueError:ground=ground_enabled=None
 lib.sim_init.argtypes=[C.c_uint,C.c_uint]
 lib.sim_order.argtypes=[C.c_uint]*3
 lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
@@ -75,6 +79,7 @@ def penetration(p,kind):
 def initialize(mirror=False,count=32):
     assert lib.sim_init(count,42)==0
     if enabled is not None:enabled.value=0 if a.legacy else 1
+    if ground_enabled is not None:ground_enabled.value=0 if a.legacy else 1
     C.c_uint.in_dll(lib,'hazard_enabled').value=0
     for e in entities[:count]:e.hp=0
     alive[0]=alive[1]=0
@@ -113,14 +118,31 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
     contact_slide_steps=0
     maximum_penetration=penetration(start,kind)
     samples=[]
+    explicit_contact_steering=False
     for tick in range(ticks):
+        # A tracked hull cannot slide along an obstruction on a fixed diagonal
+        # axis. The driver explicitly steers along the free edge after contact;
+        # human diagonal slide fixtures and all of their inputs remain intact.
+        if mode=='driver' and ground is not None and not a.legacy and '_diagonal_' in name and tick==25:
+            free_axis=0 if '_z_edge' in name else 1
+            tangent=[0.,0.];tangent[free_axis]=math.copysign(1.,intent[free_axis+1])
+            assert lib.player_input(0,intent[0],*tangent,0,0)==0
+            explicit_contact_steering=True
         before=pose(actor)
         before_depth=penetration(before,kind)
         lib.sim_tick()
         after=pose(actor)
         assert actor.hp==100,(name,'movement fixture polluted by damage',tick,actor.hp)
         assert math.dist(before,after)<=speed+.0015,(name,'speed bound',tick,before,after)
-        if mode!='army':
+        if mode=='driver' and ground is not None and not a.legacy:
+            g=ground[12];dx,dz=after[0]-before[0],after[1]-before[1]
+            assert g.generation==actor.generation and g.kind==kind and g.flags&1,(name,'unstamped driven hull',tick)
+            assert all(math.isfinite(v) for v in (g.heading,g.speed,g.turn,g.vx,g.vz)) and abs(g.turn)<=.152,(name,'invalid/bounded turn',tick)
+            ux,uz=math.sin(g.heading),math.cos(g.heading)
+            fault=abs(dx*uz-dz*ux)>TOL or math.dist((dx,dz),(g.vx,g.vz))>TOL or abs(dx*ux+dz*uz-g.speed)>TOL
+            intent_fault_ticks+=fault
+            assert not fault,(name,'whole hull-axis movement/state coherence',tick,before,after,g.heading,g.speed)
+        elif mode!='army':
             requested=(intent[1],intent[2])
             norm=max(1,math.hypot(*requested))
             delta=tuple(q-p for p,q in zip(before,after))
@@ -148,7 +170,10 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
         else:assert math.dist(end,goal)<.6,(name,'failed body-safe route progress',end,goal)
     if not a.legacy and mode!='army' and not invalid:
         assert math.dist(start,end)>1,(name,'controller frozen before physical obstruction',start,end)
-        if name.endswith('_diagonal_wall'):assert contact_slide_steps>0,(name,'diagonal contact failed requested legal slide',end)
+        if name.endswith('_diagonal_wall'):
+            if mode=='driver' and ground is not None:
+                assert explicit_contact_steering and abs(end[1]-start[1])>5,(name,'explicit tracked contact steering failed useful recovery',end)
+            else:assert contact_slide_steps>0,(name,'diagonal contact failed requested legal slide',end)
         if '_diagonal_' in name and not name.endswith('_diagonal_wall'):
             free_axis=0 if '_z_edge' in name else 1
             assert abs(end[free_axis]-start[free_axis])>5,(name,'map contact failed useful requested free-axis advance',end)
@@ -156,6 +181,7 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
             'final':end,'final_goal_error':None if goal is None else math.dist(end,goal),
             'body_collision_ticks':collision_ticks,'maximum_penetration_m':maximum_penetration,
             'input':intent,'intent_fault_ticks':intent_fault_ticks,'diagonal_contact_slide_steps':contact_slide_steps,
+            'explicit_driver_contact_steering':explicit_contact_steering,
             'initial_invalid':invalid,'samples':samples,'physical_trace_sha256':trace.hexdigest(),
             'checksum':f'{lib.sim_checksum():016x}'}
 
@@ -210,6 +236,7 @@ if a.legacy:
 def census(n):
     assert lib.sim_init(n,42)==0 and lib.sim_scenario(3)==0
     if enabled is not None:enabled.value=0 if a.legacy else 1
+    if ground_enabled is not None:ground_enabled.value=0 if a.legacy else 1
     initial={i:pose(e) for i,e in enumerate(entities[:n]) if e.hp and e.kind<3}
     initial_invalid={i for i in initial if violation(initial[i],initial[i],entities[i].kind)}
     invalid_steps=reentries=0
@@ -241,7 +268,10 @@ report={'suite':'terrain-body-outcomes','passed':True,'legacy':a.legacy,'terrain
         'oracle_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'expanded_rectangle_radii_m':RADII,'solid_boxes':boxes,'controlled_encounters':reports,'dense':dense,
         'deterministic_replay':True,'physical_faction_label_swap':True,
-        'candidate_controller_input_components_preserved':not a.legacy,
+        'candidate_human_input_components_preserved':not a.legacy,
+        'candidate_driver_hull_axis_coherence':not a.legacy and ground is not None,
+        'driver_contact_recovery':'Explicit steering along free edge for shared tracked policy; human legal diagonal slides remain required.',
+        'legacy_control':'Terrain footprint and shared ground policy disabled together when present; actual historical baseline has no shared ground module.',
         'scope':'Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance.'}
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))

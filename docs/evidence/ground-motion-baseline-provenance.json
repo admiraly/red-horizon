@@ -1,0 +1,26 @@
+{
+  "source_commit": "1fbe5a78f9609061abc9a1750b09c823254001b8",
+  "authored_revision": "1fbe5a78f9609061abc9a1750b09c823254001b8-fdbabe9158e8279f",
+  "library_path": "/tmp/rh-ground-prekinematics.so",
+  "library_sha256": "d547457034be364788c6eca42c42ba15c376e0b5efab2aab2bf67789085439fa",
+  "build_command": "RED_HORIZON_NASM=/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm python3 tools/dev.py test --suite vehicles",
+  "build_session": 12104,
+  "build_exit_code": 0,
+  "observer_command": "python3 tests/test_ground_motion_outcomes.py /tmp/rh-ground-prekinematics.so --legacy --report /tmp/ground-motion-baseline.json",
+  "observer_session": 73477,
+  "observer_exit_code": 0,
+  "runtime_inputs_frozen_before_observer_edits": true,
+  "observer_report_sha256": "d7f4237998fd76c1664499ab41a4d8da7c004ab3b652b242d34de93b779e4cee",
+  "causal_policy": "Original baseline has no ground module or ground_enabled; crowd and terrain footprint policies remain enabled.",
+  "preservation_checks": {
+    "controller_session": 88234,
+    "controller_exit_code": 0,
+    "terrain_dense_ticks": 30,
+    "terrain_exit_code": 0
+  },
+  "limits": [
+    "Private software observer of CPU production simulation; no GPU/network/audio acceptance.",
+    "Private binary retained in /tmp, not committed.",
+    "Player generation alone is not stamped in existing vehicle ownership ABI; no new protection claimed."
+  ]
+}
