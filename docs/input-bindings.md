@@ -74,6 +74,6 @@ stops at exchange_cancel rather than treating newly appended actions as
 transfer responses. Defend authority policy and scoped evidence are described
 in company-defend.md and status.md.
 
-Compatibility note: infantry ammunition advances current peers to UDP28/schema
-0x7ce46b6e/content0x6974e792. Earlier version numbers above describe the
+Compatibility note: infantry ammunition advances current peers to UDP29/schema
+0xc400bad2/content0x5964d91f. Earlier version numbers above describe the
 original verified batch, not current peer compatibility.

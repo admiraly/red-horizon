@@ -1,4 +1,4 @@
-; Finite physical depot stores; prerequisite, not yet hooked into world.
+; Finite physical depot stores; integrated authoritative resupply source.
 %include "schemas/depot_ammunition.inc"
 default rel
 extern sim_sites
@@ -52,7 +52,7 @@ depot_ammunition_take:
  lea r8,[depot_ammunition]
  add r8,rdi
  cmp dword [r8+8],0
- je .unavailable
+ je .empty_record
  cmp dword [r8+8],DEPOT_AMMUNITION_INITIAL
  jne .invalid
  cmp dword [r8+12],0
@@ -69,8 +69,8 @@ depot_ammunition_take:
  jne .unavailable
  cmp [r9+8],esi
  jne .unavailable
- cmp dword [r9+20],0
- je .unavailable
+ cmp dword [r9+20],1
+ jne .unavailable
  cmp dword [r9+24],0
  je .unavailable
  test dword [r9+28],4
@@ -83,13 +83,18 @@ depot_ammunition_take:
  sub [r8],eax
  add [r8+4],eax
  ret
+.empty_record:
+ mov eax,[r8]
+ or eax,[r8+4]
+ or eax,[r8+12]
+ jnz .invalid
 .unavailable:
  xor eax,eax
  ret
 .invalid:
  mov eax,-1
  ret
-; RAX hash,R8 FNV prime. No world hook until integration contract is verified.
+; RAX hash,R8 FNV prime. Includes all remaining/issued stock in world checksums.
 depot_ammunition_hash:
  lea rsi,[depot_ammunition]
  mov ecx,DEPOT_AMMUNITION_SITES*DEPOT_AMMUNITION_STRIDE

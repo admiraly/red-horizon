@@ -368,6 +368,8 @@ def main():
             execute([sys.executable,'tests/test_input_bindings.py'])
         if suite in ('all','headless','fast','simulation','combat'):
             execute([sys.executable,'tests/test_infantry_ammunition.py',str(library)])
+            execute([sys.executable,'tests/test_depot_ammunition.py'])
+            execute([sys.executable,'tests/test_infantry_resupply.py',str(library)])
             execute([sys.executable,'tests/test_infantry_weapon_abi.py'])
             execute([sys.executable,'tests/test_ground_acquisition.py',str(library)])
             execute([sys.executable,'tests/test_ground_target_selection.py',str(library)])
@@ -487,6 +489,7 @@ def main():
             execute([sys.executable,'tests/test_company_follow_network.py',str(server),str(library)])
             execute([sys.executable,'tests/test_company_defend_network.py',str(server),str(library)])
             execute([sys.executable,'tests/test_infantry_ammunition_network.py',str(server),str(library)])
+            execute([sys.executable,'tests/test_infantry_ammunition_network.py',str(server),str(library),'--resupply-encounter'])
             if (ROOT/'tests/test_coop_movement.py').exists():execute([sys.executable,'tests/test_coop_movement.py',str(server),str(library)])
             if (ROOT/'tests/test_net_projectiles.py').exists():execute([sys.executable,'tests/test_net_projectiles.py',str(library),str(server)])
             if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])

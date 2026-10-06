@@ -1,3 +1,35 @@
+Finite nearby army rifle resupply is verified in isolated feature/depot-ammunition.
+Policy2 keeps30+90 carried rounds and60-tick reload, with cumulative received
+rounds conserving mag+reserve+shots=120+received. Actual owned healthy connected
+uncontested depot within60m and clear ground/solid/wreck LOS debits finite stock
+before reserves credit. Automatic physical-ID stagger visits at mostceil(N/30)
+after operation evaluation. Current map four stores/48000 rounds; capture/repair/
+route restoration never refills. Existing firing/movement/HP/roles remain unchanged.
+UDP29/schema0xc400bad2/content0x5964d91f; no wire stock fields or shortage UI.
+
+Final runtime fast69 reports (68 explicit passes plus hazard outcomes), focused
+combat24, network20, original8192/16384 and actual graphical solo/co-op/remapped
+fault wheel pass. Original400tick side-label health symmetry remains unchanged.
+Physical trace receives30 at300/600/900/1200, fires134 and kills400HP target at
+1296. Actual root occupation restores a cut supply path at600; contested
+occupation and captured empty stores supply nothing.135 requests exhaust12000
+with a30-round final partial grant. Actual original8192/four-endpoint staged
+encounter observes30-round debit/credit and resumed firing; unmodified read-only
+conservation observer remains separate. Source epochs, fixtures/corrections,
+raw failures and limits: [evidence/depot-ammunition-focused.json](evidence/depot-ammunition-focused.json).
+Final runtime5b4126d3735ea917 and review8a4fa4cff8cf5608 each370 inputs; only
+three development/test files differ. All foreground jobs are terminal/reconciled.
+Matching-main integration and new immutable full checkpoint still pending.
+
+The isolated CPU600tick comparison under concurrent test load records prior
+9.429/9.315s and candidate9.123/8.986s. This is neither an isolated cost regression
+benchmark nor target frame-budget acceptance. Whole-operation/hardware/human/
+Windows acceptance remains open. Next: truthful generation/lease-gated owned
+company shortage and depot inventory reports, then physical supply-aware return
+routes. No player/vehicle/air rearm, production, convoys or hidden replacement
+army/inventory implemented. Full-spec goal remains active; no publication and
+code license pending owner approval.
+
 Frozen infantry extended checkpoint fd47f7a527c9 PASSED1345.229553s at
 6d62cc68ea7642f964442c5629e258bdb9fc355c-381aeff17b03b7b0 and is terminal/
 collected. Exact raw results and coverage limits:

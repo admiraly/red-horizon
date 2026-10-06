@@ -1,0 +1,130 @@
+{
+  "revision": "6ea530fa7aa16378cc791898872d7f57f2aa37a2-8a4fa4cff8cf5608",
+  "runs": {
+    "combat": {
+      "status": "failed",
+      "exit_code": 1,
+      "suite_reports": 2,
+      "explicit_passes": 2,
+      "log": "depot-ammunition-combat.log"
+    },
+    "combat-recovery": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 24,
+      "explicit_passes": 24,
+      "log": "depot-ammunition-combat-recovery.log"
+    },
+    "fast-final": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 69,
+      "explicit_passes": 68,
+      "log": "depot-ammunition-fast-final.log"
+    },
+    "network-final": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 19,
+      "explicit_passes": 19,
+      "log": "depot-ammunition-network-final.log"
+    },
+    "network-review": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 20,
+      "explicit_passes": 20,
+      "log": "depot-ammunition-network-review.log"
+    },
+    "scale-final": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-scale-final.log"
+    },
+    "staged-udp": {
+      "status": "failed",
+      "exit_code": 1,
+      "suite_reports": 0,
+      "explicit_passes": 0,
+      "log": "depot-ammunition-staged-udp.log"
+    },
+    "staged-udp-recovery": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-staged-udp-recovery.log"
+    },
+    "client-build": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 0,
+      "explicit_passes": 0,
+      "log": "depot-ammunition-client-build.log"
+    },
+    "bindings-gl": {
+      "status": "failed",
+      "exit_code": 1,
+      "suite_reports": 0,
+      "explicit_passes": 0,
+      "log": "depot-ammunition-bindings-gl.log"
+    },
+    "bindings-gl-recovery": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-bindings-gl-recovery.log"
+    },
+    "review-build": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 0,
+      "explicit_passes": 0,
+      "log": "depot-ammunition-review-build.log"
+    },
+    "coop-gl": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-coop-gl.log"
+    },
+    "wheel-gl": {
+      "status": "passed",
+      "exit_code": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "depot-ammunition-wheel-gl.log"
+    }
+  },
+  "epochs": {
+    "final_runtime": "5b4126d3735ea917;370 authored inputs; stride pass, shared stock validation, corruption guards and5-entry ABI. Fast69/network19/private scale pass.",
+    "review": "8a4fa4cff8cf5608;370 inputs. Only test_infantry_ammunition_network.py, test_client_bindings.py and tools/dev.py change (staged UDP registration and actual-mode/input observation). Registered network20 and both graphical fixtures pass."
+  },
+  "input_delta": [
+    "tools/dev.py",
+    "tests/test_client_bindings.py",
+    "tests/test_infantry_ammunition_network.py"
+  ],
+  "failed_checks": {
+    "combat": "Test initially required3HP damage even for the final shot against1HP target. Corrected expected damage to min(3,prior HP); same normal three-point damage, no HP renewal.",
+    "staged-udp": "Target4108 has front1, not0; initial assertion failed before writes. Corrected fixture reads its actual front and holds that front; preserves original metadata.",
+    "bindings-gl": "Foreign-front denial was not observed after short inputs under concurrent load. Read-only front-selection and processing gates keep key held until actual observation; map uses actual mode instead of permanent title footer. Corrected same executable passes; no authority edits."
+  },
+  "binaries": {
+    "red-horizon-coop-server": "e294ae26a240a7bc8b08e3d5b93c53b248cae67b452a0c0d5bc96e8c43d2f89d",
+    "red-horizon-server": "5e82f44f609a0f43bed36ddee68b62aedce0f1e8c696ecde4240d21a6611864d",
+    "red-horizon": "187959d689531aed4882b60f9a87f197c1f56822dfd80d2d8eeba9f42fe2b1e1"
+  },
+  "limits": [
+    "Army rifle nearby resupply only; shortage UI, autonomous routes, other weapons/vehicle/air/player rearm, production/convoys and full logistics remain missing.",
+    "Operation admission uses current site records evaluated once/second, not zero-latency occupation detection.",
+    "Original8192/16384 scale and400-tick side-label health symmetry thresholds unchanged.",
+    "Staged UDP uses one declared startup encounter and enemy shell-ammo0; no HP/identity/infantry-stock edits, no writes/freeze/renewal after setup. Unmodified original observer is separate.",
+    "Software GL and concurrent-load CPU samples do not accept hardware frame budgets, whole-operation quality, Windows or human play acceptance.",
+    "No publication; code license pending owner approval."
+  ]
+}

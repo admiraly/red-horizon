@@ -2,12 +2,13 @@
 %include "schemas/entity.inc"
 %include "schemas/infantry_weapon.inc"
 default rel
-extern sim_entities,sim_count,sim_tick_count
+extern sim_entities,sim_count,sim_tick_count,sim_sites
+extern depot_ammunition_take,terrain_height,world_los
 section .bss align=64
 global infantry_weapons
 infantry_weapons: resb ENTITY_CAPACITY*INFANTRY_WEAPON_STRIDE
 section .text
-global infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash
+global infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash,infantry_weapon_resupply,infantry_weapon_resupply_tick
 ; EDI stable actor ->RDX own entity,R8 stock record, EAX0 valid or-1.
 ; Validity does not reset/refill or change state. No enemy reads.
 record:
@@ -93,20 +94,9 @@ infantry_weapon_tick:
  test eax,eax
  jnz .next
  call birth
- ; Corrupt stocks never become an automatic source of ammunition.
- cmp dword [r8+4],INFANTRY_MAGAZINE
- ja .next
- cmp dword [r8+8],INFANTRY_RESERVE
- ja .next
- cmp dword [r8+12],INFANTRY_RELOAD_TICKS
- ja .next
- cmp dword [r8+16],INFANTRY_MAGAZINE+INFANTRY_RESERVE
- ja .next
- mov eax,[r8+4]
- add eax,[r8+8]
- add eax,[r8+16]
- cmp eax,INFANTRY_MAGAZINE+INFANTRY_RESERVE
- jne .next
+ call stock_valid
+ test eax,eax
+ jnz .next
  cmp dword [r8+12],0
  je .ready
  cmp dword [r8+4],0
@@ -150,19 +140,11 @@ infantry_weapon_fire:
  mov eax,[rdx+ENTITY_GENERATION]
  cmp eax,[r8]
  jne .invalid
- cmp dword [r8+4],INFANTRY_MAGAZINE
- ja .invalid
- cmp dword [r8+8],INFANTRY_RESERVE
- ja .invalid
- cmp dword [r8+12],INFANTRY_RELOAD_TICKS
- ja .invalid
- cmp dword [r8+16],INFANTRY_MAGAZINE+INFANTRY_RESERVE
- ja .invalid
- mov eax,[r8+4]
- add eax,[r8+8]
- add eax,[r8+16]
- cmp eax,INFANTRY_MAGAZINE+INFANTRY_RESERVE
- jne .invalid
+ sub rsp,8
+ call stock_valid
+ add rsp,8
+ test eax,eax
+ jnz .invalid
  cmp dword [r8+12],0
  je .loaded
  cmp dword [r8+4],0
@@ -171,8 +153,6 @@ infantry_weapon_fire:
 .loaded:
  cmp dword [r8+4],0
  je .unavailable
- cmp dword [r8+16],INFANTRY_MAGAZINE+INFANTRY_RESERVE
- jae .invalid
  dec dword [r8+4]
  inc dword [r8+16]
  cmp dword [r8+4],0
@@ -194,6 +174,204 @@ infantry_weapon_fire:
 .invalid:
  mov eax,-1
  ret
+; R8 own record ->EAX0valid/-1 corrupt. No writes; RDX/R8 preserved.
+; Per-body received rounds are bounded by all12 finite initial depot stores.
+stock_valid:
+ cmp dword [r8+4],INFANTRY_MAGAZINE
+ ja .invalid
+ cmp dword [r8+8],INFANTRY_RESERVE
+ ja .invalid
+ cmp dword [r8+12],INFANTRY_RELOAD_TICKS
+ ja .invalid
+ cmp dword [r8+24],INFANTRY_RECEIVED_LIMIT
+ ja .invalid
+ mov ecx,[r8+24]
+ add ecx,INFANTRY_MAGAZINE+INFANTRY_RESERVE
+ cmp [r8+16],ecx
+ ja .invalid
+ mov eax,[r8+4]
+ add eax,[r8+8]
+ add eax,[r8+16]
+ cmp eax,ecx
+ jne .invalid
+ cmp dword [r8+12],0
+ je .valid
+ cmp dword [r8+4],0
+ jne .invalid
+.valid:
+ xor eax,eax
+ ret
+.invalid:
+ mov eax,-1
+ ret
+; Own/source XMM0/1XZ ->EAX1valid/0invalid; bounded finite map coordinates.
+position_valid:
+ ucomiss xmm0,xmm0
+ jp .bad
+ ucomiss xmm1,xmm1
+ jp .bad
+ comiss xmm0,[supply_zero]
+ jb .bad
+ comiss xmm1,[supply_zero]
+ jb .bad
+ comiss xmm0,[supply_max]
+ ja .bad
+ comiss xmm1,[supply_max]
+ ja .bad
+ mov eax,1
+ ret
+.bad:
+ xor eax,eax
+ ret
+; EDI actor ->EAX rounds credited0..90/-1invalid. Single-thread transaction:
+; living matching body, stock capacity, finite position, <=60m and clear actual
+; ground/solid/wreck LOS, eligible owner/healthy/connected/uncontested depot.
+; Debit precedes non-failing credit. No enemy reads, generation or pose changes.
+; Reload remains necessary; credit goes only into reserves. At most one success
+; per actor per authority tick. Every nonvolatile register preserved.
+infantry_weapon_resupply:
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,32
+ mov ebx,edi
+ call record
+ test eax,eax
+ jnz .invalid
+ mov r12,rdx
+ mov r13,r8
+ mov eax,[rdx+ENTITY_GENERATION]
+ cmp eax,[r8]
+ jne .invalid
+ call stock_valid
+ test eax,eax
+ jnz .invalid
+ mov eax,[sim_tick_count]
+ cmp [r13+28],eax
+ je .none
+ mov r15d,INFANTRY_RESERVE
+ sub r15d,[r13+8]
+ jz .none
+ mov eax,INFANTRY_RECEIVED_LIMIT
+ sub eax,r15d
+ cmp [r13+24],eax
+ ja .invalid
+ movss xmm0,[r12+ENTITY_X]
+ movss xmm1,[r12+ENTITY_Z]
+ call position_valid
+ test eax,eax
+ jz .invalid
+ movss [rsp],xmm0
+ movss [rsp+8],xmm1
+ call terrain_height
+ addss xmm0,[supply_eye]
+ movss [rsp+4],xmm0
+ xor r14d,r14d
+.site:
+ mov eax,r14d
+ shl eax,5
+ lea r10,[sim_sites]
+ add r10,rax
+ cmp dword [r10+16],1
+ jne .next
+ mov eax,[r12+ENTITY_SIDE]
+ cmp [r10+8],eax
+ jne .next
+ cmp dword [r10+20],1
+ jne .next
+ cmp dword [r10+24],0
+ je .next
+ test dword [r10+28],4
+ jnz .next
+ movss xmm0,[r10]
+ movss xmm1,[r10+4]
+ call position_valid
+ test eax,eax
+ jz .next
+ movaps xmm2,xmm0
+ subss xmm2,[rsp]
+ mulss xmm2,xmm2
+ movaps xmm3,xmm1
+ subss xmm3,[rsp+8]
+ mulss xmm3,xmm3
+ addss xmm2,xmm3
+ comiss xmm2,[supply_radius_sq]
+ ja .next
+ movss [rsp+12],xmm0
+ movss [rsp+20],xmm1
+ call terrain_height
+ addss xmm0,[supply_eye]
+ movss [rsp+16],xmm0
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ movss xmm2,[rsp+8]
+ movss xmm3,[rsp+12]
+ movss xmm4,[rsp+16]
+ movss xmm5,[rsp+20]
+ call world_los
+ test eax,eax
+ jz .next
+ mov edi,r14d
+ mov esi,[r12+ENTITY_SIDE]
+ mov edx,r15d
+ call depot_ammunition_take
+ test eax,eax
+ js .invalid
+ jz .next
+ add [r13+8],eax
+ add [r13+24],eax
+ mov edx,[sim_tick_count]
+ mov [r13+28],edx
+ mov dword [r13+20],0
+ jmp .out
+.next:
+ inc r14d
+ cmp r14d,12
+ jb .site
+.none:
+ xor eax,eax
+ jmp .out
+.invalid:
+ mov eax,-1
+.out:
+ add rsp,32
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ ret
+; Bounded physical-ID stagger once/second, after current operation connectivity.
+; EAX0/-1invalid count; death/invalid actors do not debit stores.
+infantry_weapon_resupply_tick:
+ cmp dword [sim_count],ENTITY_CAPACITY
+ ja .bad
+ push rbx
+ mov eax,[sim_tick_count]
+ xor edx,edx
+ mov ecx,INFANTRY_RESUPPLY_PERIOD
+ div ecx
+ xor ebx,ebx
+ test edx,edx
+ jz .loop
+ mov ebx,INFANTRY_RESUPPLY_PERIOD
+ sub ebx,edx
+.loop:
+ cmp ebx,[sim_count]
+ jae .done
+ mov edi,ebx
+ call infantry_weapon_resupply
+ add ebx,INFANTRY_RESUPPLY_PERIOD
+ jmp .loop
+.done:
+ pop rbx
+ xor eax,eax
+ ret
+.bad:
+ mov eax,-1
+ ret
 ; RAX rolling checksum,R8 FNV prime; includes all persistent bounded records.
 infantry_weapon_hash:
  lea rsi,[infantry_weapons]
@@ -206,4 +384,9 @@ infantry_weapon_hash:
  dec ecx
  jnz .loop
  ret
+section .rodata
+supply_zero: dd 0.0
+supply_max: dd 8000.0
+supply_radius_sq: dd INFANTRY_RESUPPLY_RADIUS_SQ
+supply_eye: dd INFANTRY_RESUPPLY_EYE
 section .note.GNU-stack noalloc noexec nowrite progbits

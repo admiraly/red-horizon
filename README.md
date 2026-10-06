@@ -89,3 +89,7 @@ Optional bounded `--census` captures actual depth-visible actor IDs and detail
 classes in the final frame. `--census-map PATH.r32ui` saves its raw attachment for
 independent decoding. Ordinary runs keep the existing rendering path. See
 [pixel visibility scope and capture costs](docs/visibility-reporting.md).
+
+Army infantry can replenish carried reserves from nearby eligible finite depots.
+Transfers conserve rounds and retain reload timing; capture and route restoration
+do not refill stores. Scope and remaining logistics work: [depot ammunition](docs/depot-ammunition.md).
