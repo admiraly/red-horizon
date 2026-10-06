@@ -33,10 +33,12 @@
       "reports": "docs/evidence/player-threat/network-initial.json"
     },
     "network-corrected": {
-      "exit_code": 0,
+      "exit_code": 1,
       "explicit_pass_reports": 14,
       "log_sha256": "95d6ae6ca28e1c3037bab842d5a19073a5d702c10a3aa1446205fbd430784361",
-      "reports": "docs/evidence/player-threat/network-corrected.json"
+      "reports": "docs/evidence/player-threat/network-corrected.json",
+      "status": "failed",
+      "failure": "Existing supply-route live /proc observer asserted a step bound over mixed in-progress tick/pose epochs. No passed full rerun claim."
     },
     "gameplay": {
       "exit_code": 0,
@@ -57,11 +59,11 @@
       "reports": "docs/evidence/player-threat/fast.json"
     }
   },
-  "corrected_development_abi": "Six older network keepalive fixtures now pass a dummy/slot EDI argument plus flags in ESI, matching the actual assembly API. All six declaration/call corrections pass the complete network rerun. Fast frozen source is earlier; only these development network tests differ in final inputs.",
+  "corrected_development_abi": "Six older keepalive fixtures corrected; rerun failed at existing supply-route movement observer after14 explicit passed reports. Those earlier14 are partial coverage, not a complete network pass. A previous initial network run passed25 reports with unchanged ABI fixtures.",
   "scope": [
     "Sparse startup stock/pose fixtures only, genuine80 ticks per case without live renewal. Armed5rounds/50damage; empty/reloading/corrupt cannot damage until actual reload completes; real wall prevents debit; active same-build replay.",
     "Original player/controller/deployment/terrain focused suite, real gameplay and two-client320x240 stock/timeout GL pass.",
-    "Complete network regressions plus original8192/four-endpoint exact player reports and malformed actual UDP pass.",
+    "Initial network25 passed; corrected-ABI network rerun failed after14 passed reports, requiring observer diagnosis and remaining coverage.",
     "Frozen fast passed299.575142s, original scale/recovery/full graphics/fault coverage still requires frozen extended checkpoint after integration."
   ],
   "limits": [
@@ -69,5 +71,6 @@
     "A single actor can still spend on army and human paths in one tick; shared target/cadence scheduling remains.",
     "NPC human shot audio/tracers are not added by this accounting change.",
     "Complete spec, hardware/human quality, license/publication remain unaccepted."
-  ]
+  ],
+  "evidence_correction": "Premature exit0/complete-rerun wording in the previous isolated commit was incorrect. This record retains failure explicitly."
 }
