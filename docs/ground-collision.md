@@ -55,3 +55,22 @@ renderer, networking and Python per-query assertions. Production actuator hooks,
 full replay/scale/graphics/network checkpoints and vehicle steering acceptance
 remain integrator responsibilities. No new future state or replay bytes were
 introduced; snapshots and diagnostics remain derived and unchecksummed.
+
+Frozen focused integration check at `51cdb7d6f92f3d9dc7f32d40f817957e8476cca3`
+(authored source suffix `aa00b12abaaf599c`):
+
+```
+RED_HORIZON_NASM=/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm python3 tools/dev.py test --suite crowd --extended
+```
+
+Session 19821 exited 0; `/tmp/rh-ground-collision-focused.log` contains five
+explicit passing reports: strict kernel, real-world crowd observer default and
+legacy, and controller observer default and legacy. The unchanged current-pose
+army census ended with zero sampled overlapping pairs at 8,192-unit FRONT and
+HOTSPOT after 120 ticks (initially 110 and 315); this is sampled final-pose
+recovery evidence, not universal all-tick collision acceptance. The existing
+three-human/one-driver 60-tick checks at 8,192 and 16,384 recorded 226/225 nearby
+relative sweeps and 360 controller pair sweeps each, with zero new observed
+overlap ticks and 199/200 moving controller ticks. Old production callers are
+still in this worker tree; the new actuator itself is exercised only by the
+strict exact-segment kernel cases until the integrator installs its hooks.
