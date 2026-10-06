@@ -1,9 +1,13 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
 extern sim_projectiles
 %include "src/net/protocol.inc"
+extern vehicle_driver_generation
+extern vehicle_entity_driver
+extern sim_ground_motion
 extern sim_aircraft
 extern strcmp, printf, fflush
 extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
@@ -44,6 +48,7 @@ disconnects: resd 1
 budget: resd 1
 event_cursors: resd 4
 air_cursors: resd 4
+ground_cursors: resd 4
 projectile_cursors: resd 4
 replicated: resb 4*32768
 distinct_pairs: resq 1
@@ -377,6 +382,8 @@ handle_packet:
  mov ecx,32768
  rep stosb
  lea rdx,[air_cursors]
+ mov dword [rdx+r12*4],0
+ lea rdx,[ground_cursors]
  mov dword [rdx+r12*4],0
  lea rdx,[projectile_cursors]
  mov dword [rdx+r12*4],0
@@ -741,6 +748,9 @@ snapshots:
  call send_aircraft
  mov edi,r12d
  mov rsi,r13
+ call send_ground
+ mov edi,r12d
+ mov rsi,r13
  call send_projectiles
 .nextslot:
  add r13,NET_RECORD
@@ -838,6 +848,179 @@ send_events:
  pop rbx
  pop rbp
  ret
+; Bounded independent ground64 interest, with the legitimate owned hull first.
+send_ground:
+ push rbp
+ mov rbp,rsp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov r12d,edi
+ mov r13,rsi
+ mov eax,edi
+ shl eax,6
+ lea rbx,[sim_players]
+ add rbx,rax
+ mov edi,NET_GROUND
+ mov esi,r12d
+ mov edx,4
+ call header
+ xor r14d,r14d
+ xor r15d,r15d
+ mov dword [rsp],-1
+ cmp dword [rbx+PLAYER_CONNECTED],1
+ jne .scan
+ cmp dword [rbx+PLAYER_HP],0
+ je .scan
+ cmp dword [rbx+PLAYER_GENERATION],0
+ je .scan
+ lea rdx,[sim_player_vehicle]
+ mov eax,[rdx+r12*4]
+ cmp eax,[sim_count]
+ jae .scan
+ mov r9d,eax
+ mov eax,r12d
+ shl eax,5
+ lea r8,[sim_vehicles]
+ add r8,rax
+ cmp dword [r8+VEHICLE_ACTIVE],1
+ jne .scan
+ cmp [r8+VEHICLE_ENTITY],r9d
+ jne .scan
+ cmp [r8+VEHICLE_DRIVER],r12d
+ jne .scan
+ lea rdx,[vehicle_driver_generation]
+ mov eax,[rbx+PLAYER_GENERATION]
+ cmp eax,[rdx+r12*4]
+ jne .scan
+ lea rdx,[vehicle_entity_driver]
+ cmp [rdx+r9*4],r12d
+ jne .scan
+ mov eax,r9d
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+12],0
+ jne .scan
+ cmp dword [rdx+16],1
+ jne .scan
+ cmp dword [rdx+8],0
+ je .scan
+ mov eax,[rdx+28]
+ cmp eax,[r8+VEHICLE_ENTITY_GENERATION]
+ jne .scan
+ mov [rsp],r9d
+ jmp .candidate
+.scan:
+ lea r8,[ground_cursors]
+ mov eax,[r8+r12*4]
+ cmp eax,[sim_count]
+ jb .index
+ xor eax,eax
+.index:
+ mov r9d,eax
+ inc eax
+ mov [r8+r12*4],eax
+ inc r15d
+ cmp r9d,[rsp]
+ je .skip
+ mov eax,r9d
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ movss xmm0,[rdx]
+ subss xmm0,[rbx+PLAYER_X]
+ mulss xmm0,xmm0
+ movss xmm1,[rdx+4]
+ subss xmm1,[rbx+PLAYER_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[interest2]
+ ja .skip
+.candidate:
+ mov eax,[rdx+16]
+ cmp eax,1
+ jb .skip
+ cmp eax,2
+ ja .skip
+ mov ecx,r9d
+ shl ecx,5
+ lea rsi,[sim_ground_motion]
+ add rsi,rcx
+ cmp eax,[rsi+GROUND_KIND]
+ jne .skip
+ mov eax,[rdx+28]
+ cmp eax,[rsi+GROUND_GENERATION]
+ jne .skip
+ cmp dword [rdx+8],0
+ je .append
+ test dword [rsi+GROUND_FLAGS],GROUND_ACTIVE
+ jz .skip
+.append:
+ mov eax,r12d
+ shl eax,15
+ add eax,r9d
+ lea r8,[replicated]
+ cmp byte [r8+rax],0
+ jne .counted
+ mov byte [r8+rax],1
+ inc qword [distinct_pairs]
+.counted:
+ imul edi,r14d,64
+ lea r8,[output+44]
+ add rdi,r8
+ mov [rdi],r9d
+ add rdi,4
+ mov r8,rsi
+ mov rsi,rdx
+ mov ecx,4
+ rep movsq
+ mov rsi,r8
+ mov ecx,5
+ rep movsd
+ xor eax,eax
+ cmp dword [rdx+8],0
+ je .dead
+ mov eax,GROUND_ACTIVE
+ jmp .flags
+.dead:
+ mov dword [rdi-16],0
+ mov dword [rdi-12],0
+ mov dword [rdi-8],0
+ mov dword [rdi-4],0
+.flags:
+ stosd
+ xor eax,eax
+ stosd
+ inc r14d
+.skip:
+ cmp r14d,18
+ jae .finish
+ cmp r15d,[sim_count]
+ jb .scan
+.finish:
+ test r14d,r14d
+ jz .done
+ mov [output+40],r14d
+ imul esi,r14d,64
+ add esi,44
+ lea eax,[rsi-NET_HEADER]
+ mov [output+32],eax
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret
+
 ; One bounded independent aircraft packet per client snapshot:
 ; nearby live aircraft; full entity32 plus pose makes air warmup independent.
 send_aircraft:

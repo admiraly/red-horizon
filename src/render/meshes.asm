@@ -3,11 +3,13 @@ default rel
 %include "schemas/entity.inc"
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/ground_motion.inc"
 extern view_projection,view_half_size
 extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
+extern sim_ground_motion
 extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
@@ -17,7 +19,7 @@ extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
 extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUniform1f
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
- global mesh_aircraft_pose
+ global mesh_aircraft_pose,mesh_ground_pose
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
@@ -47,6 +49,7 @@ air_height: dd 90.0
 align 16
 tree_positions: dd 1900.,3720.,2100.,3740.,1800.,4150.,2250.,4100.,3450.,3500.,3550.,3530.,3650.,3520.,4500.,3700.,4600.,3730.,5500.,1300.,5520.,1330.,5500.,6500.,3000.,6100.,3020.,6120.,3300.,1700.,3370.,1730.
 section .bss
+mesh_ground_pose: resd 16 ; last actual ground instance, development diagnostics
 mesh_aircraft_pose: resd 16 ; last actual aircraft instance, development diagnostics
 mesh_program: resd 1
 mesh_vao: resd 1
@@ -527,6 +530,7 @@ meshes_draw:
  cvtsi2ss xmm0,[rbx+ENTITY_KIND]
  movss [rdi+56],xmm0
  mov dword [rdi+60],0
+ call .ground_pose
  call .air_pose
  inc r15d
 .armynext:
@@ -607,6 +611,37 @@ meshes_draw:
  movups xmm0,[rdi+48]
  movups [mesh_aircraft_pose+48],xmm0
 .air_return:
+ ret
+; Authoritative hull axis, including a tracked pivot with zero translation.
+.ground_pose:
+ mov eax,[rbx+ENTITY_KIND]
+ cmp eax,1
+ jb .ground_return
+ cmp eax,2
+ ja .ground_return
+ mov edx,r14d
+ shl edx,5
+ lea rcx,[sim_ground_motion]
+ add rcx,rdx
+ cmp eax,[rcx+GROUND_KIND]
+ jne .ground_record
+ mov edx,[rbx+ENTITY_GENERATION]
+ cmp edx,[rcx+GROUND_GENERATION]
+ jne .ground_record
+ test dword [rcx+GROUND_FLAGS],GROUND_ACTIVE
+ jz .ground_record
+ mov eax,[rcx+GROUND_HEADING]
+ mov [rdi+12],eax
+.ground_record:
+ movups xmm0,[rdi]
+ movups [mesh_ground_pose],xmm0
+ movups xmm0,[rdi+16]
+ movups [mesh_ground_pose+16],xmm0
+ movups xmm0,[rdi+32]
+ movups [mesh_ground_pose+32],xmm0
+ movups xmm0,[rdi+48]
+ movups [mesh_ground_pose+48],xmm0
+.ground_return:
  ret
 .animation:
  ; Preserve authored clip frames; mode chosen from actual observed motion.
@@ -1016,6 +1051,7 @@ meshes_draw:
  movss [rdi+52],xmm0
  cvtsi2ss xmm0,[rbx+ENTITY_KIND]
  movss [rdi+56],xmm0
+ call .ground_pose
  call .air_pose
  inc r15d
 .markernext:

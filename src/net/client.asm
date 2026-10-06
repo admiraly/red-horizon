@@ -2,8 +2,10 @@
 default rel
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
 %include "src/net/protocol.inc"
+extern sim_ground_motion
 extern sim_aircraft
 extern inet_pton, sim_init, player_init, reset_event_ring
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
@@ -21,6 +23,9 @@ air_max_y: dd 1200.0
 air_heading: dd 6.4
 air_angle: dd 1.6
 air_speed: dd 10.0
+ground_speed: dd 0.61
+ground_turn: dd 0.1
+ground_velocity2: dd 0.373321
 projectile_velocity: dd 1000.0
 projectile_horizon: dd 120.0
 fixed_rate: dd 30.0
@@ -52,6 +57,8 @@ last_receive: resq 1
 state_tick: resd 1
 entity_tick: resd 32768
 air_tick: resd 32768
+ground_tick: resd 32768
+ground_dead_generation: resd 32768
 global net_projectiles, net_projectile_count
 net_projectiles: resb PROJECTILE_CAPACITY*PROJECTILE_STRIDE
 net_projectile_count: resd 1
@@ -114,6 +121,7 @@ net_client_open:
  lea rdi,[air_tick]
  mov ecx,32768
  rep stosd
+ call reset_ground
  lea rdi,[sim_aircraft]
  mov ecx,32768*AIR_STRIDE/8
  rep stosq
@@ -289,6 +297,8 @@ net_client_poll:
  je .state
  cmp dword [incoming+16],NET_ENTITIES
  je .entities
+ cmp dword [incoming+16],NET_GROUND
+ je .ground
  cmp dword [incoming+16],NET_AIRCRAFT
  je .aircraft
  cmp dword [incoming+16],NET_PROJECTILES
@@ -477,6 +487,33 @@ net_client_poll:
  ja .nextrecord
  cmp dword [r15+24],2
  ja .nextrecord
+ cmp dword [r15+12],0
+ je .sparsegroundalive
+ cmp dword [r15+20],1
+ jb .sparsegroundalive
+ cmp dword [r15+20],2
+ ja .sparsegroundalive
+ mov eax,[r15]
+ lea rdx,[ground_dead_generation]
+ mov ecx,[r15+32]
+ cmp ecx,[rdx+rax*4]
+ je .nextrecord
+.sparsegroundalive:
+ ; Same/older sparse chunks cannot undo a self-contained hull pose/XZ.
+ mov eax,[r15]
+ mov edx,eax
+ shl edx,5
+ lea r9,[sim_ground_motion]
+ cmp dword [r9+rdx+GROUND_GENERATION],0
+ je .checkairpriority
+ lea rdx,[ground_tick]
+ mov ecx,[rdx+rax*4]
+ cmp ecx,[incoming+28]
+ jb .checkairpriority
+ mov ecx,[r15+32]
+ cmp ecx,[rdi+28]
+ jbe .nextrecord
+.checkairpriority:
  ; An air64 refresh wins against same/older-tick sparse entity chunks.
  mov eax,[r15]
  lea rdx,[air_tick]
@@ -505,6 +542,33 @@ net_client_poll:
  lea rdx,[sim_aircraft]
  mov dword [rdx+rax+AIR_FLAGS],0
 .copyentity:
+ mov eax,[r15]
+ shl eax,5
+ lea rdx,[sim_ground_motion]
+ add rdx,rax
+ mov ecx,[r15+32]
+ cmp ecx,[rdx+GROUND_GENERATION]
+ jne .clearground
+ mov ecx,[r15+20]
+ cmp ecx,[rdx+GROUND_KIND]
+ jne .clearground
+ cmp dword [r15+12],0
+ jne .copygroundentity
+.clearground:
+ mov dword [rdx+GROUND_FLAGS],0
+.copygroundentity:
+ mov eax,[r15]
+ lea rdx,[ground_dead_generation]
+ xor ecx,ecx
+ cmp dword [r15+20],1
+ jb .sparsedeathstamp
+ cmp dword [r15+20],2
+ ja .sparsedeathstamp
+ cmp dword [r15+12],0
+ jne .sparsedeathstamp
+ mov ecx,[r15+32]
+.sparsedeathstamp:
+ mov [rdx+rax*4],ecx
  lea rsi,[r15+4]
  mov ecx,4
  rep movsq
@@ -512,6 +576,178 @@ net_client_poll:
  add r15,36
  dec r14d
  jmp .records
+; Self-contained ground64: validate the complete batch before any mutation.
+.ground:
+ cmp dword [incoming+32],4
+ jb .next
+ mov r14d,[incoming+40]
+ cmp r14d,18
+ ja .next
+ imul eax,r14d,64
+ add eax,4
+ cmp eax,[incoming+32]
+ jne .next
+ lea r15,[incoming+44]
+.validateground:
+ test r14d,r14d
+ jz .groundvalid
+ mov eax,[r15]
+ cmp eax,[sim_count]
+ jae .next
+ lea rsi,[incoming+44]
+.groundduplicates:
+ cmp rsi,r15
+ jae .groundunique
+ cmp eax,[rsi]
+ je .next
+ add rsi,64
+ jmp .groundduplicates
+.groundunique:
+ cmp dword [r15+32],0
+ je .next
+ cmp dword [r15+16],1
+ ja .next
+ mov eax,[r15+20]
+ cmp eax,1
+ jb .next
+ cmp eax,2
+ ja .next
+ mov ecx,400
+ cmp eax,1
+ je .groundhp
+ mov ecx,160
+.groundhp:
+ cmp [r15+12],ecx
+ ja .next
+ cmp dword [r15+24],2
+ ja .next
+ mov eax,[r15+28]
+ cmp eax,-1
+ je .groundtarget
+ cmp eax,[sim_count]
+ jae .next
+.groundtarget:
+ cmp dword [r15+60],0
+ jne .next
+ xor eax,eax
+ cmp dword [r15+12],0
+ setne al
+ cmp eax,[r15+56]
+ jne .next
+ lea rsi,[r15+4]
+ mov ecx,2
+.groundxz:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ movss xmm0,[rsi]
+ ucomiss xmm0,[zero]
+ jb .next
+ ucomiss xmm0,[maximum]
+ ja .next
+ add rsi,4
+ loop .groundxz
+ lea rsi,[r15+36]
+ mov ecx,5
+.groundfinite:
+ mov eax,[rsi]
+ and eax,0x7fffffff
+ cmp eax,0x7f800000
+ jae .next
+ add rsi,4
+ loop .groundfinite
+ mov eax,[r15+36]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[air_heading]
+ ja .next
+ mov eax,[r15+40]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[ground_speed]
+ ja .next
+ mov eax,[r15+44]
+ and eax,0x7fffffff
+ movd xmm0,eax
+ ucomiss xmm0,[ground_turn]
+ ja .next
+ movss xmm0,[r15+48]
+ mulss xmm0,xmm0
+ movss xmm1,[r15+52]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[ground_velocity2]
+ ja .next
+ add r15,64
+ dec r14d
+ jmp .validateground
+.groundvalid:
+ mov r14d,[incoming+40]
+ lea r15,[incoming+44]
+.applyground:
+ test r14d,r14d
+ jz .accepted
+ mov eax,[r15]
+ lea rdx,[entity_tick]
+ lea r8,[ground_tick]
+ mov ecx,[incoming+28]
+ cmp ecx,[rdx+rax*4]
+ jb .nextground
+ cmp ecx,[r8+rax*4]
+ jb .nextground
+ mov edi,eax
+ shl edi,5
+ lea r9,[sim_entities]
+ add rdi,r9
+ mov esi,[r15+32]
+ cmp esi,[rdi+28]
+ jb .nextground
+ ja .groundgeneration
+ ; Explicit wire tombstones, rather than interest-hidden HP, establish death.
+ cmp dword [r15+12],0
+ je .groundkindvalid
+ lea r9,[ground_dead_generation]
+ mov esi,[r15+32]
+ cmp esi,[r9+rax*4]
+ je .nextground
+.groundkindvalid:
+ cmp dword [rdx+rax*4],0
+ je .groundgeneration
+ mov esi,[r15+20]
+ cmp esi,[rdi+16]
+ jne .nextground
+.groundgeneration:
+ lea r9,[ground_dead_generation]
+ xor esi,esi
+ cmp dword [r15+12],0
+ jne .grounddeathstamp
+ mov esi,[r15+32]
+.grounddeathstamp:
+ mov [r9+rax*4],esi
+ mov [rdx+rax*4],ecx
+ mov [r8+rax*4],ecx
+ mov r10d,eax
+ lea rsi,[r15+4]
+ mov ecx,4
+ rep movsq
+ shl r10d,5
+ lea rdi,[sim_ground_motion]
+ add rdi,r10
+ lea rsi,[r15+36]
+ mov ecx,5
+ rep movsd
+ mov eax,[r15+32]
+ stosd
+ mov eax,[r15+20]
+ stosd
+ mov eax,[r15+56]
+ stosd
+.nextground:
+ add r15,64
+ dec r14d
+ jmp .applyground
+
 ; Self-contained air64 records warm up and refresh independently of sparse
 ; ground chunks. Validate all entity/pose fields before writing either array.
 .aircraft:
@@ -925,6 +1161,7 @@ net_client_poll:
  mov dword [net_connected],0
  mov dword [pending_len],0
  call reset_projectiles
+ call reset_ground
 .retry:
  cmp dword [pending_len],0
  je .expire
@@ -979,6 +1216,7 @@ net_client_poll:
  pop rbp
  ret
 net_client_close:
+ call reset_ground
  call reset_projectiles
  mov rdi,[fd]
  test rdi,rdi
@@ -1099,4 +1337,17 @@ reset_projectiles:
  rep stosd
  mov dword [net_projectile_count],0
  ret
+reset_ground:
+ lea rdi,[ground_tick]
+ xor eax,eax
+ mov ecx,32768
+ rep stosd
+ lea rdi,[ground_dead_generation]
+ mov ecx,32768
+ rep stosd
+ lea rdi,[sim_ground_motion]
+ mov ecx,32768*GROUND_STRIDE/8
+ rep stosq
+ ret
+
 section .note.GNU-stack noalloc noexec nowrite progbits
