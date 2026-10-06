@@ -754,7 +754,7 @@ sim_blast:
  push r13
  push r14
  push r15
- sub rsp,104
+ sub rsp,968
  mov r12d,edi
  mov r13d,esi
  xor ebp,ebp
@@ -848,17 +848,14 @@ sim_blast:
  call terrain_los
  test eax,eax
  jz .chain
+ ; Collect eligibility against one pre-explosion world, before any casualty
+ ; registers cover. Nine cells at most24 samples each bound this list to216.
+ mov rax,rbx
+ lea rdx,[sim_entities]
+ sub rax,rdx
+ shr eax,5
+ mov [rsp+104+rbp*4],eax
  inc ebp
- cmp [rbx+ENTITY_HP],r13d
- ja .damage
- mov rdi,rbx
- lea rax,[sim_entities]
- sub rdi,rax
- shr edi,5
- mov esi,r13d
- call sim_air_damage
- jmp .chain
-.damage: sub [rbx+ENTITY_HP],r13d
 .chain:
  inc dword [rsp+36]
  dec dword [rsp+28]
@@ -871,8 +868,31 @@ sim_blast:
  inc r14d
  cmp r14d,1
  jle .zloop
+ xor r14d,r14d
+.apply:
+ cmp r14d,ebp
+ jae .applied
+ mov eax,[rsp+104+r14*4]
+ shl eax,5
+ lea rbx,[sim_entities]
+ add rbx,rax
+ cmp dword [rbx+ENTITY_HP],0
+ je .apply_next
+ cmp [rbx+ENTITY_HP],r13d
+ ja .damage
+ mov edi,[rsp+104+r14*4]
+ mov esi,r13d
+ call sim_air_damage
+ jmp .apply_next
+.damage:
+ ; Preserve the existing surviving-blast damage semantics.
+ sub [rbx+ENTITY_HP],r13d
+.apply_next:
+ inc r14d
+ jmp .apply
+.applied:
  mov eax,ebp
- add rsp,104
+ add rsp,968
  pop r15
  pop r14
  pop r13
