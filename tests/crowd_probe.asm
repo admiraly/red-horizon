@@ -1,6 +1,6 @@
 %include "schemas/entity.inc"
 default rel
-extern crowd_move,crowd_step,crowd_occupied,crowd_hash
+extern crowd_move,crowd_step,crowd_hull_step,crowd_occupied,crowd_hash
 section .bss align=64
 global sim_entities,sim_count,sim_tick_count
 sim_entities: resb ENTITY_CAPACITY*ENTITY_STRIDE
@@ -87,6 +87,54 @@ test_step:
  mov rsi,[rsp]
  movss [rsi],xmm0
  movss [rsi+4],xmm1
+ xor eax,eax
+ cmp rbx,0x12345
+ jne .out
+ cmp rbp,0x23456
+ jne .out
+ cmp r12,0x34567
+ jne .out
+ cmp r13,0x45678
+ jne .out
+ cmp r14,0x56789
+ jne .out
+ cmp r15,0x6789a
+ jne .out
+ inc eax
+.out:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+global test_hull_step
+test_hull_step:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov [rsp],rdx
+ mov ebx,0x12345
+ mov ebp,0x23456
+ mov r12d,0x34567
+ mov r13d,0x45678
+ mov r14d,0x56789
+ mov r15d,0x6789a
+ movss xmm0,[rdx]
+ movss xmm1,[rdx+4]
+ movss xmm2,[rdx+8]
+ movss xmm3,[rdx+12]
+ movss xmm4,[rdx+16]
+ call crowd_hull_step
+ mov rdx,[rsp]
+ movss [rdx],xmm0
+ movss [rdx+4],xmm1
  xor eax,eax
  cmp rbx,0x12345
  jne .out

@@ -372,6 +372,123 @@ for _ in range(7):controlled(32768,(1010,1000))
 assert players[0].x>1002
 assert occupied((1002,1000))==0
 
+# Exact ground-hull segments are actuator output, not steering goals. Check the
+# actual assembly entry with real records, preservation, ABI and exact endpoints.
+lib.test_hull_step.argtypes=[C.c_uint,C.c_uint,C.POINTER(C.c_float)]
+lib.test_hull_step.restype=C.c_int
+hull_cases=[]
+def hull_setup(role=1,driver=False,rows=(),start=(1000,1000)):
+    reset([(*start,role),*rows])
+    if driver:
+        human(0,*start);claim(0,0)
+    lib.crowd_begin()
+def hull(endpoint,budget=.6,mode=0,body=0,start=None):
+    start=(entities[body].x,entities[body].z) if start is None else start
+    data=(C.c_float*5)(*start,*endpoint,budget)
+    requested=tuple(data[2:4]);original=tuple(data[:2])
+    state=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers))
+    assert lib.test_hull_step(body,mode,data)==1,'hull SysV callee-saved ABI'
+    assert state==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers)),'hull authoritative write'
+    result=tuple(data[:2])
+    if all(math.isfinite(v) and 0<=v<=8000 for v in original):
+        assert result in (original,requested),('hull slid, normalized or clipped',original,requested,result)
+    return result
+for role,driver in ((1,False),(1,True),(2,False)):
+    mode=int(driver);cap=.6 if role==1 else .2
+    hull_setup(role,driver)
+    exact=(C.c_float(1000.02).value,C.c_float(1000.03).value)
+    assert hull(exact,cap,mode)==exact,'small segment amplified or discarded'
+    tiny=(C.c_float(1000.0001).value,1000.0)
+    assert hull(tiny,cap,mode)==tiny,'representable sub-millimeter segment lost'
+    assert hull((1000,1000),cap,mode)==(1000,1000)
+    assert hull((1000+cap+.01,1000),100,mode)==(1000,1000),'role cap bypass'
+    assert hull((1000.1,1000),.02,mode)==(1000,1000),'budget amplified'
+    for bad in (0,-1,float('nan'),float('inf')):
+        assert hull(exact,bad,mode)==(1000,1000)
+    for bad in ((float('nan'),1000),(1000,float('inf')),(-1,1000),(8001,1000)):
+        assert hull(bad,cap,mode)==(1000,1000)
+    assert hull(exact,cap,2)==(1000,1000),'invalid mode'
+    # Invalid coordinates fall back to actual live source, never propagate NaN.
+    assert hull(exact,cap,mode,start=(float('nan'),float('inf')))==(1000,1000)
+    entities[0].gen+=1
+    assert hull(exact,cap,mode)==(1000,1000),'recycled source generation'
+    hull_setup(role,driver)
+    entities[0].kind=0
+    assert hull(exact,cap,mode)==(1000,1000),'infantry accepted as hull'
+    hull_setup(role,driver)
+    entities[0].hp=0
+    assert hull(exact,cap,mode)==(1000,1000),'dead hull'
+    hull_setup(role,driver)
+    assert hull(exact,cap,mode,start=(1000.01,1000))==(C.c_float(1000.01).value,1000.0),'snapshot source mismatch'
+    count.value=32769;before=list(metrics)
+    assert hull(exact,cap,mode)==(1000,1000)
+    assert list(metrics)==before,'invalid-count hull queried grid'
+    hull_cases.append({'role':role,'mode':mode,'small_exact_endpoint':exact,'zero_bad_inputs_generation_count_readonly_abi':True})
+# Every directed tank driver claim link and generation must be valid.
+for broken in ('unclaimed','player_link','hull_link','record_entity','record_driver','record_generation','inactive','enemy','disconnected','dead_player','player_generation'):
+    hull_setup(1,True)
+    if broken=='unclaimed':drivers[0]=-1
+    elif broken=='player_link':player_vehicle[0]=-1
+    elif broken=='hull_link':drivers[0]=1
+    elif broken=='record_entity':vehicle_records[0]=1
+    elif broken=='record_driver':vehicle_records[2]=1
+    elif broken=='record_generation':vehicle_records[1]+=1
+    elif broken=='inactive':vehicle_records[3]=0
+    elif broken=='enemy':entities[0].side=1
+    elif broken=='disconnected':players[0].connected=0
+    elif broken=='dead_player':players[0].hp=0
+    else:players[0].gen=0
+    assert hull((1000.2,1000),.6,1)==(1000,1000),broken
+hull_setup(2);assert hull((1000.1,1000),.2,1)==(1000,1000),'artillery cannot claim tank driver mode'
+# A blocked diagonal whole segment must hold despite a legal free component.
+for policy in (0,1):
+    hull_setup(1,rows=((1004.45,1000),));enabled.value=policy
+    result=hull((1000.4,1000.4))
+    assert result==((1000,1000) if policy else (C.c_float(1000.4).value,)*2)
+    # Terrain footprint always applies, even in causal body-policy-off control.
+    hull_setup(1,start=(3984.2,1200));enabled.value=policy
+    assert hull((3984.6,1200.4))==(C.c_float(3984.2).value,1200.0)
+    assert hull((3984.2,1200.4))==(C.c_float(3984.2).value,C.c_float(1200.4).value)
+    # Snapshot/generation contract is retained when actor avoidance is disabled.
+    entities[0].gen+=1
+    assert hull((3984.2,1200.4))==(C.c_float(3984.2).value,1200.0)
+# Nonclaiming tanks retain 0.6m anticipation for driver->AI residual braking.
+hull_setup(1,rows=((1007.8,1000,1),))
+assert hull((1000.2,1000))==(1000,1000),'unclaimed tank 0.6m anticipation'
+# Independently proposed opposing exact motion has a safe simultaneous sweep.
+hull_setup(1,rows=((1008.4,1000,1),))
+a=hull((1000.6,1000));b=hull((1007.8,1000),body=1)
+assert a[0]>1000.5 and b[0]<1008
+assert b[0]-a[0]>=7.1-.001,(a,b)
+# Artillery and humans remain real-sized physical neighbors, including late join.
+for role,radius in ((0,.55),(1,3.55),(2,4.49)):
+    gap=3.55+radius+S[role]+.1
+    hull_setup(1,rows=((1000+gap,1000,role),))
+    assert hull((1000.2,1000))==(1000,1000),('neighbor role',role)
+for driver in (False,True):
+    hull_setup(1,driver);human(1,1004.3,1000);lib.crowd_begin()
+    players[1].x=1010
+    point=hull((1000.1,1000),mode=int(driver))
+    assert point==((C.c_float(1000.1).value,1000.0) if driver else (1000,1000)),('human phase',driver)
+    players[1].gen+=1
+    assert hull((1000.1,1000),mode=int(driver))[0]>1000,'late generation handoff'
+hull_setup(1);human(1,1004.3,1000)
+assert hull((1000.1,1000))==(1000,1000),'late join human absent'
+# Existing overlap may recover only along the exact outward segment.
+hull_setup(1,rows=((1003,1000),))
+assert hull((1000.1,1000))==(1000,1000)
+assert hull((1000,1000.1))==(1000,1000)
+assert hull((999.9,1000))==(C.c_float(999.9).value,1000.0)
+# Saturation counts all four bounded human records, holds and never overreads.
+hull_setup(1,rows=tuple((1000,1000) for _ in range(600)))
+assert hull((1000.2,1000))==(1000,1000)
+assert metrics[2]==512 and metrics[7]==512 and metrics[6]==1,list(metrics)
+# Counter invariance holds under cell-coordinate translations in this API too.
+for z in (80,1000,7200):
+    hull_setup(1,rows=((1012,z),(1016,z+16)),start=(1000,z))
+    before=list(metrics);hull((1000.1,z))
+    assert metrics[2]-before[2]==6 and metrics[7]==6,(z,list(metrics))
+
 # Assembly-loop isolated-kernel budgets exclude Python per-query/readonly overhead.
 bench=[]
 for n in (128,8192):
@@ -383,7 +500,7 @@ for n in (128,8192):
     bench.append({'actors':n,'ticks':30,'kernel_ms_mean':sum(times)/len(times),'kernel_ms_p95':sorted(times)[28],
                   'inspected':metrics[2],'maximum_inspected_query':metrics[7],'truncated':metrics[6]})
 print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,'coincident_cohorts':coincident_cohorts,
-                  'coincident_flank_positions':flank_positions,'reverse_flank_positions':reverse_flank_positions,'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,'controller_cases':controller_cases,'controller_relative_sweeps':controller_sweeps,
+                  'coincident_flank_positions':flank_positions,'reverse_flank_positions':reverse_flank_positions,'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,'controller_cases':controller_cases,'controller_relative_sweeps':controller_sweeps,'exact_hull_cases':hull_cases,'exact_hull_claim_rejections':11,'exact_hull_blocked_diagonal_terrain_and_bodies':True,
                   'limitations':['512 inspected neighbors per query; denser 3x3 infantry or 5x5 vehicle cell chains conservatively yield',
                   'controller kernel verified independently; production player/vehicle hooks verified by integrator',
                   'initial overlap recovery is gradual, crowded unsatisfiable layouts may yield',

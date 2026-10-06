@@ -23,6 +23,7 @@ lookahead: dd 12.0
 radii: dd BODY_INF_RADIUS,BODY_TANK_RADIUS,BODY_ARTY_RADIUS
 steps: dd 0.12,0.5,0.2
 driver_step: dd 0.6
+hull_roundoff: dd 0.001
 human_step: dd 0.3
 local_min: dd -8000.0
 local_max: dd 16000.0
@@ -51,7 +52,7 @@ snap_phase: resd 1
 ; x,z,radius,maxstep,kind,generation,next,reserved
 snaps: resb SNAP_SIZE*(ENTITY_CAPACITY+PLAYER_CAPACITY)
 section .text
-global crowd_init,crowd_begin,crowd_move,crowd_step,crowd_occupied,crowd_hash
+global crowd_init,crowd_begin,crowd_move,crowd_step,crowd_hull_step,crowd_occupied,crowd_hash
 crowd_init:
  mov dword [crowd_enabled],1
  mov dword [occupied_count],0
@@ -131,9 +132,7 @@ crowd_begin:
  movss xmm2,[rax+rdx*4]
  cmp edx,1
  jne .ordinary_step
- lea rax,[vehicle_entity_driver]
- cmp dword [rax+rsi*4],0
- jl .ordinary_step
+ ; Every tank can retain a 0.6m braking sweep after its driver exits.
  movss xmm2,[driver_step]
 .ordinary_step:
  movss [rdi+12],xmm2
@@ -187,6 +186,9 @@ crowd_move:
 crowd_step:
  mov eax,1
  jmp crowd_common
+crowd_hull_step:
+ mov eax,3
+ jmp crowd_common
 crowd_occupied:
  mov eax,2
 crowd_common:
@@ -238,11 +240,25 @@ crowd_common:
  mov eax,[rbx+ENTITY_KIND]
  cmp eax,2
  ja .unchanged
+ cmp dword [rsp+116],3
+ jne .source_role_ok
+ test eax,eax
+ jz .unchanged
+ cmp dword [rsp+120],1
+ ja .unchanged
+.source_role_ok:
  mov [rsp+4],eax
  cmp dword [rbx+ENTITY_GENERATION],0
  je .unchanged
+ cmp dword [rsp+116],3
+ jne .old_driver_mode
+ cmp dword [rsp+120],0
+ je .source_valid
+ jmp .driver_validation
+.old_driver_mode:
  cmp dword [rsp+116],1
  jne .source_valid
+.driver_validation:
  cmp eax,1
  jne .unchanged
  lea rdx,[vehicle_entity_driver]
@@ -289,6 +305,8 @@ crowd_common:
  and edx,0x7f800000
  cmp edx,0x7f800000
  je .unchanged
+ cmp dword [rsp+116],3
+ je .hull_step_cap
  cmp dword [rsp+116],1
  jne .ai_step_cap
  cmp r12d,ENTITY_CAPACITY
@@ -298,14 +316,20 @@ crowd_common:
 .driver_step_cap:
  minss xmm4,[driver_step]
  jmp .step_clamped
+.hull_step_cap:
+ cmp dword [rsp+4],1
+ je .driver_step_cap
 .ai_step_cap:
  lea rcx,[steps]
  mov eax,[rsp+4]
  minss xmm4,[rcx+rax*4]
 .step_clamped:
  movss [rsp+8],xmm4
+ cmp dword [rsp+116],3
+ je .require_snapshot
  cmp dword [crowd_enabled],0
  je .legacy
+.require_snapshot:
  cmp r12d,ENTITY_CAPACITY
  jae .source_snapshot
  cmp r12d,[snap_count]
@@ -348,9 +372,27 @@ crowd_common:
  movaps xmm6,xmm3
  mulss xmm6,xmm6
  addss xmm5,xmm6
+ cmp dword [rsp+116],3
+ jne .goal_nonzero_old
+ ucomiss xmm5,[zero]
+ jbe .unchanged
+ jmp .goal_nonzero
+.goal_nonzero_old:
  ucomiss xmm5,[epsilon]
  jbe .unchanged
+.goal_nonzero:
  sqrtss xmm5,xmm5
+ cmp dword [rsp+116],3
+ jne .normalize_goal
+ ; Exact float endpoint can round by up to two map-coordinate ULPs.
+ movaps xmm6,xmm4
+ addss xmm6,[hull_roundoff]
+ ucomiss xmm5,xmm6
+ ja .unchanged
+ cmp dword [crowd_enabled],0
+ je .hull_terrain
+ jmp .query
+.normalize_goal:
  ; Do not overshoot a nearby goal, even for rotated candidates.
  minss xmm4,xmm5
  movss [rsp+8],xmm4
@@ -387,8 +429,15 @@ crowd_common:
  inc dword [rsp+68]
  mov edi,[rsp+124]
  ; AI retains immutable matching human snapshots; controllers use live bodies.
+ cmp dword [rsp+116],3
+ jne .old_human_phase
+ cmp dword [rsp+120],0
+ je .immutable_human
+ jmp .refresh_human
+.old_human_phase:
  cmp dword [rsp+116],0
  jne .refresh_human
+.immutable_human:
  mov eax,edi
  shl eax,5
  lea rbx,[snaps+ENTITY_CAPACITY*SNAP_SIZE]
@@ -542,6 +591,8 @@ crowd_common:
 .desired_direction:
  xor r15d,r15d
 .candidate:
+ cmp dword [rsp+116],3
+ je .hull_terrain
  cmp dword [rsp+116],1
  je .manual_candidate
  movss xmm2,[rsp+28]
@@ -628,6 +679,25 @@ crowd_common:
  movss xmm1,[rsp+16]
  mov edi,[rsp+4]
  call terrain_body_step
+ jmp .endpoint
+.hull_terrain:
+ movss xmm0,[rsp+12]
+ movss xmm1,[rsp+16]
+ movss xmm2,[rsp+20]
+ movss xmm3,[rsp+24]
+ mov edi,[rsp+4]
+ call terrain_body_path_clear
+ test eax,eax
+ jz .hull_blocked
+ movss xmm0,[rsp+20]
+ movss xmm1,[rsp+24]
+ cmp dword [crowd_enabled],0
+ je .out
+ jmp .endpoint
+.hull_blocked:
+ cmp dword [crowd_enabled],0
+ je .unchanged
+ jmp .reject
 .endpoint:
  movss [rsp+36],xmm0
  movss [rsp+40],xmm1
@@ -639,8 +709,15 @@ crowd_common:
  mulss xmm1,xmm1
  addss xmm0,xmm1
  movss [rsp+52],xmm0
+ cmp dword [rsp+116],3
+ jne .segment_nonzero_old
+ ucomiss xmm0,[zero]
+ jbe .reject
+ jmp .segment_nonzero
+.segment_nonzero_old:
  ucomiss xmm0,[epsilon]
  jbe .reject
+.segment_nonzero:
  xor ebp,ebp
  mov dword [rsp+60],0
 .check:
@@ -734,6 +811,8 @@ crowd_common:
  inc ebp
  jmp .check
 .reject:
+ cmp dword [rsp+116],3
+ je .hull_yield
  inc r15d
  mov eax,10
  cmp dword [rsp+116],1
@@ -742,6 +821,7 @@ crowd_common:
 .candidate_count:
  cmp r15d,eax
  jb .candidate
+.hull_yield:
  inc qword [crowd_metrics+32]
  jmp .unchanged
 .accept:
