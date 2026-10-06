@@ -204,6 +204,30 @@ stock_valid:
 .invalid:
  mov eax,-1
  ret
+ ; Read-only carried-round query for supply-aware tactics. No birth/refill.
+; EDI actor ->EAX0..120, or-1 invalid/dead/noninfantry/stale/corrupt stock.
+; All nonvolatile GPRs preserved. Source pointers remain private authority data.
+global infantry_weapon_rounds
+infantry_weapon_rounds:
+ sub rsp,8
+ call record
+ test eax,eax
+ jnz .done
+ mov eax,[rdx+ENTITY_GENERATION]
+ cmp eax,[r8]
+ jne .unknown
+ call stock_valid
+ test eax,eax
+ jnz .done
+ mov eax,[r8+4]
+ add eax,[r8+8]
+ jmp .done
+.unknown:
+ mov eax,-1
+.done:
+ add rsp,8
+ ret
+
 ; Own/source XMM0/1XZ ->EAX1valid/0invalid; bounded finite map coordinates.
 position_valid:
  ucomiss xmm0,xmm0

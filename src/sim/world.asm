@@ -7,6 +7,8 @@ default rel
 extern company_transfer_tick
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, world_los, terrain_blocked
+extern infantry_supply_goal
+extern nav_supply_goal
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
 extern crowd_init,crowd_begin,crowd_move,crowd_hash
 extern terrain_body_init,terrain_body_hash
@@ -302,7 +304,7 @@ sim_tick:
  movss xmm4,[rcx+rax*4]
  movss xmm2,[rsp+64]
  movss xmm3,[rsp+68]
- jmp .terrain_step
+ jmp .supply_step
 .hazard_move:
  ; Observed imminent danger temporarily interrupts orders at normal role speed.
  movaps xmm2,xmm0
@@ -331,7 +333,7 @@ sim_tick:
  movss xmm2,[rsi+rdi*8]
  movss xmm3,[rsi+rdi*8+4]
  movaps xmm4,xmm1
- jmp .terrain_step
+ jmp .supply_step
 .retreat:
  movss xmm2,[rbx+ENTITY_X]
  cmp dword [rbx+ENTITY_SIDE],0
@@ -343,6 +345,31 @@ sim_tick:
 .retreat_z:
  movss xmm3,[rbx+ENTITY_Z]
  movaps xmm4,xmm1
+ jmp .terrain_step
+.supply_step:
+ movss [rsp+64],xmm2
+ movss [rsp+68],xmm3
+ movss [rsp+72],xmm4
+ mov edi,r12d
+ sub rsp,8
+ call infantry_supply_goal
+ add rsp,8
+ cmp eax,-1
+ je .primary_goal
+ mov [rsp+76],eax
+ mov edi,r12d
+ mov esi,eax
+ sub rsp,8
+ call nav_supply_goal
+ add rsp,8
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ movss xmm4,[rsp+72]
+ jmp .physical_step
+.primary_goal:
+ movss xmm2,[rsp+64]
+ movss xmm3,[rsp+68]
+ movss xmm4,[rsp+72]
 .terrain_step:
  ; Shared squad corridor supplies an intermediate goal, then the existing
  ; swept local steering enforces actual role speed and collision safety.

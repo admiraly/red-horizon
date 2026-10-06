@@ -1,0 +1,67 @@
+{
+  "verified_source_revision": "55acf490c673f41c743e7fdae15a382edcad0071-a5675e2e443c6c49",
+  "authored_inputs": 387,
+  "scope": "Nearby physical infantry resupply detour; finite existing proximity/LOS transaction and unchanged primary commands.",
+  "protocol": 32,
+  "schema": "0x125478c2",
+  "content": "0xcfc42bc9",
+  "logs": {
+    "physical": {
+      "path": "docs/evidence/supply-routes-physical.log",
+      "sha256": "14e0954c3fb7d0544ddc8421fbfcfe9d1e1c9e07aec79da4ddbd554007fea876",
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "additional_case_reports": 0
+    },
+    "fast": {
+      "path": "docs/evidence/supply-routes-fast.log",
+      "sha256": "49fc935f72a6c1112ae49129bf63fe643109c0038a93771fa88f52d6da959ec7",
+      "exit_code": 0,
+      "explicit_pass_reports": 84,
+      "additional_case_reports": 0
+    },
+    "network": {
+      "path": "docs/evidence/supply-routes-network.log",
+      "sha256": "f617cfc5c58ccf067b277cd334c704ff6b874e346fb2f51cd83c3d3be2216637",
+      "exit_code": 0,
+      "explicit_pass_reports": 22,
+      "additional_case_reports": 0
+    },
+    "scale": {
+      "path": "docs/evidence/supply-routes-scale.log",
+      "sha256": "9ffb0f5ac69d24f30574ebb11b907df205ac5a74013042b3ea9f353a045c9663",
+      "exit_code": 0,
+      "explicit_pass_reports": 2,
+      "additional_case_reports": 0
+    },
+    "graphics": {
+      "path": "docs/evidence/supply-routes-graphics.log",
+      "sha256": "0fa2d8e45e007cba188f9acba9ed6c94fad9505893550b22e1d8c5cc62365a79",
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "additional_case_reports": 0
+    },
+    "client-build": {
+      "path": "docs/evidence/supply-routes-client-build.log",
+      "sha256": "e43a2b28d105a06c9b6d9d07c46856636ba0e55493758f46071469b5b8310fd0",
+      "exit_code": 0,
+      "explicit_pass_reports": 0,
+      "additional_case_reports": 0
+    },
+    "dependencies": {
+      "path": "docs/evidence/supply-routes-dependencies.log",
+      "sha256": "17465d85f11ad5bdad3e72df36faf2f24f926042d2bf06e9618afb02717809a5",
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "additional_case_reports": 0
+    }
+  },
+  "cache_probe": "docs/evidence/supply-routes-cache.json",
+  "initial_probe_failure": "Development ABI helper initially used non-PIC PC32 external call; corrected to PLT and all32 probes pass. Initial undefined company symbol corrected before successful headless linking.",
+  "limits": [
+    "Sparse physical journey and real capture-cut fixture; original massive-world acceptance is the separate unchanged test_simulation.py run.",
+    "Graphics report uses software renderer; no hardware budget or human/art acceptance.",
+    "No actual UDP-specific detour journey oracle, convoy/production/player/vehicle/air rearm, hysteresis or route reachability preflight.",
+    "Full extended checkpoint will be frozen at main integration; no full-game completion claim."
+  ]
+}

@@ -1,9 +1,10 @@
 ; Bounded squad visibility corridors followed by existing local swept steering.
 %include "schemas/entity.inc"
+%include "schemas/infantry_supply_route.inc"
 %include "schemas/terrain_relief.inc"
 default rel
 %define SQUAD_SLOTS 12288
-%define SLOTS (SQUAD_SLOTS+2048)
+%define SLOTS (SQUAD_SLOTS+2048+INFANTRY_SUPPLY_ROUTE_SLOTS)
 %define STRIDE 256
 %define QCAP 512
 %define NODES 27
@@ -307,7 +308,16 @@ build_route:
  pop r12
  pop rbx
  ret
+global nav_supply_goal
+nav_supply_goal:
+ cmp esi,12
+ jae nav_entity_goal.raw
+ mov r10d,esi
+ inc r10d
+ jmp nav_entity_goal.common
 nav_entity_goal:
+ xor r10d,r10d
+.common:
  cmp edi,[sim_count]
  jae .raw
  push rbx
@@ -332,6 +342,8 @@ nav_entity_goal:
  cmp dword [rbx+ENTITY_FRONT],3
  jae .bypass
  mov [rsp+8],eax
+ test r10d,r10d
+ jnz .supply_slot
  shl eax,11
  mov edx,r12d
  shr edx,4
@@ -342,6 +354,14 @@ nav_entity_goal:
  test r12d,15
  jnz .slot
  lea eax,[rdx+SQUAD_SLOTS]
+ jmp .slot
+.supply_slot:
+ dec r10d
+ shl r10d,8
+ mov eax,r12d
+ shr eax,7
+ add eax,r10d
+ add eax,SQUAD_SLOTS+2048
 .slot:
  shl eax,8
  lea rbp,[cache]
