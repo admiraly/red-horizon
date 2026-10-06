@@ -1,0 +1,664 @@
+{
+  "job": {
+    "job_id": "c881a96c1725",
+    "revision": "5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c881a96c1725/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c881a96c1725/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c881a96c1725/result.json",
+    "pid": 4041033
+  },
+  "reports": [
+    {
+      "suite": "fast-combat",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-battle-scenario",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "dense-scenarios",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "dense-scenarios",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "tracked-retreat-orders",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "bomb-inherited-velocity-release",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "terrain-swept-movement",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "tactics-default-motion",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "vehicles",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-bank",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-flight-trace",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-world-bounds",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-strike-memory",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-escort",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-public-assault",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-exclusive-control",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-consented-transfer",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-follow-physical",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-acquisition",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-target-selection",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "exterior-site-deployment",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "wreck-public-detour-arrival",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "wreck-nav-fifo-contract",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "production-shell-first-entry",
+      "passed": true,
+      "scope": "Actual production index/query from declared initial births and one public tick. Nearest among at most216sampled live opposing4m contact envelopes, not all-actor or oriented hitbox/terrain/wreck arbitration acceptance."
+    },
+    {
+      "suite": "typed-world-contact-arbitration",
+      "passed": true,
+      "scope": "Actual NASM arbitration with assembled observable source-contract stubs; not production geometry or projectile hook acceptance."
+    },
+    {
+      "suite": "prepared-world-los-contract",
+      "passed": true,
+      "scope": "Assembled cover-contract stubs/source forwarding only, no real geometry/gameplay/remote prediction acceptance."
+    },
+    {
+      "suite": "prepared-world-los-geometry",
+      "passed": true,
+      "scope": "Prepared production geometry composition and explicit source isolation only. No gameplay callers/body/nav/network prediction/scale acceptance."
+    },
+    {
+      "suite": "production-wreck-cover-outcomes",
+      "passed": true,
+      "scope": "Actual corpse capture/blast atomicity/world acquisition/infantry/human rifle and gravity artillery/bomb damage. Controlled initial births; no body/nav/remote prediction or artistic/whole-operation acceptance."
+    },
+    {
+      "suite": "prepared-blast-visibility-batch",
+      "passed": true,
+      "scope": "Actual production blast routine with assembled mutable visibility/casualty contract stubs. Establishes collect-before-apply ordering, not real wreck shielding or gameplay hook acceptance."
+    },
+    {
+      "suite": "projectile-contact-damage-type",
+      "passed": true,
+      "scope": "Actual public air-gun launch and projectile tick with assembled scripted contact source/damage observer. Cover/recycled-identity routing, not natural dogfight or production collision acceptance."
+    },
+    {
+      "suite": "production-world-contact-outcomes",
+      "passed": true,
+      "scope": "Actual authored solids/continuous relief/current sampled actor index/genuine casualty wreck and publicly launched tank shell. No mid-flight health/pose/projectile renewal. No wreck blast shielding/body/navigation/remote prediction acceptance."
+    },
+    {
+      "suite": "prepared-world-body-contract",
+      "passed": true,
+      "scope": "Assembled composition/source/role/radius/alignment contracts only; no gameplay movement/nav/remote prediction acceptance."
+    },
+    {
+      "suite": "prepared-world-body-geometry",
+      "passed": true,
+      "scope": "Prepared terrain/body/grade and explicit wreck source composition only. No gameplay movement/nav/controller/network prediction/scale acceptance."
+    },
+    {
+      "suite": "wreck-public-movement",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "actual-client-wreck-foot-preview",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "prepared-world-body-manual-step",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "terrain-ground-continuous-contact",
+      "passed": true,
+      "scope": "Continuous current base/ridge/one-relief-field point contact, no actor/wreck arbitration or runtime hooks yet."
+    },
+    {
+      "suite": "terrain-solid-first-contact",
+      "passed": true,
+      "scope": "Prepared exact point/AABB contacts for current five authored solids. No analytic ground, actor/wreck arbitration, runtime hooks, physical bodies or scale acceptance."
+    },
+    {
+      "suite": "ground-eye-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "wreck-lifecycle",
+      "passed": true,
+      "scope": "Registry/pose/lifetime prerequisites only; no collision, renderer or wire acceptance"
+    },
+    {
+      "suite": "wreck-remote-lifecycle",
+      "passed": true,
+      "scope": "Actual dedicated remote cache/packet validation/clock lifecycle; real transport, server stream and client graphics acceptance separate"
+    },
+    {
+      "suite": "prepared-segment-box",
+      "passed": true,
+      "scope": "Prepared read-only3D clip/ABI math only; no actual wreck spatial search, body/rifle/LOS/shell/render/wire integration"
+    },
+    {
+      "suite": "segment-sphere-first-entry",
+      "passed": true,
+      "scope": "Geometry primitive only; no actor policy, broadphase, damage or world cover acceptance."
+    },
+    {
+      "suite": "wreck-spatial-query",
+      "passed": true,
+      "scope": "Derived conservative AABB query only; no gameplay/body/LOS/rifle/shell/render/UDP acceptance"
+    },
+    {
+      "suite": "prepared-wreck-body-query",
+      "passed": true,
+      "scope": "Isolated conservative planar inflated-AABB/escape query only; no actor movement/nav/controller/remote-cover hooks or vertical capsule/mesh collision acceptance"
+    },
+    {
+      "suite": "wreck-explicit-query-context",
+      "passed": true,
+      "scope": "Prepared caller-owned stable records/count/revision API. Actual remote-cache lifecycle revision is verified; no connected-client prediction hooks, actor movement, cover or scale acceptance."
+    },
+    {
+      "suite": "wreck-casualty-outcomes",
+      "passed": true,
+      "scope": "Real casualty/lifecycle/crew hooks; initial declared births only, no in-flight pose/health renewal. No physical cover/render/replication acceptance."
+    },
+    {
+      "suite": "wreck-mass-casualties",
+      "passed": true,
+      "scope": "Actual unchanged8k/16k combat, no HP/motion injections; verifies casualty registration, bounded registry and read-only first-contact queries against an all-record interval oracle. No gameplay obstruction hooks. Timing includes ctypes and overlaps development; no graphics, cover or network acceptance."
+    },
+    {
+      "suite": "ground-visual",
+      "passed": true,
+      "scope": "actual NASM derived spring/contact composition; five sample contact points, no physical hull or natural gameplay acceptance"
+    },
+    {
+      "suite": "terrain-relief-component",
+      "passed": true,
+      "scope": "isolated stateless component; no world terrain, navigation, grade clearance, surface/motion, protocol, scale or visual acceptance"
+    },
+    {
+      "suite": "terrain-grade",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "terrain-height-integration",
+      "passed": true,
+      "scope": "actual authoritative height/gradient/LOS/projectile/player/aircraft paths; no grade traversal/nav bypass/render/net/scale acceptance"
+    },
+    {
+      "suite": "terrain-grade-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "terrain-surface",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-surface-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-motion-actuator",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-motion-production-collision",
+      "passed": true,
+      "scope": "Actual actuator plus production crowd/terrain kernels; no world hooks, network, graphics or scale acceptance"
+    },
+    {
+      "suite": "ground-motion-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-motion-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ordnance-admission",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ordnance-fairness",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ordnance-fairness",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-admission",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-admission-fairness",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-admission-fairness",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "crowd",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "crowd-outcomes",
+      "passed": true,
+      "scope": "Production sim_tick navigation/terrain at real role speeds; controlled friendly deployments exclude weapons, player driving and full operation acceptance"
+    },
+    {
+      "suite": "crowd-outcomes",
+      "passed": true,
+      "scope": "Production sim_tick navigation/terrain at real role speeds; controlled friendly deployments exclude weapons, player driving and full operation acceptance"
+    },
+    {
+      "suite": "controller-crowd-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "controller-crowd-outcomes",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "controller-crowd-bench",
+      "passed": true,
+      "scope": "One assembly simulation thread. Timers include ctypes call overhead; fixture setup and Python observation excluded. Real combat/losses remain. Four connected controllers initially; living/boarded counts measured, not held alive. No rendered/replicated clients or GPU/audio budgets."
+    },
+    {
+      "suite": "terrain-body",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "terrain-body-outcomes",
+      "passed": true,
+      "scope": "Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance."
+    },
+    {
+      "suite": "terrain-body-outcomes",
+      "passed": true,
+      "scope": "Production sim_tick orders, human input and actual driven hulls; planar conservative expanded AABB footprint policy. No claim of oriented hulls, vertical vault geometry or full operation acceptance."
+    },
+    {
+      "suite": "hazards",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "hazard-steering",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "hazard_outcomes",
+      "passed": null,
+      "scope": "Controlled initial poses, production artillery/bomb launch primitives and real world movement/collision/damage; not full air FSM, commander or dense-storm acceptance"
+    },
+    {
+      "suite": "hazard-warning",
+      "passed": true,
+      "scope": "assembled HUD adapter with perception stub; production LOS/hazards/GL not exercised"
+    },
+    {
+      "suite": "hazard-budget",
+      "passed": true,
+      "scope": "real NASM hazard core; controlled flat terrain and blocked LOS; no production survival claim"
+    },
+    {
+      "suite": "effects-frame-independence",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "air-trails",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "reload",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "audio-emitters",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "audio-battle",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "footsteps",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "owned-projectile-priority",
+      "passed": true,
+      "scope": "Actual extracted server packet builder with controlled core records. Real UDP/GUI and extended network verification remain separate."
+    },
+    {
+      "suite": "network",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "fourth-player-company-adapter",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "cooperative-world",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-exclusive-actual-udp",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-remote-parser",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-remote-actual-four-player",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-transfer-actual-udp",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "company-follow-actual-udp",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "co-op-player-movement",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "network-projectiles",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "network-events",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "co-op-combat",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-network-parser",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-network-server",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "wreck-network-parser",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "wreck-network-server",
+      "passed": true,
+      "scope": "Actual NASM server combat/registry/global stream and adapter; two initial births only, no in-flight HP/pose/clock refresh. Expiry proven only with --extended; visible graphics separate."
+    },
+    {
+      "suite": "dense_driver",
+      "passed": true,
+      "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"
+    },
+    {
+      "suite": "tools",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "baked-model-assets",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "baked-terrain-assets",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "audio-assets",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "footstep-assets",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "mesh-assets",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "texture-assets",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "battle-metrics",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "visibility_reduce",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "visibility_framebuffer",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "graphics",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "wreck-instance-kernel-shader",
+      "passed": true,
+      "scope": "Immutable instance kernel/actual shader geometry observer only; integrated client draw hooks and UDP lifecycle are verified separately, physical cover remains pending."
+    },
+    {
+      "suite": "hazard-warning-actual-gl",
+      "passed": true,
+      "scope": "Private Xvfb software GL; actual production projectile launch, four physical flight steps, hazard prediction/query and HUD; frozen render clocks; paired friendly/enemy threat. No gameplay performance, network warning or listening claim."
+    },
+    {
+      "suite": "census_cli",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "view-projection-actual-gl",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "dense-client",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "visibility-actual-gl",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "rendered-aircraft",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "rendered-ground-heading",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "canonical-road-material-gl",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "terrain-relief-geometry-gl",
+      "passed": true,
+      "scope": null
+    },
+    {
+      "suite": "ground-support-actual-gl",
+      "passed": true,
+      "scope": "Actual embedded shader/source geometry/frame inputs and transformed normals, includes contact-corrected intermediate angles; not actual instance-hook or natural physical suspension acceptance"
+    },
+    {
+      "suite": "ground-support-client",
+      "passed": true,
+      "scope": "Actual sourced-client instance hooks, near/mid/distant/map GL and read-only frozen fixtures; analytical dynamic response on frozen observer fixtures; no natural gameplay or physical suspension acceptance"
+    }
+  ],
+  "failure": "tests/test_wreck_client.py:25 XOpenDisplay returned null before launching a game client; full job failed",
+  "source_scope": "Frozen follow revision5f0687c-283c45927fee1cf5; no wheel changes",
+  "limitations": [
+    "No full follow pass; subsequent unexecuted fixtures remain unverified in this checkpoint."
+  ]
+}

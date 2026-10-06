@@ -16,10 +16,14 @@ docs/evidence/company-follow-focused.json. Main client/co-op/headless are rebuil
 at5f0687cd0409f375c6ff4d1c71b0b6ad080cb0b5-283c45927fee1cf5.
 Matching-main physical and actual two-client graphical follow checks pass.
 Final isolated tooling2 reports pass; all foreground jobs are terminal and
-collected. The frozen full job below is the sole running managed checkpoint.
-Frozen full extended jobc881a96c1725 is RUNNING on this exact343-input revision;
-no full follow pass is claimed. Matching binaries and job metadata are recorded
-in docs/evidence/company-follow-main.json.
+collected. The full follow job below is now terminal and collected.
+Frozen full extended jobc881a96c1725 FAILED after1118.152s on this exact343-input
+revision: tests/test_wreck_client.py could not open its private Xvfb display,
+before launching a game client. No full follow pass is claimed. Failure/raw
+evidence: docs/evidence/company-follow-full-summary.json and
+company-follow-full-failed.{json,log}. The display startup path is being repaired
+and rechecked before the next full checkpoint. Matching binaries and original
+job metadata are in docs/evidence/company-follow-main.json.
 
 The previous combined HUD/retreat frozen checkpoint43d0d7f2c2bc PASSED
 1218.121s/141 reports on340 authored inputs. It precedes follow and is terminal
