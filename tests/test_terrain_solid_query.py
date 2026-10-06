@@ -38,7 +38,7 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-solid-') as name:
   if expected is None:expected=(1 if wanted else 0) if valid else -1
   assert rc==expected,(rc,expected,start,end)
   if rc==1:
-   t,slot,flags,reserved=struct.unpack('<f3I',out.raw);assert slot==wanted[1] and flags==records[slot][6] and reserved==0;maxerr=max(maxerr,abs(t-wanted[0]));assert abs(t-wanted[0])<6e-8
+   t,slot,flags,reserved=struct.unpack('<f3I',out.raw);assert slot==wanted[1] and flags==struct.unpack_from('<I',before,slot*32+24)[0] and reserved==0;maxerr=max(maxerr,abs(t-wanted[0]));assert abs(t-wanted[0])<6e-8
   else:assert out.raw==b'Z'*16
   calls+=1;return rc
  for i,b in enumerate(boxes):
@@ -61,9 +61,13 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-solid-') as name:
  for offset,value in [(4*32+24,2),(4*32+28,1)]:
   C.memmove(C.addressof(data),initial,160);C.memmove(C.addressof(data)+offset,struct.pack('<I',value),4);query(mutable,(3900,30,1300),(4100,30,1300),-2);bad_sources+=1
  C.memmove(C.addressof(data),initial,160);count.value=6;query(mutable,(0,0,0),(1,1,1),-2);count.value=0;query(mutable,(3900,30,1300),(4100,30,1300),0)
+ count.value=5;C.memmove(C.addressof(data),initial,160);C.memmove(C.addressof(data)+24,struct.pack('<I',0),4);query(mutable,(3900,30,1300),(4100,30,1300),1)
+ C.memmove(C.addressof(data),initial,160);C.memmove(C.addressof(data)+32,initial[:32],32);query(mutable,(3900,30,1300),(4100,30,1300),1)
  production_calls=calls;negatives=[]
- for tag,text,fixture in [('first_slot',source.replace(' ucomiss xmm0,[rsp+48]\n jae .next',' jmp .next'),((6000,30,1750),(3800,30,1255))),('last_entry',source.replace(' movss [rsp+48],xmm0',' movss xmm0,[rsp+12]\n movss [rsp+48],xmm0'),((3900,30,1300),(4100,30,1300))),('missing_height',source.replace(' addss xmm0,[rbx+20]',' nop'),((3900,30,1300),(4100,30,1300)))]:
-  bad,_=build(tag,text)
+ for tag,text,fixture in [('first_slot',source.replace(' ucomiss xmm0,[rsp+48]\n jae .next',' jmp .next'),((6000,30,1750),(3800,30,1255))),('last_entry',source.replace(' movss [rsp+48],xmm0',' movss xmm0,[rsp+12]\n movss [rsp+48],xmm0'),((3900,30,1300),(4100,30,1300))),('missing_height',source.replace(' addss xmm0,[rbx+20]',' nop'),((3900,30,1300),(4100,30,1300))),('tie_last_slot',source.replace(' jae .next',' ja .next'),((3900,30,1300),(4100,30,1300)))]:
+  bad,_=build(tag,text,mutable=tag=='tie_last_slot')
+  if tag=='tie_last_slot':
+   altered=(C.c_byte*160).in_dll(bad,'terrain_obstacles');C.memmove(C.addressof(altered)+32,initial[:32],32)
   try:query(bad,*fixture)
   except AssertionError:negatives.append(tag)
   else:raise AssertionError('assembled fault escaped '+tag)
