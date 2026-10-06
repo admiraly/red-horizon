@@ -43,7 +43,8 @@ def reset(x=3500,z=2000):
     p=players[0];p.x,p.z=x+2,z;p.y=lib.terrain_height(p.x,p.z)+1.8
     return p,e
 
-p,e=reset()
+# Explicit paved interior retains the original 18m steady road-driving gate.
+p,e=reset(3500,1300)
 assert list(mapping)==[-1]*4 and all(o==-1 for o in owners)
 assert [v.driver for v in vehicles]==list(range(4))
 assert lib.vehicle_enter(4)==-1 and lib.vehicle_exit(4)==-1

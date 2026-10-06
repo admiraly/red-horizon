@@ -9,9 +9,10 @@
 ; Existing braking/contact/yaw caps and max forward envelopes remain unchanged.
 %ifndef GROUND_SURFACES_INC
 %define GROUND_SURFACES_INC
+%include "schemas/terrain_body.inc"
 %define GROUND_SURFACE_VERSION 1
 %define GROUND_TANK_OFFROAD 0.8
 %define GROUND_ARTILLERY_OFFROAD 0.7
-%define GROUND_TANK_RADIUS 3.55
-%define GROUND_ARTILLERY_RADIUS 4.49
+%define GROUND_TANK_RADIUS BODY_TANK_RADIUS
+%define GROUND_ARTILLERY_RADIUS BODY_ARTY_RADIUS
 %endif

@@ -45,6 +45,8 @@ def build(target,objects_only=False):
         return build_locked(target,objects_only)
 def build_locked(target,objects_only=False):
     start=time.perf_counter(); tool=nasm(); execute([sys.executable,'tools/schema.py'])
+    execute([sys.executable,'tools/terrain_surfaces.py','--check'])
+    execute([sys.executable,'tools/ground_content.py','--check'])
     BUILD.mkdir(exist_ok=True)
     sources=[p for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
     if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=['-lm']; executable_name='red-horizon-server'
@@ -292,7 +294,7 @@ def main():
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','terrain-body','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','ground-surfaces','terrain-body','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
     if args.command in ('run','server','bench'): validate_census_request(args,benchmark=args.command=='bench' and args.client)
@@ -329,7 +331,7 @@ def main():
         os.environ.setdefault('RED_HORIZON_NASM',nasm())
         BUILD.mkdir(exist_ok=True)
         suite='reload' if args.command=='reload' else args.suite
-        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','terrain-body'):
+        if suite in ('all','headless','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','ground-surfaces','terrain-body'):
             exe=build('headless'); library=BUILD/'libsim.so'
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             probe=BUILD/'terrain_probe.o'
@@ -341,7 +343,10 @@ def main():
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
-        if suite in ('all','headless','fast','simulation','vehicles','ground-motion'):
+        if suite in ('all','headless','fast','simulation','terrain','vehicles','ground-motion','ground-surfaces'):
+            execute([sys.executable,'tests/test_terrain_surface.py'])
+            execute([sys.executable,'tests/test_ground_surface_outcomes.py',str(library)])
+        if suite in ('all','headless','fast','simulation','vehicles','ground-motion','ground-surfaces'):
             execute([sys.executable,'tests/test_ground_motion.py'])
             execute([sys.executable,'tests/test_ground_motion_outcomes.py',str(library)])
             if getattr(args,'extended',False): execute([sys.executable,'tests/test_ground_motion_outcomes.py',str(library),'--legacy'])
@@ -353,15 +358,15 @@ def main():
             execute([sys.executable,'tests/test_air_admission.py'])
             execute([sys.executable,'tests/test_air_admission_fairness.py',str(library)])
             if getattr(args,'extended',False): execute([sys.executable,'tests/test_air_admission_fairness.py',str(library),'--legacy'])
-        if suite in ('all','headless','fast','simulation','navigation','crowd','controller-crowd','ground-motion'):
+        if suite in ('all','headless','fast','simulation','navigation','crowd','controller-crowd','ground-motion','ground-surfaces'):
             execute([sys.executable,'tests/test_crowd.py'])
             execute([sys.executable,'tests/test_crowd_outcomes.py',str(library)])
             if getattr(args,'extended',False): execute([sys.executable,'tests/test_crowd_outcomes.py',str(library),'--legacy'])
-        if suite in ('all','headless','fast','simulation','navigation','player','vehicles','crowd','controller-crowd','ground-motion'):
+        if suite in ('all','headless','fast','simulation','navigation','player','vehicles','crowd','controller-crowd','ground-motion','ground-surfaces'):
             execute([sys.executable,'tests/test_controller_crowd_outcomes.py',str(library)])
             if getattr(args,'extended',False): execute([sys.executable,'tests/test_controller_crowd_outcomes.py',str(library),'--legacy'])
-            if getattr(args,'extended',False) and suite in ('all','headless','controller-crowd','ground-motion'): execute([sys.executable,'tools/bench_controllers.py',str(library)])
-        if suite in ('all','headless','fast','simulation','terrain','navigation','player','vehicles','ground-motion','terrain-body'):
+            if getattr(args,'extended',False) and suite in ('all','headless','controller-crowd','ground-motion','ground-surfaces'): execute([sys.executable,'tools/bench_controllers.py',str(library)])
+        if suite in ('all','headless','fast','simulation','terrain','navigation','player','vehicles','ground-motion','ground-surfaces','terrain-body'):
             execute([sys.executable,'tests/test_terrain_body.py'])
             execute([sys.executable,'tests/test_terrain_body_outcomes.py',str(library)])
             if getattr(args,'extended',False): execute([sys.executable,'tests/test_terrain_body_outcomes.py',str(library),'--legacy'])
@@ -440,6 +445,7 @@ def main():
             if (ROOT/'tests/test_visibility_gl.py').exists():execute([sys.executable,'tests/test_visibility_gl.py',str(client)])
             if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
+            execute([sys.executable,'tests/test_road_gl.py',str(client)])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])

@@ -1,4 +1,4 @@
-; Private AI ground crowd movement contract v2. Entity/player/wire ABIs unchanged.
+; Private AI ground crowd movement contract v3. Entity/player/wire ABIs unchanged.
 ; crowd_init(): enabled1, reset private state and diagnostics.
 ; crowd_begin(): once after air/hazard updates, before any ground movement;
 ; build fixed bounded spatial index of immutable living ground actor snapshots.
@@ -70,3 +70,12 @@
 ; footprint and exact segment (not a terrain detour). No authoritative actor writes.
 ; Driver claim readers additionally compare privatevehicle_driver_generation[slot]
 ; to currentnonzeroPLAYER_GENERATION; entitygeneration alone does not bind a human.
+
+; Tracked AI guidance preview: crowd_move mode only, ground kind1/2. Preview
+; disjoint nearby body clearance along the terrain-resolved candidate for
+; min(6m, original goal range). Output remains the requested bounded short intent.
+; Entire real displacement is validated independently through crowd_hull_step.
+; Initial physical overlap recovery, infantry and manual/hull queries retain
+; short-segment rules. Immutable snapshots,16m vehicle radius and512 record cap
+; unchanged;6m+two max radii+neighbor motion fits that existing query radius.
+; Preview uses per-call scratch, adds no persistent preference/state or ABI bytes.

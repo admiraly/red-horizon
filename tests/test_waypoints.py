@@ -71,11 +71,13 @@ assert (a.x,a.z) == arrival and (b.x,b.z) != old_b
 # Clear body spacing keeps crowd recovery from replacing free motion.
 reset()
 for kind in range(4):
-    unit(kind,1000,1000+kind*20,0,0,kind)
+    # Each role starts in an explicit paved interior; 20m spacing stays clear.
+    unit(kind,2000+kind*20,1300,0,0,kind)
+initial=[(entities[kind].x,entities[kind].z) for kind in range(4)]
 lib.sim_tick()
 for kind,expected in enumerate((0.12,0.02,0.01,5.0)):
     actor = entities[kind]
-    assert math.isclose(math.hypot(actor.x-1000,actor.z-(1000+kind*20)),expected,abs_tol=0.0001)
+    assert math.isclose(math.dist(initial[kind],(actor.x,actor.z)),expected,abs_tol=0.0001)
 for _ in range(29):
     before=[(entities[kind].x,entities[kind].z) for kind in range(4)]
     lib.sim_tick()
