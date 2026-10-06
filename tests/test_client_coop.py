@@ -212,7 +212,14 @@ try:
                 if v[13] and v[8]==1 and v[11]==armor:return v
         # Press again if the first short shot passed between the 10Hz snapshots.
         focus(1);button(True)
-        try:until(live_cannon,4)
+        try:
+            try:until(live_cannon,4)
+            except AssertionError:
+                rounds=[struct.unpack_from('<6f4If5I',os.pread(host_memory,32768,server_symbols['sim_projectiles']),i*64) for i in range(512)]
+                wreck_bytes=os.pread(host_memory,65536,server_symbols['sim_wrecks'])
+                nearby=[struct.unpack_from('<6f10I',wreck_bytes,i*64) for i in range(1024) if struct.unpack_from('<I',wreck_bytes,i*64+52)[0]&1 and abs(struct.unpack_from('<f',wreck_bytes,i*64)[0]-server_player(1)['x'])<100 and abs(struct.unpack_from('<f',wreck_bytes,i*64+8)[0]-server_player(1)['z'])<100]
+                print('CANNON_TIMEOUT_DIAGNOSTIC',json.dumps({'player':server_player(1),'armor':armor,'ammo':read_u32(host_memory,server_symbols,'sim_shell_ammo',armor*4),'cannon_shots':read_u32(host_memory,server_symbols,'vehicle_shots',4),'host_owned_rounds':[v for v in rounds if v[13] and v[11]==armor],'nearby_wrecks':nearby,'client_pitch_yaw':[struct.unpack('<f',os.pread(cm,4,client_symbols[n]))[0] for n in ('pitch','yaw')]}),flush=True)
+                raise
         finally:button(False)
         os.kill(host.pid,signal.SIGSTOP)
         _,status=os.waitpid(host.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)

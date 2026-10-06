@@ -437,7 +437,9 @@ def main():
         if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_emitters.py').exists(): execute([sys.executable,'tests/test_audio_emitters.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_audio_battle.py').exists(): execute([sys.executable,'tests/test_audio_battle.py','--nasm',nasm()])
         if suite in ('all','headless','fast','audio') and (ROOT/'tests/test_footsteps.py').exists(): execute([sys.executable,'tests/test_footsteps.py','--nasm',nasm()])
-        if suite in ('all','headless','network'): execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
+        if suite in ('all','headless','network'):
+            execute([sys.executable,'tests/test_projectile_priority.py'])
+            execute([sys.executable,'tests/test_net.py','--nasm',nasm()])
         if suite in ('all','headless','network') and (ROOT/'tests/test_coop.py').exists():
             server=build('coop')
             build('headless')

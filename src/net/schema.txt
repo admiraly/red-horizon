@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v12
-little-endian u32 header[10]: magic=0x52484332 version=12 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v13
+little-endian u32 header[10]: magic=0x52484332 version=13 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -38,3 +38,5 @@ world_contact_policy_v1: nearest f32 entry wins; equal entries prefer ground1,so
 world_cover_policy_v1: authoritative acquisition/vision/rifle/blast/placement/tactical/air/hazard callers compose continuous ground, authored solids and captured wrecks. Closed queries fail blocked on invalid source/caller; eye origins unchanged. Explosions collect at most216 eligible indices before applying casualties so newly created wrecks cannot shield another candidate from the same instantaneous event. Surviving blast damage preserves prior behavior; lethal damage uses shared casualty capture. Ground-impact blast evaluation uses contactY+1cm, with surface eventXYZ unchanged; solid/wreck origins keep incoming clear-side offset. Prepared body/navigation/connected-source paths remain separate. Wire layouts unchanged; gameplay policy joins compatibility fingerprint.
 
 bomb_release_policy_v2: intended target-height flight time includes inherited vertical velocity and the position-before-gravity discrete tick ordering. Positive root of h+(vy+g/2)t-(g/2)t^2, with finite positive height and maximum240tick fall time. Release range/cross-track margins and finite owned stores remain unchanged. No arbitrary terrain interception or moving-target lead promised; packet layouts unchanged.
+
+projectile_remote_policy_v2: at most4 freshest live current-generation owned cannon samples first, remaining capacity retains nearby fair ring/tombstone streaming; total18 records/1196bytes. Ownership requires live connected player/generation plus mutually matching vehicle/driver/entity generation records. Descending remainingTTL, physical slot breaks ties. Duplicate slot filtering preserves atomic batch validity. Source state and interest radius unchanged; no reliable delivery or visibility guarantee for lifetimes below10Hz snapshot interval. Packet layouts unchanged.

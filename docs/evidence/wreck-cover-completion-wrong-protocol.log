@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/rh-wreck-completion-observer.py", line 95, in <module>
+    pixels,path,pose=capture(f'{role}-{mode}',record if network else None,0 if mode=='far' else 1,None if mode=='far' else expected)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/rh-wreck-completion-observer.py", line 64, in capture
+    until(lambda:get('net_wrecks',64)==source_record)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/rh-wreck-completion-observer.py", line 42, in until
+    raise AssertionError('client frame timeout')
+AssertionError: client frame timeout

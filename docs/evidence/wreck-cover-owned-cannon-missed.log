@@ -1,0 +1,8 @@
+CANNON_TIMEOUT_DIAGNOSTIC {"player": {"x": 3506.434814453125, "y": 24.136709213256836, "z": 2001.193603515625, "yaw": 0.0, "pitch": -0.03999999910593033, "hp": 90, "ammo": 30, "reload": 0, "cooldown": 0, "respawn": 0, "front": 1, "connected": 1, "shots": 4, "hits": 0, "suppression": 24, "generation": 2}, "armor": 12, "ammo": 59, "cannon_shots": 5, "host_owned_rounds": [[3506.496337890625, 22.937702178955078, 2031.1634521484375, -0.0010742080630734563, -0.3999009132385254, 9.992000579833984, 237, 0, 1, 80, 18.0, 12, 11, 1, 1, 0]], "nearby_wrecks": [], "client_pitch_yaw": [-0.03999999910593033, 0.0]}
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-cover/tests/test_client_coop.py", line 216, in <module>
+    try:until(live_cannon,4)
+        ~~~~~^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-cover/tests/test_client_coop.py", line 53, in until
+    raise AssertionError('co-op condition timed out')
+AssertionError: co-op condition timed out

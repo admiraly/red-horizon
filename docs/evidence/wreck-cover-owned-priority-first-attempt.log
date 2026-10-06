@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-cover/tests/test_client_coop.py", line 190, in <module>
+    until(lambda:vehicle_owner(host_memory,server_symbols,1)==armor,3)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-cover/tests/test_client_coop.py", line 49, in until
+    result=predicate()
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-cover/tests/test_client_coop.py", line 190, in <lambda>
+    until(lambda:vehicle_owner(host_memory,server_symbols,1)==armor,3)
+                 ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-cover/tests/test_client_coop.py", line 188, in vehicle_owner
+    def vehicle_owner(memory,symbols,index):return struct.unpack('<i',os.pread(memory,4,symbols['sim_player_vehicle']+index*4))[0]
+                                                   ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 4 bytes

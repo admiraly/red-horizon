@@ -1,8 +1,10 @@
 default rel
 %include "schemas/player.inc"
+%include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
+%include "schemas/projectile_remote.inc"
 %include "schemas/wreck.inc"
 %include "schemas/wreck_remote.inc"
 extern sim_wrecks
@@ -1144,7 +1146,7 @@ send_projectiles:
  push r13
  push r14
  push r15
- sub rsp,8
+ sub rsp,24
  mov r12d,edi
  mov r13,rsi
  mov eax,edi
@@ -1156,6 +1158,120 @@ send_projectiles:
  mov edx,4
  call header
  xor r14d,r14d
+ mov dword [rsp],-1
+ cmp dword [rbx+PLAYER_CONNECTED],1
+ jne .fair_begin
+ cmp dword [rbx+PLAYER_HP],0
+ je .fair_begin
+ cmp dword [rbx+PLAYER_GENERATION],0
+ je .fair_begin
+ lea rdx,[sim_player_vehicle]
+ mov eax,[rdx+r12*4]
+ cmp eax,[sim_count]
+ jae .fair_begin
+ mov r9d,eax
+ mov eax,r12d
+ shl eax,5
+ lea r8,[sim_vehicles]
+ add r8,rax
+ cmp dword [r8+VEHICLE_ACTIVE],1
+ jne .fair_begin
+ cmp [r8+VEHICLE_ENTITY],r9d
+ jne .fair_begin
+ cmp [r8+VEHICLE_DRIVER],r12d
+ jne .fair_begin
+ lea rdx,[vehicle_driver_generation]
+ mov eax,[rbx+PLAYER_GENERATION]
+ cmp eax,[rdx+r12*4]
+ jne .fair_begin
+ lea rdx,[vehicle_entity_driver]
+ cmp [rdx+r9*4],r12d
+ jne .fair_begin
+ mov eax,r9d
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_SIDE],0
+ jne .fair_begin
+ cmp dword [rdx+ENTITY_KIND],1
+ jne .fair_begin
+ cmp dword [rdx+ENTITY_HP],0
+ je .fair_begin
+ mov eax,[rdx+ENTITY_GENERATION]
+ cmp eax,[r8+VEHICLE_ENTITY_GENERATION]
+ jne .fair_begin
+ mov [rsp],r9d
+ ; Reserve at most four entries for freshest actual moving owned cannon rounds.
+ ; The remaining >=14 entries retain the original fair ring/tombstone stream.
+.priority:
+ mov dword [rsp+4],-1
+ mov dword [rsp+8],0
+ xor r15d,r15d
+.priority_scan:
+ mov eax,r15d
+ shl eax,6
+ lea rsi,[sim_projectiles]
+ add rsi,rax
+ cmp dword [rsi+PROJECTILE_ACTIVE],1
+ jne .priority_next
+ cmp dword [rsi+PROJECTILE_KIND],1
+ jne .priority_next
+ mov eax,[rsp]
+ cmp [rsi+PROJECTILE_SOURCE],eax
+ jne .priority_next
+ shl eax,5
+ lea rdx,[sim_entities]
+ mov eax,[rdx+rax+ENTITY_GENERATION]
+ cmp [rsi+PROJECTILE_SOURCE_GENERATION],eax
+ jne .priority_next
+ xor ecx,ecx
+.priority_duplicate:
+ cmp ecx,r14d
+ jae .priority_interest
+ mov eax,ecx
+ shl eax,6
+ lea rdx,[output+44]
+ cmp [rdx+rax],r15d
+ je .priority_next
+ inc ecx
+ jmp .priority_duplicate
+.priority_interest:
+ movss xmm0,[rsi+PROJECTILE_X]
+ subss xmm0,[rbx+PLAYER_X]
+ mulss xmm0,xmm0
+ movss xmm1,[rsi+PROJECTILE_Z]
+ subss xmm1,[rbx+PLAYER_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[interest2]
+ ja .priority_next
+ mov eax,[rsi+PROJECTILE_TTL]
+ cmp eax,[rsp+8]
+ jbe .priority_next
+ mov [rsp+8],eax
+ mov [rsp+4],r15d
+.priority_next:
+ inc r15d
+ cmp r15d,PROJECTILE_CAPACITY
+ jb .priority_scan
+ mov eax,[rsp+4]
+ cmp eax,-1
+ je .fair_begin
+ mov edx,r14d
+ shl edx,6
+ lea rdi,[output+44]
+ add rdi,rdx
+ mov [rdi],eax
+ add rdi,4
+ shl eax,6
+ lea rsi,[sim_projectiles]
+ add rsi,rax
+ mov ecx,15
+ rep movsd
+ inc r14d
+ cmp r14d,PROJECTILE_OWNED_PRIORITY_MAX
+ jb .priority
+.fair_begin:
  xor r15d,r15d
 .scan:
  lea r8,[projectile_cursors]
@@ -1170,6 +1286,21 @@ send_projectiles:
  add rsi,r9
  cmp dword [rsi+PROJECTILE_GENERATION],0
  je .skip
+ ; Already prioritised slots must not occur twice in an atomic batch.
+ mov r10d,r9d
+ shr r10d,6
+ xor ecx,ecx
+.fair_duplicate:
+ cmp ecx,r14d
+ jae .fair_interest
+ mov eax,ecx
+ shl eax,6
+ lea rdx,[output+44]
+ cmp [rdx+rax],r10d
+ je .skip
+ inc ecx
+ jmp .fair_duplicate
+.fair_interest:
  movss xmm0,[rsi+PROJECTILE_X]
  subss xmm0,[rbx+PLAYER_X]
  mulss xmm0,xmm0
@@ -1190,7 +1321,7 @@ send_projectiles:
  rep movsd
  inc r14d
 .skip:
- cmp r14d,18
+ cmp r14d,PROJECTILE_WIRE_MAX
  jae .finish
  cmp r15d,PROJECTILE_CAPACITY
  jb .scan
@@ -1205,7 +1336,7 @@ send_projectiles:
  mov rdi,r13
  call send_packet
 .done:
- add rsp,8
+ add rsp,24
  pop r15
  pop r14
  pop r13

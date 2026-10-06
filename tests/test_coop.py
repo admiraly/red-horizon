@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 12, 0x1afeba3b, 0x16a56076
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 13, 0x3da66749, 0x9187d777
 HEADER = struct.Struct('<10I')
 
 
@@ -478,7 +478,7 @@ def main():
     # Compatibility includes assets, canonical roads and resolved hull policy.
     # Reconstruct it independently of the build-time fingerprint tool.
     definitions = dict(re.findall(r'^%define ([A-Z_]+) ([-+A-Za-z0-9_.]+)$',
-        (root / 'schemas/aircraft.inc').read_text() + '\n' + (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
+        (root / 'schemas/projectile_remote.inc').read_text() + '\n' + (root / 'schemas/aircraft.inc').read_text() + '\n' + (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
         (root / 'schemas/terrain_body.inc').read_text() + '\n' +
         (root / 'schemas/terrain_grade.inc').read_text() + '\n' +
         (root / 'schemas/ground_support.inc').read_text() + '\n' +
@@ -504,7 +504,7 @@ def main():
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
         'tracked_policy': policy,
     }
-    payload.update(bomb_release={name:definitions[name] for name in ('AIR_BOMB_RELEASE_VERSION',)},world_los={name:definitions[name] for name in ('WORLD_LOS_VERSION',)},world_contact={name:definitions[name] for name in ('WORLD_CONTACT_VERSION', 'WORLD_CONTACT_GROUND', 'WORLD_CONTACT_SOLID', 'WORLD_CONTACT_WRECK', 'WORLD_CONTACT_ACTOR', 'WORLD_CONTACT_BLAST_SKIN', 'TERRAIN_GROUND_QUERY_VERSION', 'TERRAIN_GROUND_QUERY_SKIN', 'TERRAIN_HEIGHT_CENTER', 'TERRAIN_HEIGHT_X_SCALE', 'TERRAIN_HEIGHT_Z_SCALE', 'TERRAIN_HEIGHT_RIDGE_SCALE', 'TERRAIN_HEIGHT_RIDGE_HEIGHT', 'TERRAIN_HEIGHT_BASE')},shell_contact={name:definitions[name] for name in ('SHELL_CONTACT_VERSION','SHELL_CONTACT_RADIUS','SHELL_CONTACT_MAX_SAMPLES')},wreck_presentation={name:definitions[name] for name in ('WRECK_REMOTE_VERSION','WRECK_WIRE_STRIDE','WRECK_WIRE_MAX','WRECK_PRESENTATION_VERSION','WRECK_PRESENTATION_FRAME','WRECK_PRESENTATION_LOD')},wreck_registry={name:definitions[name] for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
+    payload.update(projectile_remote={name:definitions[name] for name in ('PROJECTILE_REMOTE_POLICY_VERSION','PROJECTILE_OWNED_PRIORITY_MAX','PROJECTILE_WIRE_MAX')},bomb_release={name:definitions[name] for name in ('AIR_BOMB_RELEASE_VERSION',)},world_los={name:definitions[name] for name in ('WORLD_LOS_VERSION',)},world_contact={name:definitions[name] for name in ('WORLD_CONTACT_VERSION', 'WORLD_CONTACT_GROUND', 'WORLD_CONTACT_SOLID', 'WORLD_CONTACT_WRECK', 'WORLD_CONTACT_ACTOR', 'WORLD_CONTACT_BLAST_SKIN', 'TERRAIN_GROUND_QUERY_VERSION', 'TERRAIN_GROUND_QUERY_SKIN', 'TERRAIN_HEIGHT_CENTER', 'TERRAIN_HEIGHT_X_SCALE', 'TERRAIN_HEIGHT_Z_SCALE', 'TERRAIN_HEIGHT_RIDGE_SCALE', 'TERRAIN_HEIGHT_RIDGE_HEIGHT', 'TERRAIN_HEIGHT_BASE')},shell_contact={name:definitions[name] for name in ('SHELL_CONTACT_VERSION','SHELL_CONTACT_RADIUS','SHELL_CONTACT_MAX_SAMPLES')},wreck_presentation={name:definitions[name] for name in ('WRECK_REMOTE_VERSION','WRECK_WIRE_STRIDE','WRECK_WIRE_MAX','WRECK_PRESENTATION_VERSION','WRECK_PRESENTATION_FRAME','WRECK_PRESENTATION_LOD')},wreck_registry={name:definitions[name] for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
         relief_abi=1,grade_abi=1,
         relief=json.loads((root/'content/terrain/relief.json').read_text()),
         grade_policy={name:definitions[name] for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},
