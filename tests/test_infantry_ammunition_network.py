@@ -6,7 +6,7 @@ server,library=[pathlib.Path(x).resolve()for x in sys.argv[1:3]]
 encounter='--resupply-encounter' in sys.argv
 with tempfile.TemporaryDirectory(prefix='rh-infantry-udp-')as directory:
  private=pathlib.Path(directory)/'adapter.so';private.write_bytes(library.read_bytes());l=C.CDLL(str(private))
- l.net_client_open.argtypes=[C.c_char_p,C.c_uint];l.net_client_input.argtypes=[C.c_uint]+[C.c_float]*4
+ l.net_client_open.argtypes=[C.c_char_p,C.c_uint];l.net_client_input.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4
  host=subprocess.Popen([str(server),'--port','0','--units','8192','--ticks','390'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True);peers=[];memory=None
  try:
   ready=json.loads(host.stdout.readline());symbols={r[2]:int(r[0],16)for line in subprocess.check_output(['nm','-n',str(server)],text=True).splitlines()if len(r:=line.split())==3}
@@ -48,7 +48,7 @@ with tempfile.TemporaryDirectory(prefix='rh-infantry-udp-')as directory:
     for p in peers:p.receive(0)
     if time.monotonic()-last_input>.2:
      for p in peers:p.input()
-     if C.c_uint.in_dll(l,'net_connected').value:l.net_client_input(0,0.,0.,0.,0.)
+     if C.c_uint.in_dll(l,'net_connected').value:l.net_client_input(0,0,0.,0.,0.,0.)
      last_input=time.monotonic()
     result=fn()
     if result:return result

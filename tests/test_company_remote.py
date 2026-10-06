@@ -10,6 +10,7 @@ library,server=map(lambda s:pathlib.Path(s).resolve(),sys.argv[1:3])
 with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
  private=pathlib.Path(td)/'client.so';private.write_bytes(library.read_bytes());lib=C.CDLL(str(private))
  lib.net_client_open.argtypes=[C.c_char_p,C.c_uint]
+ lib.net_client_input.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4
  remote=(C.c_ubyte*160).in_dll(lib,'net_company_records');players=(C.c_uint*64).in_dll(lib,'sim_players')
  valid=C.c_uint.in_dll(lib,'net_company_valid');clock=C.c_uint.in_dll(lib,'net_company_tick')
  def record(i,key=0xffffffff,generation=0,serial=0,mode=0,ordered=0,x=0,z=0,sequence=0,tick=0):
@@ -109,7 +110,7 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
     if time.monotonic()-last_input>.3:
      for p in peers:
       if p.id not in departed:p.input()
-     if C.c_uint.in_dll(lib,'net_connected').value:lib.net_client_input(0,C.c_float(0),C.c_float(0),C.c_float(0),C.c_float(0))
+     if C.c_uint.in_dll(lib,'net_connected').value:lib.net_client_input(0,0,C.c_float(0),C.c_float(0),C.c_float(0),C.c_float(0))
      last_input=time.monotonic()
     result=predicate()
     if result:return result

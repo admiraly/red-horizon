@@ -1,0 +1,637 @@
+[
+  {
+    "suite": "owned-projectile-priority",
+    "passed": true,
+    "cases": 18,
+    "maximum_owned_priority": 4,
+    "minimum_fair_capacity": 14,
+    "MTU_maximum": 1196,
+    "negative_controls": [
+      "priority_omitted",
+      "freshest_omitted",
+      "source_generation_omitted",
+      "dedup_omitted"
+    ],
+    "preserved_authority_and_ABI": true,
+    "source_sha256": "ca4bfdafaeb1ac9043de3d6ab2b82b9b26d5fcf962a883ca63f1da73779ab8ca",
+    "scope": "Actual extracted server packet builder with controlled core records. Real UDP/GUI and extended network verification remain separate."
+  },
+  {
+    "suite": "network",
+    "packets": 45,
+    "passed": true,
+    "build_and_test_seconds": 2.02599
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0x77e16f9b",
+    "canonical_sha256": "77e16f9b2b1b4b276dab07786f9863d39278567c32c1c31956aadc57351fdf4e",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0x77e16f9b",
+    "canonical_sha256": "77e16f9b2b1b4b276dab07786f9863d39278567c32c1c31956aadc57351fdf4e",
+    "checked": true
+  },
+  {
+    "suite": "fourth-player-company-adapter",
+    "passed": true,
+    "actual_player_id": 3,
+    "own_order_ACK": 0,
+    "foreign_front_rejected": true
+  },
+  {
+    "suite": "cooperative-world",
+    "passed": true,
+    "server": {
+      "ticks": 180,
+      "simulated": 8192,
+      "bytes_in": 69284,
+      "bytes_out": 1643456,
+      "entity_records": 12352,
+      "rejected": 13,
+      "disconnects": 2,
+      "distinct_client_entity_pairs": 10710,
+      "nearby_interest": 5439,
+      "unseen_interest": 0,
+      "aircraft_records": 3240,
+      "air_xz_refreshes_verified": 1197
+    }
+  },
+  {
+    "suite": "company-exclusive-actual-udp",
+    "passed": true,
+    "initial_army": 8192,
+    "four_assignment_keys": [
+      19,
+      285,
+      534,
+      0
+    ],
+    "same_front_exclusive": true,
+    "company_live_member_counts": [
+      40,
+      40
+    ],
+    "held_quiet_infantry_count": 31,
+    "held_quiet_infantry_max_travel_m": 0.0,
+    "held_hazard_reaction_ids": [
+      2448
+    ],
+    "held_total_max_travel_m": 4.319943244978498,
+    "ordered_max_travel_m": 22.94530500438491,
+    "released_max_autonomous_travel_m": 19.605401514230294,
+    "actual_lost_ack_repeat_one_charge_and_sequence": true,
+    "cross_front_rejection_preserves_intent": true,
+    "stale_endpoint_generation_command_rejected": true,
+    "front_manual_flags_unchanged": true,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "observer_writes": false,
+    "limits": [
+      "Read-only /proc observer on genuine NASM server and actual UDP peers.",
+      "Company replication/UI/transfer/assistance and broad fault/scale acceptance remain separate."
+    ],
+    "server": {
+      "ticks": 360,
+      "simulated": 8192,
+      "bytes_in": 996,
+      "bytes_out": 2039444,
+      "entity_records": 15680,
+      "rejected": 2,
+      "disconnects": 4,
+      "distinct_client_entity_pairs": 9987,
+      "nearby_interest": 0,
+      "unseen_interest": 0,
+      "aircraft_records": 3870
+    }
+  },
+  {
+    "suite": "company-remote-parser",
+    "passed": true,
+    "malformed_or_foreign_packets": 24,
+    "malformed_proposals": 17,
+    "proposal_whole_batch_atomic": true,
+    "offer_current_participant_generation_front_connected_gates": true,
+    "whole_batch_atomic": true,
+    "follow_mode_accepted_invalid_mode5_rejected": true,
+    "direct_receive_authority_checksum_preserved": true,
+    "transport_players_entities_companies_preserved": true,
+    "transport_advances_existing_remote_clock": true,
+    "stale_equal_tick_rejected": true,
+    "body_generation_front_disconnect_gates": true,
+    "tombstone_no_resurrection": true,
+    "close_timeout_reset": true,
+    "library_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2"
+  },
+  {
+    "suite": "company-remote-actual-four-player",
+    "passed": true,
+    "units": 8192,
+    "keys": [
+      19,
+      285,
+      534,
+      0
+    ],
+    "exact_server_records": 4,
+    "outside_local_region_owned_actors": {
+      "0": 0,
+      "1": 0,
+      "2": 0,
+      "3": 1
+    },
+    "production_adapter_player": 3,
+    "remote_owner_intent_observed": true,
+    "lost_ack_single_sequence": true,
+    "adapter_own_order_observed": true,
+    "disconnect_tombstone_rejoin_fresh_intent": true,
+    "observer_writes_after_initial_birth": false,
+    "initial_birth": {
+      "entity": 1,
+      "generation": 71,
+      "tick": 1,
+      "position": [
+        7500.0,
+        1300.0
+      ]
+    },
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "server": {
+      "ticks": 420,
+      "simulated": 8192,
+      "bytes_in": 928,
+      "bytes_out": 206792,
+      "entity_records": 1664,
+      "rejected": 0,
+      "disconnects": 0,
+      "distinct_client_entity_pairs": 2185,
+      "nearby_interest": 0,
+      "unseen_interest": 0,
+      "aircraft_records": 468
+    },
+    "limits": [
+      "GL ownership tint and map display verified separately; transfer and assistance remain unfinished."
+    ]
+  },
+  {
+    "suite": "company-supply-udp-parser",
+    "passed": true,
+    "malformed_foreign_packets": 20,
+    "malformed_depot_packets": 14,
+    "depot_atomic_conservation_ownership_gates": true,
+    "whole_packet_atomic": true,
+    "authority_checksum_preserved": true,
+    "stale_equal_rejected": true,
+    "lease_key_body_front_connected_age_gates": true,
+    "close_reconnect_timeout_clear": true,
+    "unknown_preserved": true,
+    "client_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2"
+  },
+  {
+    "suite": "company-supply-production-udp",
+    "passed": true,
+    "units": 8192,
+    "endpoints": 4,
+    "samples": [
+      {
+        "tick": 6,
+        "report": [
+          3,
+          1,
+          0,
+          32,
+          0,
+          0,
+          3838,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tick": 9,
+        "report": [
+          3,
+          1,
+          0,
+          32,
+          0,
+          0,
+          3836,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "tick": 12,
+        "report": [
+          3,
+          1,
+          0,
+          32,
+          0,
+          0,
+          3836,
+          0,
+          0,
+          0
+        ]
+      }
+    ],
+    "initial_world_unmodified": true,
+    "production_depot_report_correlated": true,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "limits": [
+      "Production delivery and structurally checked ownership display; not an exact whole-world stock oracle or rendered HUD test.",
+      "No supply-aware routes or hardware-budget acceptance; exact world-to-wire stock oracle remains separate."
+    ]
+  },
+  {
+    "suite": "company-transfer-actual-udp",
+    "passed": true,
+    "units": 8192,
+    "before_keys": [
+      19,
+      285,
+      534,
+      0
+    ],
+    "after_keys": [
+      285,
+      19,
+      534,
+      0
+    ],
+    "explicit_recipient_consent": true,
+    "lost_propose_and_accept_ACK_no_duplicate_swap": true,
+    "source_generations_and_leases_bound": true,
+    "preserved_company_intents": true,
+    "body_positions_preserved": true,
+    "authoritative_fronts_updated": true,
+    "old_front_and_old_consent_rejected": true,
+    "production_adapter_propose_cancel": true,
+    "observer_writes": false,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "library_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2",
+    "server": {
+      "ticks": 450,
+      "simulated": 8192,
+      "bytes_in": 1432,
+      "bytes_out": 312396,
+      "entity_records": 2496,
+      "rejected": 4,
+      "disconnects": 0,
+      "distinct_client_entity_pairs": 3249,
+      "nearby_interest": 0,
+      "unseen_interest": 0,
+      "aircraft_records": 702
+    },
+    "limits": [
+      "Rendered keyboard/feedback and broader fault/full acceptance are separate; exchange is not squad splitting or assistance."
+    ]
+  },
+  {
+    "suite": "company-follow-actual-udp",
+    "passed": true,
+    "units": 8192,
+    "four_exclusive_keys": [
+      19,
+      285,
+      534,
+      0
+    ],
+    "lost_follow_ACK_one_cost_one_sequence": true,
+    "production_adapter_follow_mode3": true,
+    "invalid_mode_and_foreign_ownership_rejected": true,
+    "owner_walk_m": 11.91162109375,
+    "retained_quiet_infantry": 30,
+    "quiet_infantry_progress_toward_initial_follow_slots": [
+      2433,
+      2439,
+      2442,
+      2451,
+      2454,
+      2457,
+      2466,
+      2469,
+      2472,
+      2475,
+      2481,
+      2484,
+      2487,
+      2490,
+      2496,
+      2499,
+      2502,
+      2505,
+      2514,
+      2517,
+      2520,
+      2523,
+      2529,
+      2532,
+      2535,
+      2538,
+      2544,
+      2547,
+      2550,
+      2553
+    ],
+    "accepted_command_preserved": true,
+    "observer_writes": false,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "library_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2",
+    "limits": [
+      "Read-only real original8192/four-endpoint transport and120-tick movement observation.",
+      "Mixed-role distinct-slot convergence is verified by separate causal API traces; no whole-operation traffic/graphics/performance claim."
+    ]
+  },
+  {
+    "suite": "company-defend-actual-udp",
+    "passed": true,
+    "units": 8192,
+    "four_exclusive_keys": [
+      19,
+      285,
+      534,
+      0
+    ],
+    "lost_defend_ACK_one_cost_one_sequence": true,
+    "production_adapter_defend_mode4": true,
+    "invalid_mode_and_foreign_ownership_rejected": true,
+    "owner_walk_m": 11.91162109375,
+    "retained_quiet_infantry": 30,
+    "quiet_infantry_progress_toward_initial_defend_slots": [
+      2433,
+      2439,
+      2442,
+      2451,
+      2454,
+      2457,
+      2466,
+      2469,
+      2472,
+      2475,
+      2481,
+      2484,
+      2487,
+      2490,
+      2496,
+      2499,
+      2502,
+      2505,
+      2514,
+      2517,
+      2520,
+      2523,
+      2529,
+      2532,
+      2535,
+      2538,
+      2544,
+      2547,
+      2550,
+      2553
+    ],
+    "accepted_command_preserved": true,
+    "observer_writes": false,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "library_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2",
+    "limits": [
+      "Read-only real original8192/four-endpoint transport and120-tick movement observation.",
+      "Mixed-role distinct-slot convergence is verified by separate causal API traces; no whole-operation traffic/graphics/performance claim."
+    ]
+  },
+  {
+    "suite": "infantry-ammunition-original-four-endpoint-udp",
+    "passed": true,
+    "units": 8192,
+    "endpoints": 4,
+    "observer_writes": false,
+    "initial_encounter": null,
+    "actual_receiver": null,
+    "stocks_conserved_across_real_combat": true,
+    "finite_depot_conservation": true,
+    "stable_samples": [
+      {
+        "tick": 7,
+        "infantry": 6144,
+        "rounds_remaining": 736878,
+        "actual_shots": 402,
+        "reload_records": 0,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      },
+      {
+        "tick": 97,
+        "infantry": 6144,
+        "rounds_remaining": 732242,
+        "actual_shots": 5038,
+        "reload_records": 0,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      },
+      {
+        "tick": 187,
+        "infantry": 6144,
+        "rounds_remaining": 729260,
+        "actual_shots": 8020,
+        "reload_records": 0,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      },
+      {
+        "tick": 277,
+        "infantry": 6144,
+        "rounds_remaining": 727736,
+        "actual_shots": 9544,
+        "reload_records": 24,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      }
+    ],
+    "transient_read_retries": 2,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "adapter_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2",
+    "limits": [
+      "Original declared world, no fixture births or live pose/health/stock/clock changes.",
+      "Stock records observed on authority only; not replicated NPC ammo or rendered reload acceptance."
+    ]
+  },
+  {
+    "suite": "infantry-resupply-staged-four-endpoint-udp",
+    "passed": true,
+    "units": 8192,
+    "endpoints": 4,
+    "observer_writes": false,
+    "initial_encounter": {
+      "tick": 1,
+      "source": 0,
+      "target": 4108,
+      "source_position": [
+        1020,
+        3900
+      ],
+      "target_position": [
+        1240,
+        3900
+      ],
+      "target_declared_shell_ammo": 0,
+      "unchanged_count": 8192,
+      "unchanged_health_and_generations": true,
+      "unchanged_infantry_stocks": true
+    },
+    "actual_receiver": {
+      "generation": 1,
+      "magazine": 24,
+      "reserve": 90,
+      "shots": 36,
+      "received": 30,
+      "last_supply_tick": 300,
+      "target_hp": 292
+    },
+    "stocks_conserved_across_real_combat": true,
+    "finite_depot_conservation": true,
+    "stable_samples": [
+      {
+        "tick": 7,
+        "infantry": 6144,
+        "rounds_remaining": 736947,
+        "actual_shots": 333,
+        "reload_records": 0,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      },
+      {
+        "tick": 127,
+        "infantry": 6144,
+        "rounds_remaining": 731683,
+        "actual_shots": 5597,
+        "reload_records": 0,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      },
+      {
+        "tick": 250,
+        "infantry": 6144,
+        "rounds_remaining": 729567,
+        "actual_shots": 7713,
+        "reload_records": 11,
+        "depleted_records": 0,
+        "received": 0,
+        "depot_remaining": 48000,
+        "depot_issued": 0
+      },
+      {
+        "tick": 349,
+        "infantry": 6144,
+        "rounds_remaining": 729107,
+        "actual_shots": 8203,
+        "reload_records": 13,
+        "depleted_records": 0,
+        "received": 30,
+        "depot_remaining": 47970,
+        "depot_issued": 30
+      }
+    ],
+    "transient_read_retries": 0,
+    "server_sha256": "e0cd6ac008be3c7fb664ede944d91c1d4205fd90cd90490795d190443e530c74",
+    "adapter_sha256": "d2b2540752c2fe5b04c41a95ef9cdaed4b5463b9217c55ba57b7eaa40e1af6f2",
+    "limits": [
+      "One explicit startup encounter/target-ammo declaration; no HP/identity/infantry-stock writes. Read-only and no freeze/renewal after setup.",
+      "Stock records observed on authority only; not replicated NPC ammo or rendered reload acceptance."
+    ]
+  },
+  {
+    "target": "coop",
+    "revision": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-66485c881f525ce6",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.35048964999441523,
+    "executable": "/mnt/titan_nv3/projects/red-horizon-workers/player-threat-stocks/build/revisions/c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-66485c881f525ce6/red-horizon-coop-server"
+  },
+  {
+    "target": "headless",
+    "revision": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-66485c881f525ce6",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.3515811289980775,
+    "executable": "/mnt/titan_nv3/projects/red-horizon-workers/player-threat-stocks/build/revisions/c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-66485c881f525ce6/red-horizon-server"
+  }
+]

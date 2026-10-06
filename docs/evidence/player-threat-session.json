@@ -1,0 +1,73 @@
+{
+  "candidate_commit": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24",
+  "final_authored_epoch_before_commit": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-66485c881f525ce6",
+  "runtime_policy": "Finite infantry stock gates human threat damage; same current magazine as army shots. Noninfantry synthetic threat and shared shooter cadence remain pending.",
+  "wire": {
+    "version": 34,
+    "schema": "0x8136ed0d",
+    "content": "0x77e16f9b",
+    "infantry_weapon_policy": 3,
+    "packet_layouts_changed": false
+  },
+  "fast_job": {
+    "job_id": "f50f834fa763",
+    "revision": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-ec7be176c311b2b6",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/player-threat-stocks/runs/jobs/f50f834fa763/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "passed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/player-threat-stocks/runs/jobs/f50f834fa763/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/player-threat-stocks/runs/jobs/f50f834fa763/result.json",
+    "pid": 1731231,
+    "exit_code": 0,
+    "seconds": 299.57514189201174
+  },
+  "checks": {
+    "network-initial": {
+      "exit_code": 0,
+      "explicit_pass_reports": 25,
+      "log_sha256": "27215ac03566f0921b32260c3500a83bda68d7f921ca3b9cffc7327a8c2dd717",
+      "reports": "docs/evidence/player-threat/network-initial.json"
+    },
+    "network-corrected": {
+      "exit_code": 0,
+      "explicit_pass_reports": 14,
+      "log_sha256": "95d6ae6ca28e1c3037bab842d5a19073a5d702c10a3aa1446205fbd430784361",
+      "reports": "docs/evidence/player-threat/network-corrected.json"
+    },
+    "gameplay": {
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "log_sha256": "3eb758fb284c519f307b0e94fc800a4cf55533adc7337a53368984d97acc1ca7",
+      "reports": "docs/evidence/player-threat/gameplay.json"
+    },
+    "coop-hud": {
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "log_sha256": "703d1036fb1e02fa4fc26ee350a0e9c2a15a70e3ca5b1cadcb244479ba7d03d5",
+      "reports": "docs/evidence/player-threat/coop-hud.json"
+    },
+    "fast": {
+      "exit_code": 0,
+      "explicit_pass_reports": 78,
+      "log_sha256": "addf5c7fed0f6b18151ad04a7cad5246476e472347a1b69883aa15f104767aba",
+      "reports": "docs/evidence/player-threat/fast.json"
+    }
+  },
+  "corrected_development_abi": "Six older network keepalive fixtures now pass a dummy/slot EDI argument plus flags in ESI, matching the actual assembly API. All six declaration/call corrections pass the complete network rerun. Fast frozen source is earlier; only these development network tests differ in final inputs.",
+  "scope": [
+    "Sparse startup stock/pose fixtures only, genuine80 ticks per case without live renewal. Armed5rounds/50damage; empty/reloading/corrupt cannot damage until actual reload completes; real wall prevents debit; active same-build replay.",
+    "Original player/controller/deployment/terrain focused suite, real gameplay and two-client320x240 stock/timeout GL pass.",
+    "Complete network regressions plus original8192/four-endpoint exact player reports and malformed actual UDP pass.",
+    "Frozen fast passed299.575142s, original scale/recovery/full graphics/fault coverage still requires frozen extended checkpoint after integration."
+  ],
+  "limits": [
+    "Existing noninfantry synthetic human damage remains.",
+    "A single actor can still spend on army and human paths in one tick; shared target/cadence scheduling remains.",
+    "NPC human shot audio/tracers are not added by this accounting change.",
+    "Complete spec, hardware/human quality, license/publication remain unaccepted."
+  ]
+}

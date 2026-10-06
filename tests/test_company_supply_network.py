@@ -6,6 +6,7 @@ library,server=map(lambda s:pathlib.Path(s).resolve(),sys.argv[1:3])
 with tempfile.TemporaryDirectory(prefix='rh-supply-udp-') as td:
  private=pathlib.Path(td)/'client.so';private.write_bytes(library.read_bytes());lib=C.CDLL(str(private))
  lib.net_client_open.argtypes=[C.c_char_p,C.c_uint]
+ lib.net_client_input.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4
  lib.net_supply_report.argtypes=[C.c_uint,C.c_void_p,C.c_uint]
  lib.sim_checksum.restype=C.c_uint64
  remote=(C.c_ubyte*44).in_dll(lib,'net_supply_record');valid=C.c_uint.in_dll(lib,'net_supply_valid');clock=C.c_uint.in_dll(lib,'net_supply_tick')
@@ -101,7 +102,7 @@ with tempfile.TemporaryDirectory(prefix='rh-supply-udp-') as td:
    for p in peers:p.receive(0)
    if time.monotonic()-last_keep>.25:
     for p in peers:p.input()
-    lib.net_client_input(0,C.c_float(0),C.c_float(0),C.c_float(0),C.c_float(0));last_keep=time.monotonic()
+    lib.net_client_input(0,0,C.c_float(0),C.c_float(0),C.c_float(0),C.c_float(0));last_keep=time.monotonic()
    owner=C.c_uint.in_dll(lib,'net_player_id').value
    out=(C.c_uint*10)()
    if lib.net_supply_report(owner,out,40)==0:
