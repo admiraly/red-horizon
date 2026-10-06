@@ -5,6 +5,7 @@ default rel
 extern sim_count, sim_entities, sim_tick_count, sim_sites, sim_supply
 extern sim_entity_height
 extern terrain_height, world_los
+extern company_init,company_tick,company_goal,company_hash
 section .bss align=64
 global ai_fronts
 ai_fronts: resb 6*64
@@ -54,7 +55,7 @@ ai_init:
  inc r8d
  cmp r8d,6
  jb .init_front
- ret
+ jmp company_init
 ; EDI side, ESI front are already validated by world APIs.
 ai_override:
  imul edi,3
@@ -267,6 +268,7 @@ ai_tick:
  inc r12d
  cmp r12d,6
  jb .front
+ call company_tick
  add rsp,40
  pop r15
  pop r14
@@ -333,8 +335,7 @@ ai_entity_goal:
 .clamp:
  maxss xmm1,[zero]
  minss xmm1,[maximum]
-.move: xor eax,eax
- ret
+.move: jmp company_goal
 .retreat:
  lea rdx,[retreat_goals]
  movss xmm0,[rdx+r8*8]
@@ -354,5 +355,5 @@ ai_hash:
  imul rax,r8
  inc rsi
  loop .loop
- ret
+ jmp company_hash
 section .note.GNU-stack noalloc noexec nowrite progbits

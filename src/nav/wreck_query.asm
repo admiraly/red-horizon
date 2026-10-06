@@ -28,6 +28,8 @@ body_max_y: dd 16000.0
 skin: dd 0.002
 ; Conservative rejection allowance exceeds f32 delta/bound rounding at16km.
 envelope_skin: dd 0.004
+align 8
+one_d: dq 1.0
 align 16
 abs_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
 ; Local union frame0 bounds, rounded outward from actual battle.rham audit.
@@ -273,7 +275,7 @@ rebuild:
  pop r12
  pop rbx
  ret
-; finite coordinate ->clamped cell0..31; no calls.
+; finite coordinate ->clamped cell0..127; no calls.
 coordinate_cell:
  divss xmm0,[cell]
  maxss xmm0,[zero]
@@ -397,7 +399,70 @@ query_start:
  mov dword [rsp+36],-1 ; selected slot
  mov dword [rsp+40],__float32__(2.0)
 .row:
+ ; Intersect the ray with this center bucket's padded Z band, in double
+ ; precision. Its projected X interval is a conservative superset of all
+ ; potentially intersecting centers in the row. Original exact tests follow.
+ mov eax,[rsp+28]
+ mov [rsp+108],eax
  mov r13d,[rsp+24]
+ ; A rectangle of at most three columns is cheaper to scan directly.
+ sub eax,r13d
+ cmp eax,2
+ jbe .cell
+ cvtss2sd xmm0,[rsp+8]
+ cvtss2sd xmm1,[rsp+20]
+ subsd xmm1,xmm0
+ xorpd xmm2,xmm2
+ ucomisd xmm1,xmm2
+ je .cell
+ cvtss2sd xmm2,[padding]
+ cvtss2sd xmm3,[rsp+76]
+ addsd xmm2,xmm3
+ cvtss2sd xmm3,[envelope_skin]
+ addsd xmm2,xmm3
+ cvtsi2sd xmm3,r12d
+ cvtss2sd xmm4,[cell]
+ mulsd xmm3,xmm4
+ movapd xmm5,xmm3
+ subsd xmm3,xmm2
+ addsd xmm5,xmm4
+ addsd xmm5,xmm2
+ subsd xmm3,xmm0
+ subsd xmm5,xmm0
+ divsd xmm3,xmm1
+ divsd xmm5,xmm1
+ movapd xmm6,xmm3
+ minsd xmm3,xmm5
+ maxsd xmm6,xmm5
+ xorpd xmm0,xmm0
+ maxsd xmm3,xmm0
+ minsd xmm6,[one_d]
+ ucomisd xmm3,xmm6
+ ja .next_row
+ cvtss2sd xmm0,[rsp]
+ cvtss2sd xmm1,[rsp+12]
+ subsd xmm1,xmm0
+ mulsd xmm3,xmm1
+ mulsd xmm6,xmm1
+ addsd xmm3,xmm0
+ addsd xmm6,xmm0
+ movapd xmm5,xmm3
+ minsd xmm3,xmm6
+ maxsd xmm5,xmm6
+ subsd xmm3,xmm2
+ addsd xmm5,xmm2
+ cvtsd2ss xmm0,xmm3
+ call coordinate_cell
+ cmp eax,r13d
+ cmova r13d,eax
+ cvtsd2ss xmm0,xmm5
+ call coordinate_cell
+ cmp eax,[rsp+108]
+ jae .row_check
+ mov [rsp+108],eax
+.row_check:
+ cmp r13d,[rsp+108]
+ ja .next_row
 .cell:
  mov eax,r12d
  shl eax,7
@@ -526,8 +591,9 @@ query_start:
  jmp .list
 .next_cell:
  inc r13d
- cmp r13d,[rsp+28]
+ cmp r13d,[rsp+108]
  jbe .cell
+.next_row:
  inc r12d
  cmp r12d,[rsp+32]
  jbe .row

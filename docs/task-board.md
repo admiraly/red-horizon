@@ -327,3 +327,12 @@ still above33.3ms. New full4f9cf0815524 is live atdc2c4fb-3795e595064024f2;
 root v17 runtime remains accepted. Next: reconcile this handle, integrate matching
 passed coherent source, then protected air missions/shared company intent and
 remaining decision costs. Historical failed full logs remain retained.
+
+2026-10-06 accepted coherent integration: full4f9cf0815524 PASSED1172.0055s,
+124 structured suite reports, all311 frozen inputs match main plus one independently
+verified development diagnostic. UDPv19 now integrates company1/acquisition2 and
+optimized wreck rows fromdc2c4fb. Root builds follow. Dense tick budgets, proper
+company ownership/UI/timed support, protected bomber missions and remaining full
+specification gates remain open. Air-escort policy1/air acquisition2 is implemented
+separately on feature/air-escort, focused flight/admission and1800tick controlled
+mission checks pass; not integrated and not covered by this ground checkpoint.

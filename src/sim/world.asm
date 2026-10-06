@@ -2,6 +2,7 @@
 %include "schemas/entity.inc"
 %include "schemas/shell_contact.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/acquisition.inc"
 default rel
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, world_los, terrain_blocked
@@ -40,6 +41,7 @@ speed: dd 0.12,0.5,0.2,5.0
 default_goals: dd 5000.0,1300.0,5000.0,3900.0,5000.0,6500.0
                dd 3000.0,1300.0,3000.0,3900.0,3000.0,6500.0
 range2: dd 57600.0,202500.0,422500.0,1440000.0
+search_cells: dd ACQUIRE_INF_CELLS,ACQUIRE_TANK_CELLS,ACQUIRE_ARTY_CELLS,5
 power: dd 3,10,15,6
 zero: dd 0.0
 maximum: dd 8000.0
@@ -235,7 +237,7 @@ sim_tick:
  push r13
  push r14
  push r15
- sub rsp,96
+ sub rsp,ACQUIRE_STACK_BYTES
  inc dword [sim_tick_count]
  sub rsp,8
  call wreck_tick
@@ -454,7 +456,9 @@ sim_tick:
  lea rcx,[range2]
  movss xmm6,[rcx+rax*4]
  mov r15d,-1
- mov dword [rsp+72],1
+ lea rcx,[search_cells]
+ mov eax,[rcx+rax*4]
+ mov [rsp+72],eax
  cmp dword [rbx+ENTITY_KIND],3
  jne .search_radius
  mov eax,r12d
@@ -468,6 +472,7 @@ sim_tick:
  jnz .attack_next
  mov dword [rsp+72],5
 .search_radius:
+ mov dword [rsp+80],0
  mov r13d,[rsp+72]
  neg r13d
 .zloop:
@@ -524,12 +529,74 @@ sim_tick:
  comiss xmm0,[bomber_min_range2]
  jb .chain
 .candidate_range:
- ; Only physically visible candidates can become authoritative targets.
+ ; Key: nonnegative float distance, then inverse original sample rank.
+ ; Exactly121 cells x24 candidates bound the private stack heap to2904.
+ mov ecx,[rsp+80]
+ cmp ecx,ACQUIRE_HEAP_MAX
+ jae .attack_next
+ movd eax,xmm0
+ shl rax,32
+ mov edx,[rsp+12]
+ add edx,[rsp+16]
+ not edx
+ or rax,rdx
+ mov [rsp+ACQUIRE_HEAP_BASE+rcx*8],rax
+ inc dword [rsp+80]
+.chain:
+ inc dword [rsp+16]
+ dec edi
+ jnz .candidate
+.xnext:
+ inc r14d
+ cmp r14d,[rsp+72]
+ jle .xloop
+.znext:
+ inc r13d
+ cmp r13d,[rsp+72]
+ jle .zloop
+ ; Heapify all eligible candidates before visibility, preserving exact
+ ; closest-visible selection and original tie precedence without repeated
+ ; expensive LOS for successively nearer visible candidates.
+ mov r13d,[rsp+80]
+ test r13d,r13d
+ jz .attack_next
+ shr r13d,1
+ dec r13d
+.heap_build:
+ test r13d,r13d
+ js .nearest_pop
+ lea rdi,[rsp+ACQUIRE_HEAP_BASE]
+ mov esi,[rsp+80]
+ mov edx,r13d
+ sub rsp,8
+ call .heap_down
+ add rsp,8
+ dec r13d
+ jmp .heap_build
+.nearest_pop:
+ mov ecx,[rsp+80]
+ test ecx,ecx
+ jz .attack_next
+ mov rax,[rsp+ACQUIRE_HEAP_BASE]
+ not eax
+ lea rcx,[cell_samples]
+ mov ebp,[rcx+rax*4]
+ dec dword [rsp+80]
+ mov ecx,[rsp+80]
+ test ecx,ecx
+ jz .nearest_los
+ mov rax,[rsp+ACQUIRE_HEAP_BASE+rcx*8]
+ mov [rsp+ACQUIRE_HEAP_BASE],rax
+ lea rdi,[rsp+ACQUIRE_HEAP_BASE]
+ mov esi,ecx
+ xor edx,edx
+ sub rsp,8
+ call .heap_down
+ add rsp,8
+.nearest_los:
  movss [rsp+32],xmm4
  movss [rsp+36],xmm5
  movss [rsp+40],xmm6
- movss [rsp+44],xmm0
- mov [rsp+48],edi
  mov edi,r12d
  sub rsp,8
  call sim_entity_height
@@ -555,25 +622,9 @@ sim_tick:
  movss xmm4,[rsp+32]
  movss xmm5,[rsp+36]
  movss xmm6,[rsp+40]
- mov edi,[rsp+48]
  test eax,eax
- jz .chain
- movss xmm6,[rsp+44]
+ jz .nearest_pop
  mov r15d,ebp
-.chain:
- inc dword [rsp+16]
- dec edi
- jnz .candidate
-.xnext:
- inc r14d
- cmp r14d,[rsp+72]
- jle .xloop
-.znext:
- inc r13d
- cmp r13d,[rsp+72]
- jle .zloop
- cmp r15d,-1
- je .attack_next
  mov [rbx+ENTITY_TARGET],r15d
  inc dword [sim_engaged]
  cmp dword [rbx+ENTITY_KIND],3
@@ -655,7 +706,7 @@ sim_tick:
  call operation_tick
  call player_tick
  add rsp,8
- add rsp,96
+ add rsp,ACQUIRE_STACK_BYTES
  pop r15
  pop r14
  pop r13
@@ -665,6 +716,34 @@ sim_tick:
 .uninitialized:
  ret
 ; FNV-1a over full active entity records, tick and front orders.
+; Heap scratch only, leaf: RDIbase/ESIcount/EDXroot. Nonvolatile registers
+; and all XMM registers preserved; no authority writes or allocations.
+.heap_down:
+ mov rax,[rdi+rdx*8]
+.heap_child:
+ lea ecx,[rdx*2+1]
+ cmp ecx,esi
+ jae .heap_store
+ mov r8d,ecx
+ mov r9,[rdi+rcx*8]
+ inc ecx
+ cmp ecx,esi
+ jae .heap_compare
+ mov r10,[rdi+rcx*8]
+ cmp r10,r9
+ jae .heap_compare
+ mov r8d,ecx
+ mov r9,r10
+.heap_compare:
+ cmp r9,rax
+ jae .heap_store
+ mov [rdi+rdx*8],r9
+ mov edx,r8d
+ jmp .heap_child
+.heap_store:
+ mov [rdi+rdx*8],rax
+ ret
+
 sim_checksum:
  mov rax,14695981039346656037
  mov r8,1099511628211

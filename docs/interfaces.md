@@ -283,3 +283,11 @@ initial-overlap escape remain. Companyv16 and acquisitionv18 are isolated policy
 candidates; their combination requires recomputed compatibility and an exact
 combined full checkpoint. Persistent company records remain private authority,
 not a replicated or player-ownership interface.
+
+Verified combined gameplay UDPv19/schema0xe683e0bb/content0xe310d315 at the
+4f9cf0815524 checkpoint. Packet layouts remain unchanged. company_assault.inc
+specifies1536x128 persistent plan records and normal hash participation; the
+full-range acquisition heap is bounded private scratch with original distance/
+reservoir-rank tie semantics. Wreck row projection changes only conservative
+candidate enumeration, retaining exact slabs/escape/source/identity rules.
+Air-escort candidate v20 remains isolated.

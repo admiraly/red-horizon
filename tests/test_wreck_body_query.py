@@ -63,6 +63,27 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-body-') as name:
   rc,out=query(start,end,radius);assert rc==bool(expected),(index,rc,expected)
   if expected:
    wanted=min(expected);assert out[1:5]==(wanted[4],wanted[1],wanted[2],wanted[3]);error=abs(out[0]-wanted[0]);maxerr=max(maxerr,error);assert error<6e-8;hits+=1
+ # Long paths exercise row pruning with each unchanged body radius. Exhaustive
+ # slab/escape results use every prepared bound, with no bucket assumptions.
+ long_paths=[]
+ for radius in (0,.551,3.551,4.491):
+  for start,end in (((0,0),(8000,8000)),((8000,0),(0,8000)),((-16000,-16000),(16000,16000)),((0,62.5),(8000,62.5001))):
+   long_paths.append((start,end,f(radius)))
+ for _ in range(160):
+  w=wrecks[rng.randrange(512)];angle=rng.uniform(-math.pi,math.pi);distance=rng.uniform(100,7500)
+  dx,dz=math.cos(angle)*distance,math.sin(angle)*distance
+  long_paths.append(((f(w.x-dx),f(w.z-dz)),(f(w.x+dx),f(w.z+dz)),f(rng.choice((0,.551,3.551,4.491)))))
+ for start,end,radius in long_paths:
+  expected=[]
+  for j in range(512):
+   b=bounds[j*6:j*6+6];box=(f(b[0]-radius),f(b[2]-radius),f(b[3]+radius),f(b[5]+radius))
+   if escape(box,start,end):continue
+   t=clip(box,start,end)
+   if t is not None:expected.append((f(t),wrecks[j].entity,wrecks[j].generation,wrecks[j].sequence,j))
+  rc,out=query(start,end,radius);assert rc==bool(expected),(start,end,radius,rc,expected)
+  if expected:
+   wanted=min(expected);assert out[1:5]==(wanted[4],wanted[1],wanted[2],wanted[3]),(start,end,radius,out,wanted)
+   error=abs(out[0]-wanted[0]);maxerr=max(maxerr,error);assert error<2e-6
  for bad in (math.nan,math.inf,-math.inf,-.001,4.492,100):query((1000,1000),(1001,1000),bad,-1)
  # Real assembled faults: omit inflation; permit cross-center deeper escape;
  # incorrectly let zero-motion occupied placement pass.
@@ -74,4 +95,4 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-body-') as name:
   elif tag=='any_escape':assert query((f(lo+.1),1000),(f(hi+2),1000),0,which=bad)[0]==0
   else:assert query((1000,1000),(1000,1000),0,which=bad)[0]==0
   negatives.append(tag)
- print(json.dumps({'suite':'prepared-wreck-body-query','passed':True,'calls':production_calls,'random_paths':2500,'roles_radii':[0,.551,3.551,4.491],'continuous_no_deepening_samples_per_allowed_overlap':101,'allowed_overlap_cases':escaped,'hits':hits,'maximum_first_t_error':maxerr,'negative_controls':negatives,'ABI_authority_and_alignment':True,'source_sha256':hashlib.sha256(source.encode()).hexdigest(),'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'scope':'Isolated conservative planar inflated-AABB/escape query only; no actor movement/nav/controller/remote-cover hooks or vertical capsule/mesh collision acceptance'}))
+ print(json.dumps({'suite':'prepared-wreck-body-query','passed':True,'calls':production_calls,'random_paths':2500,'exhaustive_long_paths':len(long_paths),'roles_radii':[0,.551,3.551,4.491],'continuous_no_deepening_samples_per_allowed_overlap':101,'allowed_overlap_cases':escaped,'hits':hits,'maximum_first_t_error':maxerr,'negative_controls':negatives,'ABI_authority_and_alignment':True,'source_sha256':hashlib.sha256(source.encode()).hexdigest(),'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'scope':'Isolated conservative planar inflated-AABB/escape query only; no actor movement/nav/controller/remote-cover hooks or vertical capsule/mesh collision acceptance'}))

@@ -1,6 +1,17 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
-Current main runtime remains accepted07d6536/v17; the full-game goal is active.
+Main now integrates verified dc2c4fb: company staging/readiness/artillery-backed
+advance/withdrawal, full-range ground acquisition with exact nearest-visible
+selection, and conservative wreck row narrowing with the short-query fallback.
+Full4f9cf0815524 PASSED1172.0055s atdc2c4fb-3795e595064024f2. All311 frozen
+authored inputs match main; its one extra development diagnostic was independently
+verified. The124 structured suite reports retain original8k/16k motion/replay,
+400tick health/label symmetry,360tick held arrival,1200tick recovery, actual GL,
+co-op and UDP fault cases. Exact source/report hashes: combined-assault-integration.
+Compatibility is UDPv19/schema0xe683e0bb/content0xe310d315 (canonicalSHA256
+ e310d315ac36e3de67f774e82da78264045c05b283beaf56bbac06c1ec0afa5a).
+The full-game goal remains active. Root artifact rebuilding follows integration;
+previous v17 builds are historical until replaced.
 Combined full b0240f5853b8 FAILED759.5345s at authentic wreck replay. An exact
 frozen repeat proves the selected last packet was dropped:17 previously unseen
 valid records are first deliveries, not duplicate resurrection. The observer is
@@ -26,10 +37,10 @@ full-range/nearest-visible acquisition2. Its900tick pairedv19 worlds preserve90
 hashes/all-entity samples:8k open15.909/19.019→15.929/18.955;8k hotspot43.046/
 57.994→36.371/47.462;16k open33.926/42.237→33.890/42.024ms. Dense/stretch
 still exceed33.3ms; this is concurrent local CPU timing, not reference hardware,
-GPU or human-quality acceptance. Coherent full4f9cf0815524 is verified live at
+GPU or human-quality acceptance. Coherent full4f9cf0815524 has now passed at
  dc2c4fb-3795e595064024f2 with original scale/motion/symmetry/held-arrival/recovery,
-actual graphics and UDP fault gates scheduled. Only that matching checkpoint
-can authorize integration. Main runtime remains v17; code licence pending.
+actual graphics and UDP fault gates retained. This matching checkpoint authorizes
+the coherent integration above; code licence remains pending.
 
 Wreck body collision and explicit replicated-cover foot prediction were
 integrated at f8d80b8. The corrected relevance/query/deployment/quit batch is

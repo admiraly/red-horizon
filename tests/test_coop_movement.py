@@ -54,7 +54,10 @@ try:
  assert all(abs(row[4]-1.1)<.01 for row in blocked[-3:]),blocked
  assert lib.net_client_input(0,128,0,0,0,0)==-1
  peer=Peer(('127.0.0.1',ready['port']));assert peer.request(1)[0]==0
- assert peer.input(buttons=128)[0]==1
+ invalid=peer.input(buttons=128);assert invalid[0]==1
+ # Invalid input consumes the existing one-input-per-tick rate budget.
+ # Observe a later authoritative tick before testing valid crouch acceptance.
+ peer.snapshot(invalid[2]+1)
  assert peer.input(buttons=32)[0]==0
  assert snapshot_tick.value==tick.value
  print(json.dumps({'suite':'co-op-player-movement','passed':True,'authority':'actual64actor30Hzdedicatedserver; no fixture writes','crouch_eye':crouch[-1][4],'crouch_metres_per_second':math.hypot(dx,dz)/elapsed,'jump_peak_eye_offset':max(row[4]for row in jump),'held_jump_lands':True,'release_repress_jumps':True,'crouch_blocks_jump':True,'unknown_bits_rejected_adapter_and_server':True,'adapter_tick_matches_server':snapshot_tick.value==tick.value,'max_peer_packet':peer.max_packet}))

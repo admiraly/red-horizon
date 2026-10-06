@@ -71,7 +71,7 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-query-') as name:
  assert mesh_vertices>1000
  rng=random.Random(942005)
  records=[record(x=min(8000,(i%32)*250+rng.uniform(0,250)),z=min(8000,(i//32)*250+rng.uniform(0,250)),y=rng.uniform(-100,100),heading=rng.uniform(-math.pi,math.pi),pitch=rng.uniform(-.8,.8),bank=rng.uniform(-.8,.8),kind=1+i%2,entity=i,seq=i+1) for i in range(1024)]
- fixture(records);assert query((0,0,0),(8000,0,8000))[0] in (0,1);assert candidates.value==1024
+ fixture(records);assert query((0,0,0),(8000,0,8000))[0] in (0,1);diagonal_candidates=candidates.value;assert diagonal_candidates<128
  expected=[bounds(w) for w in W]
  for i,b in enumerate(expected):
   actual=tuple(cache[i*6+j] for j in range(6));assert max(abs(a-z) for a,z in zip(actual,b))<.0016,(i,actual,b)
@@ -86,6 +86,21 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-query-') as name:
    t,entity,generation,sequence,slot=min(hits);assert out[1:5]==(slot,entity,generation,sequence)
    err=abs(out[0]-t);maxerr=max(maxerr,err);assert err<.0001,(out,t)
  assert maxshort<=9
+ # Long, reverse, nearly horizontal, boundary and outside-map segments use
+ # the same independent exhaustive corner/slab oracle, with no spatial pruning.
+ long_paths=[((0,0,0),(8000,0,8000)),((8000,0,0),(0,0,8000)),
+  ((-16000,0,-16000),(16000,0,16000)),((8000,0,8000),(0,0,0)),
+  ((0,0,62.5),(8000,0,62.5001)),((8000,0,62.5001),(0,0,62.5))]
+ for _ in range(250):
+  w=W[rng.randrange(1024)];scale=rng.uniform(100,7500);angle=rng.uniform(-math.pi,math.pi)
+  dx,dz=math.cos(angle)*scale,math.sin(angle)*scale
+  long_paths.append(((f(w.x-dx),f(w.y+1),f(w.z-dz)),(f(w.x+dx),f(w.y+1),f(w.z+dz))))
+ for s,e in long_paths:
+  hits=[(t,w.entity,w.generation,w.sequence,j) for j,(w,b) in enumerate(zip(W,expected)) if (t:=clip(b,s,e)) is not None]
+  rc,out=query(s,e);assert rc==bool(hits),(s,e,rc,hits)
+  if hits:
+   t,entity,generation,sequence,slot=min(hits);assert out[1:5]==(slot,entity,generation,sequence),(s,e,out,min(hits))
+   err=abs(out[0]-t);maxerr=max(maxerr,err);assert err<.0001,(s,e,out,t)
  # Coincident records require identity tie independent of order/side labels.
  for flip in (0,1):
   records=[record(entity=i,seq=2048-i) for i in range(1024)];records.reverse()
@@ -131,4 +146,4 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-query-') as name:
    be=(Entity*32768).in_dll(bad,'sim_entities');C.c_uint.in_dll(bad,'sim_count').value=32768;be[0]=Entity(1000,1000,0,0,1,0,-1,1);assert bad.probe_wreck_register(0,regs)==0
    assert query((990,bw[0].y+1,1000),(1010,bw[0].y+1,1000),which=bad)[0]==0
   negatives.append(tag)
- print(json.dumps({'suite':'wreck-spatial-query','passed':True,'query_calls':calls,'actual_frame0_vertices':mesh_vertices,'asset_sha256':hashlib.sha256(pack).hexdigest(),'transformed_bounds':1024,'random_nearest_paths':2000,'maximum_first_t_error':maxerr,'maximum_short_candidates':maxshort,'global_candidates':1024,'invalid_callers':33,'malformed_registry_cases':14,'lifecycle_invalidation':True,'negative_controls':negatives,'source_sha256':hashlib.sha256(qsource.encode()).hexdigest(),'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'scope':'Derived conservative AABB query only; no gameplay/body/LOS/rifle/shell/render/UDP acceptance'}))
+ print(json.dumps({'suite':'wreck-spatial-query','passed':True,'query_calls':calls,'actual_frame0_vertices':mesh_vertices,'asset_sha256':hashlib.sha256(pack).hexdigest(),'transformed_bounds':1024,'random_nearest_paths':2000,'maximum_first_t_error':maxerr,'maximum_short_candidates':maxshort,'coincident_candidates':1024,'full_map_diagonal_candidates':diagonal_candidates,'exhaustive_long_paths':len(long_paths),'invalid_callers':33,'malformed_registry_cases':14,'lifecycle_invalidation':True,'negative_controls':negatives,'source_sha256':hashlib.sha256(qsource.encode()).hexdigest(),'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'scope':'Derived conservative AABB query only; no gameplay/body/LOS/rifle/shell/render/UDP acceptance'}))

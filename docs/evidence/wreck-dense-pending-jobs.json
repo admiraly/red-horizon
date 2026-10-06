@@ -54,12 +54,17 @@
       "all",
       "--extended"
     ],
-    "status": "running",
+    "status": "passed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/result.json",
     "pid": 2067260,
-    "verified_live": true,
-    "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/combined-assault/tools/dev.py _worker 4f9cf0815524 test --suite all --extended ",
-    "observed_utc": "2026-10-06T11:24:53.533572+00:00"
+    "observed_utc": "2026-10-06T11:42:04.902489+00:00",
+    "terminal_result": {
+      "job_id": "4f9cf0815524",
+      "exit_code": 0,
+      "revision": "dc2c4fb8ba7c860bd4da2b5d9917c77634bceb7a-3795e595064024f2",
+      "seconds": 1172.00552457101,
+      "status": "passed"
+    }
   }
 ]
