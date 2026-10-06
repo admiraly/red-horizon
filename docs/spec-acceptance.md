@@ -527,6 +527,6 @@ Primary human company leases, consented cross-front exchanges, accepted intent
 replication and owner-follow behavior exist. This does not establish complete
 squad ownership, assistance, recruitment, or the full command roster. The
 separate command-wheel batch adds four contextual radial choices and actual
-crosshair terrain targeting; exact verified integration will be recorded in
+crosshair terrain targeting; scoped local integration evidence is recorded in
 status.md. Remapping, attack/defend/suppress/flank/regroup/embark/disembark/support,
 shared assault planning and human quality acceptance remain incomplete.

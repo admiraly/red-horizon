@@ -428,13 +428,13 @@ plans and wider game requirements remain open.
 Current command integration: root owns authority/input/render interfaces.
 Company follow is locally integrated (5f0687c) with physical API, fast, UDP and
 actual rendered evidence in docs/evidence/company-follow-focused.json and
-company-follow-main.json. Full checkpointc881a96c1725 is frozen and running;
+company-follow-main.json. Full checkpointc881a96c1725 failed at private Xvfb startup and is collected;
 it does not include the separate command-wheel worktree.
 
 Next command batch, feature/command-wheel: compact middle-button radial UI and
 first-person terrain targeting use the existing four modes/cost/lease. Physical
 ray/ABI, actual solo labels/cancel/key edges, minimum viewport and two actual
-rendered UDP clients with delay/loss/reorder have scoped passes; final routine
-fast suite and integration evidence are being collected. Full contextual order
+rendered UDP clients with delay/loss/reorder have scoped passes; routine fast63 reports pass and the batch is locally integrated. Matching main six checks pass atbc883ad-7643b2012d750bc6; frozen full
+d6a9a612944d is running. Full contextual order
 roster, remapping, assistance, recruitment and shared timing remain dependency-
 ready follow-up work rather than implied completed commands.

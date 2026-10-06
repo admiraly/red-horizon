@@ -47,7 +47,9 @@ Scoped tests pass: fast63 reports (62 explicit passes plus hazard outcomes),
 final matching ray/solo/small/fault-UDP4 reports, prior-refinement GUI regressions6,
 and original/new binary local/UDP wreck recovery4. Exact epochs, hashes, reports,
 fixture corrections and limitations: docs/evidence/command-wheel-focused.json.
-The minimum-viewport capture is docs/evidence/command-wheel-small.png. Tests use private
+The minimum-viewport capture is docs/evidence/command-wheel-small.png. Wheel tests use private
 libraries/Xvfb with actual NASM controllers, linked OpenGL clients,8192 authority,
-real UDP delay/loss/reorder and read-only process observers. No test renews live
-health, positions, ammunition or ticks.
+real UDP delay/loss/reorder and read-only process observers. These input/target
+tests do not renew live health, positions, ammunition or ticks. Separate legacy
+wreck recovery checks retain their declared stopped-clock cosmetic geometry
+fixtures; they do not establish natural movement, casualty or hardware quality.

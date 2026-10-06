@@ -1,5 +1,42 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integratesbc883ad: contextual command wheel and display startup recovery.
+Hold middle mouse in first person: MOVE up, HOLD left, RETREAT down, FOLLOW right;
+release commits one existing lease-validated five-point order. Centre/right click/
+Escape cancel. MOVE captures visible crosshair terrain with a bounded2048m ray
+and static-wall rejection. Mouse aim and direct order/fire input are suppressed
+while selecting; movement and authority ticks continue. Final cursor position
+is sampled on release, including a move/release in one event batch. A key held
+through closing cannot issue another order; a short Escape press cancels the
+menu while preserving quick quit outside. Pixel-scaled sectors/labels fit the
+minimum320x240 view. Shared NASM text keeps the original company/status rows.
+
+Scoped worker evidence: fast63 reports (62 explicit passes plus hazard outcomes),
+final physical/solo/minimum-view/fault-UDP4, prior-refinement GUI regressions6,
+and original/new client local/UDP wreck recovery4. Core ray library hashes match
+between fast and final tests. Exact epochs and limitations:
+docs/evidence/command-wheel-focused.json. Runtime is NASM+GLSL; UDPv26/content
+0xb5f51cbd and existing authority layouts/costs remain. Matching main client/co-op/headless builds and six physical/rendered/fault-UDP/
+wreck checks pass atbc883ad-7643b2012d750bc6. All348 authored inputs match.
+Frozen full extended jobd6a9a612944d is RUNNING, not passed. It is the sole
+running managed checkpoint; every foreground job is terminal and collected.
+Exact matching builds, six reports and full job metadata:
+docs/evidence/command-wheel-main.json.
+
+Previous full follow jobc881a96c1725 FAILED1118.152s with128 reports before
+private XOpenDisplay failed, before launching the wreck game client. It is
+terminal and collected; raw failure is preserved in company-follow-full-failed.log.
+The same frozen follow binary passes both local and UDP wreck rendering with the
+corrected bounded display startup path, as does the new wheel client. This does
+not convert the failed full run into a pass. Earlier HUD/retreat full43d0d7f2c2bc
+PASSED1218.121s/141 reports on its340-input snapshot.
+
+The wheel exposes four implemented orders. Full contextual roster, remapping,
+unit/structure targeting, adaptive formation tactics/traffic, assistance,
+recruitment/shared assault planning, whole operation/platform/content work and
+hardware/human-quality acceptance remain incomplete. No whole-game completion
+claim. Previous integration history follows.
+
 Current main integrates company follow5f0687c, UDPv26/schema0x42ffc407/
 content0xb5f51cbd. Default4 sends one five-point order: living ground actors
 follow the corroborated current owner in stable12m formation slots. Actual
