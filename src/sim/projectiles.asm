@@ -1,9 +1,10 @@
+%include "schemas/world_contact.inc"
 ; Authoritative bounded moving shells, fixed30Hz. Cosmetic ring is independent.
 %include "schemas/entity.inc"
 %include "schemas/combat.inc"
 %include "schemas/aircraft.inc"
 default rel
-extern sim_entities,sim_count,sim_tick_count,sim_blast,sim_shell_contact
+extern sim_entities,sim_count,sim_tick_count,sim_blast,world_contact_query
 extern sim_aircraft,sim_entity_height,sim_air_damage
 extern terrain_height,terrain_los
 section .bss align=64
@@ -19,6 +20,7 @@ sim_events: resb EVENT_CAPACITY*EVENT_STRIDE
 sim_event_count: resd 1
 sim_event_sequence: resd 1
 section .rodata
+blast_contact_skin: dd WORLD_CONTACT_BLAST_SKIN
 zero: dd 0.0
 one: dd 1.0
 half: dd 0.5
@@ -394,19 +396,13 @@ projectile_tick:
  movss xmm3,[rsp+12]
  movss xmm4,[rsp+16]
  movss xmm5,[rsp+20]
- call segment_clear
+ lea rdi,[rsp+64]
+ mov esi,WORLD_CONTACT_BYTES
+ mov edx,[rbx+PROJECTILE_SIDE]
+ call world_contact_query
  test eax,eax
- jz .impact
- movss xmm0,[rsp]
- movss xmm1,[rsp+4]
- movss xmm2,[rsp+8]
- movss xmm3,[rsp+12]
- movss xmm4,[rsp+16]
- movss xmm5,[rsp+20]
- mov edi,[rbx+PROJECTILE_SIDE]
- call sim_shell_contact
- cmp eax,-1
- jne .actor_impact
+ js .expire ; malformed cover fails closed; never let a projectile pass through
+ jnz .impact
  mov eax,[rsp+12]
  mov [rbx+PROJECTILE_X],eax
  mov eax,[rsp+16]
@@ -414,50 +410,14 @@ projectile_tick:
  mov eax,[rsp+20]
  mov [rbx+PROJECTILE_Z],eax
  jmp .next
-.actor_impact:
- mov [rsp+52],eax
- movss [rsp+40],xmm0
- movss [rsp+44],xmm1
- movss [rsp+48],xmm2
- jmp .emit_impact
 .impact:
- cmp dword [rbx+PROJECTILE_KIND],PROJECTILE_AIR_GUN
- je .expire
- ; Eight bisections locate the last clear point, keeping blast outside solids.
- mov dword [rsp+24],0
- mov dword [rsp+28],0x3f800000
- mov r13d,8
-.bisect:
- movss xmm6,[rsp+24]
- addss xmm6,[rsp+28]
- mulss xmm6,[half]
- movss [rsp+32],xmm6
- movss xmm3,[rsp+12]
- subss xmm3,[rsp]
- mulss xmm3,xmm6
- addss xmm3,[rsp]
- movss xmm4,[rsp+16]
- subss xmm4,[rsp+4]
- mulss xmm4,xmm6
- addss xmm4,[rsp+4]
- movss xmm5,[rsp+20]
- subss xmm5,[rsp+8]
- mulss xmm5,xmm6
- addss xmm5,[rsp+8]
- movss xmm0,[rsp]
- movss xmm1,[rsp+4]
- movss xmm2,[rsp+8]
- call segment_clear
- test eax,eax
- mov eax,[rsp+32]
- jz .high
- mov [rsp+24],eax
- jmp .bisect_next
-.high: mov [rsp+28],eax
-.bisect_next:
- dec r13d
- jnz .bisect
- movss xmm6,[rsp+24]
+ mov eax,[rsp+68]
+ mov [rsp+60],eax
+ mov eax,[rsp+72]
+ mov [rsp+52],eax
+ mov eax,[rsp+76]
+ mov [rsp+56],eax
+ movss xmm6,[rsp+64]
  movss xmm0,[rsp+12]
  subss xmm0,[rsp]
  mulss xmm0,xmm6
@@ -488,17 +448,65 @@ projectile_tick:
  mov esi,[rbx+PROJECTILE_SIDE]
  movss xmm3,[rbx+PROJECTILE_RADIUS]
  call combat_event
- movss xmm0,[rsp+40]
- movss xmm1,[rsp+48]
+ ; The event is on the closed contact boundary. For explosive cover impacts,
+ ; place the blast evaluation at most1cm toward the incoming clear segment,
+ ; clamped to its start. This avoids a wall boundary occluding its entire blast.
+ movss xmm6,[rsp+64]
+ cmp dword [rsp+60],WORLD_CONTACT_SOLID
+ je .outside_blast
+ cmp dword [rsp+60],WORLD_CONTACT_WRECK
+ jne .blast_origin
+.outside_blast:
+ movss xmm0,[rsp+12]
+ subss xmm0,[rsp]
+ mulss xmm0,xmm0
+ movss xmm1,[rsp+16]
+ subss xmm1,[rsp+4]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ movss xmm1,[rsp+20]
+ subss xmm1,[rsp+8]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ sqrtss xmm0,xmm0
+ ucomiss xmm0,[zero]
+ jbe .blast_origin
+ movss xmm1,[blast_contact_skin]
+ divss xmm1,xmm0
+ subss xmm6,xmm1
+ maxss xmm6,[zero]
+.blast_origin:
+ movss xmm0,[rsp+12]
+ subss xmm0,[rsp]
+ mulss xmm0,xmm6
+ addss xmm0,[rsp]
+ movss xmm1,[rsp+20]
+ subss xmm1,[rsp+8]
+ mulss xmm1,xmm6
+ addss xmm1,[rsp+8]
+ movss xmm3,[rsp+16]
+ subss xmm3,[rsp+4]
+ mulss xmm3,xmm6
+ addss xmm3,[rsp+4]
  movss xmm2,[rbx+PROJECTILE_RADIUS]
- movss xmm3,[rsp+44]
  mov edi,[rbx+PROJECTILE_SIDE]
  mov esi,[rbx+PROJECTILE_DAMAGE]
  call sim_blast
  jmp .expire
 .air_hit:
- ; Air-gun has no area damage. Only a real swept actor contact can hurt.
+ ; A cover identity can equal a recycled actor index. Only the typed live
+ ; actor contact with its captured generation can enter direct damage.
+ cmp dword [rsp+60],WORLD_CONTACT_ACTOR
+ jne .expire
  mov edi,[rsp+52]
+ cmp edi,[sim_count]
+ jae .expire
+ mov eax,edi
+ shl eax,5
+ lea rdx,[sim_entities]
+ mov ecx,[rsp+56]
+ cmp [rdx+rax+ENTITY_GENERATION],ecx
+ jne .expire
  mov esi,[rbx+PROJECTILE_DAMAGE]
  call sim_air_damage
 .expire:
@@ -513,24 +521,6 @@ projectile_tick:
  pop r13
  pop r12
  pop rbx
- ret
-; Exact authored-solid sweep plus endpoint ground check.
-segment_clear:
- sub rsp,40
- movss [rsp],xmm3
- movss [rsp+4],xmm4
- movss [rsp+8],xmm5
- call terrain_los
- test eax,eax
- jz .out
- movss xmm0,[rsp]
- movss xmm1,[rsp+8]
- call terrain_height
- comiss xmm0,[rsp+4]
- setb al
- movzx eax,al
-.out:
- add rsp,40
  ret
 projectile_hash:
  lea rsi,[sim_projectiles]

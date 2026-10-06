@@ -1,4 +1,5 @@
 ; Authoritative SSE2 analytic terrain and bounded static-solid queries.
+%include "schemas/terrain_height.inc"
 default rel
 extern terrain_relief
 section .rodata align=16
@@ -11,12 +12,12 @@ terrain_obstacles:
  dd 3988.0,6300.0,4012.0,6700.0,20.0,28.0,1,0
  dd 5170.0,1540.0,5230.0,1600.0,12.0,20.0,1,0
  dd 2770.0,3540.0,2830.0,3600.0,12.0,20.0,1,0
-center: dd 4000.0
-xscale: dd 0.000001
-zscale: dd 0.0000005
-ridge_scale: dd 0.00125
-ridge_height: dd 18.0
-base: dd 12.0
+center: dd TERRAIN_HEIGHT_CENTER
+xscale: dd TERRAIN_HEIGHT_X_SCALE
+zscale: dd TERRAIN_HEIGHT_Z_SCALE
+ridge_scale: dd TERRAIN_HEIGHT_RIDGE_SCALE
+ridge_height: dd TERRAIN_HEIGHT_RIDGE_HEIGHT
+base: dd TERRAIN_HEIGHT_BASE
 one: dd 1.0
 zero: dd 0.0
 maximum: dd 8000.0
