@@ -1,0 +1,11 @@
+# Wreck visibility and blast shielding
+
+Authoritative sight/fire callers now compose continuous current-profile ground, authored solids and captured wreck bounds with `world_los`. Explicit caller-owned wreck records/count/revision remain available through `world_los_context`. Source faults fail closed; query calls do not mutate authority. Eye origins and original unit radii/speed remain unchanged.
+
+Blast eligibility is collected for the original bounded 216 sampled opposing actors before applying any damage. Genuine casualties still register immediately during application; they cannot shield later victims from that same explosion. Ground impact event coordinates remain at first contact, while damage evaluation rises 1 cm above contact. Solid/wreck contact retains its existing at-most-1-cm incoming-side backoff.
+
+Focused combat verification passed. The added actual production observer passes 24 cases: eight genuine tank/artillery wreck blast shields with both labels and ID orders; four simultaneous casualties with immediate wreck registration; clear/tank/artillery rifle and scheduled enemy-threat controls; actual acquisition/infantry damage after casualty cover; five gravity artillery ground bursts on base, ridge and relief; three public bomb-launch gravity ground bursts. Initial fixtures are controlled; no in-flight HP, pose, clock or ordnance renewal is used. The bomb observer calls the public low-level launch and projectile tick; it does not establish controller release accuracy or finite-store consumption.
+
+A separate attempted natural-controller fixture at initial altitude 120 m and descending inherited velocity released a bomb that landed approximately 231 m short of the target. That attempt is not an accepted bomber-accuracy result. Existing aircraft acceptance must remain unchanged, and inherited vertical-velocity release prediction needs a separate investigation.
+
+UDP compatibility is bumped to v11; schema 0x141e5baf and content 0x4f7830cf, SHA256 4f7830cfc1802e45063b4ba6dda70d0f2e513641f5b78a8ddf47f2e9d1b85d87. This batch does not connect wreck body collision, navigation detours, replicated-cover client prediction, or remote hazard warnings. It does not establish artistic dogfight quality, whole-operation balance, exact mesh collision, or full game completion. Integration requires a passing frozen full extended run.

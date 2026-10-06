@@ -26,12 +26,12 @@ global los_blocked,los_observations
 los_blocked: resd 1
 los_observations: resd 1
 section .text
-global terrain_height,terrain_los,hazard_choose_goal,test_init,test_query_los
+global terrain_height,world_los,hazard_choose_goal,test_init,test_query_los
 extern hazard_init,hazard_query
 terrain_height:
  xorps xmm0,xmm0
  ret
-terrain_los:
+world_los:
  inc dword [los_observations]
  mov eax,[los_blocked]
  xor eax,1

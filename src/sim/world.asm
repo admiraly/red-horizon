@@ -4,7 +4,7 @@
 %include "schemas/aircraft.inc"
 default rel
 extern operation_init, operation_tick, operation_hash
-extern terrain_move, terrain_height, terrain_los, terrain_blocked
+extern terrain_move, terrain_height, world_los, terrain_blocked
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
 extern crowd_init,crowd_begin,crowd_move,crowd_hash
 extern terrain_body_init,terrain_body_hash
@@ -550,7 +550,7 @@ sim_tick:
  movss xmm3,[rdx+ENTITY_X]
  movss xmm5,[rdx+ENTITY_Z]
  sub rsp,8
- call terrain_los
+ call world_los
  add rsp,8
  movss xmm4,[rsp+32]
  movss xmm5,[rsp+36]
@@ -845,7 +845,7 @@ sim_blast:
  movss xmm2,[rsp+4]
  movss xmm3,[rbx+ENTITY_X]
  movss xmm5,[rbx+ENTITY_Z]
- call terrain_los
+ call world_los
  test eax,eax
  jz .chain
  ; Collect eligibility against one pre-explosion world, before any casualty

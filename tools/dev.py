@@ -354,6 +354,10 @@ def main():
         if suite in ('all','headless','combat'):
             execute([sys.executable,'tests/test_shell_contact.py',str(library)])
             execute([sys.executable,'tests/test_world_contact.py'])
+            execute([sys.executable,'tests/test_world_los.py'])
+            execute([sys.executable,'tests/test_world_los_outcomes.py',str(library)])
+            execute([sys.executable,'tests/test_wreck_cover_outcomes.py',str(library)])
+            execute([sys.executable,'tests/test_blast_visibility_batch.py'])
             execute([sys.executable,'tests/test_projectile_contact_type.py'])
             execute([sys.executable,'tests/test_world_contact_outcomes.py',str(library)])
         if suite in ('all','headless','terrain','combat'):

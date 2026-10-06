@@ -6,7 +6,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_blast,world_contact_query
 extern sim_aircraft,sim_entity_height,sim_air_damage
-extern terrain_height,terrain_los
+extern terrain_height
 section .bss align=64
 global sim_projectiles,sim_projectile_count,sim_projectile_dropped
 global sim_shell_ammo,sim_shell_cooldown,sim_events,sim_event_count,sim_event_sequence
@@ -488,6 +488,12 @@ projectile_tick:
  subss xmm3,[rsp+4]
  mulss xmm3,xmm6
  addss xmm3,[rsp+4]
+ ; A ground event lies on the closed height skin. Evaluate its blast1cm
+ ; above that contact to avoid rejecting every outgoing LOS ray at t=0.
+ cmp dword [rsp+60],WORLD_CONTACT_GROUND
+ jne .blast_ready
+ addss xmm3,[blast_contact_skin]
+.blast_ready:
  movss xmm2,[rbx+PROJECTILE_RADIUS]
  mov edi,[rbx+PROJECTILE_SIDE]
  mov esi,[rbx+PROJECTILE_DAMAGE]

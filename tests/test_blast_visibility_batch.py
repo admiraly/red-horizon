@@ -13,8 +13,8 @@ death_ids: times 32 dd 0
 cover_calls: dd 0
 height: dd 10.0
 section .text
-global terrain_los,sim_entity_height,sim_air_damage
-terrain_los:
+global world_los,sim_entity_height,sim_air_damage
+world_los:
  inc dword [cover_calls]
  mov eax,1
  cmp dword [casualties],0
@@ -41,7 +41,7 @@ section .note.GNU-stack noalloc noexec nowrite progbits
 with tempfile.TemporaryDirectory(prefix='rh-blast-batch-') as folder:
  td=pathlib.Path(folder);stub=td/'sources.asm';stub.write_text(STUB);probe=td/'probe.asm';probe.write_text((ROOT/'tests/probe_terrain_ground_query.asm').read_text().replace('terrain_ground_query','sim_blast'))
  def build(tag,text=body):
-  asm=td/(tag+'.asm');asm.write_text('%include "schemas/entity.inc"\ndefault rel\nextern sim_entities,cell_counts,cell_samples,terrain_los,sim_entity_height,sim_air_damage\nsection .rodata\ncell_scale: dd 0.004\nmaximum: dd 8000.0\nsection .text\nglobal sim_blast\n'+text+'\nsection .note.GNU-stack noalloc noexec nowrite progbits\n');objects=[]
+  asm=td/(tag+'.asm');asm.write_text('%include "schemas/entity.inc"\ndefault rel\nextern sim_entities,cell_counts,cell_samples,world_los,sim_entity_height,sim_air_damage\nsection .rodata\ncell_scale: dd 0.004\nmaximum: dd 8000.0\nsection .text\nglobal sim_blast\n'+text+'\nsection .note.GNU-stack noalloc noexec nowrite progbits\n');objects=[]
   for i,p in enumerate((asm,stub,probe)):
    obj=td/f'{tag}-{i}.o';subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(p),'-o',str(obj)],check=True);objects.append(str(obj))
   so=td/(tag+'.so');subprocess.run(['cc','-shared','-Wl,-Bsymbolic',*objects,'-o',str(so)],check=True);lib=C.CDLL(str(so));lib.probe_sim_blast.argtypes=[C.c_uint,C.c_uint,C.c_void_p]+[C.c_float]*4;return lib

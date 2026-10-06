@@ -2,7 +2,7 @@
 default rel
 %include "schemas/entity.inc"
 extern sim_entities,sim_count,terrain_obstacles,terrain_obstacle_count
-extern terrain_blocked,terrain_path_clear,terrain_height,terrain_los
+extern terrain_blocked,terrain_path_clear,terrain_height,world_los
 global hazard_choose_goal
 section .rodata align=16
 zero: dd 0.0
@@ -186,7 +186,7 @@ hazard_choose_goal:
  movss xmm2,[rsp+4]
  movss xmm3,[rsp+24]
  movss xmm5,[rsp+28]
- call terrain_los
+ call world_los
  test eax,eax
  jnz .next_face
  movss xmm0,[rsp+24]

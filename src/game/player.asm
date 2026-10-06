@@ -4,7 +4,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
-extern terrain_height,terrain_body_blocked,terrain_los,sinf,cosf
+extern terrain_height,terrain_body_blocked,world_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
 extern crowd_begin,crowd_step,crowd_occupied
 section .bss align=64
@@ -639,7 +639,7 @@ safe_candidate:
  movss xmm2,[candidate_z]
  movss xmm3,[r14+ENTITY_X]
  movss xmm5,[r14+ENTITY_Z]
- call terrain_los
+ call world_los
  test eax,eax
  jnz .bad
 .next:
@@ -734,7 +734,7 @@ fire_player:
  movss xmm3,[r14+ENTITY_X]
  movss xmm4,[target_y]
  movss xmm5,[r14+ENTITY_Z]
- call terrain_los
+ call world_los
  test eax,eax
  jz .next
  movss xmm0,[ray_dx]
@@ -788,7 +788,7 @@ enemy_attack:
  movss xmm3,[rbx+PLAYER_X]
  movss xmm4,[rbx+PLAYER_Y]
  movss xmm5,[rbx+PLAYER_Z]
- call terrain_los
+ call world_los
  test eax,eax
  jz .next
  add dword [rbx+PLAYER_SUPPRESSION],25

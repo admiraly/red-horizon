@@ -8,7 +8,7 @@ default rel
 %define QCAP 512
 %define NODES 27
 extern sim_count,sim_entities,sim_tick_count,ai_fronts
-extern terrain_obstacles,terrain_obstacle_count,terrain_body_path_clear,terrain_height,terrain_los
+extern terrain_obstacles,terrain_obstacle_count,terrain_body_path_clear,terrain_height,world_los
 extern terrain_relief_fields
 section .bss align=64
 global nav_metrics
@@ -576,7 +576,7 @@ choose_cover:
  movss xmm2,[rsp+12]
  movss xmm3,[r15]
  movss xmm5,[r15+4]
- call terrain_los
+ call world_los
  test eax,eax
  jnz .next
  movss xmm0,[rsp+8]

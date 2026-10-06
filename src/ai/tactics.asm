@@ -4,7 +4,7 @@
 default rel
 extern sim_count, sim_entities, sim_tick_count, sim_sites, sim_supply
 extern sim_entity_height
-extern terrain_height, terrain_los
+extern terrain_height, world_los
 section .bss align=64
 global ai_fronts
 ai_fronts: resb 6*64
@@ -165,7 +165,7 @@ ai_tick:
  movss xmm2,[rbx+ENTITY_Z]
  movss xmm3,[r15]
  movss xmm5,[r15+4]
- call terrain_los
+ call world_los
  test eax,eax
  jz .next
  mov dword [rbp+52],1

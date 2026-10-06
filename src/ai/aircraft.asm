@@ -2,7 +2,7 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 default rel
-extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,terrain_los
+extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern sinf,cosf,atan2f,projectile_air_launch
 extern air_admission_init,air_admission_begin,air_admission_request
 extern air_admission_flush,air_admission_hash,air_admission_enabled
@@ -483,7 +483,7 @@ air_combat_tick:
  movss xmm2,[rbx+ENTITY_Z]
  movss xmm3,[r14+ENTITY_X]
  movss xmm5,[r14+ENTITY_Z]
- call terrain_los
+ call world_los
  test eax,eax
  jz .next
  jmp .observed
@@ -572,7 +572,7 @@ air_combat_tick:
  movss xmm2,[rbx+ENTITY_Z]
  movss xmm3,[rdx+ENTITY_X]
  movss xmm5,[rdx+ENTITY_Z]
- call terrain_los
+ call world_los
  test eax,eax
  jz .sn
  mov r13d,[rsp+24]

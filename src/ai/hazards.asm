@@ -4,7 +4,7 @@
 %include "schemas/hazard.inc"
 default rel
 extern sim_count,sim_entities,sim_tick_count,sim_projectiles
-extern vehicle_entity_driver,terrain_height,terrain_los,hazard_choose_goal
+extern vehicle_entity_driver,terrain_height,world_los,hazard_choose_goal
 section .data
 global hazard_enabled
 hazard_enabled: dd 1
@@ -511,7 +511,7 @@ hazard_query:
  movss xmm1,[rsp+8]
  movss xmm2,[rsp+12]
  inc dword [rsp+16]
- call terrain_los
+ call world_los
  test eax,eax
  jz .qnext
  mov eax,[rsp+20]
