@@ -183,8 +183,15 @@ try:
         key(1,ord('e'),.25)
         until(lambda:vehicle_owner(host_memory,server_symbols,1)==armor,3)
         until(lambda:vehicle_owner(clients[1]['memory'],client_symbols,1)==armor,2)
-        before=server_player(1);key(1,ord('w'),.35)
-        until(lambda:server_player(1)['z']>before['z']+1,2)
+        # Keep real network steering held during bounded hull pivot/acceleration.
+        # Retain the original >1m authoritative forward progress and2s budget.
+        before=server_player(1);focus(1)
+        code=X.XKeysymToKeycode(display,ord('w'))
+        XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)
+        try:
+            until(lambda:server_player(1)['z']>before['z']+1,2)
+        finally:
+            XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display)
         rifle_before=server_player(1)['shots']
         cannon_before=read_u32(host_memory,server_symbols,'vehicle_shots',4)
         focus(1);button(True)
