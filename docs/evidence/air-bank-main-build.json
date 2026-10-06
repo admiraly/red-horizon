@@ -1,0 +1,19 @@
+{
+  "observed_utc": "2026-10-06T13:17:04.729212+00:00",
+  "revision": "0d3c803f88dae07c0944408f90138c3b4642b12f-097410c9d2808a7d",
+  "passed": [
+    "aircraft focused suite",
+    "network suite with actual8192/180tick peers and adapter",
+    "fully linked client"
+  ],
+  "artifacts": {
+    "build/red-horizon-coop-server": "40b8c835b7ee3907cea021f88cefea42c317442bbc6add93625fa8722b1e3dad",
+    "build/red-horizon-server": "35e5e91f32526086082f3d9338f404b7d2b0e9035591c3440a451f3e0e6ee1f1",
+    "build/libsim.so": "64bd49868e4b5eb74f698cc4868dc617669eb79e06b60124c31f76aa75a06688",
+    "build/red-horizon": "e419f1aa07c679d38d923f6e25768460c53afac1a6a0cc58ad6a248facded3ed",
+    "build/libcoopclient.so": "d0580465107a0f314a7573f6380294e6e74a801bf6db10af9d3b1a680ef8dd9c"
+  },
+  "limits": [
+    "These main focused checks supplement the matching frozen full checkpoint; no hardware GPU budget or human cinematic-quality claim."
+  ]
+}

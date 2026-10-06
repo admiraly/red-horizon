@@ -75,7 +75,10 @@ Frozen full831bb1419f53 PASSED1212.0483s on the same
 Exact input SHA256s and structured report count: docs/evidence/air-bank-integration.json.
 Current compatibility is UDPv21/schema0x3296bf93/content0x551748ea, canonicalSHA256
 551748eabefaa269c2c67d31e1339dc3de4fb82a7fa2ca725f71461be70a1973.
-Root artifacts are being rebuilt; previous v20 artifacts above are historical.
+Root headless/co-op/client and both libraries rebuilt at0d3c803-097410c9d2808a7d.
+Matching aircraft and complete focused network suites pass, including actual
+8192/180tick peers/adapter. Exact artifacts/logs: air-bank-main-build.json.
+Previous v20 artifacts above are historical.
 Unsafe diagonal700m corner births and arbitrary edge strike ingress remain
 unaccepted; exact earlier failures and fixture changes: docs/air-bank-flight.md.
 

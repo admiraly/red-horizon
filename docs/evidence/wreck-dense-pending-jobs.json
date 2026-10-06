@@ -20,7 +20,7 @@
       "seconds": 759.5344625909929,
       "status": "failed"
     },
-    "observed_utc": "2026-10-06T11:24:53.533180+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941399+00:00",
     "exit_code": 1,
     "seconds": 759.5344625909929,
     "verified_live": false
@@ -45,7 +45,7 @@
       "seconds": 208.1878269620065,
       "status": "passed"
     },
-    "observed_utc": "2026-10-06T11:24:53.533366+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941466+00:00",
     "exit_code": 0,
     "seconds": 208.1878269620065,
     "verified_live": false
@@ -64,7 +64,7 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/result.json",
     "pid": 2067260,
-    "observed_utc": "2026-10-06T11:42:04.902489+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941510+00:00",
     "terminal_result": {
       "job_id": "4f9cf0815524",
       "exit_code": 0,
@@ -96,7 +96,7 @@
       "seconds": 266.70723434799584,
       "status": "passed"
     },
-    "observed_utc": "2026-10-06T12:02:36.153019+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941556+00:00",
     "exit_code": 0,
     "seconds": 266.70723434799584,
     "verified_live": false
@@ -117,9 +117,16 @@
     "pid": 2425206,
     "verified_live": false,
     "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-escort/tools/dev.py _worker cccb5e085005 test --suite all --extended ",
-    "observed_utc": "2026-10-06T12:02:36.153224+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941593+00:00",
     "exit_code": 1,
-    "seconds": 613.2557992539951
+    "seconds": 613.2557992539951,
+    "terminal_result": {
+      "job_id": "cccb5e085005",
+      "exit_code": 1,
+      "revision": "8534fd584e883abffebf4bc154478e3ccc6ad709-e6a5f9beaf846fcc",
+      "seconds": 613.2557992539951,
+      "status": "failed"
+    }
   },
   {
     "job_id": "ac6766acbf40",
@@ -135,11 +142,18 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort/runs/jobs/ac6766acbf40/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort/runs/jobs/ac6766acbf40/result.json",
     "pid": 2605904,
-    "observed_utc": "2026-10-06T12:28:16.857656+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941632+00:00",
     "verified_live": false,
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort",
     "exit_code": 0,
-    "seconds": 1156.8058826089982
+    "seconds": 1156.8058826089982,
+    "terminal_result": {
+      "job_id": "ac6766acbf40",
+      "exit_code": 0,
+      "revision": "28de6f220f41d4bc71a8118a339f9ba380749f70-ecb28980ca2626e3",
+      "seconds": 1156.8058826089982,
+      "status": "passed"
+    }
   },
   {
     "job_id": "195a64c32e56",
@@ -154,12 +168,19 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/result.json",
     "pid": 2788793,
-    "observed_utc": "2026-10-06T12:45:16.538433+00:00",
+    "observed_utc": "2026-10-06T13:16:08.941671+00:00",
     "verified_live": false,
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight",
     "exit_code": 0,
     "seconds": 257.4233954480005,
-    "limitation": "Later natural world observation finds6 distinct boundary-crossing fighters; this passing fast checkpoint is superseded and does not authorize integration."
+    "limitation": "Later natural world observation finds6 distinct boundary-crossing fighters; this passing fast checkpoint is superseded and does not authorize integration.",
+    "terminal_result": {
+      "job_id": "195a64c32e56",
+      "exit_code": 0,
+      "revision": "00c3d9e5369ef37fb7b391f132da995811e9abfe-afae1bf596b7aae4",
+      "seconds": 257.4233954480005,
+      "status": "passed"
+    }
   },
   {
     "job_id": "558332fecbfd",
@@ -170,13 +191,22 @@
       "--suite",
       "fast"
     ],
-    "status": "running",
+    "status": "passed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/558332fecbfd/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/558332fecbfd/result.json",
     "pid": 2831613,
-    "observed_utc": "2026-10-06T12:50:49.801495+00:00",
-    "verified_live": true,
-    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight"
+    "observed_utc": "2026-10-06T13:16:08.942203+00:00",
+    "verified_live": false,
+    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight",
+    "terminal_result": {
+      "job_id": "558332fecbfd",
+      "exit_code": 0,
+      "revision": "1f3ed2658f775a7823b54bdc95057b39edb6983e-42bc0ec70974dc4c",
+      "seconds": 255.88892972400936,
+      "status": "passed"
+    },
+    "exit_code": 0,
+    "seconds": 255.88892972400936
   },
   {
     "job_id": "831bb1419f53",
@@ -188,12 +218,21 @@
       "all",
       "--extended"
     ],
-    "status": "running",
+    "status": "passed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/831bb1419f53/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/831bb1419f53/result.json",
     "pid": 2839489,
-    "observed_utc": "2026-10-06T12:52:08.606502+00:00",
-    "verified_live": true,
-    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight"
+    "observed_utc": "2026-10-06T13:16:08.942247+00:00",
+    "verified_live": false,
+    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight",
+    "terminal_result": {
+      "job_id": "831bb1419f53",
+      "exit_code": 0,
+      "revision": "1f3ed2658f775a7823b54bdc95057b39edb6983e-42bc0ec70974dc4c",
+      "seconds": 1212.0483493799984,
+      "status": "passed"
+    },
+    "exit_code": 0,
+    "seconds": 1212.0483493799984
   }
 ]
