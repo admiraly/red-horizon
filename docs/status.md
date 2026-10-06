@@ -41,6 +41,28 @@ e84a7d5337a91b2c61c92c29e84ee0afe95d37e9afc3226d3ea9e059a38895ed;
 timed company air support/shared mission UI, physically coupled bank/turn/roll,
 aircraft separation/rearming and human spectacle quality remain open.
 
+Root v20 headless/co-op/client and both libraries rebuilt atf652913. Actual
+1800tick escort controls and8192army180tick peers pass with1195 airXZ refreshes.
+Initial manual adapter linking omitted its simulation objects, then a child
+probe lacked the NASM environment; corrected link/peer checks pass. Exact
+artifact hashes and retained logs: air-escort-main-build.json and associated logs.
+
+Isolated v21 bank/flight/strike candidate00c3d9e is not integrated. Coordinated
+roll/yaw/pitch, projectile-time fighter lead, own last-observed staged strike
+retry and boundary recovery latch pass focused aircraft/admission checks.
+2020 equation/17invalid cases and assembled sign/instant-roll controls pass;
+32000 real actor steps replay with77.5725m minimum edge clearance. Contested
+strike genuinely aborts before600; production retries/releases1147 and destroys
+its objective1297, while identical no-recall NASM control fails through1500.
+That fixture's longer horizon is explicit and documented, with no replenishment.
+Default8192/900ticks records6 bombs/6 impacts/4021 gun launches/4 air destructions.
+Actual GL/source bank poses and bomb/gun/destruction/paired cosmetic controls
+pass on the matching immutable client; inspected feedback remains visually
+sparse, not cinematic acceptance. Frozen fast195a64c32e56 is live at
+00c3d9e-afae1bf596b7aae4 (PID2788793). Full/UDP/scale acceptance remains pending.
+Unsafe diagonal700m corner births and arbitrary edge strike ingress remain
+unaccepted; exact earlier failures and fixture changes: docs/air-bank-flight.md.
+
 Combined full b0240f5853b8 FAILED759.5345s at authentic wreck replay. An exact
 frozen repeat proves the selected last packet was dropped:17 previously unseen
 valid records are first deliveries, not duplicate resurrection. The observer is

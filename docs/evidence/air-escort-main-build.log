@@ -1,0 +1,28 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xe84a7d53", "canonical_sha256": "e84a7d5337a91b2c61c92c29e84ee0afe95d37e9afc3226d3ea9e059a38895ed", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xe84a7d53", "canonical_sha256": "e84a7d5337a91b2c61c92c29e84ee0afe95d37e9afc3226d3ea9e059a38895ed", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xe84a7d53", "canonical_sha256": "e84a7d5337a91b2c61c92c29e84ee0afe95d37e9afc3226d3ea9e059a38895ed", "checked": true}
+/usr/bin/ld.bfd: build/src_net_client.asm.o: warning: relocation against `sim_event_sequence' in read-only section `.text'
+/usr/bin/ld.bfd: build/src_net_client.asm.o: relocation R_X86_64_PC32 against undefined symbol `sim_init' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld.bfd: final link failed: bad value
+collect2: error: ld returned 1 exit status
+{"target": "headless", "revision": "f652913cfa9b4a8a298574149330cd51e2a6f444-a7fdd7e7e5dc4560", "assembled": 2, "assembled_sources": ["src/ai/air_escort.asm", "src/ai/aircraft.asm"], "seconds": 0.36598033001064323, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/f652913cfa9b4a8a298574149330cd51e2a6f444-a7fdd7e7e5dc4560/red-horizon-server"}
+{"target": "coop", "revision": "f652913cfa9b4a8a298574149330cd51e2a6f444-a7fdd7e7e5dc4560", "assembled": 1, "assembled_sources": ["src/net/coop_server.asm"], "seconds": 0.35786437599745113, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/f652913cfa9b4a8a298574149330cd51e2a6f444-a7fdd7e7e5dc4560/red-horizon-coop-server"}
+{"target": "client", "revision": "f652913cfa9b4a8a298574149330cd51e2a6f444-a7fdd7e7e5dc4560", "assembled": 1, "assembled_sources": ["src/net/client.asm"], "seconds": 0.40297808501054533, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/f652913cfa9b4a8a298574149330cd51e2a6f444-a7fdd7e7e5dc4560/red-horizon"}
+Traceback (most recent call last):
+  File "<stdin>", line 7, in <module>
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['gcc', '-shared', '-Wl,-Bsymbolic', '-o', 'build/libcoopclient.so', 'build/src_net_client.asm.o', '-lm']' returned non-zero exit status 1.

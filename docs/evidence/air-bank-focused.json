@@ -1,0 +1,24 @@
+{
+  "logs": {
+    "air-bank-focused.log": "d3a01aed0edaa48e52e4e0913e774fe5e2598f7b489a9ed2c982ed12bf0c9609",
+    "air-bank-intercept-failed.log": "7d983703838c48f8e3ea56f493f185fc4fd39878742e6910248670df97031638",
+    "air-bank-retry-diagnostic.log": "b3dba7cff6ef2f3828a18b10c2a155b74b7ba238f34ddf2832f4874f4a4d659a",
+    "air-bank-boundary-failed.log": "fe9735763fbafe87f2e6d769c7316b0593b05332069165d5a9ea4b1fd9c68092",
+    "air-bank-bomb-fixture-v20.log": "a2ad67b5aceb06e034a413d61d1c32902789659fc7be2fe9f2f97dc1534d1134"
+  },
+  "focused_status": "passed",
+  "runtime_library_sha256": "e12af838fef5de8526c3183e12a04cbcc95cb0bc9a20a6913cf9e48a1558b88d",
+  "compatibility": {
+    "version": 21,
+    "schema": "0xcfb6fd7b",
+    "content": "0x1d824621",
+    "canonical": "1d82462178ed14655bf6f9574975ab41ee1ca2a33ba1b17c5b70cc1bff426124"
+  },
+  "limits": [
+    "No full/fast/GL/UDP checkpoint yet for this candidate.",
+    "Artificial outward diagonal corner births at700m failed at111ticks with x=-1.0547; revised corner fixtures use the declared1200m recovery envelope. This is not arbitrary unsafe-birth acceptance.",
+    "An initially safe eight-aircraft fixture failed after1991ticks due to releasing boundary steering early. The latch correction passes32000 actor steps with77.5725m minimum edge clearance.",
+    "Original600tick contested escort strike fails under coordinated banks and real earlier gun contact. Staged recovery is checked to1500ticks with an actual assembled no-recall control; this budget change is explicit.",
+    "Aligned initial bomb-fixture change passes both originalv20 and candidate with identical3.8719/3.9845m impacts below unchanged6m gate."
+  ]
+}

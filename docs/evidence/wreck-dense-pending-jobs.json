@@ -128,5 +128,22 @@
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort",
     "exit_code": 0,
     "seconds": 1156.8058826089982
+  },
+  {
+    "job_id": "195a64c32e56",
+    "revision": "00c3d9e5369ef37fb7b391f132da995811e9abfe-afae1bf596b7aae4",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/result.json",
+    "pid": 2788793,
+    "observed_utc": "2026-10-06T12:45:16.538433+00:00",
+    "verified_live": true,
+    "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight"
   }
 ]
