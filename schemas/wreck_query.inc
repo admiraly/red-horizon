@@ -29,3 +29,9 @@
 ; Cache key includes source pointer+revision. No remote/world selection implied.
 ; Invalid caller checked before source; source storage validity is caller-owned.
 ; Shared derived cache supports sequential safe-point calls, not concurrency.
+
+; Prepared rebuild memo retains exact64-byte validated active records per slot.
+; All heads/links and active count are rebuilt, while unchanged valid bytes reuse
+; their transformed bounds. Changed active bytes undergo full validation/transform.
+; wreck_query_transforms counts transforms attempted in the most recent rebuild.
+; Extra65536-byte derived memo is outside authority/hash, not a runtime budget claim.

@@ -14,6 +14,10 @@ cache_source: resq 1
 query_source: resq 1
 query_revision: resq 1
 query_count: resd 1
+; Only records previously validated and transformed may reuse their bounds.
+previous_records: resb WRECK_CAPACITY*WRECK_STRIDE
+global wreck_query_transforms
+wreck_query_transforms: resd 1
 section .rodata
 zero: dd 0.0
 mapmax: dd 8000.0
@@ -35,6 +39,7 @@ rebuild:
  push r13
  sub rsp,112
  mov dword [cache_valid],0
+ mov dword [wreck_query_transforms],0
  lea rdi,[heads]
  mov eax,-1
  mov ecx,16384+1024
@@ -48,6 +53,22 @@ rebuild:
  add rbx,rax
  test dword [rbx+WRECK_FLAGS],WRECK_ACTIVE
  jz .next
+ ; An exact byte match reuses only this slot's previously validated transform.
+ mov eax,r12d
+ shl eax,6
+ lea r8,[previous_records]
+ add r8,rax
+ xor ecx,ecx
+.memo:
+ mov rax,[rbx+rcx*8]
+ cmp rax,[r8+rcx*8]
+ jne .changed
+ inc ecx
+ cmp ecx,8
+ jb .memo
+ jmp .indexed
+.changed:
+ inc dword [wreck_query_transforms]
  cmp dword [rbx+WRECK_FLAGS],3
  ja .bad
  mov eax,[rbx+WRECK_KIND]
@@ -208,6 +229,14 @@ rebuild:
  inc ecx
  cmp ecx,3
  jb .rows
+ mov eax,r12d
+ shl eax,6
+ lea rdi,[previous_records]
+ add rdi,rax
+ mov rsi,rbx
+ mov ecx,8
+ rep movsq
+.indexed:
  movss xmm0,[rbx+WRECK_X]
  call coordinate_cell
  mov [rsp+100],eax

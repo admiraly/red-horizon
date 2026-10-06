@@ -42,6 +42,22 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
  lib.wreck_query.argtypes=[C.c_void_p,C.c_uint]+[C.c_float]*6
  out=C.create_string_buffer(24);assert lib.wreck_query(out,24,1090,101,1000,1110,101,1000)==0
  assert bytes(local)==before
+ # A revision refresh scans/reindexes but transforms only changed valid slots.
+ large=C.create_string_buffer(65536)
+ for i in range(512):C.memmove(C.addressof(large)+i*64,record(1000+i*10,i,i+1),64)
+ query(point,large,512,1,(990,101,1000,1010,101,1000),1)
+ transforms=C.c_uint.in_dll(lib,'wreck_query_transforms');assert transforms.value==512
+ query(point,large,512,2,(990,101,1000,1010,101,1000),1);assert transforms.value==0
+ C.memmove(C.addressof(large)+511*64,record(7000,511,1024),64)
+ hit=query(point,large,512,3,(6990,101,1000,7010,101,1000),1);assert hit[2]==511;assert transforms.value==1
+ # Same bytes in another source remain correct with reused per-slot bounds.
+ duplicate=C.create_string_buffer(large.raw[:65536],65536)
+ hit=query(point,duplicate,512,3,(6990,101,1000,7010,101,1000),1);assert hit[2]==511;assert transforms.value==0
+ # Deactivation needs no trigonometry, and reactivation of exact pose reuses it.
+ C.memset(C.addressof(large)+511*64+52,0,4)
+ query(point,large,511,4,(6990,101,1000,7010,101,1000),0);assert transforms.value==0
+ C.memmove(C.addressof(large)+511*64,record(7000,511,1024),64)
+ query(point,large,512,5,(6990,101,1000,7010,101,1000),1);assert transforms.value==0
  # Actual remote lifecycle drives the supplied context revision, without authority writes.
  obj=td/'remote.o';subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/sim/wreck_remote.asm'),'-o',str(obj)],check=True)
  dll=td/'remote.so';subprocess.run(['cc','-shared','-Wl,-Bsymbolic',str(obj),'-o',str(dll)],check=True)
@@ -65,7 +81,7 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
  assert bytes(local)==before
  # Actual assembled faults must expose cross-source and lifecycle cache mistakes.
  negatives=[];source=(ROOT/'src/nav/wreck_query.asm').read_text()
- for tag,text in [('source_key_omitted',source.replace(' cmp rax,[cache_source]\n jne .refresh',' nop\n nop')),('revision_key_omitted',source.replace(' cmp rax,[cache_revision]\n je .cached',' jmp .cached'))]:
+ for tag,text in [('source_key_omitted',source.replace(' cmp rax,[cache_source]\n jne .refresh',' nop\n nop')),('revision_key_omitted',source.replace(' cmp rax,[cache_revision]\n je .cached',' jmp .cached')),('pose_memo_omitted',source.replace(' xor ecx,ecx\n.memo:',' mov ecx,3\n.memo:'))]:
   asm=td/(tag+'.asm');asm.write_text(text);obj=td/(tag+'.o');subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(asm),'-o',str(obj)],check=True)
   altered=list(objs);altered[1]=str(obj);dll=td/(tag+'.so');subprocess.run(['cc','-shared','-Wl,-Bsymbolic',*altered,*['-Wl,--wrap='+s for s in ('ground_support','ground_contact','terrain_height','sinf','cosf','atan2f')],'-lm','-o',str(dll)],check=True)
   bad=C.CDLL(str(dll));fn=bad.wreck_query_context;fn.argtypes=point.argtypes;rows=[C.create_string_buffer(65536) for _ in range(2)]
@@ -73,6 +89,6 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
   out=C.create_string_buffer(24);assert fn(out,24,rows[0],1,1,990,101,1000,1010,101,1000)==1
   if tag=='source_key_omitted':rc=fn(out,24,rows[1],1,1,990,101,1000,1010,101,1000);assert rc==1
   else:
-   C.memmove(rows[0],record(1200,99,3),64);rc=fn(out,24,rows[0],1,2,1190,101,1000,1210,101,1000);assert rc==0
+   C.memmove(rows[0],record(1200,12,1) if tag=='pose_memo_omitted' else record(1200,99,3),64);rc=fn(out,24,rows[0],1,2,1190,101,1000,1210,101,1000);assert rc==0
   negatives.append(tag)
- print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'assembled_negatives':negatives,'same_revision_source_switches':128,'local_authority_unchanged':True,'actual_remote_receive_expire_retire_reset_revision':True,'identical_heartbeat_retains_geometry_revision':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Actual remote-cache lifecycle revision is verified; no connected-client prediction hooks, actor movement, cover or scale acceptance.'}))
+ print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'512_slot_refresh_transforms':[512,0,1,0,0,0],'assembled_negatives':negatives,'same_revision_source_switches':128,'local_authority_unchanged':True,'actual_remote_receive_expire_retire_reset_revision':True,'identical_heartbeat_retains_geometry_revision':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Actual remote-cache lifecycle revision is verified; no connected-client prediction hooks, actor movement, cover or scale acceptance.'}))
