@@ -1,9 +1,11 @@
 ; Continuous fixed-step aircraft. All perception is range/LOS limited.
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
+%include "schemas/air_escort.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
+extern air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
 extern air_admission_init,air_admission_begin,air_admission_request
 extern air_admission_flush,air_admission_hash,air_admission_enabled
 section .bss align=64
@@ -43,6 +45,7 @@ grav: dd 0.0109
 bomb_max_fall: dd 240.0
 two: dd 2.0
 lead_ticks: dd 8.0
+escort_weight: dd AIR_ESCORT_THREAT_WEIGHT
 align 16
 abs_mask: dd 0x7fffffff,0,0,0
 section .text
@@ -89,6 +92,9 @@ air_init:
  lea rdi,[air_defense]
  mov ecx,ENTITY_CAPACITY*2
  rep stosd
+ sub rsp,8
+ call air_escort_init
+ add rsp,8
  jmp air_admission_init
 ; Genuine surviving damage hook: EDI stable actor index, no shooter information.
 ; Repeated hits cannot extend the commitment or reset its recovery window.
@@ -233,7 +239,13 @@ air_tick:
 .target:
  mov eax,[rbp+AIR_TARGET]
  cmp eax,[sim_count]
- jae .boundary
+ jb .enemy_goal
+ cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
+ jne .boundary
+ mov edi,r12d
+ call air_escort_goal
+ jmp .boundary
+.enemy_goal:
  shl eax,5
  lea rcx,[sim_entities]
  add rcx,rax
@@ -421,6 +433,7 @@ air_combat_tick:
  inc r12d
  cmp r12d,[sim_count]
  jb .index
+ call air_escort_tick
  xor r12d,r12d
 .loop:
  mov eax,r12d
@@ -498,7 +511,7 @@ air_combat_tick:
  movss xmm0,[range2]
  movss [rsp+8],xmm0
  mov r13d,-1
- mov r14d,-1
+ mov r14d,-AIR_ACQUIRE_CELLS
 .z:
  mov eax,[rsp+4]
  add eax,r14d
@@ -506,7 +519,7 @@ air_combat_tick:
  ja .zn
  shl eax,5
  mov [rsp+12],eax
- mov r15d,-1
+ mov r15d,-AIR_ACQUIRE_CELLS
 .x:
  mov eax,[rsp]
  add eax,r15d
@@ -559,6 +572,13 @@ air_combat_tick:
  jne .priority_score
  mulss xmm0,[half]
 .priority_score:
+ mov edi,r12d
+ mov esi,[rsp+24]
+ call air_escort_threat
+ test eax,eax
+ jz .escort_score_ready
+ mulss xmm0,[escort_weight]
+.escort_score_ready:
  comiss xmm0,[rsp+8]
  ja .sn
  movss [rsp+28],xmm0
@@ -585,11 +605,11 @@ air_combat_tick:
  jnz .scan
 .xn:
  inc r15d
- cmp r15d,1
+ cmp r15d,AIR_ACQUIRE_CELLS
  jle .x
 .zn:
  inc r14d
- cmp r14d,1
+ cmp r14d,AIR_ACQUIRE_CELLS
  jle .z
  cmp r13d,-1
  je .next
@@ -741,5 +761,9 @@ air_hash:
  inc rsi
  dec ecx
  jnz .defense_bytes
-.return: jmp air_admission_hash
+.return:
+ sub rsp,8
+ call air_escort_hash
+ add rsp,8
+ jmp air_admission_hash
 section .note.GNU-stack noalloc noexec nowrite progbits

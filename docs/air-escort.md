@@ -70,3 +70,13 @@ formation capacity/ownership and target-generation sidecars remain open. Friendl
 nearest scans are periodic and spatially local but can be costly for pathological
 all-aircraft scenes; no task budget or exhaustive enemy perception is claimed.
 This candidate is not integrated; licensing/publication status is unchanged.
+
+Initial fullcccb5e085005 FAILED613.2558s at the independent test_coop.py
+schema/version/content constants, which remainedv19 while runtime/header correctly
+advanced tov20. Independent content reconstruction had the new mission fields,
+but the literal test header tuple was not updated. Corrected explicit literals
+arev20/0xf1a4fcab/0xe84a7d53. Actual180tick8192army co-op checks now pass against
+the exact failed-checkpoint server/adapter, including1195 airXZ refreshes. No
+runtime source changed. The failed full result remains retained; rerun required.
+
+Matching frozen fullac6766acbf40 passed1156.8059s at28de6f2-ecb28980ca2626e3. The complete authored-input comparison and structured report census are in docs/evidence/air-escort-integration.json. This verified escort batch is now integrated in main; the separate physical bank/retry candidate is not included.

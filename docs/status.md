@@ -8,14 +8,14 @@ authored inputs match main; its one extra development diagnostic was independent
 verified. The124 structured suite reports retain original8k/16k motion/replay,
 400tick health/label symmetry,360tick held arrival,1200tick recovery, actual GL,
 co-op and UDP fault cases. Exact source/report hashes: combined-assault-integration.
-Compatibility is UDPv19/schema0xe683e0bb/content0xe310d315 (canonicalSHA256
+Previous company batch compatibility was UDPv19/schema0xe683e0bb/content0xe310d315 (canonicalSHA256
  e310d315ac36e3de67f774e82da78264045c05b283beaf56bbac06c1ec0afa5a).
 The full-game goal remains active. Root headless/co-op/client and simulation/
 client-adapter libraries are rebuilt at39f55ca-f0af61ff208504d6. Actual company
 replay/withdrawal and8192army180tick co-op checks pass, including1192 airXZ
 refreshes. Exact artifact SHA256s and logs: combined-main-build.json. Previous
 v17 artifacts and checks below are historical.
-New isolated aircraft candidate1c8ceb1/v20 implements generation-bound own
+Main now integrates aircraft candidate1c8ceb1/v20, which implements generation-bound own
 bomber escorts, trailing/flank flight goals and real-range/LOS-gated bomber-threat
 priority. The750m fighter search now covers3 cells in each direction. Matching
 focused1800public ticks show actual following, perceived threat damage and finite
@@ -28,8 +28,16 @@ prove cinematic quality. Its900tick production scale comparison shows mean/p95
 baseline→candidate:8k open16.398/19.216→16.397/19.297;8k hotspot36.894/48.287→
 36.764/47.952;16k open34.861/43.347→35.098/44.704ms. Decisions/hashes differ as
 expected, so these do not isolate a query cost. Candidate16k tick900 has138 valid
-living escort bindings. Dense/stretch budgets still fail. Fullcccb5e085005 is
-verified live at8534fd5-e6a5f9beaf846fcc. This candidate remains unintegrated;
+living escort bindings. Dense/stretch budgets still fail. Initial fullcccb5e085005 FAILED613.2558s at independent UDP test literals
+left on v19. Corrected explicit v20 literals preserve the independent compatibility
+check; the same compiled server/adapter passes8192army180tick actual co-op
+with1195 airXZ refreshes. Corrected frozen fullac6766acbf40 PASSED1156.8059s at
+28de6f2-ecb28980ca2626e3. All315 authored inputs match main, plus the
+previously verified duplicate diagnostic. Its125 structured suite reports
+retain real GL/UDP faults and original scale/motion/recovery gates. Exact hashes
+and results: docs/evidence/air-escort-integration.json. Compatibility is now
+UDPv20/schema0xf1a4fcab/content0xe84a7d53, canonicalSHA256
+e84a7d5337a91b2c61c92c29e84ee0afe95d37e9afc3226d3ea9e059a38895ed;
 timed company air support/shared mission UI, physically coupled bank/turn/roll,
 aircraft separation/rearming and human spectacle quality remain open.
 

@@ -352,6 +352,8 @@ def main():
             if suite in ('all','headless','fast','simulation','aircraft'): execute([sys.executable,'tests/test_bomb_release.py',str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','fast','simulation','aircraft'):
+            execute([sys.executable,'tests/test_air_escort.py',str(library)])
         if suite in ('all','headless','fast','simulation','tactics'):
             execute([sys.executable,'tests/test_company_assault.py',str(library)])
         if suite in ('all','headless','fast','simulation','combat'):
