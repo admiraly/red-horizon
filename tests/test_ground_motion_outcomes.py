@@ -33,7 +33,7 @@ def snapshot(i):return None if M is None else tuple(getattr(M[i],n) for n,_ in M
 def motion_heading(i):return M[i].heading if M is not None and M[i].generation==E[i].generation and M[i].flags&1 else 0.
 def reset(kind=1,xy=(3500.,2000.),driver=True):
  assert lib.sim_init(32,42)==0
- if enabled is not None:enabled.value=int(not a.legacy)
+ if enabled is not None:enabled.value=1 # Birth tick must establish a real live stamp.
  C.c_uint.in_dll(lib,'hazard_enabled').value=0
  for e in E[:32]:e.hp=0
  alive[0]=alive[1]=0
@@ -43,6 +43,8 @@ def reset(kind=1,xy=(3500.,2000.),driver=True):
  assert lib.sim_waypoint(0,0,xy[0],xy[1]+300)==0
  # Public tick establishes generation state; no private motion writes.
  lib.sim_tick()
+ # Disable only subsequent actuation for the legacy causal comparison.
+ if enabled is not None:enabled.value=int(not a.legacy)
  if driver:
   assert lib.player_join(0,0)==0;p=P[0];p.x,p.z=e.x+2,e.z;p.y=lib.terrain_height(p.x,p.z)+1.8
   assert lib.vehicle_enter(0)==0 and V[0]==12
