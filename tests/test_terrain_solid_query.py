@@ -63,7 +63,7 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-solid-') as name:
  C.memmove(C.addressof(data),initial,160);count.value=6;query(mutable,(0,0,0),(1,1,1),-2);count.value=0;query(mutable,(3900,30,1300),(4100,30,1300),0)
  count.value=5;C.memmove(C.addressof(data),initial,160);C.memmove(C.addressof(data)+24,struct.pack('<I',0),4);query(mutable,(3900,30,1300),(4100,30,1300),1)
  C.memmove(C.addressof(data),initial,160);C.memmove(C.addressof(data)+32,initial[:32],32);query(mutable,(3900,30,1300),(4100,30,1300),1)
- production_calls=calls;negatives=[]
+ production_calls=calls;production_error=maxerr;negatives=[]
  for tag,text,fixture in [('first_slot',source.replace(' ucomiss xmm0,[rsp+48]\n jae .next',' jmp .next'),((6000,30,1750),(3800,30,1255))),('last_entry',source.replace(' movss [rsp+48],xmm0',' movss xmm0,[rsp+12]\n movss [rsp+48],xmm0'),((3900,30,1300),(4100,30,1300))),('missing_height',source.replace(' addss xmm0,[rbx+20]',' nop'),((3900,30,1300),(4100,30,1300))),('tie_last_slot',source.replace(' jae .next',' ja .next'),((3900,30,1300),(4100,30,1300)))]:
   bad,_=build(tag,text,mutable=tag=='tie_last_slot')
   if tag=='tie_last_slot':
@@ -71,4 +71,4 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-solid-') as name:
   try:query(bad,*fixture)
   except AssertionError:negatives.append(tag)
   else:raise AssertionError('assembled fault escaped '+tag)
- print(json.dumps({'suite':'terrain-solid-first-contact','passed':True,'calls':production_calls,'random_paths':3000,'authored_obstacles':5,'malformed_atomic_sources':bad_sources+1,'nearest_first_t_error':maxerr,'negative_controls':negatives,'ABI_source_preserved':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/terrain_solid_query.asm').read_bytes()).hexdigest(),'terrain_source_sha256':hashlib.sha256((ROOT/'src/nav/terrain.asm').read_bytes()).hexdigest(),'scope':'Prepared exact point/AABB contacts for current five authored solids. No analytic ground, actor/wreck arbitration, runtime hooks, physical bodies or scale acceptance.'}))
+ print(json.dumps({'suite':'terrain-solid-first-contact','passed':True,'calls':production_calls,'random_paths':3000,'authored_obstacles':5,'malformed_atomic_sources':bad_sources+1,'nearest_first_t_error':production_error,'negative_controls':negatives,'ABI_source_preserved':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/terrain_solid_query.asm').read_bytes()).hexdigest(),'terrain_source_sha256':hashlib.sha256((ROOT/'src/nav/terrain.asm').read_bytes()).hexdigest(),'scope':'Prepared exact point/AABB contacts for current five authored solids. No analytic ground, actor/wreck arbitration, runtime hooks, physical bodies or scale acceptance.'}))
