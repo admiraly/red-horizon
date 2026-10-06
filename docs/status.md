@@ -33,8 +33,8 @@ its legacy tank relabel fixture is replaced by an actually armed living infantry
 body preserving HP/generation/stocks. Real input/state boundaries are observed
 under concurrent rendering load. Failed fixture/observer iterations retained.
 Exact independent logs/binary epochs: evidence/player-blast-session.json and
- evidence/player-blast-fast-passed.json. Matching-main focused player checks
-are running; no uncollected terminal result is claimed passed.
+ evidence/player-blast-fast-passed.json. Matching-main focused player checks exit0; exact common authored inputs match
+the worker. Evidence/player-blast-main-player.json records merged native epochs.
 
 Frozen full5c24e859ca9b RUNNING at 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76,
 PID2000914; evidence/player-blast-full-pending.json. Earlier full
