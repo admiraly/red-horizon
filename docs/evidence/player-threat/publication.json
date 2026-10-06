@@ -1,0 +1,14 @@
+[
+  {
+    "suite": "derived-completed-tick-publication",
+    "passed": true,
+    "actual_tick_pairs": 100,
+    "static_marker_tamper_checksum_and_future_independent": true,
+    "invalid_init_preserves_marker": true,
+    "marker_final": 100,
+    "library_sha256": "920730e66d546846b041bb72ebbbcac739beabcf7b6d138f847682d7fec558f0",
+    "limits": [
+      "Derived diagnostic marker, never read by gameplay and excluded from authority hash. Sparse paired100tick replay; physical server movement/cadence remains separate."
+    ]
+  }
+]

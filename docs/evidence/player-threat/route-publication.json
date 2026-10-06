@@ -1,0 +1,102 @@
+[
+  {
+    "suite": "physical-supply-route-four-peer-udp",
+    "passed": true,
+    "units": 8192,
+    "endpoints": 4,
+    "startup_tick": 1,
+    "declared_initial_carried": 12,
+    "declared_prior_expenditure": 108,
+    "actual_credit_tick": 360,
+    "credited_rounds": 90,
+    "depot_remaining": 11910,
+    "resumed_primary_goal": [
+      900,
+      4200
+    ],
+    "samples": [
+      [
+        9,
+        900.9599609375,
+        3900.0,
+        12,
+        0,
+        12000
+      ],
+      [
+        69,
+        908.15966796875,
+        3900.0,
+        12,
+        0,
+        12000
+      ],
+      [
+        129,
+        915.359375,
+        3900.0,
+        12,
+        0,
+        12000
+      ],
+      [
+        189,
+        922.55908203125,
+        3900.0,
+        12,
+        0,
+        12000
+      ],
+      [
+        249,
+        929.7587890625,
+        3900.0,
+        12,
+        0,
+        12000
+      ],
+      [
+        309,
+        936.95849609375,
+        3900.0,
+        12,
+        0,
+        12000
+      ],
+      [
+        369,
+        942.9249877929688,
+        3901.070068359375,
+        102,
+        90,
+        11910
+      ],
+      [
+        429,
+        941.9032592773438,
+        3908.203857421875,
+        102,
+        90,
+        11910
+      ],
+      [
+        480,
+        941.0347900390625,
+        3914.267578125,
+        102,
+        90,
+        11910
+      ]
+    ],
+    "all6144_infantry_and12_depots_conserved": true,
+    "observer_writes_after_setup": false,
+    "complete_tick_publication_checked": true,
+    "stable_read_retries": 1300,
+    "in_progress_transaction_retries": 0,
+    "server_sha256": "d77fbde26c982f349c8547486d5b2d773d50c638760b6a45865bd20f2fdb3ad3",
+    "limits": [
+      "One explicit startup actor pose/front/stock and front objective; no live state renewal or identity/health changes.",
+      "Exact stocks and travel observed read-only on actual server; not an exact wire-stock oracle, production adapter or rendered detour feedback test."
+    ]
+  }
+]

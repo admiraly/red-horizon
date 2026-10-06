@@ -42,9 +42,13 @@ try:
    last_input=time.monotonic()
  def observe():
   global retries,transaction_retries
+  # Start/end counters distinguish a whole completed tick from a preempted
+  # world pass; two identical /proc reads alone are not a publication barrier.
+  completed=struct.unpack('<I',os.pread(memory,4,symbols['sim_tick_completed']))[0]
   tick=struct.unpack('<I',os.pread(memory,4,symbols['sim_tick_count']))[0]
+  if completed!=tick:retries+=1;return None
   entities=os.pread(memory,32,symbols['sim_entities']);raw=os.pread(memory,8192*32,symbols['infantry_weapons']);depots=os.pread(memory,192,symbols['depot_ammunition'])
-  if raw!=os.pread(memory,len(raw),symbols['infantry_weapons'])or depots!=os.pread(memory,192,symbols['depot_ammunition'])or entities!=os.pread(memory,32,symbols['sim_entities'])or tick!=struct.unpack('<I',os.pread(memory,4,symbols['sim_tick_count']))[0]:retries+=1;return None
+  if raw!=os.pread(memory,len(raw),symbols['infantry_weapons'])or depots!=os.pread(memory,192,symbols['depot_ammunition'])or entities!=os.pread(memory,32,symbols['sim_entities'])or tick!=struct.unpack('<I',os.pread(memory,4,symbols['sim_tick_count']))[0]or tick!=struct.unpack('<I',os.pread(memory,4,symbols['sim_tick_completed']))[0]:retries+=1;return None
   rows=[struct.unpack_from('<8I',raw,i*32)for i in range(8192)];stores=[struct.unpack_from('<4I',depots,i*16)for i in range(12)]
   for i,row in enumerate(rows):
    if i%16<12:
@@ -64,7 +68,7 @@ try:
   pump();row=observe()
   if row:
    tick,actor,weapon,depot=row
-   if previous and tick>previous[0]:assert math.dist(actor[:2],previous[1][:2])<=(tick-previous[0])*.1205+.001
+   if previous and tick>previous[0]:assert math.dist(actor[:2],previous[1][:2])<=(tick-previous[0])*.1205+.001,(previous,row)
    previous=row
    if weapon[6]and first is None:
     first=row;assert weapon[6]==90 and weapon[7]==360 and depot[:3]==(11910,90,12000),(row,birth)
@@ -78,7 +82,7 @@ try:
  else:raise AssertionError('actual UDP route observation timed out')
  for p in peers:p.command(5);p.socket.close()
  peers=[];stdout,stderr=host.communicate(timeout=20);assert host.returncode==0,(stdout,stderr)
- print(json.dumps({'suite':'physical-supply-route-four-peer-udp','passed':True,'units':8192,'endpoints':4,'startup_tick':birth,'declared_initial_carried':12,'declared_prior_expenditure':108,'actual_credit_tick':first[2][7],'credited_rounds':90,'depot_remaining':11910,'resumed_primary_goal':[900,4200],'samples':samples,'all6144_infantry_and12_depots_conserved':True,'observer_writes_after_setup':False,'stable_read_retries':retries,'in_progress_transaction_retries':transaction_retries,'server_sha256':hashlib.sha256(server.read_bytes()).hexdigest(),'limits':['One explicit startup actor pose/front/stock and front objective; no live state renewal or identity/health changes.','Exact stocks and travel observed read-only on actual server; not an exact wire-stock oracle, production adapter or rendered detour feedback test.']}))
+ print(json.dumps({'suite':'physical-supply-route-four-peer-udp','passed':True,'units':8192,'endpoints':4,'startup_tick':birth,'declared_initial_carried':12,'declared_prior_expenditure':108,'actual_credit_tick':first[2][7],'credited_rounds':90,'depot_remaining':11910,'resumed_primary_goal':[900,4200],'samples':samples,'all6144_infantry_and12_depots_conserved':True,'observer_writes_after_setup':False,'complete_tick_publication_checked':True,'stable_read_retries':retries,'in_progress_transaction_retries':transaction_retries,'server_sha256':hashlib.sha256(server.read_bytes()).hexdigest(),'limits':['One explicit startup actor pose/front/stock and front objective; no live state renewal or identity/health changes.','Exact stocks and travel observed read-only on actual server; not an exact wire-stock oracle, production adapter or rendered detour feedback test.']}))
 finally:
  for p in peers:p.socket.close()
  if memory is not None:os.close(memory)

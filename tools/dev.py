@@ -373,6 +373,7 @@ def main():
             execute([sys.executable,'tests/test_player_ammunition_report.py',str(library)])
             execute([sys.executable,'tests/test_player_ammunition_abi.py',str(library)])
             execute([sys.executable,'tests/test_player_threat_ammunition.py',str(library)])
+            execute([sys.executable,'tests/test_tick_publication.py',str(library)])
         if suite in ('all','headless','fast','simulation','combat'):
             execute([sys.executable,'tests/test_infantry_ammunition.py',str(library)])
             execute([sys.executable,'tests/test_depot_ammunition.py'])

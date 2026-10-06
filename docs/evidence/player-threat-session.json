@@ -1,6 +1,6 @@
 {
   "candidate_commit": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24",
-  "final_authored_epoch_before_commit": "c65b2438dc05202b303cbc4fc0cdf5a14de6cb24-66485c881f525ce6",
+  "final_authored_epoch_before_commit": "fba8fbe1aabadb5294dbd4934811e6543a8290e2-aafce4d008140d67",
   "runtime_policy": "Finite infantry stock gates human threat damage; same current magazine as army shots. Noninfantry synthetic threat and shared shooter cadence remain pending.",
   "wire": {
     "version": 34,
@@ -57,20 +57,51 @@
       "explicit_pass_reports": 78,
       "log_sha256": "addf5c7fed0f6b18151ad04a7cad5246476e472347a1b69883aa15f104767aba",
       "reports": "docs/evidence/player-threat/fast.json"
+    },
+    "network-final": {
+      "exit_code": 0,
+      "status": "passed",
+      "explicit_pass_reports": 25,
+      "log_sha256": "691ee2a666c490d595324c530454831383aca9e58dd0fc37e0584340a782a262",
+      "reports": "docs/evidence/player-threat/network-final.json"
+    },
+    "publication": {
+      "exit_code": 0,
+      "status": "passed",
+      "explicit_pass_reports": 1,
+      "log_sha256": "bbebf35c21ebf236a9b19e6429bd37705e76f31887f195303f27ccdf4b5e8858",
+      "reports": "docs/evidence/player-threat/publication.json"
+    },
+    "route-publication": {
+      "exit_code": 0,
+      "status": "passed",
+      "explicit_pass_reports": 1,
+      "log_sha256": "85d46f66c48994100c4ae70c73eef2de8dbb16cde615691100d0cda5690a49cc",
+      "reports": "docs/evidence/player-threat/route-publication.json"
+    },
+    "player-publication": {
+      "exit_code": 0,
+      "status": "passed",
+      "explicit_pass_reports": 8,
+      "log_sha256": "641e957801b59ed0e45525de7c1e4c33837621ceab5d9da39a2634d93ccbf485",
+      "reports": "docs/evidence/player-threat/player-publication.json"
     }
   },
-  "corrected_development_abi": "Six older keepalive fixtures corrected; rerun failed at existing supply-route movement observer after14 explicit passed reports. Those earlier14 are partial coverage, not a complete network pass. A previous initial network run passed25 reports with unchanged ABI fixtures.",
+  "corrected_development_abi": "Six older keepalive fixtures use the actual EDI dummy/slot plus ESI flags and four float arguments. Initial corrected run FAILED after14 pass reports at an in-progress-tick movement observer; full corrected/publication-gated rerun exits0 with25 pass reports.",
   "scope": [
     "Sparse startup stock/pose fixtures only, genuine80 ticks per case without live renewal. Armed5rounds/50damage; empty/reloading/corrupt cannot damage until actual reload completes; real wall prevents debit; active same-build replay.",
     "Original player/controller/deployment/terrain focused suite, real gameplay and two-client320x240 stock/timeout GL pass.",
-    "Initial network25 passed; corrected-ABI network rerun failed after14 passed reports, requiring observer diagnosis and remaining coverage.",
+    "Final complete network25 passed: original8192/four endpoints, current own reports, malformed UDP, physical supply route and transport controls remain.",
     "Frozen fast passed299.575142s, original scale/recovery/full graphics/fault coverage still requires frozen extended checkpoint after integration."
   ],
   "limits": [
     "Existing noninfantry synthetic human damage remains.",
     "A single actor can still spend on army and human paths in one tick; shared target/cadence scheduling remains.",
     "NPC human shot audio/tracers are not added by this accounting change.",
-    "Complete spec, hardware/human quality, license/publication remain unaccepted."
+    "Complete spec, hardware/human quality, license/publication remain unaccepted.",
+    "Earlier frozen fast78 predates derived publication marker and UDP fixture corrections; updated focused player, marker replay, physical server route and complete network25 pass; final full checkpoint pending."
   ],
-  "evidence_correction": "Premature exit0/complete-rerun wording in the previous isolated commit was incorrect. This record retains failure explicitly."
+  "evidence_correction": "Premature exit0/complete-rerun wording in the previous isolated commit was incorrect. This record retains failure explicitly.",
+  "derived_publication_marker": "sim_tick_completed initializes0 and publishes sim_tick_count only after every authoritative tick pass. No gameplay reader or hash inclusion.100 paired actual ticks with arbitrary marker tampering preserve every complete checksum/future state. The /proc observer requires matching begin/end completion and start counters; its original speed bound is unchanged.",
+  "authored_input_count": 401
 }

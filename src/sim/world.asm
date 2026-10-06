@@ -41,6 +41,9 @@ orders: resd 6
 rng: resd 1
 global sim_waypoints
 sim_waypoints: resq 6
+; Derived read-only development publication marker, never read by gameplay/hash.
+global sim_tick_completed
+sim_tick_completed: resd 1
 section .rodata
 health: dd 100,400,160,200
 speed: dd 0.12,0.5,0.2,5.0
@@ -71,6 +74,7 @@ sim_init:
  mov [sim_count],edi
  mov [rng],esi
  mov dword [sim_tick_count],0
+ mov dword [sim_tick_completed],0
  mov dword [sim_engaged],0
  shr edi,1
  mov [sim_alive],edi
@@ -755,6 +759,8 @@ sim_tick:
  call infantry_weapon_resupply_tick
  call player_tick
  call company_transfer_tick
+ mov eax,[sim_tick_count]
+ mov [sim_tick_completed],eax
  add rsp,8
  add rsp,ACQUIRE_STACK_BYTES
  pop r15
