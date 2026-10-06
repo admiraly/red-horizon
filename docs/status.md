@@ -1,6 +1,10 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
-Current accepted main is the v21 bank-coupled flight/strike batch (0d3c803), with
+Main now integrates focused-verified exclusive company ownership and solo/co-op
+GUI command routing from21b2cd4. Its exact328 authored inputs and prior focused
+evidence are recorded in company-control-integration.json; frozen full0b0739a72b85
+still runs on the same source. Current extended acceptance is pending. The prior
+fully accepted baseline is v21 bank-coupled flight/strike (0d3c803), with
 full831bb1419f53 PASSED1212.0483s and323 exact matching authored inputs. The
 223 structured JSON dictionaries include repeated build/content checks; they
 are not223 independent feature suites. Root aircraft/network checks and fully
@@ -11,7 +15,7 @@ actual same-front companies move/hold independently, one accepted command
 charges5, fourth-player production NASM adapter receives accepted ACK, disconnect
 restores autonomous movement, and genuine redeployment preserves company intent.
 Tactics, complete focused network and actual two-client software GL checks pass.
-Combined bank/ownership compatibility is private UDPv23/schema0xc5c97e5b/
+Current main bank/ownership compatibility is UDPv23/schema0xc5c97e5b/
 content0xa89260de, canonicalSHA256
 a89260de2597cbc3b3ac2a73ac2dccb2bdb95c20d6c9761f7a918f1813b70484.
 Frozen fasted14fd74253d PASSED253.5270s at847deaa-38301943d87f4a17;
@@ -26,8 +30,8 @@ Original solo gameplay and actual two-client co-op checks pass unchanged.
 Frozen full1ab1a888df47 at1e5712b-d43272bceaed8e49 was cancelled as
 superseded by that identical known tools failure. Corrected21b2cd4 retains
 exact dependency checks, adding only the actual company-control dependent.
-Frozen full0b0739a72b85 now runs at21b2cd4-c0410da9e5e40bce. These company
-batches remain unintegrated pending matching full checkpoints. Exact commands,
+Frozen full0b0739a72b85 now runs at21b2cd4-c0410da9e5e40bce. The company batches are now integrated as a coherent focused-verified batch;
+matching full acceptance remains pending. Exact commands,
 initial failed fixtures and limitations: docs/company-control.md in those worktrees.
 Company membership replication/highlights, transfer/assistance and assignment
 recovery with no living ground cohort remain pending. The full-game goal remains

@@ -1,0 +1,2238 @@
+{
+  "passed": true,
+  "library_sha256": [
+    "439389e0535997fc697f26c7df0b9fed153d823c6501d518075989a905eba1d7",
+    "db73cfc37d24412f02cfa2a77578d963f18641bf4ed7acd3b61ce9f0155e7602"
+  ],
+  "candidate_escort_source_sha256": "e73f86a40da8e3e66b3e7734caee1f7360ea76d6df0a88a7dc951736c7eda6f1",
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 900,
+      "timings": [
+        {
+          "mean_ms": 15.742620409999999,
+          "p95_ms": 18.642051
+        },
+        {
+          "mean_ms": 15.858021115555555,
+          "p95_ms": 18.894714
+        }
+      ],
+      "samples": [
+        [
+          {
+            "tick": 30,
+            "checksum": "26ac4b3e744bab49",
+            "army_alive": [
+              4092,
+              4070
+            ],
+            "air_alive": 512,
+            "air_stores": 47875,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "e80d8765788edcaa68895e546a385e2bc4d6a142226a160231e13f5d52f5d2a5"
+          },
+          {
+            "tick": 60,
+            "checksum": "93c87794328ecb54",
+            "army_alive": [
+              4056,
+              3983
+            ],
+            "air_alive": 512,
+            "air_stores": 47630,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "16aa476355e21b56d2f26f34b5302c82bd64d83e8d8a18f5a4bf7507044bcec1"
+          },
+          {
+            "tick": 90,
+            "checksum": "39a5896ea706f515",
+            "army_alive": [
+              4038,
+              3932
+            ],
+            "air_alive": 510,
+            "air_stores": 47049,
+            "active_valid_escorts": 254,
+            "entity_bytes_sha256": "aa30037088f91157bc7a8816d691bbc1b1a3d03eec7d4992efd34603cf4b9a1b"
+          },
+          {
+            "tick": 120,
+            "checksum": "622021d763be7cd8",
+            "army_alive": [
+              4016,
+              3903
+            ],
+            "air_alive": 509,
+            "air_stores": 46627,
+            "active_valid_escorts": 253,
+            "entity_bytes_sha256": "7fe2c83d1963c212ac3a33198802ae883c44d74ebc42f06b1820840fd9bd07ba"
+          },
+          {
+            "tick": 150,
+            "checksum": "9f8208fe1f0f0c83",
+            "army_alive": [
+              3999,
+              3859
+            ],
+            "air_alive": 502,
+            "air_stores": 45018,
+            "active_valid_escorts": 246,
+            "entity_bytes_sha256": "fe630ecd88450da55e98c7dcf9d3b1de2482da3331a7e33bd12f679c0357c1a5"
+          },
+          {
+            "tick": 180,
+            "checksum": "c71db1c817d892f8",
+            "army_alive": [
+              3975,
+              3820
+            ],
+            "air_alive": 490,
+            "air_stores": 42582,
+            "active_valid_escorts": 234,
+            "entity_bytes_sha256": "e85457cc641391dd470f6e3f30a5b762db21ae9e850702e7db2b371ecffd4148"
+          },
+          {
+            "tick": 210,
+            "checksum": "cd5db17672a1fc50",
+            "army_alive": [
+              3949,
+              3792
+            ],
+            "air_alive": 474,
+            "air_stores": 39488,
+            "active_valid_escorts": 218,
+            "entity_bytes_sha256": "1e103a5a9b984677af8df937d8860b0f4777d75e8f1396ca41a8c238d9808216"
+          },
+          {
+            "tick": 240,
+            "checksum": "c3d1f8e64a85aad1",
+            "army_alive": [
+              3916,
+              3765
+            ],
+            "air_alive": 458,
+            "air_stores": 36443,
+            "active_valid_escorts": 202,
+            "entity_bytes_sha256": "b7ed41e5c1565e924f31ba2a112e29dc6bf26b4691724aa4f58e021dd41fbe92"
+          },
+          {
+            "tick": 270,
+            "checksum": "4febbdfaf04b2982",
+            "army_alive": [
+              3890,
+              3731
+            ],
+            "air_alive": 447,
+            "air_stores": 34310,
+            "active_valid_escorts": 191,
+            "entity_bytes_sha256": "c9dffe60e5c353e00b48781d9df4831f871543da56ba8cea12b9a0874ab8e537"
+          },
+          {
+            "tick": 300,
+            "checksum": "6b73cc218c9660ba",
+            "army_alive": [
+              3851,
+              3706
+            ],
+            "air_alive": 435,
+            "air_stores": 32003,
+            "active_valid_escorts": 179,
+            "entity_bytes_sha256": "2143de36e45fbdd2e3192c60a347140d51115228638226b9eed181e6e3a5d9ad"
+          },
+          {
+            "tick": 330,
+            "checksum": "4949f7c46edadba2",
+            "army_alive": [
+              3828,
+              3682
+            ],
+            "air_alive": 425,
+            "air_stores": 30060,
+            "active_valid_escorts": 168,
+            "entity_bytes_sha256": "7357ee01eec11a919c52a80e79acc1fbcdbb02c220b9622ea8f2188f3d64a2a6"
+          },
+          {
+            "tick": 360,
+            "checksum": "f56d793a1b53bddb",
+            "army_alive": [
+              3803,
+              3662
+            ],
+            "air_alive": 414,
+            "air_stores": 27940,
+            "active_valid_escorts": 155,
+            "entity_bytes_sha256": "1a50771ee8cf509a5f5ea7e0f5770bc10dd189c5e48555f2a63de98bfbb4d3aa"
+          },
+          {
+            "tick": 390,
+            "checksum": "8125074ae55dc881",
+            "army_alive": [
+              3788,
+              3637
+            ],
+            "air_alive": 407,
+            "air_stores": 26532,
+            "active_valid_escorts": 148,
+            "entity_bytes_sha256": "79d9749afdd83ad6773c599e27f705b6b96018853ebdec7f4af1fd992200c119"
+          },
+          {
+            "tick": 420,
+            "checksum": "7776d285b4451696",
+            "army_alive": [
+              3772,
+              3623
+            ],
+            "air_alive": 400,
+            "air_stores": 25148,
+            "active_valid_escorts": 137,
+            "entity_bytes_sha256": "5ef7f245ed51bd784c90d3a728995be89da0843531df2d9b5b17af18918ea2db"
+          },
+          {
+            "tick": 450,
+            "checksum": "237a2cb02f70eb9d",
+            "army_alive": [
+              3743,
+              3606
+            ],
+            "air_alive": 396,
+            "air_stores": 24340,
+            "active_valid_escorts": 133,
+            "entity_bytes_sha256": "1b6bd90fa95c5a824f40423acb93749b125f889ffef9223dc91cd212271814c2"
+          },
+          {
+            "tick": 480,
+            "checksum": "e3aa264ec529ce3e",
+            "army_alive": [
+              3723,
+              3585
+            ],
+            "air_alive": 392,
+            "air_stores": 23525,
+            "active_valid_escorts": 120,
+            "entity_bytes_sha256": "fd0a549d9b5bd85ef20397ab528df257d486d5e5d3f3608dfdfe3193b6d71d57"
+          },
+          {
+            "tick": 510,
+            "checksum": "b59566f612a3ed8e",
+            "army_alive": [
+              3700,
+              3567
+            ],
+            "air_alive": 387,
+            "air_stores": 22500,
+            "active_valid_escorts": 117,
+            "entity_bytes_sha256": "0e05fdde419f942eaa527972266d5ab9c23aff4486a90dc22bbd836908e176d8"
+          },
+          {
+            "tick": 540,
+            "checksum": "d1e709279a452a5b",
+            "army_alive": [
+              3682,
+              3553
+            ],
+            "air_alive": 381,
+            "air_stores": 21275,
+            "active_valid_escorts": 116,
+            "entity_bytes_sha256": "92d82e56c465413e6b3185d58b3f3ec145283076398e81cb8ef3ffd12a30a4f9"
+          },
+          {
+            "tick": 570,
+            "checksum": "5dd7c4b510538b73",
+            "army_alive": [
+              3665,
+              3530
+            ],
+            "air_alive": 375,
+            "air_stores": 20121,
+            "active_valid_escorts": 110,
+            "entity_bytes_sha256": "179c7c16bcccf80b0202b6d993f7bcad52a3c56ca7505065c5bf9233cfd195ef"
+          },
+          {
+            "tick": 600,
+            "checksum": "457ed3e6e25c77f6",
+            "army_alive": [
+              3658,
+              3518
+            ],
+            "air_alive": 372,
+            "air_stores": 19466,
+            "active_valid_escorts": 103,
+            "entity_bytes_sha256": "c9cfcf7e77ab58a49b3f80d382b1b8f5ec27219304d2bd07b1fb6726e196abef"
+          },
+          {
+            "tick": 630,
+            "checksum": "786c81592aaa5b63",
+            "army_alive": [
+              3633,
+              3497
+            ],
+            "air_alive": 364,
+            "air_stores": 18063,
+            "active_valid_escorts": 90,
+            "entity_bytes_sha256": "6a60a6e2df19a0b772e06f679eadccf4f7812da74614ffc0bec1c8a7966247dc"
+          },
+          {
+            "tick": 660,
+            "checksum": "696bfd62cca94ae8",
+            "army_alive": [
+              3620,
+              3478
+            ],
+            "air_alive": 356,
+            "air_stores": 16634,
+            "active_valid_escorts": 84,
+            "entity_bytes_sha256": "38f9e485a8cc6c4a37c96ad4a70e401cd6bd282a35506bb5a05607c5b1aa2a6d"
+          },
+          {
+            "tick": 690,
+            "checksum": "cc50a4d936840f47",
+            "army_alive": [
+              3602,
+              3455
+            ],
+            "air_alive": 354,
+            "air_stores": 16185,
+            "active_valid_escorts": 82,
+            "entity_bytes_sha256": "92e9e18e3a60b29b4674d805ed3ef2d26615b9f3b993fff5399fe300d8008182"
+          },
+          {
+            "tick": 720,
+            "checksum": "b71492bd7d4c11ee",
+            "army_alive": [
+              3583,
+              3430
+            ],
+            "air_alive": 353,
+            "air_stores": 15906,
+            "active_valid_escorts": 81,
+            "entity_bytes_sha256": "924929dd945fa8cb457ba38afdd79188be6e52a08b4a8c8777aaa6dd4c6a7af2"
+          },
+          {
+            "tick": 750,
+            "checksum": "5037560c9ec95819",
+            "army_alive": [
+              3567,
+              3405
+            ],
+            "air_alive": 351,
+            "air_stores": 15660,
+            "active_valid_escorts": 80,
+            "entity_bytes_sha256": "ba56790b8b53c72ca73f5805fea9076e25e2b6576821a80b15ecf7577a11257e"
+          },
+          {
+            "tick": 780,
+            "checksum": "7b2738429d2fc923",
+            "army_alive": [
+              3550,
+              3383
+            ],
+            "air_alive": 347,
+            "air_stores": 15110,
+            "active_valid_escorts": 79,
+            "entity_bytes_sha256": "ca94b729944955ae10e096559540d3d1a59dcb6c6776c55273cace74bc2a1fb0"
+          },
+          {
+            "tick": 810,
+            "checksum": "834fb0ca8ab6fd88",
+            "army_alive": [
+              3534,
+              3354
+            ],
+            "air_alive": 345,
+            "air_stores": 14752,
+            "active_valid_escorts": 77,
+            "entity_bytes_sha256": "b290361881cf6d208edb7a6877d0279550e1940e8b0846fede28422ee50b5015"
+          },
+          {
+            "tick": 840,
+            "checksum": "0877f4f4c6578f88",
+            "army_alive": [
+              3514,
+              3330
+            ],
+            "air_alive": 343,
+            "air_stores": 14377,
+            "active_valid_escorts": 75,
+            "entity_bytes_sha256": "fd6cd944b536bd3ca730ffeb860b3dd9bff3266abdacff0b7af8b891d546fe54"
+          },
+          {
+            "tick": 870,
+            "checksum": "07764b0c9aed279b",
+            "army_alive": [
+              3499,
+              3310
+            ],
+            "air_alive": 341,
+            "air_stores": 13997,
+            "active_valid_escorts": 72,
+            "entity_bytes_sha256": "4661a7e0453f8caac93cf8d9387b75fc746b9ef8a67cb82266041b42093c6a8e"
+          },
+          {
+            "tick": 900,
+            "checksum": "2d53c5bb950b955d",
+            "army_alive": [
+              3481,
+              3293
+            ],
+            "air_alive": 335,
+            "air_stores": 13100,
+            "active_valid_escorts": 67,
+            "entity_bytes_sha256": "8457c152f5a7be772b2e0ba550e9a8c0dcf3d1d383b506c2a39a54e78acb2c58"
+          }
+        ],
+        [
+          {
+            "tick": 30,
+            "checksum": "bb8162279bf5e819",
+            "army_alive": [
+              4092,
+              4070
+            ],
+            "air_alive": 512,
+            "air_stores": 47875,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "e80d8765788edcaa68895e546a385e2bc4d6a142226a160231e13f5d52f5d2a5"
+          },
+          {
+            "tick": 60,
+            "checksum": "1b90f1344af31084",
+            "army_alive": [
+              4056,
+              3983
+            ],
+            "air_alive": 512,
+            "air_stores": 47630,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "16aa476355e21b56d2f26f34b5302c82bd64d83e8d8a18f5a4bf7507044bcec1"
+          },
+          {
+            "tick": 90,
+            "checksum": "b85074476c9d7385",
+            "army_alive": [
+              4038,
+              3932
+            ],
+            "air_alive": 510,
+            "air_stores": 47049,
+            "active_valid_escorts": 254,
+            "entity_bytes_sha256": "aa30037088f91157bc7a8816d691bbc1b1a3d03eec7d4992efd34603cf4b9a1b"
+          },
+          {
+            "tick": 120,
+            "checksum": "bb0bed9f6bed0a28",
+            "army_alive": [
+              4016,
+              3903
+            ],
+            "air_alive": 509,
+            "air_stores": 46627,
+            "active_valid_escorts": 253,
+            "entity_bytes_sha256": "7fe2c83d1963c212ac3a33198802ae883c44d74ebc42f06b1820840fd9bd07ba"
+          },
+          {
+            "tick": 150,
+            "checksum": "a118d350dba60533",
+            "army_alive": [
+              3999,
+              3859
+            ],
+            "air_alive": 502,
+            "air_stores": 45018,
+            "active_valid_escorts": 246,
+            "entity_bytes_sha256": "fe630ecd88450da55e98c7dcf9d3b1de2482da3331a7e33bd12f679c0357c1a5"
+          },
+          {
+            "tick": 180,
+            "checksum": "1fc8b0f03bbb88a8",
+            "army_alive": [
+              3975,
+              3820
+            ],
+            "air_alive": 490,
+            "air_stores": 42582,
+            "active_valid_escorts": 234,
+            "entity_bytes_sha256": "e85457cc641391dd470f6e3f30a5b762db21ae9e850702e7db2b371ecffd4148"
+          },
+          {
+            "tick": 210,
+            "checksum": "c26e3c88314bb4c0",
+            "army_alive": [
+              3949,
+              3792
+            ],
+            "air_alive": 474,
+            "air_stores": 39488,
+            "active_valid_escorts": 218,
+            "entity_bytes_sha256": "1e103a5a9b984677af8df937d8860b0f4777d75e8f1396ca41a8c238d9808216"
+          },
+          {
+            "tick": 240,
+            "checksum": "f81ecd89a0f4f281",
+            "army_alive": [
+              3916,
+              3765
+            ],
+            "air_alive": 458,
+            "air_stores": 36443,
+            "active_valid_escorts": 202,
+            "entity_bytes_sha256": "b7ed41e5c1565e924f31ba2a112e29dc6bf26b4691724aa4f58e021dd41fbe92"
+          },
+          {
+            "tick": 270,
+            "checksum": "7be6d823cc433232",
+            "army_alive": [
+              3890,
+              3731
+            ],
+            "air_alive": 447,
+            "air_stores": 34310,
+            "active_valid_escorts": 191,
+            "entity_bytes_sha256": "c9dffe60e5c353e00b48781d9df4831f871543da56ba8cea12b9a0874ab8e537"
+          },
+          {
+            "tick": 300,
+            "checksum": "3da0c6598bb0c30a",
+            "army_alive": [
+              3851,
+              3706
+            ],
+            "air_alive": 435,
+            "air_stores": 32003,
+            "active_valid_escorts": 179,
+            "entity_bytes_sha256": "2143de36e45fbdd2e3192c60a347140d51115228638226b9eed181e6e3a5d9ad"
+          },
+          {
+            "tick": 330,
+            "checksum": "2f7ddf76f0873ad2",
+            "army_alive": [
+              3828,
+              3682
+            ],
+            "air_alive": 425,
+            "air_stores": 30060,
+            "active_valid_escorts": 168,
+            "entity_bytes_sha256": "7357ee01eec11a919c52a80e79acc1fbcdbb02c220b9622ea8f2188f3d64a2a6"
+          },
+          {
+            "tick": 360,
+            "checksum": "5fdb46b1f1fc224b",
+            "army_alive": [
+              3803,
+              3662
+            ],
+            "air_alive": 414,
+            "air_stores": 27940,
+            "active_valid_escorts": 155,
+            "entity_bytes_sha256": "1a50771ee8cf509a5f5ea7e0f5770bc10dd189c5e48555f2a63de98bfbb4d3aa"
+          },
+          {
+            "tick": 390,
+            "checksum": "559c545961bedcb1",
+            "army_alive": [
+              3788,
+              3637
+            ],
+            "air_alive": 407,
+            "air_stores": 26532,
+            "active_valid_escorts": 148,
+            "entity_bytes_sha256": "79d9749afdd83ad6773c599e27f705b6b96018853ebdec7f4af1fd992200c119"
+          },
+          {
+            "tick": 420,
+            "checksum": "8abd66bf018a7346",
+            "army_alive": [
+              3772,
+              3623
+            ],
+            "air_alive": 400,
+            "air_stores": 25148,
+            "active_valid_escorts": 137,
+            "entity_bytes_sha256": "5ef7f245ed51bd784c90d3a728995be89da0843531df2d9b5b17af18918ea2db"
+          },
+          {
+            "tick": 450,
+            "checksum": "315aca2a0ca4f82d",
+            "army_alive": [
+              3743,
+              3606
+            ],
+            "air_alive": 396,
+            "air_stores": 24340,
+            "active_valid_escorts": 133,
+            "entity_bytes_sha256": "1b6bd90fa95c5a824f40423acb93749b125f889ffef9223dc91cd212271814c2"
+          },
+          {
+            "tick": 480,
+            "checksum": "720faae6b23f062e",
+            "army_alive": [
+              3723,
+              3585
+            ],
+            "air_alive": 392,
+            "air_stores": 23525,
+            "active_valid_escorts": 120,
+            "entity_bytes_sha256": "fd0a549d9b5bd85ef20397ab528df257d486d5e5d3f3608dfdfe3193b6d71d57"
+          },
+          {
+            "tick": 510,
+            "checksum": "66b8fb2c327ce9de",
+            "army_alive": [
+              3700,
+              3567
+            ],
+            "air_alive": 387,
+            "air_stores": 22500,
+            "active_valid_escorts": 117,
+            "entity_bytes_sha256": "0e05fdde419f942eaa527972266d5ab9c23aff4486a90dc22bbd836908e176d8"
+          },
+          {
+            "tick": 540,
+            "checksum": "7b147110d659652b",
+            "army_alive": [
+              3682,
+              3553
+            ],
+            "air_alive": 381,
+            "air_stores": 21275,
+            "active_valid_escorts": 116,
+            "entity_bytes_sha256": "92d82e56c465413e6b3185d58b3f3ec145283076398e81cb8ef3ffd12a30a4f9"
+          },
+          {
+            "tick": 570,
+            "checksum": "599bcaa1e7a540a3",
+            "army_alive": [
+              3665,
+              3530
+            ],
+            "air_alive": 375,
+            "air_stores": 20121,
+            "active_valid_escorts": 110,
+            "entity_bytes_sha256": "179c7c16bcccf80b0202b6d993f7bcad52a3c56ca7505065c5bf9233cfd195ef"
+          },
+          {
+            "tick": 600,
+            "checksum": "7b250666789f1a86",
+            "army_alive": [
+              3658,
+              3518
+            ],
+            "air_alive": 372,
+            "air_stores": 19466,
+            "active_valid_escorts": 103,
+            "entity_bytes_sha256": "c9cfcf7e77ab58a49b3f80d382b1b8f5ec27219304d2bd07b1fb6726e196abef"
+          },
+          {
+            "tick": 630,
+            "checksum": "80d738bd5d388af3",
+            "army_alive": [
+              3633,
+              3497
+            ],
+            "air_alive": 364,
+            "air_stores": 18063,
+            "active_valid_escorts": 90,
+            "entity_bytes_sha256": "6a60a6e2df19a0b772e06f679eadccf4f7812da74614ffc0bec1c8a7966247dc"
+          },
+          {
+            "tick": 660,
+            "checksum": "5e590cc1f86635f8",
+            "army_alive": [
+              3620,
+              3478
+            ],
+            "air_alive": 356,
+            "air_stores": 16634,
+            "active_valid_escorts": 84,
+            "entity_bytes_sha256": "38f9e485a8cc6c4a37c96ad4a70e401cd6bd282a35506bb5a05607c5b1aa2a6d"
+          },
+          {
+            "tick": 690,
+            "checksum": "24deb1f8021d9437",
+            "army_alive": [
+              3602,
+              3455
+            ],
+            "air_alive": 354,
+            "air_stores": 16185,
+            "active_valid_escorts": 82,
+            "entity_bytes_sha256": "92e9e18e3a60b29b4674d805ed3ef2d26615b9f3b993fff5399fe300d8008182"
+          },
+          {
+            "tick": 720,
+            "checksum": "693de022b1b058fe",
+            "army_alive": [
+              3583,
+              3430
+            ],
+            "air_alive": 353,
+            "air_stores": 15906,
+            "active_valid_escorts": 81,
+            "entity_bytes_sha256": "924929dd945fa8cb457ba38afdd79188be6e52a08b4a8c8777aaa6dd4c6a7af2"
+          },
+          {
+            "tick": 750,
+            "checksum": "da2f820d06b0d249",
+            "army_alive": [
+              3567,
+              3405
+            ],
+            "air_alive": 351,
+            "air_stores": 15660,
+            "active_valid_escorts": 80,
+            "entity_bytes_sha256": "ba56790b8b53c72ca73f5805fea9076e25e2b6576821a80b15ecf7577a11257e"
+          },
+          {
+            "tick": 780,
+            "checksum": "3d9ca78b762d0873",
+            "army_alive": [
+              3550,
+              3383
+            ],
+            "air_alive": 347,
+            "air_stores": 15110,
+            "active_valid_escorts": 79,
+            "entity_bytes_sha256": "ca94b729944955ae10e096559540d3d1a59dcb6c6776c55273cace74bc2a1fb0"
+          },
+          {
+            "tick": 810,
+            "checksum": "06943e8c60406f38",
+            "army_alive": [
+              3534,
+              3354
+            ],
+            "air_alive": 345,
+            "air_stores": 14752,
+            "active_valid_escorts": 77,
+            "entity_bytes_sha256": "b290361881cf6d208edb7a6877d0279550e1940e8b0846fede28422ee50b5015"
+          },
+          {
+            "tick": 840,
+            "checksum": "8cb754a0250afed8",
+            "army_alive": [
+              3514,
+              3330
+            ],
+            "air_alive": 343,
+            "air_stores": 14377,
+            "active_valid_escorts": 75,
+            "entity_bytes_sha256": "fd6cd944b536bd3ca730ffeb860b3dd9bff3266abdacff0b7af8b891d546fe54"
+          },
+          {
+            "tick": 870,
+            "checksum": "1acea1dcad1a808b",
+            "army_alive": [
+              3499,
+              3310
+            ],
+            "air_alive": 341,
+            "air_stores": 13997,
+            "active_valid_escorts": 72,
+            "entity_bytes_sha256": "4661a7e0453f8caac93cf8d9387b75fc746b9ef8a67cb82266041b42093c6a8e"
+          },
+          {
+            "tick": 900,
+            "checksum": "57572c43839a876d",
+            "army_alive": [
+              3481,
+              3293
+            ],
+            "air_alive": 335,
+            "air_stores": 13100,
+            "active_valid_escorts": 67,
+            "entity_bytes_sha256": "8457c152f5a7be772b2e0ba550e9a8c0dcf3d1d383b506c2a39a54e78acb2c58"
+          }
+        ]
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "timings": [
+        {
+          "mean_ms": 36.13544616555556,
+          "p95_ms": 47.049039
+        },
+        {
+          "mean_ms": 36.68839465333333,
+          "p95_ms": 47.792709
+        }
+      ],
+      "samples": [
+        [
+          {
+            "tick": 30,
+            "checksum": "2121052cf05bc9bb",
+            "army_alive": [
+              3898,
+              3986
+            ],
+            "air_alive": 512,
+            "air_stores": 47821,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "a1b65c1b96754c647aaaa6485700d383896abd91018345730032e519321d7ffa"
+          },
+          {
+            "tick": 60,
+            "checksum": "6dedc54792bea15f",
+            "army_alive": [
+              3798,
+              3831
+            ],
+            "air_alive": 512,
+            "air_stores": 47489,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "e85a75451572da467dcc6af3ee08d4429cfe995e0ef0cca1626e2cf5a5247ce0"
+          },
+          {
+            "tick": 90,
+            "checksum": "23cf31edad6c41dd",
+            "army_alive": [
+              3724,
+              3727
+            ],
+            "air_alive": 511,
+            "air_stores": 47066,
+            "active_valid_escorts": 255,
+            "entity_bytes_sha256": "9eacf7c33a0598bc9213631125353394bb2cec8914fcb2658fe725b57d1927d8"
+          },
+          {
+            "tick": 120,
+            "checksum": "e7fd0861bc83e505",
+            "army_alive": [
+              3633,
+              3641
+            ],
+            "air_alive": 505,
+            "air_stores": 45743,
+            "active_valid_escorts": 249,
+            "entity_bytes_sha256": "a540d2ce288b6d2bd2d8d5cbec8dc0e89a8c6534fc20253647fc3f56389d361e"
+          },
+          {
+            "tick": 150,
+            "checksum": "09898db8ec63c939",
+            "army_alive": [
+              3523,
+              3553
+            ],
+            "air_alive": 499,
+            "air_stores": 44369,
+            "active_valid_escorts": 243,
+            "entity_bytes_sha256": "0bcde6f19ad0c21f688fb95d8547537037cf4f40778fcd67896e71875e926bf4"
+          },
+          {
+            "tick": 180,
+            "checksum": "6b43b5a0cef5ccef",
+            "army_alive": [
+              3428,
+              3390
+            ],
+            "air_alive": 485,
+            "air_stores": 41600,
+            "active_valid_escorts": 229,
+            "entity_bytes_sha256": "053b865bf234b8b10b9db7e11669ec317afbdad6d8d50461a70927b966bb0ea4"
+          },
+          {
+            "tick": 210,
+            "checksum": "4a1f169630c87c44",
+            "army_alive": [
+              3333,
+              3250
+            ],
+            "air_alive": 470,
+            "air_stores": 38679,
+            "active_valid_escorts": 214,
+            "entity_bytes_sha256": "559e7867abc28233208732d246f1f1352365b8de5be945f7303585289d39ec34"
+          },
+          {
+            "tick": 240,
+            "checksum": "8cf56088ba33547f",
+            "army_alive": [
+              3236,
+              3174
+            ],
+            "air_alive": 452,
+            "air_stores": 35128,
+            "active_valid_escorts": 195,
+            "entity_bytes_sha256": "a106d453e7660b6818bb69705a6f717b32ee189950b3ba1d6285d92a0e98e421"
+          },
+          {
+            "tick": 270,
+            "checksum": "a792d5179d5bc8c9",
+            "army_alive": [
+              3169,
+              3119
+            ],
+            "air_alive": 436,
+            "air_stores": 32067,
+            "active_valid_escorts": 179,
+            "entity_bytes_sha256": "5c248e1d3b212431cbc413725885f1952ba661a4f784101978930870a9eae9f4"
+          },
+          {
+            "tick": 300,
+            "checksum": "066c0ee0bc869b05",
+            "army_alive": [
+              3098,
+              3061
+            ],
+            "air_alive": 427,
+            "air_stores": 30377,
+            "active_valid_escorts": 170,
+            "entity_bytes_sha256": "c92b2321dc3060f9ecd1765282d96453ee56885951046a689430ac73f8a5ce10"
+          },
+          {
+            "tick": 330,
+            "checksum": "14c1cfd489e2467a",
+            "army_alive": [
+              3029,
+              2920
+            ],
+            "air_alive": 420,
+            "air_stores": 28903,
+            "active_valid_escorts": 157,
+            "entity_bytes_sha256": "037a4f334dd7e7e9994d6a8b33a8dffa421e646fd30f45cda890f43c13576746"
+          },
+          {
+            "tick": 360,
+            "checksum": "d5e00aa0028178c4",
+            "army_alive": [
+              2973,
+              2887
+            ],
+            "air_alive": 412,
+            "air_stores": 27406,
+            "active_valid_escorts": 150,
+            "entity_bytes_sha256": "64a2aa9f03310a1d9c52310f4cff59ac254b3465db841b5077c795f42a2501b2"
+          },
+          {
+            "tick": 390,
+            "checksum": "d566e9b16f04fd41",
+            "army_alive": [
+              2921,
+              2860
+            ],
+            "air_alive": 407,
+            "air_stores": 26414,
+            "active_valid_escorts": 145,
+            "entity_bytes_sha256": "f39df494ceac36a3fd7967541b75dd23b6af3fbc7c9e04e57d85bc04219dc51d"
+          },
+          {
+            "tick": 420,
+            "checksum": "46827197ee38ac27",
+            "army_alive": [
+              2879,
+              2775
+            ],
+            "air_alive": 401,
+            "air_stores": 25226,
+            "active_valid_escorts": 140,
+            "entity_bytes_sha256": "07cbb32b5afe936994a2dff7f45183090d1766f1e73618bf7761254bac67cbbc"
+          },
+          {
+            "tick": 450,
+            "checksum": "c93f69413e358751",
+            "army_alive": [
+              2837,
+              2732
+            ],
+            "air_alive": 398,
+            "air_stores": 24535,
+            "active_valid_escorts": 130,
+            "entity_bytes_sha256": "71968b92fc983fffe33fb341fd799090f272c49a105d28e046957dd6ff866e9d"
+          },
+          {
+            "tick": 480,
+            "checksum": "83863e48513f8796",
+            "army_alive": [
+              2789,
+              2680
+            ],
+            "air_alive": 392,
+            "air_stores": 23347,
+            "active_valid_escorts": 121,
+            "entity_bytes_sha256": "fceda4b56694501db3ed36184423fe6df62aa3d1307ecbcf352e8cdb9dbb79e3"
+          },
+          {
+            "tick": 510,
+            "checksum": "c6823ba06636aeab",
+            "army_alive": [
+              2768,
+              2649
+            ],
+            "air_alive": 385,
+            "air_stores": 21960,
+            "active_valid_escorts": 117,
+            "entity_bytes_sha256": "8b3b113f0a09e8a0755cace51e203456d92ff37f562d89a8fb635f08a466b1ef"
+          },
+          {
+            "tick": 540,
+            "checksum": "77de9ebd27040102",
+            "army_alive": [
+              2739,
+              2613
+            ],
+            "air_alive": 380,
+            "air_stores": 20974,
+            "active_valid_escorts": 114,
+            "entity_bytes_sha256": "7e18d85a35bf65a2d063fed81c9c771cc8f4479b61ee11c76b8ec3edfecc2102"
+          },
+          {
+            "tick": 570,
+            "checksum": "8e373b4eacc4b5b0",
+            "army_alive": [
+              2716,
+              2585
+            ],
+            "air_alive": 374,
+            "air_stores": 19716,
+            "active_valid_escorts": 103,
+            "entity_bytes_sha256": "3ccf85b6d9b352fb686678a6b466fb9394c9060cf85ca6427cec1d8b26a7d6f9"
+          },
+          {
+            "tick": 600,
+            "checksum": "d10750ada07a681d",
+            "army_alive": [
+              2701,
+              2563
+            ],
+            "air_alive": 371,
+            "air_stores": 18973,
+            "active_valid_escorts": 100,
+            "entity_bytes_sha256": "f441ff42d970766dcd3fb998e5e3919e0800383b1f44ef8f1e36a97992d47d02"
+          },
+          {
+            "tick": 630,
+            "checksum": "ccb2b5c1b8cfb591",
+            "army_alive": [
+              2684,
+              2540
+            ],
+            "air_alive": 368,
+            "air_stores": 18300,
+            "active_valid_escorts": 95,
+            "entity_bytes_sha256": "0a7c56f44fbddb8bd26da5c9de6a7984abb7ac1668b9d779d1679afc629086bc"
+          },
+          {
+            "tick": 660,
+            "checksum": "538338a9cd72953d",
+            "army_alive": [
+              2655,
+              2522
+            ],
+            "air_alive": 367,
+            "air_stores": 17985,
+            "active_valid_escorts": 101,
+            "entity_bytes_sha256": "211f2f3ad08604fa3011bd0e92a2c71b10ec6ba24ea57be7ee2df35e2d6ae3da"
+          },
+          {
+            "tick": 690,
+            "checksum": "621757207a495c93",
+            "army_alive": [
+              2613,
+              2472
+            ],
+            "air_alive": 366,
+            "air_stores": 17679,
+            "active_valid_escorts": 101,
+            "entity_bytes_sha256": "9289b2d84e66b4464db66a777efc21846cf6cde6b6c89ef03043625285274293"
+          },
+          {
+            "tick": 720,
+            "checksum": "7944a73507e327b4",
+            "army_alive": [
+              2594,
+              2446
+            ],
+            "air_alive": 363,
+            "air_stores": 17015,
+            "active_valid_escorts": 101,
+            "entity_bytes_sha256": "d2e2051ed2ee8063c143a064b73cdac65bc99b6e2df36878e545535ee996522c"
+          },
+          {
+            "tick": 750,
+            "checksum": "06930bb45ad54b5d",
+            "army_alive": [
+              2562,
+              2401
+            ],
+            "air_alive": 360,
+            "air_stores": 16462,
+            "active_valid_escorts": 99,
+            "entity_bytes_sha256": "8aa475e8d9fd67c2eff0f73ce34238c32857aa745e9007f4cdf879221c2aa616"
+          },
+          {
+            "tick": 780,
+            "checksum": "27e32a3d99f27ae7",
+            "army_alive": [
+              2534,
+              2372
+            ],
+            "air_alive": 353,
+            "air_stores": 15327,
+            "active_valid_escorts": 92,
+            "entity_bytes_sha256": "544b4dcd7911abc90e087d908dc84f8266f732ed712adb492a85283d780caae3"
+          },
+          {
+            "tick": 810,
+            "checksum": "774344d5d00a6aae",
+            "army_alive": [
+              2509,
+              2338
+            ],
+            "air_alive": 352,
+            "air_stores": 15047,
+            "active_valid_escorts": 91,
+            "entity_bytes_sha256": "3cff26bc86b29467cc808bfdfa19548694b2ab2a0b5b25fbfacab1cb80324f8c"
+          },
+          {
+            "tick": 840,
+            "checksum": "79503b458cfa4556",
+            "army_alive": [
+              2479,
+              2315
+            ],
+            "air_alive": 351,
+            "air_stores": 14791,
+            "active_valid_escorts": 90,
+            "entity_bytes_sha256": "b374dc0c75b003afb51c05a076b27c9c40f7f70878eb0872c1dc0c04e521f9e5"
+          },
+          {
+            "tick": 870,
+            "checksum": "05500b7b3c26d780",
+            "army_alive": [
+              2455,
+              2284
+            ],
+            "air_alive": 347,
+            "air_stores": 14016,
+            "active_valid_escorts": 86,
+            "entity_bytes_sha256": "212c8d6ffecce4849ae93b4e92b22a00f9490e1eefde74ef45c14933160bbe70"
+          },
+          {
+            "tick": 900,
+            "checksum": "1ecd83974a0198b1",
+            "army_alive": [
+              2445,
+              2253
+            ],
+            "air_alive": 344,
+            "air_stores": 13573,
+            "active_valid_escorts": 84,
+            "entity_bytes_sha256": "b7e7f8810fb91af73bd9e7424e1156676669eb72c75f4e1ae24bbbeb5b138a8c"
+          }
+        ],
+        [
+          {
+            "tick": 30,
+            "checksum": "abd090d5f93fb20b",
+            "army_alive": [
+              3898,
+              3986
+            ],
+            "air_alive": 512,
+            "air_stores": 47821,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "a1b65c1b96754c647aaaa6485700d383896abd91018345730032e519321d7ffa"
+          },
+          {
+            "tick": 60,
+            "checksum": "3934b8c82f0fad4f",
+            "army_alive": [
+              3798,
+              3831
+            ],
+            "air_alive": 512,
+            "air_stores": 47489,
+            "active_valid_escorts": 256,
+            "entity_bytes_sha256": "e85a75451572da467dcc6af3ee08d4429cfe995e0ef0cca1626e2cf5a5247ce0"
+          },
+          {
+            "tick": 90,
+            "checksum": "a77a18b819a5528d",
+            "army_alive": [
+              3724,
+              3727
+            ],
+            "air_alive": 511,
+            "air_stores": 47066,
+            "active_valid_escorts": 255,
+            "entity_bytes_sha256": "9eacf7c33a0598bc9213631125353394bb2cec8914fcb2658fe725b57d1927d8"
+          },
+          {
+            "tick": 120,
+            "checksum": "34ee8692b7665735",
+            "army_alive": [
+              3633,
+              3641
+            ],
+            "air_alive": 505,
+            "air_stores": 45743,
+            "active_valid_escorts": 249,
+            "entity_bytes_sha256": "a540d2ce288b6d2bd2d8d5cbec8dc0e89a8c6534fc20253647fc3f56389d361e"
+          },
+          {
+            "tick": 150,
+            "checksum": "674cb0911b76b489",
+            "army_alive": [
+              3523,
+              3553
+            ],
+            "air_alive": 499,
+            "air_stores": 44369,
+            "active_valid_escorts": 243,
+            "entity_bytes_sha256": "0bcde6f19ad0c21f688fb95d8547537037cf4f40778fcd67896e71875e926bf4"
+          },
+          {
+            "tick": 180,
+            "checksum": "c6665ac82d9b807f",
+            "army_alive": [
+              3428,
+              3390
+            ],
+            "air_alive": 485,
+            "air_stores": 41600,
+            "active_valid_escorts": 229,
+            "entity_bytes_sha256": "053b865bf234b8b10b9db7e11669ec317afbdad6d8d50461a70927b966bb0ea4"
+          },
+          {
+            "tick": 210,
+            "checksum": "7bdab8db43328a54",
+            "army_alive": [
+              3333,
+              3250
+            ],
+            "air_alive": 470,
+            "air_stores": 38679,
+            "active_valid_escorts": 214,
+            "entity_bytes_sha256": "559e7867abc28233208732d246f1f1352365b8de5be945f7303585289d39ec34"
+          },
+          {
+            "tick": 240,
+            "checksum": "1bed8cbffa08838f",
+            "army_alive": [
+              3236,
+              3174
+            ],
+            "air_alive": 452,
+            "air_stores": 35128,
+            "active_valid_escorts": 195,
+            "entity_bytes_sha256": "a106d453e7660b6818bb69705a6f717b32ee189950b3ba1d6285d92a0e98e421"
+          },
+          {
+            "tick": 270,
+            "checksum": "e4c4cac7af9f5219",
+            "army_alive": [
+              3169,
+              3119
+            ],
+            "air_alive": 436,
+            "air_stores": 32067,
+            "active_valid_escorts": 179,
+            "entity_bytes_sha256": "5c248e1d3b212431cbc413725885f1952ba661a4f784101978930870a9eae9f4"
+          },
+          {
+            "tick": 300,
+            "checksum": "60c7f6fa03da21b5",
+            "army_alive": [
+              3098,
+              3061
+            ],
+            "air_alive": 427,
+            "air_stores": 30377,
+            "active_valid_escorts": 170,
+            "entity_bytes_sha256": "c92b2321dc3060f9ecd1765282d96453ee56885951046a689430ac73f8a5ce10"
+          },
+          {
+            "tick": 330,
+            "checksum": "b66da1c5d3f0f9aa",
+            "army_alive": [
+              3029,
+              2920
+            ],
+            "air_alive": 420,
+            "air_stores": 28903,
+            "active_valid_escorts": 157,
+            "entity_bytes_sha256": "037a4f334dd7e7e9994d6a8b33a8dffa421e646fd30f45cda890f43c13576746"
+          },
+          {
+            "tick": 360,
+            "checksum": "7fedf8567a644774",
+            "army_alive": [
+              2973,
+              2887
+            ],
+            "air_alive": 412,
+            "air_stores": 27406,
+            "active_valid_escorts": 150,
+            "entity_bytes_sha256": "64a2aa9f03310a1d9c52310f4cff59ac254b3465db841b5077c795f42a2501b2"
+          },
+          {
+            "tick": 390,
+            "checksum": "bd9981cf8c6d9eb1",
+            "army_alive": [
+              2921,
+              2860
+            ],
+            "air_alive": 407,
+            "air_stores": 26414,
+            "active_valid_escorts": 145,
+            "entity_bytes_sha256": "f39df494ceac36a3fd7967541b75dd23b6af3fbc7c9e04e57d85bc04219dc51d"
+          },
+          {
+            "tick": 420,
+            "checksum": "c772d2ff456001d7",
+            "army_alive": [
+              2879,
+              2775
+            ],
+            "air_alive": 401,
+            "air_stores": 25226,
+            "active_valid_escorts": 140,
+            "entity_bytes_sha256": "07cbb32b5afe936994a2dff7f45183090d1766f1e73618bf7761254bac67cbbc"
+          },
+          {
+            "tick": 450,
+            "checksum": "10b54d7a0bd998c1",
+            "army_alive": [
+              2837,
+              2732
+            ],
+            "air_alive": 398,
+            "air_stores": 24535,
+            "active_valid_escorts": 130,
+            "entity_bytes_sha256": "71968b92fc983fffe33fb341fd799090f272c49a105d28e046957dd6ff866e9d"
+          },
+          {
+            "tick": 480,
+            "checksum": "32e553552a2529a6",
+            "army_alive": [
+              2789,
+              2680
+            ],
+            "air_alive": 392,
+            "air_stores": 23347,
+            "active_valid_escorts": 121,
+            "entity_bytes_sha256": "fceda4b56694501db3ed36184423fe6df62aa3d1307ecbcf352e8cdb9dbb79e3"
+          },
+          {
+            "tick": 510,
+            "checksum": "92d168787f7173db",
+            "army_alive": [
+              2768,
+              2649
+            ],
+            "air_alive": 385,
+            "air_stores": 21960,
+            "active_valid_escorts": 117,
+            "entity_bytes_sha256": "8b3b113f0a09e8a0755cace51e203456d92ff37f562d89a8fb635f08a466b1ef"
+          },
+          {
+            "tick": 540,
+            "checksum": "4156492d65dc3392",
+            "army_alive": [
+              2739,
+              2613
+            ],
+            "air_alive": 380,
+            "air_stores": 20974,
+            "active_valid_escorts": 114,
+            "entity_bytes_sha256": "7e18d85a35bf65a2d063fed81c9c771cc8f4479b61ee11c76b8ec3edfecc2102"
+          },
+          {
+            "tick": 570,
+            "checksum": "eadc0f933c02d780",
+            "army_alive": [
+              2716,
+              2585
+            ],
+            "air_alive": 374,
+            "air_stores": 19716,
+            "active_valid_escorts": 103,
+            "entity_bytes_sha256": "3ccf85b6d9b352fb686678a6b466fb9394c9060cf85ca6427cec1d8b26a7d6f9"
+          },
+          {
+            "tick": 600,
+            "checksum": "b554f7fd89c472ed",
+            "army_alive": [
+              2701,
+              2563
+            ],
+            "air_alive": 371,
+            "air_stores": 18973,
+            "active_valid_escorts": 100,
+            "entity_bytes_sha256": "f441ff42d970766dcd3fb998e5e3919e0800383b1f44ef8f1e36a97992d47d02"
+          },
+          {
+            "tick": 630,
+            "checksum": "aa61e49c6adbe641",
+            "army_alive": [
+              2684,
+              2540
+            ],
+            "air_alive": 368,
+            "air_stores": 18300,
+            "active_valid_escorts": 95,
+            "entity_bytes_sha256": "0a7c56f44fbddb8bd26da5c9de6a7984abb7ac1668b9d779d1679afc629086bc"
+          },
+          {
+            "tick": 660,
+            "checksum": "b8633ab621e5bb0d",
+            "army_alive": [
+              2655,
+              2522
+            ],
+            "air_alive": 367,
+            "air_stores": 17985,
+            "active_valid_escorts": 101,
+            "entity_bytes_sha256": "211f2f3ad08604fa3011bd0e92a2c71b10ec6ba24ea57be7ee2df35e2d6ae3da"
+          },
+          {
+            "tick": 690,
+            "checksum": "c8da75a1262de5c3",
+            "army_alive": [
+              2613,
+              2472
+            ],
+            "air_alive": 366,
+            "air_stores": 17679,
+            "active_valid_escorts": 101,
+            "entity_bytes_sha256": "9289b2d84e66b4464db66a777efc21846cf6cde6b6c89ef03043625285274293"
+          },
+          {
+            "tick": 720,
+            "checksum": "c189330934f93ea4",
+            "army_alive": [
+              2594,
+              2446
+            ],
+            "air_alive": 363,
+            "air_stores": 17015,
+            "active_valid_escorts": 101,
+            "entity_bytes_sha256": "d2e2051ed2ee8063c143a064b73cdac65bc99b6e2df36878e545535ee996522c"
+          },
+          {
+            "tick": 750,
+            "checksum": "58c9ff55acb1e58d",
+            "army_alive": [
+              2562,
+              2401
+            ],
+            "air_alive": 360,
+            "air_stores": 16462,
+            "active_valid_escorts": 99,
+            "entity_bytes_sha256": "8aa475e8d9fd67c2eff0f73ce34238c32857aa745e9007f4cdf879221c2aa616"
+          },
+          {
+            "tick": 780,
+            "checksum": "b588c05cf257e957",
+            "army_alive": [
+              2534,
+              2372
+            ],
+            "air_alive": 353,
+            "air_stores": 15327,
+            "active_valid_escorts": 92,
+            "entity_bytes_sha256": "544b4dcd7911abc90e087d908dc84f8266f732ed712adb492a85283d780caae3"
+          },
+          {
+            "tick": 810,
+            "checksum": "33880435dbf973fe",
+            "army_alive": [
+              2509,
+              2338
+            ],
+            "air_alive": 352,
+            "air_stores": 15047,
+            "active_valid_escorts": 91,
+            "entity_bytes_sha256": "3cff26bc86b29467cc808bfdfa19548694b2ab2a0b5b25fbfacab1cb80324f8c"
+          },
+          {
+            "tick": 840,
+            "checksum": "d0f0e41737154c66",
+            "army_alive": [
+              2479,
+              2315
+            ],
+            "air_alive": 351,
+            "air_stores": 14791,
+            "active_valid_escorts": 90,
+            "entity_bytes_sha256": "b374dc0c75b003afb51c05a076b27c9c40f7f70878eb0872c1dc0c04e521f9e5"
+          },
+          {
+            "tick": 870,
+            "checksum": "975a5ac4182b6b90",
+            "army_alive": [
+              2455,
+              2284
+            ],
+            "air_alive": 347,
+            "air_stores": 14016,
+            "active_valid_escorts": 86,
+            "entity_bytes_sha256": "212c8d6ffecce4849ae93b4e92b22a00f9490e1eefde74ef45c14933160bbe70"
+          },
+          {
+            "tick": 900,
+            "checksum": "207db1ecc66649a1",
+            "army_alive": [
+              2445,
+              2253
+            ],
+            "air_alive": 344,
+            "air_stores": 13573,
+            "active_valid_escorts": 84,
+            "entity_bytes_sha256": "b7e7f8810fb91af73bd9e7424e1156676669eb72c75f4e1ae24bbbeb5b138a8c"
+          }
+        ]
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "timings": [
+        {
+          "mean_ms": 34.29318982555556,
+          "p95_ms": 43.161212
+        },
+        {
+          "mean_ms": 34.47245613111111,
+          "p95_ms": 43.658839
+        }
+      ],
+      "samples": [
+        [
+          {
+            "tick": 30,
+            "checksum": "ce28c619e91aba3b",
+            "army_alive": [
+              8174,
+              8160
+            ],
+            "air_alive": 1024,
+            "air_stores": 96114,
+            "active_valid_escorts": 512,
+            "entity_bytes_sha256": "12ff884847a186f59f2d31ac4135a6426f1306c7eff954e1bde0be8b1db8bef9"
+          },
+          {
+            "tick": 60,
+            "checksum": "b05758fc9521fe06",
+            "army_alive": [
+              8121,
+              8024
+            ],
+            "air_alive": 1024,
+            "air_stores": 95862,
+            "active_valid_escorts": 512,
+            "entity_bytes_sha256": "76e876241ab9cd5f0705207befb825dd57a50108d952a9f6c889d748bab5c7b4"
+          },
+          {
+            "tick": 90,
+            "checksum": "53d694e45fb93c47",
+            "army_alive": [
+              8108,
+              7938
+            ],
+            "air_alive": 1022,
+            "air_stores": 95128,
+            "active_valid_escorts": 510,
+            "entity_bytes_sha256": "c49c640ea09736443f3cb5f02ab4fbbc317f5e89f020a2ebe93443e7738fff3a"
+          },
+          {
+            "tick": 120,
+            "checksum": "a7c7d782700fb1f5",
+            "army_alive": [
+              8094,
+              7883
+            ],
+            "air_alive": 1015,
+            "air_stores": 93464,
+            "active_valid_escorts": 503,
+            "entity_bytes_sha256": "4cc3e02e8d86f75c993359f59737d354b176a8741ddf65037d650393e137726e"
+          },
+          {
+            "tick": 150,
+            "checksum": "7f5154f67f0ce698",
+            "army_alive": [
+              8055,
+              7830
+            ],
+            "air_alive": 1008,
+            "air_stores": 91735,
+            "active_valid_escorts": 496,
+            "entity_bytes_sha256": "759e4209dae65ca1f6c4b529f506498560d3fc2ee1a35aab56739a7818e1ecea"
+          },
+          {
+            "tick": 180,
+            "checksum": "b320ef80f486961a",
+            "army_alive": [
+              8037,
+              7780
+            ],
+            "air_alive": 990,
+            "air_stores": 88015,
+            "active_valid_escorts": 478,
+            "entity_bytes_sha256": "aad5df918ce0a7598330c962b560149c39a95a84408d641573ef4277060b5c74"
+          },
+          {
+            "tick": 210,
+            "checksum": "1c2233512dc1e3f2",
+            "army_alive": [
+              8008,
+              7733
+            ],
+            "air_alive": 967,
+            "air_stores": 83422,
+            "active_valid_escorts": 455,
+            "entity_bytes_sha256": "d9187a97a7402ada4efb7f1e4b2505280f077f4f701a9cb240c1b6352d30a582"
+          },
+          {
+            "tick": 240,
+            "checksum": "e226bae4c42f633c",
+            "army_alive": [
+              7975,
+              7692
+            ],
+            "air_alive": 945,
+            "air_stores": 79093,
+            "active_valid_escorts": 433,
+            "entity_bytes_sha256": "e716cae30eaf1ef42ca00296d743c34c4709accb9db8d628424648d2042edc17"
+          },
+          {
+            "tick": 270,
+            "checksum": "ffa36b4ae02d07b6",
+            "army_alive": [
+              7923,
+              7640
+            ],
+            "air_alive": 920,
+            "air_stores": 74312,
+            "active_valid_escorts": 408,
+            "entity_bytes_sha256": "4f70ff33ab9a8ef4c99dc5723fef459c341a06f439f6c6e708da73c64012f6cb"
+          },
+          {
+            "tick": 300,
+            "checksum": "3b579c11bcd9a7e4",
+            "army_alive": [
+              7870,
+              7577
+            ],
+            "air_alive": 890,
+            "air_stores": 68791,
+            "active_valid_escorts": 379,
+            "entity_bytes_sha256": "abf45eb30535aa04602aa6fefcee11dd9075e95dd9880543c4be294b43702717"
+          },
+          {
+            "tick": 330,
+            "checksum": "47039a9904596580",
+            "army_alive": [
+              7820,
+              7530
+            ],
+            "air_alive": 863,
+            "air_stores": 63602,
+            "active_valid_escorts": 326,
+            "entity_bytes_sha256": "bca8cd2b66f16df8401111723bd5a9e579b646a3acde8e3ce68fba82556d79f9"
+          },
+          {
+            "tick": 360,
+            "checksum": "5ab105f43a55304b",
+            "army_alive": [
+              7789,
+              7482
+            ],
+            "air_alive": 837,
+            "air_stores": 58680,
+            "active_valid_escorts": 306,
+            "entity_bytes_sha256": "cec9bae542cca7c4ae792570f4e742149f2942571270b8cf31f6fd7fd0845ed7"
+          },
+          {
+            "tick": 390,
+            "checksum": "6608192c90456f9a",
+            "army_alive": [
+              7757,
+              7448
+            ],
+            "air_alive": 819,
+            "air_stores": 55222,
+            "active_valid_escorts": 273,
+            "entity_bytes_sha256": "76912cc66c3185419d08df2d2add52b58f26d2484b1e6edc3a1040e7c76e3a55"
+          },
+          {
+            "tick": 420,
+            "checksum": "f17ec4ef5f09e763",
+            "army_alive": [
+              7734,
+              7421
+            ],
+            "air_alive": 801,
+            "air_stores": 51813,
+            "active_valid_escorts": 219,
+            "entity_bytes_sha256": "6a4e029f3a39ae8bb3e65e9189475c7463ef54b927e5ebbf6132dad0bdf380d1"
+          },
+          {
+            "tick": 450,
+            "checksum": "0310d44afa8c7fd3",
+            "army_alive": [
+              7704,
+              7383
+            ],
+            "air_alive": 781,
+            "air_stores": 48124,
+            "active_valid_escorts": 194,
+            "entity_bytes_sha256": "2c46cb8419120b4da2bb0c8a9fcfd4f8c3bc70c0e95e995953e59062766bf8bf"
+          },
+          {
+            "tick": 480,
+            "checksum": "6a2adcd7897761ef",
+            "army_alive": [
+              7670,
+              7341
+            ],
+            "air_alive": 765,
+            "air_stores": 45137,
+            "active_valid_escorts": 167,
+            "entity_bytes_sha256": "b5f6c968148517fe5018587ee5ba26749492696392d97af818ccb38db9d60974"
+          },
+          {
+            "tick": 510,
+            "checksum": "088c437fd8b122c9",
+            "army_alive": [
+              7630,
+              7300
+            ],
+            "air_alive": 748,
+            "air_stores": 42215,
+            "active_valid_escorts": 173,
+            "entity_bytes_sha256": "4e7c9d3979f16819fbdb0dc9bd71ec5565247cc495e2936be3fd90d4f6a0cd93"
+          },
+          {
+            "tick": 540,
+            "checksum": "cd6688a8c82c25b4",
+            "army_alive": [
+              7600,
+              7254
+            ],
+            "air_alive": 735,
+            "air_stores": 39742,
+            "active_valid_escorts": 170,
+            "entity_bytes_sha256": "988d12f81ff2b45aaf4b8c349b66adc0d65f9a4b5eb621b1a560ecd4edce0b5e"
+          },
+          {
+            "tick": 570,
+            "checksum": "cb5a6052fb6acd47",
+            "army_alive": [
+              7551,
+              7228
+            ],
+            "air_alive": 730,
+            "air_stores": 38678,
+            "active_valid_escorts": 166,
+            "entity_bytes_sha256": "48092a7b0743d00a0697f7da956c1bf17de60609b3b934629257000771ad7ed2"
+          },
+          {
+            "tick": 600,
+            "checksum": "a93b3ffbca924db4",
+            "army_alive": [
+              7531,
+              7206
+            ],
+            "air_alive": 725,
+            "air_stores": 37550,
+            "active_valid_escorts": 161,
+            "entity_bytes_sha256": "0eb04de43c97445a9295ae7618ecb3b2a855c9bfb8b5a1e9628631e6589a948b"
+          },
+          {
+            "tick": 630,
+            "checksum": "ea727fd5462a5483",
+            "army_alive": [
+              7511,
+              7181
+            ],
+            "air_alive": 714,
+            "air_stores": 35453,
+            "active_valid_escorts": 151,
+            "entity_bytes_sha256": "2f712b053d8fc57414b6a8a4b780c874ba32673769ab5c4b069f5a27038479c3"
+          },
+          {
+            "tick": 660,
+            "checksum": "d2ca850fd7a8f37e",
+            "army_alive": [
+              7495,
+              7162
+            ],
+            "air_alive": 708,
+            "air_stores": 34208,
+            "active_valid_escorts": 147,
+            "entity_bytes_sha256": "8ab52d6f63b104a6b25e4349a7da913834e17d61751b9d21f76b7bdd0c71e970"
+          },
+          {
+            "tick": 690,
+            "checksum": "a9547ba59f3cae54",
+            "army_alive": [
+              7470,
+              7142
+            ],
+            "air_alive": 702,
+            "air_stores": 33140,
+            "active_valid_escorts": 147,
+            "entity_bytes_sha256": "25813b8898ecc2eaf060cf381c30209629072cad0720ffda758f28a4cdf47c89"
+          },
+          {
+            "tick": 720,
+            "checksum": "f72d1b1ed1237670",
+            "army_alive": [
+              7449,
+              7107
+            ],
+            "air_alive": 694,
+            "air_stores": 31639,
+            "active_valid_escorts": 143,
+            "entity_bytes_sha256": "21905e4a4294120824768108e2d237734922790f77e19ea919d4703493c46de9"
+          },
+          {
+            "tick": 750,
+            "checksum": "05c1675f161351a8",
+            "army_alive": [
+              7422,
+              7081
+            ],
+            "air_alive": 690,
+            "air_stores": 30929,
+            "active_valid_escorts": 142,
+            "entity_bytes_sha256": "e44f902c71d25b978816eeb0f8b2a70d61051889d21df08bb8d6de08839a97aa"
+          },
+          {
+            "tick": 780,
+            "checksum": "5ca2778e523675f6",
+            "army_alive": [
+              7388,
+              7052
+            ],
+            "air_alive": 686,
+            "air_stores": 30178,
+            "active_valid_escorts": 138,
+            "entity_bytes_sha256": "2dd20fe5c5dc36d226535e288a7aa7148e3684869f0e7bb17ea6c7404e267293"
+          },
+          {
+            "tick": 810,
+            "checksum": "4aeb7408c02e76cd",
+            "army_alive": [
+              7369,
+              7015
+            ],
+            "air_alive": 679,
+            "air_stores": 29214,
+            "active_valid_escorts": 135,
+            "entity_bytes_sha256": "e0c7220d01d2c394a83c67348bb563644deab01436c478defc61886e251fee3f"
+          },
+          {
+            "tick": 840,
+            "checksum": "b3ea135681939763",
+            "army_alive": [
+              7346,
+              6987
+            ],
+            "air_alive": 677,
+            "air_stores": 28921,
+            "active_valid_escorts": 137,
+            "entity_bytes_sha256": "1279dcf9c5637a812a85dc062f099b7bbc80fd2c6e3bf5f37df35e9502c9a828"
+          },
+          {
+            "tick": 870,
+            "checksum": "361dffe381faf707",
+            "army_alive": [
+              7305,
+              6950
+            ],
+            "air_alive": 671,
+            "air_stores": 27910,
+            "active_valid_escorts": 136,
+            "entity_bytes_sha256": "90a05a8249355d87e02ce379970bb30afef288d5c543d1dd2ca3749ec1fd9b5f"
+          },
+          {
+            "tick": 900,
+            "checksum": "62532320658e8253",
+            "army_alive": [
+              7285,
+              6920
+            ],
+            "air_alive": 670,
+            "air_stores": 27660,
+            "active_valid_escorts": 138,
+            "entity_bytes_sha256": "5a19ec360f5fed7df1db1b00cd5c4f0046ba6ecf2719967a0bcb98c579ac7be3"
+          }
+        ],
+        [
+          {
+            "tick": 30,
+            "checksum": "cb9ae0d9b07bcb4b",
+            "army_alive": [
+              8174,
+              8160
+            ],
+            "air_alive": 1024,
+            "air_stores": 96114,
+            "active_valid_escorts": 512,
+            "entity_bytes_sha256": "12ff884847a186f59f2d31ac4135a6426f1306c7eff954e1bde0be8b1db8bef9"
+          },
+          {
+            "tick": 60,
+            "checksum": "9c1d49b21afcc8f6",
+            "army_alive": [
+              8121,
+              8024
+            ],
+            "air_alive": 1024,
+            "air_stores": 95862,
+            "active_valid_escorts": 512,
+            "entity_bytes_sha256": "76e876241ab9cd5f0705207befb825dd57a50108d952a9f6c889d748bab5c7b4"
+          },
+          {
+            "tick": 90,
+            "checksum": "d040c634f48f00b7",
+            "army_alive": [
+              8108,
+              7938
+            ],
+            "air_alive": 1022,
+            "air_stores": 95128,
+            "active_valid_escorts": 510,
+            "entity_bytes_sha256": "c49c640ea09736443f3cb5f02ab4fbbc317f5e89f020a2ebe93443e7738fff3a"
+          },
+          {
+            "tick": 120,
+            "checksum": "fe82b8e95c738fe5",
+            "army_alive": [
+              8094,
+              7883
+            ],
+            "air_alive": 1015,
+            "air_stores": 93464,
+            "active_valid_escorts": 503,
+            "entity_bytes_sha256": "4cc3e02e8d86f75c993359f59737d354b176a8741ddf65037d650393e137726e"
+          },
+          {
+            "tick": 150,
+            "checksum": "143ae3d2e3d7e1e8",
+            "army_alive": [
+              8055,
+              7830
+            ],
+            "air_alive": 1008,
+            "air_stores": 91735,
+            "active_valid_escorts": 496,
+            "entity_bytes_sha256": "759e4209dae65ca1f6c4b529f506498560d3fc2ee1a35aab56739a7818e1ecea"
+          },
+          {
+            "tick": 180,
+            "checksum": "0c08eee8bb07262a",
+            "army_alive": [
+              8037,
+              7780
+            ],
+            "air_alive": 990,
+            "air_stores": 88015,
+            "active_valid_escorts": 478,
+            "entity_bytes_sha256": "aad5df918ce0a7598330c962b560149c39a95a84408d641573ef4277060b5c74"
+          },
+          {
+            "tick": 210,
+            "checksum": "e3af5d564c17ee62",
+            "army_alive": [
+              8008,
+              7733
+            ],
+            "air_alive": 967,
+            "air_stores": 83422,
+            "active_valid_escorts": 455,
+            "entity_bytes_sha256": "d9187a97a7402ada4efb7f1e4b2505280f077f4f701a9cb240c1b6352d30a582"
+          },
+          {
+            "tick": 240,
+            "checksum": "4eac4c2aafd5276c",
+            "army_alive": [
+              7975,
+              7692
+            ],
+            "air_alive": 945,
+            "air_stores": 79093,
+            "active_valid_escorts": 433,
+            "entity_bytes_sha256": "e716cae30eaf1ef42ca00296d743c34c4709accb9db8d628424648d2042edc17"
+          },
+          {
+            "tick": 270,
+            "checksum": "fdfbf52f85d52366",
+            "army_alive": [
+              7923,
+              7640
+            ],
+            "air_alive": 920,
+            "air_stores": 74312,
+            "active_valid_escorts": 408,
+            "entity_bytes_sha256": "4f70ff33ab9a8ef4c99dc5723fef459c341a06f439f6c6e708da73c64012f6cb"
+          },
+          {
+            "tick": 300,
+            "checksum": "f6c0798211a34214",
+            "army_alive": [
+              7870,
+              7577
+            ],
+            "air_alive": 890,
+            "air_stores": 68791,
+            "active_valid_escorts": 379,
+            "entity_bytes_sha256": "abf45eb30535aa04602aa6fefcee11dd9075e95dd9880543c4be294b43702717"
+          },
+          {
+            "tick": 330,
+            "checksum": "f1eabb09f77248b0",
+            "army_alive": [
+              7820,
+              7530
+            ],
+            "air_alive": 863,
+            "air_stores": 63602,
+            "active_valid_escorts": 326,
+            "entity_bytes_sha256": "bca8cd2b66f16df8401111723bd5a9e579b646a3acde8e3ce68fba82556d79f9"
+          },
+          {
+            "tick": 360,
+            "checksum": "03b759251bb881db",
+            "army_alive": [
+              7789,
+              7482
+            ],
+            "air_alive": 837,
+            "air_stores": 58680,
+            "active_valid_escorts": 306,
+            "entity_bytes_sha256": "cec9bae542cca7c4ae792570f4e742149f2942571270b8cf31f6fd7fd0845ed7"
+          },
+          {
+            "tick": 390,
+            "checksum": "f94b79893f7baa8a",
+            "army_alive": [
+              7757,
+              7448
+            ],
+            "air_alive": 819,
+            "air_stores": 55222,
+            "active_valid_escorts": 273,
+            "entity_bytes_sha256": "76912cc66c3185419d08df2d2add52b58f26d2484b1e6edc3a1040e7c76e3a55"
+          },
+          {
+            "tick": 420,
+            "checksum": "37609b428d2eaff3",
+            "army_alive": [
+              7734,
+              7421
+            ],
+            "air_alive": 801,
+            "air_stores": 51813,
+            "active_valid_escorts": 219,
+            "entity_bytes_sha256": "6a4e029f3a39ae8bb3e65e9189475c7463ef54b927e5ebbf6132dad0bdf380d1"
+          },
+          {
+            "tick": 450,
+            "checksum": "e9337a3c6692d863",
+            "army_alive": [
+              7704,
+              7383
+            ],
+            "air_alive": 781,
+            "air_stores": 48124,
+            "active_valid_escorts": 194,
+            "entity_bytes_sha256": "2c46cb8419120b4da2bb0c8a9fcfd4f8c3bc70c0e95e995953e59062766bf8bf"
+          },
+          {
+            "tick": 480,
+            "checksum": "66993f60820bdd7f",
+            "army_alive": [
+              7670,
+              7341
+            ],
+            "air_alive": 765,
+            "air_stores": 45137,
+            "active_valid_escorts": 167,
+            "entity_bytes_sha256": "b5f6c968148517fe5018587ee5ba26749492696392d97af818ccb38db9d60974"
+          },
+          {
+            "tick": 510,
+            "checksum": "c91c5838e96e12f9",
+            "army_alive": [
+              7630,
+              7300
+            ],
+            "air_alive": 748,
+            "air_stores": 42215,
+            "active_valid_escorts": 173,
+            "entity_bytes_sha256": "4e7c9d3979f16819fbdb0dc9bd71ec5565247cc495e2936be3fd90d4f6a0cd93"
+          },
+          {
+            "tick": 540,
+            "checksum": "db9e3932af404b64",
+            "army_alive": [
+              7600,
+              7254
+            ],
+            "air_alive": 735,
+            "air_stores": 39742,
+            "active_valid_escorts": 170,
+            "entity_bytes_sha256": "988d12f81ff2b45aaf4b8c349b66adc0d65f9a4b5eb621b1a560ecd4edce0b5e"
+          },
+          {
+            "tick": 570,
+            "checksum": "2f2a49fc79334517",
+            "army_alive": [
+              7551,
+              7228
+            ],
+            "air_alive": 730,
+            "air_stores": 38678,
+            "active_valid_escorts": 166,
+            "entity_bytes_sha256": "48092a7b0743d00a0697f7da956c1bf17de60609b3b934629257000771ad7ed2"
+          },
+          {
+            "tick": 600,
+            "checksum": "a7570eff74e46aa4",
+            "army_alive": [
+              7531,
+              7206
+            ],
+            "air_alive": 725,
+            "air_stores": 37550,
+            "active_valid_escorts": 161,
+            "entity_bytes_sha256": "0eb04de43c97445a9295ae7618ecb3b2a855c9bfb8b5a1e9628631e6589a948b"
+          },
+          {
+            "tick": 630,
+            "checksum": "13bf04840a927253",
+            "army_alive": [
+              7511,
+              7181
+            ],
+            "air_alive": 714,
+            "air_stores": 35453,
+            "active_valid_escorts": 151,
+            "entity_bytes_sha256": "2f712b053d8fc57414b6a8a4b780c874ba32673769ab5c4b069f5a27038479c3"
+          },
+          {
+            "tick": 660,
+            "checksum": "3e6f029e2fc2c3ce",
+            "army_alive": [
+              7495,
+              7162
+            ],
+            "air_alive": 708,
+            "air_stores": 34208,
+            "active_valid_escorts": 147,
+            "entity_bytes_sha256": "8ab52d6f63b104a6b25e4349a7da913834e17d61751b9d21f76b7bdd0c71e970"
+          },
+          {
+            "tick": 690,
+            "checksum": "4b5ccf4a82fa8184",
+            "army_alive": [
+              7470,
+              7142
+            ],
+            "air_alive": 702,
+            "air_stores": 33140,
+            "active_valid_escorts": 147,
+            "entity_bytes_sha256": "25813b8898ecc2eaf060cf381c30209629072cad0720ffda758f28a4cdf47c89"
+          },
+          {
+            "tick": 720,
+            "checksum": "44d180ccc3242160",
+            "army_alive": [
+              7449,
+              7107
+            ],
+            "air_alive": 694,
+            "air_stores": 31639,
+            "active_valid_escorts": 143,
+            "entity_bytes_sha256": "21905e4a4294120824768108e2d237734922790f77e19ea919d4703493c46de9"
+          },
+          {
+            "tick": 750,
+            "checksum": "b750f49c6f6e9b98",
+            "army_alive": [
+              7422,
+              7081
+            ],
+            "air_alive": 690,
+            "air_stores": 30929,
+            "active_valid_escorts": 142,
+            "entity_bytes_sha256": "e44f902c71d25b978816eeb0f8b2a70d61051889d21df08bb8d6de08839a97aa"
+          },
+          {
+            "tick": 780,
+            "checksum": "56ef48e018420866",
+            "army_alive": [
+              7388,
+              7052
+            ],
+            "air_alive": 686,
+            "air_stores": 30178,
+            "active_valid_escorts": 138,
+            "entity_bytes_sha256": "2dd20fe5c5dc36d226535e288a7aa7148e3684869f0e7bb17ea6c7404e267293"
+          },
+          {
+            "tick": 810,
+            "checksum": "a99f4766f4e63b5d",
+            "army_alive": [
+              7369,
+              7015
+            ],
+            "air_alive": 679,
+            "air_stores": 29214,
+            "active_valid_escorts": 135,
+            "entity_bytes_sha256": "e0c7220d01d2c394a83c67348bb563644deab01436c478defc61886e251fee3f"
+          },
+          {
+            "tick": 840,
+            "checksum": "b6250dc978743ef3",
+            "army_alive": [
+              7346,
+              6987
+            ],
+            "air_alive": 677,
+            "air_stores": 28921,
+            "active_valid_escorts": 137,
+            "entity_bytes_sha256": "1279dcf9c5637a812a85dc062f099b7bbc80fd2c6e3bf5f37df35e9502c9a828"
+          },
+          {
+            "tick": 870,
+            "checksum": "cb24ce4b81906bf7",
+            "army_alive": [
+              7305,
+              6950
+            ],
+            "air_alive": 671,
+            "air_stores": 27910,
+            "active_valid_escorts": 136,
+            "entity_bytes_sha256": "90a05a8249355d87e02ce379970bb30afef288d5c543d1dd2ca3749ec1fd9b5f"
+          },
+          {
+            "tick": 900,
+            "checksum": "596458f776b29fc3",
+            "army_alive": [
+              7285,
+              6920
+            ],
+            "air_alive": 670,
+            "air_stores": 27660,
+            "active_valid_escorts": 138,
+            "entity_bytes_sha256": "5a19ec360f5fed7df1db1b00cd5c4f0046ba6ecf2719967a0bcb98c579ac7be3"
+          }
+        ]
+      ]
+    }
+  ],
+  "limits": [
+    "Actual production public ticks, original army layouts, finite stores and immutable copied libraries.",
+    "No human leases/commands: all living/dead entity bytes must match at30tick samples; hash differs from additional private ownership state.",
+    "Concurrent frozen fast verification; local CPU wall time only, no GPU/network/human-quality acceptance."
+  ]
+}

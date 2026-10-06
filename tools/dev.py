@@ -360,6 +360,7 @@ def main():
             execute([sys.executable,'tests/test_air_escort.py',str(library)])
         if suite in ('all','headless','fast','simulation','tactics'):
             execute([sys.executable,'tests/test_company_assault.py',str(library)])
+            execute([sys.executable,'tests/test_company_control.py'])
         if suite in ('all','headless','fast','simulation','combat'):
             execute([sys.executable,'tests/test_ground_acquisition.py',str(library)])
             execute([sys.executable,'tests/test_ground_target_selection.py',str(library)])
@@ -473,6 +474,7 @@ def main():
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
             execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
+            execute([sys.executable,'tests/test_company_control_network.py',str(server)])
             if (ROOT/'tests/test_coop_movement.py').exists():execute([sys.executable,'tests/test_coop_movement.py',str(server),str(library)])
             if (ROOT/'tests/test_net_projectiles.py').exists():execute([sys.executable,'tests/test_net_projectiles.py',str(library),str(server)])
             if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])
@@ -538,6 +540,7 @@ def main():
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
             if (ROOT/'tests/test_client_effects.py').exists(): execute([sys.executable,'tests/test_client_effects.py',str(client)])
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
+            execute([sys.executable,'tests/test_client_company.py',str(client)])
             execute([sys.executable,'tests/test_quit_event.py',str(client)])
             if (ROOT/'tests/test_client_coop.py').exists(): execute([sys.executable,'tests/test_client_coop.py',str(client),str(build('coop'))])
     return 0

@@ -228,8 +228,6 @@ net_client_order:
  jne input_bad
  cmp edi,[net_front]
  jne input_bad
- cmp dword [net_player_id],3
- je input_bad
  cmp esi,2
  ja input_bad
  mov [outgoing+40],edi

@@ -1,0 +1,25 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x1ddddcd4", "canonical_sha256": "1ddddcd408b43518d79029a6e5d2a6ccd8a4d0fa9c584abf244c901705e4c182", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x1ddddcd4", "canonical_sha256": "1ddddcd408b43518d79029a6e5d2a6ccd8a4d0fa9c584abf244c901705e4c182", "checked": true}
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/tests/test_client_coop.py", line 308, in <module>
+    until(lambda:read_u32(clients[1]['memory'],client_symbols,'waypoint_orders')==1)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/tests/test_client_coop.py", line 53, in until
+    raise AssertionError('co-op condition timed out')
+AssertionError: co-op condition timed out
+{"target": "client", "revision": "c42869c9134e000ffd97caff3041fdfa3bee1c46-dc19905bb5b6bddb", "assembled": 21, "assembled_sources": ["src/ai/company_control.asm", "src/render/shaders.asm", "src/render/mesh_shaders.asm", "src/render/wreck_instance.asm", "src/render/ground_visual.asm", "src/render/suspension.asm", "src/render/effects.asm", "src/render/view_settings.asm", "src/render/mesh_assets.asm", "src/render/battle_metrics.asm", "src/render/air_trails.asm", "src/render/visibility_census.asm", "src/render/meshes.asm", "src/render/environment.asm", "src/render/hazard_warning.asm", "src/render/metrics.asm", "src/audio/audio.asm", "src/audio/emitters.asm", "src/audio/footsteps.asm", "src/platform/linux/client.asm", "src/net/client.asm"], "seconds": 0.49204273299255874, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-dc19905bb5b6bddb/red-horizon"}
+{"target": "coop", "revision": "c42869c9134e000ffd97caff3041fdfa3bee1c46-dc19905bb5b6bddb", "assembled": 0, "assembled_sources": [], "seconds": 0.3297181149973767, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-dc19905bb5b6bddb/red-horizon-coop-server"}
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', 'tests/test_client_coop.py', '/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-dc19905bb5b6bddb/red-horizon', '/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-dc19905bb5b6bddb/red-horizon-coop-server']' returned non-zero exit status 1.

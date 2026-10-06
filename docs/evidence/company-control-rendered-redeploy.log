@@ -1,0 +1,26 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x1ddddcd4", "canonical_sha256": "1ddddcd408b43518d79029a6e5d2a6ccd8a4d0fa9c584abf244c901705e4c182", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x1ddddcd4", "canonical_sha256": "1ddddcd408b43518d79029a6e5d2a6ccd8a4d0fa9c584abf244c901705e4c182", "checked": true}
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/tests/test_client_coop.py", line 368, in <module>
+    print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ~~~~^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/tests/test_client_coop.py", line 108, in goal
+    assert company<1536,('missing company assignment',front,company)
+           ^^^^^^^^^^^^
+AssertionError: ('missing company assignment', 0, 4294967295)
+{"target": "client", "revision": "c42869c9134e000ffd97caff3041fdfa3bee1c46-878199f15da4cba7", "assembled": 1, "assembled_sources": ["src/platform/linux/client.asm"], "seconds": 0.4090036349953152, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-878199f15da4cba7/red-horizon"}
+{"target": "coop", "revision": "c42869c9134e000ffd97caff3041fdfa3bee1c46-878199f15da4cba7", "assembled": 0, "assembled_sources": [], "seconds": 0.3416930849925848, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-878199f15da4cba7/red-horizon-coop-server"}
+Traceback (most recent call last):
+  File "<stdin>", line 4, in <module>
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/bin/python3', 'tests/test_client_coop.py', '/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-878199f15da4cba7/red-horizon', '/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/build/revisions/c42869c9134e000ffd97caff3041fdfa3bee1c46-878199f15da4cba7/red-horizon-coop-server']' returned non-zero exit status 1.

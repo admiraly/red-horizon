@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 21, 0x3296bf93, 0x551748ea
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 23, 0xc5c97e5b, 0xa89260de
 HEADER = struct.Struct('<10I')
 
 
@@ -185,7 +185,8 @@ def verify(server, client_lib=None):
         d_join = d.request(1)
         assert d_join[0] == 0
         assert (c.id, d.id) == (2, 3)
-        assert d.command(4, struct.pack('<IIff', d.front, 0, 3500, 1300))[0] == 5
+        assert d.command(4, struct.pack('<IIff', d.front, 0, 3500, 1300))[0] == 0
+        assert d.command(4, struct.pack('<IIff', 1, 0, 3500, 1300))[0] == 5
         snapshot = c.snapshot(d_join[2]+1)
         assert snapshot['tick'] > 0 and snapshot['units'] == 8192
         assert all(p[11] == 1 for p in snapshot['players']), 'join-in-progress player states missing'
@@ -309,6 +310,40 @@ def verify_adapter(server, library):
             process.kill()
             process.communicate()
 
+
+def verify_fourth_adapter(server, library):
+    # Three actual UDP joins reserve slots0..2; the production NASM adapter is
+    # the fourth player and must submit/receive an accepted own-company order.
+    lib=ctypes.CDLL(str(library.resolve()))
+    lib.net_client_open.argtypes=[ctypes.c_char_p,ctypes.c_uint]
+    lib.net_client_order.argtypes=[ctypes.c_uint,ctypes.c_uint,ctypes.c_float,ctypes.c_float]
+    process=subprocess.Popen([str(server),'--port','0','--ticks','90','--units','8192'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+    peers=[]
+    try:
+        ready=json.loads(process.stdout.readline());address=('127.0.0.1',ready['port'])
+        for expected in range(3):
+            peer=Peer(address);peers.append(peer)
+            assert peer.request(1)[0]==0 and peer.id==expected
+        assert lib.net_client_open(b'127.0.0.1',ready['port'])==0
+        connected=ctypes.c_uint.in_dll(lib,'net_connected');pending=ctypes.c_uint.in_dll(lib,'net_pending')
+        tick=ctypes.c_uint.in_dll(lib,'net_server_tick');deadline=time.monotonic()+2
+        while time.monotonic()<deadline:
+            lib.net_client_poll()
+            if connected.value and tick.value>=15:break
+            time.sleep(.01)
+        assert connected.value and ctypes.c_uint.in_dll(lib,'net_player_id').value==3
+        assert ctypes.c_uint.in_dll(lib,'net_front').value==0
+        assert lib.net_client_order(1,0,3900.,1400.)==-1
+        assert lib.net_client_order(0,0,3900.,1400.)==0,'fourth-player adapter denied own company'
+        deadline=time.monotonic()+1
+        while pending.value and time.monotonic()<deadline:lib.net_client_poll();time.sleep(.01)
+        assert not pending.value and ctypes.c_uint.in_dll(lib,'net_last_status').value==0
+        print(json.dumps({'suite':'fourth-player-company-adapter','passed':True,'actual_player_id':3,'own_order_ACK':0,'foreign_front_rejected':True}))
+    finally:
+        lib.net_client_close()
+        for peer in peers:peer.socket.close()
+        if process.poll() is None:process.kill()
+        process.communicate()
 
 def server_addresses(process, executable):
     symbols = {}
@@ -478,7 +513,7 @@ def main():
     # Compatibility includes assets, canonical roads and resolved hull policy.
     # Reconstruct it independently of the build-time fingerprint tool.
     definitions = dict(re.findall(r'^%define ([A-Z_]+) ([-+A-Za-z0-9_.]+)$',
-        (root/'schemas/air_flight.inc').read_text()+'\n'+(root/'schemas/air_escort.inc').read_text()+'\n'+(root/'schemas/acquisition.inc').read_text()+'\n'+(root/'schemas/company_assault.inc').read_text()+'\n'+(root / 'schemas/player.inc').read_text() + '\n' + (root / 'schemas/world_body.inc').read_text() + '\n' + (root / 'schemas/wreck_nav.inc').read_text() + '\n' + (root / 'schemas/projectile_remote.inc').read_text() + '\n' + (root / 'schemas/aircraft.inc').read_text() + '\n' + (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
+        (root/'schemas/company_control.inc').read_text()+'\n'+(root/'schemas/air_flight.inc').read_text()+'\n'+(root/'schemas/air_escort.inc').read_text()+'\n'+(root/'schemas/acquisition.inc').read_text()+'\n'+(root/'schemas/company_assault.inc').read_text()+'\n'+(root / 'schemas/player.inc').read_text() + '\n' + (root / 'schemas/world_body.inc').read_text() + '\n' + (root / 'schemas/wreck_nav.inc').read_text() + '\n' + (root / 'schemas/projectile_remote.inc').read_text() + '\n' + (root / 'schemas/aircraft.inc').read_text() + '\n' + (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
         (root / 'schemas/terrain_body.inc').read_text() + '\n' +
         (root / 'schemas/terrain_grade.inc').read_text() + '\n' +
         (root / 'schemas/ground_support.inc').read_text() + '\n' +
@@ -504,7 +539,7 @@ def main():
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
         'tracked_policy': policy,
     }
-    payload.update(air_flight={name:definitions[name] for name in ('AIR_FLIGHT_VERSION', 'AIR_FLIGHT_GRAVITY', 'AIR_FLIGHT_MIN_SPEED', 'AIR_FLIGHT_MAX_SPEED', 'AIR_FLIGHT_HEADING_GAIN', 'AIR_FLIGHT_BOMBER_BANK', 'AIR_FLIGHT_FIGHTER_BANK', 'AIR_FLIGHT_BOMBER_EMERGENCY_BANK', 'AIR_FLIGHT_FIGHTER_EMERGENCY_BANK', 'AIR_FLIGHT_BOMBER_ROLL', 'AIR_FLIGHT_FIGHTER_ROLL', 'AIR_FLIGHT_BOMBER_YAW_BOUND', 'AIR_FLIGHT_FIGHTER_YAW_BOUND', 'AIR_FLIGHT_CORNER_MARGIN', 'AIR_FLIGHT_STRIKE_MEMORY', 'AIR_FLIGHT_STRIKE_STRIDE', 'AIR_FLIGHT_STRIKE_APPROACH', 'AIR_FLIGHT_STRIKE_REACHED_SQ')},air_escort={name:definitions[name] for name in ('AIR_ESCORT_VERSION', 'AIR_ACQUIRE_VERSION', 'AIR_ACQUIRE_CELLS', 'AIR_ESCORT_REVIEW', 'AIR_ESCORT_COMMITMENT', 'AIR_ESCORT_RANGE_SQUARED', 'AIR_ESCORT_BREAK_SQUARED', 'AIR_ESCORT_THREAT_SQUARED', 'AIR_ESCORT_TRAIL_TICKS', 'AIR_ESCORT_LATERAL', 'AIR_ESCORT_THREAT_WEIGHT')},acquisition={name:definitions[name] for name in ('ACQUIRE_VERSION','ACQUIRE_INF_CELLS','ACQUIRE_TANK_CELLS','ACQUIRE_ARTY_CELLS')},company_assault={name:definitions[name] for name in ('COMPANY_ASSAULT_VERSION', 'COMPANY_SLOTS', 'COMPANY_STRIDE', 'COMPANY_MIN_GROUND', 'COMPANY_NEAR_SQ', 'COMPANY_STAGE_DISTANCE', 'COMPANY_ARTY_BACK', 'COMPANY_ARMOUR_FORWARD', 'COMPANY_READY_SQ', 'COMPANY_STAGE_TIMEOUT', 'COMPANY_PREP_TIMEOUT', 'COMPANY_LOSS_PERCENT', 'COMPANY_INF_SPACING', 'COMPANY_INF_ROW', 'COMPANY_HULL_ROW', 'COMPANY_INF_LANE', 'COMPANY_ARMOUR_LANE', 'COMPANY_ARTY_LANE', 'COMPANY_WITHDRAW_DISTANCE')},player_deploy={name:definitions[name] for name in ('PLAYER_DEPLOY_POLICY_VERSION',)},world_body={name:definitions[name] for name in ('WORLD_BODY_VERSION',)},wreck_navigation={name:definitions[name] for name in ('WRECK_NAV_VERSION', 'WRECK_NAV_QUEUE', 'WRECK_NAV_BUILDS_PER_TICK', 'WRECK_NAV_LOOKAHEAD', 'WRECK_NAV_PLAN_DISTANCE', 'WRECK_NAV_ENDPOINT_INCREMENT', 'WRECK_NAV_ENDPOINT_MAX_DISTANCE', 'WRECK_NAV_LOOKAHEAD_SQUARED', 'WRECK_NAV_PLAN_DISTANCE_SQUARED', 'WRECK_NAV_MAX_WRECKS', 'WRECK_NAV_MAX_NODES', 'WRECK_NAV_MAX_PATH', 'WRECK_NAV_WINDOW_MARGIN', 'WRECK_NAV_CORNER_MARGIN', 'WRECK_NAV_MAX_LEG_SQUARED', 'WRECK_NAV_GOAL_CHANGE_SQUARED', 'WRECK_NAV_REACHED_SQUARED', 'WRECK_NAV_SOURCE_DISTANCE_WEIGHT')},projectile_remote={name:definitions[name] for name in ('PROJECTILE_REMOTE_POLICY_VERSION','PROJECTILE_OWNED_PRIORITY_MAX','PROJECTILE_WIRE_MAX')},bomb_release={name:definitions[name] for name in ('AIR_BOMB_RELEASE_VERSION',)},world_los={name:definitions[name] for name in ('WORLD_LOS_VERSION',)},world_contact={name:definitions[name] for name in ('WORLD_CONTACT_VERSION', 'WORLD_CONTACT_GROUND', 'WORLD_CONTACT_SOLID', 'WORLD_CONTACT_WRECK', 'WORLD_CONTACT_ACTOR', 'WORLD_CONTACT_BLAST_SKIN', 'TERRAIN_GROUND_QUERY_VERSION', 'TERRAIN_GROUND_QUERY_SKIN', 'TERRAIN_HEIGHT_CENTER', 'TERRAIN_HEIGHT_X_SCALE', 'TERRAIN_HEIGHT_Z_SCALE', 'TERRAIN_HEIGHT_RIDGE_SCALE', 'TERRAIN_HEIGHT_RIDGE_HEIGHT', 'TERRAIN_HEIGHT_BASE')},shell_contact={name:definitions[name] for name in ('SHELL_CONTACT_VERSION','SHELL_CONTACT_RADIUS','SHELL_CONTACT_MAX_SAMPLES')},wreck_presentation={name:definitions[name] for name in ('WRECK_REMOTE_VERSION','WRECK_WIRE_STRIDE','WRECK_WIRE_MAX','WRECK_PRESENTATION_VERSION','WRECK_PRESENTATION_FRAME','WRECK_PRESENTATION_LOD')},wreck_registry={name:definitions[name] for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
+    payload.update(company_control={name:definitions[name] for name in ('COMPANY_CONTROL_VERSION','COMPANY_CONTROL_SLOTS','COMPANY_CONTROL_STRIDE','COMPANY_CONTROL_PLAYERS','COMPANY_CONTROL_COST')},air_flight={name:definitions[name] for name in ('AIR_FLIGHT_VERSION', 'AIR_FLIGHT_GRAVITY', 'AIR_FLIGHT_MIN_SPEED', 'AIR_FLIGHT_MAX_SPEED', 'AIR_FLIGHT_HEADING_GAIN', 'AIR_FLIGHT_BOMBER_BANK', 'AIR_FLIGHT_FIGHTER_BANK', 'AIR_FLIGHT_BOMBER_EMERGENCY_BANK', 'AIR_FLIGHT_FIGHTER_EMERGENCY_BANK', 'AIR_FLIGHT_BOMBER_ROLL', 'AIR_FLIGHT_FIGHTER_ROLL', 'AIR_FLIGHT_BOMBER_YAW_BOUND', 'AIR_FLIGHT_FIGHTER_YAW_BOUND', 'AIR_FLIGHT_CORNER_MARGIN', 'AIR_FLIGHT_STRIKE_MEMORY', 'AIR_FLIGHT_STRIKE_STRIDE', 'AIR_FLIGHT_STRIKE_APPROACH', 'AIR_FLIGHT_STRIKE_REACHED_SQ')},air_escort={name:definitions[name] for name in ('AIR_ESCORT_VERSION', 'AIR_ACQUIRE_VERSION', 'AIR_ACQUIRE_CELLS', 'AIR_ESCORT_REVIEW', 'AIR_ESCORT_COMMITMENT', 'AIR_ESCORT_RANGE_SQUARED', 'AIR_ESCORT_BREAK_SQUARED', 'AIR_ESCORT_THREAT_SQUARED', 'AIR_ESCORT_TRAIL_TICKS', 'AIR_ESCORT_LATERAL', 'AIR_ESCORT_THREAT_WEIGHT')},acquisition={name:definitions[name] for name in ('ACQUIRE_VERSION','ACQUIRE_INF_CELLS','ACQUIRE_TANK_CELLS','ACQUIRE_ARTY_CELLS')},company_assault={name:definitions[name] for name in ('COMPANY_ASSAULT_VERSION', 'COMPANY_SLOTS', 'COMPANY_STRIDE', 'COMPANY_MIN_GROUND', 'COMPANY_NEAR_SQ', 'COMPANY_STAGE_DISTANCE', 'COMPANY_ARTY_BACK', 'COMPANY_ARMOUR_FORWARD', 'COMPANY_READY_SQ', 'COMPANY_STAGE_TIMEOUT', 'COMPANY_PREP_TIMEOUT', 'COMPANY_LOSS_PERCENT', 'COMPANY_INF_SPACING', 'COMPANY_INF_ROW', 'COMPANY_HULL_ROW', 'COMPANY_INF_LANE', 'COMPANY_ARMOUR_LANE', 'COMPANY_ARTY_LANE', 'COMPANY_WITHDRAW_DISTANCE')},player_deploy={name:definitions[name] for name in ('PLAYER_DEPLOY_POLICY_VERSION',)},world_body={name:definitions[name] for name in ('WORLD_BODY_VERSION',)},wreck_navigation={name:definitions[name] for name in ('WRECK_NAV_VERSION', 'WRECK_NAV_QUEUE', 'WRECK_NAV_BUILDS_PER_TICK', 'WRECK_NAV_LOOKAHEAD', 'WRECK_NAV_PLAN_DISTANCE', 'WRECK_NAV_ENDPOINT_INCREMENT', 'WRECK_NAV_ENDPOINT_MAX_DISTANCE', 'WRECK_NAV_LOOKAHEAD_SQUARED', 'WRECK_NAV_PLAN_DISTANCE_SQUARED', 'WRECK_NAV_MAX_WRECKS', 'WRECK_NAV_MAX_NODES', 'WRECK_NAV_MAX_PATH', 'WRECK_NAV_WINDOW_MARGIN', 'WRECK_NAV_CORNER_MARGIN', 'WRECK_NAV_MAX_LEG_SQUARED', 'WRECK_NAV_GOAL_CHANGE_SQUARED', 'WRECK_NAV_REACHED_SQUARED', 'WRECK_NAV_SOURCE_DISTANCE_WEIGHT')},projectile_remote={name:definitions[name] for name in ('PROJECTILE_REMOTE_POLICY_VERSION','PROJECTILE_OWNED_PRIORITY_MAX','PROJECTILE_WIRE_MAX')},bomb_release={name:definitions[name] for name in ('AIR_BOMB_RELEASE_VERSION',)},world_los={name:definitions[name] for name in ('WORLD_LOS_VERSION',)},world_contact={name:definitions[name] for name in ('WORLD_CONTACT_VERSION', 'WORLD_CONTACT_GROUND', 'WORLD_CONTACT_SOLID', 'WORLD_CONTACT_WRECK', 'WORLD_CONTACT_ACTOR', 'WORLD_CONTACT_BLAST_SKIN', 'TERRAIN_GROUND_QUERY_VERSION', 'TERRAIN_GROUND_QUERY_SKIN', 'TERRAIN_HEIGHT_CENTER', 'TERRAIN_HEIGHT_X_SCALE', 'TERRAIN_HEIGHT_Z_SCALE', 'TERRAIN_HEIGHT_RIDGE_SCALE', 'TERRAIN_HEIGHT_RIDGE_HEIGHT', 'TERRAIN_HEIGHT_BASE')},shell_contact={name:definitions[name] for name in ('SHELL_CONTACT_VERSION','SHELL_CONTACT_RADIUS','SHELL_CONTACT_MAX_SAMPLES')},wreck_presentation={name:definitions[name] for name in ('WRECK_REMOTE_VERSION','WRECK_WIRE_STRIDE','WRECK_WIRE_MAX','WRECK_PRESENTATION_VERSION','WRECK_PRESENTATION_FRAME','WRECK_PRESENTATION_LOD')},wreck_registry={name:definitions[name] for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
         relief_abi=1,grade_abi=1,
         relief=json.loads((root/'content/terrain/relief.json').read_text()),
         grade_policy={name:definitions[name] for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},
@@ -518,6 +553,7 @@ def main():
     report = verify(args.server.resolve())
     if args.client_lib:
         verify_adapter(args.server.resolve(), args.client_lib)
+        verify_fourth_adapter(args.server.resolve(), args.client_lib)
     extra = {}
     if args.extended:
         extra['combat'] = verify_death_redeployment(args.server.resolve())

@@ -15,6 +15,7 @@ extern vehicle_entity_driver
 extern sim_ground_motion
 extern sim_aircraft
 extern strcmp, printf, fflush
+extern company_for_player,company_control_order
 extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
@@ -455,9 +456,11 @@ handle_packet:
 .order:
  cmp dword [packet+32],16
  jne .ack
- cmp r12d,3
- je .ownership
- cmp [packet+40],r12d
+ mov eax,r12d
+ shl eax,6
+ lea rcx,[sim_players]
+ mov eax,[rcx+rax+PLAYER_FRONT]
+ cmp [packet+40],eax
  jne .ownership
  cmp dword [packet+44],2
  ja .ack
@@ -488,20 +491,22 @@ handle_packet:
  call terrain_blocked
  test eax,eax
  jnz .ack
- xor edi,edi
- mov esi,5
- call sim_spend
- test eax,eax
- jnz .funds
- xor edi,edi
- mov esi,r12d
+ mov edi,r12d
+ call company_for_player
+ cmp eax,-1
+ je .ownership
+ mov esi,eax
+ mov edi,r12d
  mov edx,[packet+44]
- call sim_order
- xor edi,edi
- mov esi,r12d
  movss xmm0,[packet+48]
  movss xmm1,[packet+52]
- call sim_waypoint
+ call company_control_order
+ cmp eax,-2
+ je .ownership
+ cmp eax,-3
+ je .funds
+ test eax,eax
+ jnz .ack
  mov eax,[sim_tick_count]
  mov [r13+SLOT_ORDERTICK],eax
  mov dword [r13+SLOT_ACKSTATUS],0

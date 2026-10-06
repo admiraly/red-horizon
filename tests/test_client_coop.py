@@ -100,7 +100,14 @@ try:
             focus(index);XT.XTestFakeMotionEvent(display,-1,px,py,0);X.XFlush(display);time.sleep(.12)
             if before_press:before_press()
             button(True);time.sleep(.12);button(False);time.sleep(.1)
-        def goal(front):return struct.unpack('<ff',os.pread(host_memory,8,server_symbols['sim_waypoints']+front*8))
+        def goal(front):
+            # Network orders now target the owner's exclusive company, including
+            # after a genuine redeployment, rather than mutating a global front.
+            if front in (0,1):
+                company=read_u32(host_memory,server_symbols,'player_companies',front*16)
+                assert company<1536,('missing company assignment',front,company)
+                return struct.unpack('<ff',os.pread(host_memory,8,server_symbols['company_controls']+company*32+16))
+            return struct.unpack('<ff',os.pread(host_memory,8,server_symbols['sim_waypoints']+front*8))
 
         for index in range(2):
             process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(port),'--tactical'],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
@@ -351,6 +358,8 @@ try:
         until(lambda:server_player(0)['hp']==100 and server_player(0)['generation']>dead['generation'],4)
         recovered=server_player(0)
         until(lambda:all(client_player(i,0)['generation']==recovered['generation'] for i in range(2)),2)
+        assert goal(0)==accepted_goal,'redeployment discarded company intent'
+        final_owned_goal=goal(0)
         final=[server_player(i) for i in range(2)]
         outputs=[]
         for index in range(2):
@@ -358,7 +367,7 @@ try:
             assert clients[index]['process'].returncode==0,(stdout,stderr)
             assert 'local_sim_ticks=0' in stdout and f'player={index} front={index}' in stdout,stdout
             outputs.append(stdout)
-        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':final_owned_goal,'redeployment_preserved_company_intent':True,'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)

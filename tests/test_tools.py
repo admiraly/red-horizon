@@ -39,10 +39,10 @@ with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
     nested=root/'schemas/test-nested.inc';nested.write_text('; nested fixture\n')
     include.write_text(include.read_text()+'\n%ifidn __OUTPUT_FORMAT__,elf64\n%include "schemas/test-nested.inc"\n%endif\n')
     player_build=json.loads(dev('build'))
-    assert set(player_build['assembled_sources'])=={'src/sim/scenarios.asm','src/nav/crowd.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'},player_build
+    assert set(player_build['assembled_sources'])=={'src/sim/scenarios.asm','src/nav/crowd.asm','src/ai/company_control.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'},player_build
     nested.write_text('; nested fixture changed\n')
     player_build=json.loads(dev('build'))
-    assert set(player_build['assembled_sources'])=={'src/sim/scenarios.asm','src/nav/crowd.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'},player_build
+    assert set(player_build['assembled_sources'])=={'src/sim/scenarios.asm','src/nav/crowd.asm','src/ai/company_control.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'},player_build
     client_build=json.loads(dev('build','--target','client','--objects-only'))
     assert set(client_build['assembled_sources'])=={'src/platform/linux/client.asm','src/net/client.asm','src/render/effects.asm','src/render/meshes.asm','src/audio/emitters.asm','src/render/air_trails.asm','src/audio/footsteps.asm','src/render/hazard_warning.asm'},client_build
     inputs={str(p.relative_to(root)):p.read_bytes() for folder in ('src','shaders','schemas') for p in (root/folder).rglob('*') if p.is_file()}

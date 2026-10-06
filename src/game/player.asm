@@ -2,6 +2,7 @@
 %include "schemas/player.inc"
 %include "schemas/entity.inc"
 default rel
+extern company_assign,company_release,company_control_init,company_redeploy
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
 extern terrain_height,world_body_blocked,world_los,sinf,cosf
@@ -67,13 +68,15 @@ player_init:
  xor eax,eax
  mov ecx,(PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*64+8)/4
  rep stosd
- ret
+ jmp company_control_init
 player_join:
  cmp edi,PLAYER_CAPACITY
  jae .bad
  cmp esi,3
  jae .bad
  push rbx
+ sub rsp,16
+ mov [rsp],edi
  mov eax,edi
  shl eax,6
  lea rbx,[sim_players]
@@ -106,10 +109,15 @@ player_join:
  mov dword [rbx+PLAYER_HP],0
  mov dword [rbx+PLAYER_RESPAWN],30
 .joined:
+ mov edi,[rsp]
+ mov esi,[rbx+PLAYER_FRONT]
+ call company_assign
  xor eax,eax
+ add rsp,16
  pop rbx
  ret
 .failed:
+ add rsp,16
  pop rbx
 .bad:
  mov eax,-1
@@ -125,6 +133,9 @@ player_leave:
  je .bad
  mov dword [rdx+PLAYER_CONNECTED],0
  mov dword [rdx+PLAYER_HP],0
+ push rdi
+ call company_release
+ pop rdi
  push rdi
  call vehicle_detach
  pop rdi
@@ -240,6 +251,8 @@ player_tick:
 .respawned:
  inc dword [player_respawns]
  inc dword [rbx+PLAYER_GENERATION]
+ mov edi,r12d
+ call company_redeploy
  jmp .next
 .alive:
  cmp dword [rbx+PLAYER_SUPPRESSION],0

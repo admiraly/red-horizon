@@ -18,8 +18,9 @@ extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metric
 extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
-extern sim_init,sim_tick,sim_order,sim_count,sim_entities
-extern sim_sites,sim_requisition,sim_supply,sim_operation_state,sim_waypoint,sim_waypoints
+extern sim_init,sim_tick,sim_count,sim_entities
+extern company_for_player,company_control_order,company_controls
+extern sim_sites,sim_requisition,sim_supply,sim_operation_state
 extern player_join,player_input,sim_players
 extern sim_player_vehicle,sim_vehicles,sim_projectiles
 extern net_client_open,net_client_poll,net_client_input,net_client_order,net_client_close
@@ -58,6 +59,9 @@ connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
 help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+local_company_fmt: db '%s | COMPANY %u | %s',0
+local_ready_text: db 'COMPANY READY',0
+local_reject_text: db 'ORDER DENIED: INVALID POINT OR INSUFFICIENT REQUISITION',0
 net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
@@ -474,6 +478,8 @@ main:
  test eax,eax
  jnz .fail
  mov dword [selected_front],1
+ lea rax,[local_ready_text]
+ mov [command_message],rax
  jmp .platforminit
 .networkinit:
  cmp dword [scenario_mode],0
@@ -1272,15 +1278,6 @@ update_input:
  call glfwGetKey
  test eax,eax
  jz .keyreleased
- mov edx,ebx
- sub edx,49
- cmp dword [network_mode],0
- jne .networkorder
- mov [order_mode],edx
- xor edi,edi
- mov esi,[selected_front]
- call sim_order
- jmp .nextorder
 .networkorder:
  mov ecx,ebx
  sub ecx,49
@@ -1311,6 +1308,11 @@ update_input:
  mov edi,[selected_front]
  mov esi,ebx
  sub esi,49
+ cmp dword [network_mode],0
+ jne .sendnetwork
+ call queue_local_order
+ jmp .nextorder
+.sendnetwork:
  call queue_network_order
  jmp .nextorder
 .keyreleased:
@@ -1482,8 +1484,18 @@ update_input:
  call set_weather_title
  jmp .titlereturn
 .localtitle:
+ mov edi,[local_player]
+ call company_for_player
+ mov r8d,eax
+ lea rdi,[net_title_buf]
+ mov esi,640
+ lea rdx,[local_company_fmt]
+ lea rcx,[title_buf]
+ mov r9,[command_message]
+ xor eax,eax
+ call snprintf
  mov rdi,[window]
- lea rsi,[title_buf]
+ lea rsi,[net_title_buf]
  call set_weather_title
 .titlereturn:
  xor eax,eax
@@ -1524,17 +1536,9 @@ tactical_click:
  call queue_network_order
  jmp .return
 .localwaypoint:
- xor edi,edi
- mov esi,[selected_front]
- call sim_waypoint
- test eax,eax
- jnz .return
- inc dword [waypoint_orders]
- mov dword [order_mode],0
- xor edi,edi
- mov esi,[selected_front]
- xor edx,edx
- call sim_order
+ mov edi,[selected_front]
+ xor esi,esi
+ call queue_local_order
  jmp .return
 .up:
  mov dword [map_down],0
@@ -1691,10 +1695,27 @@ selected_goal:
  mov eax,[selected_front]
  cmp dword [network_mode],0
  jne .network
- lea rdx,[sim_waypoints]
- movss xmm0,[rdx+rax*8]
- movss xmm1,[rdx+rax*8+4]
+ push rbx
+ mov rbx,rax
+ mov edi,[local_player]
+ call player_pointer
+ cmp ebx,[rax+PLAYER_FRONT]
+ jne .localunknown
+ mov edi,[local_player]
+ call company_for_player
+ cmp eax,-1
+ je .localunknown
+ shl eax,5
+ lea rdx,[company_controls]
+ cmp dword [rdx+rax+12],0
+ je .localunknown
+ movss xmm0,[rdx+rax+16]
+ movss xmm1,[rdx+rax+20]
+ pop rbx
  ret
+.localunknown:
+ pop rbx
+ jmp .unknown
 .network:
  lea rdx,[net_goal_valid]
  cmp dword [rdx+rax*4],0
@@ -1708,6 +1729,48 @@ selected_goal:
  movaps xmm1,xmm0
  ret
 
+; Solo uses the same exclusive lease, validation and single charge as authority.
+; EDI selected front,ESI mode,XMM0/1 goal. One edge triggers one command.
+queue_local_order:
+ push rbx
+ sub rsp,16
+ mov [rsp],edi
+ mov [rsp+4],esi
+ mov edi,[local_player]
+ call player_pointer
+ mov ecx,[rsp]
+ cmp ecx,[rax+PLAYER_FRONT]
+ jne .denied
+ mov edi,[local_player]
+ call company_for_player
+ cmp eax,-1
+ je .denied
+ mov esi,eax
+ mov edi,[local_player]
+ mov edx,[rsp+4]
+ call company_control_order
+ test eax,eax
+ jnz .rejected
+ inc dword [waypoint_orders]
+ mov eax,[rsp+4]
+ mov [order_mode],eax
+ lea rax,[net_sent_text]
+ mov [command_message],rax
+ xor eax,eax
+ jmp .done
+.denied:
+ lea rax,[net_denied_text]
+ jmp .failure
+.rejected:
+ lea rax,[local_reject_text]
+.failure:
+ mov [command_message],rax
+ mov eax,-1
+.done:
+ add rsp,16
+ pop rbx
+ ret
+
 queue_network_order:
  cmp dword [command_pending],2
  je .busy
@@ -1715,8 +1778,6 @@ queue_network_order:
  jne .unconnected
  cmp edi,[net_front]
  jne .denied
- cmp dword [net_player_id],3
- je .denied
  ucomiss xmm0,[fzero]
  jp .bounds
  jb .bounds

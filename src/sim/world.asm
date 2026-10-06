@@ -9,6 +9,7 @@ extern terrain_move, terrain_height, world_los, terrain_blocked
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
 extern crowd_init,crowd_begin,crowd_move,crowd_hash
 extern terrain_body_init,terrain_body_hash
+extern company_control_goal
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
@@ -275,8 +276,15 @@ sim_tick:
  jnz .hazard_move
  mov edi,r12d
  sub rsp,8
+ call company_control_goal
+ add rsp,8
+ cmp eax,-1
+ jne .ai_goal_ready
+ mov edi,r12d
+ sub rsp,8
  call ai_entity_goal
  add rsp,8
+.ai_goal_ready:
  cmp eax,-1
  je .manual_move
  test eax,eax

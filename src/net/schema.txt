@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v21
-little-endian u32 header[10]: magic=0x52484332 version=21 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v23
+little-endian u32 header[10]: magic=0x52484332 version=23 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -57,3 +57,6 @@ air flight policy2: gradual role-limited roll; coordinated level yaw=-g*tan(bank
 air flight strike memory:40byte own-generation, observed XZ/target identity/expiry/approach direction/stage; defensive abort stages1800m before observed point,150m arrival then straight strike,100m overshoot retries; only actual range/LOS sight refreshes,2400tick expiry. Recall does not read enemies. Pitch follows atan2(vertical,horizontal speed); fighter intercept solves projectile travel time.
 
 air boundary recovery:4byte own latch per actor; every edge activates at1200m clearance; edge/corner turn keeps centre steering until both axes inside1200..6800. Hash/init/generation reset include latch; wire unchanged.
+company control policy1: each of4 connected players leases one exclusive own living ground cohort on assigned front, nearest own actor/stableID ties. Cohort key=(side*3+front)*256+(ID>>7). Thirty-two byte owner/generation/order/goal/sequence/tick records and4x16byte player leases hash and reset. Every accepted network order changes only that player's cohort, charges5 once after validation, and uses original rate/retry policy. Fourth player can order its separate front0 cohort. Disconnect releases intent/ownership to AI; wire layouts unchanged. Transfers, company replication/UI and company switching remain separate.
+
+company redeployment: genuine successful body redeployment retains the company and explicit intent; updates lease and control owner generation from exactly the preceding body generation. Other generation mismatches reject commands.

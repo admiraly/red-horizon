@@ -303,7 +303,7 @@ Current accepted aircraft contract: UDPv21/schema0x3296bf93/content0x551748ea;
 physical gradual bank-roll/yaw, own observed strike memory and boundary latch.
 Exact schema and policy constants live in src/net/schema.txt and schemas/air_flight.inc.
 
-Pending private company contract v23 (847deaa): company_assign(EDI player,ESI front)
+Current company contract v23 (21b2cd4): company_assign(EDI player,ESI front)
 returns own nearest unleased living ground cohort key or-1. company_for_player(EDI)
 validates connected generation and bidirectional lease. company_control_order(EDI
 player,ESI key,EDX mode,XMM0/1 XZ) returns0 accepted,-1 invalid,-2 ownership,-3
@@ -311,5 +311,5 @@ funds; validates before one5REQ charge and one sequence change. company_control_
 (EDI actor) is readonly, returns0/XMMXZ move,1 hold,-1 autonomous. Hazard escape
 retains priority. company_release clears ownership/intent on disconnect. Internal
 company_redeploy preserves intent and updates the matching immediately preceding
-body-generation lease after genuine successful redeploy only. These contracts
-are not main runtime until the pending combined checkpoint is accepted.
+body-generation lease after genuine successful redeploy only. These contracts are integrated on main with focused tests; the matching
+combined extended checkpoint remains pending.

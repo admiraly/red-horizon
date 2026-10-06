@@ -3,6 +3,7 @@
 %include "schemas/company_assault.inc"
 %include "schemas/combat.inc"
 default rel
+extern company_control_init,company_control_hash
 extern sim_entities,sim_count,sim_tick_count,ai_fronts,sim_shell_ammo,sim_projectiles
 section .bss align=64
 global company_plans
@@ -27,7 +28,7 @@ company_init:
  xor eax,eax
  mov ecx,COMPANY_SLOTS*COMPANY_STRIDE/8
  rep stosq
- ret
+ jmp company_control_init
 ; EDI actor; EAX key or-1. Validated own actor fields only.
 key:
  cmp dword [sim_count],ENTITY_CAPACITY
@@ -488,5 +489,5 @@ company_hash:
  imul rax,r8
  inc rsi
  loop .loop
- ret
+ jmp company_control_hash
 section .note.GNU-stack noalloc noexec nowrite progbits
