@@ -6,6 +6,7 @@ default rel
 extern sim_entities,sim_count,sim_players,player_deaths
 extern sim_shell_ammo,sim_shell_cooldown,projectile_launch,combat_event
 extern crowd_begin,crowd_step,crowd_occupied
+extern ground_step
 extern terrain_height,terrain_body_blocked,terrain_los,sinf,cosf
 section .bss align=64
 global sim_vehicles,sim_player_vehicle,vehicle_entity_driver,vehicle_shots
@@ -15,6 +16,8 @@ vehicle_entity_driver: resd ENTITY_CAPACITY
 vehicle_shots: resd VEHICLE_CAPACITY
 section .bss align=16
 previous_buttons: resd VEHICLE_CAPACITY
+global vehicle_driver_generation
+vehicle_driver_generation: resd VEHICLE_CAPACITY
 section .rodata
 zero: dd 0.0
 one: dd 1.0
@@ -49,6 +52,9 @@ vehicle_init:
  mov ecx,VEHICLE_CAPACITY
  rep stosd
  lea rdi,[previous_buttons]
+ mov ecx,VEHICLE_CAPACITY
+ rep stosd
+ lea rdi,[vehicle_driver_generation]
  mov ecx,VEHICLE_CAPACITY
  rep stosd
  lea rdx,[sim_vehicles]
@@ -91,6 +97,16 @@ claim:
  jne .bad
  cmp dword [rdx+ENTITY_KIND],1
  jne .bad
+ mov ecx,edi
+ shl ecx,6
+ lea r9,[sim_players]
+ add r9,rcx
+ lea r10,[vehicle_driver_generation]
+ mov ecx,[r10+rdi*4]
+ test ecx,ecx
+ jz .bad
+ cmp ecx,[r9+PLAYER_GENERATION]
+ jne .bad
  ret
 .bad:
  mov eax,-1
@@ -99,6 +115,8 @@ claim:
 clear_claim:
  cmp edi,VEHICLE_CAPACITY
  jae .done
+ lea rdx,[vehicle_driver_generation]
+ mov dword [rdx+rdi*4],0
  lea rdx,[sim_player_vehicle]
  mov eax,[rdx+rdi*4]
  cmp eax,ENTITY_CAPACITY
@@ -152,6 +170,8 @@ vehicle_enter:
  cmp dword [rbx+PLAYER_CONNECTED],1
  jne .failed
  cmp dword [rbx+PLAYER_HP],0
+ je .failed
+ cmp dword [rbx+PLAYER_GENERATION],0
  je .failed
  xor r13d,r13d
  mov r14d,-1
@@ -227,6 +247,9 @@ vehicle_enter:
  mov eax,[r15+ENTITY_GENERATION]
  mov [rdx+VEHICLE_ENTITY_GENERATION],eax
  mov dword [rdx+VEHICLE_ACTIVE],1
+ lea rax,[vehicle_driver_generation]
+ mov ecx,[rbx+PLAYER_GENERATION]
+ mov [rax+r12*4],ecx
  inc dword [rdx+VEHICLE_GENERATION]
  lea rax,[sim_shell_ammo]
  mov eax,[rax+r14*4]
@@ -429,7 +452,8 @@ vehicle_tick_player:
  movss xmm1,[r15+ENTITY_Z]
  movss xmm4,[drive_step]
  mov edi,r14d
- call crowd_step
+ mov esi,1
+ call ground_step
  movss [r15+ENTITY_X],xmm0
  movss [r15+ENTITY_Z],xmm1
  movss [rbx+PLAYER_X],xmm0
@@ -570,5 +594,14 @@ vehicle_hash:
  inc rsi
  dec ecx
  jnz .edges
+ lea rsi,[vehicle_driver_generation]
+ mov ecx,VEHICLE_CAPACITY*4
+.drivers:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .drivers
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits

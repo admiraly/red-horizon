@@ -16,6 +16,7 @@ extern ordnance_init,ordnance_begin,ordnance_request,ordnance_flush,ordnance_has
 extern sim_aircraft
 extern air_hit,air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
+extern ground_init,ground_step,ground_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -137,6 +138,7 @@ sim_init:
  call projectile_init
  call ordnance_init
  call vehicle_init
+ call ground_init
  call crowd_init
  call air_init
  call hazard_init
@@ -271,7 +273,7 @@ sim_tick:
  cmp eax,-1
  je .manual_move
  test eax,eax
- jnz .insert
+ jnz .hold_step
  movss [rsp+64],xmm0
  movss [rsp+68],xmm1
  mov eax,[rbx+ENTITY_KIND]
@@ -299,7 +301,7 @@ sim_tick:
  lea rcx,[orders]
  mov eax,[rcx+rax*4]
  cmp eax,1
- je .insert
+ je .hold_step
  cmp eax,2
  je .retreat
  ; Explicit advance continues toward its goal while combat stays LOS gated.
@@ -337,11 +339,31 @@ sim_tick:
  movss xmm0,[rbx+ENTITY_X]
  movss xmm1,[rbx+ENTITY_Z]
  mov edi,r12d
+ cmp dword [rbx+ENTITY_KIND],0
+ jne .hull_step
  sub rsp,8
  call crowd_move
  add rsp,8
+ jmp .publish_step
+.hull_step:
+ xor esi,esi
+ sub rsp,8
+ call ground_step
+ add rsp,8
+.publish_step:
  movss [rbx+ENTITY_X],xmm0
  movss [rbx+ENTITY_Z],xmm1
+ jmp .insert
+.hold_step:
+ ; Tracked hulls brake through shared momentum; infantry retains immediate hold.
+ cmp dword [rbx+ENTITY_KIND],0
+ je .insert
+ movss xmm2,[rbx+ENTITY_X]
+ movss xmm3,[rbx+ENTITY_Z]
+ mov eax,[rbx+ENTITY_KIND]
+ lea rcx,[speed]
+ movss xmm4,[rcx+rax*4]
+ jmp .physical_step
 .insert:
  movss xmm0,[rbx+ENTITY_X]
  mulss xmm0,[cell_scale]
@@ -677,6 +699,7 @@ sim_checksum:
  call projectile_hash
  call ordnance_hash
  call vehicle_hash
+ call ground_hash
  call air_hash
  call nav_hash
  call crowd_hash

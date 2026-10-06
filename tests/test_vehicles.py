@@ -60,6 +60,19 @@ blocked=e.x,e.z
 assert lib.vehicle_tick_player(0,0,1,0)==1 and (e.x,e.z)==blocked
 players[1].x,players[1].z=e.x-6,e.z+10
 players[1].y=lib.terrain_height(players[1].x,players[1].z)+1.8
+start=e.x,e.z
+acceleration_steps=[]
+for _ in range(30):
+    old=e.x,e.z
+    assert lib.vehicle_tick_player(0,0,1,0)==1
+    acceleration_steps.append(math.hypot(e.x-old[0],e.z-old[1]))
+# Real armor accelerates instead of translating18m from rest in one second.
+assert 0<acceleration_steps[0]<.1,acceleration_steps
+assert all(a<=b+.001 for a,b in zip(acceleration_steps,acceleration_steps[1:])),acceleration_steps
+assert all(0<=b-a<.03 for a,b in zip(acceleration_steps,acceleration_steps[1:])),acceleration_steps
+acceleration_distance=math.hypot(e.x-start[0],e.z-start[1])
+assert 6<acceleration_distance<12,(start,e.x,e.z,acceleration_steps)
+# Retain the original18m steady drive gate after the measured acceleration phase.
 start=e.x
 for _ in range(30):assert lib.vehicle_tick_player(0,0,1,0)==1
 assert abs(e.x-start-18)<.02 and p.x==e.x and p.z==e.z
@@ -183,7 +196,7 @@ p.yaw,p.pitch=0,0
 lib.vehicle_tick_player(0,1,0,0)
 for _ in range(15):lib.projectile_tick()
 assert entities[16].hp<100 and any(ev.kind==3 for ev in events)
-print(json.dumps({'suite':'vehicles','passed':True,'actual_drive_metres_per_second':18,
+print(json.dumps({'suite':'vehicles','passed':True,'actual_steady_drive_metres_per_second':18,'first30tick_acceleration_metres':acceleration_distance,
                   'exclusive_ownership':True,'generation_cleanup':True,'safe_exit':True,
                   'persistent_cannon_ammo':True,'swept_shell_damage':True,'single_destruction_event':True,
                   'fixtures':'real assembly; development-only initial state setup'}))

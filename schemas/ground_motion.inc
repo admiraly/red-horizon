@@ -37,3 +37,7 @@
 ; Renderer/network read the same stamped heading even while stationary.
 ; Current circles remain conservative; oriented hull, suspension, turret mesh,
 ; wheeled chassis, road/slope semantics require separate implemented evidence.
+; Driver identity supplements unchanged vehicle32: vehicle_driver_generation[4]
+; is stamped from PLAYER_GENERATION on successful boarding, reset on init/detach,
+; validated by all actual driver-claim readers and hashed through vehicle_hash.
+; A same-slot recycled human must never inherit old hull control.

@@ -68,3 +68,5 @@
 ; queries retain their existing phase distinction. Nearby tank anticipation must
 ; cover0.6m even when no claim is present. Legacy control still checks full terrain
 ; footprint and exact segment (not a terrain detour). No authoritative actor writes.
+; Driver claim readers additionally compare privatevehicle_driver_generation[slot]
+; to currentnonzeroPLAYER_GENERATION; entitygeneration alone does not bind a human.
