@@ -1,5 +1,16 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Main also integrates7402233: company retreat markers now show the effective
+home shared with authority, while subsequent advance retains the accepted
+waypoint. Actual solo GL and two rendered UDP clients pass both owner/other-owner
+views on fronts0/1, and the original fast suite produces60 passing reports.
+The new co-op fixture initially violated the existing15-tick order rate limit;
+its failure logs are retained and its correction waits on authority ticks.
+No runtime command limit, spending or movement policy changes. Exact focused
+evidence: docs/evidence/company-retreat-focused.json. Matching main build and
+complete extended acceptance for this display batch remain pending.
+
+
 Current main integrates the consent-transfer batch7362317. UDP v25 uses
 schema0x2f1d4d2e/content0x6618d669. Two humans explicitly exchange companies;
 both retain a company, their bodies and their companies' accepted intents.

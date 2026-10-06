@@ -406,3 +406,11 @@ match frozen43d31a2cf5a3, currently RUNNING. Preserve original scale, realGL and
 UDP gates; collect that exact job. Last full pass remains3112ca82aa0d. Broader
 contextual/remappable/fullscreen UI, assistance, splitting, recruitment, shared
 countdown/support and remaining complete-operation/quality budgets remain ready work.
+
+2026-10-06 continuation: effective retreat display7402233 is integrated on main.
+Original fast60 reports and actual solo/two-client owner/observer framebuffer
+checks pass; advance retains the original accepted waypoint. Independent NASM
+command HUD is in feature/command-hud with actual solo/status and exchange-text
+pixel checks passing; broader graphics/tooling jobs are still pending. Full
+transfer checkpoint43d31a2cf5a3 remains independently tracked; no complete-game
+acceptance claim follows from these command-interface slices.
