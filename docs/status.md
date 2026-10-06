@@ -3,7 +3,7 @@
 Main now integrates focused-verified exclusive company ownership and solo/co-op
 GUI command routing from21b2cd4. Its exact330 authored inputs and prior focused
 evidence are recorded in company-control-integration.json; frozen full0b0739a72b85
-still runs on the same source. Root headless/co-op/client and both libraries rebuilt at01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce.
+FAILED1179.9040s at the old graphical mesh fixture ordering an unowned front. Root headless/co-op/client and both libraries rebuilt at01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce.
 Matching company API, read-only actual four-peer movement, fourth-player NASM
 adapter, solo GUI map/keys and actual two-client co-op checks all pass. Exact
 artifact hashes and logs: company-main-build.json and company-main-build-and-checks.log.
@@ -34,7 +34,12 @@ Original solo gameplay and actual two-client co-op checks pass unchanged.
 Frozen full1ab1a888df47 at1e5712b-d43272bceaed8e49 was cancelled as
 superseded by that identical known tools failure. Corrected21b2cd4 retains
 exact dependency checks, adding only the actual company-control dependent.
-Frozen full0b0739a72b85 now runs at21b2cd4-c0410da9e5e40bce. The company batches are now integrated as a coherent focused-verified batch;
+Frozen full0b0739a72b85 at21b2cd4-c0410da9e5e40bce FAILED1179.9040s
+after core/tools/network/most graphics passed. The mesh fixture now observes a
+genuinely assigned front1 infantry actor and issues its own company order;
+original movement/pixel/clip and stationary-track thresholds are unchanged.
+Matching focused mesh check passes with owned actor3712,1.6787m actual movement
+and1816 changed idle-pose pixels. Complete graphics recheck is running. The company batches are now integrated as a coherent focused-verified batch;
 matching full acceptance remains pending. Exact commands,
 initial failed fixtures and limitations: docs/company-control.md in those worktrees.
 Company membership replication/highlights, transfer/assistance and assignment

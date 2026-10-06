@@ -98,9 +98,9 @@ try:
         def button(down):
             XT.XTestFakeButtonEvent(display, 1, int(down), 0); X.XFlush(display)
 
-        def u32(name):return struct.unpack('<I',os.pread(memory,4,symbols[name]))[0]
-        def actor():return struct.unpack('<ff6I',os.pread(memory,32,symbols['sim_entities']))
-        def selected():return u32('mesh_selected_frames')
+        def u32(name,offset=0):return struct.unpack('<I',os.pread(memory,4,symbols[name]+offset))[0]
+        def actor():return struct.unpack('<ff6I',os.pread(memory,32,symbols['sim_entities']+actor_id*32))
+        def selected():return u32('mesh_selected_frames',actor_id*4)
         def capture(path):
             # Selected-pose telemetry is written before drawing/presentation.
             # Let several complete frames present before reading X's frontbuffer.
@@ -116,9 +116,17 @@ try:
                     if 550<=x<730 and 300<=y<510:region.extend(pixel)
             X.XDestroyImage(image)
             pathlib.Path(path).write_bytes(b'P6\n1280 720\n255\n'+rgb)
-            frame=selected();blend=struct.unpack('<f',os.pread(memory,4,symbols['mesh_selected_lerp']))[0]
+            frame=selected();blend=struct.unpack('<f',os.pread(memory,4,symbols['mesh_selected_lerp']+actor_id*4))[0]
             os.kill(process.pid,signal.SIGCONT)
             return region,frame,blend
+        # Observe a genuinely assigned infantry actor. Solo GUI orders now
+        # intentionally cannot move an arbitrary actor on another owned front.
+        company=u32('player_companies');assert company<1536
+        rows=os.pread(memory,8192*32,symbols['sim_entities'])
+        actor_id=next(i for i in range(8192)
+                      if i>>7==company%256 and struct.unpack_from('<I',rows,i*32+8)[0]>0
+                      and struct.unpack_from('<III',rows,i*32+12)==(0,0,player()['front']))
+        key(ord('2')) # genuine owned-company hold, fixed-position animation gate
         until(lambda:u32('mesh_low_instances')>0 and u32('mesh_high_instances')>0 and u32('mesh_marker_instances')>0)
         initial_lod=[u32(name) for name in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances')]
         # Fixed-position animation negative control: production danger can
@@ -128,7 +136,7 @@ try:
         # are real assembled runtime and the licensed baked source pack.
         os.pwrite(memory,struct.pack('<I',1),symbols['orders'])
         os.pwrite(memory,struct.pack('<I',1),symbols['ai_fronts']+24)
-        os.pwrite(memory,struct.pack('<ff',2000.,3912.),symbols['sim_entities'])
+        os.pwrite(memory,struct.pack('<ff',2000.,3912.),symbols['sim_entities']+actor_id*32)
         os.pwrite(memory,struct.pack('<ff',2020.,3915.),symbols['sim_entities']+12*32)
         os.pwrite(memory,struct.pack('<fff',2000.,17.805,3900.),player_address)
         time.sleep(.4)
@@ -148,7 +156,7 @@ try:
         assert 0<=blend_a<1 and 0<=blend_b<1
         changed=sum(image_a[i:i+3]!=image_b[i:i+3] for i in range(0,len(image_a),3));assert changed>8,('no rendered source-pose change',changed)
         # Real tactical click and advance drives this actor; no displacement writes.
-        key(0xff09);key(0xffbe)
+        key(0xff09);key(0xffbe+player()['front'])
         XT.XTestFakeMotionEvent(display,-1,342,360,0);X.XFlush(display);time.sleep(.1)
         button(True);time.sleep(.12);button(False);time.sleep(.1)
         key(0xff09)
@@ -166,7 +174,7 @@ try:
         assert tank_frame==0 and tank_blend==0,(tank_frame,tank_blend)
         key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
         assert 'meshes loaded=18' in stdout
-        print(json.dumps({'suite':'animated-source-meshes','passed':True,'idle_frames':[frame_a,frame_b],'idle_changed_pixels':changed,'walk_frame':frame_walk,'walk_blend':blend_walk,'actual_actor_moved_metres':math.hypot(moving[0]-before[0],moving[1]-before[1]),'stationary_tracks_frozen':True,'source_meshes':18,'initial_lod_counts':initial_lod,'stdout':stdout}))
+        print(json.dumps({'suite':'animated-source-meshes','passed':True,'idle_frames':[frame_a,frame_b],'idle_changed_pixels':changed,'walk_frame':frame_walk,'walk_blend':blend_walk,'actual_actor_moved_metres':math.hypot(moving[0]-before[0],moving[1]-before[1]),'stationary_tracks_frozen':True,'source_meshes':18,'observed_owned_actor_id':actor_id,'owned_company_key':company,'initial_lod_counts':initial_lod,'stdout':stdout}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:
