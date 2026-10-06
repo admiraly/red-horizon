@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import pathlib
+import re
 import select
 import os
 import signal
@@ -467,7 +468,30 @@ def main():
     args = parser.parse_args()
     root = pathlib.Path(__file__).resolve().parents[1]
     assert int(hashlib.sha256((root / "src/net/schema.txt").read_bytes()).hexdigest()[:8], 16) == SCHEMA
-    assert int(hashlib.sha256((root / "content/asset-manifest.json").read_bytes()).hexdigest()[:8], 16) == CONTENT
+    # Compatibility includes assets, canonical roads and resolved hull policy.
+    # Reconstruct it independently of the build-time fingerprint tool.
+    definitions = dict(re.findall(r'^%define ([A-Z_]+) ([A-Za-z0-9_.]+)$',
+        (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
+        (root / 'schemas/terrain_body.inc').read_text(), re.M))
+    policy = {}
+    for name in ('GROUND_SURFACE_VERSION', 'GROUND_TANK_OFFROAD',
+                 'GROUND_ARTILLERY_OFFROAD', 'GROUND_TANK_RADIUS',
+                 'GROUND_ARTILLERY_RADIUS'):
+        value, seen = definitions[name], {name}
+        while value in definitions:
+            assert value not in seen, 'Circular ground policy'
+            seen.add(value)
+            value = definitions[value]
+        policy[name] = value
+    payload = {
+        'previous_content': hashlib.sha256(
+            (root / 'content/asset-manifest.json').read_bytes()).hexdigest()[:8],
+        'terrain_surface_abi': 1,
+        'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
+        'tracked_policy': policy,
+    }
+    encoded = json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()
+    assert int(hashlib.sha256(encoded).hexdigest()[:8], 16) == CONTENT
     constants = (root / "src/net/protocol.inc").read_text()
     assert f"%define NET_SCHEMA 0x{SCHEMA:08x}" in constants
     assert f"%define NET_CONTENT 0x{CONTENT:08x}" in constants

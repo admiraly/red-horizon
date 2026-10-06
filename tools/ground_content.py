@@ -15,7 +15,8 @@ def resolve(name, seen=()):
 policy = {name: resolve(name) for name in keys}
 assert all(0 < float(policy[name]) <= 1 for name in keys[1:3]), 'Invalid surface multiplier'
 assert all(0 <= float(policy[name]) <= 8000 for name in keys[3:]), 'Invalid body radius'
-payload = {'previous_content': 'b2e7c728', 'terrain_surface_abi': 1,
+asset_fingerprint = hashlib.sha256((ROOT/'content/asset-manifest.json').read_bytes()).hexdigest()[:8]
+payload = {'previous_content': asset_fingerprint, 'terrain_surface_abi': 1,
            'roads': json.loads((ROOT/'content/terrain/roads.json').read_text()),
            'tracked_policy': policy}
 digest = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
