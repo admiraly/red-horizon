@@ -46,3 +46,9 @@ lifecycle, SysV preservation/alignment and assembled padding/nearest/cache negat
 and compares each sampled contact to an all-record interval oracle, while ensuring
 world checksums remain unchanged. Detailed frozen outcomes are in the evidence
 manifest; software/kernel checks do not establish visible cover or GPU budgets.
+
+Integrated570b6ee full frozen4febd559b935 passed576.9970s/95reports, with216
+authored inputs matched. All six frozen jobs and four extra exec sessions are
+terminal/reconciled. Earlier NASM-setup and shared-relocation failures are retained
+with exact limitations; final source/job/artifact scope is in
+evidence/wreck-spatial-query-jobs.json and wreck-spatial-query-session.json.

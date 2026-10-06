@@ -1,0 +1,17 @@
+{
+  "classification": "Prepared isolated prerequisite; not main source or full-checkpoint input",
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-instance",
+  "commit": "2fcfe4e",
+  "source_sha256": {
+    "schemas/wreck_instance.inc": "77fcd56a0bbfad8d93c6cbcb2d2a1e7d144d791ccf850f073ab424c47544b035",
+    "src/render/wreck_instance.asm": "4f1e75365d55ced4a4139549e13b699838336e6f74bbd4d86ed66946c1421c32",
+    "tests/probe_wreck_instance.asm": "4773ea2b657d78f607dc998471a24b28dd440d015724088b69d574934ba56272",
+    "tests/test_wreck_instance.py": "f20dbe32537ca330e9bcdf054bf75945cea51d721b1a8f632cf73275bfcbfba2",
+    "shaders/mesh.vert": "355bb4866bc96dab453795acb715e4fd87854d7e39c0080a94857cf1de935b6a",
+    "src/render/mesh_shaders.asm": "2a61df8f5e2866685482c25dd7ce5c38bf2188d414b9683c0d6faf9bcb5c34f6",
+    "content/models/battle.rham": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9"
+  },
+  "report": "docs/evidence/wreck-instance-prepared-final.json",
+  "initial_observer_failure": "feedback actorCode changed stride28->32; initial development fwrite retained28; fixed observer only",
+  "terminal": true
+}

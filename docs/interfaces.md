@@ -195,3 +195,15 @@ Wreck collision, rendering and self-contained replication are not integrated yet
 Prepared segment_box v1 at isolatedd238ea8 is read-only first parametric contact
 against caller-owned AABB, with finite/capacity/bounds validation and SysV/SSE2.
 It is not yet a root runtime caller contract or accepted physical cover.
+
+### Captured-pose wreck point query foundation
+
+`schemas/wreck_query.inc` defines read-only result24 first-t/slot/entity/gen/seq.
+The conservative world AABBs derive from immutable death poses and actual frame0
+mesh union. Accepted register/init/expiry invalidates a derived64-bit revision;
+index/bounds/revision are excluded from the authoritative hash. Nearest ties use
+physical identity, not faction or bucket order. Single simulation safe point;
+no concurrent mutation. Clear/invalid source/caller paths do not write output.
+No current body inflation/LOS/rifle/shell/render/wire hooks. See
+wreck-spatial-query.md for bounded cost and geometry limits; prepared rendering
+inputs and grid experiments remain isolated in their named worktrees.

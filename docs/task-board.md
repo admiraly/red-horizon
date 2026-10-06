@@ -226,3 +226,13 @@ differ by0.9204m tank and1.2990m artillery; collider/LOD geometry must agree.
 See evidence/wreck-cover-mesh-bounds.json. Do not shrink physical cover to hide
 missing visible geometry or imply solid near-field meshes are penetrable. The
 spatial/query/shape and matched wreck presentation slices remain ready.
+
+Captured-pose point query foundation is integrated at570b6ee (primitive686d20f).
+32×32 bounded center buckets, transformed frame0 union AABBs, deterministic first
+contact and mutation-driven derived cache pass focused/fast and real8k/16k
+casualty queries. Full frozen4febd559b935 passed576.9970s/95reports with216matched inputs. Physical/rendered/replicated
+cover remains open; see wreck-spatial-query.md and wreck-cover-integration-next.md.
+Prepared immutable rendering inputs2fcfe4e and finer-grid07cf5b5 are isolated,
+verified prerequisites, not main/full-checkpoint features. The next complete
+cover batch must activate matching geometry and UDP state with body/weapon/LOS/
+navigation hooks, preserve original gates and measure mixed query lengths.

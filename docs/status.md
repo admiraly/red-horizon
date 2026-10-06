@@ -1,5 +1,52 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Captured-pose wreck point queries are integrated at570b6ee, with first-contact
+primitive686d20f. A32×32/250m center-bucket index searches conservative transformed
+frame0 mesh union boxes, retains closed grazing/first t and physical identity
+ties, and invalidates on accepted death/expiry/reset/retirement. Derived caches
+remain outside authority; original world checksums and every observed arena,
+including the full196620-byte registry/dedup/metadata, match prior accepted143247e
+at every120tick8k/16k sample. Content0x10d280ea and UDPv7 remain unchanged.
+
+Focusedab7c1325c63b passed5.2826s; fast9c45633aceed/8bab9af7c1fa passed124.7894/
+125.3160s. The final observer checks8628actual frame0 vertices,1024rotated boxes,
+2000independent nearest paths,33invalid callers,14malformed sources, lifecycle/
+SysV and three assembled negatives. Candidate first-t error is<=1.978e-5 including
+f32 transformed-box rounding; the underlying interval primitive is<=2.967e-8.
+Real120tick combat supplies622/538queries; supplemental900tick unmodified combat
+supplies44199/45147queries over813/930vehicle deaths, with independent all-record
+contact agreement and unchanged query authority. Original motion/health/radii/
+grade/arrival gates are preserved. This is point/AABB math, not physical cover.
+
+Full frozen4febd559b935 PASSED576.9970s/95reports with all216authored
+inputs matched at
+570b6ee4cebf6bb9fae12a64d6d0ceb0b9622342-0e6f1d6ba3f956ae. Linked workspace client
+and co-op artifacts are rebuilt. All six frozen jobs and four additional exec
+sessions are terminal/reconciled; all three active-batch root-owned trees are clean. Initial isolated38d0c0d49fb3 failed worker setup
+because NASM was not set; its PID is gone and retained observer-normalized result
+has unmeasured exit/duration. d42d61983733 failed shared linking on direct sinf/
+cosf relocations; PLT calls correct it. Early development query alignment and
+zero-sequence tie-fixture failures were fixed before frozen acceptance. Worker
+setup failures now write terminal results, with an intentional missing-NASM
+regression in the tools suite. Exact source/job scope is under
+evidence/wreck-spatial-query-*.
+
+Prepared isolated2fcfe4e preserves death pose in static64-byte mesh instances,
+with1174CPU/127alias cases and32actualGL cases/128832vertices, error<=.000487m,
+zero living census IDs and three assembled controls. Prepared07cf5b5 reduces
+short-query dense peaks484/429→62/68 with62.5m cells and preserves measured
+first-contact bytes/world checksums. Its near-query group timings improve, while
+long rays can visit16times more empty heads; it remains an isolated variation.
+Neither preparation is in main/full-checkpoint source. Actual cover still needs
+body/LOS/rifle/shell/navigation hooks, matching visible wreck geometry and UDP
+records. SoftwareGL and Python cost probes do not establish target hardware or
+human craft acceptance. See wreck-cover-integration-next.md. Full-game goal stays
+active.
+
+The death registry checkpoint below is historical; its implementation remains
+retained. The query preparation statements below are superseded above.
+
+
 Ground-vehicle death registry foundation is integrated at143247e. Both real
 casualty paths now capture tank/artillery death identity, immutable supported
 pose, sequence and lifetime exactly once; real infantry/shell/crew/world-tick

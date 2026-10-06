@@ -1,0 +1,174 @@
+[
+  {
+    "suite": "wreck-lifecycle",
+    "passed": true,
+    "register_calls": 102496,
+    "negative_controls": [
+      "missing_dedup",
+      "late_expiry",
+      "lost_pitch"
+    ],
+    "physical_ids": 32768,
+    "capacity": 1024,
+    "pose_composition_cases": 32,
+    "fallback_cases": 5,
+    "invalid_preserved_cases": 12,
+    "wrap_expiry": true,
+    "retired_source_duplicate_rejection": true,
+    "label_mirror": true,
+    "aligned_helpers_and_preserved_registers": true,
+    "library_sha256": "6537a57f97046cc8369ed2af62b887a126f2f3ab8c5e2a6c5563460a5cfdf8ab",
+    "source_sha256": "2c6a4cabd1969519c4aa095653445e2dd4e8b06e934d63d8fafd225c1a668365",
+    "scope": "Registry/pose/lifetime prerequisites only; no collision, renderer or wire acceptance"
+  },
+  {
+    "suite": "prepared-segment-box",
+    "passed": true,
+    "calls": 10085,
+    "hits": 1515,
+    "invalid_preserved_cases": 67,
+    "maximum_first_t_error": 2.966619327970932e-08,
+    "negative_controls": [
+      "missing_z",
+      "grazing_miss",
+      "last_contact"
+    ],
+    "source_sha256": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99",
+    "library_sha256": "7150d3fd93d67c53a8a5a823c118d2546fd68dec81ae6f31962d8bf4d58aa55d",
+    "scope": "Prepared read-only3D clip/ABI math only; no actual wreck spatial search, body/rifle/LOS/shell/render/wire integration"
+  },
+  {
+    "suite": "wreck-spatial-query",
+    "passed": true,
+    "query_calls": 2063,
+    "transformed_bounds": 1024,
+    "random_nearest_paths": 2000,
+    "maximum_first_t_error": 1.9776938377902287e-05,
+    "maximum_short_candidates": 4,
+    "global_candidates": 1024,
+    "invalid_callers": 33,
+    "malformed_registry_cases": 14,
+    "lifecycle_invalidation": true,
+    "negative_controls": [
+      "no_padding",
+      "far_contact",
+      "stale_cache"
+    ],
+    "source_sha256": "a5c6ea3eef92b78b123c6fd4f4b97028f94c3006946a33013adf8f0247b3fffa",
+    "library_sha256": "7b0eee1b1dd2b4e9ff5f59dd240a8394e87fec9709de11bd91bf4dc9563c5356",
+    "scope": "Derived conservative AABB query only; no gameplay/body/LOS/rifle/shell/render/UDP acceptance"
+  },
+  {
+    "suite": "wreck-casualty-outcomes",
+    "passed": true,
+    "cases": [
+      {
+        "path": "shared_projectile_damage",
+        "kind": 1,
+        "side": 0,
+        "duplicate_preserved": true,
+        "pose_flags": 1
+      },
+      {
+        "path": "shared_projectile_damage",
+        "kind": 1,
+        "side": 1,
+        "duplicate_preserved": true,
+        "pose_flags": 1
+      },
+      {
+        "path": "shared_projectile_damage",
+        "kind": 2,
+        "side": 0,
+        "duplicate_preserved": true,
+        "pose_flags": 1
+      },
+      {
+        "path": "shared_projectile_damage",
+        "kind": 2,
+        "side": 1,
+        "duplicate_preserved": true,
+        "pose_flags": 1
+      },
+      {
+        "path": "excluded_role",
+        "kind": 0
+      },
+      {
+        "path": "excluded_role",
+        "kind": 3
+      },
+      {
+        "path": "deferred_infantry_combat",
+        "death_tick": 8,
+        "shooter_hp": 100,
+        "registered_entity": 12
+      },
+      {
+        "path": "actual_tank_shell_impact_blast",
+        "death_tick": 6,
+        "source_hp": 400,
+        "registered_entity": 14
+      },
+      {
+        "path": "boarded_casualty_cleanup",
+        "crew_dead": true,
+        "claim_released": true,
+        "duplicate_wreck": false
+      },
+      {
+        "path": "world_lifetime",
+        "expiry_tick": 1800,
+        "active_count": 0
+      }
+    ],
+    "exact_replay": true,
+    "registry_in_sim_checksum": true,
+    "library_sha256": "19de8d6f48f5f374198e0fc79cd468cddcf246dee7a66637becc05abebf4e53f",
+    "scope": "Real casualty/lifecycle/crew hooks; initial declared births only, no in-flight pose/health renewal. No physical cover/render/replication acceptance."
+  },
+  {
+    "suite": "wreck-mass-casualties",
+    "passed": true,
+    "cases": [
+      {
+        "units": 8192,
+        "ticks": 120,
+        "seed": 42,
+        "scenario": "scale-hotspot",
+        "initial_ground_vehicles": 1536,
+        "actual_vehicle_deaths": 113,
+        "actual_wreck_queries": 622,
+        "peak_query_candidates": 74,
+        "active_wrecks": 113,
+        "peak_wrecks": 113,
+        "retired_wrecks": 0,
+        "army_hp_before": 1208320,
+        "army_hp_after": 1009158,
+        "tick_mean_ms": 6.4755195,
+        "tick_p95_ms": 7.185477,
+        "checksum": "ab6bf203983d9f69"
+      },
+      {
+        "units": 16384,
+        "ticks": 120,
+        "seed": 42,
+        "scenario": "scale-hotspot",
+        "initial_ground_vehicles": 3072,
+        "actual_vehicle_deaths": 97,
+        "actual_wreck_queries": 538,
+        "peak_query_candidates": 55,
+        "active_wrecks": 97,
+        "peak_wrecks": 97,
+        "retired_wrecks": 0,
+        "army_hp_before": 2416640,
+        "army_hp_after": 2212698,
+        "tick_mean_ms": 12.510443575,
+        "tick_p95_ms": 13.820366,
+        "checksum": "eebfb1092008f8b8"
+      }
+    ],
+    "library_sha256": "19de8d6f48f5f374198e0fc79cd468cddcf246dee7a66637becc05abebf4e53f",
+    "scope": "Actual unchanged8k/16k combat, no HP/motion injections; verifies casualty registration, bounded registry and read-only first-contact queries against an all-record interval oracle. No gameplay obstruction hooks. Timing includes ctypes and overlaps development; no graphics, cover or network acceptance."
+  }
+]

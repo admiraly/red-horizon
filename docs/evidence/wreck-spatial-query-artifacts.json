@@ -1,0 +1,19 @@
+{
+  "runtime_commit": "570b6ee4cebf6bb9fae12a64d6d0ceb0b9622342",
+  "revision": "570b6ee4cebf6bb9fae12a64d6d0ceb0b9622342-0e6f1d6ba3f956ae",
+  "artifacts": {
+    "build/revisions/570b6ee4cebf6bb9fae12a64d6d0ceb0b9622342-0e6f1d6ba3f956ae/red-horizon": {
+      "sha256": "eb7db26f7ef3303e130e9002e0fc0533ea584a99441d68fd206506f03b05599b",
+      "bytes": 264080
+    },
+    "build/revisions/570b6ee4cebf6bb9fae12a64d6d0ceb0b9622342-0e6f1d6ba3f956ae/red-horizon-coop-server": {
+      "sha256": "b5774cbd2ce9f32637f3f0f3c37ec3d507ee7f2eb6f2730d1445d19afe4e3437",
+      "bytes": 143152
+    },
+    "runs/jobs/4febd559b935/source/build/libsim.so": {
+      "sha256": "d41143d58003ab072f1faaabaea433f7ac0232ca1d1716e989280b080facb6ec",
+      "bytes": 143224
+    }
+  },
+  "scope": "Linked workspace Linux client/co-op plus frozen verified headless library; no Windows or hardware budget acceptance."
+}

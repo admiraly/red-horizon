@@ -1,0 +1,18 @@
+{
+  "classification": "Prepared isolated performance variation; not main/full-checkpoint source",
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-query-grid",
+  "commit": "07cf5b5",
+  "base": "570b6ee",
+  "source_sha256": {
+    "schemas/wreck_query.inc": "d33bc4ec89882ab5ab553085084fe79b53138477388b2bf958c9deccec7f08e1",
+    "src/nav/wreck_query.asm": "47e7558db8978daed91bce936a840e2ba74be8c4a861489644affd49ef3ecb91",
+    "tools/bench_wreck_grid.py": "acbda0c6b9e4ea0f25c2cf7f137c99639d010c134cd146bdd9a3a29754b5665d",
+    "tests/test_wreck_query.py": "2383be449ad8852ec019149d99fd75bdfe81554bf147bba0f6aeb4884a5aff39"
+  },
+  "reports": [
+    "docs/evidence/wreck-grid-prepared-component.json",
+    "docs/evidence/wreck-grid-prepared-comparison.json"
+  ],
+  "session": 59917,
+  "terminal_exit_code": 0
+}

@@ -1,3 +1,6 @@
+Historical preparation evidence: primitive integrated at686d20f, spatial query
+at570b6ee, full checkpoint4febd559b935. Original isolated scope follows.
+
 # Prepared swept segment/AABB contact primitive
 
 This isolated follow-on dependency consumes a caller-owned minXYZ/maxXYZ box

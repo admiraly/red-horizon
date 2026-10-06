@@ -1,0 +1,117 @@
+{
+  "runtime_commit": "570b6ee4cebf6bb9fae12a64d6d0ceb0b9622342",
+  "full_checkpoint": "4febd559b935",
+  "full_status": "passed",
+  "reports": 95,
+  "authored_inputs_matched": 216,
+  "all_frozen_jobs_terminal": true,
+  "jobs": [
+    {
+      "id": "38d0c0d49fb3",
+      "status": "failed",
+      "exit": null,
+      "seconds": null
+    },
+    {
+      "id": "d42d61983733",
+      "status": "failed",
+      "exit": 1,
+      "seconds": 0.4714880859974073
+    },
+    {
+      "id": "ab7c1325c63b",
+      "status": "passed",
+      "exit": 0,
+      "seconds": 5.282588731999567
+    },
+    {
+      "id": "9c45633aceed",
+      "status": "passed",
+      "exit": 0,
+      "seconds": 124.7894042439948
+    },
+    {
+      "id": "8bab9af7c1fa",
+      "status": "passed",
+      "exit": 0,
+      "seconds": 125.31602716899943
+    },
+    {
+      "id": "4febd559b935",
+      "status": "passed",
+      "exit": 0,
+      "seconds": 576.9969872790025
+    }
+  ],
+  "extra_exec_sessions": [
+    {
+      "id": 15708,
+      "exit_code": 1,
+      "scope": "Cost probe passed; trailing reads of then-pending job result files returned missing-file status. Later cost rerun retained in JSON."
+    },
+    {
+      "id": 15845,
+      "exit_code": 0,
+      "scope": "Correct coop build and retained query cost probe"
+    },
+    {
+      "id": 64299,
+      "exit_code": 0,
+      "scope": "Old/new every-tick authority equivalence plus900tick natural-query census"
+    },
+    {
+      "id": 59917,
+      "exit_code": 0,
+      "scope": "Prepared finer-grid controlled frozen-object comparison"
+    }
+  ],
+  "worktrees": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-sweep",
+      "head": "9a1c82107a6aa41fc84d51ef6614cfa2915f1687",
+      "clean": true,
+      "scope": "Integrated query source"
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-instance",
+      "head": "2fcfe4eeabeeef7b4d4b79b4ba82815685ff2148",
+      "clean": true,
+      "scope": "Prepared instance only"
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-query-grid",
+      "head": "07cf5b530902d690cd149aabc9ea1fb4841ec58d",
+      "clean": true,
+      "scope": "Prepared finer grid only"
+    }
+  ],
+  "historical_agents": "All listed child agents completed; no new child agents launched in this batch",
+  "development_failures": [
+    {
+      "scope": "First standalone query run",
+      "exit_code": 139,
+      "cause": "Unaligned ANDPS mask; corrected16-byte alignment before frozen jobs"
+    },
+    {
+      "scope": "Tie fixture",
+      "exit_code": 1,
+      "cause": "Fixture generated an invalid zero sequence; corrected to canonical nonzero identity"
+    },
+    {
+      "scope": "Prepared instance GL observer",
+      "exit_code": 1,
+      "cause": "Added actorCode increased feedback stride32; fwrite still28, corrected observer only"
+    },
+    {
+      "scope": "Workspace build CLI",
+      "exit_code": 2,
+      "cause": "Unsupported coop-server target name; corrected to actual coop target, linked artifact retained"
+    }
+  ],
+  "limits": [
+    "Point/AABB queries only; no body/LOS/rifle/shell/nav/render/UDP cover activation",
+    "Prepared rendering and finer grid remain outside main/full snapshot",
+    "SoftwareGL/Python timings do not prove target GPU/human craft/full cover budgets",
+    "No remote publication; owner code-license decision pending; full-game goal active"
+  ]
+}
