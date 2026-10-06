@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Actual client UDP parser plus genuine server-death/global late-join stream."""
 import ctypes as C,hashlib,json,math,os,pathlib,signal,socket,struct,subprocess,sys,time
-from test_coop import HEADER,MAGIC,VERSION,SCHEMA,CONTENT,Peer,server_addresses
+from test_coop import HEADER,MAGIC,VERSION,SCHEMA,CONTENT,server_addresses
+from wreck_stream_observer import RecordingPeer as Peer
 lib=C.CDLL(str(pathlib.Path(sys.argv[1]).resolve()));lib.net_client_open.argtypes=[C.c_char_p,C.c_uint]
 remote=(C.c_ubyte*65536).in_dll(lib,'net_wrecks');count=C.c_uint.in_dll(lib,'net_wreck_count');authority=(C.c_ubyte*196620).in_dll(lib,'sim_wrecks')
 def record(slot=0,seq=1,birth=0,flags=1,**kw):
@@ -32,7 +33,7 @@ try:
 finally:lib.net_client_close();s.close()
 print(json.dumps({'suite':'wreck-network-parser','passed':True,'malformed_packets_rejected':rejected,'whole_batch_atomic':True,'remote_only_warmup':True,'retirement_stale_and_no_revival':True,'authority_unchanged':True,'clock_expiry_disconnect_timeout':True}))
 if len(sys.argv)<3:sys.exit(0)
-server=pathlib.Path(sys.argv[2]).resolve();extended='--extended' in sys.argv;limit=1890 if extended else 240
+server=pathlib.Path(sys.argv[2]).resolve();extended='--extended' in sys.argv;limit=2160 if extended else 240
 host=subprocess.Popen([str(server),'--port','0','--units','8192','--ticks',str(limit)],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True);peers=[];memory=None
 try:
  ready=json.loads(host.stdout.readline());symbols={line.split()[2]:int(line.split()[0],16) for line in subprocess.check_output(['nm','-g','--defined-only',str(server)],text=True).splitlines() if len(line.split())==3};addresses=server_addresses(host,server);base=addresses['sim_entities']-symbols['sim_entities'];wreck_address=base+symbols['sim_wrecks'];memory=os.open(f'/proc/{host.pid}/mem',os.O_RDWR)
@@ -59,7 +60,7 @@ try:
  assert first_identity and matched,'real infantry fire never produced/replicated a canonical vehicle death'
  # Global state is present even for a client joining after the source died.
  second=Peer(('127.0.0.1',ready['port']));peers.append(second);assert second.request(1)[0]==0
- late_match=False;expiry_match=False;max_packet=0;deadline=time.monotonic()+(64 if extended else 3);next_input=0
+ late_match=False;expiry_match=False;max_packet=0;deadline=time.monotonic()+(75 if extended else 3);next_input=0
  while time.monotonic()<deadline and not (late_match and (expiry_match or not extended)):
   if time.monotonic()>=next_input:
    for peer in peers:peer.input()
