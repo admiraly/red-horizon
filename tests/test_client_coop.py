@@ -68,7 +68,7 @@ try:
         processes.append(host);assert select.select([host.stdout],[],[],10)[0]
         ready=json.loads(host.stdout.readline());port=ready['port'];assert port>0,ready
         client_symbols=symbols(CLIENT);server_symbols=symbols(SERVER)
-        host_memory=os.open(f'/proc/{host.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv else os.O_RDWR);memories.append(host_memory)
+        host_memory=os.open(f'/proc/{host.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv or '--supply' in sys.argv else os.O_RDWR);memories.append(host_memory)
         clients=[]
 
         def title(win):
@@ -125,9 +125,9 @@ try:
             if '--transfer-fault' in sys.argv or '--wheel-fault' in sys.argv:
                 from test_coop import FaultRelay
                 relay=FaultRelay(('127.0.0.1',port),latency_ms=75);relays.append(relay);connection_port=relay.socket.getsockname()[1]
-            process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(connection_port),'--tactical']+(['--bindings',str(pathlib.Path(__file__).with_name('bindings-remapped.cfg').resolve())] if '--bindings' in sys.argv or ('--mixed-bindings' in sys.argv and index==1) else []),cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+            process=subprocess.Popen([str(CLIENT)]+(['--width','320','--height','240'] if '--supply-small' in sys.argv else [])+['--connect','127.0.0.1','--port',str(connection_port),'--tactical']+(['--bindings',str(pathlib.Path(__file__).with_name('bindings-remapped.cfg').resolve())] if '--bindings' in sys.argv or ('--mixed-bindings' in sys.argv and index==1) else []),cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
             processes.append(process)
-            memory=os.open(f'/proc/{process.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv else os.O_RDWR);memories.append(memory)
+            memory=os.open(f'/proc/{process.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv or '--supply' in sys.argv else os.O_RDWR);memories.append(memory)
             clients.append({'process':process,'memory':memory,'window':0})
             clients[index]['window']=until(lambda:window_for(index))
         until(lambda: all(client_player(c,p)['connected']==1 for c in range(2) for p in range(2)))
@@ -135,6 +135,40 @@ try:
             return struct.unpack('<6I2f2I',os.pread(clients[client]['memory'],40,client_symbols['net_company_records']+player*40))
         until(lambda:all(remote_company(c,p)[1]<768 and remote_company(c,p)[2]==client_player(c,p)['generation'] for c in range(2)for p in range(2)))
         starts=[server_player(i) for i in range(2)];assert starts[0]['front']==0 and starts[1]['front']==1,starts
+        if '--supply' in sys.argv:
+            reports=[]
+            sw,sh=(320,240) if '--supply-small' in sys.argv else (1280,720)
+            for index in range(2):
+                focus(index)
+                until(lambda:read_u32(clients[index]['memory'],client_symbols,'supply_hud_available')==1,5)
+                until(lambda:text_visible(X,display,clients[index]['window'],0,'OWN LOW',width=sw,height=sh,origin=(16,sh-158)),5)
+                until(lambda:text_visible(X,display,clients[index]['window'],0,'RDS',width=sw,height=sh,origin=(16,sh-136)),5)
+                def unknown_visible():
+                    text=os.pread(clients[index]['memory'],64,client_symbols['supply_hud_text']).split(b'\0')[0].decode()
+                    return 'UNKNOWN' in text and text_visible(X,display,clients[index]['window'],0,'UNKNOWN',column=text.index('UNKNOWN'),width=sw,height=sh,origin=(16,sh-136))
+                until(unknown_visible,5)
+                report=struct.unpack('<10I',os.pread(clients[index]['memory'],40,client_symbols['supply_hud_report']))
+                assert report[0]==index and report[1]==client_player(index,index)['generation'] and report[2]==remote_company(index,index)[1]
+                reports.append(list(report))
+                from PIL import Image
+                image=X.XGetImage(display,clients[index]['window'],0,0,sw,sh,W(-1).value,2);assert image
+                try:
+                    header=C.cast(image,C.POINTER(ImageHeader)).contents
+                    assert header.bits_per_pixel==32 and header.byte_order==0
+                    raw=C.string_at(header.data,header.bytes_per_line*header.height)
+                    raw=b''.join(raw[row*header.bytes_per_line:row*header.bytes_per_line+sw*4]for row in range(sh))
+                    Image.frombytes('RGB',(sw,sh),raw,'raw','BGRX').save(f'/tmp/company-supply-{sw}x{sh}-player-{index}.png')
+                finally:X.XDestroyImage(image)
+            # Loss is real transport timeout. Observers never write game memory.
+            os.kill(host.pid,signal.SIGSTOP)
+            _,status=os.waitpid(host.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+            for index in range(2):
+                focus(index)
+                until(lambda:read_u32(clients[index]['memory'],client_symbols,'net_connected')==0,8)
+                until(lambda:read_u32(clients[index]['memory'],client_symbols,'supply_hud_available')==0,5)
+                until(lambda:text_visible(X,display,clients[index]['window'],0,'OWN AMMO UNAVAILABLE',width=sw,height=sh,origin=(16,sh-158)),5)
+            print(json.dumps({'suite':'graphical-coop-company-supply','passed':True,'units':8192,'rendered_clients':2,'resolution':[sw,sh],'reports':reports,'actual_low_rounds_unknown_labels':True,'actual_transport_timeout_unavailable_label':True,'observer_memory_writes':False,'limits':['Real GL framebuffer text; solo low/empty/unknown fixtures remain separate.','No depot inventory presentation or supply-aware routes.']}))
+            raise SystemExit(0)
         remote_pixel_counts=[]
         for index in range(2):
             focus(index);time.sleep(.15)

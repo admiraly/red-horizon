@@ -86,6 +86,19 @@ try:
             if len(columns) == 3: symbols[columns[2]] = int(columns[0], 16)
         memory = os.open(f'/proc/{process.pid}/mem', os.O_RDONLY)
         player_address = symbols['sim_players']
+        if '--supply' in sys.argv:
+            until(lambda:struct.unpack('<I',os.pread(memory,4,symbols['supply_hud_available']))[0]==1)
+            until(lambda:text_visible(X,display,window,0,'OWN LOW',origin=(16,562)))
+            until(lambda:text_visible(X,display,window,0,'RDS',origin=(16,584)))
+            def supply_unknown_visible():
+                text=os.pread(memory,64,symbols['supply_hud_text']).split(b'\0')[0].decode()
+                return 'UNKNOWN' in text and text_visible(X,display,window,0,'UNKNOWN',column=text.index('UNKNOWN'),origin=(16,584))
+            until(supply_unknown_visible)
+            report=struct.unpack('<10I',os.pread(memory,40,symbols['supply_hud_report']))
+            assert report[0]==0 and report[1]>0 and report[2]<768 and report[5]<=report[4]<=report[3]-report[7] and report[8:]==(0,0)
+            print(json.dumps({'suite':'graphical-solo-company-supply','passed':True,'report':report,'actual_low_rounds_unknown_labels':True,'observer_memory_writes':False,'limits':['Live own-company HUD labels in ordinary solo authority, no constructed shortage fixture.','Low/empty/unknown arithmetic independently checked in API fixtures; not an art/hardware-quality claim.']}))
+            raise SystemExit(0)
+
 
         def player():
             values = struct.unpack('<5f11I', os.pread(memory, 64, player_address))

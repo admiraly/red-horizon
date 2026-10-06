@@ -1,3 +1,21 @@
+Owned-company ammunition HUD and recipient-only UDP supply report are now
+implemented in isolated feature/company-supply-report. Authority query passes
+37 ABI calls, malformed-stock/atomic-output fixtures and independent exhaustive
+8192/16384 ownership oracles through actual consented company exchange. Core
+fast passes70 reports (69 explicit plus hazard outcomes); final network regression
+passes22 explicit reports. Final focused parser rejects20 malformed/foreign packets and
+preserves unknown/empty data, generation/front/key/lease/age visibility and
+close/reconnect/timeout resets. Production unchanged8192/four-endpoint delivery
+passes. Actual GL solo and two co-op clients show low/empty/rounds/unknown labels;
+1280x720 and320x240 co-op timeout shows OWN AMMO UNAVAILABLE. All GUI observers
+are read-only. UDP30/schema0xb1751128/content0xcb303189. Existing entity/player/
+state sizes unchanged. Exact source/binary epochs and limits:
+[evidence/company-supply-focused.json](evidence/company-supply-focused.json).
+Not yet integrated; next matching-main checks and frozen extended checkpoint.
+Depot stock presentation, supply-aware routes and whole-spec acceptance remain
+open. Prior depot full1433fa199da8 remains running at its own immutable epoch.
+No publication; license pending owner approval.
+
 Owned-company supply report prerequisite is now committedd78ec36 in isolated
 feature/company-supply-report. Static query tests against frozen actual NASM
 core objects pass for low/empty/unknown counts, member death/front exclusions,
