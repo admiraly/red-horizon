@@ -1,0 +1,44 @@
+[
+  {
+    "job_id": "3b2d4140c644",
+    "revision": "0b224d69b7073b91b8c8374350f4d4561e00ce8d-32d403ce0bb136fb",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/runs/jobs/3b2d4140c644/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/runs/jobs/3b2d4140c644/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/runs/jobs/3b2d4140c644/result.json",
+    "pid": 997144,
+    "observed_process_live": true,
+    "observed_at_utc": "2026-10-06T09:44:45.149086+00:00",
+    "observed_process_command": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/tools/dev.py _worker 3b2d4140c644 test --suite all --extended ",
+    "observed_process_state": "S",
+    "authored_input_count": 278,
+    "current_worker_source_mismatches": []
+  },
+  {
+    "job_id": "0b1256549755",
+    "revision": "7e7718ea8a2ecdd24fd944064d9e9fb06989028c-078e1891bd33af04",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/0b1256549755/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/0b1256549755/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/0b1256549755/result.json",
+    "pid": 1053878,
+    "observed_process_live": true,
+    "observed_at_utc": "2026-10-06T09:44:45.181457+00:00",
+    "observed_process_command": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/tools/dev.py _worker 0b1256549755 test --suite all --extended ",
+    "observed_process_state": "S",
+    "authored_input_count": 280,
+    "current_worker_source_mismatches": []
+  }
+]

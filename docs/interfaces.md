@@ -247,3 +247,28 @@ segment_sphere accepts readonly centerXYZ/radius16 with capacity, finite bounded
 endpoints, radius.001..4096; returns1hit/0clear/-1invalid and first t only on hit.
 Closed tangency/endpoints and start-inside t0 apply. Non-hit restores original
 XMM0; SysV/readonly/SSE2 double intermediates, no heap or external calls.
+
+
+## Integrated ground body and local wreck detours
+
+At f8d80b8, UDPv14/schema0xda94decc/content0xd30d7e25 retains the wire
+layout; body and route policy constants enter the compatibility fingerprint.
+world_body_path_clear[_context] accepts role EDI0..2, XMM0..3 start/end XZ;
+returns EAX1 clear or0 blocked, including source/terrain failures. Explicit
+context RSI is stable1024x64 wreck storage, EDX active count, RCX revision.
+world_body_blocked uses zero motion; world_body_step adds XMM4 step and returns
+an independently swept proposal or component slide. Original .551/3.551/4.491m
+sweep radii and nondeepening initial-overlap escape are retained. Authority
+wrappers select sim_wrecks; connected foot preview explicitly selects net_wrecks.
+Caller owns readable storage and revision advancement; source records are readonly.
+
+wreck_nav_init/tick/goal/hash own32768x256 persistent actor commitments and a
+512-entry FIFO. goal accepts EDI actor and chosen static goal XMM0/1, returning
+a local waypoint or original goal. Identity/generation/role/goal reuse is guarded.
+At most8 builds/tick;64m endpoints extend in8m increments to96m when needed,
+never beyond the actual goal. Graph capacity54 nodes and retained path28 points.
+All edge and actual-motion queries retain complete cover checking. Version1
+rejects more than8 relevant wreck vertex sets safely; the separate VERSION2
+relevance prototype is not integrated until its own full checkpoint passes.
+Future commitments, FIFO and diagnostics enter nav_hash; graph scratch does not.
+No global invalidation on distant deaths. See wreck-body-routing.md and schemas.

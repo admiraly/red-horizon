@@ -252,3 +252,12 @@ actor envelope and216sample bound remain explicit limitations. UDPv9 fingerprint
 contact policy. Isolated8c6791e exact five-solid contact is prepared; next merge
 ground/solid/wreck/actor contact with typed ownership, blast LOS and body/nav
 queries, preserving original scale/symmetry/arrival/recovery and matched co-op.
+
+
+Current root continuation (2026-10-06): integrator/root owns wreck contracts.
+Body movement/local detours/replicated-cache foot preview are integrated at
+f8d80b8; full43b83242e4da passes123 reports/278 source-matched inputs. Dense
+relevance prototype7e75121 is isolated; full3b2d4140c644 runs frozen from
+0b224d6-32d403ce0bb136fb. Root investigates hotspot pass costs independently.
+Acceptance requires original scale/arrival/recovery/health/label gates, real GL
+and UDP faults; focused24-route evidence does not replace that checkpoint.

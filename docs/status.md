@@ -42,6 +42,21 @@ hazard warnings, oriented/vertical hulls, streamed hierarchy, graphics/playtest
 quality and broader specification requirements remain open. The full-game goal
 remains active; code license awaits owner approval. No remote publication.
 
+Current independent continuation: dense relevance full3b2d4140c644 is running
+from0b224d6-32d403ce0bb136fb; exact live PID/status and source-match audit are
+in docs/evidence/wreck-dense-pending-jobs.json. It is not accepted or integrated.
+A separate query-envelope candidate7e7718e preserves36,772 byte-equal query
+results and30tick checksum samples through900 real hotspot ticks. Paired p95
+falls from41.315ms to35.065ms under concurrent workloads; still above33.3ms.
+Its full0b1256549755 is running from7e7718e-078e1891bd33af04, also unintegrated.
+All foreground profile/final focused/differential sessions are terminal; failed
+signed-byte observer and exploratory mixed-source check are retained/excluded.
+Exact evidence is in the isolated worktrees' docs/wreck-query-envelope.md and
+wreck-nav-relevance.md. Main runtime remains f8d80b8/UDPv14. The next larger
+gameplay batch is a physical coordinated assault with scoped intelligence,
+role-specific support and protected bomber missions; acceptance contract:
+ docs/combined-arms-next.md. This is planned behaviour, not implemented acceptance.
+
 The following paragraphs retain earlier checkpoint history. Claims of pending
 body integration below describe those earlier revisions, not current main.
 
