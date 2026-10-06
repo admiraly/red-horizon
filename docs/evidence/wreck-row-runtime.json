@@ -1,0 +1,299 @@
+{
+  "passed": true,
+  "baseline_root": "/mnt/titan_nv3/projects/red-horizon",
+  "input_objects": {
+    "src/sim/air_admission.asm": {
+      "source_sha256": "f899b5f13f21f36d9522b67a1de277582bf39a2db8dfeb2c4cd0a1708a12caa9",
+      "object_sha256": "d7c222a231f75048a0c3eb877be5a5f617775f0ff0b9247b0dd007cc65e77334"
+    },
+    "src/sim/operation.asm": {
+      "source_sha256": "a6e0ef492353b260474e35eb498c1e7727fd416c04e1c041611342aa9b1c6d7f",
+      "object_sha256": "e62d9014c56ecd2591fb1d1ad541aa31b820804c073efd36b91a0355ccde20f9"
+    },
+    "src/sim/ordnance_admission.asm": {
+      "source_sha256": "0287fba4de2583dbeae4ceac5eef59626dd5a5648e0204d0baaac848a2453507",
+      "object_sha256": "08c8d47b94c30ffb0baef849125261f5e9524f8f47f4a80a55dcb9b12b56853b"
+    },
+    "src/sim/projectiles.asm": {
+      "source_sha256": "1f6e3ddb00e8d0e1f06601dff44bb9b7fa8a7538e2637c3232e5534c821bba00",
+      "object_sha256": "7f11d8ea2e6bf4e713a103e3638533bf237e6ca4f596a8dcb9a280a9984c6324"
+    },
+    "src/sim/scenarios.asm": {
+      "source_sha256": "82fd7646724f99a5309143cd2ee11757b19b87076a6375368fc2dada41557b97",
+      "object_sha256": "ebf458497cd28fb9b77c4d660478911f445fbccf254727a53085bbd6387aa032"
+    },
+    "src/sim/world.asm": {
+      "source_sha256": "2a3d2e2df6f62b12f6c2dff87c90e13d18b8ababc983f451473531fc6d5125e3",
+      "object_sha256": "89ff515c860aae8ff1e3f99cacb3463b8feef605399e770e006d6c1580ae56d2"
+    },
+    "src/sim/world_contact.asm": {
+      "source_sha256": "df98603b9dd35c19064601629a9cd400d8e21b419d51f5838498f39bf82f30a4",
+      "object_sha256": "33fd723599dd83555a92bd404d53bfb873c9eac0560accb55fd8b08f51ee4cb3"
+    },
+    "src/sim/wreck_remote.asm": {
+      "source_sha256": "9878e8c138d337908bcd96a970b6561b6766789296133056a9bf062bc66db02e",
+      "object_sha256": "a38b3dd9f6c744dffad9d0ef9ae91a47778966a7145754dbd438599b3ecf5c90"
+    },
+    "src/sim/wrecks.asm": {
+      "source_sha256": "2c6a4cabd1969519c4aa095653445e2dd4e8b06e934d63d8fafd225c1a668365",
+      "object_sha256": "eaef47b0cdc1da7aa0d9f423de4a874a79baadfbc02856adad55feffff481894"
+    },
+    "src/nav/crowd.asm": {
+      "source_sha256": "b4a5cf13344c4375e8d9b93c9859423a788a80c272a5aba12240b7d765c97857",
+      "object_sha256": "9970eee0ac3c81301e2708fc4f15ecb2c04e66a74fef156862c80d2cc49080b2"
+    },
+    "src/nav/ground_contact.asm": {
+      "source_sha256": "46c3f632099fa0957bc7d3e0d072c7e4a080e631d896457cb0bb5ba40b799ed6",
+      "object_sha256": "181fd81968c6d5039705f5a1985db12700180081777821fde0cd9da3b8e5206a"
+    },
+    "src/nav/ground_eye.asm": {
+      "source_sha256": "e276a00e08d989e8c62f8bf57288444a8dfcf2370781454efda011b27aa235ec",
+      "object_sha256": "d536e486fc9459bf62162c73e79cd39d8e6730c7e380ebc76939b21666498f9b"
+    },
+    "src/nav/ground_support.asm": {
+      "source_sha256": "bb6dbe014a499c309c3f9991aebe21e595e9cdfe6fe993f6649f7c06fd0d9651",
+      "object_sha256": "dd654ca01bc980d00586513ae2187002c5172373f24dec6355273640568a3241"
+    },
+    "src/nav/segment_box.asm": {
+      "source_sha256": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99",
+      "object_sha256": "7b4a47175d1d6b868795b0e263e4eb12c9f0980985cbfe387144a87a727583da"
+    },
+    "src/nav/segment_sphere.asm": {
+      "source_sha256": "6bc0c73f7d5de611c4a26c08d0e559acbe862055151bae4c80298dd3e7674901",
+      "object_sha256": "1f6fe950723f7c6d43f05db940b65e83fc23b1fdf1dbc79318f7770daef889fd"
+    },
+    "src/nav/squads.asm": {
+      "source_sha256": "4f0fb1ae6819e986c9df4922c8b62c35621f92963f93b1bc47b7d45b50745b58",
+      "object_sha256": "78bcabe34f2b25328bb5989c18b59b160dc16badc04a646971371ba8f4e7105b"
+    },
+    "src/nav/terrain.asm": {
+      "source_sha256": "f0d700ab865136dacf38fd0193de53b04f2e217862b6cd9e4ebec335b4975e58",
+      "object_sha256": "d7b114090563d97e194b5c67d5cbd31c462f44b42b271c2ac0300909ccc9e00e"
+    },
+    "src/nav/terrain_body.asm": {
+      "source_sha256": "7560ab2ddca3d24070e49341bab36a02eb1100a50f74d87d9d941fa34f413f41",
+      "object_sha256": "585bf6c303d9944a9e04b0d55ccfb736ad23b648e929694a28f30e12fa35bc0c"
+    },
+    "src/nav/terrain_grade.asm": {
+      "source_sha256": "6b0054c2196a2fe96c303df9d9df002e560fa22ccd8d854c0c24d3340f3ac072",
+      "object_sha256": "0f5732b545f36454f2c445bc130ea1ee0a974f2acb765b904f4a89cc127a13b1"
+    },
+    "src/nav/terrain_ground_query.asm": {
+      "source_sha256": "c6cb57ec98b9cbf6888a3fe161d85c15034d9e92dda1b5d9b24520906048f7c7",
+      "object_sha256": "62a37465bd5bdbee145be796889130055f40914b3ae9eb81e51193451e4e133e"
+    },
+    "src/nav/terrain_relief.asm": {
+      "source_sha256": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+      "object_sha256": "873ed9015829f3fbb26a50b1ca19eeb750681c38ec6984e8d299bbe2a83fecd0"
+    },
+    "src/nav/terrain_solid_query.asm": {
+      "source_sha256": "3d77d62dafff05a8dacaf36a9f937a5c11af9955fe5882ed743ca0568680b1e2",
+      "object_sha256": "1af468c32612d9076d96baecd56f6aa806253e20c15bb5b2efc308190d5f747c"
+    },
+    "src/nav/terrain_surface.asm": {
+      "source_sha256": "2f4da01bc8f7c451df16268820fd5b276c9231856ba8bbabb503dd4b956b476a",
+      "object_sha256": "f3bf859dbc39c8247e972866a7836529d9b14455097083b33118d18ff49463eb"
+    },
+    "src/nav/world_body.asm": {
+      "source_sha256": "3c3a85feaa6e35639dceb285e1e86ffb081eec7e394419b72ba08da8943e6c6b",
+      "object_sha256": "d19b910abd6fa827ffecb60cd8a17018c005c9347b533e53cabe1f9c186a42b8"
+    },
+    "src/nav/world_los.asm": {
+      "source_sha256": "7605e6ebf163660deb9e999ebadee2b3a1d9fd8d279aa3aa0e1deb3644c99d1a",
+      "object_sha256": "7b2007080f8a2bbb304845a069e562377cf8b423a83e4f600f81bb23f49495bb"
+    },
+    "src/nav/wreck_nav.asm": {
+      "source_sha256": "bc78e8e521246e2dcafe4b6b5775b877ce4250c157d1f64669acd18db7d66a28",
+      "object_sha256": "6764d30b8759237082a92ff19f5424c88cc3fd1f9a73987d859c824cc1af0c56"
+    },
+    "src/nav/wreck_query.asm": {
+      "source_sha256": "26c56ca9462762ec43835864e39a7d4b0fc98cefd7bb1d886577a7b24d1c9131",
+      "object_sha256": "8cf49f3eea761b92df8a315c0110dad2f7a1c78dcc517393435a1deed3ad79dd"
+    },
+    "src/ai/aircraft.asm": {
+      "source_sha256": "5bb46ee81fcb2398337a76759cf3a3f1db0ec11364c502aa1f00b84aa32e9861",
+      "object_sha256": "f16de4fc14fa09d244a6e6ed50d95c43b442481301d1ebaf6e00af8879162018"
+    },
+    "src/ai/bomb_fall.asm": {
+      "source_sha256": "e9bb1cde64ca9ea08b9be6830c390c758002eb6fabb2e1a6a6f1400e63b8d004",
+      "object_sha256": "040938f8449a598e21b004f40ad1b230adf47db9069594aaf0751e85d5bbbe97"
+    },
+    "src/ai/hazard_steering.asm": {
+      "source_sha256": "d27a3b03f79b500c25da797c43195bbd8d2efe74e878f6e50edb93045e14dfe1",
+      "object_sha256": "9c4220b167413b488cf704221344c6219a1d8d62e99b5d5eab7f886ad9c05f5f"
+    },
+    "src/ai/hazards.asm": {
+      "source_sha256": "ff17308349a1ddd5de4469e1c563f258022093d17186949950633f1edc911112",
+      "object_sha256": "2fd0a82070329c09d41bf2da1fc54fcb818cb5e4bd06342181d2368a019e714b"
+    },
+    "src/ai/tactics.asm": {
+      "source_sha256": "84b421ba0d1ffc0c32e084680a61a723268a225f77754fe0f444870b685f2946",
+      "object_sha256": "5c19832fd3ae5b12cf4bf9d69c396674db3172d563ba56c922613b413b2d9d35"
+    },
+    "src/game/ground_motion.asm": {
+      "source_sha256": "12136bd8768ff83d6a531989b734587a2eaf9f4647df0dcba3991c72b5e81485",
+      "object_sha256": "fae75f43523fb083505764074fa5af6187703cdbd9f1e0c5aa7f3f77c65d0d0f"
+    },
+    "src/game/player.asm": {
+      "source_sha256": "e313bcbfee97483b051365926bb5382905c6af318d06267d81e83bcb3b61d047",
+      "object_sha256": "49b25fdb9973989adf03c6660c5b75e50c572e6242c52e1cd669cc9060983826"
+    },
+    "src/game/vehicles.asm": {
+      "source_sha256": "0ba97f7b1f2ca5b36e95fcb098c92e6d2dd66f09d881c9d3e30b9bb2b1f89f37",
+      "object_sha256": "2ef47fb1612a9342b7dcc10f51e537d350025066e0c80a59659aa29e48014947"
+    }
+  },
+  "candidate_query_source_sha256": "527761bdff411c9cbb18d48aec9403d9c94bceeb5606b0f3026770de51432ca5",
+  "library_sha256": [
+    "3985b2ede77d7440234160190128b08166cd6a810ceeeb64a62fe3e248cb6bd3",
+    "005db41752becf8400fd586539161748a5ef2e778768bb9f2e37d446bcae7fcf"
+  ],
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "1621c6e6f7944d50",
+        "41262851cba365a1",
+        "41a1e800d5ff9ec3",
+        "9cc856575ff9db1c",
+        "6d7cbea8904b1a82",
+        "5dcb51bd7bb43fb9",
+        "bc3b23995f47aef3",
+        "e5e02495c7369164",
+        "50930d4eb068b611",
+        "26387576afd88ff8",
+        "c4feefb9ed88ff6d",
+        "b65a2e7bbff56403",
+        "8503aa601ce203f7",
+        "37ceb801e4e82958",
+        "b01f18f975ea8646",
+        "ec0436cf735a935d",
+        "e205515f79631db1",
+        "6674fd0fc2e64723",
+        "55ec9ec2ba4c26e4",
+        "cff1974a7ac5b0c1",
+        "e03448be1d0e0b11",
+        "ba6999b87e36395e",
+        "36f78f13f4429725",
+        "68d75dfce66731e2",
+        "ae52d22928e7aca7",
+        "b6fbb2ae836d821e",
+        "0fcac4dbb502038b",
+        "213f01868de3cb78",
+        "7dc4922517718332",
+        "985a5111d7e13b10"
+      ],
+      "timings": [
+        {
+          "mean_ms": 10.846555261111112,
+          "p95_ms": 12.889595
+        },
+        {
+          "mean_ms": 11.140072756666667,
+          "p95_ms": 13.164577
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "61d256adc296ffae",
+        "355a6515648e455f",
+        "d0f170da316ab84c",
+        "b06fb5bceaab6b58",
+        "52cfd08f2e072aec",
+        "f47ad86d32a9f600",
+        "d79d9abd38678172",
+        "dcb07f22418520b5",
+        "d71bdf3e81959bba",
+        "42eb97c352dbc70e",
+        "cb397939aa070465",
+        "6140ff9c468002e2",
+        "2178ef8402ef3576",
+        "faf3cd89cb29010b",
+        "9234260bb740d5d5",
+        "7990f2bc34fd84c6",
+        "9ee6545eb7cee0b0",
+        "c8df57ca567845c0",
+        "4c0a44a618d38a62",
+        "d69b023bfc7a5a00",
+        "0a2b9396221f5e49",
+        "8c5aced14ba9081d",
+        "c17c3381f2731498",
+        "f6b7f55fe9cafcf3",
+        "9cf1280a1dc26b75",
+        "a54c3675265a18be",
+        "ddc4f03b2d100125",
+        "0f46cd49958f8fe9",
+        "43e4936b154715e5",
+        "33cf445332c0153c"
+      ],
+      "timings": [
+        {
+          "mean_ms": 32.36273757666667,
+          "p95_ms": 38.460515
+        },
+        {
+          "mean_ms": 27.789787996666664,
+          "p95_ms": 32.858687
+        }
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "321facb5453f272d",
+        "95d48d7dda7e904e",
+        "f34a691822cfa2bf",
+        "a0daa21178c79d59",
+        "14c606220b24d32b",
+        "672b1af055bfe1b0",
+        "c32b2f8486b063fa",
+        "20c7eb6975803509",
+        "4199bf09dd0a920f",
+        "bc18ec8c5fe30138",
+        "e6a99c97c883276b",
+        "1d3660ea9de670f5",
+        "18f3c6a691be9c88",
+        "00c0cd4cd5a7afb9",
+        "42e8ea08cf6cf3b1",
+        "3b8918488b8e743c",
+        "04d92b36fd8ee4b3",
+        "4dfaebacd1c272d7",
+        "5445ed7b6a4ea465",
+        "718960ecd02d043f",
+        "359aea5e9841aebf",
+        "81732b4b0ccdaac7",
+        "00e4794faad7aa3d",
+        "ec685502ae9e3a6c",
+        "47f5b747987bc5ee",
+        "99e7158d9fd0f3e0",
+        "7f6e9c82fded2390",
+        "27419792d3cf98e4",
+        "9d25877b98d1e4a2",
+        "af1ea0166ad1a3c0"
+      ],
+      "timings": [
+        {
+          "mean_ms": 24.02899986,
+          "p95_ms": 29.748064
+        },
+        {
+          "mean_ms": 24.666534754444445,
+          "p95_ms": 30.223125
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Paired production simulation, identical copied objects except wreck_query; immutable libraries.",
+    "Authority checksum and all entity bytes every30 ticks, seed42; concurrent frozen verification may affect timings.",
+    "Not graphical, UDP, human-quality or full integration acceptance."
+  ]
+}

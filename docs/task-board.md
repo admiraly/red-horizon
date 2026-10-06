@@ -303,3 +303,12 @@ comparison retains outcomes but hotspot/stretch still fail tick budget. Ready:
 measure finer wreck-query grid/mixed ray lengths or scheduled target decisions
 without weakening actual range/LOS/health/motion/arrival/recovery gates. Protected
 air missions and visible shared company intent remain gameplay acceptance work.
+
+2026-10-06 row-search continuation: the accepted grid is already128×128/62.5m.
+Isolated330cc74 conservatively narrows each row, retaining all exact geometry,
+source/lifecycle and body checks. Long-path oracles pass; paired900tick worlds
+remain identical at90 samples. Hotspot p9538.461→32.859ms, open scenes regress
+slightly; see docs/wreck-row-query.md. Fast e6091687a43d and combined full
+b0240f5853b8 are pending. Root runtime remains accepted07d6536/v17. Preserve
+full gates before integration; protected air missions/shared company UI remain
+ready gameplay work.

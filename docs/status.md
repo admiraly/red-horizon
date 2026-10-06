@@ -1,5 +1,19 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current isolated search candidate cfa0312/330cc74 narrows rows of the already
+existing128×128/62.5m wreck grid; this is not a new finer grid. Independent
+all-record geometry/body oracles retain original cases and add256/176 long,
+reverse, near-horizontal and outside-map paths. Cache/remote lifecycle negatives
+pass. A full-map diagonal visits27 instead of1024 records, while coincident
+geometry retains1024 visits. Actual900tick paired production worlds preserve90
+hash/all-entity samples. Mean/p95ms baseline→candidate:8k open10.847/12.890→
+11.140/13.165;8k hotspot32.363/38.461→27.790/32.859;16k open24.029/29.748→
+24.667/30.223. This demonstrates a dense benefit and small open regression on
+concurrent local development hardware, not graphics or reference-budget acceptance.
+Frozen fast e6091687a43d at330cc74-a13c5ab97ed78e34 is pending. No row-query
+runtime is integrated. Exact source and immutable-library/object hashes are in
+ docs/evidence/wreck-row-runtime.json; scope is docs/wreck-row-query.md.
+
 Wreck body collision and explicit replicated-cover foot prediction were
 integrated at f8d80b8. The corrected relevance/query/deployment/quit batch is
 now integrated from db54418 with full97b74ea394b4 PASSED1036.1950s/125reports
