@@ -1,0 +1,13 @@
+{
+  "job_id": "fd47f7a527c9",
+  "exit_code": 0,
+  "revision": "6d62cc68ea7642f964442c5629e258bdb9fc355c-381aeff17b03b7b0",
+  "seconds": 1345.2295526200032,
+  "status": "passed",
+  "suite_reports": 158,
+  "explicit_passed": 157,
+  "non_boolean_reports": [
+    "hazard_outcomes"
+  ],
+  "scope": "Full existing extended suite at exact frozen infantry merge. Does not accept missing spec items, Windows parity, target GPU budget or human quality."
+}

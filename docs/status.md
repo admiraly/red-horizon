@@ -1,11 +1,19 @@
+Frozen infantry extended checkpoint fd47f7a527c9 PASSED1345.229553s at
+6d62cc68ea7642f964442c5629e258bdb9fc355c-381aeff17b03b7b0 and is terminal/
+collected. Exact raw results and coverage limits:
+[evidence/infantry-ammunition-full-summary.json](evidence/infantry-ammunition-full-summary.json).
+This passes the existing full extended suite; missing specification requirements
+remain missing. It does not establish complete game, Windows/hardware or human
+art/play acceptance. Depot resupply implementation continues in its isolated tree.
+
 Current main integrates finite infantry ammunition6d62cc68 at authored input
 fingerprint381aeff17b03b7b0, all366 inputs identical to the verified feature tree.
 Matching-main client/co-op/headless builds and43 scoped reports pass:
 combat22, network19, graphical co-op1 and unchanged original scale1.
 Exact logs, binary hashes and source matching:
 [evidence/infantry-ammunition-main.json](evidence/infantry-ammunition-main.json).
-Frozen extended jobfd47f7a527c9 is RUNNING on this exact merge/input fingerprint;
-PID220158 is confirmed live. Result pending; this is not a full pass.
+Frozen extended jobfd47f7a527c9 is now PASSED, terminal and collected, as
+recorded above.
 All foreground runs are terminal and reconciled. Earlier failed defense full
 100a30b45dda stays failed and collected with same-binary focused recovery.
 
