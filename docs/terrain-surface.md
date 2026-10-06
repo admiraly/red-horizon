@@ -88,3 +88,45 @@ were collected. No production integration, road speed, road-preferring navigatio
 steep-map acceptance, terrain-profile state, network compatibility or full-scale
 checkpoint is claimed. Root owns the eventual hook integration and NET_CONTENT
 change; current wire/entity/ground-motion layouts are untouched.
+
+Whole-circle road contact addition (isolated road-body batch):
+
+`terrain_road_body(XMM0 X, XMM1 Z, XMM2 radius)` returns EAX 0 off-road,
+1 road, or -1 invalid. All inputs must be finite and in [0,8000]. A circle
+counts as paved only if a single canonical capsule contains it: half-width must
+first be at least the radius, then closest-point squared distance must be at
+most `(half_width - radius)^2`. Negative margins are never squared. This does
+not infer traction from the entity center alone. At union junctions this can
+conservatively classify a fully paved circle as off-road; the test explicitly
+checks such a right-angle junction at (1006,1306), radius 4.49m.
+
+The real NASM helper uses baseline scalar SSE2 double geometry on float32 inputs,
+reads at most 19 fixed records and has no external call, allocation, persistent
+state or writes. SysV preserved integer registers remain intact. An error-free
+TwoDiff residual rounds the clearance margin inward when subtraction rounds
+upward. This matters when a positive subnormal radius otherwise disappears at
+an exact road edge. Exact representable inclusive boundaries remain accepted.
+The existing center sampler ABI, height, gradients and classification are
+unchanged. This is numerical capsule containment, not an interval-arithmetic
+proof for arbitrary terrain or a general polygon-union containment solver.
+
+The first focused invocation failed at the positive subnormal road-edge control;
+that observed failure motivated the inward-margin correction. Corrected session
+99189 exited 0 and was collected; log `/tmp/rh-road-body-focused.log`. Final
+source session 71150 exited 0 and was collected; log `/tmp/rh-road-body-final.log`.
+Its actual temporary shared-library SHA256 was
+`f16887158e483e31a1886644df473e8b9b95ebfeef6113304056d0d8bb624ea1`.
+Alongside the unchanged 2,806 center points, eight invalid center inputs,
+27 malformed-generator cases and generated-record/GLSL checks, the expanded
+harness checks 5,877 valid body inputs: 19 centers each for zero radius, tanks
+(3.55m) and artillery (4.49m), 804 edge/cap/bend samples, nine oversized-radius
+samples, six tiny-radius samples, one conservative union junction and 5,000
+independent seeded random samples around the real roads. Fifteen malformed body
+inputs exercise NaN, positive/negative infinity and both bounds on all three
+arguments. Input bytes and read-only road count/table remain unchanged and SysV
+preservation is checked for every call. The union-junction control independently
+checks 4,096 circle-boundary samples lie in the pavement union.
+
+No road speed policy, movement hook, new terrain profile, grade constraint,
+production renderer/network integration or army-scale acceptance is claimed by
+this isolated addition. Root owns those contracts and integration.

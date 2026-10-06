@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Independent static-road/analytic-surface evidence; development-only harness."""
 import ctypes as C
+import hashlib
 import importlib.util
 import json
 import math
@@ -68,6 +69,7 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
     lib=C.CDLL(str(library))
     lib.test_surface.argtypes=[C.POINTER(C.c_float)];lib.test_surface.restype=C.c_int
     lib.test_height.argtypes=[C.POINTER(C.c_float)]
+    lib.test_road_body.argtypes=[C.POINTER(C.c_float)];lib.test_road_body.restype=C.c_int
     road_count=C.c_uint.in_dll(lib,'terrain_road_count')
     road_blob=(C.c_byte*(19*24)).in_dll(lib,'terrain_road_segments')
     initial_roads=bytes(road_blob)
@@ -125,6 +127,65 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
         assert bytes(data)[8:]==b'\0'*12,'invalid outputs not canonical zero'
         assert bytes(road_blob)==initial_roads
         invalid.append(str(point))
+    # Independent body-circle containment in ONE capsule. Evaluate input
+    # float32 values with double geometry, never sampler/generator output.
+    body_counts={'zero_radius':0,'tank':0,'artillery':0,'edges_caps_bends':0,
+                 'oversized':0,'tiny':0,'junction_conservative':0,'random':0}
+    def body(point,radius,category,expected=None):
+        data=(C.c_float*3)(*point,radius)
+        before=bytes(data)
+        q=tuple(data[:2]);r=data[2]
+        if expected is None:
+            expected=int(any(row[4]>=r and point_segment(q,row[:2],row[2:4])<=row[4]-r for row in records))
+        result=lib.test_road_body(data)
+        assert result==expected,('body classification or ABI',category,q,r,result,expected)
+        assert bytes(data)==before and bytes(road_blob)==initial_roads and road_count.value==19,'body sampler wrote input/roads'
+        body_counts[category]+=1
+    for radius,category in ((0,'zero_radius'),(3.55,'tank'),(4.49,'artillery')):
+        for row in records:
+            a,b=row[:2],row[2:4];dx,dz=b[0]-a[0],b[1]-a[1]
+            length=math.hypot(dx,dz);normal=(-dz/length,dx/length)
+            middle=((a[0]+b[0])/2,(a[1]+b[1])/2)
+            body(middle,radius,category,1)
+            for offset in (10-radius-.02,10-radius+.02):
+                for sign in (-1,1):
+                    body(tuple(middle[k]+sign*normal[k]*offset for k in range(2)),radius,'edges_caps_bends')
+            for end in (a,b):
+                body(end,radius,'edges_caps_bends',1)
+                for offset in ((10-radius-.02,0),(-10+radius+.02,0),(0,10-radius-.02),(0,-10+radius+.02)):
+                    body((end[0]+offset[0],end[1]+offset[1]),radius,'edges_caps_bends',1)
+    # Exact inclusive float32 axis boundary and width==radius controls.
+    for p,r,expected in (((2400,1290),0,1),((2400,1290),.001,0),
+                          ((2400,1293.5),3.5,1),((2400,1293.5),3.501,0),
+                          ((2400,1300),10,1),((2400,1300.001),10,0)):
+        body(p,r,'edges_caps_bends',expected)
+    for radius in (10.001,20,8000):
+        for p in ((2400,1300),(1000,1300),(4000,1050)):
+            body(p,radius,'oversized',0)
+    for radius in (1e-40,1e-30,1e-6):
+        body((2400,1300),radius,'tiny',1)
+        body((2400,1290),radius,'tiny',0)
+    # At this right-angle connector junction the union covers the full circle,
+    # but neither single capsule contains it: deliberately conservative 0.
+    junction=(1006,1306);jr=struct.unpack('<f',struct.pack('<f',4.49))[0]
+    for i in range(4096):
+        angle=2*math.pi*i/4096
+        assert reference_class((junction[0]+jr*math.cos(angle),junction[1]+jr*math.sin(angle)))==1
+    body(junction,jr,'junction_conservative',0)
+    body_rng=random.Random(20261007)
+    for _ in range(5000):
+        row=body_rng.choice(records);t=body_rng.random()
+        p=(row[0]+t*(row[2]-row[0])+body_rng.uniform(-15,15),
+           row[1]+t*(row[3]-row[1])+body_rng.uniform(-15,15))
+        body(p,body_rng.choice((0,3.55,4.49,10,10.01)),'random')
+    body_invalid=[]
+    for axis in range(3):
+        for value in (math.nan,math.inf,-math.inf,-.001,8000.001):
+            values=[2400.,1300.,3.55];values[axis]=value
+            data=(C.c_float*3)(*values);before=bytes(data)
+            assert lib.test_road_body(data)==-1,('body invalid',axis,value)
+            assert bytes(data)==before and bytes(road_blob)==initial_roads and road_count.value==19
+            body_invalid.append((axis,str(value)))
     obstacle_count=C.c_uint.in_dll(lib,'terrain_obstacle_count').value
     obstacles=(C.c_float*(obstacle_count*8)).in_dll(lib,'terrain_obstacles')
     boxes=[tuple(obstacles[i*8:i*8+4]) for i in range(obstacle_count)]
@@ -210,11 +271,12 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
         shader.write_text('#version 450 core\n'+GLSL.read_text()+'\nlayout(location=0) out vec4 c;void main(){c=vec4(terrainRoadContains(gl_FragCoord.xy)?1.:0.);}\n')
         subprocess.run([glsl_validator,'-S','frag',str(shader)],check=True,capture_output=True)
         glsl_checked=True
-    print(json.dumps({'suite':'terrain-surface','passed':True,'road_records':19,'samples_by_category':category_counts,'invalid_inputs':len(invalid),
+    print(json.dumps({'suite':'terrain-surface','passed':True,'library_sha256':hashlib.sha256(library.read_bytes()).hexdigest(),'road_records':19,'samples_by_category':category_counts,'invalid_inputs':len(invalid),
+                      'body_samples_by_category':body_counts,'body_invalid_inputs':len(body_invalid),'body_union_junction_conservative':True,
                       'height_matches_real_terrain_bitwise':True,'sysv_preservation':True,'readonly_road_bytes':True,
                       'minimum_road_plus_4_49m_hull_solid_clearance':minimum_clearance,'map_inset_clear':True,
                       'malformed_generator_rejections':len(cases),'generated_bytes_deterministic':True,'canonical_nasm_glsl_records_equal':True,'glsl_helper_compiled':glsl_checked,
-                      'limitations':['Center-surface classification only; no footprint traction or conservative slope clearance.',
+                      'limitations':['Whole-circle classification in one capsule; conservative union-junction false negatives, no production traction hooks or slope clearance.',
                                      'Ridge cusp derivative is explicitly chosen, not a physical grade acceptance.',
                                      'Sampler and generated GLSL helper are not yet wired to production runtime or renderer.',
                                      'No road speed, navigation preference, terrain-profile, network or full-scale acceptance claim.']}))

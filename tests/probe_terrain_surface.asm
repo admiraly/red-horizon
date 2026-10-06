@@ -1,9 +1,14 @@
 ; Development-only C ABI wrapper around the actual stateless NASM sampler.
 default rel
-extern terrain_surface,terrain_height
+extern terrain_surface,terrain_height,terrain_road_body
 section .text
-global test_surface,test_height
+global test_surface,test_height,test_road_body
+test_road_body:
+ mov eax,1
+ jmp test_sampler
 test_surface:
+ xor eax,eax
+test_sampler:
  push rbx
  push rbp
  push r12
@@ -12,6 +17,7 @@ test_surface:
  push r15
  sub rsp,24
  mov [rsp],rdi
+ mov [rsp+8],eax
  mov ebx,0x12345
  mov ebp,0x23456
  mov r12d,0x34567
@@ -20,11 +26,19 @@ test_surface:
  mov r15d,0x6789a
  movss xmm0,[rdi]
  movss xmm1,[rdi+4]
+ cmp dword [rsp+8],0
+ jne .body
  call terrain_surface
  mov rdi,[rsp]
  movss [rdi+8],xmm0
  movss [rdi+12],xmm1
  movss [rdi+16],xmm2
+ jmp .check_abi
+.body:
+ movss xmm2,[rdi+8]
+ call terrain_road_body
+.check_abi:
+ mov rdi,[rsp]
  cmp rbx,0x12345
  jne .abi_fail
  cmp rbp,0x23456

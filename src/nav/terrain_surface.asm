@@ -9,6 +9,7 @@ section .rodata align=16
 %endif
 zero: dd 0.0
 one: dd 1.0
+one_double: dq 1.0
 maximum: dd 8000.0
 center: dd 4000.0
 ridge_extent: dd 800.0
@@ -123,5 +124,104 @@ terrain_surface:
  pxor xmm2,xmm2
  mov eax,-1
  add rsp,40
+ ret
+; Whole conservative body circle inside a single road capsule. Double scalar
+; SSE2 geometry avoids float32 closest-point cancellation near narrow margins.
+; Inputs are float32; no tolerance enlarges the paved boundary. Union junctions
+; may conservatively report off-road even when their combined pavement covers it.
+global terrain_road_body
+terrain_road_body:
+ ucomiss xmm0,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm0,[maximum]
+ ja .invalid
+ ucomiss xmm1,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm1,[maximum]
+ ja .invalid
+ ucomiss xmm2,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm2,[maximum]
+ ja .invalid
+ cvtss2sd xmm8,xmm0
+ cvtss2sd xmm9,xmm1
+ cvtss2sd xmm10,xmm2
+ pxor xmm11,xmm11
+ xor ecx,ecx
+ lea rdx,[terrain_road_segments]
+.road:
+ cmp ecx,TERRAIN_ROAD_COUNT
+ jae .offroad
+ test dword [rdx+TERRAIN_ROAD_FLAGS],TERRAIN_ROAD_ACTIVE
+ jz .next
+ cvtss2sd xmm7,[rdx+TERRAIN_ROAD_HALF_WIDTH]
+ ucomisd xmm7,xmm10
+ jb .next
+ ; Error-free TwoDiff residual detects a radius too small to change the
+ ; rounded double margin. Round the margin inward only when subtraction
+ ; rounded upward, preserving exact inclusive boundaries (including r=0).
+ movapd xmm14,xmm7
+ subsd xmm7,xmm10
+ movapd xmm12,xmm14
+ subsd xmm12,xmm7
+ movapd xmm13,xmm7
+ addsd xmm13,xmm12
+ subsd xmm14,xmm13
+ subsd xmm12,xmm10
+ addsd xmm14,xmm12
+ ucomisd xmm14,xmm11
+ jae .margin_ready
+ movq rax,xmm7
+ dec rax
+ movq xmm7,rax
+.margin_ready:
+ mulsd xmm7,xmm7
+ cvtss2sd xmm0,[rdx+TERRAIN_ROAD_FROM_X]
+ cvtss2sd xmm1,[rdx+TERRAIN_ROAD_FROM_Z]
+ cvtss2sd xmm3,[rdx+TERRAIN_ROAD_TO_X]
+ cvtss2sd xmm4,[rdx+TERRAIN_ROAD_TO_Z]
+ subsd xmm3,xmm0
+ subsd xmm4,xmm1
+ movapd xmm5,xmm8
+ movapd xmm6,xmm9
+ subsd xmm5,xmm0
+ subsd xmm6,xmm1
+ movapd xmm12,xmm3
+ movapd xmm13,xmm4
+ mulsd xmm12,xmm3
+ mulsd xmm13,xmm4
+ addsd xmm12,xmm13
+ mulsd xmm5,xmm3
+ mulsd xmm6,xmm4
+ addsd xmm5,xmm6
+ divsd xmm5,xmm12
+ maxsd xmm5,xmm11
+ minsd xmm5,[one_double]
+ mulsd xmm3,xmm5
+ mulsd xmm4,xmm5
+ addsd xmm3,xmm0
+ addsd xmm4,xmm1
+ subsd xmm3,xmm8
+ subsd xmm4,xmm9
+ mulsd xmm3,xmm3
+ mulsd xmm4,xmm4
+ addsd xmm3,xmm4
+ ucomisd xmm3,xmm7
+ jbe .onroad
+.next:
+ add rdx,TERRAIN_ROAD_STRIDE
+ inc ecx
+ jmp .road
+.offroad:
+ xor eax,eax
+ ret
+.onroad:
+ mov eax,TERRAIN_ROAD
+ ret
+.invalid:
+ mov eax,-1
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits
