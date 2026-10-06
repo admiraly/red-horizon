@@ -1,3 +1,23 @@
+Current main integrates finite infantry ammunition6d62cc68 at authored input
+fingerprint381aeff17b03b7b0, all366 inputs identical to the verified feature tree.
+Matching-main client/co-op/headless builds and43 scoped reports pass:
+combat22, network19, graphical co-op1 and unchanged original scale1.
+Exact logs, binary hashes and source matching:
+[evidence/infantry-ammunition-main.json](evidence/infantry-ammunition-main.json).
+Frozen extended jobfd47f7a527c9 is RUNNING on this exact merge/input fingerprint;
+PID220158 is confirmed live. Result pending; this is not a full pass.
+All foreground runs are terminal and reconciled. Earlier failed defense full
+100a30b45dda stays failed and collected with same-binary focused recovery.
+
+Independent next slice is committed69733b9 in isolated feature/depot-ammunition
+at /mnt/titan_nv3/projects/red-horizon-workers/depot-ammunition. Its finite
+12-store NASM prerequisite passes exact exhaustion and owner/role/connectivity/
+health/contest/corruption checks. It has no world hooks or actor credit/proximity
+path and is NOT merged or accepted as resupply. Next transaction must debit a
+finite eligible nearby depot, credit only actual actor capacity and include
+cumulative received rounds in conservation/hash/version contracts. No inventory
+renewal through capture, repair or route restoration. Full spec goal stays active.
+
 Infantry ammunition batch verified in isolated feature/infantry-ammunition:
 NASM army rifle stocks30 magazine+90 reserve,60-tick reload, one round per
 actual range/LOS-valid shot. Genuine new body generations equip once; ordinary
@@ -13,7 +33,9 @@ including400-tick side-label health symmetry. Current366-input epoch
 network19 and default graphical co-op pass; private-library original scale
 passes again. Review epoch381aeff17b03b7b0 only updates remapped wheel fixture
 input dispatch; real default/remapped two-client fault wheels and31-action solo
-input checks pass. The current fast rerun is still live, not a claimed pass.
+input checks pass. The current fast rerun finished:67 reports/66 explicit passes plus hazard
+outcomes. Only the separately tested co-op wheel fixture changed during that
+run; runtime and fast fixtures stayed unchanged.
 Exact epochs, raw failures/recoveries and limitations:
 [evidence/infantry-ammunition-focused.json](evidence/infantry-ammunition-focused.json).
 

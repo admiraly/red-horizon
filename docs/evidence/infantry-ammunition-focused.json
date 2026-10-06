@@ -80,5 +80,12 @@
     "explicit_passes": 1,
     "result": "exit0",
     "log": "infantry-ammunition-bindings-current.log"
+  },
+  "fast-current": {
+    "result": "exit0",
+    "reports": 67,
+    "explicit_passes": 66,
+    "log": "infantry-ammunition-fast-current.log",
+    "scope": "Epoch0f843790d00b054f at start; during run only co-op wheel test changed (not executed by fast). Runtime and fast fixtures unchanged."
   }
 }

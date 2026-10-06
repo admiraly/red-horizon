@@ -1,0 +1,64 @@
+{
+  "revision": "6d62cc68ea7642f964442c5629e258bdb9fc355c-381aeff17b03b7b0",
+  "merge_commit": "6d62cc68ea7642f964442c5629e258bdb9fc355c",
+  "reports": {
+    "build": {
+      "terminal_exit": 0,
+      "suite_reports": 0,
+      "explicit_passes": 0,
+      "log": "infantry-ammunition-main-build.log"
+    },
+    "combat": {
+      "terminal_exit": 0,
+      "suite_reports": 22,
+      "explicit_passes": 22,
+      "log": "infantry-ammunition-main-combat.log"
+    },
+    "coop": {
+      "terminal_exit": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "infantry-ammunition-main-coop.log"
+    },
+    "scale": {
+      "terminal_exit": 0,
+      "suite_reports": 1,
+      "explicit_passes": 1,
+      "log": "infantry-ammunition-main-scale.log"
+    },
+    "network": {
+      "terminal_exit": 0,
+      "suite_reports": 19,
+      "explicit_passes": 19,
+      "log": "infantry-ammunition-main-network.log"
+    }
+  },
+  "worker_inputs_match": 366,
+  "binaries": {
+    "red-horizon-coop-server": "da23e384bd7e6e367778d4678037e067865f4d123a8a579066e56140dadb2641",
+    "red-horizon-server": "35db34e0fd34bb4c8353407487f0604719994f1deb52cab35b13168f0c79c1a6",
+    "red-horizon": "8299800c383df2838a9844e941e1f344db5457faa811acc571e2389d76be01e0"
+  },
+  "limits": [
+    "Scoped matching-main evidence; immutable full checkpoint running, not a full pass.",
+    "Original scale tests retain400tick side-label health symmetry and original thresholds.",
+    "Software GL with original declared encounter fixture is not dense hotspot/hardware/human quality acceptance.",
+    "No depot resupply, shortage UI or NPC stocks replication."
+  ],
+  "full_checkpoint": {
+    "job_id": "fd47f7a527c9",
+    "revision": "6d62cc68ea7642f964442c5629e258bdb9fc355c-381aeff17b03b7b0",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/fd47f7a527c9/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/fd47f7a527c9/job.log",
+    "result": "pending",
+    "pid": 220158,
+    "observed_live": true
+  }
+}
