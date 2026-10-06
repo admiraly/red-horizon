@@ -18,9 +18,11 @@ tooling2 and retreat fast60 reports pass in their recorded scopes. Initial
 rate-limit/ACK-observation failures are preserved with corrected fixture timing;
 production command rates and network behavior remain unchanged.
 
-New frozen full43d0d7f2c2bc is RUNNING at the exact combined revision above,
-not passed. All foreground jobs and the previous full transfer checkpoint are
-terminal and collected;43d0d7f2c2bc is the sole new running managed job. Previous
+Frozen full43d0d7f2c2bc subsequently PASSED1218.1212s at the exact combined
+revision above. All141 suite reports and340 authored input hashes are recorded
+in docs/evidence/company-interface-full-summary.json with complete raw logs.
+The job is terminal and collected. Independent follow-mode work continues in
+feature/company-follow; this full checkpoint precedes that unintegrated work. Previous
 full43d31a2cf5a3 PASSED1208.495s/139 reports on its338-input transfer snapshot.
 It precedes the combined interface changes and cannot substitute for their full
 checkpoint. The complete game goal remains active and unfinished.
