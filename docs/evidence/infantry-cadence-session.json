@@ -7641,6 +7641,420 @@
       "log_sha256": "ef09d9031b61f543bd07621c07a3fc2d80ecd7e1d2c5e71aaf2f8101e92265be",
       "failure_tail": "_whole_batch_atomic\": true, \"offer_current_participant_generation_front_connected_gates\": true, \"whole_batch_atomic\": true, \"follow_mode_accepted_invalid_mode5_rejected\": true, \"direct_receive_authority_checksum_preserved\": true, \"transport_players_entities_companies_preserved\": true, \"transport_advances_existing_remote_clock\": true, \"stale_equal_tick_rejected\": true, \"body_generation_front_disconnect_gates\": true, \"tombstone_no_resurrection\": true, \"close_timeout_reset\": true, \"library_sha256\": \"32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2\"}\nTraceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/tests/test_company_remote.py\", line 92, in <module>\n    birth_tick=struct.unpack('<I',os.pread(birth,4,symbols['sim_tick_count']))[0];assert birth_tick<5\n                                                                                         ^^^^^^^^^^^^\nAssertionError\nERROR: Command '['/usr/bin/python3', 'tests/test_company_remote.py', '/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/libcoopclient.so', '/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/revisions/5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7/red-horizon-coop-server']' returned non-zero exit status 1.\n{\"target\": \"coop\", \"revision\": \"5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7\", \"assembled\": 1, \"assembled_sources\": [\"src/net/coop_server.asm\"], \"seconds\": 0.5267694649955956, \"executable\": \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/revisions/5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7/red-horizon-coop-server\"}\n{\"target\": \"headless\", \"revision\": \"5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7\", \"assembled\": 0, \"assembled_sources\": [], \"seconds\": 0.5403688049991615, \"executable\": \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/revisions/5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7/red-horizon-server\"}\n",
       "explicit_passes_before_failure": 6
+    },
+    {
+      "name": "corrected-visibility-stub",
+      "exit_code": 0,
+      "log_sha256": "55eb9f32cb01f5e89a1ab305fd0eaa9634af69ab04697e0cf8f15b21cf88e1b4",
+      "reports": [
+        {
+          "suite": "prepared-blast-visibility-batch",
+          "passed": true,
+          "cases": 8,
+          "negative_immediate_casualty": true,
+          "SysV": true,
+          "human_hook_called_before_army_casualties": true,
+          "source_sha256": "0383e83e4c31ecf213869a6c95aed477e4698918f9ab792edb5b2a2115d90108",
+          "scope": "Actual production blast routine with assembled mutable visibility/casualty contract stubs. Establishes collect-before-apply ordering, no human bodies in stub; real human blast/wreck shielding verified separately."
+        }
+      ]
+    },
+    {
+      "name": "candidate-mesh-mode",
+      "exit_code": 0,
+      "log_sha256": "376dfbb661a65415c510380756fac234d6b298dacdf85b95a533e47a34996a02",
+      "reports": [
+        {
+          "suite": "animated-source-meshes",
+          "passed": true,
+          "idle_frames": [
+            18,
+            2
+          ],
+          "idle_changed_pixels": 1467,
+          "walk_frame": 25,
+          "walk_blend": 0.7635498046875,
+          "actual_actor_moved_metres": 1.3189972641173962,
+          "stationary_tracks_frozen": true,
+          "source_meshes": 18,
+          "observed_owned_actor_id": 3712,
+          "owned_company_key": 285,
+          "initial_lod_counts": [
+            70,
+            2548,
+            5574
+          ],
+          "stdout": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":70,\"gpu_samples\":61,\"cpu_frame_mean_ms\":51.860649,\"cpu_frame_p95_ms\":74.247837,\"cpu_frame_p99_ms\":520.055729,\"gpu_draw_mean_ms\":11.578107,\"gpu_draw_p95_ms\":6.492650,\"gpu_draw_p99_ms\":463.442661}\n{\"battle_metrics\":true,\"samples\":69,\"simultaneous_projectiles_effects_audio_frames\":65,\"peak_living\":8192,\"peak_engaged\":1130,\"peak_projectiles\":480,\"peak_submitted_high\":71,\"peak_submitted_low\":2548,\"peak_submitted_markers\":8190,\"peak_effect_records\":53,\"peak_trail_records\":96,\"peak_audio_voices\":63,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=2 low=0 markers=8008 source_triangles=34913 animation_frame=29\nclient frames=69 submitted_entities=8192 screenshot=(none)\ncamera_x=2000.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=168 supply=600 waypoint_orders=2\nselected_goal_x=1997.812 selected_goal_z=4000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n"
+        }
+      ]
+    },
+    {
+      "name": "stock1400tick-proof",
+      "exit_code": 0,
+      "log_sha256": "06012d603cc8979457a8de5beb9c6b2982e234a24f287642c89987dd72e46495",
+      "reports": [
+        {
+          "suite": "infantry-finite-ammunition",
+          "passed": true,
+          "physical_combat": {
+            "shot_ticks": [
+              8,
+              16,
+              24,
+              32,
+              40,
+              48,
+              56,
+              64,
+              72,
+              80,
+              88,
+              96,
+              104,
+              112,
+              120,
+              128,
+              136,
+              144,
+              152,
+              160,
+              168,
+              176,
+              184,
+              192,
+              200,
+              208,
+              216,
+              224,
+              232,
+              240,
+              304,
+              312,
+              320,
+              328,
+              336,
+              344,
+              352,
+              360,
+              368,
+              376,
+              384,
+              392,
+              400,
+              408,
+              416,
+              424,
+              432,
+              440,
+              448,
+              456,
+              464,
+              472,
+              480,
+              488,
+              496,
+              504,
+              512,
+              520,
+              528,
+              536,
+              600,
+              608,
+              616,
+              624,
+              632,
+              640,
+              648,
+              656,
+              664,
+              672,
+              680,
+              688,
+              696,
+              704,
+              712,
+              720,
+              728,
+              736,
+              744,
+              752,
+              760,
+              768,
+              776,
+              784,
+              792,
+              800,
+              808,
+              816,
+              824,
+              832,
+              896,
+              904,
+              912,
+              920,
+              928,
+              936,
+              944,
+              952,
+              960,
+              968,
+              976,
+              984,
+              992,
+              1000,
+              1008,
+              1016,
+              1024,
+              1032,
+              1040,
+              1048,
+              1056,
+              1064,
+              1072,
+              1080,
+              1088,
+              1096,
+              1104,
+              1112,
+              1120,
+              1128
+            ],
+            "reload_completion_ticks": [
+              300,
+              596,
+              892
+            ],
+            "empty_tick": 1128,
+            "target_hp": 40,
+            "trace": [
+              [
+                60,
+                23,
+                90,
+                0,
+                7,
+                379,
+                "1786773339237663"
+              ],
+              [
+                120,
+                15,
+                90,
+                0,
+                15,
+                355,
+                "009f80db6aba4fc2"
+              ],
+              [
+                180,
+                8,
+                90,
+                0,
+                22,
+                334,
+                "bf0297f1a02329e1"
+              ],
+              [
+                240,
+                0,
+                90,
+                60,
+                30,
+                310,
+                "f285ddfacbbaa6ef"
+              ],
+              [
+                300,
+                30,
+                60,
+                0,
+                30,
+                310,
+                "09201f7c64ff0552"
+              ],
+              [
+                360,
+                22,
+                60,
+                0,
+                38,
+                286,
+                "e5c8be3ac5f8a071"
+              ],
+              [
+                420,
+                15,
+                60,
+                0,
+                45,
+                265,
+                "715604af6def5034"
+              ],
+              [
+                480,
+                7,
+                60,
+                0,
+                53,
+                241,
+                "8468073b9e1266c3"
+              ],
+              [
+                540,
+                0,
+                60,
+                56,
+                60,
+                220,
+                "31db35419e11a38b"
+              ],
+              [
+                600,
+                29,
+                30,
+                0,
+                61,
+                217,
+                "76105dcc1da822b0"
+              ],
+              [
+                660,
+                22,
+                30,
+                0,
+                68,
+                196,
+                "09390aaa78d466c3"
+              ],
+              [
+                720,
+                14,
+                30,
+                0,
+                76,
+                172,
+                "a06423a7bd6df099"
+              ],
+              [
+                780,
+                7,
+                30,
+                0,
+                83,
+                151,
+                "110446480ea70f08"
+              ],
+              [
+                840,
+                0,
+                30,
+                52,
+                90,
+                130,
+                "33730007dbbf3a23"
+              ],
+              [
+                900,
+                29,
+                0,
+                0,
+                91,
+                127,
+                "13c7418518f7a080"
+              ],
+              [
+                960,
+                21,
+                0,
+                0,
+                99,
+                103,
+                "a501be1469642a79"
+              ],
+              [
+                1020,
+                14,
+                0,
+                0,
+                106,
+                82,
+                "422f6df1d4a36be2"
+              ],
+              [
+                1080,
+                6,
+                0,
+                0,
+                114,
+                58,
+                "8c8e854b6564c3ac"
+              ],
+              [
+                1140,
+                0,
+                0,
+                0,
+                120,
+                40,
+                "43328ef7abf2ddb6"
+              ],
+              [
+                1200,
+                0,
+                0,
+                0,
+                120,
+                40,
+                "8c55da77f22e1088"
+              ],
+              [
+                1260,
+                0,
+                0,
+                0,
+                120,
+                40,
+                "c98b89252c8b1ca2"
+              ],
+              [
+                1320,
+                0,
+                0,
+                0,
+                120,
+                40,
+                "7c6cf9052cf9f6fb"
+              ],
+              [
+                1380,
+                0,
+                0,
+                0,
+                120,
+                40,
+                "e5f05211628c08fd"
+              ]
+            ]
+          },
+          "labels_only_same_shots_and_damage": true,
+          "no_shot_no_spending": [
+            "outside_range",
+            "opaque_wall",
+            "friendly",
+            "dead_target"
+          ],
+          "dead_reload_frozen": true,
+          "declared_generation_birth_once": true,
+          "side_front_change_no_refill": true,
+          "corrupt_stock_and_invalid_calls_atomic": true,
+          "conserved_initial_rounds": 120,
+          "library_sha256": "8233f7cc287bff48d502a13c16d1dfd219bf6612f87597c273230b473a6a1048",
+          "limits": [
+            "Declared independent initial fixtures; no live pose/HP/ammo/clock renewal in the combat/exhaustion traces. Separate lifecycle/corruption fixtures manipulate stocks explicitly.",
+            "This trace has no nearby depot. Resupply is verified separately; weapon variety, NPC reload animation, ammunition replication and hardware/full-game acceptance remain open."
+          ]
+        }
+      ]
     }
   ],
   "limits": [
