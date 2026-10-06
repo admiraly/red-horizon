@@ -1,0 +1,39 @@
+{
+  "source_at_recording": "a01fbe45380309305f21b277b46e4e0dfafc9d3d-fdd0559a26913e58",
+  "runtime_sources_policy_assets_unchanged_from": "43e2439-a5675e2e443c6c49",
+  "logs": {
+    "combat": {
+      "path": "docs/evidence/supply-route-causal-combat.log",
+      "sha256": "7438f81bb815ef470f4b9168243b32596a5776c8baeeaf1245187f7d218cd0f8",
+      "exit_code": 0,
+      "explicit_pass_reports": 28,
+      "build_epochs": [
+        "a01fbe45380309305f21b277b46e4e0dfafc9d3d-422fb948445515f2"
+      ]
+    },
+    "udp": {
+      "path": "docs/evidence/supply-route-causal-udp.log",
+      "sha256": "b35a2f2a72c792a51a8169830b10246f6390a5f505021adf9ab28236d987f5fc",
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "build_epochs": []
+    },
+    "interruptions": {
+      "path": "docs/evidence/supply-route-causal-interruptions.log",
+      "sha256": "1378d4112be51609b74c374a59e85dabd4219e36e2eece108118daa570f42ae2",
+      "exit_code": 0,
+      "explicit_pass_reports": 1,
+      "build_epochs": []
+    }
+  },
+  "permanent_test_registration": [
+    "combat/fast/simulation: test_supply_route_interruptions.py",
+    "network: test_supply_route_network.py"
+  ],
+  "epoch_note": "Standalone interruptions and UDP use actual prior integrated core/server. Focused combat builds the same runtime source in the worker at its listed epoch. Observer transaction retry refinement changes only the UDP test, subsequently re-run successfully. No claim that all fixtures have the same authored-test epoch.",
+  "limits": [
+    "Sparse startup shell/depot fixtures prove causal interruption and wall travel; original scale, streaming, renderer and hardware acceptance stay separate.",
+    "UDP proves actual8192/four-peer server travel and conserved authority stores, not an exact world-to-wire stock oracle or rendered supply detour.",
+    "No CPU gameplay change; infinite player rifle reload and broader rearm remain next required implementation."
+  ]
+}
