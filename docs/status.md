@@ -1,3 +1,13 @@
+Frozen physical-blast full5c24e859ca9b FAILED/collected at
+7365608-300a1a3812f46c76,exit1,276.770338s. Its isolated extracted sim_blast
+visibility stub lacked the new player_blast declaration/dependency, causing a
+NASM undefined-symbol failure. Corrected development fixture declares an
+assembled zero-body human stub, retaining army eligibility/LOS/casualty/ABI/
+negative-control assertions and requiring the human hook once before army
+casualties. Focused8cases now pass. No runtime edits or broad full-pass claim.
+Exact immutable failure and focused recheck: evidence/player-blast-full-failed.json.
+Previous3ed19c6f8298 remains live; whole-game goal remains active/incomplete.
+
 Dedicated physical human-blast UDP proof is integrated in8e3527b as a later
 development-only regression. Actual8192/four endpoints, production adapter0:
 finite shells64→60, real impacts80/110, human100→20→0; authority/UDP dead body
@@ -9,10 +19,10 @@ Matching-main checks exit0; all410 common authored inputs match worker. Exact
 separate binaries/reports and failed wrong-headless invocation retained in
  evidence/player-blast-UDP.json and evidence/player-blast-main-UDP.json.
 Registered in network suite; the frozen full5c24e859ca9b predates this later
-registration and remains running at its documented300a1a3812f46c76 epoch.
+registration and failed at its documented300a1a3812f46c76 epoch.
 CPU runtime unchanged by this regression. Dedicated multiplayer rendered blast
 pixel and bomber UDP traces remain separate. Foreground checks collected;
-full3ed19c6f8298 and5c24e859ca9b tracked as RUNNING, never claimed passed.
+full3ed19c6f8298 tracked as RUNNING;5c24e859ca9b FAILED/collected.
 
 Physical human blast damage is integrated in7365608 (runtime/helper contracts
 in53e2475 and950e4ea), source epoch 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76.
@@ -52,7 +62,7 @@ Exact independent logs/binary epochs: evidence/player-blast-session.json and
  evidence/player-blast-fast-passed.json. Matching-main focused player checks exit0; exact common authored inputs match
 the worker. Evidence/player-blast-main-player.json records merged native epochs.
 
-Frozen full5c24e859ca9b RUNNING at 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76,
+Frozen full5c24e859ca9b FAILED/collected at 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76,
 PID2000914; evidence/player-blast-full-pending.json. Earlier full
 3ed19c6f8298 remains running at its distinct v34 epoch;06b65992aceb remains
 FAILED despite successful focused corrected-observer rechecks. Full checkpoint,

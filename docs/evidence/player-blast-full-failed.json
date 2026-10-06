@@ -1,0 +1,29 @@
+{
+  "job_id": "5c24e859ca9b",
+  "exit_code": 1,
+  "revision": "7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76",
+  "seconds": 276.7703376470017,
+  "status": "failed",
+  "metadata": {
+    "job_id": "5c24e859ca9b",
+    "revision": "7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/5c24e859ca9b/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/5c24e859ca9b/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/5c24e859ca9b/result.json",
+    "pid": 2000914
+  },
+  "collected": true,
+  "log_sha256": "657114ed07d7b9c65e129e8a5321dd5be6e7037d393ddac9f3b74be7f71cdcaa",
+  "failure": "Isolated extracted sim_blast fixture did not declare or stub new player_blast dependency; NASM candidate.asm symbol player_blast not defined.",
+  "correction": "Declare assembled no-human helper stub; retain all army visibility/casualty/ABI gates and require hook once before army casualty. Actual human/physical/pre-wreck proofs remain separate.",
+  "focused_corrected_exit_code": 0,
+  "focused_corrected_log": "{\"suite\": \"prepared-blast-visibility-batch\", \"passed\": true, \"cases\": 8, \"negative_immediate_casualty\": true, \"SysV\": true, \"human_hook_called_before_army_casualties\": true, \"source_sha256\": \"0383e83e4c31ecf213869a6c95aed477e4698918f9ab792edb5b2a2115d90108\", \"scope\": \"Actual production blast routine with assembled mutable visibility/casualty contract stubs. Establishes collect-before-apply ordering, no human bodies in stub; real human blast/wreck shielding verified separately.\"}\n",
+  "focused_corrected_sha256": "55eb9f32cb01f5e89a1ab305fd0eaa9634af69ab04697e0cf8f15b21cf88e1b4"
+}
