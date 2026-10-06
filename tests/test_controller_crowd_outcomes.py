@@ -204,12 +204,22 @@ def census(n):
    assert lib.vehicle_enter(slot)==0 and V[slot]==i
    controllers.append((e,3.55,slot))
   else:controllers.append((p,.55,slot))
- initial=faults=checks=0;controller_pair_checks=controller_pair_faults=0;moves=0;hp0=sum(e.hp for e in E[:n]);dead0=sum(e.hp==0 for e in E[:n]);initial_pairs=set();trace=hashlib.sha256()
+ initial=faults=checks=0;controller_pair_checks=controller_pair_faults=0;moves=0;hp0=sum(e.hp for e in E[:n]);dead0=sum(e.hp==0 for e in E[:n]);initial_pairs=set();trace=hashlib.sha256();births=[]
  for t in range(a.dense_ticks):
-  army=[(i,pos(e),e.kind,e.generation,e.hp) for i,e in enumerate(E[:n]) if e.hp and e.kind<3];old=[pos(x[0]) for x in controllers];lib.sim_tick()
+  army=[(i,pos(e),e.kind,e.generation,e.hp) for i,e in enumerate(E[:n]) if e.hp and e.kind<3];old=[pos(x[0]) for x in controllers];epochs=[(x[0].generation,x[0].hp)for x in controllers];lib.sim_tick();born=set()
   for c,(body,r,slot) in enumerate(controllers):
    if not body.hp:continue
    new=pos(body)
+   if body.generation!=epochs[c][0]:
+    # Birth is a new body placement, never a locomotion segment from its corpse.
+    # Preserve every same-body intent/swept bound; validate genuine life epoch
+    # and current placement against the full living ground population instead.
+    assert slot!=3 and epochs[c][1]==0 and body.generation==epochs[c][0]+1
+    assert body.connected==1 and body.hp==100 and body.respawn==0 and body.ammo==30
+    gap=min((math.dist(new,pos(e))-r-R[e.kind]for e in E[:n]if e.hp and e.kind<3),default=8000.)
+    if not a.legacy:assert gap>=-TOL,('dense unsafe actual new body',n,t,slot,gap)
+    births.append({'tick':t,'slot':slot,'old_generation':epochs[c][0],'new_generation':body.generation,'army_endpoint_minimum_gap':gap,'position':new})
+    born.add(c);trace.update(struct.pack('<ff',*new));continue
    if slot==3:driven_intent(old[c],new,(1,.3),body,'dense',t)
    else:intent(old[c],new,(1,.3 if slot&1 else 0),.3,'dense',t)
    moves+=math.dist(old[c],new)>.001;trace.update(struct.pack('<ff',*new))
@@ -234,6 +244,10 @@ def census(n):
    for j,(other,rr,oslot) in enumerate(controllers[:c]):
     if not other.hp:continue
     controller_pair_checks+=1
+    if c in born or j in born:
+     gap=math.dist(pos(body),pos(other))-r-rr
+     if not a.legacy:assert gap>=-TOL,('dense newborn controller overlap',n,t,slot,oslot,gap)
+     continue
     d0=math.dist(old[c],old[j]);d1=math.dist(pos(body),pos(other));d=closest(old[c],pos(body),old[j],pos(other))
     if d0<r+rr-TOL:
      if not a.legacy:assert d1>=d0-TOL,('dense existing controller overlap deepened',n,t,slot,oslot,d0,d1)
@@ -242,7 +256,7 @@ def census(n):
      if not a.legacy:raise AssertionError(('dense controller/controller swept overlap',n,t,slot,oslot,d,r+rr))
  assert moves>=a.dense_ticks*2,('dense no useful human motion',n,moves)
  hp1=sum(e.hp for e in E[:n]);assert hp1<hp0,('real combat absent',n,hp0,hp1)
- return dict(units=n,ticks=a.dense_ticks,near_relative_sweep_checks=checks,controller_pair_sweep_checks=controller_pair_checks,controller_pair_new_overlap_ticks=controller_pair_faults,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
+ return dict(units=n,ticks=a.dense_ticks,genuine_new_body_placements=births,near_relative_sweep_checks=checks,controller_pair_sweep_checks=controller_pair_checks,controller_pair_new_overlap_ticks=controller_pair_faults,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 dense=[census(n) for n in (8192,16384)]
 report=dict(suite='controller-crowd-outcomes',status='PASS',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,four_controllers=four,slot_physical_trace_invariance=slot_trace_invariance,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Human input component/sign/amplitude gates remain; driven hulls use real stamped hull-axis/speed/velocity whole-segment coherence.','Legacy causal control disables crowd and shared ground policy together when available; original frozen baseline has no ground module.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')

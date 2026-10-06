@@ -1,3 +1,12 @@
+Controller lifecycle correction passes on the exact failed v35 core in legacy
+mode and on the shared-cadence active core, with original8192/16384 counts and
+60ticks. Actual legacy generation2 births are endpoint placements; full living
+army/current-controller clearance is checked. Same-body norm/component/sign/
+relative sweeps and original minimum moving ticks are unchanged. No pose/HP/
+stock/clock renewal during either dense trace. Exact separate binary/report
+proofs: evidence/controller-crowd-genuine-birth.json. d8f5c5b64ed3 stays failed;
+full6c0e578a78f7 is immutable and still running with its older oracle.
+
 Corrected blast fulld8f5c5b64ed3 FAILED/collected at
 147e51d-131f3b7ae59277b1,exit1,490.113020s. Legacy dense controller observer
 used corpse pose as a movement origin after genuine generation change/safe
