@@ -19,7 +19,7 @@ extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
-extern company_for_player,company_control_order,company_controls
+extern company_for_player,company_control_order,company_controls,company_home_goals
 extern net_company_for_player,net_company_records,net_company_offer,net_company_transfers
 extern net_client_transfer
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state
@@ -1307,7 +1307,7 @@ update_input:
  sub ecx,49
  bts dword [order_down_mask],ecx
  jc .nextorder
- call selected_goal
+ call selected_order_goal
  ; First advance selects the next hostile deployment/command site in this row.
  comiss xmm0,[fzero]
  jae .havegoal
@@ -1747,7 +1747,24 @@ poll_network:
  pop rbx
  ret
 
+; Render effective retreat destination without changing the accepted waypoint
+; used by subsequent commands. Home positions are shared with authority.
 selected_goal:
+ sub rsp,8
+ call selected_order_goal
+ add rsp,8
+ cmp edx,2
+ jne .done
+ mov eax,[selected_front]
+ cmp eax,2
+ ja .done
+ lea rcx,[company_home_goals]
+ movss xmm0,[rcx+rax*8]
+ movss xmm1,[rcx+rax*8+4]
+.done:
+ ret
+; XMM0/1 accepted waypoint, EDX accepted mode or -1 when unknown.
+selected_order_goal:
  mov eax,[selected_front]
  cmp dword [network_mode],0
  jne .network
@@ -1767,6 +1784,7 @@ selected_goal:
  je .localunknown
  movss xmm0,[rdx+rax+16]
  movss xmm1,[rdx+rax+20]
+ mov edx,[rdx+rax+8]
  pop rbx
  ret
 .localunknown:
@@ -1796,6 +1814,7 @@ selected_goal:
  cmp r12d,4
  jb .remote_scan
 .remote_none:
+ mov edx,-1
  movss xmm0,[offscreen]
  movaps xmm1,xmm0
 .remote_done:
@@ -1818,12 +1837,14 @@ selected_goal:
  jne .remote_missing
  movss xmm0,[rdx+rax+24]
  movss xmm1,[rdx+rax+28]
+ mov edx,[rdx+rax+16]
  xor eax,eax
  ret
 .remote_missing:
  mov eax,-1
  ret
 .unknown:
+ mov edx,-1
  movss xmm0,[offscreen]
  movaps xmm1,xmm0
  ret

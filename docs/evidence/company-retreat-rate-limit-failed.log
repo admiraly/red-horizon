@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-retreat-display/tests/test_client_coop.py", line 200, in <module>
+    try:until(lambda:read_u32(clients[owner]['memory'],client_symbols,'waypoint_orders')==2)
+        ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-retreat-display/tests/test_client_coop.py", line 55, in until
+    raise AssertionError('co-op condition timed out')
+AssertionError: co-op condition timed out
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-retreat-display/tests/test_client_coop.py", line 202, in <module>
+    raise AssertionError({'owner':owner,'title':title(clients[owner]['window']),'selected_front':read_u32(clients[owner]['memory'],client_symbols,'selected_front'),'pending':read_u32(clients[owner]['memory'],client_symbols,'net_pending'),'record':remote_company(owner,owner)})
+AssertionError: {'owner': 0, 'title': 'RED HORIZON | 2 units | rifle 30/30 TACTICAL | front 0 order 0 | REQ 602 SUP 600 | OPERATION ACTIVE | HP 100 SUPPRESS 0 REDEPLOY 0 | ON FOOT | E board Q exit | TAB map/click F1-F3 front R reload | CO-OP P0 OWN FRONT 0 TICK 391 | SERVER REJECTED REQUEST | COMPANY 19 | F5-F8: request exchange with P0-P3 | F11: cancel own offer | scoped region data | WEATHER clear (F4 cycle)', 'selected_front': 0, 'pending': 60, 'record': (0, 19, 2, 2, 0, 1, 4994.375, 3904.444091796875, 1, 77)}
