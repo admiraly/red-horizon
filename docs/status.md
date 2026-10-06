@@ -1,9 +1,13 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
 Main now integrates focused-verified exclusive company ownership and solo/co-op
-GUI command routing from21b2cd4. Its exact328 authored inputs and prior focused
+GUI command routing from21b2cd4. Its exact330 authored inputs and prior focused
 evidence are recorded in company-control-integration.json; frozen full0b0739a72b85
-still runs on the same source. Current extended acceptance is pending. The prior
+still runs on the same source. Root headless/co-op/client and both libraries rebuilt at01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce.
+Matching company API, read-only actual four-peer movement, fourth-player NASM
+adapter, solo GUI map/keys and actual two-client co-op checks all pass. Exact
+artifact hashes and logs: company-main-build.json and company-main-build-and-checks.log.
+Current extended acceptance is pending. The prior
 fully accepted baseline is v21 bank-coupled flight/strike (0d3c803), with
 full831bb1419f53 PASSED1212.0483s and323 exact matching authored inputs. The
 223 structured JSON dictionaries include repeated build/content checks; they

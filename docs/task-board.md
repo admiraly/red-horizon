@@ -365,3 +365,13 @@ Current isolated bank correction1f3ed26 passes matching GL/UDP and original
 Earlier00c3d9e fast passed but natural scale caught6 map-edge crossing fighters;
 that result does not authorize integration. Corrected fast558332fecbfd and frozen
 full831bb1419f53 are live. Main remains fully verified v20.
+
+Current continuation: physical bank/roll/yaw, own observed bomber retry and projectile-time
+fighter interception are integrated from1f3ed26 after frozen full831bb1419f53 passed.
+Exclusive company control and actual solo/co-op GUI command routing are integrated
+on main01dbd5c after matching focused API/physical UDP/GUI checks and runtime fast
+ed14fd74253d passed. Main now uses UDPv23/schema0xc5c97e5b/content0xa89260de.
+Matching extended0b0739a72b85 remains pending after correcting the exact nested-player
+build dependency assertion. No transfer/shared membership UI or completed game claim.
+The modest concave terrain-clear optimization remains isolated:40060 identical query
+results and900tick sampled whole-state parity do not show a useful hotspot speedup.

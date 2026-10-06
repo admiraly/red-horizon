@@ -1,0 +1,12 @@
+{
+  "revision": "01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce",
+  "passed": true,
+  "artifacts": {
+    "build/revisions/01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce/red-horizon-server": "646ada9aa96193dca908f688cc851cdadae49e121fad8d3d7bf26f0f552ba44d",
+    "build/revisions/01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce/red-horizon": "cc4b2027053157a42fe3f7a7c4e4280f11425ac123ff516fc706db8b5c48b85f",
+    "build/revisions/01dbd5c915e0771bcc35ef964087728ea367bf8f-c0410da9e5e40bce/red-horizon-coop-server": "2cb9dabf89da0ab480f2d9146ee63cb0f11953eeaf42ea345a1dbc45ee9e08b5",
+    "build/libsim.so": "7615ad4887ef76dbb54d7de74326db1729980ab4ad8bb3f9828568a03b5df0a3",
+    "build/libcoopclient.so": "f61a1995aeb2f40db791f76a99005e64391aef667802c4cc9e78505db2de1c79"
+  },
+  "scope": "Matching rebuilt main company API, read-only actual four-peer movement, fourth-player production adapter, actual solo map/keys and actual two-client co-op; matching frozen extended still pending."
+}
