@@ -57,7 +57,7 @@ Verification evidence before the frozen integration checkpoint:
   transforms512/0/1/0/0/0 slots for initial/unchanged/one change/same bytes/
   expiry/reactivation, including128 same-revision source switches.
 
-Compatibility is UDPv10/schema0x0a37c5e1/content0x6a9c717a. Wire layouts are
+Compatibility is UDPv10/schema0x68cc0f99/content0x6a9c717a. Wire layouts are
 unchanged; canonical content SHA256 is
 6a9c717ad1bb1b47dcb7f9ee73771a1e8d15489d8dad9edae9f1ba83519853a8.
 New collision profile/type/skin policy is included in both canonical tooling

@@ -1,7 +1,7 @@
 ; Actual gameplay UDP v10. Change both version/fingerprints on incompatible edits.
 %define NET_MAGIC 0x52484332
 %define NET_VERSION 10
-%define NET_SCHEMA 0x0a37c5e1
+%define NET_SCHEMA 0x68cc0f99
 %define NET_CONTENT 0x6a9c717a
 %define NET_HEADER 40
 %define NET_MTU 1200
