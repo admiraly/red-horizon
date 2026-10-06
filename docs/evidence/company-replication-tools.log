@@ -1,0 +1,58 @@
+................
+----------------------------------------------------------------------
+Ran 16 tests in 0.046s
+
+OK
+{"suite": "dense_driver", "passed": true, "cases": 16, "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) [error.pcm] Unknown PCM red_horizon_missing_device
+{"suite": "tools", "passed": true, "checks": ["cold/incremental", "single module invalidation", "shader isolation", "transitive includes", "source preservation", "failed build preserves previous objects", "fast real-core suite", "immutable background source", "revision identity", "failed assembly reported", "job collection", "terminal missing-NASM worker setup"]}

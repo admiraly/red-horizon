@@ -1,5 +1,32 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integrates the focused-verified company replication batch52e2a2a.
+UDPv24/schema0xb35e47af/content0x22634bc6 sends four complete company leases
+and accepted intents, validates entire batches and current body generations,
+and resets remote ownership on close/reopen/timeout. Owned allied formations
+are green in solo/co-op; owned map markers draw last without duplicating actors.
+The selected-front map can display another owner's accepted goal. The server
+retains its64-record snapshot bound while including own allied cohort records
+outside the1200m region. No remote enemy ground truth is added.
+
+The fast core suite60 reports, tooling2 reports, focused network15 reports and
+focused graphics27 reports pass in their recorded scopes. Final timeout adds
+one actual two-client lifecycle report. Focused actual software GL shows8 green owned pixels and44 blue allied pixels
+on each of two clients, plus72 shared-goal cross pixels. Genuine redeployment
+preserves the remote company/goal, and both clients clear highlight on timeout
+without a solo lease fallback. Pure parser rejects24 malformed/foreign packets
+atomically; stale/equal ticks, generations, fronts and release/rejoin are gated.
+Exact reports, artifact hashes, initial-fixture scope and corrected failures:
+docs/evidence/company-replication-focused.json and docs/company-replication.md.
+
+Frozen full72366ca35c1e is RUNNING at52e2a2a-dd448cce99006975; it has not passed.
+Its snapshot includes333 exact authored inputs. The preceding fully accepted
+checkpoint remains3112ca82aa0d below. Focused checks and this pending run do not
+establish full-game completion or target GPU/human quality. Shared timed plans,
+transfer/assistance, recruitment, broader controls/content/operations/platform
+requirements remain open. The full-game goal remains active.
+
+
 Current main integrates the exact c0c8f04 combined aircraft/company/interface/
 boolean-wreck-LOS snapshot. Frozen full3112ca82aa0d PASSED1201.1398s at
 c0c8f04-507ba71505a61d3a; all330 authored inputs match main. Its133 suite
