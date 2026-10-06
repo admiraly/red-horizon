@@ -1,0 +1,20 @@
+{
+  "job_id": "06b65992aceb",
+  "revision": "ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a-2969032aadf8d434",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/06b65992aceb/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/06b65992aceb/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/06b65992aceb/result.json",
+  "pid": 1673694,
+  "exit_code": 1,
+  "seconds": 1478.2119001850078,
+  "collected": true,
+  "log_sha256": "9d8fb19750b3bd0b42db01b7c001d21b9236c2e0e2fad3fd125c6984af03f736",
+  "failure": "tests/test_client_command_wheel.py:185 expected selected defend wedge RGB20..40/70..90/55..75; actual9/15/19 (unselected backdrop). Observer compares memory selection before GL frame publishes; diagnosis/recheck pending. Frozen job remains failed."
+}

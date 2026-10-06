@@ -27,8 +27,11 @@ Updated focused player/publication/physical server proofs pass. Exact epochs,
 original/failure/final reports: evidence/player-threat-session.json.
 
 Frozen full3ed19c6f8298 RUNNING at0b4d7d6-aafce4d008140d67,PID1871314;
-earlier player full06b65992aceb remains pending at its separatev33 epoch.
-Neither is claimed passed. Noninfantry synthetic threat damage, shared NPC
+earlier player full06b65992aceb FAILED/collected at its separatev33 epoch:
+exit1,1478.211900s, command-wheel selected-wedge pixel assertion (9/15/19
+unselected fill rather than expected selected shade). Diagnosis/recheck pending;
+evidence/player-ammunition-full-failed.json retains exact result/log hash.
+The new infantry full remains running and is not claimed passed. Noninfantry synthetic threat damage, shared NPC
 army/human shot cadence and NPC human-shot audio/tracers remain unresolved in
 this integrated batch. Physical hostile blast damage against humans is now
 being implemented separately; no integration claim for that candidate.
@@ -74,8 +77,9 @@ epochs: evidence/player-ammunition-main.json.
 Exact separate source/binary epochs, reports, screenshots, fixture corrections
 and limitations: evidence/player-ammunition-session.json. Dependency prefix
 proves exact14 headless and8 client include consumers; full tools tail pending.
-Frozen full06b65992aceb RUNNING at ee97d37-2969032aadf8d434, PID1673694;
-its initial snapshot is frozen and has not passed. Previous infantry full jobs
+Frozen full06b65992aceb FAILED/collected at ee97d37-2969032aadf8d434,
+exit1,1478.211900s, selected command-wheel wedge pixel assertion. Its immutable
+snapshot/result remain failed; diagnosis/recheck does not turn it into a pass. Previous infantry full jobs
 are passed/collected below. Player full checkpoint will cover original scale,
 real graphics and broad UDP faults; focused tests alone do not establish them.
 
