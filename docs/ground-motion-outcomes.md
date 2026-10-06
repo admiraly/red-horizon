@@ -73,8 +73,8 @@ through a genuine private `vehicle_driver_generation[4]` stamp, not merely the
 entity-generation field in the ground sidecar. A candidate ground-policy-off
 control retains this ownership protection and must reject the stale claim;
 the original immutable baseline independently records the older missing stamp.
-Candidate acceptance and exact evidence will be added after integrated runtime
-hooks exist; this document currently establishes the observer and real baseline.
+The following first-candidate evidence is preliminary to root's final frozen
+checkpoint; the full game goal remains incomplete.
 
 ## First integrated production candidate
 
@@ -105,3 +105,22 @@ not the later direct-kernel stamp follow-up or final release checkpoint. Root's
 frozen full-suite, real graphics/network, and final source reconciliation remain
 required. The evolving driver fixture changes are recorded separately rather
 than claiming their inherited instant-slide semantics still apply to tracked hulls.
+
+The adapted controller observer completed in session 66350 with exit 0, retaining
+29 controlled relative-circle cases, four crossing-controller configurations,
+placement controls and natural 8k/16k mixed-controller combat sweeps. The adapted
+terrain observer completed in session 38438 with exit 0: 33 controlled cases,
+exact replay/faction comparisons, original arrival gates, and natural 8k/16k
+120-tick expanded-solid checks. All nine driver cases have zero whole-solid
+sweep and hull-axis coherence faults. The original inherited fixed-diagonal
+slide fixture failed the tracked candidate before explicit steering was added;
+the original 50-tick driver corner interval then proved too short for a bounded
+pivot plus >5 m travel. Those driver-specific fixture semantics changed explicitly
+as described above; human inputs/deadlines and physical penetration gates did not.
+
+All worker-launched builds and observations are terminal, including baseline
+build 12104, baseline observations 46891/73477/17642/58615/43269, historical
+controller preservation 88234, historical terrain preservation 93711, candidate
+ground 49870, candidate controller 66350, candidate policy-off 85936, failed
+short-corner terrain 6845, and accepted terrain 38438. The initially unsuccessful
+fixture observations were diagnosed before adaptation, never accepted as passes.
