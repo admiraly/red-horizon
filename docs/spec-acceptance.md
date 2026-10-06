@@ -1,5 +1,15 @@
 # Specification acceptance ledger
 
+Current ground-motion integration adds a real shared tracked approximation to
+§6g/§10e/§15/§16: authoritative hull heading, acceleration/braking, bounded turning,
+human slow reverse, complete-segment collision, player-generation ownership and
+UDPv7 heading presentation. Worker-focused and root public-path proofs exist;
+the root full frozen checkpoint is still required. The original crowd destination
+check exposed overshoot; corrected approach braking passes its existing arrival
+and deadline gates in focused production tests. This is partial progress, not acceptance
+of complete vehicle realism. Road/off-road surfaces, slope limits, wheeled roles,
+oriented hulls, suspension, damage handling and useful wreck cover remain open.
+
 Audit baseline: `716bbd011cfc2f788d64223951ff9c533b7fc470`, 2026-10-05. This is a requirement ledger for the complete `docs/spec.txt`, not a declaration that the game is complete. Root work on player motion, view settings and footsteps is concurrent and **not accepted by this audit**. Later integrations must supply their own exact source identity and scoped evidence.
 
 The audit read the complete specification, project `AGENTS.md`, runtime paths, development CLI, workflow, and meaningful assertions in simulation, operation, player, tactics, navigation, reload and network tests. It inspected the recorded checkpoint and scale/GPU reports below. Historical prose in subsystem documents sometimes describes an earlier implementation; code, test assertions and source-matched results take precedence.

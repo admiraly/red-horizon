@@ -1,0 +1,31 @@
+................
+----------------------------------------------------------------------
+Ran 16 tests in 0.037s
+
+OK
+{"suite": "dense_driver", "passed": true, "cases": 16, "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"}
+Traceback (most recent call last):
+  File "/home/levy/optane-tmp/red horizon tools test-d69pam9w/tests/test_waypoints.py", line 77, in <module>
+    assert math.isclose(math.hypot(actor.x-1000,actor.z-(1000+kind*20)),expected,abs_tol=0.0001)
+           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+ERROR: Command '['/usr/bin/python3', 'tests/test_waypoints.py', '/home/levy/optane-tmp/red horizon tools test-d69pam9w/build/libsim.so']' returned non-zero exit status 1.
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon/runs/jobs/aa73ee09c369/source/tests/test_tools.py", line 41, in <module>
+    fast=dev('test','--suite','fast')
+  File "/mnt/titan_nv3/projects/red-horizon/runs/jobs/aa73ee09c369/source/tests/test_tools.py", line 15, in dev
+    def dev(*argv): return run('python3','tools/dev.py',*argv)
+                           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon/runs/jobs/aa73ee09c369/source/tests/test_tools.py", line 13, in run
+    return subprocess.check_output(argv,cwd=root,env=env,text=True)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/subprocess.py", line 473, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+               **kwargs).stdout
+               ^^^^^^^^^
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '('python3', 'tools/dev.py', 'test', '--suite', 'fast')' returned non-zero exit status 1.
+ERROR: Command '['/usr/bin/python3', 'tests/test_tools.py', '--nasm', '/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm']' returned non-zero exit status 1.

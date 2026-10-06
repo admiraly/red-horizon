@@ -70,7 +70,7 @@ recycling and byte-for-byte FNV behavior, **not production collision**.
 A second independently linked library uses the actual production crowd, terrain
 and terrain-body modules. Five scenarios passed: 100 ticks each against held
 infantry/tank/artillery (minimum swept gaps 4.239990, 7.719971 and 8.260010 m),
-150 ticks approaching the production terrain wall (tank ends X3984.429688 before
+150 ticks approaching the production terrain wall (tank ends X3984.433594 before
 wall X3988 with radius3.55), and driver-to-AI momentum 0.600000→0.560000 m/tick.
 The observer checks actual hull-axis motion with coordinate rounding tolerance
 0.0003 m and physical step tolerance0.0005 m, below the collision API's documented

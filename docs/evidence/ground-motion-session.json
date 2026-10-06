@@ -1,0 +1,33 @@
+{
+  "status": "terminal approach integrated; frozen fast check in progress",
+  "goal": "full specification remains active",
+  "first_candidate": {
+    "source_commit": "dcd5ddf",
+    "library_sha256": "56f40a356a694231fe315586981ad7b4c5d9916d1bf9d4861e0061ca29015009",
+    "tactics": "failed original1200wall recovery; AI forward-pivot fix73248c8 follows"
+  },
+  "pre_arrival_candidate": {
+    "source_commit": "a8fd4b7",
+    "library_sha256": "e3b747db996dfde955cdb3b5e0dd3143a659611ed20c197929385840953fd0cd",
+    "focused_job": "bc7833855d0c",
+    "tools_job": "aa73ee09c369",
+    "navigation": "passed retry after first missingNASM development environment failure",
+    "tactics": "passed original1200wall and8k16k95%progress/replay",
+    "vehicles": "passed measured acceleration and original18m steady30tick",
+    "crowd": "failed heldarmor240tick <.6m arrival; collision sweeps passed"
+  },
+  "evidence_scope": "development-only initial fixtures; actual NASM public paths, no targetGPU/fulloperation claim",
+  "worker_sessions_reconciled": true,
+  "approach_fix": {
+    "root_commit": "b53b7cd",
+    "worker_commit": "d1cf007",
+    "policy": "AI originalnav range gain0.15; movement allowed inside60degree steering arc; physicalturn/speed/contact caps unchanged",
+    "original_crowd_deadlines": "heldtank240/artillery360/walledge240/wallroute1600 passworkerproof",
+    "driver_close_points": "not tapered; original18msteady gate retained"
+  },
+  "fixture_changes": [
+    "waypointfirsttick trackedacceleration then originalsteadycaps",
+    "terrain trackedarrival <2mm plus last10ticksettling under original1200deadline; actual0.953mm error",
+    "six driveredge/corner90ticks plus tangentsteering; human50unchanged"
+  ]
+}

@@ -138,16 +138,33 @@ completeoperation/logistics/recovery, streamedworld, runtimejobs/reload/snapshot
 recorded audiovisualcraft, Windows/fourrenderedclients and hardwarequality remain
 independent open tracks; no fullgame acceptance from this batch.
 
-Ground-vehicle continuation contract (planned, not implemented): current direct
-armor movement consumes world-X/Z inputs at an immediate 0.6m/tick, while mesh
-heading is inferred from observed displacement. AI armor/artillery also currently applies crowd-steered endpoints directly.
-Next batch must introduce shared genuine authoritative hull heading and bounded acceleration/braking/turn rate, then connect
-the same state to rendering and UDP presentation. Heading must persist when stopped,
-reset safely on generation reuse and participate in replay checksums. Cannon aim
-must remain separately controllable. Keep existing body sweeps, physical speed caps,
-finite ammunition, ownership and failed-exit behavior; replace the old instant-speed
-18m fixture expectation with independently measured acceleration/turn/braking gates
-only when the new movement contract is implemented. Road/off-road surface sampling,
-slope limits and wheeled versus tracked behavior need actual terrain data and
-independent uphill/downhill, contact and same-input replay tests. Uniform terrain
-constants or cosmetic mesh rotation alone cannot establish these requirements.
+Ground-vehicle batch is integrated for verification: root owns motion/collision/
+UDP contracts and world/controller hooks; isolated motion, collision, public-path
+oracle and presentation workers supplied committed focused evidence. Shared hull
+heading, acceleration, braking, bounded pivoting and human slow reverse are real
+world state; collision accepts complete reachable segments, and UDPv7/rendering
+consume the same generation-stamped pose. Root frozen candidate a8fd4b7 is under
+integration verification; worker passes alone do not establish final acceptance.
+The original 30-tick18m steady-drive gate remains after a measured acceleration
+phase. Original8k/16k95%army progress and1200tick wall recovery remain unchanged.
+Driver corner recovery fixtures explicitly steer tangent and allow90ticks for
+physical pivot/acceleration; human50tick fixtures remain unchanged.
+
+Next ready physical batch: authoritative road/off-road surface sampling and slope
+constraints with distinct tracked/wheeled handling, requiring actual terrain data
+and independent uphill/downhill, contact, camera-independent and same-input replay
+proofs. Separate useful followups are oriented hulls, safe army formation spacing,
+traffic recovery, damage handling and useful wreck cover. Uniform constants or
+cosmetic rotation cannot establish terrain-dependent movement. Full operation,
+intelligence, streaming, Windows, runtime jobs, recorded craft and four-client
+hardware quality remain independently required; the complete goal stays active.
+
+Terrain prerequisite discovered during integration: authoritative terrain_height
+and both GLSL height functions currently share the same analytic bowl/ridge.
+Its conservative gradient norm is <0.023 (roughly1.31degrees); there is no road
+surface data. Therefore natural current-map driving cannot establish steep-slope
+rejection or road traction. Next terrain implementation must add real shared
+surface geometry and meaningful height variation before claiming those behaviors,
+retain body/corridor reachability and keep collision independent of visual loading.
+Artificial steep development fixtures must exercise the same authoritative sampler,
+not replace slope observations with uniform role constants.

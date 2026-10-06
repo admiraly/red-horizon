@@ -1,5 +1,40 @@
 # Status — Linux shared-world prototype,2026-10-06
 
+Ground-hull integration is in progress; the full game goal remains active.
+Runtime92d3fda now uses shared authoritative tank/artillery heading, acceleration,
+braking and bounded turning for both AI and human drivers. Complete reachable
+segments retain body/terrain safety; infantry and aircraft keep their established
+controllers. UDPv7 and near/mid/distant/map presentation consume the same stamped
+heading, including stationary pivots. The whole1MiB sidecar and16-byte private
+player-generation claim stamps are included in authoritative checksums.
+
+Focused public-path proofs establish actual acceleration, bounded brake/reverse,
+AI/driver continuity, camera-independent hull motion and twelve actual cannon
+shots. Natural120tick8k/16k cohorts check every living tank/artillery's displacement
+against its stamped heading/velocity and replay actual combat. Those are motion
+and local sweep proofs, not all-army mutual-clearance or complete realism acceptance.
+Worker network/GL proofs use real packets and sourced meshes; targetGPU craft and
+Windows remain outside those scopes. Root full frozen verification is pending.
+
+Integration diagnostics caught genuine AI wall oscillation and destination
+overshoot. AI detours now pivot forward, terminal braking uses original navigation
+range, and a practical60degree steering arc allows bounded artillery turns without
+repeated stops. All original crowd-arrival deadlines and1200tick tactics recovery
+pass focused tests. The waypoint fixture now checks vehicle acceleration from rest
+and retains original0.5/0.2m steady caps. The terrain vehicle's original1200tick
+arrival deadline remains; exact coordinate snapping is replaced by <2mm arrival
+and <2mm final-ten-tick settling (measured0.953mm arrival). Human exact-arrival
+checks remain unchanged. Driver-only corner fixtures explicitly steer tangent and
+allow90ticks for physical pivot/acceleration; human50tick intervals remain.
+
+Road/off-road traction, meaningful steep slopes, wheeled roles, oriented hulls,
+suspension, damage handling and useful wreck cover are still required. Full
+operation/intelligence/streaming/runtime jobs/Windows/audio craft/four-client target
+performance and human playtesting also remain open. No complete-game claim follows
+from this integration. Evidence is being reconciled in
+docs/evidence/ground-motion-session.json and ground-motion-jobs.json.
+
+
 The controller/body continuation keeps the complete game goal active. Runtime
 checkpoint `6b23103` integrates `schemas/crowd.inc` v2: walking players, driven
 tanks and army actors now query each other's planar body footprints. Direct

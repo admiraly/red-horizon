@@ -1,0 +1,1 @@
+{"suite": "vehicles", "passed": true, "actual_steady_drive_metres_per_second": 18, "first30tick_acceleration_metres": 9.297427915912714, "exclusive_ownership": true, "generation_cleanup": true, "safe_exit": true, "persistent_cannon_ammo": true, "swept_shell_damage": true, "single_destruction_event": true, "fixtures": "real assembly; development-only initial state setup"}

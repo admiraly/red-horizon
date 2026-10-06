@@ -9,7 +9,7 @@ Additional prototype APIs: sim_fire(EDI=index,ESI=damage1..100)->EAX0/-1 applies
 
 Twelve sites are described in docs/operation.md, with sim_sites stride32, sim_requisition/sim_supply[2], sim_operation_state. Operation state and warning timers are part of checksums; no saved schema migration exists. audio_init/audio_shot/audio_update/audio_shutdown and mixer test ABI are described in docs/audio.md. Standalone UDP proof has a separate version1 fixed32-byte contract in docs/network.md and is not yet the gameplay protocol.
 
-Bounded moving-shell and event record layouts are in `schemas/combat.inc` and [combat](combat.md). The event ring is cosmetic and excluded from authoritative checksums. Shell pools and stocks participate in replay. Player vehicle ownership uses separate records and entity-index mappings, preserving player64/entity32 layouts. UDPv6 field layouts are canonical in `src/net/schema.txt`; vehicles and events are server-owned state, never client damage/position claims.
+Bounded moving-shell and event record layouts are in `schemas/combat.inc` and [combat](combat.md). The event ring is cosmetic and excluded from authoritative checksums. Shell pools and stocks participate in replay. Player vehicle ownership uses separate records and entity-index mappings, preserving player64/entity32 layouts. UDPv7 field layouts are canonical in `src/net/schema.txt`; vehicles and events are server-owned state, never client damage/position claims.
 
 `sim_scenario(EDI=0 default/1 air-battle)` returns0/-1. Mode0 preserves state; mode1 requires a fresh >=2048-actor world and places64aircraft and256ground actors into an initial encounter while preserving the army. It initializes actual flight poses/stores, creates no shots/events, and places connected players behind allies. The ordinary client uses8192actors. See [air-battle](air-battle.md). `air_hit(EDI=stable_index)` is called only after positive surviving production damage and validates aircraft generation. `air_trails_update(EDI=local_player,XMM0=render_seconds)` owns128x32cosmetic records, separately from64event effects. `net_projectiles_update(XMM0=render_seconds)` owns512x64remote cosmetic trajectories; neither call may write authority.
 
@@ -64,7 +64,7 @@ initial side-index-priority regression and remains required.
 
 ## Direct controller body queries
 
-Private `schemas/crowd.inc` v2 preserves entity32/player64/wire layouts.
+Private `schemas/crowd.inc` v3 preserves entity32/player64 layouts.
 `crowd_step(EDI=armyHullID or ENTITY_CAPACITY+humanSlot, XMM0/1=currentXZ,
 XMM2/3=originalLocalGoalXZ, XMM4=requestedStep)` returns actual XZ. Human/tank
 caps are0.3/0.6m; accepted steps preserve requested components and terrain/body
@@ -86,3 +86,39 @@ four human slots, with no all-army scan/heap allocation. Those phases and stable
 player-slot ordering are deterministic; identical per-body motion under exchanged
 player slots is not promised. Derived snapshots/metrics add no future replay state;
 the enabled policy word remains checksummed. Exact evidence belongs to status.
+
+## Shared ground hull motion and UDP v7
+
+`schemas/ground_motion.inc` v1 defines authoritative32-byte heading, signed speed,
+applied turn, accepted X/Z velocity, generation, role and active flag records for
+all32768 entity slots. `ground_init`, `ground_step` and `ground_hash` are wired
+into actual world initialization, AI tank/artillery movement, human tank driving
+and replay checksums. Heading zero faces+Z. AI uses crowd avoidance as steering
+intent before bounded forward turning/acceleration; legitimate drivers can brake
+through zero into slow reverse. No input brakes, and stopped heading persists.
+Source positions must be in[0,8000]; local goals may span[-8000,16000].
+
+`crowd_hull_step(EDI=hullID, ESI=AI0/driver1, XMM0/1=sourceXZ,
+XMM2/3=reachableEndpointXZ, XMM4=absoluteSpeedBudget)` accepts the whole physical
+segment or holds. It cannot normalize, slide or rotate that segment. Existing
+bounded body/terrain sweeps remain authoritative. Contact stops translation;
+bounded tracked pivots can continue. Shared tank envelope0.6m/tick permits gradual
+braking from driver to AI0.5m target. Infantry keeps its existing controller path.
+
+The full1MiB sidecar and enabled policy are hashed. Private16-byte
+`vehicle_driver_generation[4]` stamps successful boarding and is hashed by
+vehicle_hash; vehicle, collision, actuator and replication readers reject recycled
+human claims. Entity32/player64/vehicle32 remain unchanged.
+
+Canonical `src/net/schema.txt` now describes UDPv7, schema fingerprint0x4e2ac49b.
+NET_GROUND105 carries at most18 self-contained64-byte entity-plus-pose records
+in1196-byte datagrams. Legitimate owned hulls receive priority; an independent
+bounded cursor refreshes other nearby hulls. The client validates entire batches
+before publication, tracks generation/death/interest separately and clears poses
+on disconnect. Near/mid models and distant/map markers read stamped headings,
+including stationary pivots. Renderer state is cosmetic and read-only.
+
+Current shapes are planar conservative circles. Roads/slopes, wheeled chassis,
+oriented hulls, suspension, damage handling and wreck cover remain separate work.
+Focused worker evidence is in ground-motion.md, ground-motion-outcomes.md and
+ground-presentation.md; final integrated evidence belongs to status.md.

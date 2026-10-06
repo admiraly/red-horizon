@@ -1,0 +1,52 @@
+[
+  {
+    "worker": "ground-motion",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-motion",
+    "commit": "d1cf0079fc7df846c49460d22e2c1e81c78e4d7a",
+    "clean": true,
+    "owned_source_sha256": {
+      "src/game/ground_motion.asm": "58d8e1c76e9436c2163f1937d72cff7bb794d26cd9434dbcd9e91620241e1a40",
+      "tests/test_ground_motion.py": "b46ad2a23bf889efdbeba1af56f7d3c60a0c77c510718efae0513cb971ccb640",
+      "tests/ground_motion_probe.asm": "c8b337f91deb0ed67a0f7d323ad8dea764df8745f49a77056de1b0d7196c4350"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "ground-collision",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-collision",
+    "commit": "05a9d682f4e6dc9147ef10c8fd08b37a25b9b013",
+    "clean": true,
+    "owned_source_sha256": {
+      "src/nav/crowd.asm": "61da32e150343a70608c2b9275c2de4fb8763e9cafb4036425002606d6c9cbed",
+      "tests/test_crowd.py": "2671368efb84e4cf70565cc7878bafb9d6a515041fb4e20f213888756bb98d4b",
+      "tests/crowd_probe.asm": "a928a07843d9288eff581f697cede147a7e66815e40968078d0ccf0f60b0e690"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "ground-oracle",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-oracle",
+    "commit": "3ea67321ae1679ff21ba5435fefaef20d1c9d3dd",
+    "clean": true,
+    "owned_source_sha256": {
+      "tests/test_ground_motion_outcomes.py": "3746c4c68b7c52164936ef0e875cfd0f7fb41b58cb167398e30db24f950da53f",
+      "tests/test_controller_crowd_outcomes.py": "e5661bed68f2bb122cbf0589e10a5099dc031c7b38ce6d0b9b0718921b94457d",
+      "tests/test_terrain_body_outcomes.py": "966f2a0dc69965e8dd339ecaf8fcd5e0a26cef6b5bd363750a92b1eb822fe395"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "ground-presentation",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-presentation",
+    "commit": "6b7bd9ca21d9d06cad1f742fabb9453d7833f4f4",
+    "clean": true,
+    "owned_source_sha256": {
+      "src/net/coop_server.asm": "a17bf6f9176b1061380f253c74386a7a744268e641dc4af6b7a5b2755ac35add",
+      "src/net/client.asm": "64ce7b8057731333af73a5d1d77fb6494f44b64c00509dc76728bc4d41be8e63",
+      "src/render/meshes.asm": "91661afbd87914b868614903dbbc3725e07961c49b727caf075c830b5b5dfc2d",
+      "tests/test_ground_network.py": "cab43e43cd27da9aa57ab6f337b63164e6c01ef80d49ef636386c7079ff3e348",
+      "tests/test_ground_gl.py": "c3926a3b19f92d92ba8631e89b207c0dc40a0790b378491d4d74a06a148cb8b6"
+    },
+    "root_owned_source_mismatches": []
+  }
+]

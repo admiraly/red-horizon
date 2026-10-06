@@ -1,0 +1,8 @@
+[
+  {
+    "suite": "dense_driver",
+    "passed": true,
+    "cases": 16,
+    "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"
+  }
+]
