@@ -9,7 +9,7 @@ default rel
 %define GRID_SIZE (GRID_SIDE*GRID_SIDE)
 %define SNAP_SIZE 32
 %define LIMIT 512
-extern sim_players,sim_player_vehicle,sim_vehicles,terrain_body_step,terrain_body_blocked
+extern sim_players,sim_player_vehicle,sim_vehicles,vehicle_driver_generation,terrain_body_step,terrain_body_blocked
 extern sim_entities,sim_count,sim_tick_count,terrain_body_move,terrain_body_path_clear,vehicle_entity_driver
 section .rodata align=16
 zero: dd 0.0
@@ -955,8 +955,12 @@ boarding:
  jne .none
  cmp dword [rbx+PLAYER_HP],0
  je .none
- cmp dword [rbx+PLAYER_GENERATION],0
- je .none
+ mov ecx,[rbx+PLAYER_GENERATION]
+ test ecx,ecx
+ jz .none
+ lea rdx,[vehicle_driver_generation]
+ cmp ecx,[rdx+rdi*4]
+ jne .none
  lea rdx,[sim_player_vehicle]
  mov eax,[rdx+rdi*4]
  cmp eax,[sim_count]

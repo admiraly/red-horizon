@@ -28,6 +28,7 @@ def reset(rows):
     C.memset(C.addressof((C.c_byte*256).in_dll(lib,"sim_players")),0,256)
     C.memset(C.addressof((C.c_int*4).in_dll(lib,"sim_player_vehicle")),255,16)
     C.memset(C.addressof((C.c_byte*128).in_dll(lib,"sim_vehicles")),0,128)
+    C.memset(C.addressof((C.c_uint*4).in_dll(lib,"vehicle_driver_generation")),0,16)
     count.value=len(rows);tick_count.value=0
     for i,row in enumerate(rows):
         x,z,*kind=row;k=kind[0] if kind else 0
@@ -210,12 +211,14 @@ class P(C.Structure):
 players=(P*4).in_dll(lib,'sim_players')
 player_vehicle=(C.c_int*4).in_dll(lib,'sim_player_vehicle')
 vehicle_records=(C.c_uint*32).in_dll(lib,'sim_vehicles')
+driver_generation=(C.c_uint*4).in_dll(lib,'vehicle_driver_generation')
 lib.test_step.argtypes=lib.test_move.argtypes;lib.test_step.restype=C.c_int
 lib.test_occupied.argtypes=[C.c_int,C.c_uint,C.POINTER(C.c_float)];lib.test_occupied.restype=C.c_int
 def human(slot,x,z):
     players[slot]=P(x=x,z=z,hp=100,connected=1,gen=slot+1)
 def claim(slot,entity):
     player_vehicle[slot]=entity;drivers[entity]=slot
+    driver_generation[slot]=players[slot].gen
     for offset,value in enumerate((entity,entities[entity].gen,slot,1,0,0,slot+1,0)):
         vehicle_records[slot*8+offset]=value
 
@@ -225,9 +228,9 @@ def controlled(body,goal,cap=100):
     else:
         p=entities[body];start=(p.x,p.z);role=p.kind;maximum=.6
     data=(C.c_float*5)(*start,*goal,cap)
-    authoritative=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers))
+    authoritative=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers),bytes(driver_generation))
     assert lib.test_step(body,data)==1,'controller SysV callee-saved ABI'
-    assert authoritative==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers)),'controller wrote authoritative state'
+    assert authoritative==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers),bytes(driver_generation)),'controller wrote authoritative state'
     endpoint=tuple(data[:2]);delta=(endpoint[0]-start[0],endpoint[1]-start[1])
     intent=(goal[0]-start[0],goal[1]-start[1]);length=math.hypot(*intent)
     assert math.hypot(*delta)<=min(cap,maximum)+.0007
@@ -240,9 +243,9 @@ def controlled(body,goal,cap=100):
 
 def occupied(point,role=0,ignore=-1):
     data=(C.c_float*2)(*point)
-    authoritative=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers))
+    authoritative=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers),bytes(driver_generation))
     result=lib.test_occupied(ignore,role,data)
-    assert authoritative==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers)),'occupancy wrote authoritative state'
+    assert authoritative==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers),bytes(driver_generation)),'occupancy wrote authoritative state'
     assert result in (0,1)
     return result
 # Invalid controller steps are rejected before minss can hide NaN/Inf values.
@@ -386,9 +389,9 @@ def hull(endpoint,budget=.6,mode=0,body=0,start=None):
     start=(entities[body].x,entities[body].z) if start is None else start
     data=(C.c_float*5)(*start,*endpoint,budget)
     requested=tuple(data[2:4]);original=tuple(data[:2])
-    state=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers))
+    state=(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers),bytes(driver_generation))
     assert lib.test_hull_step(body,mode,data)==1,'hull SysV callee-saved ABI'
-    assert state==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers)),'hull authoritative write'
+    assert state==(bytes(entities),bytes(players),bytes(vehicle_records),bytes(drivers),bytes(driver_generation)),'hull authoritative write'
     result=tuple(data[:2])
     if all(math.isfinite(v) and 0<=v<=8000 for v in original):
         assert result in (original,requested),('hull slid, normalized or clipped',original,requested,result)
@@ -425,7 +428,7 @@ for role,driver in ((1,False),(1,True),(2,False)):
     assert list(metrics)==before,'invalid-count hull queried grid'
     hull_cases.append({'role':role,'mode':mode,'small_exact_endpoint':exact,'zero_bad_inputs_generation_count_readonly_abi':True})
 # Every directed tank driver claim link and generation must be valid.
-for broken in ('unclaimed','player_link','hull_link','record_entity','record_driver','record_generation','inactive','enemy','disconnected','dead_player','player_generation'):
+for broken in ('unclaimed','player_link','hull_link','record_entity','record_driver','record_generation','inactive','enemy','disconnected','dead_player','player_generation','recycled_player','zero_identity_stamp','wrong_identity_stamp'):
     hull_setup(1,True)
     if broken=='unclaimed':drivers[0]=-1
     elif broken=='player_link':player_vehicle[0]=-1
@@ -437,9 +440,29 @@ for broken in ('unclaimed','player_link','hull_link','record_entity','record_dri
     elif broken=='enemy':entities[0].side=1
     elif broken=='disconnected':players[0].connected=0
     elif broken=='dead_player':players[0].hp=0
-    else:players[0].gen=0
+    elif broken=='player_generation':players[0].gen=0
+    elif broken=='recycled_player':players[0].gen+=1
+    elif broken=='zero_identity_stamp':driver_generation[0]=0
+    else:driver_generation[0]+=1
     assert hull((1000.2,1000),.6,1)==(1000,1000),broken
 hull_setup(2);assert hull((1000.1,1000),.2,1)==(1000,1000),'artillery cannot claim tank driver mode'
+# Recycling a human slot does not transfer its prior hull claim to the new
+# identity, even when all entity-generation and bidirectional links still match.
+for policy in (1,0):
+    hull_setup(1,True);enabled.value=policy
+    old_stamp=driver_generation[0];players[0].gen+=1
+    assert driver_generation[0]==old_stamp and players[0].gen!=old_stamp
+    assert hull((1000.2,1000),.6,1)==(1000,1000),'recycled driver exact API'
+    assert controlled(0,(1010,1000))==(1000,1000),'recycled driver manual API'
+    if policy:
+        assert occupied((1000,1000),ignore=0)==1,'invalid claim hid new physical human'
+        lib.crowd_begin()
+        assert occupied((1000,1000),ignore=0)==1,'snapshot hid recycled physical human'
+    # A real new boarding stamps the current identity and restores legal access.
+    claim(0,0);lib.crowd_begin()
+    assert hull((1000.2,1000),.6,1)[0]>1000
+    assert controlled(0,(1010,1000))[0]>1000
+
 # A blocked diagonal whole segment must hold despite a legal free component.
 for policy in (0,1):
     hull_setup(1,rows=((1004.45,1000),));enabled.value=policy
@@ -500,7 +523,7 @@ for n in (128,8192):
     bench.append({'actors':n,'ticks':30,'kernel_ms_mean':sum(times)/len(times),'kernel_ms_p95':sorted(times)[28],
                   'inspected':metrics[2],'maximum_inspected_query':metrics[7],'truncated':metrics[6]})
 print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,'coincident_cohorts':coincident_cohorts,
-                  'coincident_flank_positions':flank_positions,'reverse_flank_positions':reverse_flank_positions,'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,'controller_cases':controller_cases,'controller_relative_sweeps':controller_sweeps,'exact_hull_cases':hull_cases,'exact_hull_claim_rejections':11,'exact_hull_blocked_diagonal_terrain_and_bodies':True,
+                  'coincident_flank_positions':flank_positions,'reverse_flank_positions':reverse_flank_positions,'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,'controller_cases':controller_cases,'controller_relative_sweeps':controller_sweeps,'exact_hull_cases':hull_cases,'exact_hull_claim_rejections':14,'exact_hull_blocked_diagonal_terrain_and_bodies':True,
                   'limitations':['512 inspected neighbors per query; denser 3x3 infantry or 5x5 vehicle cell chains conservatively yield',
                   'controller kernel verified independently; production player/vehicle hooks verified by integrator',
                   'initial overlap recovery is gradual, crowded unsatisfiable layouts may yield',

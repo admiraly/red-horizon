@@ -74,3 +74,27 @@ relative sweeps and 360 controller pair sweeps each, with zero new observed
 overlap ticks and 199/200 moving controller ticks. Old production callers are
 still in this worker tree; the new actuator itself is exercised only by the
 strict exact-segment kernel cases until the integrator installs its hooks.
+
+## Driver identity stamp supplement
+
+The boarding reader now compares `vehicle_driver_generation[slot]` with the
+current nonzero `PLAYER_GENERATION` before accepting any hull claim. The
+integrator owns this four-word private stamp's real boarding/reset/detach and
+future-state hashing. The kernel probe exports the stamp and its synthetic legal
+boarding helper populates it. Read-only assertions now also cover the stamp.
+
+Focused strict-kernel check after adding the reader and probe:
+
+```
+RED_HORIZON_NASM=/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm python3 tests/test_crowd.py
+```
+
+Session 2152 exited 0, log `/tmp/rh-ground-collision-identity.log`. Every past
+strict gate remains in place. Fourteen malformed claim cases now include a
+recycled live player generation and zero/wrong identity stamps. Explicit tests
+under actor-policy enabled and disabled show that both direct `crowd_hull_step`
+and `crowd_step` driver calls hold after player-generation recycling. Enabled
+occupancy ignoring the hull still sees the new physical human before and after
+`crowd_begin`. A newly stamped legal claim restores movement. These are direct
+kernel identity checks, not whole-simulation acceptance of the integrator's
+new actuator/storage/hash hooks.

@@ -8,10 +8,11 @@ sim_count: resd 1
 sim_tick_count: resd 1
 global vehicle_entity_driver
 vehicle_entity_driver: resd ENTITY_CAPACITY
-global sim_players,sim_player_vehicle,sim_vehicles
+global sim_players,sim_player_vehicle,sim_vehicles,vehicle_driver_generation
 sim_players: resb 4*64
 sim_player_vehicle: resd 4
 sim_vehicles: resb 4*32
+vehicle_driver_generation: resd 4
 section .text
 ; C wrapper (ID, float[5] input/output). ABI checked around actual call.
 global test_move,test_hash
