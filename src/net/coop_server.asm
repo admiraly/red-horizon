@@ -9,6 +9,8 @@ default rel
 %include "schemas/wreck_remote.inc"
 %include "schemas/company_remote.inc"
 %include "schemas/company_supply.inc"
+%include "schemas/depot_supply.inc"
+extern depot_supply_report
 extern company_supply_report
 extern sim_wrecks
 extern sim_projectiles
@@ -814,6 +816,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_supply
+ mov edi,r12d
+ mov rsi,r13
+ call send_depots
 .nextslot:
  add r13,NET_RECORD
  inc r12d
@@ -1547,6 +1552,33 @@ send_supply:
  mov [output+40],eax
  mov rdi,rbx
  mov esi,NET_HEADER+COMPANY_SUPPLY_PAYLOAD
+ call send_packet
+.done:
+ add rsp,8
+ pop r12
+ pop rbx
+ ret
+section .note.GNU-stack noalloc noexec nowrite progbits
+
+section .text
+send_depots:
+ push rbx
+ push r12
+ sub rsp,8
+ mov rbx,rsi
+ mov r12d,edi
+ mov esi,edi
+ mov edi,NET_DEPOTS
+ mov edx,DEPOT_SUPPLY_BYTES
+ call header
+ mov edi,r12d
+ lea rsi,[output+40]
+ mov edx,DEPOT_SUPPLY_BYTES
+ call depot_supply_report
+ test eax,eax
+ jnz .done
+ mov rdi,rbx
+ mov esi,NET_HEADER+DEPOT_SUPPLY_BYTES
  call send_packet
 .done:
  add rsp,8

@@ -1,0 +1,126 @@
+{
+  "input_revision": "5091b04a04a647797febc8360d85e0ad424bbdac-eeab15cc132fdc7a",
+  "logs": {
+    "report": {
+      "path": "docs/evidence/depot-supply-report.log",
+      "sha256": "dfaac8b4df2f5931c27f0e9441fe076775b7f340cde807abdb0d21c60c987f10",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "report-final": {
+      "path": "docs/evidence/depot-supply-report-final.log",
+      "sha256": "07e1eee88f66d028f6f631f54f33733643fb868f2493faa4a7fba700831e1f12",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "fast": {
+      "path": "docs/evidence/depot-supply-fast.log",
+      "sha256": "ea166d196a50c3df45dda28fbeec63953cfb7f64300e3603f8cd3a3ea9d0f02a",
+      "reports": 19,
+      "explicit_passes": 19
+    },
+    "fast-final": {
+      "path": "docs/evidence/depot-supply-fast-final.log",
+      "sha256": "fb77c0bd5ad99d6c3e8f308efcb568b30010639841fed06be9a310d5c1a2de23",
+      "reports": 72,
+      "explicit_passes": 71
+    },
+    "network": {
+      "path": "docs/evidence/depot-supply-network.log",
+      "sha256": "881136fa91294b31123e7c5011d89054798918a7dd1ef9b85d4d1dce2e127336",
+      "reports": 22,
+      "explicit_passes": 22
+    },
+    "network-final": {
+      "path": "docs/evidence/depot-supply-network-final.log",
+      "sha256": "249d32884fa88af1935f409f569766151f4d1f54d6b319fc5fe9c028c8769c05",
+      "reports": 22,
+      "explicit_passes": 22
+    },
+    "udp": {
+      "path": "docs/evidence/depot-supply-udp.log",
+      "sha256": "ff7211cf952dd3cbad2d624ff1b50eb2b4b4f04f69505c3ad2898964a3d70987",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "final-render-solo": {
+      "path": "docs/evidence/depot-supply-final-render-solo.log",
+      "sha256": "b2e06fa9fbf025fccf4771b6731dbbb525efab5609b844f190bbadbc7046fe36",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "final-render-coop": {
+      "path": "docs/evidence/depot-supply-final-render-coop.log",
+      "sha256": "8fcb02047b1272c78fe69f59d4ae15c76c0ccbd6551125cb2366884a880dfbbe",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "final-render-small": {
+      "path": "docs/evidence/depot-supply-final-render-small.log",
+      "sha256": "674ad1083402f1c829ae0ae4513e659450c1a48b1070066a741ac462b93db29c",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "final-render-fault": {
+      "path": "docs/evidence/depot-supply-final-render-fault.log",
+      "sha256": "66fd6655f31dbd06ee78dcbbce14108541df0ca2e945fbd82085e673333808d1",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "client-final-build": {
+      "path": "docs/evidence/depot-supply-client-final-build.log",
+      "sha256": "ca0c60949c44d2a39acf9e88cf5f6feaaffd4c5a59c681002d3ee59d5a2140d6",
+      "reports": 0,
+      "explicit_passes": 0
+    },
+    "coop-final-build": {
+      "path": "docs/evidence/depot-supply-coop-final-build.log",
+      "sha256": "18d6673007fc4c5c69efc58b504c0e789a8ead8affb29b6f37bf74094b37a229",
+      "reports": 0,
+      "explicit_passes": 0
+    }
+  },
+  "builds": {
+    "client": {
+      "metadata": {
+        "target": "client",
+        "revision": "5091b04a04a647797febc8360d85e0ad424bbdac-eeab15cc132fdc7a",
+        "assembled": 1,
+        "assembled_sources": [
+          "src/platform/linux/client.asm"
+        ],
+        "seconds": 0.4549766240088502,
+        "executable": "/mnt/titan_nv3/projects/red-horizon-workers/depot-supply-report/build/revisions/5091b04a04a647797febc8360d85e0ad424bbdac-eeab15cc132fdc7a/red-horizon"
+      },
+      "binary_sha256": "bf6881d0d50b736fc462f6655ae53ba598f35f51a444e59732a8ff152406bb9f"
+    },
+    "coop": {
+      "metadata": {
+        "target": "coop",
+        "revision": "5091b04a04a647797febc8360d85e0ad424bbdac-865a30359ea0bc09",
+        "assembled": 0,
+        "assembled_sources": [],
+        "seconds": 0.4995596680091694,
+        "executable": "/mnt/titan_nv3/projects/red-horizon-workers/depot-supply-report/build/revisions/5091b04a04a647797febc8360d85e0ad424bbdac-865a30359ea0bc09/red-horizon-coop-server"
+      },
+      "binary_sha256": "0ea33aeb10357d440561d0679f6b5ee17b232a3bf37b7eacd4abacb9b165852a"
+    },
+    "headless": {
+      "metadata": {
+        "target": "headless",
+        "revision": "5091b04a04a647797febc8360d85e0ad424bbdac-865a30359ea0bc09",
+        "assembled": 0,
+        "assembled_sources": [],
+        "seconds": 0.5265784069924848,
+        "executable": "/mnt/titan_nv3/projects/red-horizon-workers/depot-supply-report/build/revisions/5091b04a04a647797febc8360d85e0ad424bbdac-865a30359ea0bc09/red-horizon-server"
+      },
+      "binary_sha256": "64fc898c8ef611f3d7548981b484a8154f2c58bdc5bcd7e0b41eab5ba686a4f8"
+    }
+  },
+  "limits": [
+    "Source epochs remain separate for core, wire and rendering checks.",
+    "Ordinary ready-depot rendered scenes; other availability states verified through API, not exhaustive GUI fixtures.",
+    "Prior frozen full depot failed155 reports/154 explicit; immutable corrected focused recheck does not change that status.",
+    "Full game, scrolling, exact world-to-wire stock oracle, supply-aware routes, Windows/hardware/art acceptance remain open."
+  ]
+}
