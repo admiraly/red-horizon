@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/input-bindings/tests/test_client_bindings.py", line 116, in <module>
+    until(lambda:text_visible(X,display,window,0,'5 ADVANCE',column=len(f'COMPANY {company} | FRONT 1 | ')),3)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/input-bindings/tests/test_client_bindings.py", line 65, in until
+    result = predicate()
+  File "/mnt/titan_nv3/projects/red-horizon-workers/input-bindings/tests/test_client_bindings.py", line 116, in <lambda>
+    until(lambda:text_visible(X,display,window,0,'5 ADVANCE',column=len(f'COMPANY {company} | FRONT 1 | ')),3)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/input-bindings/tests/hud_pixels.py", line 34, in text_visible
+    for y,line in enumerate(ROWS[char]):
+                            ~~~~^^^^^^
+KeyError: '5'

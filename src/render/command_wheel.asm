@@ -1,6 +1,8 @@
 ; Pixel-sized contextual order wheel, using the shared bounded NASM font.
+%include "schemas/input_bindings.inc"
 default rel
 extern glGetUniformLocation,glUniform1i,glUniform2f,glDrawArrays
+extern snprintf,bindings_label
 extern view_width,view_height,command_hud_draw_at
 section .rodata
 mode_name: db 'commandWheelMode',0
@@ -9,12 +11,13 @@ move_text: db 'MOVE',0
 hold_text: db 'HOLD',0
 retreat_text: db 'RETREAT',0
 follow_text: db 'FOLLOW',0
-release_text: db 'RELEASE / RIGHT CANCEL',0
+release_text: db 'RELEASE / %s CANCEL',0
 half: dd 0.5
 scale: dd 0.4
 radius_limit: dd 120.0
 label_scale: dd 0.72
 section .bss
+release_buf: resb 128
 mode_loc: resd 1
 viewport_loc: resd 1
 section .text
@@ -108,9 +111,19 @@ command_wheel_hud_draw:
  add edx,[rsp+8]
  sub edx,8
  call command_hud_draw_at
- lea rdi,[release_text]
+ mov edi,BIND_COMMAND_CANCEL
+ call bindings_label
+ mov rcx,rax
+ lea rdi,[release_buf]
+ mov esi,128
+ lea rdx,[release_text]
+ xor eax,eax
+ call snprintf
+ imul eax,6
+ mov ebx,eax
+ lea rdi,[release_buf]
  mov esi,[rsp]
- sub esi,126
+ sub esi,ebx
  mov edx,[rsp+4]
  add edx,[rsp+8]
  add edx,26
