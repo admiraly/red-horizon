@@ -21,3 +21,11 @@
 ; Single-thread simulation safe point only. No heap. SysV preserved GPR/stack.
 ; Diagnostic wreck_query_candidates counts the most recent valid caller search.
 %endif
+
+; Prepared explicit source variants wreck_query_context/wreck_body_query_context:
+; RDI result24,ESI capacity,RDX readable1024x64 records,ECX active count<=1024,
+; R8 caller-derived revision; endpoints/radius match corresponding legacy ABI.
+; Source immutable throughout call; caller advances revision after any mutation.
+; Cache key includes source pointer+revision. No remote/world selection implied.
+; Invalid caller checked before source; source storage validity is caller-owned.
+; Shared derived cache supports sequential safe-point calls, not concurrency.

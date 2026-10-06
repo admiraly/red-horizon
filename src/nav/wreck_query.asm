@@ -10,6 +10,10 @@ wreck_query_bounds: resb 1024*24
 wreck_query_candidates: resd 1
 cache_valid: resd 1
 cache_revision: resq 1
+cache_source: resq 1
+query_source: resq 1
+query_revision: resq 1
+query_count: resd 1
 section .rodata
 zero: dd 0.0
 mapmax: dd 8000.0
@@ -40,7 +44,7 @@ rebuild:
 .loop:
  mov eax,r12d
  shl eax,6
- lea rbx,[sim_wrecks]
+ mov rbx,[query_source]
  add rbx,rax
  test dword [rbx+WRECK_FLAGS],WRECK_ACTIVE
  jz .next
@@ -221,10 +225,12 @@ rebuild:
  inc r12d
  cmp r12d,WRECK_CAPACITY
  jb .loop
- cmp r13d,[sim_wreck_count]
+ cmp r13d,[query_count]
  jne .bad
- mov rax,[wreck_query_revision]
+ mov rax,[query_revision]
  mov [cache_revision],rax
+ mov rax,[query_source]
+ mov [cache_source],rax
  mov dword [cache_valid],1
  xor eax,eax
  jmp .done
@@ -246,21 +252,34 @@ coordinate_cell:
  cmova eax,edx
  ret
 
-global wreck_query,wreck_body_query
-; Radius-inflated planar body projection, with no-deepening overlap escape.
+global wreck_query,wreck_body_query,wreck_query_context,wreck_body_query_context
+; Explicit source context: RDX records1024x64, ECX active count, R8 revision.
+; Caller owns readable stable source and advances revision after any mutation.
 wreck_body_query:
+ lea rdx,[sim_wrecks]
+ mov ecx,[sim_wreck_count]
+ mov r8,[wreck_query_revision]
+wreck_body_query_context:
  movaps xmm6,xmm4
  movaps xmm5,xmm3
  movaps xmm3,xmm2
  movaps xmm2,xmm1
  xorps xmm1,xmm1
  xorps xmm4,xmm4
- mov edx,1
+ mov r9d,1
  jmp query_start
 wreck_query:
- xor edx,edx
+ lea rdx,[sim_wrecks]
+ mov ecx,[sim_wreck_count]
+ mov r8,[wreck_query_revision]
+wreck_query_context:
+ xor r9d,r9d
  xorps xmm6,xmm6
 query_start:
+ test rdx,rdx
+ jz .invalid_leaf
+ cmp ecx,WRECK_CAPACITY
+ ja .invalid_leaf
  test rdi,rdi
  jz .invalid_leaf
  cmp esi,WRECK_QUERY_BYTES
@@ -272,7 +291,10 @@ query_start:
  push r15
  sub rsp,112
  mov r15,rdi
- mov [rsp+72],edx
+ mov [rsp+72],r9d
+ mov [rsp+80],rdx
+ mov [rsp+88],ecx
+ mov [rsp+96],r8
  movss [rsp+76],xmm6
  movss [rsp],xmm0
  movss [rsp+4],xmm1
@@ -296,10 +318,19 @@ query_start:
  movss xmm0,[rsp+76]
  ucomiss xmm0,[zero]
  jb .invalid
+ mov rax,[rsp+80]
+ mov [query_source],rax
+ mov eax,[rsp+88]
+ mov [query_count],eax
+ mov rax,[rsp+96]
+ mov [query_revision],rax
  mov dword [wreck_query_candidates],0
+ mov rax,[query_source]
+ cmp rax,[cache_source]
+ jne .refresh
  cmp dword [cache_valid],1
  jne .refresh
- mov rax,[wreck_query_revision]
+ mov rax,[query_revision]
  cmp rax,[cache_revision]
  je .cached
 .refresh:
@@ -393,11 +424,11 @@ query_start:
  ; Deterministic physical identity tie, independent of side and bucket order.
  mov eax,ebx
  shl eax,6
- lea r8,[sim_wrecks]
+ mov r8,[query_source]
  add r8,rax
  mov eax,[rsp+36]
  shl eax,6
- lea r9,[sim_wrecks]
+ mov r9,[query_source]
  add r9,rax
  mov eax,[r8+WRECK_ENTITY]
  cmp eax,[r9+WRECK_ENTITY]
@@ -429,7 +460,7 @@ query_start:
  je .clear
  mov [r15+4],eax
  shl eax,6
- lea rdx,[sim_wrecks]
+ mov rdx,[query_source]
  add rdx,rax
  mov eax,[rsp+40]
  mov [r15],eax
