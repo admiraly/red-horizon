@@ -3,7 +3,7 @@
 default rel
 extern sim_wrecks,sim_wreck_count,wreck_query_revision,sinf,cosf,segment_box
 section .bss align=64
-heads: resd 1024
+heads: resd 16384
 next: resd 1024
 global wreck_query_bounds,wreck_query_candidates
 wreck_query_bounds: resb 1024*24
@@ -13,7 +13,7 @@ cache_revision: resq 1
 section .rodata
 zero: dd 0.0
 mapmax: dd 8000.0
-cell: dd 250.0
+cell: dd 62.5
 padding: dd 6.0
 skin: dd 0.002
 align 16
@@ -31,7 +31,7 @@ rebuild:
  mov dword [cache_valid],0
  lea rdi,[heads]
  mov eax,-1
- mov ecx,2048
+ mov ecx,16384+1024
  rep stosd
  xor r12d,r12d
  xor r13d,r13d
@@ -207,7 +207,7 @@ rebuild:
  mov [rsp+100],eax
  movss xmm0,[rbx+WRECK_Z]
  call coordinate_cell
- shl eax,5
+ shl eax,7
  add eax,[rsp+100]
  lea rdx,[heads]
  mov ecx,[rdx+rax*4]
@@ -239,8 +239,8 @@ coordinate_cell:
  divss xmm0,[cell]
  maxss xmm0,[zero]
  cvttss2si eax,xmm0
- cmp eax,31
- mov edx,31
+ cmp eax,127
+ mov edx,127
  cmova eax,edx
  ret
 
@@ -310,7 +310,7 @@ wreck_query:
  mov r13d,[rsp+24]
 .cell:
  mov eax,r12d
- shl eax,5
+ shl eax,7
  add eax,r13d
  lea rdx,[heads]
  mov ebx,[rdx+rax*4]

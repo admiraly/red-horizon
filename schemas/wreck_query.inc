@@ -9,8 +9,8 @@
 ; All endpoints finite abs<=16000. Closed conservative world AABBs transformed
 ; from frame0 high/low mesh union; 2mm rounding skin. No body inflation yet.
 ; Nearest t, equal float t resolved by entity then generation then sequence.
-; 32x32 center-bucket grid, 250m cells; query XZ rectangle padded6m.
-; <=1024 cells and1024 candidate records; short paths visit nearby buckets.
+; 128x128 center-bucket grid, 62.5m cells; query XZ rectangle padded6m.
+; <=16384 cells and1024 candidate records; short paths visit nearby buckets.
 ; Cache rebuilt after accepted register/expiry/init; not authority or checksum.
 ; Single-thread simulation safe point only. No heap. SysV preserved GPR/stack.
 ; Diagnostic wreck_query_candidates counts the most recent valid caller search.
