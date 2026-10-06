@@ -1,0 +1,10 @@
+# Isolated boolean wreck LOS query
+
+World LOS consumes clear/blocked only. The new wreck_occlusion_context uses the same caller/source validation, revision-bound prepared geometry, padded grid, envelope and exact segment_box contact, then returns at the first real blocker. All1024 source slots are validated/rebuilt before query traversal; a corrupt other active record still returns source fault. Ordinary wreck_query_context and every body/projectile query retain nearest hit, deterministic identity tie and escape behavior. The any-contact output buffer describes one intersecting record, without a nearest promise. No authority state or gameplay policy change.
+
+Focused wreck suite passes.407 context cases include actual nearer versus earlier-visited farther contacts, fewer candidate visits, regular nearest mode after any-contact mode, clear canary preservation and a corrupt farther source record.64 assembled world-LOS composition/ABI cases and negative source/ground controls pass.
+
+Original8192 open/hotspot and16384 open900tick production comparisons retain exact whole-authority checksum and all32768 entity bytes every30ticks, with identical immutable copied objects except wreck_query and world_los. No pose/HP/store/clock renewal. Concurrent mean/p95 baseline→candidate ms:15.699/18.557→15.646/18.329;35.333/45.306→19.498/22.477;34.242/43.976→33.928/42.719. The hotspot improvement is substantial in this measured CPU workload; stretch remains over33.3ms. No graphics/hardware/full-operation performance acceptance.
+
+Candidate is isolated, not main runtime. Frozen fast2ac346c0f764 PASSED251.5267s at5a397bc-b5914981f1314599.
+The corrected genuinely-owned graphical mesh fixture from main is included for the combined full checkpoint; no animation/movement/pixel gate is lowered. Full integration acceptance remains pending. Exact source/object/library hashes and outcomes: docs/evidence/occlusion-runtime.json and occlusion-*.log.

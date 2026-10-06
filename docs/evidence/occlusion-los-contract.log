@@ -1,0 +1,1 @@
+{"suite": "prepared-world-los-contract", "passed": true, "cases": 64, "negative_controls": ["ground_fault_clear", "source_alias"], "readonly_ABI": true, "source_sha256": "49f0df73fdf2444f2c50f26b5deb8deae06676d523d4b3aa112009aa01f0b520", "scope": "Assembled cover-contract stubs/source forwarding only, no real geometry/gameplay/remote prediction acceptance."}

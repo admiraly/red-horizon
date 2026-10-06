@@ -1,6 +1,6 @@
 %include "schemas/world_los.inc"
 default rel
-extern terrain_ground_query,terrain_solid_query,wreck_query_context
+extern terrain_ground_query,terrain_solid_query,wreck_occlusion_context
 extern sim_wrecks,sim_wreck_count,wreck_query_revision
 section .text
 global world_los,world_los_context
@@ -45,7 +45,7 @@ world_los_context:
  mov rdx,[rsp+64]
  mov ecx,[rsp+72]
  mov r8,[rsp+80]
- call wreck_query_context
+ call wreck_occlusion_context
  test eax,eax
  setz al
  movzx eax,al

@@ -300,12 +300,22 @@ wreck_body_query_context:
  xorps xmm1,xmm1
  xorps xmm4,xmm4
  mov r9d,1
+ xor r10d,r10d
  jmp query_start
 wreck_query:
  lea rdx,[sim_wrecks]
  mov ecx,[sim_wreck_count]
  mov r8,[wreck_query_revision]
 wreck_query_context:
+ xor r10d,r10d
+ xor r9d,r9d
+ xorps xmm6,xmm6
+ jmp query_start
+; Same validated source/contact contract, first blocking contact is sufficient.
+; Contact output is an arbitrary intersecting wreck, never a nearest-hit promise.
+global wreck_occlusion_context
+wreck_occlusion_context:
+ mov r10d,1
  xor r9d,r9d
  xorps xmm6,xmm6
 query_start:
@@ -325,6 +335,7 @@ query_start:
  sub rsp,112
  mov r15,rdi
  mov [rsp+72],r9d
+ mov [rsp+104],r10d
  mov [rsp+80],rdx
  mov [rsp+88],ecx
  mov [rsp+96],r8
@@ -585,6 +596,8 @@ query_start:
 .select:
  mov [rsp+36],ebx
  movss [rsp+40],xmm0
+ cmp dword [rsp+104],0
+ jne .contact_result
 .next_record:
  lea rdx,[next]
  mov ebx,[rdx+rbx*4]
@@ -597,6 +610,7 @@ query_start:
  inc r12d
  cmp r12d,[rsp+32]
  jbe .row
+.contact_result:
  mov eax,[rsp+36]
  cmp eax,-1
  je .clear

@@ -1,0 +1,315 @@
+{
+  "passed": true,
+  "baseline_root": "/mnt/titan_nv3/projects/red-horizon",
+  "input_objects": {
+    "src/sim/air_admission.asm": {
+      "source_sha256": "f899b5f13f21f36d9522b67a1de277582bf39a2db8dfeb2c4cd0a1708a12caa9",
+      "object_sha256": "d7c222a231f75048a0c3eb877be5a5f617775f0ff0b9247b0dd007cc65e77334"
+    },
+    "src/sim/operation.asm": {
+      "source_sha256": "a6e0ef492353b260474e35eb498c1e7727fd416c04e1c041611342aa9b1c6d7f",
+      "object_sha256": "e62d9014c56ecd2591fb1d1ad541aa31b820804c073efd36b91a0355ccde20f9"
+    },
+    "src/sim/ordnance_admission.asm": {
+      "source_sha256": "0287fba4de2583dbeae4ceac5eef59626dd5a5648e0204d0baaac848a2453507",
+      "object_sha256": "08c8d47b94c30ffb0baef849125261f5e9524f8f47f4a80a55dcb9b12b56853b"
+    },
+    "src/sim/projectiles.asm": {
+      "source_sha256": "1f6e3ddb00e8d0e1f06601dff44bb9b7fa8a7538e2637c3232e5534c821bba00",
+      "object_sha256": "7f11d8ea2e6bf4e713a103e3638533bf237e6ca4f596a8dcb9a280a9984c6324"
+    },
+    "src/sim/scenarios.asm": {
+      "source_sha256": "82fd7646724f99a5309143cd2ee11757b19b87076a6375368fc2dada41557b97",
+      "object_sha256": "ebf458497cd28fb9b77c4d660478911f445fbccf254727a53085bbd6387aa032"
+    },
+    "src/sim/world.asm": {
+      "source_sha256": "a49b33a409d457354c0b9cda5e097e8d2a270ecd7ba3b4056f81fd794b2c2f84",
+      "object_sha256": "6264179297e6b8c6277f4398b344f9e92ac4b4d844bd7e9c780e4f205f0a43db"
+    },
+    "src/sim/world_contact.asm": {
+      "source_sha256": "df98603b9dd35c19064601629a9cd400d8e21b419d51f5838498f39bf82f30a4",
+      "object_sha256": "33fd723599dd83555a92bd404d53bfb873c9eac0560accb55fd8b08f51ee4cb3"
+    },
+    "src/sim/wreck_remote.asm": {
+      "source_sha256": "9878e8c138d337908bcd96a970b6561b6766789296133056a9bf062bc66db02e",
+      "object_sha256": "a38b3dd9f6c744dffad9d0ef9ae91a47778966a7145754dbd438599b3ecf5c90"
+    },
+    "src/sim/wrecks.asm": {
+      "source_sha256": "2c6a4cabd1969519c4aa095653445e2dd4e8b06e934d63d8fafd225c1a668365",
+      "object_sha256": "eaef47b0cdc1da7aa0d9f423de4a874a79baadfbc02856adad55feffff481894"
+    },
+    "src/nav/crowd.asm": {
+      "source_sha256": "b4a5cf13344c4375e8d9b93c9859423a788a80c272a5aba12240b7d765c97857",
+      "object_sha256": "9970eee0ac3c81301e2708fc4f15ecb2c04e66a74fef156862c80d2cc49080b2"
+    },
+    "src/nav/ground_contact.asm": {
+      "source_sha256": "46c3f632099fa0957bc7d3e0d072c7e4a080e631d896457cb0bb5ba40b799ed6",
+      "object_sha256": "181fd81968c6d5039705f5a1985db12700180081777821fde0cd9da3b8e5206a"
+    },
+    "src/nav/ground_eye.asm": {
+      "source_sha256": "e276a00e08d989e8c62f8bf57288444a8dfcf2370781454efda011b27aa235ec",
+      "object_sha256": "d536e486fc9459bf62162c73e79cd39d8e6730c7e380ebc76939b21666498f9b"
+    },
+    "src/nav/ground_support.asm": {
+      "source_sha256": "bb6dbe014a499c309c3f9991aebe21e595e9cdfe6fe993f6649f7c06fd0d9651",
+      "object_sha256": "dd654ca01bc980d00586513ae2187002c5172373f24dec6355273640568a3241"
+    },
+    "src/nav/segment_box.asm": {
+      "source_sha256": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99",
+      "object_sha256": "7b4a47175d1d6b868795b0e263e4eb12c9f0980985cbfe387144a87a727583da"
+    },
+    "src/nav/segment_sphere.asm": {
+      "source_sha256": "6bc0c73f7d5de611c4a26c08d0e559acbe862055151bae4c80298dd3e7674901",
+      "object_sha256": "1f6fe950723f7c6d43f05db940b65e83fc23b1fdf1dbc79318f7770daef889fd"
+    },
+    "src/nav/squads.asm": {
+      "source_sha256": "4f0fb1ae6819e986c9df4922c8b62c35621f92963f93b1bc47b7d45b50745b58",
+      "object_sha256": "78bcabe34f2b25328bb5989c18b59b160dc16badc04a646971371ba8f4e7105b"
+    },
+    "src/nav/terrain.asm": {
+      "source_sha256": "f0d700ab865136dacf38fd0193de53b04f2e217862b6cd9e4ebec335b4975e58",
+      "object_sha256": "d7b114090563d97e194b5c67d5cbd31c462f44b42b271c2ac0300909ccc9e00e"
+    },
+    "src/nav/terrain_body.asm": {
+      "source_sha256": "7560ab2ddca3d24070e49341bab36a02eb1100a50f74d87d9d941fa34f413f41",
+      "object_sha256": "585bf6c303d9944a9e04b0d55ccfb736ad23b648e929694a28f30e12fa35bc0c"
+    },
+    "src/nav/terrain_grade.asm": {
+      "source_sha256": "6b0054c2196a2fe96c303df9d9df002e560fa22ccd8d854c0c24d3340f3ac072",
+      "object_sha256": "0f5732b545f36454f2c445bc130ea1ee0a974f2acb765b904f4a89cc127a13b1"
+    },
+    "src/nav/terrain_ground_query.asm": {
+      "source_sha256": "c6cb57ec98b9cbf6888a3fe161d85c15034d9e92dda1b5d9b24520906048f7c7",
+      "object_sha256": "62a37465bd5bdbee145be796889130055f40914b3ae9eb81e51193451e4e133e"
+    },
+    "src/nav/terrain_relief.asm": {
+      "source_sha256": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+      "object_sha256": "873ed9015829f3fbb26a50b1ca19eeb750681c38ec6984e8d299bbe2a83fecd0"
+    },
+    "src/nav/terrain_solid_query.asm": {
+      "source_sha256": "3d77d62dafff05a8dacaf36a9f937a5c11af9955fe5882ed743ca0568680b1e2",
+      "object_sha256": "1af468c32612d9076d96baecd56f6aa806253e20c15bb5b2efc308190d5f747c"
+    },
+    "src/nav/terrain_surface.asm": {
+      "source_sha256": "2f4da01bc8f7c451df16268820fd5b276c9231856ba8bbabb503dd4b956b476a",
+      "object_sha256": "f3bf859dbc39c8247e972866a7836529d9b14455097083b33118d18ff49463eb"
+    },
+    "src/nav/world_body.asm": {
+      "source_sha256": "3c3a85feaa6e35639dceb285e1e86ffb081eec7e394419b72ba08da8943e6c6b",
+      "object_sha256": "d19b910abd6fa827ffecb60cd8a17018c005c9347b533e53cabe1f9c186a42b8"
+    },
+    "src/nav/world_los.asm": {
+      "source_sha256": "7605e6ebf163660deb9e999ebadee2b3a1d9fd8d279aa3aa0e1deb3644c99d1a",
+      "object_sha256": "7b2007080f8a2bbb304845a069e562377cf8b423a83e4f600f81bb23f49495bb"
+    },
+    "src/nav/wreck_nav.asm": {
+      "source_sha256": "bc78e8e521246e2dcafe4b6b5775b877ce4250c157d1f64669acd18db7d66a28",
+      "object_sha256": "6764d30b8759237082a92ff19f5424c88cc3fd1f9a73987d859c824cc1af0c56"
+    },
+    "src/nav/wreck_query.asm": {
+      "source_sha256": "ecc446760d8c9fc9b84a717b7bac6df3cccad52380c2c3bc8e5f536234051bbb",
+      "object_sha256": "ee339061ef947ebaca11b15c1a3ebd65dcf4f35686c6c7f3694300b535864159"
+    },
+    "src/ai/air_bank.asm": {
+      "source_sha256": "f3eb09e73b07e1a34dc7c8098a7a99f82d5d28da9e5703b026753bb163599f72",
+      "object_sha256": "0fa574891fcf9520d4d739440fb3c051c93809f776094d366cc4b3815205ae01"
+    },
+    "src/ai/air_escort.asm": {
+      "source_sha256": "e73f86a40da8e3e66b3e7734caee1f7360ea76d6df0a88a7dc951736c7eda6f1",
+      "object_sha256": "a2fddc902abbb269d075b65f3c93fe3612411601d57ca461bf9a326cb6333297"
+    },
+    "src/ai/aircraft.asm": {
+      "source_sha256": "98d019548b9ba3ac521b7acf5d0cec774f65df6dcea3cc02d98be545da814d95",
+      "object_sha256": "c28b5af0248b07af0ed9f73f2fe07bf91080ded666087dbfc25d2323fbbf8e85"
+    },
+    "src/ai/bomb_fall.asm": {
+      "source_sha256": "e9bb1cde64ca9ea08b9be6830c390c758002eb6fabb2e1a6a6f1400e63b8d004",
+      "object_sha256": "040938f8449a598e21b004f40ad1b230adf47db9069594aaf0751e85d5bbbe97"
+    },
+    "src/ai/company_assault.asm": {
+      "source_sha256": "21ac458fa902cd60f4151f83ef6f2083daab22554da76ce6d33785a90341d402",
+      "object_sha256": "0fe667941fb2ad4de0a5ec6947a197ac04970f986c06c9dc50562e66d0e4c905"
+    },
+    "src/ai/company_control.asm": {
+      "source_sha256": "9254b758277dc8a9e1a3e358811af96815df173db1b82483225efd522c58f941",
+      "object_sha256": "ce4f147cc75368e6788d27bc4cf8ff7853c532e2e05b43876ab7cbc4dd69859b"
+    },
+    "src/ai/hazard_steering.asm": {
+      "source_sha256": "d27a3b03f79b500c25da797c43195bbd8d2efe74e878f6e50edb93045e14dfe1",
+      "object_sha256": "9c4220b167413b488cf704221344c6219a1d8d62e99b5d5eab7f886ad9c05f5f"
+    },
+    "src/ai/hazards.asm": {
+      "source_sha256": "ff17308349a1ddd5de4469e1c563f258022093d17186949950633f1edc911112",
+      "object_sha256": "2fd0a82070329c09d41bf2da1fc54fcb818cb5e4bd06342181d2368a019e714b"
+    },
+    "src/ai/tactics.asm": {
+      "source_sha256": "f1aef0d63d0e513a92c2c62c00d4c5533f89e7b926fc32abf68ed034e0a9ddc6",
+      "object_sha256": "e8cdeeb273c147d7ce3305ff95b7cdba684db7ba0bdb348af5f2b8fd782df7ec"
+    },
+    "src/game/ground_motion.asm": {
+      "source_sha256": "12136bd8768ff83d6a531989b734587a2eaf9f4647df0dcba3991c72b5e81485",
+      "object_sha256": "fae75f43523fb083505764074fa5af6187703cdbd9f1e0c5aa7f3f77c65d0d0f"
+    },
+    "src/game/player.asm": {
+      "source_sha256": "a8f5bf898ea88ddce4976dac607e75eb9185d1b59f80667b5604c7f1ac7989cd",
+      "object_sha256": "9cd6be6eb074524ea1fd0a85a2e760c8f2b3243722b57dec8f0067398c42519c"
+    },
+    "src/game/vehicles.asm": {
+      "source_sha256": "0ba97f7b1f2ca5b36e95fcb098c92e6d2dd66f09d881c9d3e30b9bb2b1f89f37",
+      "object_sha256": "2ef47fb1612a9342b7dcc10f51e537d350025066e0c80a59659aa29e48014947"
+    }
+  },
+  "candidate_query_source_sha256": "1a39ca1b370b42c70fc68c806bbc3ab38fbfe36ad875ff2b828bd3fc38695174",
+  "library_sha256": [
+    "7615ad4887ef76dbb54d7de74326db1729980ab4ad8bb3f9828568a03b5df0a3",
+    "5413afef7e9654801f522f88f54b3446f1356ef149e24a14f513a4859a5a8fd5"
+  ],
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "f199f12e84aaa83f",
+        "bb238771d5c887a7",
+        "6d87af8e587e7dd1",
+        "c4215c91dd34f832",
+        "063d983b5043877a",
+        "463a3dd79e9d71c5",
+        "6eda37573c65865a",
+        "7f30cb22f3614ba5",
+        "ff78a8e5fd076902",
+        "3b94f5102a8836f1",
+        "8b9984846485fc7f",
+        "ba8921d21637040a",
+        "ce344165ef95d526",
+        "3e625c4c5f3c8b51",
+        "76a4de05ff94bf4f",
+        "cfc889fa4719b6ed",
+        "59f1604e6a04b5d7",
+        "72028994f30b7a10",
+        "9f467760e1ab89f5",
+        "9868c7b09e43c5b0",
+        "7a5864964670c900",
+        "f923b1ce5ef35716",
+        "46d3fc39db6dd2da",
+        "163f64df5c96851a",
+        "2e50ab568c258a99",
+        "8482cb92a3b9ade8",
+        "3ebbbd6b6d3223fc",
+        "d0829f57562d05cc",
+        "f70fd50529f4e120",
+        "de540281e4621b99"
+      ],
+      "timings": [
+        {
+          "mean_ms": 15.699239574444444,
+          "p95_ms": 18.557067
+        },
+        {
+          "mean_ms": 15.645953127777776,
+          "p95_ms": 18.328858
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "f0d8328ff538c1b0",
+        "b9baf935441bfdcc",
+        "62322434d52e4763",
+        "c261def224433185",
+        "b577745bdf27e6fe",
+        "2e2a4ee813cc883d",
+        "628d640f0c0367c9",
+        "e28e9e16aca18471",
+        "8a02236b519bacef",
+        "51720e447e3774a9",
+        "5a424784ecb265a2",
+        "2fac589e3e08b3f3",
+        "46aa78166c77bacb",
+        "b35928532961bf67",
+        "c1d11e96bf27c87c",
+        "73e6a4f8fbd8e1ca",
+        "1afea647c7e3ede1",
+        "c38175bdee5917d6",
+        "a231492f749642b6",
+        "f87a25fb59cf2907",
+        "3f5df1b7013eb4f4",
+        "5cfc7b599c1422f0",
+        "f4d7551715609e9c",
+        "a64faa08431d2adf",
+        "eb56bbf5e02ab851",
+        "847d08fac2956b5c",
+        "bf8539283f4ae18c",
+        "8daec53b1d5c357b",
+        "b2b248fe05c2a767",
+        "9619514e68db9911"
+      ],
+      "timings": [
+        {
+          "mean_ms": 35.332569015555556,
+          "p95_ms": 45.306032
+        },
+        {
+          "mean_ms": 19.498145206666667,
+          "p95_ms": 22.476976
+        }
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "8ee47c0617c020f0",
+        "f49b4537f51b50ee",
+        "30e387ef67ac5fdb",
+        "d19fb71a400a84de",
+        "b42d7a8f834647e0",
+        "aee941f4d8077352",
+        "7e006237ce57aeca",
+        "cd0191864c59b950",
+        "8942b7f41df65787",
+        "a2cb3b42bc1077fe",
+        "1d0ec289d1e884a0",
+        "50273c2a78fd3870",
+        "d9113b18bade7ba3",
+        "7c6b528105893877",
+        "38cd2c55590e92ab",
+        "5b65cdd22ecdadb2",
+        "65cc65201b4e2629",
+        "ab2d1e4902e3a78a",
+        "931bb23fe696559e",
+        "d766414b737dc36d",
+        "475015bf355a664a",
+        "e9f558d5e7363bd2",
+        "66ddcb475567ddfc",
+        "b720308fb7110bf3",
+        "b2c393a027a38f3a",
+        "df437fde4a6f18ae",
+        "97fd0511d40b6581",
+        "4d5c001ddeea50d7",
+        "d385926e7cca5b91",
+        "290635f3e2615c27"
+      ],
+      "timings": [
+        {
+          "mean_ms": 34.24202487,
+          "p95_ms": 43.975602
+        },
+        {
+          "mean_ms": 33.927997223333335,
+          "p95_ms": 42.71888
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Paired production simulation, identical copied objects except wreck_query; immutable libraries.",
+    "Authority checksum and all entity bytes every30 ticks, seed42; concurrent frozen verification may affect timings.",
+    "Not graphical, UDP, human-quality or full integration acceptance."
+  ]
+}

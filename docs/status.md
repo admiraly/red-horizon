@@ -1,5 +1,27 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integrates the exact c0c8f04 combined aircraft/company/interface/
+boolean-wreck-LOS snapshot. Frozen full3112ca82aa0d PASSED1201.1398s at
+c0c8f04-507ba71505a61d3a; all330 authored inputs match main. Its133 suite
+reports preserve original8192/16384 motion,400tick health/label symmetry,
+360tick held arrival,1200tick recovery, real GL and UDP fault coverage.
+Exact source SHA256s, reports and limitations: docs/evidence/occlusion-integration.json.
+Current compatibility remains UDPv23/schema0xc5c97e5b/content0xa89260de.
+The preceding failed dependency/legacy-front animation fixtures are retained
+below; their corrected gates now pass the matching complete checkpoint.
+
+World LOS now returns after one actual wreck blocker; ordinary body/projectile
+queries retain exact nearest contact and identity ties. All source records are
+validated before early exit. Paired original900tick army runs preserve whole
+authority/entity samples; hotspot mean/p9535.333/45.306→19.498/22.477ms.
+These concurrent CPU measurements do not establish GPU or whole-frame budgets.
+16k p95 remains42.719ms; human quality, shared company membership/plan UI,
+transfer/assistance, wider units, full operations/streaming/audio and platform
+requirements remain incomplete. The full-game goal remains active.
+Root artifacts are being rebuilt on this accepted source. Solo company tint
+remains an independently tested isolated prototype, not current main rendering.
+
+
 Main now integrates focused-verified exclusive company ownership and solo/co-op
 GUI command routing from21b2cd4. Its exact330 authored inputs and prior focused
 evidence are recorded in company-control-integration.json; frozen full0b0739a72b85

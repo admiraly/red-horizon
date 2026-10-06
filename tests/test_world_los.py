@@ -12,7 +12,7 @@ sim_wreck_count: dd 8
 wreck_query_revision: dq 79
 sim_wrecks: times 65536 db 0
 section .text
-global terrain_ground_query,terrain_solid_query,wreck_query_context
+global terrain_ground_query,terrain_solid_query,wreck_occlusion_context
 terrain_ground_query:
  inc dword [cover_calls]
  mov eax,[cover_status]
@@ -21,7 +21,7 @@ terrain_solid_query:
  inc dword [cover_calls+4]
  mov eax,[cover_status+4]
  ret
-wreck_query_context:
+wreck_occlusion_context:
  inc dword [cover_calls+8]
  mov [context_seen],rdx
  mov [context_seen+8],rcx

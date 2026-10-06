@@ -22,6 +22,26 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
   if rc!=1:assert out.raw==b'Z'*24
   assert bytes(local)==before
   return struct.unpack('<f5I',out.raw) if rc==1 else None
+ # LOS needs any blocker. The ordinary point/body APIs retain nearest contact.
+ occlusion=lib.wreck_occlusion_context;occlusion.argtypes=point.argtypes
+ occlusion_source=C.create_string_buffer(65536)
+ C.memmove(occlusion_source,record(1050,10,1)+record(1000,20,2),128)
+ occlusion_before=occlusion_source.raw
+ ray=(1080,101,1000,990,101,1000)
+ nearest=query(point,occlusion_source,2,1,ray,1)
+ nearest_visits=C.c_uint.in_dll(lib,'wreck_query_candidates').value
+ any_hit=query(occlusion,occlusion_source,2,1,ray,1)
+ any_visits=C.c_uint.in_dll(lib,'wreck_query_candidates').value
+ assert nearest[2]==10 and any_hit[2]==20,(nearest,any_hit)
+ assert any_visits<nearest_visits,(any_visits,nearest_visits)
+ assert query(point,occlusion_source,2,1,ray,1)[2]==10,'any-hit mode leaked into nearest query'
+ query(occlusion,occlusion_source,2,1,(1080,101,1200,990,101,1200),0)
+ assert occlusion_source.raw==occlusion_before
+ # All records are validated before the first contact, even if a blocker is
+ # available sooner in the grid than a corrupted farther source record.
+ C.memmove(C.addressof(occlusion_source)+64,struct.pack('<f',float('nan')),4)
+ query(occlusion,occlusion_source,2,2,ray,-2)
+ query(point,occlusion_source,2,2,ray,-2)
  # Same revision across distinct sources must never reuse another source's grid.
  for _ in range(64):
   for i,src in enumerate(sources):
@@ -91,4 +111,4 @@ with tempfile.TemporaryDirectory(prefix='rh-wreck-context-') as name:
   else:
    C.memmove(rows[0],record(1200,12,1) if tag=='pose_memo_omitted' else record(1200,99,3),64);rc=fn(out,24,rows[0],1,2,1190,101,1000,1210,101,1000);assert rc==0
   negatives.append(tag)
- print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'512_slot_refresh_transforms':[512,0,1,0,0,0],'assembled_negatives':negatives,'same_revision_source_switches':128,'local_authority_unchanged':True,'actual_remote_receive_expire_retire_reset_revision':True,'identical_heartbeat_retains_geometry_revision':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Actual remote-cache lifecycle revision is verified; no connected-client prediction hooks, actor movement, cover or scale acceptance.'}))
+ print(json.dumps({'suite':'wreck-explicit-query-context','passed':True,'calls':calls,'512_slot_refresh_transforms':[512,0,1,0,0,0],'assembled_negatives':negatives,'same_revision_source_switches':128,'occlusion_stops_at_first_real_blocker':True,'nearest_query_preserved_after_occlusion':True,'all_source_records_validated_before_early_exit':True,'local_authority_unchanged':True,'actual_remote_receive_expire_retire_reset_revision':True,'identical_heartbeat_retains_geometry_revision':True,'independent_sources_unchanged_except_declared_lifecycle_fixture':True,'query_source_sha256':hashlib.sha256((ROOT/'src/nav/wreck_query.asm').read_bytes()).hexdigest(),'scope':'Prepared caller-owned stable records/count/revision API. Actual remote-cache lifecycle revision is verified; no connected-client prediction hooks, actor movement, cover or scale acceptance.'}))
