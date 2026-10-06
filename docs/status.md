@@ -15,14 +15,18 @@ Combined bank/ownership compatibility is private UDPv23/schema0xc5c97e5b/
 content0xa89260de, canonicalSHA256
 a89260de2597cbc3b3ac2a73ac2dccb2bdb95c20d6c9761f7a918f1813b70484.
 Frozen fasted14fd74253d PASSED253.5270s at847deaa-38301943d87f4a17;
-full51f07ec34ee0 is running on that exact snapshot.
+full51f07ec34ee0 FAILED811.5653s at the obsolete exact player-schema
+build-dependency assertion; company_control.asm is now the sixth dependent.
 
 Isolated1e5712b also routes solo GUI commands to the owned company, with
 edge-triggered charging, company identity and accepted/denied title feedback.
 Read-only actual-client observer verifies29 safe infantry hold0m, real advance
 and finite map goal4994.375/3904.4441 with one charge and no rifle fire.
 Original solo gameplay and actual two-client co-op checks pass unchanged.
-Frozen full1ab1a888df47 runs at1e5712b-d43272bceaed8e49. These company
+Frozen full1ab1a888df47 at1e5712b-d43272bceaed8e49 was cancelled as
+superseded by that identical known tools failure. Corrected21b2cd4 retains
+exact dependency checks, adding only the actual company-control dependent.
+Frozen full0b0739a72b85 now runs at21b2cd4-c0410da9e5e40bce. These company
 batches remain unintegrated pending matching full checkpoints. Exact commands,
 initial failed fixtures and limitations: docs/company-control.md in those worktrees.
 Company membership replication/highlights, transfer/assistance and assignment

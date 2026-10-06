@@ -20,7 +20,7 @@
       "seconds": 759.5344625909929,
       "status": "failed"
     },
-    "observed_utc": "2026-10-06T13:16:08.941399+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209085+00:00",
     "exit_code": 1,
     "seconds": 759.5344625909929,
     "verified_live": false
@@ -45,7 +45,7 @@
       "seconds": 208.1878269620065,
       "status": "passed"
     },
-    "observed_utc": "2026-10-06T13:16:08.941466+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209135+00:00",
     "exit_code": 0,
     "seconds": 208.1878269620065,
     "verified_live": false
@@ -64,7 +64,7 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/result.json",
     "pid": 2067260,
-    "observed_utc": "2026-10-06T13:16:08.941510+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209176+00:00",
     "terminal_result": {
       "job_id": "4f9cf0815524",
       "exit_code": 0,
@@ -96,7 +96,7 @@
       "seconds": 266.70723434799584,
       "status": "passed"
     },
-    "observed_utc": "2026-10-06T13:16:08.941556+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209213+00:00",
     "exit_code": 0,
     "seconds": 266.70723434799584,
     "verified_live": false
@@ -117,7 +117,7 @@
     "pid": 2425206,
     "verified_live": false,
     "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-escort/tools/dev.py _worker cccb5e085005 test --suite all --extended ",
-    "observed_utc": "2026-10-06T13:16:08.941593+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209247+00:00",
     "exit_code": 1,
     "seconds": 613.2557992539951,
     "terminal_result": {
@@ -142,7 +142,7 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort/runs/jobs/ac6766acbf40/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort/runs/jobs/ac6766acbf40/result.json",
     "pid": 2605904,
-    "observed_utc": "2026-10-06T13:16:08.941632+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209284+00:00",
     "verified_live": false,
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort",
     "exit_code": 0,
@@ -168,7 +168,7 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/195a64c32e56/result.json",
     "pid": 2788793,
-    "observed_utc": "2026-10-06T13:16:08.941671+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209318+00:00",
     "verified_live": false,
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight",
     "exit_code": 0,
@@ -195,7 +195,7 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/558332fecbfd/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/558332fecbfd/result.json",
     "pid": 2831613,
-    "observed_utc": "2026-10-06T13:16:08.942203+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209350+00:00",
     "verified_live": false,
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight",
     "terminal_result": {
@@ -222,7 +222,7 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/831bb1419f53/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight/runs/jobs/831bb1419f53/result.json",
     "pid": 2839489,
-    "observed_utc": "2026-10-06T13:16:08.942247+00:00",
+    "observed_utc": "2026-10-06T13:34:53.209382+00:00",
     "verified_live": false,
     "workspace": "/mnt/titan_nv3/projects/red-horizon-workers/air-bank-flight",
     "terminal_result": {
@@ -256,7 +256,7 @@
       "status": "passed"
     },
     "verified_live": false,
-    "observed_utc": "2026-10-06T13:26:03.238696+00:00"
+    "observed_utc": "2026-10-06T13:34:53.209415+00:00"
   },
   {
     "job_id": "51f07ec34ee0",
@@ -268,12 +268,19 @@
       "all",
       "--extended"
     ],
-    "status": "running",
+    "status": "failed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/51f07ec34ee0/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-ownership/runs/jobs/51f07ec34ee0/result.json",
     "pid": 2992893,
-    "verified_live": true,
-    "observed_utc": "2026-10-06T13:26:03.238780+00:00"
+    "verified_live": false,
+    "observed_utc": "2026-10-06T13:34:53.209447+00:00",
+    "terminal_result": {
+      "job_id": "51f07ec34ee0",
+      "exit_code": 1,
+      "revision": "847deaabe8df95571113cd8f7740362d1e638293-38301943d87f4a17",
+      "seconds": 811.5653448730009,
+      "status": "failed"
+    }
   },
   {
     "job_id": "1ab1a888df47",
@@ -285,11 +292,35 @@
       "all",
       "--extended"
     ],
-    "status": "running",
+    "status": "cancelled",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/1ab1a888df47/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/1ab1a888df47/result.json",
     "pid": 3023663,
+    "verified_live": false,
+    "observed_utc": "2026-10-06T13:34:53.209496+00:00",
+    "terminal_result": {
+      "job_id": "1ab1a888df47",
+      "exit_code": -15,
+      "revision": "1e5712ba21efe6de25683bf1b344982091914ebf-d43272bceaed8e49",
+      "status": "cancelled",
+      "reason": "Superseded after matching core checkpoint51f07ec34ee0 proved obsolete exact player-schema dependency assertion in test_tools.py; corrected snapshot includes the extra company-control dependency. No runtime/test acceptance claimed."
+    }
+  },
+  {
+    "job_id": "0b0739a72b85",
+    "revision": "21b2cd4ff6160a7d212171ec96725edf0a5addc1-c0410da9e5e40bce",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/0b0739a72b85/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/0b0739a72b85/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/0b0739a72b85/result.json",
+    "pid": 3061964,
     "verified_live": true,
-    "observed_utc": "2026-10-06T13:26:03.238857+00:00"
+    "observed_utc": "2026-10-06T13:34:53.209532+00:00"
   }
 ]
