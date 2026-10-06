@@ -1,0 +1,119 @@
+default rel
+extern world_body_path_clear_context,world_body_step_context,terrain_body_step
+section .text
+global probe_world_body_path_clear_context,probe_world_body_step_context,probe_terrain_body_step
+; EDI role,RSI source,EDX count,RCX revision,R8 observation pointer56.
+probe_world_body_path_clear_context:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov [rsp],r8
+ mov [rsp+8],rsp
+ mov ebx,0x123401
+ mov ebp,0x123402
+ mov r12d,0x123403
+ mov r13d,0x123404
+ mov r14d,0x123405
+ mov r15d,0x123406
+ call world_body_path_clear_context
+ mov rdx,[rsp]
+ mov [rdx],rbx
+ mov [rdx+8],rbp
+ mov [rdx+16],r12
+ mov [rdx+24],r13
+ mov [rdx+32],r14
+ mov [rdx+40],r15
+ movss [rdx+48],xmm0
+ cmp rsp,[rsp+8]
+ je .done
+ mov eax,-99
+.done:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+probe_world_body_step_context:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov [rsp],r8
+ mov [rsp+8],rsp
+ mov ebx,0x123401
+ mov ebp,0x123402
+ mov r12d,0x123403
+ mov r13d,0x123404
+ mov r14d,0x123405
+ mov r15d,0x123406
+ call world_body_step_context
+ mov rdx,[rsp]
+ mov [rdx],rbx
+ mov [rdx+8],rbp
+ mov [rdx+16],r12
+ mov [rdx+24],r13
+ mov [rdx+32],r14
+ mov [rdx+40],r15
+ movss [rdx+48],xmm0
+ movss [rdx+52],xmm1
+ cmp rsp,[rsp+8]
+ je .done
+ mov eax,-99
+.done:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+probe_terrain_body_step:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov [rsp],r8
+ mov [rsp+8],rsp
+ mov ebx,0x123401
+ mov ebp,0x123402
+ mov r12d,0x123403
+ mov r13d,0x123404
+ mov r14d,0x123405
+ mov r15d,0x123406
+ call terrain_body_step
+ mov rdx,[rsp]
+ mov [rdx],rbx
+ mov [rdx+8],rbp
+ mov [rdx+16],r12
+ mov [rdx+24],r13
+ mov [rdx+32],r14
+ mov [rdx+40],r15
+ movss [rdx+48],xmm0
+ movss [rdx+52],xmm1
+ cmp rsp,[rsp+8]
+ je .done
+ mov eax,-99
+.done:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+section .note.GNU-stack noalloc noexec nowrite progbits

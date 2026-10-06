@@ -10,6 +10,7 @@ default rel
 extern sim_count,sim_entities,sim_tick_count,ai_fronts
 extern terrain_obstacles,terrain_obstacle_count,terrain_body_path_clear,terrain_height,world_los
 extern terrain_relief_fields
+extern wreck_nav_init,wreck_nav_tick,wreck_nav_goal,wreck_nav_hash
 section .bss align=64
 global nav_metrics
 ; pending, completed, overflow, cache_hits, stuck_replans, cover_choices,
@@ -43,7 +44,7 @@ nav_init:
  xor eax,eax
  mov ecx,(8*4+8+QCAP*4+SLOTS*STRIDE+ENTITY_CAPACITY*16+NODES*20)/4
  rep stosd
- ret
+ jmp wreck_nav_init
 ; Internal RBP entry. Enqueue only once; saturated queue retains local steering.
 enqueue:
  cmp dword [rbp],1
@@ -71,6 +72,7 @@ nav_tick:
  push rbp
  push r12
  sub rsp,8
+ call wreck_nav_tick
  xor r12d,r12d
  mov dword [nav_metrics+24],0
 .next:
@@ -440,6 +442,8 @@ nav_entity_goal:
  movss [rsp+16],xmm0
  movss [rsp+20],xmm1
  call choose_cover
+ mov edi,r12d
+ call wreck_nav_goal
 .return:
  add rsp,40
  pop r13
@@ -624,7 +628,7 @@ nav_hash:
  add rsi,4
  dec ecx
  jnz .loop
- ret
+ jmp wreck_nav_hash
 section .rodata
 half: dd 0.5
 quarter: dd 0.25

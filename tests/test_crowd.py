@@ -6,12 +6,12 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 tmp=tempfile.TemporaryDirectory(prefix='rh-crowd-')
 nasm=os.environ.get('RED_HORIZON_NASM') or shutil.which('nasm') or str(ROOT/'.tools/nasm/nasm')
 objs=[]
-for path in ('src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','src/nav/terrain_body.asm','tests/crowd_probe.asm'):
+for path in ('src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','src/nav/terrain_body.asm','src/nav/world_body.asm','src/nav/wreck_query.asm','src/nav/segment_box.asm','tests/crowd_probe.asm'):
     obj=pathlib.Path(tmp.name)/(pathlib.Path(path).stem+'.o')
     subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/path),'-o',str(obj)],check=True)
     objs.append(str(obj))
 so=pathlib.Path(tmp.name)/'crowd.so'
-subprocess.run(['cc','-shared','-Wl,-Bsymbolic',*objs,'-o',str(so)],check=True)
+subprocess.run(['cc','-shared','-Wl,-Bsymbolic',*objs,'-lm','-o',str(so)],check=True)
 lib=C.CDLL(str(so))
 class E(C.Structure):
     _fields_=[('x',C.c_float),('z',C.c_float)]+[(k,C.c_uint) for k in ('hp','side','kind','front','target','gen')]

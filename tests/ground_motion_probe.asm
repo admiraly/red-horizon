@@ -2,6 +2,11 @@
 default rel
 extern ground_step,ground_hash
 section .bss align=64
+global sim_wrecks,sim_wreck_count,wreck_query_revision
+sim_wrecks: resb 1024*64
+sim_wreck_count: resd 1
+alignb 8
+wreck_query_revision: resq 1
 global sim_entities,sim_count,sim_waypoints,sim_players,sim_player_vehicle,sim_vehicles,vehicle_entity_driver
 sim_entities: resb ENTITY_CAPACITY*ENTITY_STRIDE
 sim_count: resd 1

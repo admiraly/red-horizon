@@ -352,6 +352,9 @@ def main():
             if suite in ('all','headless','fast','simulation','aircraft'): execute([sys.executable,'tests/test_bomb_release.py',str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','fast','simulation','navigation'):
+            execute([sys.executable,'tests/test_wreck_nav_outcomes.py',str(library)])
+            execute([sys.executable,'tests/test_wreck_nav_contract.py',str(library)])
         if suite in ('all','headless','combat'):
             execute([sys.executable,'tests/test_shell_contact.py',str(library)])
             execute([sys.executable,'tests/test_world_contact.py'])
@@ -361,6 +364,15 @@ def main():
             execute([sys.executable,'tests/test_blast_visibility_batch.py'])
             execute([sys.executable,'tests/test_projectile_contact_type.py'])
             execute([sys.executable,'tests/test_world_contact_outcomes.py',str(library)])
+        if suite in ('all','headless','terrain-body','vehicles','wrecks'):
+            execute([sys.executable,'tests/test_world_body.py'])
+            execute([sys.executable,'tests/test_world_body_outcomes.py',str(library)])
+            execute([sys.executable,'tests/test_wreck_movement_outcomes.py',str(library)])
+            execute([sys.executable,'tests/test_wreck_prediction.py',str(library)])
+            body_probe=BUILD/'world_body_probe.o'; body_library=BUILD/'libworldbodystep.so'
+            execute([nasm(),'-f','elf64','tests/probe_world_body.asm','-o',str(body_probe)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(body_library),*objects,str(body_probe),'-lm'])
+            execute([sys.executable,'tests/test_world_body_step.py',str(body_library)])
         if suite in ('all','headless','terrain','combat'):
             execute([sys.executable,'tests/test_terrain_ground_query.py'])
             execute([sys.executable,'tests/test_terrain_solid_query.py'])

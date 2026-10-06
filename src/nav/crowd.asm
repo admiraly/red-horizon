@@ -9,8 +9,8 @@ default rel
 %define GRID_SIZE (GRID_SIDE*GRID_SIDE)
 %define SNAP_SIZE 32
 %define LIMIT 512
-extern sim_players,sim_player_vehicle,sim_vehicles,vehicle_driver_generation,terrain_body_step,terrain_body_blocked
-extern sim_entities,sim_count,sim_tick_count,terrain_body_move,terrain_body_path_clear,vehicle_entity_driver
+extern sim_players,sim_player_vehicle,sim_vehicles,vehicle_driver_generation,world_body_step,world_body_blocked
+extern sim_entities,sim_count,sim_tick_count,terrain_body_move,world_body_path_clear,vehicle_entity_driver
 section .rodata align=16
 zero: dd 0.0
 one: dd 1.0
@@ -625,7 +625,7 @@ crowd_common:
  movss xmm0,[rsp+12]
  movss xmm1,[rsp+16]
  mov edi,[rsp+4]
- call terrain_body_path_clear
+ call world_body_path_clear
  test eax,eax
  jz .reject
 .terrain_candidate:
@@ -680,7 +680,7 @@ crowd_common:
  movss xmm0,[rsp+12]
  movss xmm1,[rsp+16]
  mov edi,[rsp+4]
- call terrain_body_step
+ call world_body_step
  jmp .endpoint
 .hull_terrain:
  movss xmm0,[rsp+12]
@@ -688,7 +688,7 @@ crowd_common:
  movss xmm2,[rsp+20]
  movss xmm3,[rsp+24]
  mov edi,[rsp+4]
- call terrain_body_path_clear
+ call world_body_path_clear
  test eax,eax
  jz .hull_blocked
  movss xmm0,[rsp+20]
@@ -703,6 +703,16 @@ crowd_common:
 .endpoint:
  movss [rsp+36],xmm0
  movss [rsp+40],xmm1
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ movss xmm0,[rsp+12]
+ movss xmm1,[rsp+16]
+ mov edi,[rsp+4]
+ call world_body_path_clear
+ cmp eax,1
+ jne .reject
+ movss xmm0,[rsp+36]
+ movss xmm1,[rsp+40]
  subss xmm0,[rsp+12]
  subss xmm1,[rsp+16]
  movss [rsp+44],xmm0
@@ -913,7 +923,7 @@ crowd_common:
  ja .occupied
  mov [rsp+4],eax
  mov edi,eax
- call terrain_body_blocked
+ call world_body_blocked
  test eax,eax
  jnz .occupied
  cmp dword [crowd_enabled],0
@@ -962,10 +972,22 @@ crowd_common:
  movss xmm4,[rsp+8]
  cmp dword [rsp+116],1
  jne .legacy_ai
- call terrain_body_step
+ call world_body_step
  jmp .out
 .legacy_ai:
  call terrain_body_move
+ movss [rsp+36],xmm0
+ movss [rsp+40],xmm1
+ movaps xmm2,xmm0
+ movaps xmm3,xmm1
+ movss xmm0,[rsp+12]
+ movss xmm1,[rsp+16]
+ mov edi,[rsp+4]
+ call world_body_path_clear
+ cmp eax,1
+ jne .unchanged
+ movss xmm0,[rsp+36]
+ movss xmm1,[rsp+40]
  jmp .out
 .unchanged:
  movss xmm0,[rsp+12]

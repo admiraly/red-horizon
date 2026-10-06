@@ -9,7 +9,7 @@ extern sim_entities,sim_count,sim_players,player_deaths
 extern sim_shell_ammo,sim_shell_cooldown,projectile_launch,combat_event
 extern crowd_begin,crowd_step,crowd_occupied
 extern ground_step,ground_eye,sim_ground_motion
-extern terrain_height,terrain_body_blocked,world_los,sinf,cosf
+extern terrain_height,world_body_blocked,world_los,sinf,cosf
 section .bss align=64
 global sim_vehicles,sim_player_vehicle,vehicle_entity_driver,vehicle_shots
 sim_vehicles: resb VEHICLE_CAPACITY*VEHICLE_STRIDE
@@ -217,7 +217,7 @@ vehicle_enter:
  movss xmm0,[r15+ENTITY_X]
  movss xmm1,[r15+ENTITY_Z]
  mov edi,1
- call terrain_body_blocked
+ call world_body_blocked
  test eax,eax
  jnz .failed
  lea rdi,[rsp+8]
@@ -311,7 +311,7 @@ vehicle_exit:
  movss [rsp],xmm0
  movss [rsp+4],xmm1
  xor edi,edi
- call terrain_body_blocked
+ call world_body_blocked
  test eax,eax
  jnz .next
  movss xmm0,[rsp]

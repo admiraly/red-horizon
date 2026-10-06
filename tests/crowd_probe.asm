@@ -2,6 +2,11 @@
 default rel
 extern crowd_move,crowd_step,crowd_hull_step,crowd_occupied,crowd_hash
 section .bss align=64
+global sim_wrecks,sim_wreck_count,wreck_query_revision
+sim_wrecks: resb 1024*64
+sim_wreck_count: resd 1
+alignb 8
+wreck_query_revision: resq 1
 global sim_entities,sim_count,sim_tick_count
 sim_entities: resb ENTITY_CAPACITY*ENTITY_STRIDE
 sim_count: resd 1

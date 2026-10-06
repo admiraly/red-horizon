@@ -4,7 +4,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
-extern terrain_height,terrain_body_blocked,world_los,sinf,cosf
+extern terrain_height,world_body_blocked,world_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
 extern crowd_begin,crowd_step,crowd_occupied
 section .bss align=64
@@ -605,7 +605,7 @@ safe_candidate:
  movss xmm0,[candidate_x]
  movss xmm1,[candidate_z]
  xor edi,edi
- call terrain_body_blocked
+ call world_body_blocked
  test eax,eax
  jnz .bad
  movss xmm0,[candidate_x]

@@ -24,7 +24,8 @@ extern player_join,player_input,sim_players
 extern sim_player_vehicle,sim_vehicles,sim_projectiles
 extern net_client_open,net_client_poll,net_client_input,net_client_order,net_client_close
 extern net_connected,net_player_id,net_front,net_server_tick,net_last_status,net_pending
-extern terrain_height,terrain_move,terrain_obstacles,terrain_obstacle_count
+extern terrain_height,terrain_obstacles,terrain_obstacle_count
+extern world_body_step_context,net_wrecks,net_wreck_count,net_wreck_query_revision
 extern battle_vertex_source,battle_fragment_source
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
@@ -1894,7 +1895,10 @@ sync_player:
  movss xmm4,[sprint_prediction]
 .predictstep:
  xor edi,edi
- call terrain_move
+ lea rsi,[net_wrecks]
+ mov edx,[net_wreck_count]
+ mov rcx,[net_wreck_query_revision]
+ call world_body_step_context
  movss [visual_target],xmm0
  movss [visual_target+8],xmm1
  call terrain_height
