@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/player-blast/tests/test_client_gameplay.py", line 134, in <module>
+    until(lambda: player()['hp'] == 0, 9)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/player-blast/tests/test_client_gameplay.py", line 68, in until
+    raise AssertionError('condition timed out: ' + (title(window) if window else 'startup'))
+AssertionError: condition timed out: RED HORIZON | 8192 units | rifle 27/30 FIRST PERSON | R60 | front 1 order 0 | REQ 685 SUP 600 | OPERATION ACTIVE | HP 90 SUPPRESS 0 REDEPLOY 0 | ON FOOT | E BOARD Q EXIT | TACTICAL MAP / RELOAD | COMPANY 285 | COMPANY READY | WEATHER clear (F4 CYCLE)

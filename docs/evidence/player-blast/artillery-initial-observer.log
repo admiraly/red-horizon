@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/player-blast/tests/test_player_blast.py", line 27, in <module>
+    assert impact,'real hostile shell never impacted'
+           ^^^^^^
+AssertionError: real hostile shell never impacted

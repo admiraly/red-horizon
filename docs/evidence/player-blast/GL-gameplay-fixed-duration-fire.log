@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/player-blast/tests/test_client_gameplay.py", line 114, in <module>
+    final = player(); assert 26 <= final['ammo'] <= 28 and 32 <= final['shots'] <= 34, final
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'x': 3780.0, 'y': 26.903301239013672, 'z': 3901.00048828125, 'yaw': 0.0, 'pitch': -0.03999999910593033, 'hp': 100, 'ammo': 29, 'reload': 0, 'cooldown': 2, 'respawn': 0, 'front': 1, 'connected': 1, 'shots': 31, 'hits': 0, 'suppression': 0, 'generation': 1}
