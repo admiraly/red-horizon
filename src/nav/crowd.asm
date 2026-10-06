@@ -24,6 +24,7 @@ radii: dd BODY_INF_RADIUS,BODY_TANK_RADIUS,BODY_ARTY_RADIUS
 steps: dd 0.12,0.5,0.2
 driver_step: dd 0.6
 hull_roundoff: dd 0.001
+body_preview: dd 6.0
 human_step: dd 0.3
 local_min: dd -8000.0
 local_max: dd 16000.0
@@ -393,6 +394,7 @@ crowd_common:
  je .hull_terrain
  jmp .query
 .normalize_goal:
+ movss [rsp+2176],xmm5
  ; Do not overshoot a nearby goal, even for rotated candidates.
  minss xmm4,xmm5
  movss [rsp+8],xmm4
@@ -718,6 +720,28 @@ crowd_common:
  ucomiss xmm0,[epsilon]
  jbe .reject
 .segment_nonzero:
+ ; Preview the resolved steering direction, never enlarge the returned step.
+ ; Only AI tracked bodies use this guidance; exact hull/controller sweeps and
+ ; genuine overlap recovery continue to use the actual short segment.
+ cmp dword [rsp+116],0
+ jne .preview_ready
+ cmp dword [rsp+4],0
+ je .preview_ready
+ movss xmm2,[rsp+2176]
+ minss xmm2,[body_preview]
+ sqrtss xmm3,xmm0
+ divss xmm2,xmm3
+ movss xmm3,[rsp+44]
+ movss xmm4,[rsp+48]
+ mulss xmm3,xmm2
+ mulss xmm4,xmm2
+ movss [rsp+2180],xmm3
+ movss [rsp+2184],xmm4
+ mulss xmm3,xmm3
+ mulss xmm4,xmm4
+ addss xmm3,xmm4
+ movss [rsp+2188],xmm3
+.preview_ready:
  xor ebp,ebp
  mov dword [rsp+60],0
 .check:
@@ -741,18 +765,34 @@ crowd_common:
  addss xmm4,[rsp+56]
  movaps xmm5,xmm4
  mulss xmm5,xmm5
- ; Projection onto source segment, clamped [0,1].
+ ; Source sweeps remain authoritative. Preview only disjoint AI tracked
+ ; bodies along the actual terrain-resolved candidate direction. No extra
+ ; query records, radius, persistent preference or mutable heading is used.
+ movss xmm8,[rsp+44]
+ movss xmm9,[rsp+48]
+ movss xmm10,[rsp+52]
+ ucomiss xmm2,xmm5
+ jb .projection
+ cmp dword [rsp+116],0
+ jne .projection
+ cmp dword [rsp+4],0
+ je .projection
+ movss xmm8,[rsp+2180]
+ movss xmm9,[rsp+2184]
+ movss xmm10,[rsp+2188]
+.projection:
+ ; Projection onto chosen segment, clamped [0,1].
  movaps xmm6,xmm0
- mulss xmm6,[rsp+44]
+ mulss xmm6,xmm8
  movaps xmm7,xmm1
- mulss xmm7,[rsp+48]
+ mulss xmm7,xmm9
  addss xmm6,xmm7
- divss xmm6,[rsp+52]
+ divss xmm6,xmm10
  maxss xmm6,[zero]
  minss xmm6,[one]
  movaps xmm7,xmm6
- mulss xmm6,[rsp+44]
- mulss xmm7,[rsp+48]
+ mulss xmm6,xmm8
+ mulss xmm7,xmm9
  subss xmm0,xmm6
  subss xmm1,xmm7
  mulss xmm0,xmm0

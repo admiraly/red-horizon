@@ -73,6 +73,25 @@ assert lib.test_move(32768,a)==1 and a[0]==1000
 entities[0].gen+=1;assert move(0,(1010,1000))==(1000,1000)
 lib.crowd_begin();assert move(0,(1010,1000))[0]>1000
 entities[0].kind=1;assert move(0,(1010,1000))==(1000,1000)
+# AI tracked steering anticipates a clear-started body along a bounded 6m
+# corridor, while returned movement retains the original one-tick role cap.
+# Nearby goals bound the preview; infantry and overlap recovery retain their
+# existing immediate-segment behavior. These calls use the actual NASM kernel.
+preview_cases=[]
+for role in (1,2):
+    reset([(1000,1000,role),(1012,1000,role)])
+    point=move(0,(1040,1000))
+    assert point[0]>1000 and abs(point[1]-1000)>.05,('late tracked avoidance',role,point)
+    assert math.dist(point,(1000,1000))<=S[role]+.00015
+    preview_cases.append({'role':role,'distant_goal_endpoint':point,'original_step_cap':S[role]})
+    point=move(0,(1001,1000))
+    assert point[0]>1000 and point[1]==1000,('preview beyond actual goal',role,point)
+    reset([(1000,1000,role),(1003,1000)])
+    point=move(0,(990,1000))
+    assert point[0]<1000 and point[1]==1000,('overlap recovery previewed',role,point)
+reset([(1000,1000),(1004,1000)])
+assert move(0,(1010,1000))[1]==1000,'infantry gained tracked corridor preview'
+reset([(1000,1000)])
 # Future state includes policy, excludes all derived diagnostics and snapshots.
 seed=14695981039346656037;prime=1099511628211
 h=seed
@@ -522,7 +541,7 @@ for n in (128,8192):
     assert metrics[6]==0 and metrics[7]<=512,list(metrics)
     bench.append({'actors':n,'ticks':30,'kernel_ms_mean':sum(times)/len(times),'kernel_ms_p95':sorted(times)[28],
                   'inspected':metrics[2],'maximum_inspected_query':metrics[7],'truncated':metrics[6]})
-print(json.dumps({'suite':'crowd','status':'passed','passed':True,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,'coincident_cohorts':coincident_cohorts,
+print(json.dumps({'suite':'crowd','status':'passed','passed':True,'tracked_body_preview_cases':preview_cases,'held_pass_endpoint':held_end,'head_on':a,'coincident_recovery_gap':coincident_gap,'coincident_cohorts':coincident_cohorts,
                   'coincident_flank_positions':flank_positions,'reverse_flank_positions':reverse_flank_positions,'wall_routes':wall_routes,'vehicle_pairs':vehicle_pairs,'overlap_chain_minimum_gap':min(chain_gaps),'kernel_benchmarks':bench,'controller_cases':controller_cases,'controller_relative_sweeps':controller_sweeps,'exact_hull_cases':hull_cases,'exact_hull_claim_rejections':14,'exact_hull_blocked_diagonal_terrain_and_bodies':True,
                   'limitations':['512 inspected neighbors per query; denser 3x3 infantry or 5x5 vehicle cell chains conservatively yield',
                   'controller kernel verified independently; production player/vehicle hooks verified by integrator',
