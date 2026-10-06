@@ -1,3 +1,28 @@
+Build dependency correction is integrated in03e2b2e at authored fingerprint
+f06718573c8dd39a; runtime unchanged from verified depot c42284b. Exact player.inc
+consumer sets now include the new report modules while preserving both direct
+and nested invalidation, single-module/shader isolation, source preservation,
+private fast-core and terminal job/error checks. Corrected tools checks PASS
+against copied frozen e02e872 sources (9 consumers) and current depot sources
+(11 consumers). Frozen inputs were not changed. Evidence:
+[evidence/supply-dependencies-recheck.json](evidence/supply-dependencies-recheck.json).
+
+Corrected frozen full902e4f699f7a is RUNNING at03e2b2e-f06718573c8dd39a,
+PID1038625 confirmed live. Earlier depot full590455b4b201 remains RUNNING at
+c42284b-eeab15cc132fdc7a, PID970561 confirmed live, with its known stale tools
+assertion. Prior full1433fa199da8 and412520d69630 are failed/collected, unchanged.
+All foreground checks are terminal/reconciled; all worktrees are committed.
+
+Next gameplay work is isolated feature/infantry-supply-routes at
+/mnt/titan_nv3/projects/red-horizon-workers/infantry-supply-routes. Read-only
+carried-round query prerequisite passes268 ABI calls, independent initial and
+actual120-tick live-world queries, malformed-stock checks and focused combat24.
+It is NOT integrated and no detour/world hook is claimed. See that worktree's
+docs/supply-routes.md and evidence/supply-routes-query.json. Physical detours must
+preserve primary orders/hazard precedence and use a separate corridor namespace
+from existing16-ID squad routes, with actual finite debit only upon arrival.
+Full specification remains incomplete; no publication and license pending approval.
+
 Current main integrates finite allied depot reports and tactical-map inventory
 in c42284b at authored fingerprinteeab15cc132fdc7a; all381 authored files match
 verified feature. Matching main client/co-op/headless builds and11 scoped reports

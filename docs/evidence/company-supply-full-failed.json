@@ -30,5 +30,7 @@
   "limitations": [
     "Failure is retained; no whole-suite pass.",
     "Source-root option selects copied fixture source; frozen inputs are not modified."
-  ]
+  ],
+  "resolution": "Precise expected dependency-set correction merged03e2b2e; corrected tools checks pass frozen/current private source fixtures. Full remains failed.",
+  "resolution_evidence": "docs/evidence/supply-dependencies-recheck.json"
 }
