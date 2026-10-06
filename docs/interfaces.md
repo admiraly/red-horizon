@@ -346,3 +346,23 @@ index) returns an immutable ASCII label or empty string; clobbers only RAX/RDX.
 bindings_report prints loaded action/key names once. Client key/mouse callbacks
 compare logical quit/cancel codes, preserving queued short taps and wheel cancel.
 Actual movement/fire/order/transfer controllers still own all authority checks.
+
+
+Defense contract amendment: company-control VERSION3/MAX_MODE4 adds area
+formation goals without changing32byte authority or40byte remote records.
+company_defend_goal(EDI stable actor ID,RDX validated own ground entity,
+XMM0/1 accepted point) returns0 terrain-valid XZ or1 hold. It tail-calls the
+existing bounded role-footprint/grade placement helper; no allocation, enemy
+reads, pose/stores/order/clock writes. company_defend_anchor(XMM0/1 accepted XZ)
+returns the same480..7520 effective anchor used by map presentation. Authority
+validates raw coordinates and the bidirectional owner/body-generation lease
+before deriving destinations. Hazard response retains movement priority.
+
+UDP27/schema0x24a8a531/content0x00ac549b version the additional command and
+formation policy. Client sender, server order validator and atomic remote
+receiver accept0..4 and reject5+. Input contract2 appends DEFEND30/COUNT31,
+default5, preserving existing IDs. Wheel mode4 occupies upper-right screen
+vectors dx>0,dy<0 with .5<=dx/abs(dy)<=2 outside the38pixel deadzone; remaining
+cardinal sectors are unchanged. GLSL uses the same boundaries. Defense wheel
+release requires the captured visible terrain point, and network acceptance
+feedback waits for the server ACK. Evidence/limits: status.md.

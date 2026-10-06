@@ -1,0 +1,1 @@
+{"suite": "input-bindings-cli", "passed": true, "pre_context_invalid_cases": 5, "driver_absolute_path_with_spaces": true, "limits": ["Valid client binding parsing/input is covered by real solo/co-op tests."]}

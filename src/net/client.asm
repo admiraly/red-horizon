@@ -232,7 +232,7 @@ net_client_order:
  jne input_bad
  cmp edi,[net_front]
  jne input_bad
- cmp esi,3
+ cmp esi,4
  ja input_bad
  mov [outgoing+40],edi
  mov [outgoing+44],esi

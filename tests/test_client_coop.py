@@ -224,14 +224,24 @@ try:
                 until(lambda:state(owner,'waypoint_orders')==2,5)
                 follow=own_control(owner);assert follow[6]==accepted[6]+1 and follow[2]==3 and follow[4:6]==accepted[4:6]
                 until(lambda:all(remote_company(c,owner)[4]==3 for c in (0,1)),5)
+                until(lambda:read_u32(host_memory,server_symbols,'sim_tick_count')>=follow[7]+15)
+                mouse(owner,2,True);until(lambda:state(owner,'wheel_active')==1,3)
+                assert state(owner,'wheel_point_valid')==1
+                defense_point=struct.unpack('<2f',os.pread(clients[owner]['memory'],8,client_symbols['wheel_point']))
+                motion(700,300);until(lambda:state(owner,'wheel_selected')==4,3)
+                until(lambda:text_visible(X,display,clients[owner]['window'],0,'DEFEND',origin=(655,301)),3)
+                mouse(owner,2,False);until(lambda:state(owner,'waypoint_orders')==3,5)
+                defense=own_control(owner);assert defense[6]==follow[6]+1 and defense[2]==4 and math.dist(defense[4:6],defense_point)<.001
+                until(lambda:all(remote_company(c,owner)[4:8]==(4,1,*defense_point) for c in (0,1)),5)
+                focus(owner);until(lambda:text_visible(X,display,clients[owner]['window'],1,'ORDER ACCEPTED: DEFEND AREA'),3)
                 assert state(owner,'local_sim_ticks')==0
-                cases.append({'owner':owner,'point':aimed,'authority_sequence':[before[6],accepted[6],follow[6]],'cancel_uncharged':True,'world_unpaused':True,'lease_generations':[before[1],accepted[1],follow[1]]})
+                cases.append({'owner':owner,'defense_point':defense_point,'defense_sequence':defense[6],'point':aimed,'authority_sequence':[before[6],accepted[6],follow[6]],'cancel_uncharged':True,'world_unpaused':True,'lease_generations':[before[1],accepted[1],follow[1]]})
             for index in (1,0):
                 key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
                 assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
             faults=[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays]
             if relays:assert any(r['dropped']>0 and r['reordered']>0 for r in faults)
-            print(json.dumps({'suite':'graphical-network-command-wheel','passed':True,'cases':cases,'framebuffer_labels_and_ack':True,'server_and_both_mirrors_match':True,'real_fault_relays':faults,'local_simulation_ticks':0,'limits':['Actual8192 authority and two rendered clients, read-only observers.','Four existing orders; full contextual roster/remapping and hardware quality remain open.']}))
+            print(json.dumps({'suite':'graphical-network-command-wheel','passed':True,'cases':cases,'framebuffer_labels_and_ack':True,'server_and_both_mirrors_match':True,'real_fault_relays':faults,'local_simulation_ticks':0,'limits':['Actual8192 authority and two rendered clients, read-only observers.','Five command modes; full contextual roster and hardware quality remain open.']}))
             raise SystemExit(0)
         if '--follow' in sys.argv:
             def anchor_pixels(client,point):

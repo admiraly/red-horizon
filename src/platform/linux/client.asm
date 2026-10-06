@@ -22,7 +22,7 @@ extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
-extern company_for_player,company_control_order,company_controls,company_home_goals
+extern company_for_player,company_control_order,company_controls,company_home_goals,company_defend_anchor
 extern net_company_for_player,net_company_records,net_company_offer,net_company_transfers
 extern net_client_transfer
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state
@@ -49,10 +49,10 @@ extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArr
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
-command_panel_fmt: db 'COMPANY %d | FRONT %u | %s ADVANCE %s HOLD %s RETREAT %s FOLLOW',0
+command_panel_fmt: db 'COMPANY %d | FRONT %u | %s ADVANCE %s HOLD %s RETREAT %s FOLLOW %s DEFEND',0
 wheel_ready_text: db 'COMMAND WHEEL: RELEASE TO ORDER / RIGHT CLICK CANCEL',0
 wheel_cancel_text: db 'COMMAND CANCELLED',0
-wheel_no_point_text: db 'MOVE DENIED: NO VISIBLE TERRAIN WITHIN 2048M',0
+wheel_no_point_text: db 'ORDER DENIED: NO VISIBLE TERRAIN WITHIN 2048M',0
 command_panel_lost: db 'CO-OP CONNECTION LOST - COMPANY COMMANDS UNAVAILABLE',0
 title: db 'RED HORIZON | controls loaded at startup; --bindings FILE remaps actions',0
 weather_opt: db '--weather',0
@@ -95,6 +95,8 @@ net_bounds_text: db 'ORDER DENIED: POINT OUTSIDE MAP',0
 net_queue_text: db 'ORDER QUEUED',0
 net_busy_text: db 'ORDER BUSY: WAIT FOR SERVER ACK',0
 follow_sent_text: db 'ORDER ACCEPTED: FOLLOW COMPANY OWNER - COST 5',0
+defend_sent_text: db 'ORDER ACCEPTED: DEFEND AREA - COST 5',0
+order_actions: dd BIND_ADVANCE,BIND_HOLD,BIND_RETREAT,BIND_FOLLOW,BIND_DEFEND
 net_sent_text: db 'ORDER ACCEPTED: COST 5',0
 net_reject_text: db 'SERVER REJECTED REQUEST',0
 mesh_metrics: db 'meshes loaded=%u high=%u low=%u markers=%u source_triangles=%u animation_frame=%u',10,0
@@ -1408,13 +1410,13 @@ update_input:
  je .directorders
  ; Consume direct-key edges while the menu owns order input. A key held across
  ; menu close must not become a second charged order on the next frame.
- mov ebx,BIND_ADVANCE
+ xor ebx,ebx
 .suppressedkeys:
  mov rdi,[window]
- mov esi,ebx
+ lea rax,[order_actions]
+ mov esi,[rax+rbx*4]
  call bindings_down
  mov ecx,ebx
- sub ecx,BIND_ADVANCE
  test eax,eax
  jz .suppressedup
  bts dword [order_down_mask],ecx
@@ -1423,27 +1425,27 @@ update_input:
  btr dword [order_down_mask],ecx
 .suppressednext:
  inc ebx
- cmp ebx,BIND_FRONT_1
+ cmp ebx,5
  jb .suppressedkeys
  jmp .cursorread
 .directorders:
- mov ebx,BIND_ADVANCE
+ xor ebx,ebx
 .orderloop:
  mov rdi,[window]
- mov esi,ebx
+ lea rax,[order_actions]
+ mov esi,[rax+rbx*4]
  call bindings_down
  test eax,eax
  jz .keyreleased
 .networkorder:
  mov ecx,ebx
- sub ecx,BIND_ADVANCE
  bts dword [order_down_mask],ecx
  jc .nextorder
  call selected_order_goal
  ; First advance selects the next hostile deployment/command site in this row.
  comiss xmm0,[fzero]
  jae .havegoal
- cmp ebx,BIND_ADVANCE
+ cmp ebx,0
  jne .playergoal
  mov eax,[selected_front]
  shl eax,7
@@ -1464,7 +1466,6 @@ update_input:
 .havegoal:
  mov edi,[selected_front]
  mov esi,ebx
- sub esi,BIND_ADVANCE
  cmp dword [network_mode],0
  jne .sendnetwork
  call queue_local_order
@@ -1474,11 +1475,10 @@ update_input:
  jmp .nextorder
 .keyreleased:
  mov ecx,ebx
- sub ecx,BIND_ADVANCE
  btr dword [order_down_mask],ecx
 .nextorder:
  inc ebx
- cmp ebx,BIND_FRONT_1
+ cmp ebx,5
  jb .orderloop
 .cursorread:
  mov rdi,[window]
@@ -1796,8 +1796,11 @@ wheel_update:
  call wheel_close
  cmp ebx,-1
  je .done
+ cmp ebx,4
+ je .pointgoal
  test ebx,ebx
  jnz .existinggoal
+.pointgoal:
  cmp dword [wheel_point_valid],0
  je .nopoint
  movss xmm0,[wheel_point]
@@ -2087,6 +2090,9 @@ command_panel_draw:
  mov edi,BIND_FOLLOW
  call bindings_label
  mov [rsp+16],rax
+ mov edi,BIND_DEFEND
+ call bindings_label
+ mov [rsp+24],rax
  mov edi,BIND_ADVANCE
  call bindings_label
  mov r9,rax
@@ -2127,6 +2133,8 @@ selected_goal:
  sub rsp,8
  call selected_order_goal
  add rsp,8
+ cmp edx,4
+ je company_defend_anchor
  cmp edx,3
  je .follow
  cmp edx,2
@@ -2273,6 +2281,11 @@ queue_local_order:
  mov eax,[rsp+4]
  mov [order_mode],eax
  lea rax,[net_sent_text]
+ cmp dword [rsp+4],4
+ jne .notdefend
+ lea rax,[defend_sent_text]
+ jmp .feedback
+.notdefend:
  cmp dword [rsp+4],3
  jne .feedback
  lea rax,[follow_sent_text]
@@ -2415,7 +2428,7 @@ transfer_keys:
  btr dword [transfer_key_mask],ecx
 .next:
  inc ebx
- cmp ebx,BINDING_COUNT
+ cmp ebx,BIND_EXCHANGE_CANCEL+1
  jb .loop
  pop rbx
  ret
@@ -2558,6 +2571,11 @@ network_tick:
  lea rdx,[net_goal_valid]
  mov dword [rdx+rax*4],1
  lea rax,[net_sent_text]
+ cmp dword [command_mode],4
+ jne .notdefend
+ lea rax,[defend_sent_text]
+ jmp .feedback
+.notdefend:
  cmp dword [command_mode],3
  jne .feedback
  lea rax,[follow_sent_text]

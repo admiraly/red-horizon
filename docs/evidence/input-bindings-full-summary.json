@@ -1,0 +1,29 @@
+{
+  "job": {
+    "job_id": "7cc8322a2c38",
+    "revision": "3bc7e5d4048c78a5b29f2ec5d152af823c3301f2-f52a43dfd074c4e1",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/7cc8322a2c38/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/7cc8322a2c38/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/7cc8322a2c38/result.json",
+    "pid": 25600
+  },
+  "result": {
+    "job_id": "7cc8322a2c38",
+    "exit_code": 1,
+    "revision": "3bc7e5d4048c78a5b29f2ec5d152af823c3301f2-f52a43dfd074c4e1",
+    "seconds": 1151.7076621730084,
+    "status": "failed"
+  },
+  "reports_count": 133,
+  "explicit_passed_reports": 132,
+  "failure": "tests/test_client_environment.py:135 expected WEATHER overcast (F4 cycle); actual title contained WEATHER overcast (F4 CYCLE).",
+  "classification": "Failed full checkpoint; case-sensitive stale default hint expectation. Corrected same-binary focused runs recorded separately; no conversion to full pass.",
+  "log_sha256": "144554f4fdfb147ec2275df2aeea3608e5f105e4eba1a13799a81b4417574011"
+}

@@ -132,12 +132,12 @@ try:
         def weather():return struct.unpack('<4f',os.pread(memory,16,weather_address))
         assert struct.unpack('<I',os.pread(memory,4,symbols['environment_preset']))[0]==0
         key(0xffc1) # F4: clear -> overcast
-        until(lambda:'WEATHER overcast (F4 cycle)' in title(window))
+        until(lambda:'WEATHER overcast (F4 CYCLE)' in title(window))
         assert 0.15<weather()[1]<.82,'weather jumped instead of transitioning'
-        key(0xffc1);until(lambda:'WEATHER rain (F4 cycle)' in title(window))
+        key(0xffc1);until(lambda:'WEATHER rain (F4 CYCLE)' in title(window))
         until(lambda:weather()[2]>.2,2)
-        key(0xffc1);until(lambda:'WEATHER fog (F4 cycle)' in title(window))
-        key(0xffc1);until(lambda:'WEATHER clear (F4 cycle)' in title(window))
+        key(0xffc1);until(lambda:'WEATHER fog (F4 CYCLE)' in title(window))
+        key(0xffc1);until(lambda:'WEATHER clear (F4 CYCLE)' in title(window))
         final=player()
         assert u32('local_sim_ticks')==frozen_ticks,'authority tick advanced during F4 isolation'
         assert (initial['x'],initial['z'],initial['hp'],initial['ammo'],initial['shots'],initial['generation'])==(final['x'],final['z'],final['hp'],final['ammo'],final['shots'],final['generation']),(initial,final)

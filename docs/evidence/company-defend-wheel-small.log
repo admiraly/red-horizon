@@ -1,0 +1,1 @@
+{"suite": "actual-small-command-wheel", "passed": true, "viewport": [320, 240], "five_framebuffer_labels": {"MOVE": [136, 43], "HOLD": [67, 112], "FOLLOW": [193, 112], "RETREAT": [118, 181], "DEFEND": [165, 71]}, "center_cancel_uncharged": true, "capture": "/tmp/command-wheel-small.ppm", "limits": ["Minimum viewport software GL label/layout check; human readability unverified."]}

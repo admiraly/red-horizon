@@ -1,3 +1,27 @@
+Area defense batch verified on isolated feature/company-defend before integration:
+mode4 assigns physical mixed-role perimeter/rear-artillery positions with actual
+terrain footprint/grade projection. Default5 and upper-right contextual sector
+issue the same lease-validated five-requisition command; all31 actions remap.
+Defense markers use the clamped effective anchor while raw intent is preserved.
+Hazards override movement; observed combat remains active. Fast65 reports
+(64 explicit passes plus hazard outcomes), network18 and focused physical/solo/
+minimum-view/four-endpoint UDP/two-rendered-client fault checks pass. Exact input
+epochs, binaries, fixture corrections and limits: company-defend-focused.json.
+UDP27/schema0x24a8a531/content0x00ac549b; control policy3, unchanged record sizes.
+This is fixed defense, not adaptive entrenchment or the complete command roster.
+The incoming-shell fixture reacts physically but the defender dies; no universal
+survival claim. Whole-operation, Windows/content/hardware/human quality remain open.
+
+Previous full controls job7cc8322a2c38 FAILED1151.707662s/133 reports and is
+terminal/collected. Environment assertion expected F4 cycle; actual rendered
+hint was F4 CYCLE after remapping. Correcting that exact casing (plus the stale
+E board Q exit expectation in the later effects test) passes both fixtures on
+the SAME frozen controls executable and the new defense executable. Original
+visual/physics assertions and declared fixtures stay intact. The failed full
+run remains failed. Evidence: input-bindings-full-summary.json and focused
+old/new environment/effects recovery logs. Matching-main/full defense results
+will be recorded after integration. Earlier integration history follows.
+
 # Status — Linux shared-world prototype, 2026-10-06
 
 Current main integrates3bc7e5d: saved remappable controls for all30 existing

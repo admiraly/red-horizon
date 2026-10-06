@@ -1,9 +1,9 @@
-RED HORIZON gameplay UDP schema v26
-little-endian u32 header[10]: magic=0x52484332 version=26 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v27
+little-endian u32 header[10]: magic=0x52484332 version=27 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
-order=4 payload16 front:u32 mode:u32(0advance1hold2retreat3follow-primary-owner) goalx:f32 goalz:f32
+order=4 payload16 front:u32 mode:u32(0advance1hold2retreat3follow-primary-owner4defend-area) goalx:f32 goalz:f32
 leave=5 payload0
 state=100 payload808 count:u32 operation:u32 requisition:u32[2] supply:u32[2] players:64bytes[4] sites:32bytes[12] vehicles:32bytes[4] player_vehicle:i32[4]
 entities=101 payload4+36*n n:u32 records(index:u32 entity:32bytes)[n<=32]
@@ -70,3 +70,5 @@ companies107 payload356: count4, existing record40[4], then proposal48[4] indexe
 
 Company follow3 uses stable8x16 slots12m apart behind the current owner in worldX,24m trail,224m world-edge anchor margin; hold while ownerHP0; owner body generation/lease validation remains mandatory. Accepted goal remains preserved; follow destinations are derived from own connected current playerXZ, never hidden enemies.
 Follow slots use actual terrain body footprint/grade validation, then at most4 backward12m projections; no clear candidate yields hold while hazard priority remains active. Placement is derived/read-only and preserves normal movement caps.
+
+Company defend4 derives own-role stable eight-octant rings24+12*row metres around effective anchor clamped480..7520; artillery is240+12*row metres behind in worldX with12m columns. Original accepted point remains unchanged. Actual role footprint/grade placement uses original slot then four12m westward projections; no valid candidate means hold. Hazard movement overrides defense; normal observed-target combat remains active.

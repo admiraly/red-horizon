@@ -10,7 +10,7 @@ with tempfile.TemporaryDirectory(prefix='rh-wheel-') as name:
  l=C.CDLL(str(so));l.command_wheel_select.argtypes=[C.c_float,C.c_float];l.terrain_height.argtypes=[C.c_float,C.c_float];l.terrain_height.restype=C.c_float;l.sim_checksum.restype=C.c_uint64
  l.sim_init(8192,42)
  def select(x,y):return l.command_wheel_select(x,y)
- cases=[(0,-80,0),(-80,0,1),(0,80,2),(80,0,3),(0,0,-1),(37.99,0,-1),(38,0,3),(40,-40,0),(-40,40,2),(float('nan'),0,-1),(0,float('inf'),-1)]
+ cases=[(0,-80,0),(-80,0,1),(0,80,2),(80,0,3),(0,0,-1),(37.99,0,-1),(38,0,3),(40,-40,4),(40,-80,4),(80,-40,4),(39,-80,0),(81,-40,3),(40,40,2),(-40,-40,0),(-40,40,2),(float('nan'),0,-1),(0,float('inf'),-1)]
  for x,y,want in cases:assert select(x,y)==want,(x,y,want,select(x,y))
  def cast(origin,direction):
   ray=(C.c_float*6)(*origin,*direction);before=bytes(ray);out=(C.c_float*2)(-1,-1);regs=(C.c_uint64*7)();h=l.sim_checksum()

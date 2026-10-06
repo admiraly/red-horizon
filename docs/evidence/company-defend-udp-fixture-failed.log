@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-defend/tests/test_company_defend_network.py", line 40, in <module>
+    keys=[u32('player_companies',i*16)for i in range(4)];assert len(set(keys))==4
+          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-defend/tests/test_company_defend_network.py", line 17, in u32
+    def u32(name,offset=0):return struct.unpack('<I',read(name,4,offset))[0]
+                                                     ~~~~^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/company-defend/tests/test_company_defend_network.py", line 16, in read
+    def read(name,n,offset=0):return os.pread(memory,n,symbols[name]+offset)
+                                                       ~~~~~~~^^^^^^
+KeyError: 'player_companies'

@@ -539,3 +539,12 @@ controls pass. This supplies remappable existing controls, not the missing
 contextual command roster, complete accessibility, in-game editor, Windows or
 whole-operation quality acceptance. Exact evidence is in input-bindings-focused
 and matching-main reports linked from status.md.
+
+
+Defense amendment: command4 is a physical mixed-role area formation with
+actual terrain footprint/grade placement, hazard priority, observed-target
+combat, lease checks and remappable controls. Fifth radial sector uses visible
+crosshair terrain and authoritative feedback. This is a verified slice only
+once scoped final evidence is recorded in status.md; it does not accept
+adaptive defense, complete contextual roster, shared assaults, whole operation
+or hardware/human quality. Historical rows above remain historical evidence.

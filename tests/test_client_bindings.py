@@ -111,7 +111,7 @@ try:
 
         # Every action is remapped; all process observers are read-only.
         custom=pathlib.Path(__file__).with_name('bindings-remapped.cfg')
-        expected=['UP','DOWN','LEFT','RIGHT','RSHIFT','RCTRL','ENTER','T','B','N','L','M','C','X','MMB','5','6','7','8','HOME','END','INSERT','F12','F1','F2','F3','F4','F5','F6','F7']
+        expected=['UP','DOWN','LEFT','RIGHT','RSHIFT','RCTRL','ENTER','T','B','N','L','M','C','X','MMB','5','6','7','8','HOME','END','INSERT','F12','F1','F2','F3','F4','F5','F6','F7','9']
         assert u32('binding_codes',0)==265 and u32('binding_codes',12*4)==ord('C')
         until(lambda:text_visible(X,display,window,0,'5 ADVANCE',column=len(f'COMPANY {company} | FRONT 1 | ')),3)
         # Unbound default movement/fire/order/quit inputs do nothing.
@@ -147,6 +147,9 @@ try:
         key(0xff57);key(ord('m'));until(lambda:'TACTICAL' in title(window),2)
         motion(788,368);key(ord('l'),.5);until(lambda:record()[6]==sequence+3,2)
         assert record()[2]==0 and abs(record()[4]-4994.375)<.01 and abs(record()[5]-3904.44444)<.01
+        key(ord('9'),.6);until(lambda:record()[6]==sequence+4,2);assert record()[2]==4
+        assert abs(record()[4]-4994.375)<.01 and abs(record()[5]-3904.44444)<.01
+        until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED: DEFEND AREA'),3)
         # Weather binding and vehicle hints use loaded names, no stale defaults.
         key(0xffc9);until(lambda:'WEATHER overcast (F12 CYCLE)' in title(window),2)
         assert 'B BOARD N EXIT' in title(window)
@@ -156,7 +159,7 @@ try:
         finally:os.kill(process.pid,signal.SIGCONT)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
         for action,key_name in (line.split('=')for line in custom.read_text().splitlines()if line and not line.startswith('#')):assert f'binding {action}={key_name}' in stdout
-        print(json.dumps({'suite':'actual-remapped-client-input','passed':True,'actions_remapped':30,'physical_same_body_movement_m':movement,'default_keys_inactive':True,'finite_fire_reload':True,'crouch_routed':True,'keyboard_wheel_cancel_and_follow':True,'held_orders_one_charge':True,'foreign_front_rejected':True,'keyboard_tactical_point':[4994.375,3904.44444],'binding_hints_and_startup_report':True,'mouse_quit_same_event_batch':True,'executable_sha256':__import__('hashlib').sha256(EXE.read_bytes()).hexdigest(),'limits':['Real solo GLFW/OpenGL/XTest with read-only authority observers; not hardware or complete gameplay acceptance.']}))
+        print(json.dumps({'suite':'actual-remapped-client-input','passed':True,'actions_remapped':31,'physical_same_body_movement_m':movement,'default_keys_inactive':True,'finite_fire_reload':True,'crouch_routed':True,'keyboard_wheel_cancel_and_follow':True,'held_orders_one_charge':True,'foreign_front_rejected':True,'keyboard_tactical_point':[4994.375,3904.44444],'remapped_defend_one_charge_and_ack':True,'binding_hints_and_startup_report':True,'mouse_quit_same_event_batch':True,'executable_sha256':__import__('hashlib').sha256(EXE.read_bytes()).hexdigest(),'limits':['Real solo GLFW/OpenGL/XTest with read-only authority observers; not hardware or complete gameplay acceptance.']}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

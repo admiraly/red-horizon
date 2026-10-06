@@ -4,7 +4,7 @@ default rel
 extern open,read,close,fstat,strcmp,printf
 extern glfwGetKey,glfwGetMouseButton
 section .rodata
-action_offsets: dd action_0-action_offsets,action_1-action_offsets,action_2-action_offsets,action_3-action_offsets,action_4-action_offsets,action_5-action_offsets,action_6-action_offsets,action_7-action_offsets,action_8-action_offsets,action_9-action_offsets,action_10-action_offsets,action_11-action_offsets,action_12-action_offsets,action_13-action_offsets,action_14-action_offsets,action_15-action_offsets,action_16-action_offsets,action_17-action_offsets,action_18-action_offsets,action_19-action_offsets,action_20-action_offsets,action_21-action_offsets,action_22-action_offsets,action_23-action_offsets,action_24-action_offsets,action_25-action_offsets,action_26-action_offsets,action_27-action_offsets,action_28-action_offsets,action_29-action_offsets
+action_offsets: dd action_0-action_offsets,action_1-action_offsets,action_2-action_offsets,action_3-action_offsets,action_4-action_offsets,action_5-action_offsets,action_6-action_offsets,action_7-action_offsets,action_8-action_offsets,action_9-action_offsets,action_10-action_offsets,action_11-action_offsets,action_12-action_offsets,action_13-action_offsets,action_14-action_offsets,action_15-action_offsets,action_16-action_offsets,action_17-action_offsets,action_18-action_offsets,action_19-action_offsets,action_20-action_offsets,action_21-action_offsets,action_22-action_offsets,action_23-action_offsets,action_24-action_offsets,action_25-action_offsets,action_26-action_offsets,action_27-action_offsets,action_28-action_offsets,action_29-action_offsets,action_30-action_offsets
 action_0: db 'forward',0
 action_1: db 'back',0
 action_2: db 'left',0
@@ -35,6 +35,7 @@ action_26: db 'exchange_3',0
 action_27: db 'exchange_accept',0
 action_28: db 'exchange_decline',0
 action_29: db 'exchange_cancel',0
+action_30: db 'defend',0
 key_offsets: dd key_0-key_offsets,key_1-key_offsets,key_2-key_offsets,key_3-key_offsets,key_4-key_offsets,key_5-key_offsets,key_6-key_offsets,key_7-key_offsets,key_8-key_offsets,key_9-key_offsets,key_10-key_offsets,key_11-key_offsets,key_12-key_offsets,key_13-key_offsets,key_14-key_offsets,key_15-key_offsets,key_16-key_offsets,key_17-key_offsets,key_18-key_offsets,key_19-key_offsets,key_20-key_offsets,key_21-key_offsets,key_22-key_offsets,key_23-key_offsets,key_24-key_offsets,key_25-key_offsets,key_26-key_offsets,key_27-key_offsets,key_28-key_offsets,key_29-key_offsets,key_30-key_offsets,key_31-key_offsets,key_32-key_offsets,key_33-key_offsets,key_34-key_offsets,key_35-key_offsets,key_36-key_offsets,key_37-key_offsets,key_38-key_offsets,key_39-key_offsets,key_40-key_offsets,key_41-key_offsets,key_42-key_offsets,key_43-key_offsets,key_44-key_offsets,key_45-key_offsets,key_46-key_offsets,key_47-key_offsets,key_48-key_offsets,key_49-key_offsets,key_50-key_offsets,key_51-key_offsets,key_52-key_offsets,key_53-key_offsets,key_54-key_offsets,key_55-key_offsets,key_56-key_offsets,key_57-key_offsets,key_58-key_offsets,key_59-key_offsets,key_60-key_offsets,key_61-key_offsets,key_62-key_offsets,key_63-key_offsets,key_64-key_offsets,key_65-key_offsets,key_66-key_offsets,key_67-key_offsets,key_68-key_offsets,key_69-key_offsets,key_70-key_offsets,key_71-key_offsets,key_72-key_offsets,key_73-key_offsets,key_74-key_offsets,key_75-key_offsets,key_76-key_offsets
 key_codes: dd 65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,48,49,50,51,52,53,54,55,56,57,290,291,292,293,294,295,296,297,298,299,300,301,32,256,257,258,259,260,261,262,263,264,265,266,267,268,269,340,341,342,344,345,346,65536,65537,65538,65539,65540,65541,65542,65543
 key_0: db 'A',0
@@ -114,13 +115,13 @@ key_73: db 'MOUSE5',0
 key_74: db 'MOUSE6',0
 key_75: db 'MOUSE7',0
 key_76: db 'MOUSE8',0
-default_codes: dd 87,83,65,68,340,341,32,82,69,81,65536,258,65538,65537,256,49,50,51,52,290,291,292,293,294,295,296,297,298,299,300
-default_indices: dd 22,18,0,3,63,64,48,17,4,16,69,51,71,70,49,27,28,29,30,36,37,38,39,40,41,42,43,44,45,46
+default_codes: dd 87,83,65,68,340,341,32,82,69,81,65536,258,65538,65537,256,49,50,51,52,290,291,292,293,294,295,296,297,298,299,300,53
+default_indices: dd 22,18,0,3,63,64,48,17,4,16,69,51,71,70,49,27,28,29,30,36,37,38,39,40,41,42,43,44,45,46,31
 report_fmt: db 'binding %s=%s',10,0
 section .data
 global binding_codes,binding_key_indices
-binding_codes: dd 87,83,65,68,340,341,32,82,69,81,65536,258,65538,65537,256,49,50,51,52,290,291,292,293,294,295,296,297,298,299,300
-binding_key_indices: dd 22,18,0,3,63,64,48,17,4,16,69,51,71,70,49,27,28,29,30,36,37,38,39,40,41,42,43,44,45,46
+binding_codes: dd 87,83,65,68,340,341,32,82,69,81,65536,258,65538,65537,256,49,50,51,52,290,291,292,293,294,295,296,297,298,299,300,53
+binding_key_indices: dd 22,18,0,3,63,64,48,17,4,16,69,51,71,70,49,27,28,29,30,36,37,38,39,40,41,42,43,44,45,46,31
 section .bss align=16
 buffer: resb 4097
 stage_codes: resd BINDING_COUNT
