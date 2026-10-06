@@ -61,3 +61,28 @@ metrics/cursors remain indexed by actual side and kind. A global side-label flip
 must preserve the complete physical launch order and resulting actor health;
 count equality alone is insufficient. The full-world symmetry check caught the
 initial side-index-priority regression and remains required.
+
+## Direct controller body queries
+
+Private `schemas/crowd.inc` v2 preserves entity32/player64/wire layouts.
+`crowd_step(EDI=armyHullID or ENTITY_CAPACITY+humanSlot, XMM0/1=currentXZ,
+XMM2/3=originalLocalGoalXZ, XMM4=requestedStep)` returns actual XZ. Human/tank
+caps are0.3/0.6m; accepted steps preserve requested components and terrain/body
+sweeps, with contact slides or safe hold rather than AI detours. AI retains
+`crowd_move` and normal0.12/0.5/0.2m role limits.
+
+`crowd_occupied(EDI=ignoredBodyID or-1, ESI=groundRole0..2, XMM0/1=candidateXZ)`
+returns1 for occupied/invalid/truncated,0clear. Placement must not ignore the
+vehicle hull on disembark. `crowd_begin` refreshes the fixed army grid plus four
+human snapshots; AI queries use immutable matching human snapshots, controllers
+and occupancy use bounded live human validation. Boarding exclusion requires a
+living allied tank and valid bidirectional generation-stamped ownership.
+
+Player frames refresh final army positions only when living controllers exist;
+direct vehicle helper calls refresh before driving. Joins/respawns/exits refresh
+once before candidate placement. Four-player loops can require additional bounded
+O(N) snapshot rebuilds; individual queries inspect at most512 records including
+four human slots, with no all-army scan/heap allocation. Those phases and stable
+player-slot ordering are deterministic; identical per-body motion under exchanged
+player slots is not promised. Derived snapshots/metrics add no future replay state;
+the enabled policy word remains checksummed. Exact evidence belongs to status.

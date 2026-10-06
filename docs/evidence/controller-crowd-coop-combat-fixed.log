@@ -1,0 +1,1 @@
+{"suite": "co-op-combat", "passed": true, "board_drive_fire_exit": true, "exclusive_ownership": true, "replicated_launch_and_impact": true, "assembly_adapter_events": true, "max_packet": 1196, "fixture_writes": "positions only; own server"}

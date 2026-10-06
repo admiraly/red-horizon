@@ -1,5 +1,138 @@
 # Status — Linux shared-world prototype,2026-10-06
 
+The controller/body continuation keeps the complete game goal active. Runtime
+checkpoint `6b23103` integrates `schemas/crowd.inc` v2: walking players, driven
+tanks and army actors now query each other's planar body footprints. Direct
+controls preserve original signs/components and normal 0.3m human/0.6m tank caps;
+full/X/Z contact slides or safe holds replace passing through nearby bodies.
+AI retains its long-goal steering and 0.12/0.5/0.2m steps. Already-overlapped bodies
+may recover only outward; no pushing, ram damage or teleportation is added.
+
+The fixed army grid gains four 32-byte human snapshots, rather than per-human
+all-army scans. Queries inspect at most 512 records including four human slots;
+truncated movement safely holds and placement rejects. AI uses immutable matching
+human snapshots. Controller/placement queries validate current human records so
+joins, exits and earlier same-frame controller changes cannot disappear. Dead,
+disconnected, recycled and legitimately boarded humans are excluded appropriately.
+Boarding requires an allied living tank and valid bidirectional generation-stamped
+ownership. Malformed count 32769 now rejects human movement before queries, matching
+army and occupancy validation. The independent prior-candidate negative is retained.
+The existing enabled policy remains checksummed; this extension adds no replay-
+layout bytes. Snapshots, phases and diagnostics remain derived from authoritative
+entity/player/vehicle state.
+
+Living-player frames refresh final army positions; direct driver calls refresh
+before driving, and joins/respawns/exits refresh before bounded placement candidates.
+Army-only ticks avoid a second rebuild. These phases can add bounded O(N) rebuilds
+for each controller; they are measured, not described as native parallel jobs.
+Deployment checks full footprints at current authored candidates. Exit occupancy
+uses role radii rather than the old 4m center exclusion and keeps the hull physical.
+Fully blocked deployment waits; failed exits preserve legitimate ownership.
+
+The original diagnostic count was valid: rsp+76 inside its CALL means outer
+visits68. My initial suspicion confused those frames and was corrected before
+changing semantics. The explicit-argument refactor plus translated exact-count
+and 512-record saturation assertions establishes coordinate-independent accounting.
+The human extension counts four inspected slots even when empty; prior benchmark
+counts are not retroactively invalidated.
+
+Independent production controls cover 29 encounters, exact replay of every encounter,
+AI faction-label movement traces, opposing driven tanks, and four-human/four-driver
+intersections in both slot orders. They require useful approach/outward recovery,
+legal diagonal free-axis progress, per-tick input bounds and swept relative-circle
+separation. All clear-start collision controls have zero new overlap. Exchanging
+player slots changes physical traces: both orders remain safe and responsive, but
+sequential live-controller processing is not claimed to be slot-invariant physics.
+The actual pre-extension library and policy-off controls reproduce all eight
+straight controller/body crossings, 32/96 four-human/four-driver intersection fault
+counts and both unsafe placement publications. Policy-off disables AI crowd too;
+it is not an isolated controller-only causal change.
+
+The 60-tick 8192/16384 mixed-army hotspot observer uses three walking humans and one
+legitimately boarded tank, with actual combat and no army relocation. It records
+219/218 nearby controller/army relative sweeps plus 360 controller-pair sweeps at
+each scale, zero initial/new overlaps, 199/200 controller-moving ticks and 570/660
+army casualties. This is controller-to-army and six controller-pair coverage, not
+an all-army mutual-clearance census or proof of arbitrary initial formation spacing.
+
+The first integrated fast run correctly rejected an old ownership fixture: its
+second connected human remained 2m inside a 3.55m tank hull while free driving was
+expected. The fixture now first asserts blocked motion toward that peer, moves
+the peer 6m behind/10m aside, and retains the 30-tick 18m driving gate and every existing
+ownership/cannon/recycle/exit/destruction gate. Routine 8k/16k progress and 400-tick
+health symmetry thresholds remain unchanged. The original failure is retained. The full checkpoint exposed the same assumption
+in the UDP combat fixture; its peer now remains 6m from the hull, within 8m boarding
+range and clear of its path. A separate recovery fixture collapsed 4,096 allied
+actors onto rear sites. The corrected fixture translates their formation intact
+by −1800m, preserving separation and leaving safe fallback available. Independent
+read-only diagnostics established body occupancy and actual aircraft LOS at failed
+respawn attempts; three real-server repeats passed the unchanged9-second deadline.
+Runtime damage, HP, timers and safety rejection were unchanged. The failed frozen
+checkpoints and the successful replacement are retained as distinct evidence.
+
+The next checkpoint passed recovery and all UDP gates but rejected an outdated
+build dependency expectation: changing player.inc now correctly rebuilds the crowd
+kernel as well as scenarios/player/vehicles. Both direct and nested include assertions
+now retain exact dependency sets with that fourth object. A fresh graphics-only
+snapshot also exposed a missing build-directory setup, fixed at test entry before
+any NASM output. Those tooling failures and the fresh graphics and client proofs are
+recorded separately; no runtime collision change was needed.
+
+A fresh graphics run also reproduced a test observation race: the authoritative
+reload timer advanced before the window title was published. The revised client
+observer waits for title publication within the existing2-second readiness budget,
+including the post-fire ammo title, while retaining every actual reload/shot/death
+assertion. It passed against the unchanged immutable client, including real damage,
+safe recovery and the GL redeployment HUD pixel; no runtime reload behavior changed.
+
+Single-thread native headless seed42/900tick CPU benchmarks on i7-14700K are:
+
+| Fixture | Initial living army | Tick mean/p95 ms | Max records/query | Truncated queries | Final living side0/1 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| scale-hotspot |8192|4.088/5.607|66|0|2153/1873|
+| scale-stretch |16384|12.728/15.357|35|0|7018/6612|
+
+Peak runtime RSS is16808/16932KiB. Both final army checksums match the previous
+terrain checkpoint in these army-only samples; this is not a causal speedup claim.
+A separate assembly-tick timer via ctypes measures four-controller phase timing
+in scale-hotspot at both sizes. Initial tank fixture positioning is development-
+only; ownership/movement/combat thereafter use actual assembly APIs. Players are
+not held alive: tank destruction, foot recovery and dead intervals remain measured.
+
+| Hotspot army | Initial four controllers | Tick mean/p95 ms | Observed living foot/driver ticks | Final living side0/1 |
+| --- | --- | ---: | ---: | ---: |
+|8192|walking|3.763/5.322|3390/0|2143/1890|
+|8192|tank drivers|3.942/5.486|631/2939|2172/1833|
+|16384|walking|9.818/11.424|3450/0|6017/5441|
+|16384|tank drivers|10.126/11.897|648/2922|5989/5493|
+
+All four end with four living humans and zero truncated queries; all sample p95s
+meet the 33.3ms CPU-only server target. Timers include ctypes entry overhead and
+exclude Python fixture setup/observation. Counts/scenarios/losses differ; do not
+subtract rows to infer isolated rebuild cost. Rendered/replicated clients are 0,
+GPU/audio unmeasured; this does not establish four-client multiplayer/frame budgets.
+
+Oriented hulls, vehicle heading/acceleration, road/slope physics, vertical separation,
+full gun/limb envelopes, safe initial army spacing and complex traffic recovery remain
+open. Infantry/human 0.55m footprints enclose torso rather than extending weapons;
+conservative vehicle circles are 3.55/4.49m. Strategic streaming/commander/full operation,
+runtime jobs/reload/snapshots, Windows, recorded audiovisual craft and human quality
+remain unaccepted. Aircraft continuous flight and point LOS/projectile geometry are
+unchanged. No remote publication; code licence remains pending owner approval.
+
+Frozen full extended job `e240002d71f9` passed in 417.701s: 65 suite reports,
+64 explicit pass markers and one assertion-only hazard-outcomes report. Native
+seed42/900tick jobs `75781c1eca44` and `4274393fe389` passed. Their 159 authored
+inputs match the integrated runtime/tool/schema/shader/content source. The sole
+later input delta is the client test's two window-title readiness checks; that
+revised observer independently passed the unchanged immutable client. The full
+checkpoint ran the prior observer, which also passed there. No exact-final-159-input
+full-run claim is made. All worker and root jobs are terminal and reconciled.
+Exact hashes, failed checkpoint scopes, deterministic controls and job provenance:
+[controller-crowd-session.json](evidence/controller-crowd-session.json). The next
+batch is shared authoritative ground-vehicle hull heading/acceleration/braking;
+road/slope/vehicle-type and presentation acceptance remain separate gates.
+
 The full-footprint static-terrain continuation keeps the complete game goal active.
 Runtime checkpoint `5da656d` adds separate footprint-aware blocked, swept-path and
 movement APIs to army nav/hazard steering, human planar movement, driven tanks,

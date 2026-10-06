@@ -1,0 +1,164 @@
+{
+  "suite": "controller-crowd-bench",
+  "passed": true,
+  "library_sha256": "daa1f1b8cc8da490a76123e1544c500330b0940ef2a302417964b738de42dc67",
+  "tool_sha256": "bca41554842a06781a9f73d95cf44e31cb7c13fec6a792da28c0dc50ad3ea497",
+  "platform": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "rows": [
+    {
+      "units": 8192,
+      "scenario": "scale-hotspot",
+      "seed": 42,
+      "ticks": 900,
+      "initial_controller_kind": "foot",
+      "initial_connected_humans": 4,
+      "initially_boarded_tank_ids": [],
+      "initial_living_army": [
+        4096,
+        4096
+      ],
+      "final_living_army": [
+        2143,
+        1890
+      ],
+      "observed_living_foot_controller_ticks": 3390,
+      "observed_living_driver_ticks": 0,
+      "final_living_humans": 4,
+      "tick_mean_ms": 3.76277188,
+      "tick_p95_ms": 5.321731,
+      "tick_p99_ms": 5.827948,
+      "cpu_only_server_p95_target_met": true,
+      "crowd": {
+        "snapshot_actors": 8961043,
+        "move_queries": 4424733,
+        "inspected_neighbors": 35007621,
+        "corrected_endpoints": 369231,
+        "yielded_moves": 10574,
+        "overlap_recoveries": 1582,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 66
+      },
+      "checksum": "5f8ecc42fb5ec2b5"
+    },
+    {
+      "units": 8192,
+      "scenario": "scale-hotspot",
+      "seed": 42,
+      "ticks": 900,
+      "initial_controller_kind": "tank",
+      "initial_connected_humans": 4,
+      "initially_boarded_tank_ids": [
+        204,
+        477,
+        1228,
+        1501
+      ],
+      "initial_living_army": [
+        4096,
+        4096
+      ],
+      "final_living_army": [
+        2172,
+        1833
+      ],
+      "observed_living_foot_controller_ticks": 631,
+      "observed_living_driver_ticks": 2939,
+      "final_living_humans": 4,
+      "tick_mean_ms": 3.9420186822222223,
+      "tick_p95_ms": 5.486393,
+      "tick_p99_ms": 5.896851,
+      "cpu_only_server_p95_target_met": true,
+      "crowd": {
+        "snapshot_actors": 23913397,
+        "move_queries": 4384429,
+        "inspected_neighbors": 34458331,
+        "corrected_endpoints": 363117,
+        "yielded_moves": 9962,
+        "overlap_recoveries": 1580,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 62
+      },
+      "checksum": "8da6ef02912dd239"
+    },
+    {
+      "units": 16384,
+      "scenario": "scale-hotspot",
+      "seed": 42,
+      "ticks": 900,
+      "initial_controller_kind": "foot",
+      "initial_connected_humans": 4,
+      "initially_boarded_tank_ids": [],
+      "initial_living_army": [
+        8192,
+        8192
+      ],
+      "final_living_army": [
+        6017,
+        5441
+      ],
+      "observed_living_foot_controller_ticks": 3450,
+      "observed_living_driver_ticks": 0,
+      "final_living_humans": 4,
+      "tick_mean_ms": 9.817679757777778,
+      "tick_p95_ms": 11.424407,
+      "tick_p99_ms": 11.84532,
+      "cpu_only_server_p95_target_met": true,
+      "crowd": {
+        "snapshot_actors": 22445048,
+        "move_queries": 11099041,
+        "inspected_neighbors": 90131572,
+        "corrected_endpoints": 1176879,
+        "yielded_moves": 17770,
+        "overlap_recoveries": 9353,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 61
+      },
+      "checksum": "5b61861be89e2f08"
+    },
+    {
+      "units": 16384,
+      "scenario": "scale-hotspot",
+      "seed": 42,
+      "ticks": 900,
+      "initial_controller_kind": "tank",
+      "initial_connected_humans": 4,
+      "initially_boarded_tank_ids": [
+        204,
+        477,
+        1228,
+        1501
+      ],
+      "initial_living_army": [
+        8192,
+        8192
+      ],
+      "final_living_army": [
+        5989,
+        5493
+      ],
+      "observed_living_foot_controller_ticks": 648,
+      "observed_living_driver_ticks": 2922,
+      "final_living_humans": 4,
+      "tick_mean_ms": 10.126256964444444,
+      "tick_p95_ms": 11.897307,
+      "tick_p99_ms": 12.189871,
+      "cpu_only_server_p95_target_met": true,
+      "crowd": {
+        "snapshot_actors": 59728492,
+        "move_queries": 11102509,
+        "inspected_neighbors": 88854280,
+        "corrected_endpoints": 1159338,
+        "yielded_moves": 15375,
+        "overlap_recoveries": 9351,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 58
+      },
+      "checksum": "7b5f2fb7c01c54e2"
+    }
+  ],
+  "scope": "One assembly simulation thread. Timers include ctypes call overhead; fixture setup and Python observation excluded. Real combat/losses remain. Four connected controllers initially; living/boarded counts measured, not held alive. No rendered/replicated clients or GPU/audio budgets.",
+  "rendered": 0,
+  "replicated": 0,
+  "runtime_threads": 1
+}

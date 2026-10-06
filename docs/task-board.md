@@ -122,3 +122,32 @@ bounded safety implementation, not streamed hierarchy or all narrow-pass accepta
 Commander/formation plans, complete production/logistics/recovery operation, runtime
 jobs/reload/snapshots, recorded audiovisual craft, Windows and sustained four-client
 massive battle remain required independently.
+
+Controller/body batch: coreworker owns boundedhumans, manualsteps, occupancy and
+ABI/malformed/saturation checks; oracleworker owns independentproduction encounters,
+placements, fourcontroller intersections/replays and mixedarmybody sweeps; root owns
+controller/placement hooks, fixture integration, phase-overhead benchmark and frozen
+verification. Runtime `6b23103`; evidence docs/evidence/controller-crowd-session.json.
+Gen-safe player/driven planar interactor collision is addressed within that scope.
+
+Next physicalmovement priorities: safe initialarmy formation/deployment spacing,
+groundvehicle heading/acceleration and wheeled/tracked road/slope constraints,
+oriented hulls/vertical interactions and richer traffic/route recovery. Current
+contact sweeps do not replace those requirements. Strategiccommander/formationplans,
+completeoperation/logistics/recovery, streamedworld, runtimejobs/reload/snapshots,
+recorded audiovisualcraft, Windows/fourrenderedclients and hardwarequality remain
+independent open tracks; no fullgame acceptance from this batch.
+
+Ground-vehicle continuation contract (planned, not implemented): current direct
+armor movement consumes world-X/Z inputs at an immediate 0.6m/tick, while mesh
+heading is inferred from observed displacement. AI armor/artillery also currently applies crowd-steered endpoints directly.
+Next batch must introduce shared genuine authoritative hull heading and bounded acceleration/braking/turn rate, then connect
+the same state to rendering and UDP presentation. Heading must persist when stopped,
+reset safely on generation reuse and participate in replay checksums. Cannon aim
+must remain separately controllable. Keep existing body sweeps, physical speed caps,
+finite ammunition, ownership and failed-exit behavior; replace the old instant-speed
+18m fixture expectation with independently measured acceleration/turn/braking gates
+only when the new movement contract is implemented. Road/off-road surface sampling,
+slope limits and wheeled versus tracked behavior need actual terrain data and
+independent uphill/downhill, contact and same-input replay tests. Uniform terrain
+constants or cosmetic mesh rotation alone cannot establish these requirements.

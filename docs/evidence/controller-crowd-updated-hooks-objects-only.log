@@ -1,0 +1,1 @@
+{"target": "client", "revision": "487d181a38f9a597979f968915be86f80ce5a1f6-c2612d9180dc5b08", "objects_only": true, "assembled": 2, "assembled_sources": ["src/game/player.asm", "src/game/vehicles.asm"], "seconds": 0.12358961599966278, "executable": null}

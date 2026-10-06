@@ -105,6 +105,6 @@ the original death/redeployment function with this single position-write change
 passed its unchanged9-second assertions and exited naturally at330ticks. HP,
 damage, respawn timers, generations, site ownership/resources and runtime code
 were unchanged. Exact condensed diagnostic snapshots and repeat results are in
-`docs/evidence/controller-crowd-coop-death-fixture-diagnosis.json`. This proposes
-a geometry correction to the integration fixture; it does not prove general
+`docs/evidence/controller-crowd-coop-death-fixture-diagnosis.json`. Root applied this
+geometry correction in checkpoint6b23103; it does not prove general
 operation recovery under every army/air threat arrangement.

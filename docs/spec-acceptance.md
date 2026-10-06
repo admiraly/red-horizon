@@ -463,7 +463,33 @@ may omit narrow infantry/tank passages and rely on bounded local fallback. Initi
 invalid poses safely hold rather than universally recover. Five fixed solids,
 planar footprints and limited real tank boarding do not accept oriented hulls,
 vertical vault/slope physics, dynamic destruction/streaming, all-type deployment
-reachability or player/driven interactor collision. Full frozen evidence and CPU
+reachability. Player/driven planar interactor collision is covered by the v2
+controller supplement below; complete physical vehicle/body realism remains open. Full frozen evidence and CPU
 benchmarks belong to docs/evidence/terrain-body-session.json and docs/status.md.
 The complete operation/game, Windows, four rendered clients and hardware quality
 remain unaccepted.
+
+## Player and driven-body collision supplement
+
+Runtime `6b23103` connects direct player/tank motion to bounded actor/body sweeps
+and uses footprint occupancy for deployment/disembark. This narrows planar movement
+and friendly-obstruction gaps inR05/6/10/15. Shared army grid plus four human slots
+limits each query to512 inspections; snapshot refreshes remain boundedO(N), not
+native jobs. Direct full/component slides preserve input; AI retains autonomous
+long-goal steering. Validation rejects stale/dead/disconnected bodies, malformed
+counts and invalid allied generation-stamped claims; boarded duplicate humans
+are excluded. Existingentity32/player64/network/replay layouts remain unchanged.
+
+Independent production evidence covers29 encounter replays, opposing drivers,
+fourhuman/fourdriver intersections in both slot orders, placement negatives and
+actual8k/16k combat samples. Clear-start relative-circle sweeps introduce no new
+collision; preexisting overlaps require outward recovery rather than teleportation.
+Exchanged player slots yield different physical traces under sequentiallive queries;
+safety/responsiveness hold in both orders, and exactsame-build replay is verified.
+Army-only900tick benchmarks and four-controller900tick hotspot timers have distinct
+counts/losses/scopes. Full frozen evidence belongs to
+[controller-crowd-session.json](evidence/controller-crowd-session.json) and status.
+
+This does not accept oriented vehicle kinematics, fullvertical/limb collision, safe
+initialarmy formation, arbitraryterrain/streaming reachability, nativejobs, hardware
+GPU/fourrenderedclient/Windows budgets or the complete operation/game.

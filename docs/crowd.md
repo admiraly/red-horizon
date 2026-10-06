@@ -8,16 +8,18 @@ covers the torso rather than every extending gun/limb; oriented hulls remain fut
 work if less conservative vehicle passing is needed.
 AI source steps stay at 0.12/0.5/0.2 m/tick. Living driven armor remains a physical
 obstacle; its conservative neighbor step is 0.6 m/tick, matching the existing
-vehicle control path. This module does not steer driven sources or separate the
-independent human player records.
+vehicle control path. The v2 controller extension adds direct body collision for
+driven sources and independent human players; see [controller crowd](controller-crowd.md)
+and [actual-world outcomes](controller-crowd-outcomes.md). AI long-goal steering
+and direct controller steps retain distinct policies.
 
 `crowd_begin` takes immutable tick-start ground X/Z, radius, role, generation and
 maximum-step snapshots. Aircraft, dead actors, zero generations, unsupported roles
 and nonfinite/out-of-map positions are excluded. The 8 m grid has 1001² heads;
 only previously occupied heads (at most 32768) clear each begin. Initial setup
-clears the full grid. Snapshot storage is 32768×32 B, with a 32768-entry occupied
+clears the full grid. Snapshot storage is (32768+4)×32 B, with a 32768-entry occupied
 cell list; no hot-path allocation. Infantry queries check at most nine neighboring cells and filter centers to 8 m.
-Vehicle queries check at most25 cells and filter centers to16 m. Either query
+Vehicle queries check at most25 cells and filter centers to16 m. Four bounded human checks supplement indexed army neighbors. Either query
 inspects at most512 linked records. An omitted body cannot intersect the maximum
 ground sweep: infantry against the largest artillery circle needs at most
 0.55+4.49+0.12+0.2=5.36 m; the largest role pair (two artillery) needs

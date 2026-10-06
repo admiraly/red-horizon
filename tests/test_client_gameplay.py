@@ -104,13 +104,14 @@ try:
         button(True); until(lambda: player()['ammo'] == 0, 8); button(False); time.sleep(.1)
         depleted = player(); assert depleted['shots'] >= 30 and depleted['hp'] > 0, depleted
         key(ord('r'), .06); until(lambda: player()['reload'] > 0, 2)
-        assert 'RELOADING' in title(window), title(window)
+        # Authority can advance before the same frame publishes its window title.
+        until(lambda: 'RELOADING' in title(window), 2)
         before = player()['shots']; button(True); time.sleep(.35); button(False)
         assert player()['shots'] == before and player()['ammo'] == 0, player()
         until(lambda: player()['ammo'] == 30 and player()['reload'] == 0, 4)
         button(True); time.sleep(.35); button(False); time.sleep(.1)
         final = player(); assert 26 <= final['ammo'] <= 28 and 32 <= final['shots'] <= 34, final
-        assert str(final['ammo']) + '/30' in title(window), (final, title(window))
+        until(lambda: str(final['ammo']) + '/30' in title(window), 2)
         # Development fixture: isolated clear terrain, actual enemy actor and real
         # server-side rifle/LOS. Python places records; assembly executes damage.
         os.pwrite(memory, struct.pack('<fff', 2000., 17.8, 3900.), player_address)
