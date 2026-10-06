@@ -1,15 +1,17 @@
 # Next physical-cover integration contract
 
 This is an implementation contract from the caller audit, not feature acceptance.
-The first-obstruction projectile batch leaves wreck vision, rifle/blast shielding,
-movement, navigation and connected prediction open. They need a coherent batch
-with the original physical/motion/arrival/recovery/health/label-symmetry gates.
+Authoritative wreck vision and rifle/blast shielding are implemented at f60fc28
+and undergoing frozen full verification. Movement, navigation and connected
+prediction remain open. They need a coherent batch with the original physical/
+motion/arrival/recovery/health/label-symmetry gates.
 
 ## Vision and fire
 
-An isolated world LOS/context wrapper is prepared at79bfa24, with64contract/
-18actual-geometry checks, and atomic blast eligibility at5783d81. Gameplay
-callers are still unconnected. Use a separate world-cover LOS wrapper so foundational terrain component tests
+The world LOS/context wrapper has64 contract/18 actual-geometry checks;
+production cover outcomes add24 cases. Atomic blast eligibility is connected
+before damage application. Authoritative callers use world_los; explicit
+remote sources and remote warning paths remain open. A separate wrapper lets foundational terrain component tests
 retain their small independent link contract. It should query continuous ground,
 authored solid boxes and wrecks; actor sampling belongs to shot contact, not
 visibility. Caller/source faults are blocked. Preserve original eye/hull eye
@@ -23,11 +25,11 @@ verification. Changing the terrain primitive globally would silently expand
 standalone component dependencies and does not establish those caller paths.
 
 Blast damage must evaluate visibility against one pre-explosion cover state.
-The current sim_blast applies casualties while walking candidates; adding wreck
-LOS directly could let a newly killed earlier candidate shield later candidates
-in the same instantaneous explosion. Collect the bounded eligible damage set
-before applying casualties, rather than delaying all wreck registration to the
-next tick. Verify ordering and label symmetry with multiple simultaneous genuine
+The earlier sim_blast applied casualties while walking candidates; adding wreck
+LOS directly would let a newly killed earlier candidate shield later candidates
+in the same instantaneous explosion. The connected two-pass implementation
+collects the bounded eligible damage set before casualties, while retaining
+immediate wreck registration during application. Verify ordering and label symmetry with multiple simultaneous genuine
 vehicle casualties, both physical index orders and actual wreck sequences.
 
 Contact events stay at the surface; cover blast evaluation uses the incoming
@@ -45,6 +47,13 @@ ridge breaks and raised relief without health/pose/clock renewal. Cover identiti
 Compose terrain/body/grade/support checks with the prepared planar wreck sweep
 at the original .551/3.551/4.491m infantry/tank/artillery radii. Every accepted
 movement fragment, including slide/fallback/controller fragments, must be swept.
+Do not mechanically replace every long-goal squad query with the wreck grid:
+the current wreck query visits an inclusive segment bounding rectangle, so an
+8km diagonal can visit16,384cells. Keep actual movement sweeps exact and local,
+and budget shared relevant-cover lookahead/detour work before adding dynamic
+cover to distant static corridor edges. Measure cell visits and corridor
+backlog rather than assuming the prepared spatial query makes long rays cheap.
+
 The shared crowd actuator has explicit .terrain_candidate/.manual_candidate/
 .hull_terrain paths, then .endpoint, plus a separate .legacy path when crowd
 steering is disabled. Querying only the usual endpoint leaves the legacy path

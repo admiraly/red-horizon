@@ -63,9 +63,9 @@ try:
     if network and source_record is not None:
      until(lambda:get('net_wrecks',64)==source_record)
     frame=u32('frame_count');until(lambda:u32('frame_count')>=frame+5);stop()
-    # SIGSTOP can land after mesh counters reset inside the next draw. Only
-    # inspect a stopped state with the required completed fixture telemetry.
-    if u32('mesh_wreck_instances')==instances and (instance_bytes is None or get('mesh_wreck_pose',64)==instance_bytes):break
+    # SIGSTOP can land between wreck submission and the later marker pass.
+    # Require the completed-pass stamp before comparing any live counters.
+    if u32('mesh_counts_complete')==1 and u32('mesh_wreck_instances')==instances and (instance_bytes is None or get('mesh_wreck_pose',64)==instance_bytes):break
     assert time.monotonic()<deadline,'completed wreck draw telemetry timeout'
    image=X.XGetImage(display,window,0,0,640,360,W(-1).value,2);assert image;pixels=bytearray()
    for y in range(360):
@@ -95,7 +95,7 @@ try:
     assert u32('mesh_wreck_instances')==(0 if mode=='far' else 1),(role,mode,u32('net_connected'),u32('net_wreck_count'),get('camera',12),pose)
     if mode!='far':assert struct.pack('<16f',*pose)==expected,(role,mode,pose)
     source='net_wrecks' if network else 'sim_wrecks';assert get(source,64)==record,'renderer changed death pose'
-    assert before_counts==tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances')),'wreck inflated live mesh counters'
+    assert before_counts==tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances')),('wreck inflated live mesh counters',role,mode,before_counts,tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances')),u32('frame_count'))
     changed=sum(max(abs(pixels[i+k]-background[i+k]) for k in range(3))>20 for i in range(0,len(pixels),3))
     if mode in ('near','mid'):assert changed>(25 if mode=='near' else 0),(role,mode,changed)
     rows.append({'role':role,'mode':mode,'changed_pixels':changed,'wreck_instances':u32('mesh_wreck_instances'),'screenshot':path})

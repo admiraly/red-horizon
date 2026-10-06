@@ -25,7 +25,7 @@ extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUn
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
  global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame
- global mesh_wreck_instances,mesh_wreck_pose
+ global mesh_wreck_instances,mesh_wreck_pose,mesh_counts_complete
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
@@ -55,6 +55,7 @@ air_height: dd 90.0
 align 16
 tree_positions: dd 1900.,3720.,2100.,3740.,1800.,4150.,2250.,4100.,3450.,3500.,3550.,3530.,3650.,3520.,4500.,3700.,4600.,3730.,5500.,1300.,5520.,1330.,5500.,6500.,3000.,6100.,3020.,6120.,3300.,1700.,3370.,1730.
 section .bss
+mesh_counts_complete: resd 1 ; derived completed-pass telemetry, outside authority
 mesh_wreck_instances: resd 1
 mesh_wreck_pose: resd 16
 mesh_ground_pose: resd 16 ; last actual ground instance, development diagnostics
@@ -255,6 +256,7 @@ meshes_init:
 
 ; EDI tactical,ESI local player; XMM0..4 cameraXYZ/yaw/pitch,XMM5 render dt.
 meshes_draw:
+ mov dword [mesh_counts_complete],0
  push rbp
  push rbx
  push r12
@@ -370,6 +372,7 @@ meshes_draw:
 .markers:
  call .wrecks
  call .marker_batch
+ mov dword [mesh_counts_complete],1
  add rsp,8
  pop r15
  pop r14
