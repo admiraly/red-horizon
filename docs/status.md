@@ -1,3 +1,8 @@
+Corrected frozen fulld8f5c5b64ed3 RUNNING at 147e51d635774eee949715aecb1fa43de627b4c3-131f3b7ae59277b1,
+PID2074165; exact immutable snapshot metadata in
+ evidence/blast-corrected-full-pending.json. This retains the preceding failed
+5c24e859ca9b; no full pass inferred from corrected focused stub proof.
+
 Frozen physical-blast full5c24e859ca9b FAILED/collected at
 7365608-300a1a3812f46c76,exit1,276.770338s. Its isolated extracted sim_blast
 visibility stub lacked the new player_blast declaration/dependency, causing a
