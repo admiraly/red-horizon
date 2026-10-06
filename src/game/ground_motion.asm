@@ -355,6 +355,8 @@ ground_step:
  call wrap
  movaps xmm1,xmm0
  andps xmm1,[abs_mask]
+ cmp dword [rsp+60],GROUND_AI
+ je .forward
  ucomiss xmm1,[reverse_threshold]
  jbe .forward
  ; Rearward request: choose slow reverse rather than instant turn/reversal.

@@ -107,21 +107,28 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         turn[str(kind)]={'maximum_turn':maximum,'travel':progress}
     checks.append('tracked pivots bounded turns hull axis translation useful progress')
     reverse={}
-    for kind,cap in ((1,.18),(2,.08)):
+    reset();board()
+    for t in range(35):step((1000,2000),.6,1)
+    previous=states[0].speed;seen_zero=False;negative=False
+    for t in range(80):
+        step((1000,0),.6,1)
+        s=states[0].speed
+        if s==0:seen_zero=True
+        if s<0:assert seen_zero;negative=True
+        assert s>=-.180001 and abs(s-previous)<=.040001
+        previous=s
+    assert negative and abs(states[0].speed+.18)<1e-6 and abs(states[0].heading)<1e-5
+    reverse['driver_tank']=states[0].speed
+    checks.append('driver reverse bounded lower cap and braking through zero')
+    for kind in (1,2):
         reset(kind)
-        for t in range(30):step((1000,2000),.5)
-        previous=states[0].speed;seen_zero=False;negative=False
-        for t in range(80):
-            step((1000,0),.5)
-            s=states[0].speed
-            if s==0:seen_zero=True
-            if s<0:assert seen_zero;negative=True
-            assert s>=-cap-1e-6
-            assert abs(s-previous)<= (.040001 if kind==1 else .025001)
-            previous=s
-        assert negative and abs(states[0].speed+cap)<1e-6 and abs(states[0].heading)<1e-5
-        reverse[str(kind)]=states[0].speed
-    checks.append('reverse bounded lower cap and braking through zero')
+        for t in range(220):
+            oldh=states[0].heading;olds=states[0].speed
+            step((1000,0),.5 if kind==1 else .2)
+            assert states[0].speed>=0,'AI detour reversed instead of committed forward pivot'
+            assert abs(angle(states[0].heading,oldh))<=(.06 if kind==1 and olds==0 else .04 if kind==1 else .025)+1e-6
+        assert entities[0].z<995 and abs(abs(states[0].heading)-math.pi)<.02
+    checks.append('AI rearward detours pivot forward instead of slow reverse oscillation')
     reset();board()
     for t in range(30):step((1000,2000),.6,1)
     old=(entities[0].x,entities[0].z);blocked.value=1
