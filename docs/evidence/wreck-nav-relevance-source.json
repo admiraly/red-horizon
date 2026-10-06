@@ -1,0 +1,20 @@
+{
+  "integrated": false,
+  "commit": "7e75121ac4c9b762b966678e0db5463f6278b949",
+  "source_sha256": {
+    "schemas/wreck_nav.inc": "d75576a8333e91beca18c760937db342d3caeb7558fbd9d2f7fce60ebab23202",
+    "src/nav/wreck_nav.asm": "bc78e8e521246e2dcafe4b6b5775b877ce4250c157d1f64669acd18db7d66a28",
+    "src/net/protocol.inc": "cbeca5f22386b645db394de0de7faa4937d2cc57b13df20e8bc00b66ea4a046b",
+    "src/net/schema.txt": "2c40b526350a3fe6439b0d08ab701527db1cc012e8e5ce410baaf8dafbd7121d",
+    "tests/test_coop.py": "4ee6fe63ceac888a72d36ef943013a0fc10a25a89f3c9fa659e8bdf627a02679",
+    "tests/test_wreck_nav_outcomes.py": "f6d1a72aaec8b4ae919086040dcc0f67c4536736dd2aa4490a8268445a484570",
+    "tools/ground_content.py": "dd313eab3102c380610a0ee1d8215c6e216b134bd378acb5e66dee17ca537bb5"
+  },
+  "focused_terminal_exit_code": 0,
+  "full_checkpoint": null,
+  "limits": [
+    "No isolated causal performance improvement claimed",
+    "Hotspot tick budget remains unmet",
+    "Full network/graphics integration checkpoint required"
+  ]
+}

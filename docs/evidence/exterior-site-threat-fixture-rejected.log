@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/tests/test_site_deployment.py", line 27, in <module>
+    assert C.c_uint.from_buffer(players,20).value==0 and C.c_uint.from_buffer(players,36).value==30,'unsafe fallback published'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: unsafe fallback published

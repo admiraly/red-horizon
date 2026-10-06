@@ -30,7 +30,7 @@ extern battle_vertex_source,battle_fragment_source
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
 extern glfwWindowShouldClose,glfwGetKey,glfwGetMouseButton,glfwGetCursorPos
-extern glfwSetInputMode,glfwSetWindowTitle,glfwGetTime
+extern glfwSetInputMode,glfwSetWindowTitle,glfwGetTime,glfwSetKeyCallback
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glGetProgramInfoLog
 extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i,glUniform4f
@@ -150,6 +150,7 @@ mouse_seed: dd 3
 server_port: dd 7777
 command_message: dq net_ready_text
 section .bss
+quit_latched: resd 1
 window: resq 1
 program: resd 1
 vao: resd 1
@@ -521,6 +522,9 @@ main:
  jz .terminatefail
  mov [window],rax
  mov rdi,rax
+ lea rsi,[quit_key_event]
+ call glfwSetKeyCallback
+ mov rdi,[window]
  call glfwMakeContextCurrent
  mov edi,1
  call glfwSwapInterval
@@ -1193,7 +1197,17 @@ compile_shader:
  pop rbx
  ret
 
-; Key polling has no application callbacks; all processing is assembly.
+; Continuous controls are polled. A delivered Escape press survives a slow
+; frame even when release is delivered in the same glfwPollEvents batch.
+quit_key_event:
+ cmp esi,256
+ jne .done
+ cmp ecx,1
+ jne .done
+ mov dword [quit_latched],1
+.done:
+ ret
+
 %macro KEY 1
  mov rdi,[window]
  mov esi,%1
@@ -1201,6 +1215,8 @@ compile_shader:
 %endmacro
 update_input:
  push rbx
+ cmp dword [quit_latched],0
+ jne .quit
  KEY 256
  test eax,eax
  jnz .quit

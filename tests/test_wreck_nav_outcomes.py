@@ -76,7 +76,7 @@ def run(role,side=0,crowd=1,wrecks=((3500.,2000.),),later=None,ticks=700,goal=(3
   if math.dist(end,goal)<.01 and arrival is None:arrival=t+1
  if a.negative_no_route:assert arrival is None,'negative route fixture unexpectedly reached'
  else:assert arrival is not None and max(math.dist(q,goal) for q in trace[-10:])<.01,(role,side,crowd,goal,trace[-1],list(m))
- result={'role':role,'side':side,'crowd':crowd,'wrecks':len(wrecks),'later':later,'arrival_tick':arrival,'moving_ticks':moving,'max_builds_per_tick':max_builds,'completed_builds':m[1],'graph_failures':m[4],'local_overflow':m[5],'trace_sha256':hashlib.sha256(b''.join(struct.pack('<ff',*q) for q in trace)).hexdigest(),'checksum':f'{lib.sim_checksum():016x}'}
+ result={'role':role,'side':side,'crowd':crowd,'wrecks':len(wrecks),'later':later,'arrival_tick':arrival,'moving_ticks':moving,'max_builds_per_tick':max_builds,'minimum_z':min(q[1] for q in trace),'maximum_z':max(q[1] for q in trace),'completed_builds':m[1],'graph_failures':m[4],'local_overflow':m[5],'trace_sha256':hashlib.sha256(b''.join(struct.pack('<ff',*q) for q in trace)).hexdigest(),'checksum':f'{lib.sim_checksum():016x}'}
  reports.append(result);return result
 if a.negative_no_route:
  for role in (0,1,2):run(role,crowd=0)
@@ -90,6 +90,9 @@ if not a.negative_no_route:
  for role in (0,1,2):run(role,start=(3498.5,2000.),goal=(3480.,2000.))
  for role in (0,1,2):run(role,wrecks=((3498.,2000.),(3508.,2003.)),goal=(3530.,2000.))
  run(1,wrecks=((3500.,2000.),(3544.,2000.)),goal=(3600.,2000.))
+ # Eight on-corridor wrecks plus an omitted off-corridor wreck. Complete
+ # edge sweeps must force the upper bypass around the omitted obstruction.
+ run(1,wrecks=((3500.,2000.),)*8+((3500.,1992.),))
  baseline=run(1);distant=run(1,later=(7000.,7000.));assert distant['trace_sha256']==baseline['trace_sha256'] and distant['completed_builds']==baseline['completed_builds'],'distant death invalidated local route'
  run(1,later=(3508.,1990.))
  # Real lifetime, unchanged clock: held manual contact recovers after actual expiry.
@@ -103,4 +106,4 @@ if not a.negative_no_route:
   if count.value==0 and expiry is None:expiry=clock.value
  assert expiry==1800 and p[0].x>held+4,'real wreck expiry did not release manual motion'
  reports.append({'case':'actual_expiry_manual_recovery','expiry_tick':expiry,'held_x':held,'final_x':p[0].x,'no_clock_renewal':True})
-print(json.dumps({'suite':'wreck-public-detour-arrival','passed':not a.negative_no_route,'negative_no_route':a.negative_no_route,'cases':reports,'library_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'original_radii':list(radii),'no_inflight_pose_health_clock_ordnance_renewal':True,'oracle':'independent closed slabs, genuine public-tick displacement, exact arrival and final hold','limits':['Sparse fixtures; not scale, terrain streaming, art or co-op acceptance.','Queue/budget caps alone do not establish performance.','Finite local graph supports eight relevant wrecks; excess cover fails safely and is reported.']}))
+print(json.dumps({'suite':'wreck-public-detour-arrival','passed':not a.negative_no_route,'negative_no_route':a.negative_no_route,'cases':reports,'library_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'original_radii':list(radii),'no_inflight_pose_health_clock_ordnance_renewal':True,'oracle':'independent closed slabs, genuine public-tick displacement, exact arrival and final hold','limits':['Sparse fixtures; not scale, terrain streaming, art or co-op acceptance.','Queue/budget caps alone do not establish performance.','Finite local graph selects eight wreck vertex sets; every edge still considers all cover. Missing vertices may still prevent a route.']}))

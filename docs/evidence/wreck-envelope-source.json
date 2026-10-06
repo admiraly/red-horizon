@@ -1,0 +1,13 @@
+{
+  "source_sha256": {
+    "src/nav/wreck_query.asm": "26c56ca9462762ec43835864e39a7d4b0fc98cefd7bb1d886577a7b24d1c9131",
+    "tools/profile_sim_passes.py": "ebc9b06f29e25c5e02c3077a7403443c67d325dc1e9915923bf4c0c75540c2c6",
+    "tools/bench_wreck_envelope.py": "46ffe198ccf4063555af28b8b3128e6c56082eefbaeeb0634ff7f61613440c3b"
+  },
+  "integrated": false,
+  "focused_terminal_exit_code": 0,
+  "comparison_terminal_exit_code": 0,
+  "profile_terminal_exit_code": 0,
+  "initial_focused_acceptance_excluded": true,
+  "initial_comparison_terminal_exit_code": 1
+}

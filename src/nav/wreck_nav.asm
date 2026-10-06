@@ -12,7 +12,7 @@ extern terrain_obstacles,terrain_obstacle_count
 section .bss align=64
 global wreck_nav_metrics
 ; pending, completed, queue overflow, cache proposals, graph failures,
-; local-cover overflow, builds last tick, maximum builds per tick.
+; builds with omitted candidate vertices, builds last tick, maximum builds per tick.
 wreck_nav_metrics: resd 8
 head: resd 1
 tail: resd 1
@@ -26,9 +26,15 @@ distance: resd NODES
 previous: resd NODES
 visited: resd NODES
 node_count: resd 1
+selected_slots: resd WRECK_NAV_MAX_WRECKS
+selected_scores: resd WRECK_NAV_MAX_WRECKS
 section .rodata
 zero: dd 0.0
-one: dd WRECK_NAV_CORNER_MARGIN
+half: dd 0.5
+score_weight: dd WRECK_NAV_SOURCE_DISTANCE_WEIGHT
+forced_score: dd -1.0
+one: dd 1.0
+corner_margin: dd WRECK_NAV_CORNER_MARGIN
 mapmax: dd 8000.0
 look: dd WRECK_NAV_LOOKAHEAD
 plan: dd WRECK_NAV_PLAN_DISTANCE
@@ -291,7 +297,8 @@ wreck_nav_goal:
  pop rbx
 .raw:
  ret
-; EDI queued actor, RBP commitment. At most8 relevant wrecks +5 authored solids.
+; EDI queued actor, RBP commitment. At most8 selected wreck vertices +5 authored solids. Every edge still
+; tests all cover. Extra candidate vertices cannot make a crossing clear.
 ; Source is validated once before reading its cached bounds. All edges then use
 ; original-role terrain/grade/body/cover checks within a finite local window.
 build:
@@ -323,7 +330,7 @@ build:
  ja .fail
  lea rdx,[radii]
  movss xmm0,[rdx+rax*4]
- addss xmm0,[one]
+ addss xmm0,[corner_margin]
  movss [rsp+32],xmm0
  lea r15,[nodes]
  mov rax,[rbp+24]
@@ -397,6 +404,12 @@ build:
  call wreck_body_query
  test eax,eax
  js .fail
+ mov edx,-1
+ cmp eax,1
+ jne .no_first
+ mov edx,[rsp+44]
+.no_first:
+ mov [rsp+36],edx
  ; Axis-aligned local window includes tangent corners and neighboring cover.
  movss xmm0,[r15]
  minss xmm0,[r15+8]
@@ -414,6 +427,17 @@ build:
  maxss xmm0,[r15+12]
  addss xmm0,[window]
  movss [rsp+12],xmm0
+ movss xmm0,[r15+8]
+ subss xmm0,[r15]
+ movss [rsp+16],xmm0
+ movss xmm1,[r15+12]
+ subss xmm1,[r15+4]
+ movss [rsp+20],xmm1
+ mulss xmm0,xmm0
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ movss [rsp+24],xmm0
+ mov dword [rsp+28],0
  mov dword [node_count],2
  xor r12d,r12d
  xor r13d,r13d
@@ -433,14 +457,98 @@ build:
  call relevant
  test eax,eax
  jz .next_wreck
+ inc dword [rsp+28]
+ ; Select bounded relevant vertices; all omitted cover still obstructs every
+ ; visibility edge through the complete production world-body query.
+ addss xmm0,xmm2
+ mulss xmm0,[half]
+ subss xmm0,[r15]
+ addss xmm1,xmm3
+ mulss xmm1,[half]
+ subss xmm1,[r15+4]
+ movaps xmm4,xmm0
+ movaps xmm5,xmm1
+ mulss xmm4,xmm4
+ mulss xmm5,xmm5
+ addss xmm4,xmm5
+ mulss xmm4,[score_weight]
+ ucomiss xmm4,[zero]
+ jp .fail
+ movss xmm5,[rsp+24]
+ ucomiss xmm5,[reached2]
+ jbe .scored
+ movaps xmm2,xmm0
+ mulss xmm2,[rsp+16]
+ movaps xmm3,xmm1
+ mulss xmm3,[rsp+20]
+ addss xmm2,xmm3
+ divss xmm2,xmm5
+ maxss xmm2,[zero]
+ minss xmm2,[one]
+ movaps xmm3,xmm2
+ mulss xmm2,[rsp+16]
+ mulss xmm3,[rsp+20]
+ subss xmm0,xmm2
+ subss xmm1,xmm3
+ mulss xmm0,xmm0
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ addss xmm4,xmm0
+.scored:
+ cmp r12d,[rsp+36]
+ jne .select_cover
+ movss xmm4,[forced_score]
+.select_cover:
+ lea rdx,[selected_slots]
+ lea rsi,[selected_scores]
  cmp r13d,WRECK_NAV_MAX_WRECKS
- jae .cover_full
+ jae .replace
+ mov [rdx+r13*4],r12d
+ movss [rsi+r13*4],xmm4
  inc r13d
- call corners
+ jmp .next_wreck
+.replace:
+ xor eax,eax
+ xor ecx,ecx
+ movss xmm0,[rsi]
+.worst:
+ inc ecx
+ cmp ecx,WRECK_NAV_MAX_WRECKS
+ jae .worst_found
+ ucomiss xmm0,[rsi+rcx*4]
+ jae .worst
+ movss xmm0,[rsi+rcx*4]
+ mov eax,ecx
+ jmp .worst
+.worst_found:
+ ucomiss xmm4,xmm0
+ jae .next_wreck
+ mov [rdx+rax*4],r12d
+ movss [rsi+rax*4],xmm4
 .next_wreck:
  inc r12d
  cmp r12d,WRECK_CAPACITY
  jb .wreck
+ cmp dword [rsp+28],WRECK_NAV_MAX_WRECKS
+ jbe .selected_covers
+ inc dword [wreck_nav_metrics+20]
+.selected_covers:
+ xor r12d,r12d
+.chosen:
+ cmp r12d,r13d
+ jae .solids_begin
+ lea rdx,[selected_slots]
+ imul eax,[rdx+r12*4],24
+ lea rdx,[wreck_query_bounds]
+ add rdx,rax
+ movss xmm0,[rdx]
+ movss xmm1,[rdx+8]
+ movss xmm2,[rdx+12]
+ movss xmm3,[rdx+20]
+ call corners
+ inc r12d
+ jmp .chosen
+.solids_begin:
  cmp dword [terrain_obstacle_count],5
  ja .fail
  xor r12d,r12d
@@ -552,8 +660,6 @@ build:
  mov [rbp+12],ecx
  mov dword [rbp],2
  jmp .done
-.cover_full:
- inc dword [wreck_nav_metrics+20]
 .fail:
  mov dword [rbp],0
  mov dword [rbp+12],0

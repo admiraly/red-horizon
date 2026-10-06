@@ -283,3 +283,11 @@ frozen causal rate-limit7 reproduction retained. Corrected observer passes
 against frozen runtime; b7154c6 fullc2b6c894af84 verified live. Profile
 full97b74ea394b4 remains verified live. Reconcile same handles and integrate only
 matching verified coherent batches; main still f8d80b8/v14.
+
+2026-10-06 integration: profile97b74ea394b4 PASSED1036.1950s/125reports;
+all282 authored inputs match main. Root integrates coherent db54418 routing,
+query envelope, exterior deployment and Escape callback changes at UDPv17.
+Prior two failed checkpoints remain retained. Companyc2b6c894af84 remains
+live/unintegrated; range candidate205136b remains isolated with hotspot cost
+gap. Next measure exact nearest-visible heap prototype and preserve original
+scale gates before any range/assault integration.

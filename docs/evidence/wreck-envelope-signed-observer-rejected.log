@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/tools/bench_wreck_envelope.py", line 34, in <module>
+    record=bytes(records[0][slot*64:(slot+1)*64])
+ValueError: bytes must be in range(0, 256)

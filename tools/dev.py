@@ -352,6 +352,8 @@ def main():
             if suite in ('all','headless','fast','simulation','aircraft'): execute([sys.executable,'tests/test_bomb_release.py',str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','player'):
+            execute([sys.executable,'tests/test_site_deployment.py',str(library)])
         if suite in ('all','headless','fast','simulation','navigation'):
             execute([sys.executable,'tests/test_wreck_nav_outcomes.py',str(library)])
             execute([sys.executable,'tests/test_wreck_nav_contract.py',str(library)])
@@ -525,6 +527,7 @@ def main():
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
             if (ROOT/'tests/test_client_effects.py').exists(): execute([sys.executable,'tests/test_client_effects.py',str(client)])
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
+            execute([sys.executable,'tests/test_quit_event.py',str(client)])
             if (ROOT/'tests/test_client_coop.py').exists(): execute([sys.executable,'tests/test_client_coop.py',str(client),str(build('coop'))])
     return 0
 if __name__=='__main__':

@@ -1,0 +1,18 @@
+{
+  "integrated": false,
+  "focused_player_passed": true,
+  "unchanged_dense_GL_passed": true,
+  "actual_graphical_coop_passed": true,
+  "source_sha256": {
+    "src/platform/linux/client.asm": "5f1f6ffdb1c8a78530355e6666503b9ddd863dc1fbe8f9bfec35017b03590fc9",
+    "src/game/player.asm": "e313bcbfee97483b051365926bb5382905c6af318d06267d81e83bcb3b61d047",
+    "schemas/player.inc": "b43ce136f90abc95ba04fbfc87e75b6ed0cd54f3adfefa8e6cb7e8fc9e39d1c3",
+    "src/net/protocol.inc": "f42e3443718d1eeaae3a7b9dc4c7d3381ab778767d4be0700fa34c080d8c097a",
+    "src/net/schema.txt": "6aa0d74334196692de5b441c0466f51fad1bd391df2c7f785b4d12ccae99a5f2",
+    "tools/dev.py": "991fc99ae59e7865682246ed1f3a3a907e1a5b76f6f09e09015a4547b3def01e",
+    "tools/ground_content.py": "41e6a36c571ca04458a4a129eab2bf91a89d2668b1a27314b40399d7840064e8",
+    "tests/test_coop.py": "13f5eda008a2014b7e9acb7cf54623963a6d6871e22f2a805bc1f8ee4a76022b",
+    "tests/test_quit_event.py": "59b7ecdc69b412f7caae4e1da700d7194fcea2b91cfd273be471dbd9404678dc",
+    "tests/test_site_deployment.py": "6aa48b2a397ebb50050f6d013fd58effa9e77e4abfb5a5686d51a217a2f5a033"
+  }
+}

@@ -1,6 +1,6 @@
 %ifndef WRECK_NAV_INC
 %define WRECK_NAV_INC
-%define WRECK_NAV_VERSION 1
+%define WRECK_NAV_VERSION 2
 %define WRECK_NAV_QUEUE 512
 %define WRECK_NAV_BUILDS_PER_TICK 8
 %define WRECK_NAV_LOOKAHEAD 32.0
@@ -17,6 +17,7 @@
 %define WRECK_NAV_MAX_LEG_SQUARED 9216.0
 %define WRECK_NAV_GOAL_CHANGE_SQUARED 64.0
 %define WRECK_NAV_REACHED_SQUARED 0.01
+%define WRECK_NAV_SOURCE_DISTANCE_WEIGHT 0.03125
 ; Local route proposals, not a replacement for exact actual-motion sweeps.
 ; wreck_nav_goal(EDI actor,XMM0/1 chosen static goal)->XMM0/1 routed goal.
 ; Init/tick/hash are owned by navigation; no entity, wreck or controller writes.

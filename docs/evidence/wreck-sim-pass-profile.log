@@ -1,0 +1,448 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x51010b86", "canonical_sha256": "51010b86425173d6f36ddcbd94e78e4ab3688597e32de0eb6664ab11de0e5149", "checked": true}
+{"target": "headless", "revision": "0b224d69b7073b91b8c8374350f4d4561e00ce8d-19b3e167203630c8", "assembled": 36, "assembled_sources": ["src/sim/operation.asm", "src/sim/world_contact.asm", "src/sim/ordnance_admission.asm", "src/sim/scenarios.asm", "src/sim/wrecks.asm", "src/sim/world.asm", "src/sim/air_admission.asm", "src/sim/projectiles.asm", "src/sim/wreck_remote.asm", "src/nav/segment_box.asm", "src/nav/world_los.asm", "src/nav/terrain_ground_query.asm", "src/nav/ground_eye.asm", "src/nav/crowd.asm", "src/nav/terrain_surface.asm", "src/nav/squads.asm", "src/nav/terrain_relief.asm", "src/nav/terrain_body.asm", "src/nav/wreck_query.asm", "src/nav/segment_sphere.asm", "src/nav/wreck_nav.asm", "src/nav/terrain.asm", "src/nav/world_body.asm", "src/nav/ground_contact.asm", "src/nav/terrain_solid_query.asm", "src/nav/terrain_grade.asm", "src/nav/ground_support.asm", "src/ai/hazards.asm", "src/ai/hazard_steering.asm", "src/ai/bomb_fall.asm", "src/ai/aircraft.asm", "src/ai/tactics.asm", "src/game/player.asm", "src/game/ground_motion.asm", "src/game/vehicles.asm", "src/platform/linux/headless.asm"], "seconds": 0.48652918500010855, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/build/revisions/0b224d69b7073b91b8c8374350f4d4561e00ce8d-19b3e167203630c8/red-horizon-server"}
+{
+  "suite": "instrumented-sim-pass-profile",
+  "passed": true,
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": "scale-open",
+      "seed": 42,
+      "ticks": 900,
+      "plain": {
+        "checksum_samples": [
+          "1621c6e6f7944d50",
+          "41262851cba365a1",
+          "41a1e800d5ff9ec3",
+          "9cc856575ff9db1c",
+          "6d7cbea8904b1a82",
+          "5dcb51bd7bb43fb9",
+          "bc3b23995f47aef3",
+          "e5e02495c7369164",
+          "50930d4eb068b611",
+          "26387576afd88ff8",
+          "c4feefb9ed88ff6d",
+          "b65a2e7bbff56403",
+          "8503aa601ce203f7",
+          "37ceb801e4e82958",
+          "b01f18f975ea8646",
+          "ec0436cf735a935d",
+          "e205515f79631db1",
+          "6674fd0fc2e64723",
+          "55ec9ec2ba4c26e4",
+          "cff1974a7ac5b0c1",
+          "e03448be1d0e0b11",
+          "ba6999b87e36395e",
+          "36f78f13f4429725",
+          "68d75dfce66731e2",
+          "ae52d22928e7aca7",
+          "b6fbb2ae836d821e",
+          "0fcac4dbb502038b",
+          "213f01868de3cb78",
+          "7dc4922517718332",
+          "985a5111d7e13b10"
+        ],
+        "tick_ms_mean": 9.666567922222223,
+        "tick_ms_p95": 11.69817
+      },
+      "instrumented": {
+        "checksum_samples": [
+          "1621c6e6f7944d50",
+          "41262851cba365a1",
+          "41a1e800d5ff9ec3",
+          "9cc856575ff9db1c",
+          "6d7cbea8904b1a82",
+          "5dcb51bd7bb43fb9",
+          "bc3b23995f47aef3",
+          "e5e02495c7369164",
+          "50930d4eb068b611",
+          "26387576afd88ff8",
+          "c4feefb9ed88ff6d",
+          "b65a2e7bbff56403",
+          "8503aa601ce203f7",
+          "37ceb801e4e82958",
+          "b01f18f975ea8646",
+          "ec0436cf735a935d",
+          "e205515f79631db1",
+          "6674fd0fc2e64723",
+          "55ec9ec2ba4c26e4",
+          "cff1974a7ac5b0c1",
+          "e03448be1d0e0b11",
+          "ba6999b87e36395e",
+          "36f78f13f4429725",
+          "68d75dfce66731e2",
+          "ae52d22928e7aca7",
+          "b6fbb2ae836d821e",
+          "0fcac4dbb502038b",
+          "213f01868de3cb78",
+          "7dc4922517718332",
+          "985a5111d7e13b10"
+        ],
+        "tick_ms_mean": 12.80045065,
+        "tick_ms_p95": 15.48796
+      },
+      "passes": [
+        {
+          "pass": "world_los",
+          "calls": 37614429,
+          "tsc_cycles": 13693817228,
+          "inclusive_fraction_of_measured_calls": 0.47677428601337857
+        },
+        {
+          "pass": "crowd_move",
+          "calls": 4958258,
+          "tsc_cycles": 3770418807,
+          "inclusive_fraction_of_measured_calls": 0.1312737496600418
+        },
+        {
+          "pass": "ground_step",
+          "calls": 1268450,
+          "tsc_cycles": 3637816789,
+          "inclusive_fraction_of_measured_calls": 0.1266569776231978
+        },
+        {
+          "pass": "sim_entity_height",
+          "calls": 75228858,
+          "tsc_cycles": 3066328151,
+          "inclusive_fraction_of_measured_calls": 0.10675959745442487
+        },
+        {
+          "pass": "nav_entity_goal",
+          "calls": 5865015,
+          "tsc_cycles": 2265456722,
+          "inclusive_fraction_of_measured_calls": 0.07887585274011363
+        },
+        {
+          "pass": "projectile_tick",
+          "calls": 900,
+          "tsc_cycles": 628688253,
+          "inclusive_fraction_of_measured_calls": 0.021888885177770923
+        },
+        {
+          "pass": "air_combat_tick",
+          "calls": 900,
+          "tsc_cycles": 568275624,
+          "inclusive_fraction_of_measured_calls": 0.019785513445981503
+        },
+        {
+          "pass": "crowd_begin",
+          "calls": 900,
+          "tsc_cycles": 220451951,
+          "inclusive_fraction_of_measured_calls": 0.007675421673028432
+        },
+        {
+          "pass": "ai_entity_goal",
+          "calls": 5892612,
+          "tsc_cycles": 216983451,
+          "inclusive_fraction_of_measured_calls": 0.007554659756646484
+        },
+        {
+          "pass": "hazard_entity_goal",
+          "calls": 6239874,
+          "tsc_cycles": 192171599,
+          "inclusive_fraction_of_measured_calls": 0.006690791572559631
+        },
+        {
+          "pass": "hazard_tick",
+          "calls": 900,
+          "tsc_cycles": 183391950,
+          "inclusive_fraction_of_measured_calls": 0.0063851126801275
+        },
+        {
+          "pass": "air_tick",
+          "calls": 900,
+          "tsc_cycles": 97272250,
+          "inclusive_fraction_of_measured_calls": 0.0033867041432272915
+        },
+        {
+          "pass": "nav_tick",
+          "calls": 900,
+          "tsc_cycles": 85230450,
+          "inclusive_fraction_of_measured_calls": 0.00296744773708973
+        },
+        {
+          "pass": "ordnance_begin",
+          "calls": 900,
+          "tsc_cycles": 51394288,
+          "inclusive_fraction_of_measured_calls": 0.0017893823583582848
+        },
+        {
+          "pass": "ordnance_request",
+          "calls": 178067,
+          "tsc_cycles": 19705036,
+          "inclusive_fraction_of_measured_calls": 0.0006860654201341383
+        },
+        {
+          "pass": "operation_tick",
+          "calls": 900,
+          "tsc_cycles": 9556395,
+          "inclusive_fraction_of_measured_calls": 0.00033272266798410204
+        },
+        {
+          "pass": "wreck_tick",
+          "calls": 900,
+          "tsc_cycles": 6837124,
+          "inclusive_fraction_of_measured_calls": 0.00023804647449358633
+        },
+        {
+          "pass": "ordnance_flush",
+          "calls": 900,
+          "tsc_cycles": 4842866,
+          "inclusive_fraction_of_measured_calls": 0.00016861288134380133
+        },
+        {
+          "pass": "ai_tick",
+          "calls": 900,
+          "tsc_cycles": 2472112,
+          "inclusive_fraction_of_measured_calls": 8.607091902286526e-05
+        },
+        {
+          "pass": "player_tick",
+          "calls": 900,
+          "tsc_cycles": 408779,
+          "inclusive_fraction_of_measured_calls": 1.4232358488307909e-05
+        },
+        {
+          "pass": "wreck_register",
+          "calls": 303,
+          "tsc_cycles": 283405,
+          "inclusive_fraction_of_measured_calls": 9.867242586774033e-06
+        },
+        {
+          "pass": "projectile_spawn",
+          "calls": 0,
+          "tsc_cycles": 0,
+          "inclusive_fraction_of_measured_calls": 0.0
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": "scale-hotspot",
+      "seed": 42,
+      "ticks": 900,
+      "plain": {
+        "checksum_samples": [
+          "61d256adc296ffae",
+          "355a6515648e455f",
+          "d0f170da316ab84c",
+          "b06fb5bceaab6b58",
+          "52cfd08f2e072aec",
+          "f47ad86d32a9f600",
+          "d79d9abd38678172",
+          "dcb07f22418520b5",
+          "d71bdf3e81959bba",
+          "42eb97c352dbc70e",
+          "cb397939aa070465",
+          "6140ff9c468002e2",
+          "2178ef8402ef3576",
+          "faf3cd89cb29010b",
+          "9234260bb740d5d5",
+          "7990f2bc34fd84c6",
+          "9ee6545eb7cee0b0",
+          "c8df57ca567845c0",
+          "4c0a44a618d38a62",
+          "d69b023bfc7a5a00",
+          "0a2b9396221f5e49",
+          "8c5aced14ba9081d",
+          "c17c3381f2731498",
+          "f6b7f55fe9cafcf3",
+          "9cf1280a1dc26b75",
+          "a54c3675265a18be",
+          "ddc4f03b2d100125",
+          "0f46cd49958f8fe9",
+          "43e4936b154715e5",
+          "33cf445332c0153c"
+        ],
+        "tick_ms_mean": 34.28271243333334,
+        "tick_ms_p95": 41.224425
+      },
+      "instrumented": {
+        "checksum_samples": [
+          "61d256adc296ffae",
+          "355a6515648e455f",
+          "d0f170da316ab84c",
+          "b06fb5bceaab6b58",
+          "52cfd08f2e072aec",
+          "f47ad86d32a9f600",
+          "d79d9abd38678172",
+          "dcb07f22418520b5",
+          "d71bdf3e81959bba",
+          "42eb97c352dbc70e",
+          "cb397939aa070465",
+          "6140ff9c468002e2",
+          "2178ef8402ef3576",
+          "faf3cd89cb29010b",
+          "9234260bb740d5d5",
+          "7990f2bc34fd84c6",
+          "9ee6545eb7cee0b0",
+          "c8df57ca567845c0",
+          "4c0a44a618d38a62",
+          "d69b023bfc7a5a00",
+          "0a2b9396221f5e49",
+          "8c5aced14ba9081d",
+          "c17c3381f2731498",
+          "f6b7f55fe9cafcf3",
+          "9cf1280a1dc26b75",
+          "a54c3675265a18be",
+          "ddc4f03b2d100125",
+          "0f46cd49958f8fe9",
+          "43e4936b154715e5",
+          "33cf445332c0153c"
+        ],
+        "tick_ms_mean": 37.951297589999996,
+        "tick_ms_p95": 45.195347
+      },
+      "passes": [
+        {
+          "pass": "world_los",
+          "calls": 45312192,
+          "tsc_cycles": 88619314137,
+          "inclusive_fraction_of_measured_calls": 0.8312089386580053
+        },
+        {
+          "pass": "ground_step",
+          "calls": 1093832,
+          "tsc_cycles": 4328071694,
+          "inclusive_fraction_of_measured_calls": 0.04059534780018645
+        },
+        {
+          "pass": "sim_entity_height",
+          "calls": 90624384,
+          "tsc_cycles": 3665151212,
+          "inclusive_fraction_of_measured_calls": 0.03437745460586515
+        },
+        {
+          "pass": "crowd_move",
+          "calls": 3652381,
+          "tsc_cycles": 3290668413,
+          "inclusive_fraction_of_measured_calls": 0.030864975944370893
+        },
+        {
+          "pass": "nav_entity_goal",
+          "calls": 3991385,
+          "tsc_cycles": 2348023555,
+          "inclusive_fraction_of_measured_calls": 0.022023395081554584
+        },
+        {
+          "pass": "nav_tick",
+          "calls": 900,
+          "tsc_cycles": 1631934143,
+          "inclusive_fraction_of_measured_calls": 0.015306801459394727
+        },
+        {
+          "pass": "air_combat_tick",
+          "calls": 900,
+          "tsc_cycles": 721876365,
+          "inclusive_fraction_of_measured_calls": 0.00677087261436417
+        },
+        {
+          "pass": "projectile_tick",
+          "calls": 900,
+          "tsc_cycles": 707178766,
+          "inclusive_fraction_of_measured_calls": 0.006633015807588114
+        },
+        {
+          "pass": "crowd_begin",
+          "calls": 900,
+          "tsc_cycles": 390578962,
+          "inclusive_fraction_of_measured_calls": 0.003663453363724664
+        },
+        {
+          "pass": "hazard_tick",
+          "calls": 900,
+          "tsc_cycles": 293162190,
+          "inclusive_fraction_of_measured_calls": 0.0027497282638392316
+        },
+        {
+          "pass": "hazard_entity_goal",
+          "calls": 4780577,
+          "tsc_cycles": 164049842,
+          "inclusive_fraction_of_measured_calls": 0.0015387130489977587
+        },
+        {
+          "pass": "ai_entity_goal",
+          "calls": 4045449,
+          "tsc_cycles": 154059512,
+          "inclusive_fraction_of_measured_calls": 0.0014450082886189356
+        },
+        {
+          "pass": "ordnance_begin",
+          "calls": 900,
+          "tsc_cycles": 118531762,
+          "inclusive_fraction_of_measured_calls": 0.0011117741211240952
+        },
+        {
+          "pass": "air_tick",
+          "calls": 900,
+          "tsc_cycles": 108765548,
+          "inclusive_fraction_of_measured_calls": 0.0010201714670898133
+        },
+        {
+          "pass": "ordnance_request",
+          "calls": 279458,
+          "tsc_cycles": 37127822,
+          "inclusive_fraction_of_measured_calls": 0.0003482421165164308
+        },
+        {
+          "pass": "operation_tick",
+          "calls": 900,
+          "tsc_cycles": 11948333,
+          "inclusive_fraction_of_measured_calls": 0.00011206993970082907
+        },
+        {
+          "pass": "ordnance_flush",
+          "calls": 900,
+          "tsc_cycles": 10108966,
+          "inclusive_fraction_of_measured_calls": 9.481751220506921e-05
+        },
+        {
+          "pass": "wreck_tick",
+          "calls": 900,
+          "tsc_cycles": 9524473,
+          "inclusive_fraction_of_measured_calls": 8.933523319045213e-05
+        },
+        {
+          "pass": "ai_tick",
+          "calls": 900,
+          "tsc_cycles": 2973343,
+          "inclusive_fraction_of_measured_calls": 2.7888607617471174e-05
+        },
+        {
+          "pass": "wreck_register",
+          "calls": 883,
+          "tsc_cycles": 1086235,
+          "inclusive_fraction_of_measured_calls": 1.0188391213312357e-05
+        },
+        {
+          "pass": "player_tick",
+          "calls": 900,
+          "tsc_cycles": 832415,
+          "inclusive_fraction_of_measured_calls": 7.807674832636957e-06
+        },
+        {
+          "pass": "projectile_spawn",
+          "calls": 0,
+          "tsc_cycles": 0,
+          "inclusive_fraction_of_measured_calls": 0.0
+        }
+      ]
+    }
+  ],
+  "source_sha256": "2a3d2e2df6f62b12f6c2dff87c90e13d18b8ababc983f451473531fc6d5125e3",
+  "library_sha256": {
+    "libpass-plain.so": "c7f641b13419be15f976228b3c1c6fb7fb0526abfaf6f60775914a19c383d3bf",
+    "libpass-profile.so": "8f1d6d21009016b6b6acef334de6f30e7001ff2c0f6631f5c1f0b0ef47231ce2"
+  },
+  "limits": [
+    "Development-only LFENCE/RDTSC wrappers; timing instrumentation adds overhead.",
+    "Inclusive cycles of direct sim_tick calls; nested work included and main tick loops excluded.",
+    "Concurrent checkpoint workloads; not isolated hardware or causal performance acceptance.",
+    "Every30tick authoritative checksum agrees between production and instrumented builds."
+  ]
+}
+

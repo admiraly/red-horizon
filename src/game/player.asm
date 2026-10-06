@@ -551,13 +551,23 @@ spawn_player:
  jne .site_next
  cmp dword [r15+24],0
  je .site_next
+ ; Site models occupy their centres. Test the existing exterior deployment
+ ; offsets with the full physical/threat policy, never the building centre.
+ mov r13d,1
+.site_offset:
+ lea rax,[spawn_offsets]
  movss xmm0,[r15]
+ addss xmm0,[rax+r13*8]
  movss [candidate_x],xmm0
  movss xmm0,[r15+4]
+ addss xmm0,[rax+r13*8+4]
  movss [candidate_z],xmm0
  call safe_candidate
  test eax,eax
  jz .publish
+ inc r13d
+ cmp r13d,8
+ jb .site_offset
 .site_next:
  add r15,32
  inc r12d

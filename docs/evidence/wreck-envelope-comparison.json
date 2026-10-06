@@ -1,0 +1,69 @@
+{
+  "suite": "wreck-envelope-controlled-differential",
+  "passed": true,
+  "ticks": 900,
+  "units": 8192,
+  "seed": 42,
+  "scenario": "scale-hotspot",
+  "paired_order_alternates_each_tick": true,
+  "authoritative_checksums_equal_every30ticks": [
+    "61d256adc296ffae",
+    "355a6515648e455f",
+    "d0f170da316ab84c",
+    "b06fb5bceaab6b58",
+    "52cfd08f2e072aec",
+    "f47ad86d32a9f600",
+    "d79d9abd38678172",
+    "dcb07f22418520b5",
+    "d71bdf3e81959bba",
+    "42eb97c352dbc70e",
+    "cb397939aa070465",
+    "6140ff9c468002e2",
+    "2178ef8402ef3576",
+    "faf3cd89cb29010b",
+    "9234260bb740d5d5",
+    "7990f2bc34fd84c6",
+    "9ee6545eb7cee0b0",
+    "c8df57ca567845c0",
+    "4c0a44a618d38a62",
+    "d69b023bfc7a5a00",
+    "0a2b9396221f5e49",
+    "8c5aced14ba9081d",
+    "c17c3381f2731498",
+    "f6b7f55fe9cafcf3",
+    "9cf1280a1dc26b75",
+    "a54c3675265a18be",
+    "ddc4f03b2d100125",
+    "0f46cd49958f8fe9",
+    "43e4936b154715e5",
+    "33cf445332c0153c"
+  ],
+  "wreck_bytes_equal": true,
+  "query_results_byte_equal": 36772,
+  "query_hits": 23790,
+  "queries_readonly": true,
+  "timings": [
+    {
+      "variant": "baseline",
+      "tick_ms_mean": 34.453908903333335,
+      "tick_ms_p95": 41.315149,
+      "tick_ms_p99": 42.070926
+    },
+    {
+      "variant": "envelope",
+      "tick_ms_mean": 29.52876837222222,
+      "tick_ms_p95": 35.065242,
+      "tick_ms_p99": 35.895339
+    }
+  ],
+  "library_sha256": {
+    "libpass-plain.so": "c7f641b13419be15f976228b3c1c6fb7fb0526abfaf6f60775914a19c383d3bf",
+    "libwreck-envelope.so": "da2305063a588817bf7f37e3127904ba198c65b97f06a96bb9ac09bb8026aba8"
+  },
+  "source_sha256": "26c56ca9462762ec43835864e39a7d4b0fc98cefd7bb1d886577a7b24d1c9131",
+  "limits": [
+    "Concurrent full checkpoint; paired same-world timings, not isolated target GPU acceptance.",
+    "Conservative4mm rejection allowance, exact original slab/escape decisions for surviving candidates.",
+    "No new geometry or combat rules; malformed sources remain validated before rejection."
+  ]
+}

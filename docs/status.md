@@ -1,7 +1,18 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
-Wreck body collision, bounded dynamic detours and explicit replicated-cover foot
-prediction are integrated at f8d80b8. Original infantry/tank/artillery radii,
+Wreck body collision and explicit replicated-cover foot prediction were
+integrated at f8d80b8. The corrected relevance/query/deployment/quit batch is
+now integrated from db54418 with full97b74ea394b4 PASSED1036.1950s/125reports
+and all282 authored inputs matching main. VERSION2 local vertex selection
+handles the tested9-wreck scene while checking every edge against all cover.
+Disjoint wreck envelopes reject before exact intersections; source validation
+and original radii/ties/escape semantics remain. Exterior fallback avoids site
+centres, retaining original clearance/threat checks; delivered Escape taps latch
+through the actual key callback. The batch includes actual GL/co-op/UDP faults
+and original motion/symmetry/held-arrival/recovery gates. Compatibility is now
+UDPv17/schema0x6aa0d743/content0x7138ea65, canonicalSHA256
+7138ea657e98c8e5ac5c86fd29121110244bbecdc1d0b5b09206b2eb1f73d7e7.
+The f8 checkpoint below records the previous accepted runtime. Original infantry/tank/artillery radii,
 speed, controller momentum, terrain and grade checks remain. Placement, exits,
 manual slides, crowd and legacy movement sweep every accepted fragment against
 captured wrecks. Persistent local routes use a512-slot FIFO and at most8 builds
@@ -42,8 +53,8 @@ hazard warnings, oriented/vertical hulls, streamed hierarchy, graphics/playtest
 quality and broader specification requirements remain open. The full-game goal
 remains active; code license awaits owner approval. No remote publication.
 
-Current continuation: both earlier candidate checkpoints failed and remain
-unintegrated. Dense relevance3b2d4140c644 FAILED986.8829s/122 reports at
+Current continuation: both earlier candidate checkpoints failed; their
+diagnoses are retained. The corrected batch has now passed and is integrated. Dense relevance3b2d4140c644 FAILED986.8829s/122 reports at
 co-op quit; envelope0b1256549755 FAILED858.8579s/106 reports at dense screenshot
 variety. Exact logs/reports are docs/evidence/wreck-dense-routing-jobs.json.
 The first failure is reproduced by a queued Escape press/release that polling
@@ -52,9 +63,8 @@ repeats with48 hotspot colours: a healthy redeployed player sits inside the
 rendered site building at1000/1300. Exterior site candidates retain all original
 body/crowd/threat checks. Four clear joins and threatened-candidate rejection,
 focused player tests, unchanged dense GL and final graphical co-op now pass.
-Corrected profile candidate db54418 is frozen in full97b74ea394b4, running from
- db54418-9ad5aacfc94bf30c. Private UDPv17/schema0x6aa0d743/content0x7138ea65
-remains outside main. Ground/body/nav collision for site buildings is still open.
+Corrected profile db54418 full97b74ea394b4 passed from
+ db54418-9ad5aacfc94bf30c. Its282 authored inputs match main exactly. Ground/body/nav collision for site buildings is still open.
 
 Ground company coordination is implemented separately at0479f0f. Bounded
 mixed cohorts stage in distinct ranks, wait on physical readiness and genuine
@@ -78,8 +88,8 @@ ordinary artillery fire; reserved support targets, bomber/fighter coordination,
 ownership UI, rendered plan intent and human quality remain unproven. Its initial
 assault fixture has depleted enemy ammunition; no contested-quality claim.
 Exact progress/limits: docs/company-assault-progress.md. Private UDPv16 policy is
-separate from the corrected v17 branch; combine/recompute compatibility and run
-another exact full checkpoint before integrating both. Main remains f8d80b8/v14.
+separate from integratedv17; combine/recompute compatibility and run
+another exact full checkpoint before integrating the company slice.
 
 An independent ground acquisition candidate205136b is outside main. Tanks
 search2-cell and artillery3-cell envelopes for their unchanged450m/650m ranges.
@@ -97,7 +107,8 @@ It remains an unpromoted experiment. More cost diagnosis and full integration
 are required. Privatev18 compatibility is separate fromv16/v17 branches.
 Exact source, logs, negative control and limits: docs/ground-acquisition.md.
 
-All foreground checks are terminal. Two frozen full jobs are verified live;
+All previously launched foreground checks are terminal. Profile97b74ea394b4
+is reconciled passed; companyc2b6c894af84 remains verified live;
 exact handles are docs/evidence/wreck-dense-pending-jobs.json. Failed runs and
 exploratory fixtures are retained. No remote publication; full-game goal active.
 

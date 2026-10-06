@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v14
-little-endian u32 header[10]: magic=0x52484332 version=14 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v17
+little-endian u32 header[10]: magic=0x52484332 version=17 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -42,3 +42,7 @@ bomb_release_policy_v2: intended target-height flight time includes inherited ve
 projectile_remote_policy_v2: at most4 freshest live current-generation owned cannon samples first, remaining capacity retains nearby fair ring/tombstone streaming; total18 records/1196bytes. Ownership requires live connected player/generation plus mutually matching vehicle/driver/entity generation records. Descending remainingTTL, physical slot breaks ties. Duplicate slot filtering preserves atomic batch validity. Source state and interest radius unchanged; no reliable delivery or visibility guarantee for lifetimes below10Hz snapshot interval. Packet layouts unchanged.
 
 Version14 gameplay compatibility: original-radius authoritative wreck body sweeps and placement; bounded persistent local dynamic-cover detours; explicit admitted replicated-wreck source for connected foot preview. Snapshot wire layouts unchanged. Content fingerprint includes world body and wreck navigation policy. No remote-cache freshness barrier or reliable destruction stream is implied.
+
+Version15 local route candidates select bounded relevant wreck vertices; complete world-body edge sweeps still reject every obstruction.
+
+player_deploy_policy=2 exterior site offsets, validated physical/threat candidates

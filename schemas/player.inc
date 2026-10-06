@@ -24,3 +24,6 @@
 ; Input protocol revision: new movement bits; public64-byte record unchanged.
 %define INPUT_CROUCH 32
 %define INPUT_JUMP 64
+
+; Exterior site deployment uses existing finite offsets and full threat checks.
+%define PLAYER_DEPLOY_POLICY_VERSION 2

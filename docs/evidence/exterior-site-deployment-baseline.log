@@ -1,0 +1,1 @@
+{"suite": "exterior-site-deployment", "passed": true, "negative_centre": true, "clear_four_player_poses": [], "unsafe_exterior_candidates_rejected": false, "initial_fixture_only": true, "limits": ["Authored site-model centres; no full physical building/nav/destruction integration claim."]}

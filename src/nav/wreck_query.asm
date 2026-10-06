@@ -26,6 +26,8 @@ padding: dd 6.0
 body_min_y: dd -16000.0
 body_max_y: dd 16000.0
 skin: dd 0.002
+; Conservative rejection allowance exceeds f32 delta/bound rounding at16km.
+envelope_skin: dd 0.004
 align 16
 abs_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
 ; Local union frame0 bounds, rounded outward from actual battle.rham audit.
@@ -410,8 +412,53 @@ query_start:
  imul eax,24
  lea rdi,[wreck_query_bounds]
  add rdi,rax
+ ; Bounds are validated during rebuild. A swept endpoint envelope is a
+ ; necessary intersection condition; retain all closed boundary contacts.
+ ; Body radius expands XZ only. Full slab/escape tests still decide survivors.
+ movss xmm0,[rsp]
+ maxss xmm0,[rsp+12]
+ movss xmm1,[rdi]
+ subss xmm1,[rsp+76]
+ subss xmm1,[envelope_skin]
+ ucomiss xmm0,xmm1
+ jb .next_record
+ movss xmm0,[rsp]
+ minss xmm0,[rsp+12]
+ movss xmm1,[rdi+12]
+ addss xmm1,[rsp+76]
+ addss xmm1,[envelope_skin]
+ ucomiss xmm0,xmm1
+ ja .next_record
+ movss xmm0,[rsp+8]
+ maxss xmm0,[rsp+20]
+ movss xmm1,[rdi+8]
+ subss xmm1,[rsp+76]
+ subss xmm1,[envelope_skin]
+ ucomiss xmm0,xmm1
+ jb .next_record
+ movss xmm0,[rsp+8]
+ minss xmm0,[rsp+20]
+ movss xmm1,[rdi+20]
+ addss xmm1,[rsp+76]
+ addss xmm1,[envelope_skin]
+ ucomiss xmm0,xmm1
+ ja .next_record
  cmp dword [rsp+72],0
- je .clip
+ jne .body_bounds
+ movss xmm0,[rsp+4]
+ maxss xmm0,[rsp+16]
+ movss xmm1,[rdi+4]
+ subss xmm1,[envelope_skin]
+ ucomiss xmm0,xmm1
+ jb .next_record
+ movss xmm0,[rsp+4]
+ minss xmm0,[rsp+16]
+ movss xmm1,[rdi+16]
+ addss xmm1,[envelope_skin]
+ ucomiss xmm0,xmm1
+ ja .next_record
+ jmp .clip
+.body_bounds:
  movss xmm0,[rsp+76]
  movss xmm1,[rdi]
  subss xmm1,xmm0
