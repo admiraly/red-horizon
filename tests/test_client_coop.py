@@ -215,6 +215,14 @@ try:
             start=read_u32(cm,client_symbols,'frame_count')
             until(lambda:read_u32(cm,client_symbols,'frame_count')>=start+4,2)
             sample=live_cannon();assert sample,'received cannon trajectory expired before capture'
+            # The owned cannon's on-axis round can be wholly covered by the HUD
+            # crosshair. Turn only the cosmetic observer view while authority is
+            # paused; keep the received round/eye/health/ammo/pool unchanged.
+            observer_yaw=os.pread(cm,4,client_symbols['yaw'])
+            os.pwrite(cm,struct.pack('<f',struct.unpack('<f',observer_yaw)[0]+.06),client_symbols['yaw'])
+            start=read_u32(cm,client_symbols,'frame_count')
+            until(lambda:read_u32(cm,client_symbols,'frame_count')>=start+4,2)
+            until(lambda:struct.unpack('<f',os.pread(cm,4,client_symbols['recoil']))[0]==0,2)
             authority_keys=(('sim_entities',8192*32),('sim_aircraft',8192*64),('sim_projectiles',32768),('sim_players',256))
             authority_before=tuple(os.pread(cm,n,client_symbols[name])for name,n in authority_keys)
             def framebuffer(label):
@@ -245,20 +253,22 @@ try:
             # only repeated pixels within its small footprint qualify.
             camera=struct.unpack('<3f',os.pread(cm,12,client_symbols['camera']))
             yaw=struct.unpack('<f',os.pread(cm,4,client_symbols['yaw']))[0]
-            pitch=struct.unpack('<f',os.pread(cm,4,client_symbols['pitch']))[0]
+            pitch=struct.unpack('<f',os.pread(cm,4,client_symbols['pitch']))[0]+struct.unpack('<f',os.pread(cm,4,client_symbols['recoil']))[0]
+            projection=struct.unpack('<2f',os.pread(cm,8,client_symbols['view_projection']))
             dx,dy,dz=(sample[i]-camera[i] for i in range(3))
             qx=math.cos(yaw)*dx-math.sin(yaw)*dz
             qz=math.sin(yaw)*dx+math.cos(yaw)*dz
             qy=math.cos(pitch)*dy-math.sin(pitch)*qz
             depth=math.sin(pitch)*dy+math.cos(pitch)*qz
             assert depth>4,'received shell is behind the observer'
-            px=round(640*(1+qx*1.05/depth));py=round(360*(1-qy*1.87/depth))
+            px=round(640*(1+qx*projection[0]/depth));py=round(360*(1-qy*projection[1]/depth))
             changed_shell_pixels=sum(all(frame[i]>175 and frame[i+1]>85 and frame[i+2]<100 and
                  max(abs(frame[i+c]-hidden[i+c])for c in range(3))>10 for frame in (visible,restored))
                  for y in range(max(0,py-12),min(720,py+13))for x in range(max(0,px-12),min(1280,px+13))for i in [(y*1280+x)*3])
             assert changed_shell_pixels>0,('no repeatable pixels at the real replicated shell position',changed_shell_pixels,sample,(px,py))
             assert authority_before==tuple(os.pread(cm,n,client_symbols[name])for name,n in authority_keys),'projectile cosmetic draw controls changed authority'
         finally:
+            if 'observer_yaw' in locals():os.pwrite(cm,observer_yaw,client_symbols['yaw'])
             os.pwrite(cm,struct.pack('<I',1),client_symbols['net_projectiles_visible'])
             os.pwrite(cm,struct.pack('<I',0),client_symbols['net_projectiles_clock_frozen'])
             os.kill(host.pid,signal.SIGCONT)
@@ -335,7 +345,7 @@ try:
             assert clients[index]['process'].returncode==0,(stdout,stderr)
             assert 'local_sim_ticks=0' in stdout and f'player={index} front={index}' in stdout,stdout
             outputs.append(stdout)
-        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':goal(0),'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)

@@ -65,3 +65,13 @@ and the independent network observer. Older peers are incompatible.
 
 Full scale, real graphics and lossy UDP acceptance must be recorded separately
 from the focused evidence above. This file is not a whole-game completion claim.
+
+Integration observer correction: full6b46c4176423 reached the graphical co-op
+shell check but failed its owned-round footprint. The test projected with
+hardcoded focal coefficients and omitted visual recoil; an on-axis tiny round
+can also be concealed by the crosshair. The observer now settles recoil, uses
+the actual view_projection and rendered pitch+recoil, and turns only the
+cosmetic view by.06rad while the server is paused. Round/eye/HP/ammo/pool remain
+unchanged; source generation, original paired repeated-gold-pixel threshold and
+readonly-authority comparison remain. All camera/yaw/draw controls are restored.
+This is a presentation-observer correction, not a physics or feature allowance.
