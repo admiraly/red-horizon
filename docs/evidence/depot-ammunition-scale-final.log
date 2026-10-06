@@ -1,0 +1,2 @@
+{"suite": "tracked-retreat-orders", "passed": true, "ticks": 180, "first_tick_stationary_pivot": true, "retreat_metres": [53.18988037109375, 14.32196044921875, 53.17529296875, 14.330078125], "replay": true, "runtime": "actual sim_tick; four sparse development births"}
+PASS: baseline/stretch replay, counts, roles, fronts, orders, casualties, bounds, local fire, side-swap symmetry, realtime pacing and CLI

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/depot-ammunition/tests/test_client_bindings.py", line 146, in <module>
+    until(lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(window),2);assert record()[6]==seq
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/depot-ammunition/tests/test_client_bindings.py", line 69, in until
+    raise AssertionError('condition timed out: ' + (title(window) if window else 'startup'))
+AssertionError: condition timed out: RED HORIZON | 8192 units | rifle 30/30 DOWN: SAFE REDEPLOY | front 1 order 2 | REQ 319 SUP 600 | OPERATION ACTIVE | HP 0 SUPPRESS 100 REDEPLOY 11 | ON FOOT | B BOARD N EXIT | TACTICAL MAP / RELOAD | COMPANY 285 | ORDER ACCEPTED: COST 5 | WEATHER clear (F12 CYCLE)

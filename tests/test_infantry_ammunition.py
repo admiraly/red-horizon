@@ -85,4 +85,4 @@ print(json.dumps({'suite':'infantry-finite-ammunition','passed':True,'physical_c
                   'no_shot_no_spending':exclusions,'dead_reload_frozen':True,'declared_generation_birth_once':True,'side_front_change_no_refill':True,
                   'corrupt_stock_and_invalid_calls_atomic':True,'conserved_initial_rounds':120,'library_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),
                   'limits':['Declared independent initial fixtures; no live pose/HP/ammo/clock renewal in the combat/exhaustion traces. Separate lifecycle/corruption fixtures manipulate stocks explicitly.',
-                            'Army rifle only; no resupply, weapon variety, NPC reload animation, ammunition replication or hardware/full-game acceptance.']}))
+                            'This trace has no nearby depot. Resupply is verified separately; weapon variety, NPC reload animation, ammunition replication and hardware/full-game acceptance remain open.']}))

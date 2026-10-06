@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/depot-ammunition/tests/test_infantry_ammunition_network.py", line 24, in <module>
+    assert original_source[2:6]==(100,0,0,0) and original_target[2:6]==(400,1,1,0)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

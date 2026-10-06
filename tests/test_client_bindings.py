@@ -91,10 +91,14 @@ try:
             values = struct.unpack('<5f11I', os.pread(memory, 64, player_address))
             return dict(zip(('x','y','z','yaw','pitch','hp','ammo','reload','cooldown','respawn','front','connected','shots','hits','suppression','generation'), values))
 
-        def key(symbol, hold=.12):
+        def key(symbol, hold=.12, observed=None):
             code = X.XKeysymToKeycode(display, symbol); assert code
-            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display); time.sleep(hold)
-            XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display); time.sleep(.10)
+            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display)
+            try:
+                time.sleep(hold)
+                if observed is not None:until(observed,2)
+            finally:
+                XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display); time.sleep(.10)
 
         def button(down):
             XT.XTestFakeButtonEvent(display, 1, int(down), 0); X.XFlush(display)
@@ -142,9 +146,11 @@ try:
         until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED: FOLLOW'),3)
         # Direct order modes, selection and keyboard tactical click.
         key(ord('6'),.6);until(lambda:record()[6]==sequence+2,2);assert record()[2]==1
-        key(0xff50);seq=record()[6];key(ord('7'))
+        key(0xff50,observed=lambda:u32('selected_front')==0);seq=record()[6]
+        key(ord('7'),observed=lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(window))
         until(lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(window),2);assert record()[6]==seq
-        key(0xff57);key(ord('m'));until(lambda:'TACTICAL' in title(window),2)
+        key(0xff57,observed=lambda:u32('selected_front')==1)
+        key(ord('m'),observed=lambda:u32('tactical')==1)
         motion(788,368);key(ord('l'),.5);until(lambda:record()[6]==sequence+3,2)
         assert record()[2]==0 and abs(record()[4]-4994.375)<.01 and abs(record()[5]-3904.44444)<.01
         key(ord('9'),.6);until(lambda:record()[6]==sequence+4,2);assert record()[2]==4

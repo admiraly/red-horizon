@@ -14,7 +14,8 @@ extern company_control_goal
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
-extern infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash
+extern infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash,infantry_weapon_resupply_tick
+extern depot_ammunition_init,depot_ammunition_hash
 extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
 extern ordnance_init,ordnance_begin,ordnance_request,ordnance_flush,ordnance_hash,ordnance_enabled
@@ -140,6 +141,7 @@ sim_init:
  sub rsp,8
  call terrain_body_init
  call operation_init
+ call depot_ammunition_init
  call player_init
  call ai_init
  call nav_init
@@ -723,6 +725,7 @@ sim_tick:
  sub rsp,8
  call projectile_tick
  call operation_tick
+ call infantry_weapon_resupply_tick
  call player_tick
  call company_transfer_tick
  add rsp,8
@@ -806,6 +809,7 @@ sim_checksum:
  call operation_hash
  call projectile_hash
  call infantry_weapon_hash
+ call depot_ammunition_hash
  call ordnance_hash
  call vehicle_hash
  call ground_hash

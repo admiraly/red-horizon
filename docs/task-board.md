@@ -481,3 +481,14 @@ Verify competing requests, exhaustion, cut/restoration, capture, generation
 reuse and replay on independent fixtures, then original8192 read-only UDP.
 Do not route units to hidden enemies or reset generations to regain equipment.
 Supply-aware movement and readable shortages are subsequent dependent work.
+
+Finite nearby infantry resupply (root, feature/depot-ammunition): implemented
+atomic finite-source debit/actor credit, received-round conservation and world
+hooks/hash. Physical combat, actual root restoration/contested occupation/
+captured exhausted store, API bounds/LOS,135-request contention and5-entry ABI
+pass. Original8192/16384 and staged four-endpoint resupply pass; final registered
+network20/graphics checks pending reconciliation. Stock/UI route intelligence,
+other weapon rearm and full logistics acceptance remain open. Next independent
+slice: generation/lease-gated owned-company shortage and depot inventory report
+for solo/co-op tactical HUD, bounded packet validation and truthful no-data/reset
+states; then supply-aware physical return routes without overriding urgent hazards.

@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v28
-little-endian u32 header[10]: magic=0x52484332 version=28 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v29
+little-endian u32 header[10]: magic=0x52484332 version=29 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -73,4 +73,6 @@ Follow slots use actual terrain body footprint/grade validation, then at most4 b
 
 Company defend4 derives own-role stable eight-octant rings24+12*row metres around effective anchor clamped480..7520; artillery is240+12*row metres behind in worldX with12m columns. Original accepted point remains unchanged. Actual role footprint/grade placement uses original slot then four12m westward projections; no valid candidate means hold. Hazard movement overrides defense; normal observed-target combat remains active.
 
-Army infantry rifle policy1: authoritative own-generation stock records32bytes, magazine30, carried reserve90, automatic60tick reload transfers finite rounds; one round per successful existing range/LOS-gated staggered shot. No replenishment except genuine initial/generation birth. Dead actors freeze stores; player/vehicle weapons unchanged. This state is server-only, included in replay checksum; no extra wire record fields.
+Army infantry rifle policy2: authoritative own-generation stock records32bytes, magazine30, carried reserve90, automatic60tick reload transfers finite rounds; one round per successful existing range/LOS-gated staggered shot. Reserves may receive rounds only from a finite eligible nearby depot transaction; magazine+reserve+shots=initial120+received. Genuine body births equip once. Dead actors freeze stores; player/vehicle weapons unchanged. This state is server-only, included in replay checksum; no extra wire record fields.
+
+Depot ammunition policy1: physical12x16byte remaining/issued/declaredInitial/reserved stores. Fresh depot-role initialization seeds12000 rounds; capture/repair/route restoration never refills. Resupply once per actor authority tick, staggered every30ticks after current operation capture/connectivity; living same-generation infantry within60m and clear ground/solid/wreck LOS to an owned healthy connected uncontested depot receives at most missing90-round reserve capacity. Actor receivedRounds24,lastSupplyTick28 occupy previously reserved infantry sidecar fields; maxreceived144000. Debit and credit are atomic single-thread authority. No additional wire fields or UI shortage/stock replication in this revision.
