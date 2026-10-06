@@ -1,5 +1,13 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Combined full b0240f5853b8 FAILED759.5345s at authentic wreck UDP replay:
+ test_wreck_network.py:93 expects three selected packets to leave the cache
+unchanged after intentional packet drops. The parser checks, actual player input,
+co-op ordnance and ground transport passed before this assertion. Diagnosis is
+in progress against the exact frozen server/adapter; do not treat the failed
+checkpoint as integrated or passed. Exact result/log/reports are
+ docs/evidence/combined-assault-full-failed-*. Main remains v17.
+
 Current isolated search candidate cfa0312/330cc74 narrows rows of the already
 existing128×128/62.5m wreck grid; this is not a new finer grid. Independent
 all-record geometry/body oracles retain original cases and add256/176 long,

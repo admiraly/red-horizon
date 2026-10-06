@@ -312,3 +312,8 @@ slightly; see docs/wreck-row-query.md. Fast e6091687a43d and combined full
 b0240f5853b8 are pending. Root runtime remains accepted07d6536/v17. Preserve
 full gates before integration; protected air missions/shared company UI remain
 ready gameplay work.
+
+Combined b0240f5853b8 is terminal FAILED759.5345s at authentic wreck replay
+after drops (test_wreck_network.py:93). Reproduce with frozen artifacts and
+distinguish a dropped packet first delivery from duplicate/stale resurrection
+before correcting any code or test. The prior v19 candidate remains unintegrated.
