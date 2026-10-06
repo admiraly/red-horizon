@@ -1,0 +1,7 @@
+# Isolated solo company membership tint
+
+The renderer reads the validated human company lease once per frame, then marks only living allied ground actors with that exact front/128-ID cohort key. Same-ID-block actors on another front, enemies, aircraft and disconnected/stale leases remain unmarked. No command or authoritative state is changed. Ownership is represented only in the derived64byte render instance: height/ownership field0relative,1absolute,2relative-owned,3absolute-owned. Existing support/aircraft height behavior and actor ID/detail census remain intact. Own glyphs are lime; other allied glyphs remain blue.
+
+Actual solo keyboard/map/physical movement test passes and reads real tactical pixels: owned marker visible, same-ID-block foreign-front blue pixels visible, zero ownership-colour pixels at that foreign-front position. Observer reads state only; SIGSTOP freezes capture timing, then resumes. Complete focused graphics suite exits0 with27 reports, retaining real aircraft, terrain/support/wreck/eye, IDs/depth, source poses, effects, unchanged gameplay, GUI order cost, quit delivery and two-client co-op gates.
+
+Candidate is isolated and unintegrated. Co-op membership is not replicated in v23, so network clients intentionally remain unmarked. No full shared-plan/formation-selection UI, physical GPU-budget or human-readability acceptance. Two visible own-colour pixels in this sample prove routing, not large-scale readability.

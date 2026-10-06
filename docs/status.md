@@ -1669,3 +1669,12 @@ Concurrent hotspot mean/p95 changes35.333/45.306→19.498/22.477ms;16k remains
 over33.3ms and graphics/frame budgets are unaccepted. Frozen fast2ac346c0f764
 PASSED251.5267s. Matching full3112ca82aa0d is live atc0c8f04-507ba71505a61d3a,
 with the corrected owned graphical fixture. Candidate is not integrated yet.
+
+Isolateddfb8a95 adds derived solo company glyph tint. A validated current human
+lease selects only living allied ground actors with the same front/128-ID cohort.
+Actual tactical pixels distinguish owned lime markers from same-ID-block other-
+front blue actors, with zero owned colour in the other-front sample. Its complete
+focused graphics suite exits0 with27 reports; geometry/height/census/input/
+co-op gates remain. Candidate is not integrated. Co-op membership replication
+is absent in v23, so network clients remain unmarked. Small pixel evidence does
+not establish human readability or a shared formation/plan interface.

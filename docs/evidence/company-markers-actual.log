@@ -1,0 +1,7 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xa89260de", "canonical_sha256": "a89260de2597cbc3b3ac2a73ac2dccb2bdb95c20d6c9761f7a918f1813b70484", "checked": true}
+{"suite": "actual-solo-company-command", "passed": true, "company": {"key": 285, "held_safe_infantry": 29, "held_travel_m": 0.0, "one_charge_per_key_press": true, "foreign_front_denied": true, "autonomous_front_waypoints_preserved": true, "physical_advance": true, "tactical_click_one_charge": true, "tactical_point": [4994.375, 3904.444091796875], "owned_marker_pixels": 2, "same_ID_block_foreign_front_blue_pixels": 32}, "executable_sha256": "38c00b31186b6409fea1a0a2680389a08059e02129d3bc50bb5be7dda449582c", "limits": ["Real solo GLFW/software GL/private Xvfb; no desktop or hardware GPU performance claim.", "Read-only authority observer; actual keyboard commands drive production company movement."]}
+{"target": "client", "revision": "abe3ed787138e3419caef25e5497a4cc4d5acae4-8174ac0a30c1057b", "assembled": 0, "assembled_sources": [], "seconds": 0.3449320920044556, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-markers/build/revisions/abe3ed787138e3419caef25e5497a4cc4d5acae4-8174ac0a30c1057b/red-horizon"}
