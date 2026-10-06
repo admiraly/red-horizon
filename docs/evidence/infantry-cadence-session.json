@@ -8055,12 +8055,1269 @@
           ]
         }
       ]
+    },
+    {
+      "name": "network-complete-corrected",
+      "exit_code": 0,
+      "log_sha256": "5fc75910646878a7085168405c726b503a287ff0fe94e117382cc9ae73d3c18f",
+      "explicit_pass_reports": 26,
+      "reports": [
+        {
+          "suite": "owned-projectile-priority",
+          "passed": true,
+          "cases": 18,
+          "maximum_owned_priority": 4,
+          "minimum_fair_capacity": 14,
+          "MTU_maximum": 1196,
+          "negative_controls": [
+            "priority_omitted",
+            "freshest_omitted",
+            "source_generation_omitted",
+            "dedup_omitted"
+          ],
+          "preserved_authority_and_ABI": true,
+          "source_sha256": "ca4bfdafaeb1ac9043de3d6ab2b82b9b26d5fcf962a883ca63f1da73779ab8ca",
+          "scope": "Actual extracted server packet builder with controlled core records. Real UDP/GUI and extended network verification remain separate."
+        },
+        {
+          "suite": "network",
+          "packets": 45,
+          "passed": true,
+          "build_and_test_seconds": 2.039421
+        },
+        {
+          "suite": "fourth-player-company-adapter",
+          "passed": true,
+          "actual_player_id": 3,
+          "own_order_ACK": 0,
+          "foreign_front_rejected": true
+        },
+        {
+          "suite": "cooperative-world",
+          "passed": true,
+          "server": {
+            "ticks": 180,
+            "simulated": 8192,
+            "bytes_in": 69284,
+            "bytes_out": 1643456,
+            "entity_records": 12352,
+            "rejected": 13,
+            "disconnects": 2,
+            "distinct_client_entity_pairs": 10710,
+            "nearby_interest": 5439,
+            "unseen_interest": 0,
+            "aircraft_records": 3240,
+            "air_xz_refreshes_verified": 1197
+          }
+        },
+        {
+          "suite": "company-exclusive-actual-udp",
+          "passed": true,
+          "initial_army": 8192,
+          "four_assignment_keys": [
+            19,
+            285,
+            534,
+            0
+          ],
+          "same_front_exclusive": true,
+          "company_live_member_counts": [
+            40,
+            40
+          ],
+          "held_quiet_infantry_count": 31,
+          "held_quiet_infantry_max_travel_m": 0.0,
+          "held_hazard_reaction_ids": [
+            2448
+          ],
+          "held_total_max_travel_m": 4.319943244978498,
+          "ordered_max_travel_m": 22.94530500438491,
+          "released_max_autonomous_travel_m": 19.605401514230294,
+          "actual_lost_ack_repeat_one_charge_and_sequence": true,
+          "cross_front_rejection_preserves_intent": true,
+          "stale_endpoint_generation_command_rejected": true,
+          "front_manual_flags_unchanged": true,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "observer_writes": false,
+          "limits": [
+            "Read-only /proc observer on genuine NASM server and actual UDP peers.",
+            "Company replication/UI/transfer/assistance and broad fault/scale acceptance remain separate."
+          ],
+          "server": {
+            "ticks": 360,
+            "simulated": 8192,
+            "bytes_in": 996,
+            "bytes_out": 2039444,
+            "entity_records": 15680,
+            "rejected": 2,
+            "disconnects": 4,
+            "distinct_client_entity_pairs": 9987,
+            "nearby_interest": 0,
+            "unseen_interest": 0,
+            "aircraft_records": 3870
+          }
+        },
+        {
+          "suite": "company-remote-parser",
+          "passed": true,
+          "malformed_or_foreign_packets": 24,
+          "malformed_proposals": 17,
+          "proposal_whole_batch_atomic": true,
+          "offer_current_participant_generation_front_connected_gates": true,
+          "whole_batch_atomic": true,
+          "follow_mode_accepted_invalid_mode5_rejected": true,
+          "direct_receive_authority_checksum_preserved": true,
+          "transport_players_entities_companies_preserved": true,
+          "transport_advances_existing_remote_clock": true,
+          "stale_equal_tick_rejected": true,
+          "body_generation_front_disconnect_gates": true,
+          "tombstone_no_resurrection": true,
+          "close_timeout_reset": true,
+          "library_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2"
+        },
+        {
+          "suite": "company-remote-actual-four-player",
+          "passed": true,
+          "units": 8192,
+          "keys": [
+            19,
+            285,
+            534,
+            0
+          ],
+          "exact_server_records": 4,
+          "outside_local_region_owned_actors": {
+            "0": 0,
+            "1": 0,
+            "2": 0,
+            "3": 1
+          },
+          "production_adapter_player": 3,
+          "remote_owner_intent_observed": true,
+          "lost_ack_single_sequence": true,
+          "adapter_own_order_observed": true,
+          "disconnect_tombstone_rejoin_fresh_intent": true,
+          "observer_writes_after_initial_birth": false,
+          "initial_birth": {
+            "entity": 1,
+            "generation": 71,
+            "tick": 1,
+            "position": [
+              7500.0,
+              1300.0
+            ]
+          },
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "server": {
+            "ticks": 420,
+            "simulated": 8192,
+            "bytes_in": 988,
+            "bytes_out": 183456,
+            "entity_records": 1472,
+            "rejected": 0,
+            "disconnects": 0,
+            "distinct_client_entity_pairs": 1933,
+            "nearby_interest": 0,
+            "unseen_interest": 0,
+            "aircraft_records": 414
+          },
+          "limits": [
+            "GL ownership tint and map display verified separately; transfer and assistance remain unfinished."
+          ]
+        },
+        {
+          "suite": "company-supply-udp-parser",
+          "passed": true,
+          "malformed_foreign_packets": 20,
+          "malformed_depot_packets": 14,
+          "depot_atomic_conservation_ownership_gates": true,
+          "whole_packet_atomic": true,
+          "authority_checksum_preserved": true,
+          "stale_equal_rejected": true,
+          "lease_key_body_front_connected_age_gates": true,
+          "close_reconnect_timeout_clear": true,
+          "unknown_preserved": true,
+          "client_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2"
+        },
+        {
+          "suite": "company-supply-production-udp",
+          "passed": true,
+          "units": 8192,
+          "endpoints": 4,
+          "samples": [
+            {
+              "tick": 6,
+              "report": [
+                3,
+                1,
+                0,
+                32,
+                0,
+                0,
+                3838,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "tick": 9,
+              "report": [
+                3,
+                1,
+                0,
+                32,
+                0,
+                0,
+                3836,
+                0,
+                0,
+                0
+              ]
+            },
+            {
+              "tick": 12,
+              "report": [
+                3,
+                1,
+                0,
+                32,
+                0,
+                0,
+                3836,
+                0,
+                0,
+                0
+              ]
+            }
+          ],
+          "initial_world_unmodified": true,
+          "production_depot_report_correlated": true,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "limits": [
+            "Production delivery and structurally checked ownership display; not an exact whole-world stock oracle or rendered HUD test.",
+            "No supply-aware routes or hardware-budget acceptance; exact world-to-wire stock oracle remains separate."
+          ]
+        },
+        {
+          "suite": "company-transfer-actual-udp",
+          "passed": true,
+          "units": 8192,
+          "before_keys": [
+            19,
+            285,
+            534,
+            0
+          ],
+          "after_keys": [
+            285,
+            19,
+            534,
+            0
+          ],
+          "explicit_recipient_consent": true,
+          "lost_propose_and_accept_ACK_no_duplicate_swap": true,
+          "source_generations_and_leases_bound": true,
+          "preserved_company_intents": true,
+          "body_positions_preserved": true,
+          "authoritative_fronts_updated": true,
+          "old_front_and_old_consent_rejected": true,
+          "production_adapter_propose_cancel": true,
+          "observer_writes": false,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "library_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "server": {
+            "ticks": 450,
+            "simulated": 8192,
+            "bytes_in": 1432,
+            "bytes_out": 312396,
+            "entity_records": 2496,
+            "rejected": 4,
+            "disconnects": 0,
+            "distinct_client_entity_pairs": 3249,
+            "nearby_interest": 0,
+            "unseen_interest": 0,
+            "aircraft_records": 702
+          },
+          "limits": [
+            "Rendered keyboard/feedback and broader fault/full acceptance are separate; exchange is not squad splitting or assistance."
+          ]
+        },
+        {
+          "suite": "company-follow-actual-udp",
+          "passed": true,
+          "units": 8192,
+          "four_exclusive_keys": [
+            19,
+            285,
+            534,
+            0
+          ],
+          "lost_follow_ACK_one_cost_one_sequence": true,
+          "production_adapter_follow_mode3": true,
+          "invalid_mode_and_foreign_ownership_rejected": true,
+          "owner_walk_m": 11.91162109375,
+          "retained_quiet_infantry": 30,
+          "quiet_infantry_progress_toward_initial_follow_slots": [
+            2433,
+            2439,
+            2442,
+            2451,
+            2454,
+            2457,
+            2466,
+            2469,
+            2472,
+            2475,
+            2481,
+            2484,
+            2487,
+            2490,
+            2496,
+            2499,
+            2502,
+            2505,
+            2514,
+            2517,
+            2520,
+            2523,
+            2529,
+            2532,
+            2535,
+            2538,
+            2544,
+            2547,
+            2550,
+            2553
+          ],
+          "accepted_command_preserved": true,
+          "observer_writes": false,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "library_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "Read-only real original8192/four-endpoint transport and120-tick movement observation.",
+            "Mixed-role distinct-slot convergence is verified by separate causal API traces; no whole-operation traffic/graphics/performance claim."
+          ]
+        },
+        {
+          "suite": "company-defend-actual-udp",
+          "passed": true,
+          "units": 8192,
+          "four_exclusive_keys": [
+            19,
+            285,
+            534,
+            0
+          ],
+          "lost_defend_ACK_one_cost_one_sequence": true,
+          "production_adapter_defend_mode4": true,
+          "invalid_mode_and_foreign_ownership_rejected": true,
+          "owner_walk_m": 11.91162109375,
+          "retained_quiet_infantry": 30,
+          "quiet_infantry_progress_toward_initial_defend_slots": [
+            2433,
+            2439,
+            2442,
+            2451,
+            2454,
+            2457,
+            2466,
+            2469,
+            2472,
+            2475,
+            2481,
+            2484,
+            2487,
+            2490,
+            2496,
+            2499,
+            2502,
+            2505,
+            2514,
+            2517,
+            2520,
+            2523,
+            2529,
+            2532,
+            2535,
+            2538,
+            2544,
+            2547,
+            2550,
+            2553
+          ],
+          "accepted_command_preserved": true,
+          "observer_writes": false,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "library_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "Read-only real original8192/four-endpoint transport and120-tick movement observation.",
+            "Mixed-role distinct-slot convergence is verified by separate causal API traces; no whole-operation traffic/graphics/performance claim."
+          ]
+        },
+        {
+          "suite": "infantry-ammunition-original-four-endpoint-udp",
+          "passed": true,
+          "units": 8192,
+          "endpoints": 4,
+          "observer_writes": false,
+          "initial_encounter": null,
+          "actual_receiver": null,
+          "stocks_conserved_across_real_combat": true,
+          "finite_depot_conservation": true,
+          "stable_samples": [
+            {
+              "tick": 7,
+              "infantry": 6144,
+              "rounds_remaining": 736950,
+              "actual_shots": 330,
+              "reload_records": 0,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            },
+            {
+              "tick": 97,
+              "infantry": 6144,
+              "rounds_remaining": 732242,
+              "actual_shots": 5038,
+              "reload_records": 0,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            },
+            {
+              "tick": 187,
+              "infantry": 6144,
+              "rounds_remaining": 729260,
+              "actual_shots": 8020,
+              "reload_records": 0,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            },
+            {
+              "tick": 277,
+              "infantry": 6144,
+              "rounds_remaining": 727736,
+              "actual_shots": 9544,
+              "reload_records": 24,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            }
+          ],
+          "transient_read_retries": 0,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "adapter_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "Original declared world, no fixture births or live pose/health/stock/clock changes.",
+            "Stock records observed on authority only; not replicated NPC ammo or rendered reload acceptance."
+          ]
+        },
+        {
+          "suite": "infantry-resupply-staged-four-endpoint-udp",
+          "passed": true,
+          "units": 8192,
+          "endpoints": 4,
+          "observer_writes": false,
+          "initial_encounter": {
+            "tick": 1,
+            "source": 0,
+            "target": 4108,
+            "source_position": [
+              1020,
+              3900
+            ],
+            "target_position": [
+              1240,
+              3900
+            ],
+            "target_declared_shell_ammo": 0,
+            "unchanged_count": 8192,
+            "unchanged_health_and_generations": true,
+            "unchanged_infantry_stocks": true
+          },
+          "actual_receiver": {
+            "generation": 1,
+            "magazine": 24,
+            "reserve": 90,
+            "shots": 36,
+            "received": 30,
+            "last_supply_tick": 300,
+            "target_hp": 292
+          },
+          "stocks_conserved_across_real_combat": true,
+          "finite_depot_conservation": true,
+          "stable_samples": [
+            {
+              "tick": 7,
+              "infantry": 6144,
+              "rounds_remaining": 736947,
+              "actual_shots": 333,
+              "reload_records": 0,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            },
+            {
+              "tick": 127,
+              "infantry": 6144,
+              "rounds_remaining": 731683,
+              "actual_shots": 5597,
+              "reload_records": 0,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            },
+            {
+              "tick": 250,
+              "infantry": 6144,
+              "rounds_remaining": 729567,
+              "actual_shots": 7713,
+              "reload_records": 11,
+              "depleted_records": 0,
+              "received": 0,
+              "depot_remaining": 48000,
+              "depot_issued": 0
+            },
+            {
+              "tick": 349,
+              "infantry": 6144,
+              "rounds_remaining": 729107,
+              "actual_shots": 8203,
+              "reload_records": 13,
+              "depleted_records": 0,
+              "received": 30,
+              "depot_remaining": 47970,
+              "depot_issued": 30
+            }
+          ],
+          "transient_read_retries": 0,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "adapter_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "One explicit startup encounter/target-ammo declaration; no HP/identity/infantry-stock writes. Read-only and no freeze/renewal after setup.",
+            "Stock records observed on authority only; not replicated NPC ammo or rendered reload acceptance."
+          ]
+        },
+        {
+          "suite": "physical-supply-route-four-peer-udp",
+          "passed": true,
+          "units": 8192,
+          "endpoints": 4,
+          "startup_tick": 1,
+          "declared_initial_carried": 12,
+          "declared_prior_expenditure": 108,
+          "actual_credit_tick": 360,
+          "credited_rounds": 90,
+          "depot_remaining": 11910,
+          "resumed_primary_goal": [
+            900,
+            4200
+          ],
+          "samples": [
+            [
+              9,
+              900.9599609375,
+              3900.0,
+              12,
+              0,
+              12000
+            ],
+            [
+              69,
+              908.15966796875,
+              3900.0,
+              12,
+              0,
+              12000
+            ],
+            [
+              129,
+              915.359375,
+              3900.0,
+              12,
+              0,
+              12000
+            ],
+            [
+              189,
+              922.55908203125,
+              3900.0,
+              12,
+              0,
+              12000
+            ],
+            [
+              249,
+              929.7587890625,
+              3900.0,
+              12,
+              0,
+              12000
+            ],
+            [
+              309,
+              936.95849609375,
+              3900.0,
+              12,
+              0,
+              12000
+            ],
+            [
+              369,
+              942.9249877929688,
+              3901.070068359375,
+              102,
+              90,
+              11910
+            ],
+            [
+              429,
+              941.9032592773438,
+              3908.203857421875,
+              102,
+              90,
+              11910
+            ],
+            [
+              480,
+              941.0347900390625,
+              3914.267578125,
+              102,
+              90,
+              11910
+            ]
+          ],
+          "all6144_infantry_and12_depots_conserved": true,
+          "observer_writes_after_setup": false,
+          "complete_tick_publication_checked": true,
+          "stable_read_retries": 1425,
+          "in_progress_transaction_retries": 0,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "limits": [
+            "One explicit startup actor pose/front/stock and front objective; no live state renewal or identity/health changes.",
+            "Exact stocks and travel observed read-only on actual server; not an exact wire-stock oracle, production adapter or rendered detour feedback test."
+          ]
+        },
+        {
+          "suite": "player-ammunition-original-four-endpoint-udp",
+          "passed": true,
+          "units": 8192,
+          "production_adapter_owner": 3,
+          "endpoints": 4,
+          "unchanged_initial_world": true,
+          "observer_writes": false,
+          "actual_lifetime_rifle_shots": 120,
+          "observed_depleted_magazine": true,
+          "observed_reload": true,
+          "actual_body_generations": [
+            1
+          ],
+          "public_sprint_rearward_input": true,
+          "same_tick_exact_authority_report_comparisons": 148,
+          "reserve_levels": [
+            0,
+            30,
+            60,
+            90
+          ],
+          "magazine_samples": [
+            [
+              59,
+              1,
+              100,
+              19,
+              90,
+              11,
+              11
+            ],
+            [
+              119,
+              1,
+              100,
+              4,
+              90,
+              26,
+              26
+            ],
+            [
+              179,
+              1,
+              100,
+              0,
+              90,
+              30,
+              30
+            ],
+            [
+              239,
+              1,
+              100,
+              23,
+              60,
+              37,
+              37
+            ],
+            [
+              301,
+              1,
+              100,
+              7,
+              60,
+              53,
+              53
+            ],
+            [
+              361,
+              1,
+              100,
+              0,
+              60,
+              60,
+              60
+            ],
+            [
+              421,
+              1,
+              100,
+              26,
+              30,
+              64,
+              64
+            ],
+            [
+              483,
+              1,
+              100,
+              11,
+              30,
+              79,
+              79
+            ],
+            [
+              543,
+              1,
+              100,
+              0,
+              30,
+              90,
+              90
+            ],
+            [
+              603,
+              1,
+              100,
+              30,
+              0,
+              90,
+              90
+            ],
+            [
+              665,
+              1,
+              100,
+              14,
+              0,
+              106,
+              106
+            ]
+          ],
+          "stable_read_retries": 0,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "adapter_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "Own player report correlated exactly at observed native snapshot ticks; not every packet or whole-army stock replication.",
+            "Original8192/world and real public inputs, no setup/live pose/HP/stock/clock writes.",
+            "Tracks real damage/new bodies in the original battlefield. Single-body120-round depletion and finite-store exhaustion are separate genuine CPU traces.",
+            "Rendered reserve/empty/timeout feedback and broad faults are separate."
+          ]
+        },
+        {
+          "suite": "physical-human-blast-four-endpoint-UDP",
+          "passed": true,
+          "units": 8192,
+          "endpoints": 4,
+          "startup_fixture_tick": 5,
+          "production_adapter_owner": 0,
+          "native_and_wire_real_death": true,
+          "dead_own_stock_explicit_unknown": true,
+          "genuine_new_body30_plus90": true,
+          "same_tick_exact_public_body_comparisons": 143,
+          "finite_shells_before_after": [
+            64,
+            60
+          ],
+          "real_hostile_impacts": [
+            [
+              2000.024169921875,
+              18.015295028686523,
+              3904.003662109375,
+              3,
+              1,
+              80,
+              18.0,
+              1148
+            ],
+            [
+              2000.024169921875,
+              18.015295028686523,
+              3904.003662109375,
+              3,
+              1,
+              110,
+              18.0,
+              1475
+            ]
+          ],
+          "samples": [
+            [
+              8,
+              100,
+              30,
+              0,
+              0,
+              0,
+              90,
+              1
+            ],
+            [
+              80,
+              20,
+              30,
+              0,
+              0,
+              0,
+              90,
+              1
+            ],
+            [
+              110,
+              0,
+              30,
+              0,
+              0,
+              29,
+              90,
+              1
+            ],
+            [
+              111,
+              0,
+              30,
+              0,
+              0,
+              28,
+              90,
+              1
+            ],
+            [
+              112,
+              0,
+              30,
+              0,
+              0,
+              27,
+              90,
+              1
+            ],
+            [
+              116,
+              0,
+              30,
+              0,
+              0,
+              23,
+              90,
+              1
+            ],
+            [
+              117,
+              0,
+              30,
+              0,
+              0,
+              22,
+              90,
+              1
+            ],
+            [
+              118,
+              0,
+              30,
+              0,
+              0,
+              21,
+              90,
+              1
+            ],
+            [
+              122,
+              0,
+              30,
+              0,
+              0,
+              17,
+              90,
+              1
+            ],
+            [
+              123,
+              0,
+              30,
+              0,
+              0,
+              16,
+              90,
+              1
+            ],
+            [
+              124,
+              0,
+              30,
+              0,
+              0,
+              15,
+              90,
+              1
+            ],
+            [
+              128,
+              0,
+              30,
+              0,
+              0,
+              11,
+              90,
+              1
+            ],
+            [
+              129,
+              0,
+              30,
+              0,
+              0,
+              10,
+              90,
+              1
+            ],
+            [
+              130,
+              0,
+              30,
+              0,
+              0,
+              9,
+              90,
+              1
+            ],
+            [
+              134,
+              0,
+              30,
+              0,
+              0,
+              5,
+              90,
+              1
+            ],
+            [
+              135,
+              0,
+              30,
+              0,
+              0,
+              4,
+              90,
+              1
+            ],
+            [
+              136,
+              0,
+              30,
+              0,
+              0,
+              3,
+              90,
+              1
+            ],
+            [
+              140,
+              100,
+              30,
+              0,
+              0,
+              0,
+              90,
+              2
+            ]
+          ],
+          "stable_read_retries": 620,
+          "server_sha256": "80a3088a12e6faab225b684c27f722a00459b2fe75aa420180148503ac53ed30",
+          "adapter_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "One startup pose/order fixture, retaining original8192 army HP/kind/generation/finite stores. Read-only and unfrozen afterward.",
+            "Production state/own report transport verified; dedicated rendered multiplayer blast pixel and bomber UDP traces separate."
+          ]
+        },
+        {
+          "suite": "player-ammunition-real-udp-parser-faults",
+          "passed": true,
+          "rejected_actual_udp_packets": 21,
+          "atomic_failure_authority_checksum": true,
+          "wrong_endpoint_session_recipient_schema_content_length": true,
+          "stale_equal_and_old_body_rejected": true,
+          "explicit_unknown": true,
+          "close_reconnect_real_timeout_clear": true,
+          "adapter_sha256": "32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2",
+          "limits": [
+            "Synthetic server packets and a declared static corroborating body fixture; genuine server firing/deployment and GL are separate."
+          ]
+        },
+        {
+          "suite": "co-op-player-movement",
+          "passed": true,
+          "authority": "actual64actor30Hzdedicatedserver; no fixture writes",
+          "crouch_eye": 1.1000000992664596,
+          "crouch_metres_per_second": 2.397003173828125,
+          "jump_peak_eye_offset": 3.7311130310053855,
+          "held_jump_lands": true,
+          "release_repress_jumps": true,
+          "crouch_blocks_jump": true,
+          "unknown_bits_rejected_adapter_and_server": true,
+          "adapter_tick_matches_server": true,
+          "max_peer_packet": 848
+        },
+        {
+          "suite": "network-projectiles",
+          "passed": true,
+          "malformed_batches": 21,
+          "whole_batch_immutability": true,
+          "generation_reuse_reorder_and_loss_expiry": true,
+          "authority_unchanged_by_cosmetics": true,
+          "disconnect_clears": true,
+          "actual_server_bomb_motion_damage_and_tombstone": true,
+          "authentic_delayed_reordered_duplicate_and_lost_death_replay": true,
+          "authentic_bomb_samples": 43,
+          "adapter_bomb_samples": 788,
+          "max_packet": 848,
+          "fixture_writes": "actor positions and bomber pose only"
+        },
+        {
+          "suite": "network-events",
+          "passed": true,
+          "malformed_cases": 47,
+          "whole_packet_validation": true,
+          "deduplication": true,
+          "pool_wrap": true,
+          "vehicle_state_validation": true,
+          "aircraft_whole_packet_validation": true,
+          "aircraft_generation_and_reordering": true,
+          "aircraft_independent_warmup_and_xz": true,
+          "fixtures": "wire payloads; real assembly adapter"
+        },
+        {
+          "suite": "co-op-combat",
+          "passed": true,
+          "board_drive_fire_exit": true,
+          "exclusive_ownership": true,
+          "replicated_launch_and_impact": true,
+          "assembly_adapter_events": true,
+          "max_packet": 1196,
+          "fixture_writes": "positions only; own server"
+        },
+        {
+          "suite": "ground-network-parser",
+          "passed": true,
+          "malformed_batches_rejected": 26,
+          "warmup_without_sparse_entities": true,
+          "whole_batch_atomic": true,
+          "sparse_same_tick_precedence": true,
+          "generation_reuse_and_no_revival": true,
+          "disconnect_and_timeout_clear": true
+        },
+        {
+          "suite": "ground-network-server",
+          "passed": true,
+          "authentic_ground_packets": 45,
+          "owned_priority_packets": 45,
+          "authority_matches": 803,
+          "moving_authority_matches": 742,
+          "moving_hulls": [
+            285,
+            300,
+            318,
+            333,
+            348,
+            366,
+            381,
+            396,
+            414,
+            429,
+            444,
+            462,
+            477,
+            492,
+            510,
+            525,
+            540,
+            558,
+            573,
+            588,
+            606,
+            621,
+            636,
+            654,
+            669,
+            684,
+            702,
+            717,
+            732,
+            750,
+            765,
+            780,
+            798,
+            813,
+            828,
+            846,
+            861,
+            876,
+            894,
+            909,
+            924,
+            942,
+            957,
+            972,
+            990,
+            1005,
+            1038,
+            1053,
+            1068,
+            1086,
+            1101,
+            1116,
+            1134,
+            1149,
+            1164,
+            1182,
+            1197,
+            1212,
+            1230,
+            1245,
+            1260,
+            1278,
+            1293,
+            1308,
+            1326,
+            1341,
+            1356,
+            1374,
+            1389,
+            1404,
+            1422,
+            1437,
+            1452,
+            1470,
+            1485,
+            1500,
+            1518,
+            1533,
+            1548,
+            1566,
+            1581,
+            1596,
+            1614,
+            1629,
+            1644,
+            1662,
+            1677,
+            1692,
+            1710,
+            1725,
+            1740,
+            1758,
+            1773,
+            1788,
+            1806,
+            1821,
+            1836,
+            1854,
+            1869,
+            1884,
+            1902,
+            1917,
+            156,
+            174,
+            189,
+            204,
+            222,
+            237,
+            252,
+            270,
+            1932,
+            1950,
+            1965,
+            1980,
+            1998,
+            2013,
+            2028,
+            2046,
+            12,
+            30,
+            45,
+            60,
+            78,
+            93,
+            108,
+            126,
+            141
+          ],
+          "max_packet": 1196,
+          "ground_only_warmup_with_reorder_duplicate_drop": true
+        },
+        {
+          "suite": "wreck-network-parser",
+          "passed": true,
+          "malformed_packets_rejected": 12,
+          "whole_batch_atomic": true,
+          "remote_only_warmup": true,
+          "retirement_stale_and_no_revival": true,
+          "authority_unchanged": true,
+          "clock_expiry_disconnect_timeout": true
+        },
+        {
+          "suite": "wreck-network-server",
+          "passed": true,
+          "units": 8192,
+          "declared_births": 2,
+          "genuine_casualty_identity": [
+            0,
+            1
+          ],
+          "actual_wire_authority_matches": 1,
+          "authentic_packets": 2,
+          "late_join_recovered": true,
+          "actual_world_expiry_tombstone": false,
+          "max_wreck_packet": 108,
+          "authentic_wreck_only_replay_with_drop_reorder_duplicate": true,
+          "duplicate_samples_previously_delivered": true,
+          "delayed_first_delivery_records": 0,
+          "scope": "Actual NASM server combat/registry/global stream and adapter; two initial births only, no in-flight HP/pose/clock refresh. Expiry proven only with --extended; visible graphics separate."
+        }
+      ]
     }
   ],
   "limits": [
     "Army-first target processing and human16tick scan retained; unified fair target arbitration remains incomplete.",
     "Stock-only helper fire retains separate debit API; all actual gameplay rifle-damage callers now use shared shot gate.",
-    "Full/fast/network checkpoint acceptance pending; no hardware or complete-game claim."
+    "Frozen fast85reports, complete network26reports and focused real GL/native/ABI proofs passed; final frozen full checkpoint still required. No hardware or complete-game claim."
   ],
   "fixture_corrections": [
     "Original player test invoked10 player_tick calls with unchanged native tick16, bypassing real weapon time. Genuine fixed sim_tick drives actual death and30tick redeployment now.",
