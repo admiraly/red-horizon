@@ -1,6 +1,7 @@
 ; Aircraft sidecar ABI v1: indexed by stable entity ID; entity32 remains unchanged.
 ; Heading radians: zero flies +Z, positive turns toward +X. Pitch nose-up;
 ; bank radians about local forward axis. XYZ velocity is metres per fixed tick.
+%define AIR_BOMB_RELEASE_VERSION 2
 %define AIR_STRIDE 64
 %define AIR_Y 0
 %define AIR_HEADING 4

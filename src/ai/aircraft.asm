@@ -3,7 +3,7 @@
 %include "schemas/aircraft.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
-extern sinf,cosf,atan2f,projectile_air_launch
+extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
 extern air_admission_init,air_admission_begin,air_admission_request
 extern air_admission_flush,air_admission_hash,air_admission_enabled
 section .bss align=64
@@ -40,6 +40,7 @@ cone: dd 0.985
 bomb_cross: dd 28.0
 release_margin: dd 18.0
 grav: dd 0.0109
+bomb_max_fall: dd 240.0
 two: dd 2.0
 lead_ticks: dd 8.0
 align 16
@@ -632,9 +633,16 @@ air_combat_tick:
  call terrain_height
  movss xmm1,[rbp+AIR_Y]
  subss xmm1,xmm0
- mulss xmm1,[two]
- divss xmm1,[grav]
- sqrtss xmm1,xmm1
+ ; Bombs inherit climb/descent, and position advances before gravity.
+ ; h + (vy + g/2)t - (g/2)t^2 = 0 on discrete tick endpoints.
+ movaps xmm0,xmm1
+ movss xmm1,[rbp+AIR_VY]
+ call air_bomb_fall_time
+ movaps xmm1,xmm0
+ comiss xmm1,[zero]
+ jbe .next
+ comiss xmm1,[bomb_max_fall]
+ ja .next
  mulss xmm1,[rbp+AIR_SPEED]
  subss xmm1,[rsp+32]
  andps xmm1,[abs_mask]
