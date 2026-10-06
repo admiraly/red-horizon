@@ -4,6 +4,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/acquisition.inc"
 default rel
+extern company_transfer_tick
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, world_los, terrain_blocked
 extern nav_init,nav_tick,nav_entity_goal,nav_hash
@@ -713,6 +714,7 @@ sim_tick:
  call projectile_tick
  call operation_tick
  call player_tick
+ call company_transfer_tick
  add rsp,8
  add rsp,ACQUIRE_STACK_BYTES
  pop r15

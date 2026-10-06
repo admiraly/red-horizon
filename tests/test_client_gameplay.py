@@ -7,6 +7,7 @@ import ctypes.util
 import json
 import math
 import os
+import signal
 import pathlib
 import re
 import select
@@ -146,7 +147,15 @@ try:
         key(0xff09); until(lambda: 'TACTICAL' in title(window))
         button(True); time.sleep(.3); button(False)
         assert player()['shots'] == final['shots'], 'tactical click fired the rifle'
-        key(0xff1b)
+        # Freeze only the final observation boundary. Escape press/release is
+        # queued while stopped; the callback latch exits before another sim tick.
+        # Never compare exit HP with a live snapshot taken several UI actions ago.
+        os.kill(process.pid,signal.SIGSTOP)
+        try:
+            _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+            final=player()
+            key(0xff1b)
+        finally:os.kill(process.pid,signal.SIGCONT)
         stdout, stderr = process.communicate(timeout=5); assert process.returncode == 0, (stdout, stderr)
         assert f"hp={final['hp']}" in stdout and 'player id=0' in stdout, stdout
         print(json.dumps({'suite':'authoritative-client-gameplay','passed':True,'spawn':spawn,'moved_metres':distance,'final':final,'rendered_health_title':True,'accepted_hits':accepted_hits,'redeploy_pixel':[red,green,blue],'damaged':damaged,'dead':dead,'redeployed':redeployed,'stdout':stdout}))

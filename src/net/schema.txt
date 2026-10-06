@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v24
-little-endian u32 header[10]: magic=0x52484332 version=24 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v25
+little-endian u32 header[10]: magic=0x52484332 version=25 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -61,6 +61,9 @@ company control policy1: each of4 connected players leases one exclusive own liv
 
 company redeployment: genuine successful body redeployment retains the company and explicit intent; updates lease and control owner generation from exactly the preceding body generation. Other generation mismatches reject commands.
 
-companies=107 payload164 count4:u32 record40[4]:playerID,key,ownerBodyGeneration,leaseSerial,mode,ordered,goalX/Z:f32,commandSequence,commandTick. Unassigned key=-1 and zero metadata except serial. Complete atomic validation/apply, unique own allied keys<768, monotonically stamped stream; display requires current connected body generation/front. No local simulation or authority spending.
+companies=107 payload356 count4:u32 record40[4]:playerID,key,ownerBodyGeneration,leaseSerial,mode,ordered,goalX/Z:f32,commandSequence,commandTick. Unassigned key=-1 and zero metadata except serial. Complete atomic validation/apply, unique own allied keys<768, monotonically stamped stream; display requires current connected body generation/front. No local simulation or authority spending.
 
 company interest: the same bounded64 rolling entity records/snapshot include own allied ground cohort even outside local radius, including retirement HP0. No extra enemy truth; no fabricated positions or extra actor counts.
+
+company transfers: NET_TRANSFER6 payload12 action0propose/1accept/2decline/3cancel,otherPlayer,exactProposalSequence(0 on propose). Reliable endpoint/session/sequence dedup applies. Explicit recipient consent swaps two current allied companies atomically; live generation/key/lease guards and450tick expiry. Both companies retain accepted intents and both players retain bodies, stores and one company; authoritative fronts follow the exchanged cohorts.
+companies107 payload356: count4, existing record40[4], then proposal48[4] indexed requester: active,target,requesterKey,targetKey,requesterGen,targetGen,requesterLease,targetLease,expires,sequence,reserved64. Inactive metadata zero except sequence. Company leases and proposals are atomically validated as one packet; no stale consent across generations/lease changes.

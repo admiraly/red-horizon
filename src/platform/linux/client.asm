@@ -20,7 +20,8 @@ extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
 extern company_for_player,company_control_order,company_controls
-extern net_company_for_player,net_company_records
+extern net_company_for_player,net_company_records,net_company_offer,net_company_transfers
+extern net_client_transfer
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state
 extern player_join,player_input,sim_players
 extern sim_player_vehicle,sim_vehicles,sim_projectiles
@@ -60,10 +61,20 @@ connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
 help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3 advance/hold/retreat; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+transfer_none: db 'F5-F8: request exchange with P0-P3 | F11: cancel own offer',0
+transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | F9 accept | F10 decline | F11 cancel own',0
+transfer_changed: db 'COMPANY ASSIGNMENT UPDATED',0
+transfer_proposed: db 'COMPANY EXCHANGE REQUEST SENT',0
+transfer_accepted: db 'COMPANY EXCHANGE ACCEPTED',0
+transfer_declined: db 'COMPANY EXCHANGE DECLINED',0
+transfer_cancelled: db 'COMPANY EXCHANGE CANCELLED',0
+transfer_missing: db 'NO CURRENT COMPANY EXCHANGE OFFER',0
+transfer_failed: db 'COMPANY EXCHANGE REQUEST REJECTED',0
+transfer_ack_messages: dq transfer_proposed,transfer_accepted,transfer_declined,transfer_cancelled
 local_company_fmt: db '%s | COMPANY %u | %s',0
 local_ready_text: db 'COMPANY READY',0
 local_reject_text: db 'ORDER DENIED: INVALID POINT OR INSUFFICIENT REQUISITION',0
-net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | COMPANY %d | scoped region data',0
+net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | COMPANY %d | %s | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
 net_denied_text: db 'ORDER DENIED: SELECT YOUR OWN FRONT',0
@@ -186,6 +197,15 @@ final_frame_ended: resd 1
 scenario_mode: resd 1
 scenario_seen: resd 1
 network_joined: resd 1
+last_owned_company: resd 1
+transfer_pending: resd 1
+transfer_action: resd 1
+transfer_other: resd 1
+transfer_sequence: resd 1
+transfer_key_mask: resd 1
+incoming_owner: resd 1
+incoming_sequence: resd 1
+transfer_info: resb 192
 last_net_tick: resd 1
 last_net_time: resq 1
 known_entities: resd 1
@@ -1259,6 +1279,8 @@ update_input:
 .weatherup:
  mov dword [weather_down],0
 .weatherdone:
+ call transfer_refresh
+ call transfer_keys
  mov ebx,290
 .frontloop:
  mov rdi,[window]
@@ -1467,6 +1489,8 @@ update_input:
  call net_company_for_player
  sub rsp,32
  mov [rsp+16],rax
+ lea rax,[transfer_info]
+ mov [rsp+24],rax
  mov eax,[net_server_tick]
  mov [rsp],rax
  mov rax,[command_message]
@@ -1652,6 +1676,7 @@ collect_intent:
 ; One bounded pending order is retried before inputs; no local world tick runs.
 poll_network:
  push rbx
+ mov ebx,[net_front]
  call net_client_poll
  cmp dword [net_connected],1
  jne .count
@@ -1660,8 +1685,18 @@ poll_network:
  ja .count
  mov [local_player],eax
  cmp dword [network_joined],0
+ je .new_join
+ cmp ebx,[net_front]
+ je .new_join
+ cmp ebx,[selected_front]
+ jne .new_join
+ mov eax,[net_front]
+ mov [selected_front],eax
+.new_join:
+ cmp dword [network_joined],0
  jne .clock
  mov dword [network_joined],1
+ mov dword [last_owned_company],-1
  mov eax,[net_front]
  mov [selected_front],eax
  mov dword [last_generation],0
@@ -1678,6 +1713,22 @@ poll_network:
  lea rax,[net_reject_text]
  mov [command_message],rax
 .count:
+ mov edi,[local_player]
+ call net_company_for_player
+ cmp eax,-1
+ je .company_count_done
+ cmp dword [last_owned_company],-1
+ je .company_count_store
+ cmp eax,[last_owned_company]
+ je .company_count_done
+ lea rdx,[transfer_accepted]
+ cmp [command_message],rdx
+ je .company_count_store
+ lea rdx,[transfer_changed]
+ mov [command_message],rdx
+.company_count_store:
+ mov [last_owned_company],eax
+.company_count_done:
  xor ecx,ecx
  xor edx,edx
  lea rax,[sim_entities]
@@ -1819,7 +1870,132 @@ queue_local_order:
  pop rbx
  ret
 
+ ; Derived incoming offer display. Stable requester ordering; explicit user consent.
+transfer_refresh:
+ push rbx
+ push r12
+ sub rsp,8
+ mov dword [incoming_owner],-1
+ mov dword [incoming_sequence],0
+ xor r12d,r12d
+ cmp dword [net_connected],1
+ jne .none
+.scan:
+ mov edi,[local_player]
+ mov esi,r12d
+ call net_company_offer
+ cmp eax,-1
+ jne .offer
+ inc r12d
+ cmp r12d,4
+ jb .scan
+.none:
+ lea rdi,[transfer_info]
+ mov esi,192
+ lea rdx,[transfer_none]
+ xor eax,eax
+ call snprintf
+ jmp .done
+.offer:
+ mov [incoming_owner],r12d
+ mov [incoming_sequence],eax
+ lea rdi,[transfer_info]
+ mov esi,192
+ lea rdx,[transfer_offer_fmt]
+ mov ecx,r12d
+ xor eax,eax
+ call snprintf
+.done:
+ add rsp,8
+ pop r12
+ pop rbx
+ ret
+transfer_keys:
+ push rbx
+ mov ebx,294
+.loop:
+ mov rdi,[window]
+ mov esi,ebx
+ call glfwGetKey
+ mov ecx,ebx
+ sub ecx,294
+ test eax,eax
+ jz .released
+ bts dword [transfer_key_mask],ecx
+ jc .next
+ cmp ebx,298
+ jae .response
+ xor edi,edi
+ mov esi,ebx
+ sub esi,294
+ xor edx,edx
+ jmp .submit
+.response:
+ mov edi,ebx
+ sub edi,297
+ cmp edi,3
+ je .cancel
+ mov esi,[incoming_owner]
+ cmp esi,-1
+ je .missing
+ mov edx,[incoming_sequence]
+ jmp .submit
+.cancel:
+ mov eax,[local_player]
+ cmp eax,4
+ jae .missing
+ imul eax,48
+ lea rdx,[net_company_transfers]
+ cmp dword [rdx+rax],1
+ jne .missing
+ mov esi,[rdx+rax+4]
+ mov edx,[rdx+rax+36]
+.submit:
+ call queue_transfer
+ jmp .next
+.missing:
+ lea rax,[transfer_missing]
+ mov [command_message],rax
+ jmp .next
+.released:
+ btr dword [transfer_key_mask],ecx
+.next:
+ inc ebx
+ cmp ebx,301
+ jb .loop
+ pop rbx
+ ret
+queue_transfer:
+ cmp dword [network_mode],1
+ jne .invalid
+ cmp dword [net_connected],1
+ jne .invalid
+ cmp dword [command_pending],0
+ jne .invalid
+ cmp dword [transfer_pending],0
+ jne .invalid
+ cmp edi,3
+ ja .invalid
+ cmp esi,4
+ jae .invalid
+ cmp esi,[local_player]
+ je .invalid
+ ; Movement may be awaiting ACK: retain the explicit action until transport free.
+ mov [transfer_action],edi
+ mov [transfer_other],esi
+ mov [transfer_sequence],edx
+ mov dword [transfer_pending],1
+ lea rax,[net_queue_text]
+ mov [command_message],rax
+ ret
+.invalid:
+ lea rax,[transfer_failed]
+ mov [command_message],rax
+ ret
+
 queue_network_order:
+ cmp dword [transfer_pending],0
+ jne .busy
  cmp dword [command_pending],2
  je .busy
  cmp dword [net_connected],1
@@ -1863,6 +2039,8 @@ queue_network_order:
 
 network_tick:
  push rbx
+ cmp dword [transfer_pending],0
+ jne .transfer_wait
  cmp dword [command_pending],2
  je .awaitack
  cmp dword [command_pending],0
@@ -1875,6 +2053,36 @@ network_tick:
  test eax,eax
  jnz .return
  mov dword [command_pending],2
+ jmp .return
+ .transfer_wait:
+ cmp dword [net_connected],1
+ jne .transfer_disconnected
+ cmp dword [transfer_pending],1
+ je .transfer_send
+ cmp dword [net_pending],0
+ jne .return
+ mov dword [transfer_pending],0
+ cmp dword [net_last_status],0
+ jne .transfer_reject
+ mov eax,[transfer_action]
+ lea rdx,[transfer_ack_messages]
+ mov rax,[rdx+rax*8]
+ mov [command_message],rax
+ jmp .return
+.transfer_send:
+ mov edi,[transfer_action]
+ mov esi,[transfer_other]
+ mov edx,[transfer_sequence]
+ call net_client_transfer
+ test eax,eax
+ jnz .return
+ mov dword [transfer_pending],2
+ jmp .return
+.transfer_disconnected:
+ mov dword [transfer_pending],0
+.transfer_reject:
+ lea rax,[transfer_failed]
+ mov [command_message],rax
  jmp .return
 .awaitack:
  cmp dword [net_connected],1
