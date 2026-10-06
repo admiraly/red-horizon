@@ -29,10 +29,11 @@ for edge_count in (2, 32768):
 for count in (8192, 16384):
     assert lib.sim_init(count, 7) == 0
     # Isolate the exact manual-order direction from danger interrupts and
-    # physical body deflection/yielding in this densely initialized world.
-    # The following fresh default-world replay restores both default policies.
+    # physical body deflection/yielding and finite hull turning in this dense
+    # legacy-direction control. Fresh default-world replay restores all policies.
     C.c_uint.in_dll(lib,'hazard_enabled').value=0
     C.c_uint.in_dll(lib,'crowd_enabled').value=0
+    C.c_uint.in_dll(lib,'ground_enabled').value=0
     original = [(e.x, e.z) for e in entities[:count]]
     assert set(e.kind for e in entities[:count]) == {0, 1, 2, 3}
     assert set(e.front for e in entities[:count]) == {0, 1, 2}
@@ -64,6 +65,31 @@ for count in (8192, 16384):
     for _ in range(300):
         lib.sim_tick()
     assert lib.sim_checksum() == checksum
+# Actual tracked retreat first turns, then makes useful rearward progress.
+# Sparse initial placements remove combat confounds; all motion is sim_tick.
+retreat_results=[]
+for replay in range(2):
+    assert lib.sim_init(32,7)==0
+    for e in entities[:32]:e.hp=0
+    alive[0]=alive[1]=0
+    ids=(0,8,16,24)
+    for i,kind,side,z in ((0,1,0,1000),(8,2,0,2000),(16,1,1,1000),(24,2,1,2000)):
+        e=entities[i]
+        e.x,e.z,e.hp,e.kind,e.side,e.front,e.target=(1000 if side==0 else 7000),z,100,kind,side,0,-1
+        alive[side]+=1
+    for side in (0,1):assert lib.sim_order(side,0,2)==0
+    starts={i:(entities[i].x,entities[i].z) for i in ids}
+    lib.sim_tick()
+    assert all((e.x,e.z)==starts[i] for i in ids for e in (entities[i],)), 'retreat instantly reversed hull'
+    for _ in range(179):lib.sim_tick()
+    assert all((starts[i][0]-entities[i].x if entities[i].side==0 else entities[i].x-starts[i][0])>10 for i in ids), 'tracked retreat failed useful rearward progress'
+    assert all(entities[i].hp==100 for i in ids)
+    retreat_results.append(([(entities[i].x,entities[i].z) for i in ids],lib.sim_checksum()))
+assert retreat_results[0]==retreat_results[1]
+print(json.dumps({'suite':'tracked-retreat-orders','passed':True,'ticks':180,
+                  'first_tick_stationary_pivot':True,'retreat_metres':[
+                      abs(entities[i].x-starts[i][0]) for i in ids],
+                  'replay':True,'runtime':'actual sim_tick; four sparse development births'}))
 # Side-label swap at identical defensive positions must preserve every actor's
 # health and exchange casualty totals. This catches side/index targeting bias.
 fixture_count = 8192
