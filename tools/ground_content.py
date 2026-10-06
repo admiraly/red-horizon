@@ -6,8 +6,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 parser = argparse.ArgumentParser()
 parser.add_argument('--check', action='store_true')
 args = parser.parse_args()
-definitions = dict(re.findall(r'^%define ([A-Z_]+) ([A-Za-z0-9_.]+)$',
-    (ROOT/'schemas/ground_surfaces.inc').read_text()+'\n'+(ROOT/'schemas/terrain_body.inc').read_text()+'\n'+(ROOT/'schemas/terrain_grade.inc').read_text(), re.M))
+definitions = dict(re.findall(r'^%define ([A-Z_]+) ([-+A-Za-z0-9_.]+)$',
+    (ROOT/'schemas/ground_surfaces.inc').read_text()+'\n'+(ROOT/'schemas/terrain_body.inc').read_text()+'\n'+(ROOT/'schemas/terrain_grade.inc').read_text()+'\n'+(ROOT/'schemas/ground_support.inc').read_text(), re.M))
 keys = ('GROUND_SURFACE_VERSION', 'GROUND_TANK_OFFROAD', 'GROUND_ARTILLERY_OFFROAD', 'GROUND_TANK_RADIUS', 'GROUND_ARTILLERY_RADIUS')
 def resolve(name, seen=()):
     assert name not in seen, 'Circular surface policy definition'
@@ -23,7 +23,7 @@ payload = {'previous_content': asset_fingerprint, 'terrain_surface_abi': 1,
            'relief_abi': 1, 'grade_abi': 1,
            'relief': json.loads((ROOT/'content/terrain/relief.json').read_text()),
            'grade_policy': {name: resolve(name) for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},
-           'render_patch': PATCH}
+           'render_patch': PATCH, 'ground_support': {name: resolve(name) for name in ('SUPPORT_VERSION','SUPPORT_TANK_HALF_WIDTH','SUPPORT_TANK_HALF_LENGTH','SUPPORT_TANK_CENTER_Z','SUPPORT_ARTY_HALF_WIDTH','SUPPORT_ARTY_HALF_LENGTH','SUPPORT_ARTY_CENTER_Z')}}
 digest = hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
 fingerprint = digest[:8]
 if args.check:

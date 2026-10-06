@@ -4,12 +4,13 @@ default rel
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
+%include "schemas/ground_support.inc"
 extern view_projection,view_half_size
 extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
-extern sim_ground_motion
+extern sim_ground_motion,ground_support
 extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
@@ -632,6 +633,30 @@ meshes_draw:
  jz .ground_record
  mov eax,[rcx+GROUND_HEADING]
  mov [rdi+12],eax
+ ; Read-only chassis frame; preserve the existing 64-byte instance contract.
+ ; Invalid/off-map support retains upright relative-height fallback.
+ push rdi
+ sub rsp,SUPPORT_STRIDE
+ movss xmm0,[rbx+ENTITY_X]
+ movss xmm1,[rbx+ENTITY_Z]
+ movss xmm2,[rdi+12]
+ mov esi,[rbx+ENTITY_KIND]
+ lea rdi,[rsp]
+ mov edx,SUPPORT_STRIDE
+ call ground_support
+ test eax,eax
+ jnz .support_done
+ mov rdi,[rsp+SUPPORT_STRIDE]
+ mov eax,[rsp+SUPPORT_Y]
+ mov [rdi+4],eax
+ mov eax,[rsp+SUPPORT_PITCH]
+ mov [rdi+28],eax
+ mov eax,[rsp+SUPPORT_BANK]
+ mov [rdi+44],eax
+ mov dword [rdi+60],0x3f800000 ; absolute support height, not double terrain
+.support_done:
+ add rsp,SUPPORT_STRIDE
+ pop rdi
 .ground_record:
  movups xmm0,[rdi]
  movups [mesh_ground_pose],xmm0
