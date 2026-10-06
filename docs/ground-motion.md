@@ -33,6 +33,9 @@ actual side/front route waypoint. Generation or role recycling clears momentum
 and stamps the new record. A same-generation AI/driver transition uses existing
 heading and speed. Invalid count, ID, living state, role, side/front, finite input,
 source pose, requested step or driver claim leaves persistent state unchanged.
+Source X/Z must remain within playable [0,8000] metres even when the request
+exactly matches a malformed stored entity position; only finite local steering
+goals use the wider [-8000,16000] allowance. Initialization skips off-map births.
 A driver must have a connected living generated player, allied living tank,
 matching entity generation, the stamped driver player generation and all
 bidirectional ownership records. Same-slot recycled players cannot inherit control. Corrupted
@@ -58,8 +61,8 @@ Verification command:
 RED_HORIZON_NASM=/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm python3 tests/test_ground_motion.py
 ```
 
-The terminal worker run `/tmp/rh-ground-motion-worker.log` passed 12 actuator
-groups and 42 malformed cases. The first library deliberately stubs collision
+The terminal worker run `/tmp/rh-ground-motion-worker.log` passed 13 actuator
+groups and 48 malformed cases. The first library deliberately stubs collision
 with explicit clear/blocked/partial results and legacy normalized movement; it
 proves actuator math, ABI, state preservation, ownership, handoff, generation
 recycling and byte-for-byte FNV behavior, **not production collision**.

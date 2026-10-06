@@ -25,6 +25,7 @@ pi: dd 3.141592653589793
 tau: dd 6.283185307179586
 reverse_threshold: dd 2.35619449
 sharp: dd 0.7
+source_max: dd 8000.0
 map_min: dd -8000.0
 map_max: dd 16000.0
 align 16
@@ -72,11 +73,11 @@ ground_init:
  cmp dword [rbx+ENTITY_FRONT],2
  ja .next
  movss xmm0,[rbx+ENTITY_X]
- call valid_position
+ call valid_source_position
  test eax,eax
  jz .next
  movss xmm0,[rbx+ENTITY_Z]
- call valid_position
+ call valid_source_position
  test eax,eax
  jz .next
  mov edi,r12d
@@ -89,7 +90,19 @@ ground_init:
  pop r12
  pop rbx
  ret
-; finite bounded coordinate XMM0 -> EAX boolean.
+ ; Map sources require playable coordinates; only steering goals may extend wide.
+valid_source_position:
+ ucomiss xmm0,[zero]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm0,[source_max]
+ ja .invalid
+ mov eax,1
+ ret
+.invalid:
+ xor eax,eax
+ ret
+; finite bounded local steering coordinate XMM0 -> EAX boolean.
 valid_position:
  ucomiss xmm0,[map_min]
  jp .invalid
@@ -203,7 +216,15 @@ ground_step:
  ucomiss xmm1,[rbx+ENTITY_Z]
  jp .out
  jne .out
- xor r12d,r12d
+ movss xmm0,[rsp]
+ call valid_source_position
+ test eax,eax
+ jz .out
+ movss xmm0,[rsp+4]
+ call valid_source_position
+ test eax,eax
+ jz .out
+ mov r12d,2
 .validate:
  movss xmm0,[rsp+r12*4]
  call valid_position

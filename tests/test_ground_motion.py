@@ -164,7 +164,20 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         old=getattr(entities[0],field);setattr(entities[0],field,value);rejected(mode=1);setattr(entities[0],field,old)
     for field,value in (('heading',float('nan')),('speed',float('inf')),('turn',float('nan')),('vx',float('inf')),('vz',float('nan')),('heading',4),('speed',.7),('turn',.07),('vx',.7),('vz',.7)):
         old=getattr(states[0],field);setattr(states[0],field,value);rejected(mode=1);setattr(states[0],field,old)
+    for x,z in ((-1,1000),(8001,1000),(1000,-1),(1000,8001),(-8000,1000),(16000,1000)):
+        oldx,oldz=entities[0].x,entities[0].z
+        entities[0].x,entities[0].z=x,z
+        before_entities=bytes(entities)
+        rejected(source=(x,z),goal=(1000,1000),mode=1)
+        assert bytes(entities)==before_entities,'off-map request mutated army records'
+        entities[0].x,entities[0].z=oldx,oldz
     checks.append('invalid count role generation claim pose finite inputs preserve state')
+    for x,z in ((-1,1000),(8001,1000),(1000,-1),(1000,8001)):
+        reset();entities[0].x,entities[0].z=x,z
+        before_entities=bytes(entities)
+        lib.ground_init()
+        assert bytes(entities)==before_entities and bytes(states)==bytes(C.sizeof(states))
+    checks.append('off-map initialized births skipped without sidecar seeding')
     reset(heading=math.pi/2);before=bytes(states);enabled.value=0
     p=step((1000,2000),.5)
     assert p==(1000,1000.5) and bytes(states)==before and calls.value==0
