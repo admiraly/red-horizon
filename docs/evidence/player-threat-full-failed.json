@@ -1,0 +1,25 @@
+{
+  "job_id": "3ed19c6f8298",
+  "exit_code": 1,
+  "revision": "0b4d7d6b3e7a79b3830cb16cf6b8493463a64242-aafce4d008140d67",
+  "seconds": 1440.723541170999,
+  "status": "failed",
+  "metadata": {
+    "job_id": "3ed19c6f8298",
+    "revision": "0b4d7d6b3e7a79b3830cb16cf6b8493463a64242-aafce4d008140d67",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/3ed19c6f8298/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/3ed19c6f8298/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/3ed19c6f8298/result.json",
+    "pid": 1871314
+  },
+  "collected": true,
+  "log_sha256": "3ba9a1e9983174634b4207c2987fb20c3f6ffca8080f5ee54e492d6a4ce27da1",
+  "failure": "tests/test_client_meshes.py condition timed out in TACTICAL view; exact trace retained, diagnosis pending."
+}

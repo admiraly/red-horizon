@@ -1,3 +1,9 @@
+Infantry-threat frozen full3ed19c6f8298 FAILED/collected at
+0b4d7d6-aafce4d008140d67,exit1,1440.723541s: actual-client mesh test
+condition timed out with TACTICAL title. Exact result/log hash retained in
+ evidence/player-threat-full-failed.json; focused diagnosis pending.
+Corrected blast fulld8f5c5b64ed3 remains live at its own later epoch.
+
 Corrected frozen fulld8f5c5b64ed3 RUNNING at 147e51d635774eee949715aecb1fa43de627b4c3-131f3b7ae59277b1,
 PID2074165; exact immutable snapshot metadata in
  evidence/blast-corrected-full-pending.json. This retains the preceding failed
@@ -11,7 +17,7 @@ assembled zero-body human stub, retaining army eligibility/LOS/casualty/ABI/
 negative-control assertions and requiring the human hook once before army
 casualties. Focused8cases now pass. No runtime edits or broad full-pass claim.
 Exact immutable failure and focused recheck: evidence/player-blast-full-failed.json.
-Previous3ed19c6f8298 remains live; whole-game goal remains active/incomplete.
+Previous3ed19c6f8298 FAILED/collected; whole-game goal remains active/incomplete.
 
 Dedicated physical human-blast UDP proof is integrated in8e3527b as a later
 development-only regression. Actual8192/four endpoints, production adapter0:
@@ -27,7 +33,7 @@ Registered in network suite; the frozen full5c24e859ca9b predates this later
 registration and failed at its documented300a1a3812f46c76 epoch.
 CPU runtime unchanged by this regression. Dedicated multiplayer rendered blast
 pixel and bomber UDP traces remain separate. Foreground checks collected;
-full3ed19c6f8298 tracked as RUNNING;5c24e859ca9b FAILED/collected.
+full3ed19c6f8298 FAILED/collected;5c24e859ca9b FAILED/collected.
 
 Physical human blast damage is integrated in7365608 (runtime/helper contracts
 in53e2475 and950e4ea), source epoch 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76.
@@ -113,7 +119,7 @@ all6144 infantry/12 stores conserved; no live writes or stops after startup.
 Updated focused player/publication/physical server proofs pass. Exact epochs,
 original/failure/final reports: evidence/player-threat-session.json.
 
-Frozen full3ed19c6f8298 RUNNING at0b4d7d6-aafce4d008140d67,PID1871314;
+Frozen full3ed19c6f8298 FAILED/collected at0b4d7d6-aafce4d008140d67,PID1871314;
 earlier player full06b65992aceb FAILED/collected at its separatev33 epoch:
 exit1,1478.211900s, command-wheel selected-wedge pixel assertion (9/15/19
 unselected fill rather than expected selected shade). Diagnosis/recheck pending;
