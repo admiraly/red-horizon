@@ -2,8 +2,9 @@
   "suite": "ground-motion-outcomes",
   "passed": true,
   "legacy": true,
+  "private_player_claim_stamp_present": false,
   "library_sha256": "d547457034be364788c6eca42c42ba15c376e0b5efab2aab2bf67789085439fa",
-  "observer_sha256": "08f30aa2f5b05eb36ab8ac6acd339be0268bbfc268e9dc11af695c19b0b061cc",
+  "observer_sha256": "15b5c4804beb6e46837c19563d54bcb8648e7abbdd4ca90a2634bbd7fb2e100f",
   "cases": [
     {
       "name": "drive_direct_api",
@@ -100,6 +101,7 @@
     {
       "name": "ai_driver_ai_handoff",
       "before_boarding": null,
+      "before_exit": null,
       "first_ai_return_distance": 0.5
     },
     {
@@ -112,8 +114,10 @@
       "claims": [
         "enemy_side",
         "entity_generation",
-        "disconnected"
-      ]
+        "disconnected",
+        "player_generation"
+      ],
+      "stale_player_generation_actuated_fault": true
     },
     {
       "name": "camera_cannon_independent_of_hull",
@@ -153,6 +157,11 @@
       "name": "actual_scale_hotspot",
       "units": 8192,
       "ticks": 120,
+      "initial_boarded_tank_ids": [],
+      "observed_living_driver_frames": 0,
+      "observed_driver_moving_ticks": 0,
+      "driver_near_relative_sweep_checks": 0,
+      "driver_relative_sweep_faults": 0,
       "initial_ground_vehicles": 1536,
       "surviving_original_ground_vehicles": 1428,
       "moved_over_one_metre": 1428,
@@ -167,9 +176,41 @@
       "checksum": "0ec5f95bc76f9754"
     },
     {
+      "name": "actual_scale_hotspot_four_drivers",
+      "units": 8192,
+      "ticks": 120,
+      "initial_boarded_tank_ids": [
+        204,
+        477,
+        1228,
+        1501
+      ],
+      "observed_living_driver_frames": 480,
+      "observed_driver_moving_ticks": 480,
+      "driver_near_relative_sweep_checks": 21,
+      "driver_relative_sweep_faults": 0,
+      "initial_ground_vehicles": 1536,
+      "surviving_original_ground_vehicles": 1432,
+      "moved_over_one_metre": 1431,
+      "coherence_checks": 0,
+      "coherence_faults": 0,
+      "maximum_heading_turn": 0.0,
+      "army_hp_before": 1208320,
+      "army_hp_after": 1017408,
+      "dead_before": 0,
+      "dead_after": 1035,
+      "trace_sha256": "a3e59b5560f6269aa5ea4ae7dbe03daa522253d9865ee0f249945cc7af96e511",
+      "checksum": "3564df51e21dfe31"
+    },
+    {
       "name": "actual_scale_hotspot",
       "units": 16384,
       "ticks": 120,
+      "initial_boarded_tank_ids": [],
+      "observed_living_driver_frames": 0,
+      "observed_driver_moving_ticks": 0,
+      "driver_near_relative_sweep_checks": 0,
+      "driver_relative_sweep_faults": 0,
       "initial_ground_vehicles": 3072,
       "surviving_original_ground_vehicles": 2957,
       "moved_over_one_metre": 2957,
@@ -182,6 +223,33 @@
       "dead_after": 1084,
       "trace_sha256": "395563c52e77a1765fbc4889c96bfcc50d27b3d581f473430aa30f0643c20481",
       "checksum": "2aea329dc5632d59"
+    },
+    {
+      "name": "actual_scale_hotspot_four_drivers",
+      "units": 16384,
+      "ticks": 120,
+      "initial_boarded_tank_ids": [
+        204,
+        477,
+        1228,
+        1501
+      ],
+      "observed_living_driver_frames": 480,
+      "observed_driver_moving_ticks": 480,
+      "driver_near_relative_sweep_checks": 21,
+      "driver_relative_sweep_faults": 0,
+      "initial_ground_vehicles": 3072,
+      "surviving_original_ground_vehicles": 2959,
+      "moved_over_one_metre": 2959,
+      "coherence_checks": 0,
+      "coherence_faults": 0,
+      "maximum_heading_turn": 0.0,
+      "army_hp_before": 2416640,
+      "army_hp_after": 2207046,
+      "dead_before": 0,
+      "dead_after": 1075,
+      "trace_sha256": "cacf9eeb7deb729bb003992df79a1bd0d9f9981ec8653f702a1bc8875c958e88",
+      "checksum": "d5abc5e7301acc1d"
     }
   ],
   "limits": [

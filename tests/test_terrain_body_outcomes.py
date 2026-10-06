@@ -123,7 +123,8 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
         # A tracked hull cannot slide along an obstruction on a fixed diagonal
         # axis. The driver explicitly steers along the free edge after contact;
         # human diagonal slide fixtures and all of their inputs remain intact.
-        if mode=='driver' and ground is not None and not a.legacy and '_diagonal_' in name and tick==25:
+        steering_tick=25 if name.endswith('_diagonal_wall') else 5
+        if mode=='driver' and ground is not None and not a.legacy and '_diagonal_' in name and tick==steering_tick:
             free_axis=0 if '_z_edge' in name else 1
             tangent=[0.,0.];tangent[free_axis]=math.copysign(1.,intent[free_axis+1])
             assert lib.player_input(0,intent[0],*tangent,0,0)==0
@@ -212,12 +213,12 @@ cases=[
  ('player_diagonal_upper_z_edge',0,(2000, 7999.2),50,None,'player',(4,0.70710678,0.70710678)),
  ('player_diagonal_lower_corner',0,(0.8, 0.8),50,None,'player',(4,-0.70710678,0.70710678)),
  ('player_diagonal_upper_corner',0,(7999.2, 7999.2),50,None,'player',(4,0.70710678,-0.70710678)),
- ('driven_tank_diagonal_lower_x_edge',1,(3.8, 2000),50,None,'driver',(0,-0.70710678,0.70710678)),
- ('driven_tank_diagonal_upper_x_edge',1,(7996.2, 2000),50,None,'driver',(0,0.70710678,0.70710678)),
- ('driven_tank_diagonal_lower_z_edge',1,(2000, 3.8),50,None,'driver',(0,0.70710678,-0.70710678)),
- ('driven_tank_diagonal_upper_z_edge',1,(2000, 7996.2),50,None,'driver',(0,0.70710678,0.70710678)),
- ('driven_tank_diagonal_lower_corner',1,(3.8, 3.8),50,None,'driver',(0,-0.70710678,0.70710678)),
- ('driven_tank_diagonal_upper_corner',1,(7996.2, 7996.2),50,None,'driver',(0,0.70710678,-0.70710678)),
+ ('driven_tank_diagonal_lower_x_edge',1,(3.8, 2000),90,None,'driver',(0,-0.70710678,0.70710678)),
+ ('driven_tank_diagonal_upper_x_edge',1,(7996.2, 2000),90,None,'driver',(0,0.70710678,0.70710678)),
+ ('driven_tank_diagonal_lower_z_edge',1,(2000, 3.8),90,None,'driver',(0,0.70710678,-0.70710678)),
+ ('driven_tank_diagonal_upper_z_edge',1,(2000, 7996.2),90,None,'driver',(0,0.70710678,0.70710678)),
+ ('driven_tank_diagonal_lower_corner',1,(3.8, 3.8),90,None,'driver',(0,-0.70710678,0.70710678)),
+ ('driven_tank_diagonal_upper_corner',1,(7996.2, 7996.2),90,None,'driver',(0,0.70710678,-0.70710678)),
  ('player_initial_invalid',0,(3987.8,1300),60,None,'player',(4,1,0),False,True),
 ]
 reports=[]

@@ -17,6 +17,8 @@ E=(Entity*32768).in_dll(lib,'sim_entities');P=(Player*4).in_dll(lib,'sim_players
 V=(C.c_int*4).in_dll(lib,'sim_player_vehicle');alive=(C.c_uint*2).in_dll(lib,'sim_alive')
 try:M=(Motion*32768).in_dll(lib,'sim_ground_motion');enabled=C.c_uint.in_dll(lib,'ground_enabled')
 except ValueError:M=enabled=None
+try:player_claim_stamp=(C.c_uint*4).in_dll(lib,'vehicle_driver_generation')
+except ValueError:player_claim_stamp=None
 assert a.legacy or M is not None,'candidate must expose stamped shared hull authority'
 lib.sim_init.argtypes=[C.c_uint,C.c_uint];lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
 lib.sim_order.argtypes=[C.c_uint]*3;lib.player_input.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4
@@ -132,7 +134,7 @@ def army(kind):
 def handoff():
  e=reset(driver=False);assert lib.sim_order(0,0,0)==0
  for _ in range(60):observe(12,lib.sim_tick)
- before=snapshot(12);h=motion_heading(12);assert lib.player_join(0,0)==0
+ before=snapshot(12);board_state=before;h=motion_heading(12);assert lib.player_join(0,0)==0
  P[0].x,P[0].z=e.x+2,e.z;P[0].y=lib.terrain_height(P[0].x,P[0].z)+1.8
  assert lib.vehicle_enter(0)==0 and V[0]==12
  if not a.legacy:assert snapshot(12)==before,'boarding reset shared moving hull state'
@@ -144,7 +146,7 @@ def handoff():
  P[0].x,P[0].z=e.x+30,e.z-30;P[0].y=lib.terrain_height(P[0].x,P[0].z)+1.8
  r=observe(12,lib.sim_tick)
  if not a.legacy:assert abs(r['distance']-abs(before[1]))<.081,'AI return reset speed instead of continuing shared state'
- return dict(name='ai_driver_ai_handoff',before_boarding=before,first_ai_return_distance=r['distance'])
+ return dict(name='ai_driver_ai_handoff',before_boarding=board_state,before_exit=before,first_ai_return_distance=r['distance'])
 
 def invalid_and_generation():
  e=reset();v=axis(motion_heading(12))
@@ -163,18 +165,25 @@ def invalid_and_generation():
 
 def invalid_claims():
  checks=[]
- for mutation in ('enemy_side','entity_generation','disconnected'):
+ stale_player_fault=False
+ for mutation in ('enemy_side','entity_generation','disconnected','player_generation'):
   reset();v=axis(motion_heading(12))
   for _ in range(30):move(v)
   if mutation=='enemy_side':E[12].side=1
   elif mutation=='entity_generation':E[12].generation+=1
+  elif mutation=='player_generation':P[0].generation+=1
   else:P[0].connected=0
   before=(pos(E[12]),snapshot(12))
-  assert lib.vehicle_tick_player(0,0,*v)==0,('invalid physical ownership accepted',mutation)
+  rc=lib.vehicle_tick_player(0,0,*v)
+  if a.legacy and player_claim_stamp is None and mutation=='player_generation':
+   stale_player_fault=rc==1 and pos(E[12])!=before[0] and V[0]==12
+   assert stale_player_fault,'old vehicle claim did not expose missing player-generation stamp'
+   checks.append(mutation);continue
+  assert rc==0,('invalid physical ownership accepted',mutation)
   assert (pos(E[12]),snapshot(12))==before,('invalid claim actuated/reseeded hull',mutation)
   assert V[0]==-1,('invalid claim not cleaned up',mutation)
   checks.append(mutation)
- return dict(name='invalid_claims_cannot_actuate',claims=checks)
+ return dict(name='invalid_claims_cannot_actuate',claims=checks,stale_player_generation_actuated_fault=stale_player_fault)
 
 class Shell(C.Structure):
  _fields_=[(n,C.c_float) for n in ('x','y','z','vx','vy','vz')]+[('tail',C.c_byte*40)]
@@ -232,13 +241,27 @@ def contacts():
   rows.append(dict(name='whole_hull_contact_'+obstacle,swept_overlap_ticks=faults,held_contact_ticks=contacts_,near_contact_ticks=near_contact,approach_metres=math.dist(start,pos(e)),trace_sha256=trace(traces)))
  return rows
 
-def dense(n):
+def dense(n,driven=False):
  assert lib.sim_init(n,42)==0 and lib.sim_scenario(3)==0
  if enabled is not None:enabled.value=int(not a.legacy)
+ claims=[]
+ if driven:
+  for slot in range(4):
+   assert lib.player_join(slot,slot%3)==0
+   for x,z,i in sorted((e.x,e.z,i) for i,e in enumerate(E[:n]) if e.hp and e.side==0 and e.kind==1):
+    if i in claims:continue
+    P[slot].x,P[slot].z=x,z;P[slot].y=lib.terrain_height(x,z)+1.8
+    if lib.vehicle_enter(slot)==0:
+     assert V[slot]>=0 and V[slot] not in claims;claims.append(V[slot]);break
+   else:raise AssertionError('no legitimate four-driver scale fixture')
+   assert lib.player_input(slot,0,-1,.3 if slot&1 else 0,0,0)==0
  initial=[(i,pos(e),e.generation) for i,e in enumerate(E[:n]) if e.hp and e.kind in (1,2)]
  hp0=sum(e.hp for e in E[:n]);dead0=sum(not e.hp for e in E[:n]);checks=faults=0;maximum_turn=0.;trace_=hashlib.sha256()
+ near_checks=near_faults=driver_moving=driver_frames=0
  for t in range(a.dense_ticks):
   old=[(i,pos(e),e.generation,e.kind,snapshot(i)) for i,e in enumerate(E[:n]) if e.hp and e.kind in (1,2)]
+  army=[(i,pos(e),e.kind,e.generation) for i,e in enumerate(E[:n]) if e.hp and e.kind<3] if driven else []
+  driver_old={i:pos(E[i]) for i in claims if E[i].hp}
   lib.sim_tick()
   for i,xy,g,k,m0 in old:
    e=E[i]
@@ -254,11 +277,25 @@ def dense(n):
      actual_turn=abs(angle(h-m0[0]));maximum_turn=max(maximum_turn,actual_turn);bad|=actual_turn>.152
     faults+=bad;assert not bad,('dense authority/actual hull coherence',n,t,i,xy,new,m0,m)
    trace_.update(struct.pack('<Iff',i,*new))
+  if driven:
+   for slot in range(4):
+    i=V[slot]
+    if i not in driver_old or i<0 or not E[i].hp:continue
+    driver_frames+=1;driver_moving+=math.dist(driver_old[i],pos(E[i]))>.002
+    for j,xy,k,g in army:
+     if i==j or not E[j].hp or E[j].generation!=g:continue
+     rr=3.55+(.55,3.55,4.49)[k]
+     if abs(xy[0]-driver_old[i][0])>rr+1.3 or abs(xy[1]-driver_old[i][1])>rr+1.3:continue
+     near_checks+=1;d0=math.dist(driver_old[i],xy);d1=math.dist(pos(E[i]),pos(E[j]))
+     bad=d1<d0-TOL if d0<rr-TOL else closest(driver_old[i],pos(E[i]),xy,pos(E[j]))<rr-TOL
+     near_faults+=bad
+     if not a.legacy:assert not bad,('dense driven hull relative-circle sweep',n,t,i,j,d0,d1,rr)
  moved=sum(E[i].hp and E[i].generation==g and math.dist(xy,pos(E[i]))>1 for i,xy,g in initial)
  survivors=sum(E[i].hp and E[i].generation==g for i,xy,g in initial)
  assert moved>survivors*.35,('dense vehicles made no useful progress',n,moved,survivors)
  hp1=sum(e.hp for e in E[:n]);assert hp1<hp0,'real scale combat absent'
- return dict(name='actual_scale_hotspot',units=n,ticks=a.dense_ticks,initial_ground_vehicles=len(initial),surviving_original_ground_vehicles=survivors,moved_over_one_metre=moved,coherence_checks=checks,coherence_faults=faults,maximum_heading_turn=maximum_turn,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(not e.hp for e in E[:n]),trace_sha256=trace_.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
+ if driven:assert driver_frames>a.dense_ticks*2 and driver_moving>a.dense_ticks,('dense drivers lost useful real movement',n,driver_frames,driver_moving)
+ return dict(name='actual_scale_hotspot_four_drivers' if driven else 'actual_scale_hotspot',units=n,ticks=a.dense_ticks,initial_boarded_tank_ids=claims,observed_living_driver_frames=driver_frames,observed_driver_moving_ticks=driver_moving,driver_near_relative_sweep_checks=near_checks,driver_relative_sweep_faults=near_faults,initial_ground_vehicles=len(initial),surviving_original_ground_vehicles=survivors,moved_over_one_metre=moved,coherence_checks=checks,coherence_faults=faults,maximum_heading_turn=maximum_turn,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(not e.hp for e in E[:n]),trace_sha256=trace_.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 
 def checked(call):
  r=call();assert r==call(),'exact same-build production replay differs';return r
@@ -267,8 +304,8 @@ plain=driving(camera=False);varied=driving(camera=True)
 assert plain['trace_sha256']==varied['trace_sha256'],'camera aim changed actual driving trajectory'
 rows.append(dict(name='camera_independent_trajectory',trace_sha256=plain['trace_sha256']))
 rows+=checked(contacts)
-scale=[checked(lambda n=n:dense(n)) for n in (8192,16384)]
+scale=[checked(lambda n=n,driven=driven:dense(n,driven)) for n in (8192,16384) for driven in (False,True)]
 if a.legacy:assert rows[0]['acceleration_faults'] and rows[0]['first_strafe_fault'] and rows[0]['instant_braking_fault'] and rows[2]['faults'],'baseline did not expose instant hull movement faults'
-report=dict(suite='ground-motion-outcomes',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,dense=scale,limits=['Production sim_tick and vehicle/player public APIs only; no ground actuator/probe calls.','Development-only sparse initial placement and generation changes; no motion sidecar writes.','Observed displacement, stamped heading and signed speed jointly checked; circles do not establish oriented hull, suspension, terrain slope or road semantics.','Dense observes every living tank/artillery movement and retains real HP/combat, but does not test every pair of army actors.'])
+report=dict(suite='ground-motion-outcomes',passed=True,legacy=a.legacy,private_player_claim_stamp_present=player_claim_stamp is not None,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,dense=scale,limits=['Production sim_tick and vehicle/player public APIs only; no ground actuator/probe calls.','Development-only sparse initial placement and generation changes; no motion sidecar writes.','Observed displacement, stamped heading and signed speed jointly checked; circles do not establish oriented hull, suspension, terrain slope or road semantics.','Dense observes every living tank/artillery movement and retains real HP/combat, but does not test every pair of army actors.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))

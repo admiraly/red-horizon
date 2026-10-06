@@ -71,8 +71,12 @@ def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=Fals
  else:input_(0,v)
  if moving:input_(1,(-1,0))
  speed=.6 if mode=='driver' else .12 if mode=='ai' else .3
- faults=initial=0;minimum=math.dist(pos(source),pos(other));trace=hashlib.sha256();progress=0;released=False
+ faults=initial=0;minimum=math.dist(pos(source),pos(other));trace=hashlib.sha256();progress=0;released=False;explicit_contact_steering=False
  for t in range(120):
+  if mode=='driver' and diagonal and G is not None and not a.legacy and t==25:
+   # The original held diagonal points through the circle; a tracked hull must
+   # receive a deliberate tangent steering request to pass the obstruction.
+   v=(0,1);input_(0,v);explicit_contact_steering=True
   if transition and t==75:
    if transition=='death':other.hp=0
    elif transition=='disconnect':assert lib.player_leave(1)==0
@@ -96,7 +100,7 @@ def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=Fals
  if overlap and outward:assert math.dist(pos(source),pos(other))>sr+br+1,(name,'no outward recovery')
  if transition and not a.legacy:assert pos(source)[0]>3505,(name,'stale body blocked after transition')
  if mode=='driver':assert pos(P[0])==pos(source),(name,'boarded duplicate/driver detached')
- return dict(name=name,mode=mode,obstacle=obstacle,ticks=120,start=start,final=pos(source),swept_overlap_ticks=faults,initial_overlap_ticks=initial,minimum_relative_distance=minimum,progress_m=progress,trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
+ return dict(name=name,mode=mode,obstacle=obstacle,ticks=120,start=start,final=pos(source),swept_overlap_ticks=faults,initial_overlap_ticks=initial,minimum_relative_distance=minimum,progress_m=progress,explicit_driver_contact_steering=explicit_contact_steering,trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 
 def checked(*args,**kwargs):
  r=fixture(*args,**kwargs);assert r==fixture(*args,**kwargs),'deterministic production replay differs';return r
