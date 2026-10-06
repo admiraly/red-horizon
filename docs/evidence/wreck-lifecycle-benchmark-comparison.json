@@ -1,0 +1,60 @@
+[
+  {
+    "prior_job": "d39c4784a2fd",
+    "current_job": "56d2819be5d3",
+    "compared_runtime_fields": [
+      "units",
+      "ticks",
+      "seed",
+      "alive",
+      "engaged",
+      "operation_state",
+      "requisition",
+      "supply",
+      "projectiles",
+      "projectile_peak",
+      "projectile_dropped",
+      "navigation",
+      "air_events",
+      "hazards",
+      "ordnance_admission",
+      "air_admission",
+      "crowd"
+    ],
+    "differences": [],
+    "old_checksum": "d744c67d94a73520",
+    "new_checksum": "b9c387ff7f121f56",
+    "new_tick_mean_ms": 4.312918,
+    "new_tick_p95_ms": 6.599893,
+    "scope": "Same scenario/seed/population/ticks: every emitted physical/combat/navigation/admission metric equal; checksum intentionally includes new registry; timings overlap verification and are not isolated overhead comparisons"
+  },
+  {
+    "prior_job": "9f63da3f58df",
+    "current_job": "51911d665ad2",
+    "compared_runtime_fields": [
+      "units",
+      "ticks",
+      "seed",
+      "alive",
+      "engaged",
+      "operation_state",
+      "requisition",
+      "supply",
+      "projectiles",
+      "projectile_peak",
+      "projectile_dropped",
+      "navigation",
+      "air_events",
+      "hazards",
+      "ordnance_admission",
+      "air_admission",
+      "crowd"
+    ],
+    "differences": [],
+    "old_checksum": "27f6b09d60005c9c",
+    "new_checksum": "716538561979bfff",
+    "new_tick_mean_ms": 12.781777,
+    "new_tick_p95_ms": 13.88933,
+    "scope": "Same scenario/seed/population/ticks: every emitted physical/combat/navigation/admission metric equal; checksum intentionally includes new registry; timings overlap verification and are not isolated overhead comparisons"
+  }
+]

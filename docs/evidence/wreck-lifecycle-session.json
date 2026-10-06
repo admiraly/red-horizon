@@ -1,0 +1,130 @@
+{
+  "candidate_revision": "143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277",
+  "full_checkpoint": {
+    "job_id": "089664de8436",
+    "status": "passed",
+    "seconds": 584.1587870539952,
+    "report_count": 93,
+    "authored_input_count": 207,
+    "current_source_mismatches": []
+  },
+  "frozen_jobs": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "running": 0,
+    "all_collected": true
+  },
+  "additional_exec_sessions": [
+    {
+      "id": 18470,
+      "exit_code": 0,
+      "scope": "Actual old/new existing authority arenas bitwise equal at each120ticks,8k/16k",
+      "report": "docs/evidence/wreck-registration-equivalence.json"
+    },
+    {
+      "id": 77713,
+      "exit_code": 0,
+      "scope": "Actual900tick mass casualty registry census,8k/16k",
+      "report": "docs/evidence/wreck-lifecycle-900tick-census.json"
+    }
+  ],
+  "worktrees": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-lifecycle",
+      "owner": "root",
+      "commit": "143247ed8e672e0c27695ba5adabfeb971c5017c",
+      "scope": "Integrated lifecycle/casualty foundation",
+      "clean": true,
+      "all_jobs_terminal": true
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-sweep",
+      "owner": "root",
+      "commit": "d238ea8",
+      "scope": "Prepared first-contact primitive; NOT integrated or part of root checkpoint",
+      "clean": true,
+      "all_jobs_terminal": true
+    }
+  ],
+  "accepted_frozen_artifacts": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/libsim.so",
+      "sha256": "e307e179dcf39546e0d7c72f9cc713edc515418577c8fdaf8a70ca27c87320f8",
+      "bytes": 139760
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/headless-build.json",
+      "sha256": "efa71b7c5cf532ebdd9a39e0ec948a1d7e8215eb44eaa82722d5b6996c4c27c8",
+      "bytes": 359
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/revisions/143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277/red-horizon-server",
+      "sha256": "713f1be462bc8df16ae1d9ad40d159859f450fcd2d9b9d36610ae40f396e25ef",
+      "bytes": 135688
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/client-build.json",
+      "sha256": "d21e96b73f0112ddbcec435245276b8fd74e5039e198faec37d70e0b1065bcd1",
+      "bytes": 978
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/revisions/143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277/red-horizon",
+      "sha256": "2ddefddf57dc493e122d56c8ec7c897f9ed29281d50796bcf60c65833187b77b",
+      "bytes": 265848
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/coop-build.json",
+      "sha256": "60799ebd6574954f7e5ade4beaac424a3de9408fa840eb765549f565ddf308c7",
+      "bytes": 360
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/089664de8436/source/build/revisions/143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277/red-horizon-coop-server",
+      "sha256": "08b741dc27e711047ce49efafe5b9d97a0a7edcfd7ce3299c909560586b00848",
+      "bytes": 142936
+    }
+  ],
+  "workspace_builds": [
+    {
+      "target": "client",
+      "revision": "143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277",
+      "assembled": 3,
+      "assembled_sources": [
+        "src/sim/wrecks.asm",
+        "src/sim/world.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.3491187670006184,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277/red-horizon",
+      "executable_sha256": "deb8258dd495eaf5f0893714abdefb380c693a6417afb42c9568cde06de695c9"
+    },
+    {
+      "target": "coop",
+      "revision": "143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.3193367540006875,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277/red-horizon-coop-server",
+      "executable_sha256": "d738ad59c5e59ae1e8575a7ea5519d4b5d200a00d1b342c7f037c2693377b103"
+    }
+  ],
+  "content_fingerprint": "0x10d280ea",
+  "canonical_content_sha256": "10d280ea5eea59761e98575249a6f1ff6d0b5616882109ba419f755acf45c9da",
+  "scope": [
+    "Genuine deferred infantry and physical projectile/blast ground casualty hooks",
+    "Bounded immutable death-pose/source/sequence registry, dedup, retirement and expiry",
+    "Lifecycle replay/hash/ABI/invalid controls and genuine8k/16k casualty census",
+    "Original scale/movement/health/arrival/replay, actualGL/client/audio/co-op/UDP-fault/tool gates"
+  ],
+  "limitations": [
+    "Lifecycle foundation only; no useful physical wreck cover yet",
+    "Wreck body/LOS/rifle/shell queries, bounded spatial lookup and nav invalidation remain",
+    "Wreck rendering and self-contained replicated lifecycle/cover remain",
+    "Visible high/low source roof-height mismatch must be resolved alongside cover bounds",
+    "Prepared sweep is isolated, not accepted gameplay/collision",
+    "SoftwareGL/null audio do not prove target hardware performance or human craft",
+    "Complete full-spec game remains unfinished and goal active"
+  ]
+}

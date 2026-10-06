@@ -1,0 +1,20 @@
+{
+  "retained_from": "Initial terminal tool output",
+  "classification": "Candidate assertions passed, but reported maximum mixed in intentional negative-control error; superseded by candidate-only final metric",
+  "report": {
+    "suite": "prepared-segment-box",
+    "passed": true,
+    "calls": 10085,
+    "hits": 1515,
+    "invalid_preserved_cases": 67,
+    "maximum_first_t_error": 0.25,
+    "negative_controls": [
+      "missing_z",
+      "grazing_miss",
+      "last_contact"
+    ],
+    "source_sha256": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99",
+    "library_sha256": "a8e0fcd07d75e61cb8b19caaab2ded4011b21f6bbe6d9adaa34537abeddc36cd",
+    "scope": "Prepared read-only3D clip/ABI math only; no actual wreck spatial search, body/rifle/LOS/shell/render/wire integration"
+  }
+}

@@ -77,3 +77,16 @@ Render visible persistent wrecks from the same captured pose with a distinguisha
 prototype damage treatment, then replicate the authoritative lifecycle and cover
 semantics. A cosmetic mesh alone cannot establish useful cover. Continue the
 full specification; this foundation does not close vehicle realism or the game.
+
+Final root full checkpoint089664de8436 passed584.1588s/93reports with all207
+authored inputs matched at143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277.
+Five frozen jobs and two extra exec sessions are terminal. Natural900tick
+hotspot census at8k/16k observes813/930vehicle casualties and active records;
+all immutable registry fields match real deaths. Capacity is not reached in
+those natural runs; the standalone32k-ID pressure establishes retirement.
+
+A subsequent exact pack audit identifies frame0 top-height LOD differences of
+0.9204m tank and1.2990m artillery. Near/mid wreck silhouettes must match chosen
+physical cover bounds before cover/render acceptance. Existing models/physics
+are unchanged. First-contact math is prepared and verified separately in
+feature/wreck-sweep atd238ea8; it is outside this accepted root checkpoint.

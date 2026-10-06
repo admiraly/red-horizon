@@ -180,3 +180,18 @@ are schemas/ground_visual.inc, ground_contact.inc and suspension.inc.
 Focused final snapshot4c865d935b13 passes; full dfc1f67207e7 passed545.82s/87reports with195matched inputs.
 Eye/muzzle/camera authority remains upright; ground-attachments-next.md records
 that gap and absent source socket metadata.
+
+## Ground wreck registry foundation v1
+
+Root-owned schemas/wreck.inc declares a64-byte captured ground-death record and
+1024-slot ring with1800tick lifetime. wreck_register accepts only an actual dead
+kind1/2 source with valid ID/generation/side/map coordinates, preserving the full
+arena on invalid/duplicate calls. It uses matching unsmoothed ground support and
+contact, or an explicitly flagged upright fallback. init resets record/history/
+metadata; tick expires by modular elapsed age; hash includes all persistent state.
+Both genuine casualty paths register once after HP0/alive-count decrement. No
+existing wire layout changes; NET_CONTENT10d280ea includes lifecycle policy.
+Wreck collision, rendering and self-contained replication are not integrated yet.
+Prepared segment_box v1 at isolatedd238ea8 is read-only first parametric contact
+against caller-owned AABB, with finite/capacity/bounds validation and SysV/SSE2.
+It is not yet a root runtime caller contract or accepted physical cover.

@@ -1,0 +1,163 @@
+{
+  "pack": "/mnt/titan_nv3/projects/red-horizon/content/models/battle.rham",
+  "sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
+  "meshes": [
+    {
+      "role": 1,
+      "lod": 0,
+      "vertices": 3966,
+      "frames": 10,
+      "frame0": {
+        "minimum": [
+          -1.7708756923675537,
+          0.011944815516471863,
+          -3.0
+        ],
+        "maximum": [
+          1.7708756923675537,
+          2.6203088760375977,
+          3.0
+        ]
+      },
+      "all_frames": {
+        "minimum": [
+          -1.7708756923675537,
+          0.0,
+          -3.048255205154419
+        ],
+        "maximum": [
+          1.7708756923675537,
+          2.6203088760375977,
+          3.0
+        ]
+      }
+    },
+    {
+      "role": 1,
+      "lod": 1,
+      "vertices": 288,
+      "frames": 10,
+      "frame0": {
+        "minimum": [
+          -1.894351601600647,
+          0.018422825261950493,
+          -3.0
+        ],
+        "maximum": [
+          1.894351601600647,
+          1.699940800666809,
+          3.0
+        ]
+      },
+      "all_frames": {
+        "minimum": [
+          -1.894351601600647,
+          0.0,
+          -3.0
+        ],
+        "maximum": [
+          1.894351601600647,
+          1.699940800666809,
+          3.0
+        ]
+      }
+    },
+    {
+      "role": 2,
+      "lod": 0,
+      "vertices": 4086,
+      "frames": 10,
+      "frame0": {
+        "minimum": [
+          -2.527608633041382,
+          0.016320912167429924,
+          -3.5
+        ],
+        "maximum": [
+          2.527608633041382,
+          3.1998021602630615,
+          3.5
+        ]
+      },
+      "all_frames": {
+        "minimum": [
+          -2.527608633041382,
+          0.0,
+          -3.565934419631958
+        ],
+        "maximum": [
+          2.527608633041382,
+          3.1998021602630615,
+          3.5184106826782227
+        ]
+      }
+    },
+    {
+      "role": 2,
+      "lod": 1,
+      "vertices": 288,
+      "frames": 10,
+      "frame0": {
+        "minimum": [
+          -2.402212619781494,
+          0.02362835220992565,
+          -3.5
+        ],
+        "maximum": [
+          2.402212619781494,
+          1.9008352756500244,
+          3.5
+        ]
+      },
+      "all_frames": {
+        "minimum": [
+          -2.402212619781494,
+          0.0,
+          -3.5
+        ],
+        "maximum": [
+          2.402212619781494,
+          1.9008352756500244,
+          3.5156545639038086
+        ]
+      }
+    }
+  ],
+  "prospective_static_wreck_bounds": [
+    {
+      "role": 1,
+      "frame0_union": {
+        "minimum": [
+          -1.894351601600647,
+          0.011944815516471863,
+          -3.0
+        ],
+        "maximum": [
+          1.894351601600647,
+          2.6203088760375977,
+          3.0
+        ]
+      },
+      "rotation_invariant_conservative_radius_from_entity_origin": 4.41073538044716,
+      "high_minus_low_maximum_y": 0.9203680753707886
+    },
+    {
+      "role": 2,
+      "frame0_union": {
+        "minimum": [
+          -2.527608633041382,
+          0.016320912167429924,
+          -3.5
+        ],
+        "maximum": [
+          2.527608633041382,
+          3.1998021602630615,
+          3.5
+        ]
+      },
+      "rotation_invariant_conservative_radius_from_entity_origin": 5.373782584609232,
+      "high_minus_low_maximum_y": 1.298966884613037
+    }
+  ],
+  "scope": "Measurements of actual existing sourced geometry only. No cover shape/art/runtime change. Whole3D boxes are conservative; low LOD height differs substantially and needs matched visible cover treatment before physical/rendered acceptance. Geometry extents do not establish cockpit/muzzle sockets."
+}

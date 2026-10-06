@@ -1,0 +1,61 @@
+{
+  "scope": "Actual prior accepted and candidate modules, every observed authoritative arena byte equal at every tick; new registry deliberately excluded. No cover/render acceptance.",
+  "libraries": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/libsim.so",
+      "sha256": "089d0fba89dbf072a89a55baaeb735aa5f6642f26a2f4e1039468c1d5ff9f49c"
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-lifecycle/runs/jobs/f8029d1f67a7/source/build/libsim.so",
+      "sha256": "41480cfa57bf90c7ce3174e1316c55ff54bb3b249555552e8a043eeb34665f76"
+    }
+  ],
+  "cases": [
+    {
+      "units": 8192,
+      "ticks": 120,
+      "seed": 42,
+      "scenario": "scale-hotspot",
+      "compared_arenas": {
+        "sim_entities": 262144,
+        "sim_ground_motion": 262144,
+        "sim_aircraft": 524288,
+        "sim_players": 256,
+        "sim_projectiles": 32768,
+        "sim_shell_ammo": 32768,
+        "sim_shell_cooldown": 32768,
+        "sim_events": 8192,
+        "sim_alive": 8,
+        "sim_engaged": 4,
+        "sim_projectile_count": 4,
+        "sim_event_count": 4,
+        "sim_event_sequence": 4
+      },
+      "authority_trace_sha256": "05eac74bc8bcab8abc44853e9b771e6cf3b36430432dc59c2c0a3b05555b0e15",
+      "bitwise_equal": true
+    },
+    {
+      "units": 16384,
+      "ticks": 120,
+      "seed": 42,
+      "scenario": "scale-hotspot",
+      "compared_arenas": {
+        "sim_entities": 524288,
+        "sim_ground_motion": 524288,
+        "sim_aircraft": 1048576,
+        "sim_players": 256,
+        "sim_projectiles": 32768,
+        "sim_shell_ammo": 65536,
+        "sim_shell_cooldown": 65536,
+        "sim_events": 8192,
+        "sim_alive": 8,
+        "sim_engaged": 4,
+        "sim_projectile_count": 4,
+        "sim_event_count": 4,
+        "sim_event_sequence": 4
+      },
+      "authority_trace_sha256": "532f742e8cd8e568192b81230c05701e1bd0609b76468e35272d1d1e34e87f2b",
+      "bitwise_equal": true
+    }
+  ]
+}

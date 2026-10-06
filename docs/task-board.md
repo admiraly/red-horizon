@@ -210,3 +210,19 @@ wreck cover, wider roster and all operation/platform/hardware work remain ready.
 Independent next vehicle damage/wreck-cover audit is in wreck-cover-next.md.
 Both real casualty paths, physical queries, persistent presentation/replication
 and original density/recovery deadlines must be covered by that next slice.
+
+Wreck lifecycle foundation: root143247e integrates shared genuine tank/artillery
+casualty registration, immutable supported pose, generation dedup, deterministic
+bounded retirement,60s expiry and hash/content identity. Isolated focused/fast
+checks pass; root full089664de8436 passed584.1588s/93reports with207matched
+inputs. All five frozen jobs and two extra sessions are reconciled. It does not yet supply cover,
+rendering or wreck replication. Root-owned prepared segment/AABB first-contact
+math atd238ea8 remains isolated; bounded spatial lookup and captured-pose cover
+bounds are needed before actual physical query integration. Preserve the original
+scale/health/symmetry/arrival gates and make local/remote presentation match cover.
+
+Next cover presentation audit: exact existing pack frame0 high/low roof heights
+differ by0.9204m tank and1.2990m artillery; collider/LOD geometry must agree.
+See evidence/wreck-cover-mesh-bounds.json. Do not shrink physical cover to hide
+missing visible geometry or imply solid near-field meshes are penetrable. The
+spatial/query/shape and matched wreck presentation slices remain ready.

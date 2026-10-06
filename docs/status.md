@@ -1,5 +1,54 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Ground-vehicle death registry foundation is integrated at143247e. Both real
+casualty paths now capture tank/artillery death identity, immutable supported
+pose, sequence and lifetime exactly once; real infantry/shell/crew/world-tick
+observers pass. The initial policy is1024records/1800ticks (60s), deterministic
+FIFO retirement, retained source-generation dedup and wrap-safe expiry. All
+persistent state is hashed; no heap allocation or observer-dependent capture.
+Infantry/air casualties remain excluded. Content fingerprint is0x10d280ea.
+
+Isolated focusedf8029d1f67a7 passed3.7800s and fast230f98a33d8d passed126.5333s.
+102496actual register calls cover32768IDs, capacity/dedup/expiry/recycle,32pose
+cases,5fallbacks,12invalid preserved arenas, exactFNV, SysV alignment/registers
+and three assembled negatives. Natural120tick8k/16k hotspot combat creates
+113/97vehicle casualties, with matching immutable registry identity/time/pose.
+Old/new modules preserve every observed entity/motion/air/player/projectile/
+ammo/cooldown/event/count arena byte at every tested tick at both scales.
+Matching900tick benchmark reports preserve all existing physical/combat/nav/
+admission metrics; checksums now include the new registry. CPU p95 is6.600/
+13.889ms in overlapping headless runs, not an isolated overhead comparison.
+
+Full extended frozen089664de8436 PASSED584.1588s/93reports with all207
+authored inputs matched at
+143247ed8e672e0c27695ba5adabfeb971c5017c-e4b9f538bb763277. All five root/
+isolated frozen jobs and both additional exec sessions are terminal/reconciled;
+root-owned lifecycle and prepared-sweep worktrees are clean. Linked workspace
+client/co-op artifacts are rebuilt. Exact source/artifact/job scope manifests
+are evidence/wreck-lifecycle-jobs.json and wreck-lifecycle-session.json. The actual registry
+is not yet consumed by body/LOS/rifle/shell cover, renderer or UDP wreck records;
+this foundation does not establish useful temporary wreck cover. See
+wreck-lifecycle.md and evidence/wreck-lifecycle-* for exact scope.
+
+Independent next first-contact primitive is prepared atd238ea8 in isolated
+feature/wreck-sweep; it is not part of the main/full-checkpoint source. Its
+10085candidate cases/67invalids, earliest parametric t, closed grazing and three
+assembly controls pass; candidate maximum t error2.9666e-8. The initial report
+mixed the intentional last-contact negative's0.25error into its candidate metric;
+corrected reporting snapshots candidate metrics first, with no runtime edit.
+Both reports are retained. Spatial search, captured-pose bounds and actual
+physical/rendered/replicated cover remain the next coherent integrations.
+Actual900tick hotspot census observes813/930vehicle deaths and active records,
+with all immutable source/time/pose and bounded registry checks passing. These
+runs do not reach capacity;32768source component pressure proves retirement.
+Exact sourced-pack geometry audit measures low-detail frame0 roof reductions of
+0.9204m tank/1.2990m artillery relative to high detail. Cover bounds and visibly
+matched wreck LODs must be solved together before useful cover acceptance. The
+existing meshes were not changed. The full-spec game goal remains active.
+
+The driver-eye checkpoint below is historical; its implementation remains
+retained, while the current content policy and new registry scope are above.
+
 Terrain-supported driver eye is integrated at12f83f9, with legacy birth-control
 fixture corrections9721bc2/89b957e. Boarding/LOS, held driving and cannon target XYZ use
 unsmoothed supported/contact-corrected eye authority; the connected client keeps
