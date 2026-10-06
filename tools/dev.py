@@ -45,8 +45,8 @@ def build(target,objects_only=False):
         return build_locked(target,objects_only)
 def build_locked(target,objects_only=False):
     start=time.perf_counter(); tool=nasm(); execute([sys.executable,'tools/schema.py'])
-    execute([sys.executable,'tools/terrain_surfaces.py','--check'])
-    execute([sys.executable,'tools/ground_content.py','--check'])
+    execute([sys.executable,'tools/terrain_surfaces.py','--check'], stdout=sys.stderr)
+    execute([sys.executable,'tools/ground_content.py','--check'], stdout=sys.stderr)
     BUILD.mkdir(exist_ok=True)
     sources=[p for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
     if target=='headless': sources += [ROOT/'src/platform/linux/headless.asm']; libs=['-lm']; executable_name='red-horizon-server'
