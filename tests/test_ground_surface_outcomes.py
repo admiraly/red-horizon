@@ -132,6 +132,27 @@ for z in (1300.,1400.):
  assert reverse[0]['speed']>0 and any(abs(r['speed'])<.042 for r in reverse)
  cases.append(dict(name='road_reverse' if z==1300 else 'offroad_reverse',forward=rows[-1],reverse=reverse,trace_sha256=digest(rows+reverse)))
 
+# Compare equal incoming momentum: surface affects traction, not brake or yaw law.
+matched=[]
+for z,ticks in ((1300.,20),(1400.,25 if not a.legacy else 20)):
+ reset(xy=(2000.,z),driver=True)
+ for _ in range(ticks):step((1.,0.))
+ incoming=M[12].speed
+ brake_rows=[step((0.,0.)) for _ in range(20)]
+ assert abs(incoming-.4)<TOL and abs(brake_rows[0]['speed']-.36)<TOL
+ assert abs(brake_rows[-1]['speed'])<TOL
+ matched.append(dict(surface='road' if z==1300 else 'offroad',incoming=incoming,braking=brake_rows))
+assert all(abs(p['speed']-q['speed'])<TOL for p,q in zip(matched[0]['braking'],matched[1]['braking']))
+cases.append(dict(name='same_momentum_same_braking',surfaces=matched))
+matched=[]
+for z,ticks in ((1300.,20),(1400.,25 if not a.legacy else 20)):
+ reset(xy=(2000.,z),driver=True)
+ for _ in range(ticks):step((1.,0.))
+ turn_rows=[step((0.,1.)) for _ in range(10)]
+ matched.append(dict(surface='road' if z==1300 else 'offroad',turning=turn_rows))
+assert all(abs(p['heading']-q['heading'])<TOL and abs(p['speed']-q['speed'])<TOL for p,q in zip(matched[0]['turning'],matched[1]['turning']))
+cases.append(dict(name='same_momentum_same_yaw_law',surfaces=matched))
+
 reset(xy=(2000.,1400.));ai=[step() for _ in range(60)];before=bytes(M[12]);board();assert bytes(M[12])==before
 first=step((1.,0.));assert abs(first['speed']-ai[-1]['speed'])<.022
 assert lib.vehicle_exit(0)==0
@@ -152,7 +173,7 @@ if a.legacy:assert len(faults)>=8,'previous runtime failed to expose absent road
 report=dict(suite='ground-surface-outcomes',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(library.read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=cases,detected_legacy_faults=faults,limits=['Only public sim_tick/player_input/boarding/orders move the authority; no surface/ground actuator calls or motion writes.','Sparse initial development births, same genuine terrain and unchanged HP/combat/hazard policy.','Independent canonical capsule distance determines observed source surface; whole-circle fit in one capsule is the documented approximation.','No slope limits, suspension, oriented hulls, road routing preference, visual quality, target GPU or dense-scale acceptance established here.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 def concise(value):
- if isinstance(value,dict):return {k:concise(v) for k,v in value.items() if k not in ('trace','reverse')}
+ if isinstance(value,dict):return {k:concise(v) for k,v in value.items() if k not in ('trace','reverse','braking','turning')}
  if isinstance(value,list):return [concise(v) for v in value]
  return value
 print(json.dumps(concise(report)))
