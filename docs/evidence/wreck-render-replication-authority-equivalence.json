@@ -1,0 +1,63 @@
+{
+  "scope": "Actual prior accepted and candidate modules, every observed authoritative arena byte equal at every tick; complete196620-byte existing wreck registry/dedup/metadata included; full world checksum equal, candidate queries preserve it. No cover/render acceptance.",
+  "libraries": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/4febd559b935/source/build/libsim.so",
+      "sha256": "d41143d58003ab072f1faaabaea433f7ac0232ca1d1716e989280b080facb6ec"
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/e9a99f39beb8/source/build/libsim.so",
+      "sha256": "0cad498611f50e3e41bf9539e5ebf8fc5cee36cf53d801836e0b26e3c8e23b9c"
+    }
+  ],
+  "cases": [
+    {
+      "units": 8192,
+      "ticks": 120,
+      "seed": 42,
+      "scenario": "scale-hotspot",
+      "compared_arenas": {
+        "sim_wrecks": 196620,
+        "sim_entities": 262144,
+        "sim_ground_motion": 262144,
+        "sim_aircraft": 524288,
+        "sim_players": 256,
+        "sim_projectiles": 32768,
+        "sim_shell_ammo": 32768,
+        "sim_shell_cooldown": 32768,
+        "sim_events": 8192,
+        "sim_alive": 8,
+        "sim_engaged": 4,
+        "sim_projectile_count": 4,
+        "sim_event_count": 4,
+        "sim_event_sequence": 4
+      },
+      "authority_trace_sha256": "f63335a876e97630ccb6178817de9d7f490a01db4fd0f2bc5e5fc3315bed1222",
+      "bitwise_equal": true
+    },
+    {
+      "units": 16384,
+      "ticks": 120,
+      "seed": 42,
+      "scenario": "scale-hotspot",
+      "compared_arenas": {
+        "sim_wrecks": 196620,
+        "sim_entities": 524288,
+        "sim_ground_motion": 524288,
+        "sim_aircraft": 1048576,
+        "sim_players": 256,
+        "sim_projectiles": 32768,
+        "sim_shell_ammo": 65536,
+        "sim_shell_cooldown": 65536,
+        "sim_events": 8192,
+        "sim_alive": 8,
+        "sim_engaged": 4,
+        "sim_projectile_count": 4,
+        "sim_event_count": 4,
+        "sim_event_sequence": 4
+      },
+      "authority_trace_sha256": "8c2cdc920ddce4092838d8d06e8f99671d0dc32697a944844ec8848b2501e8ff",
+      "bitwise_equal": true
+    }
+  ]
+}

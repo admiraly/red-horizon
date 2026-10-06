@@ -1,0 +1,38 @@
+[
+  {
+    "source": "/home/levy/optane-tmp/red-horizon-wreck-local-1-near.ppm",
+    "source_sha256": "149f3b6aa398fecd2fa888f00911c797589d22fab1237a7ed881cd159c46d80e",
+    "png": "docs/evidence/wreck-render-replication-local-1-near.png",
+    "png_sha256": "1025568beb4048bfc088f9e563bae76c2b7b5fae2d93c0c8624db2abcfce80a6",
+    "scope": "Actual private Xvfb software-GL client display fixture, near32m. Format conversion only; neither natural death nor hardware/human acceptance.",
+    "latest_source_sha256": "33e8a34ac3d8f99c00c4c21fc9f6bcc0ef5379d67a09934b54f2b4e4a0a712b4",
+    "latest_capture_identical": false
+  },
+  {
+    "source": "/home/levy/optane-tmp/red-horizon-wreck-local-2-near.ppm",
+    "source_sha256": "27fc8e3f93c42b320ed77e974cf2edc52e9c4f3341e339c7b95c1fa884898355",
+    "png": "docs/evidence/wreck-render-replication-local-2-near.png",
+    "png_sha256": "be7d225164e36cb1754ebfe3156a9b60ad1358182c3d6a430208e8a05bf094b2",
+    "scope": "Actual private Xvfb software-GL client display fixture, near32m. Format conversion only; neither natural death nor hardware/human acceptance.",
+    "latest_source_sha256": "7fd7322d8e0b113de7d3ceae7ef1da1f90933d4be230ab0e24bad00776490f42",
+    "latest_capture_identical": false
+  },
+  {
+    "source": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-near.ppm",
+    "source_sha256": "5fbcb03183942d76538d5901b79ceb4f6dd0f5d5d848f402e9cb2a306b463e3a",
+    "png": "docs/evidence/wreck-render-replication-udp-1-near.png",
+    "png_sha256": "1e965a6111c68e3c4bcaa7574ee872937b00248d94bab9b93499181a528abe23",
+    "scope": "Actual private Xvfb software-GL client display fixture, near32m. Format conversion only; neither natural death nor hardware/human acceptance.",
+    "latest_source_sha256": "c537b7985ea5248799ef33b78fc72c72ec8fe3166acda0900c734dc44bb06161",
+    "latest_capture_identical": false
+  },
+  {
+    "source": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-near.ppm",
+    "source_sha256": "af98a13117975c6d9498e20a078cb521e9c53ac3f4e8a16783bcc729269c56be",
+    "png": "docs/evidence/wreck-render-replication-udp-2-near.png",
+    "png_sha256": "038ff073147ad06bf21e82f37fe517bcbfb40549d6a17f7ddd8f299f7ed4a555",
+    "scope": "Actual private Xvfb software-GL client display fixture, near32m. Format conversion only; neither natural death nor hardware/human acceptance.",
+    "latest_source_sha256": "715656d5c49bc2b9ca9d79df59d633530dd6c2bf23bd917bd721561f9d521308",
+    "latest_capture_identical": false
+  }
+]

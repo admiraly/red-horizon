@@ -58,3 +58,32 @@ packets. New streams exposed the backlog; it now receives the server's actual
 final snapshot before asserting no local ticks. The32-packet budget is unchanged,
 and final authoritative tick equality is additionally required. Other original
 physical/scale/health/arrival/symmetry checks are retained.
+
+Frozen extended checkpoint e9a99f39beb8 passed659.9070seconds/101reports at
+5a4965590aff4492729e112ff5c9eb7ae791bce0-1d14e8137c7509f0, with all227authored
+inputs matching the checkout. Seven batch frozen jobs are terminal. The original
+scale, health, label symmetry, arrival/recovery and UDP fault gates remain intact.
+Exact snapshots, reports, retained failures and selected actual client images are
+under evidence/wreck-render-replication-*.
+
+A separate synthetic full1024-slot fixture exercises the actual serializer and
+cache:61snapshot packets cover the ring; reverse authentic-payload replay keeps
+the cache unchanged. It does not establish1024natural casualties. Prior accepted
+and current simulation modules match every observed authoritative arena and
+checksum at every tick of120tick8k/16k comparisons, including the complete
+196620-byte wreck registry/history/metadata arena.
+
+The expiry/capacity observers initially discarded snapshots inside command ACK
+waits. RecordingPeer retains them. The extended server now runs2160rather than
+1890ticks to leave a complete post-expiry sweep window; lifetime remains1800ticks.
+A subsequent UDP graphical observer stopped amid reset draw telemetry. It now
+waits for the received record, then five frames and required stable pose/count
+before readback. Three repeated actual UDP draw checks and the final full frozen
+run pass. Failed logs remain in the ledger.
+
+Prepared5c12613 body/source-context work is isolated and documented in
+wreck-body-query-prepared.md. It includes no-deepening planar overlap escape,
+explicit local/remote source context, remote mutation revisions and memoized
+validated transforms. None activates movement, weapon, LOS or navigation cover.
+Near-player replication freshness, useful far/map presentation and enabled-cover
+budgets remain part of the next coherent integration.

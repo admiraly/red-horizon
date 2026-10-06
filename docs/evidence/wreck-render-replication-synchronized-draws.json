@@ -1,0 +1,209 @@
+{
+  "scope": "Three actual UDP graphics observer repeats after source-acceptance and stable-telemetry synchronization. Same runtime; development harness corrected.",
+  "reports": [
+    {
+      "suite": "wreck-client-draw",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "ca9330c3dec8318029b83766a6e3c7f5b017dd72f0a43d8b81789b34eb30ddb1",
+      "cases": [
+        {
+          "role": 1,
+          "mode": "near",
+          "changed_pixels": 959,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-near.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "mid",
+          "changed_pixels": 9,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-mid.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "far",
+          "changed_pixels": 0,
+          "wreck_instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-far.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "map",
+          "changed_pixels": 0,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-map.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "near",
+          "changed_pixels": 2370,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-near.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "mid",
+          "changed_pixels": 23,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-mid.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "far",
+          "changed_pixels": 0,
+          "wreck_instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-far.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "map",
+          "changed_pixels": 0,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-map.ppm"
+        }
+      ],
+      "received_record_then_completed_draw_observed": true,
+      "immutable_death_pose": true,
+      "living_instance_counts_unchanged": true,
+      "scope": "Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets."
+    },
+    {
+      "suite": "wreck-client-draw",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "ca9330c3dec8318029b83766a6e3c7f5b017dd72f0a43d8b81789b34eb30ddb1",
+      "cases": [
+        {
+          "role": 1,
+          "mode": "near",
+          "changed_pixels": 959,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-near.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "mid",
+          "changed_pixels": 9,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-mid.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "far",
+          "changed_pixels": 0,
+          "wreck_instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-far.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "map",
+          "changed_pixels": 0,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-map.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "near",
+          "changed_pixels": 2370,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-near.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "mid",
+          "changed_pixels": 23,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-mid.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "far",
+          "changed_pixels": 0,
+          "wreck_instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-far.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "map",
+          "changed_pixels": 0,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-map.ppm"
+        }
+      ],
+      "received_record_then_completed_draw_observed": true,
+      "immutable_death_pose": true,
+      "living_instance_counts_unchanged": true,
+      "scope": "Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets."
+    },
+    {
+      "suite": "wreck-client-draw",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "ca9330c3dec8318029b83766a6e3c7f5b017dd72f0a43d8b81789b34eb30ddb1",
+      "cases": [
+        {
+          "role": 1,
+          "mode": "near",
+          "changed_pixels": 959,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-near.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "mid",
+          "changed_pixels": 9,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-mid.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "far",
+          "changed_pixels": 0,
+          "wreck_instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-far.ppm"
+        },
+        {
+          "role": 1,
+          "mode": "map",
+          "changed_pixels": 0,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-1-map.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "near",
+          "changed_pixels": 2370,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-near.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "mid",
+          "changed_pixels": 23,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-mid.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "far",
+          "changed_pixels": 0,
+          "wreck_instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-far.ppm"
+        },
+        {
+          "role": 2,
+          "mode": "map",
+          "changed_pixels": 0,
+          "wreck_instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-wreck-udp-2-map.ppm"
+        }
+      ],
+      "received_record_then_completed_draw_observed": true,
+      "immutable_death_pose": true,
+      "living_instance_counts_unchanged": true,
+      "scope": "Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets."
+    }
+  ]
+}

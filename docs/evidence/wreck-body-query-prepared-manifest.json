@@ -1,0 +1,23 @@
+{
+  "classification": "Prepared isolated body-query prerequisite, not main/full snapshot",
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-query",
+  "head": "497e089",
+  "base": "327a577",
+  "prepared_fine_grid_commit": "3de8b83",
+  "source_sha256": {
+    "src/nav/wreck_query.asm": "35ec621b14d201a468c0e6e67750e9612f2963cbc68a84c933e76b0dd454580c",
+    "schemas/wreck_query.inc": "abf98603ccb92cc323ce5c2812de8e03a76129b5cccc14d407d07e0bde31ea83",
+    "tests/probe_wreck_body.asm": "feb492dd6faaf30984fd4968082083a5444cc94bd1d2f77a94b885d1977dc764",
+    "tests/test_wreck_body_query.py": "13ce505b7040348c2e6de718fefc8d7726215eb261e631fbd28b5fe53798e16c",
+    "tests/test_wreck_query.py": "2383be449ad8852ec019149d99fd75bdfe81554bf147bba0f6aeb4884a5aff39"
+  },
+  "reports": [
+    "docs/evidence/wreck-body-query-prepared.json",
+    "docs/evidence/wreck-body-query-point-regression.json"
+  ],
+  "terminal_sessions": [
+    42691,
+    25776,
+    43365
+  ]
+}

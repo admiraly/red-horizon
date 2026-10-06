@@ -1,0 +1,94 @@
+{
+  "classification": "Accepted immutable wreck rendering and UDPv8 integration; physical cover still pending",
+  "runtime_commits": [
+    "ab98fb5",
+    "cff654e",
+    "327a577"
+  ],
+  "observer_corrections": [
+    "81270ee",
+    "5a49655"
+  ],
+  "full_checkpoint": {
+    "job_id": "e9a99f39beb8",
+    "status": "passed",
+    "revision": "5a4965590aff4492729e112ff5c9eb7ae791bce0-1d14e8137c7509f0",
+    "seconds": 659.9069584789977,
+    "report_count": 101,
+    "authored_input_count": 227,
+    "current_source_mismatches": []
+  },
+  "job_ledger": "docs/evidence/wreck-render-replication-jobs.json",
+  "all_seven_frozen_jobs_terminal": true,
+  "linked_workspace_artifacts": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/5a4965590aff4492729e112ff5c9eb7ae791bce0-1d14e8137c7509f0/red-horizon",
+      "sha256": "ca9330c3dec8318029b83766a6e3c7f5b017dd72f0a43d8b81789b34eb30ddb1"
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/5a4965590aff4492729e112ff5c9eb7ae791bce0-1d14e8137c7509f0/red-horizon-coop-server",
+      "sha256": "99f16892c821970418beaf862b87d0c501c3e48cf2160bdea119845563ed2a01"
+    }
+  ],
+  "component_evidence": [
+    "docs/evidence/wreck-render-replication-authority-equivalence.json",
+    "docs/evidence/wreck-render-replication-stream-pressure.json",
+    "docs/evidence/wreck-render-replication-synchronized-draws.json",
+    "docs/evidence/wreck-render-replication-images.json"
+  ],
+  "prepared_only": [
+    "docs/evidence/wreck-body-query-prepared-manifest.json",
+    "docs/evidence/wreck-query-context-prepared-manifest.json"
+  ],
+  "failures": [
+    {
+      "job": "32d622d30dc5",
+      "reason": "Stopped-server adapter fixture did not drain newly added streams; corrected observer waits for final authoritative tick."
+    },
+    {
+      "job": "04ca333a64ab",
+      "reason": "ACK wait discarded wreck packets; extended run lacked full post-expiry sweep window. RecordingPeer retention and2160ticks correct observer; lifetime1800 unchanged."
+    },
+    {
+      "job": "d311b9175132",
+      "reason": "UDP graphics SIGSTOP landed while draw telemetry reset. Wait for received record, then five frames and required stable pose/count before readback."
+    },
+    {
+      "scope": "direct pressure fixture",
+      "reason": "Same ACK-discard observer failure; RecordingPeer fixes it. One subsequent launch supplied absent root libcoopclient.so; corrected to frozen actual module."
+    },
+    {
+      "scope": "direct initial graphics",
+      "reason": "Root build executable lacked asset-relative working directory; immutable revision path correct. Mock ACK lacked alive player presentation fields; fixed only display fixture, not runtime authority."
+    }
+  ],
+  "terminal_exec_sessions": [
+    10234,
+    45214,
+    6649,
+    49139,
+    42691,
+    25776,
+    43365,
+    23456,
+    91007,
+    88986,
+    3191,
+    64687,
+    68387,
+    12225,
+    65719,
+    87726,
+    16150,
+    77215
+  ],
+  "scope_limits": [
+    "No body/LOS/rifle/shell/navigation cover hooks enabled",
+    "First-person800m cull;900m and tactical test views produce zero wreck pixels",
+    "Software-GL geometry fixtures do not establish natural play, hardware budget or human craft",
+    "Global fair stream does not guarantee near-player freshness or reliable join barrier",
+    "Synthetic full-ring pressure is not1024natural casualties",
+    "Prepared body/context/memo remains isolated; connected movement hooks and enabled-cover budgets pending",
+    "Complete game specification remains active; no remote publication or code licence approval"
+  ]
+}

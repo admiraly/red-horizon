@@ -1,5 +1,63 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Immutable captured-pose wreck rendering and self-contained UDPv8 replication are
+integrated atcff654e; observer correction81270ee retains snapshots consumed during
+ACK waits. Current content is0xdbb0a2ab. Separate local/co-op wreck batches use
+high-detail frame0 tank/artillery geometry, captured absolute death pose and dark
+scenery shading. They never consume or inflate living instance census. Client
+net_wrecks is separate from authoritative sim_wrecks and its hash.
+
+Wire106 carries1..17slot+record68-byte entries in1196bytes maximum. Whole-packet
+validation, immutable equal-sequence checks, per-slot modular stale guards,
+server-clock expiry and disconnect reset are verified. Actual8192-unit server
+combat creates a genuine tank death; a late join recovers the same immutable
+identity and captured wire state. There are no in-flight HP/pose/clock renewals.
+A separate explicitly synthetic full1024-slot serializer fixture covers all slots
+in61snapshot packets and preserves the cache under reversed authentic packets;
+that fixture does not establish1024natural casualties or loss-completion latency.
+
+Actual private-Xvfb software-GL local/co-op display fixtures preserve captured
+pose and living census: tank/artillery changed pixels are959/2370 near32m and
+9/23 at300m. At900m they are culled; tactical submissions change zero pixels.
+This is visible near geometry, not useful far/map representation, hardware budget,
+human craft or physical cover acceptance. No body/LOS/rifle/shell/navigation
+cover hooks are active. High/low frame0 roof mismatch remains honestly covered by
+the union bounds; collision geometry has not been shrunk to hide it.
+
+Old/new modules match every observed authoritative arena and full checksum at
+every120tick8k/16k comparison, including the complete196620-byte registry arena.
+The frozen full job04ca333a64ab failed396.6892s at the expiry observer's ACK wait:
+that wait consumed snapshots, and the original server end left insufficient time
+for a complete post-expiry sweep. Correction retains consumed wreck packets and
+runs2160ticks; the lifetime remains1800ticks. Corrected expiry passes in
+d311b9175132, which failed595.8209s at a
+UDP graphics observer race: SIGSTOP landed while mesh counters were reset.
+Correction5a49655 waits for the received record, then five frames and stable
+required pose/count telemetry before readback. Full frozen e9a99f39beb8
+PASSED659.9070s/101reports at
+5a4965590aff4492729e112ff5c9eb7ae791bce0-1d14e8137c7509f0, with all227authored
+inputs matching the checkout. It preserves original8k/16k motion/replay/health/
+symmetry/arrival/recovery gates, actual GL local/co-op wrecks and ordinary
+gameplay, audio and0/50/100/150ms+jitter/loss/reorder UDP fault coverage.
+All seven frozen jobs and additional exec sessions are terminal/reconciled.
+Linked workspace client/co-op artifacts are rebuilt; the two active preparation
+worktrees are clean. No publication occurred; code licence remains pending.
+Exact failed logs and focused worker results are retained under
+evidence/wreck-render-replication-*.
+
+Isolated prepared body-query497e089 retains original radii0/.551/3.551/4.491 and
+no-deepening overlap escape, with2514calls/2500independent paths and821continuous
+overlap-depth checks. Follow-up5c12613 adds explicit source/count/revision query
+variants with401calls/128source switches and three assembled source/revision/pose
+faults, plus actual remote-cache mutation/expiry/reset revision plumbing without
+identical-heartbeat invalidation. A512-slot refresh transforms only changed
+validated records, using a65536-byte derived memo. Original body/point/remote
+observers still pass. Neither preparation is integrated cover, remote prediction
+or navigation. See wreck-body-query-prepared.md.
+
+The paragraphs below retain earlier checkpoint evidence and superseded interface
+statements; the current UDP/rendering state is described above.
+
 Captured-pose wreck point queries are integrated at570b6ee, with first-contact
 primitive686d20f. A32×32/250m center-bucket index searches conservative transformed
 frame0 mesh union boxes, retains closed grazing/first t and physical identity

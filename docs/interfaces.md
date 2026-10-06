@@ -189,9 +189,10 @@ kind1/2 source with valid ID/generation/side/map coordinates, preserving the ful
 arena on invalid/duplicate calls. It uses matching unsmoothed ground support and
 contact, or an explicitly flagged upright fallback. init resets record/history/
 metadata; tick expires by modular elapsed age; hash includes all persistent state.
-Both genuine casualty paths register once after HP0/alive-count decrement. No
-existing wire layout changes; NET_CONTENT10d280ea includes lifecycle policy.
-Wreck collision, rendering and self-contained replication are not integrated yet.
+Both genuine casualty paths register once after HP0/alive-count decrement.
+UDPv8 now carries these immutable records; current NET_CONTENT is0xdbb0a2ab.
+Rendering and self-contained replication are integrated. Physical collision and
+weapon/LOS/navigation cover hooks remain pending.
 Prepared segment_box v1 at isolatedd238ea8 is read-only first parametric contact
 against caller-owned AABB, with finite/capacity/bounds validation and SysV/SSE2.
 It is not yet a root runtime caller contract or accepted physical cover.
@@ -204,6 +205,30 @@ mesh union. Accepted register/init/expiry invalidates a derived64-bit revision;
 index/bounds/revision are excluded from the authoritative hash. Nearest ties use
 physical identity, not faction or bucket order. Single simulation safe point;
 no concurrent mutation. Clear/invalid source/caller paths do not write output.
-No current body inflation/LOS/rifle/shell/render/wire hooks. See
-wreck-spatial-query.md for bounded cost and geometry limits; prepared rendering
-inputs and grid experiments remain isolated in their named worktrees.
+No current body inflation/LOS/rifle/shell hooks. See wreck-spatial-query.md for
+bounded cost and geometry limits. The isolated body query and finer grid remain
+prepared; rendering and wire contracts below are integrated.
+
+### Immutable wreck presentation and UDPv8
+
+NET_WRECKS106 uses the40-byte header plus1..17entries of slot:u32 and record64,
+with no count prefix and1196-byte maximum. Each client owns a separate fair
+1024-slot cursor. Used slots include tombstones; at full capacity an uninterrupted
+stream covers the ring in61snapshot opportunities. There is no reliable join
+barrier or loss-completion latency guarantee.
+
+wreck_receive validates the entire payload before mutation, including duplicate
+slots, finite/bounded poses, kind/identity, canonical fallback, reserved fields,
+1800tick lifetime and source-clock age. Per-slot modular tick/sequence guards
+reject stale updates; equal sequence cannot change immutable fields or revive
+inactive state. wreck_remote_expire uses accepted server time. Dedicated
+net_wrecks1024x64 never replaces sim_wrecks or enters its authoritative hash.
+Open/close/timeout resets the cache. See schemas/wreck_remote.inc and schema.txt.
+
+wreck_instance maps one immutable record to64-byte existing mesh input: static
+frame0, captured XYZ/yaw/pitch/bank, unit scale, absolute height, ID-1 and scenery
+side3. Renderer uses separate mesh_wreck_instances/mesh_wreck_pose diagnostics
+and high-detail frame0 tank/artillery geometry, leaving live census unchanged.
+First-person culling is800m; tactical submissions can produce zero pixels.
+The shared shader darkens only those wreck scenery roles. No useful far/map
+representation, hardware budget or physical cover acceptance follows from this.

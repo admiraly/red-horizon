@@ -1,5 +1,12 @@
 # Actual authoritative cooperative world transport (UDP v6)
 
+Current wreck extension uses UDPv8/content0xdbb0a2ab, message106 and17entries of
+slot+record68bytes in1196bytes maximum. It provides a dedicated immutable remote
+cache, global fair cursor, tombstones/server-clock expiry and late-join recovery.
+See wreck-render-replication.md and schemas/wreck_remote.inc. Older paragraphs
+retain historical protocol checkpoint evidence. Physical wreck cover and matched
+client movement prediction remain pending.
+
 This path links the dedicated server to the same assembly army, operation,
 terrain, AI and four-player modules used locally. The server alone advances the
 world at 30 fixed ticks/s. Network clients apply authoritative snapshots and

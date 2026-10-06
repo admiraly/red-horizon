@@ -1,0 +1,25 @@
+{"suite": "network", "packets": 45, "passed": true, "build_and_test_seconds": 2.026381}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xdbb0a2ab", "canonical_sha256": "dbb0a2ab10d72fdb5ba5526aa5526146085e79ebf926eb42e36b780351a5090a", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xdbb0a2ab", "canonical_sha256": "dbb0a2ab10d72fdb5ba5526aa5526146085e79ebf926eb42e36b780351a5090a", "checked": true}
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/tests/test_coop.py", line 522, in <module>
+    main()
+    ~~~~^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/tests/test_coop.py", line 513, in main
+    verify_adapter(args.server.resolve(), args.client_lib)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/tests/test_coop.py", line 297, in verify_adapter
+    assert ctypes.c_uint.in_dll(lib, 'sim_tick_count').value == local_tick == server_tick
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+ERROR: Command '['/usr/bin/python3', 'tests/test_coop.py', '--server', '/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/build/revisions/1c1deea182539b4867435d1dbcffd91ae173a4c1-0f96fbd08f1409fd/red-horizon-coop-server', '--client-lib', '/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/build/libcoopclient.so']' returned non-zero exit status 1.
+{"target": "coop", "revision": "1c1deea182539b4867435d1dbcffd91ae173a4c1-0f96fbd08f1409fd", "assembled": 28, "assembled_sources": ["src/sim/operation.asm", "src/sim/ordnance_admission.asm", "src/sim/scenarios.asm", "src/sim/wrecks.asm", "src/sim/world.asm", "src/sim/air_admission.asm", "src/sim/projectiles.asm", "src/sim/wreck_remote.asm", "src/nav/segment_box.asm", "src/nav/ground_eye.asm", "src/nav/crowd.asm", "src/nav/terrain_surface.asm", "src/nav/squads.asm", "src/nav/terrain_relief.asm", "src/nav/terrain_body.asm", "src/nav/wreck_query.asm", "src/nav/terrain.asm", "src/nav/ground_contact.asm", "src/nav/terrain_grade.asm", "src/nav/ground_support.asm", "src/ai/hazards.asm", "src/ai/hazard_steering.asm", "src/ai/aircraft.asm", "src/ai/tactics.asm", "src/game/player.asm", "src/game/ground_motion.asm", "src/game/vehicles.asm", "src/net/coop_server.asm"], "seconds": 0.44019702099467395, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/build/revisions/1c1deea182539b4867435d1dbcffd91ae173a4c1-0f96fbd08f1409fd/red-horizon-coop-server"}
+{"target": "headless", "revision": "1c1deea182539b4867435d1dbcffd91ae173a4c1-0f96fbd08f1409fd", "assembled": 1, "assembled_sources": ["src/platform/linux/headless.asm"], "seconds": 0.3074901649961248, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-replication/runs/jobs/32d622d30dc5/source/build/revisions/1c1deea182539b4867435d1dbcffd91ae173a4c1-0f96fbd08f1409fd/red-horizon-server"}

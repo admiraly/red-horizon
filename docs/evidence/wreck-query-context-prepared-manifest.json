@@ -1,0 +1,32 @@
+{
+  "classification": "Isolated prepared explicit query context; not integrated runtime/full job",
+  "head": "5c12613",
+  "base_body_query": "497e089",
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-query",
+  "source_sha256": {
+    "src/nav/wreck_query.asm": "ce81b2b356e4ebca720905e9dc23e9927fb71d99b39f1d03c2d0ba92e004e075",
+    "schemas/wreck_query.inc": "722a2099f0bd75e91a7cdcdaa92c1d75480dd98222e268c98103e1d32109bf65",
+    "tests/test_wreck_query_context.py": "8123c3babc6bf897d4d78c3e6079fde4eb1d479d2f55a0234b563ad81dc0e7f3",
+    "tests/test_wreck_body_query.py": "13ce505b7040348c2e6de718fefc8d7726215eb261e631fbd28b5fe53798e16c",
+    "tests/probe_wreck_body.asm": "feb492dd6faaf30984fd4968082083a5444cc94bd1d2f77a94b885d1977dc764",
+    "src/sim/wreck_remote.asm": "9878e8c138d337908bcd96a970b6561b6766789296133056a9bf062bc66db02e",
+    "schemas/wreck_remote.inc": "1aa9afa8e67bc47bab7ec6957f3e7577bf52e66836648e0f39ad5a67213a68e3"
+  },
+  "reports": [
+    "docs/evidence/wreck-query-context-prepared.json",
+    "docs/evidence/wreck-query-context-body-regression.json",
+    "docs/evidence/wreck-query-context-point-regression.json",
+    "docs/evidence/wreck-query-context-remote-regression.json"
+  ],
+  "terminal_sessions": [
+    3191,
+    64687,
+    87726
+  ],
+  "limits": [
+    "Caller-owned stable readable source storage with mutation revision discipline",
+    "Sequential shared derived cache, not concurrent",
+    "No connected-client prediction hooks; remote-cache lifecycle revision verified",
+    "No actor/nav/weapon cover activation"
+  ]
+}

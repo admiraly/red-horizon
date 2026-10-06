@@ -1,11 +1,12 @@
 # Next coherent wreck-cover integration
 
-Query570b6ee is a read-only prerequisite. Prepared instance2fcfe4e is isolated.
-The next batch must activate physical cover together with visible and replicated
-wreck state; partial local-only authority or invisible solid boxes are not enough.
+Query570b6ee is a read-only prerequisite. Instance rendering and UDPv8 are now
+integrated atcff654e; observer correction81270ee retains packets during ACK waits.
+The remaining batch must activate physical cover with matching local and remote
+query context. Current800m culling and zero-pixel tactical cases require a useful
+far/map representation before those views can explain solid cover.
 
-Renderer: meshes.asm currently filters dead entities before appending army
-instances. Add a separate immutable-wreck batch, using prepared wreck_instance,
+Renderer: meshes.asm now submits a separate immutable-wreck batch using wreck_instance,
 actual high-detail frame0 tank/artillery descriptors and matching bounds at every
 mesh distance. Do not let wrecks consume living high-instance budgets or inflate
 army visible/detail census. Use separate wreck telemetry/budgets. Existing
@@ -14,7 +15,7 @@ network client death, expiry and ring replacement with shader geometry/depth and
 census exclusion. High geometry cost and useful far representation need measured
 budgets; the preparation test only verifies transform input/output.
 
-UDP: new self-contained records need slot and full64-byte wreck pose/identity.
+UDP: integrated self-contained records carry slot and full64-byte wreck pose/identity.
 A68-byte entry permits17 records in a40-byte-header1196-byte packet. Confirm the
 actual current header before freezing a versioned wire contract. Carry source
 tick/sequence, publish explicit tombstones and bound per-client fairness. Join in
@@ -61,3 +62,35 @@ HP/pose renewal. Measure actual query candidate cost with cover enabled; the
 read-only Python probe's1.17–1.24us/query includes ctypes and establishes no full
 server-tick budget. Full frozen scale/real graphics/audio/UDP fault verification
 and hardware/human acceptance retain their existing roles.
+
+Observed safe-point and route constraints for the next implementation:
+
+- sim_tick expires wrecks before AI/nav/air/hazard/crowd movement. Infantry
+  deferred casualties register after acquisition/ordnance, then projectile_tick
+  and player_tick can register additional casualties in the same tick. Therefore
+  one cache refresh per movement phase is plausible, but projectile/player
+  queries can observe intervening deaths and need correct revision handling.
+  Do not defer new solid cover silently to the next tick to hide rebuild cost.
+- The current query rebuild transforms every active record after a revision
+  change. Enabling cover during repeated same-tick blasts requires measured
+  rebuild/candidate cost and potentially incremental dirty slots. Point-only
+  timings do not establish the enabled server budget.
+- squads.asm uses27fixed terrain nodes,512queued requests and eight builds/tick.
+  It has no wreck-revision key. Adding1024wrecks as an unbounded all-pairs graph
+  would defeat the existing budget. Preserve the queue cap and introduce bounded
+  nearby detour nodes/route invalidation, with real multi-wreck arrival cases.
+- Prepared7f652ab provides explicit sources and remote mutation revisions.
+  The connected movement caller must select net_wrecks only for its prediction
+  query, using accepted server-time lifecycle; server callers retain sim_wrecks.
+  Shared query scratch is sequential. A future runtime job system must provide
+  separate scratch/index contexts or publish immutable cache snapshots.
+
+Replication latency is a separate cover requirement. Current global fairness
+permits6.1seconds for a full1024-slot sweep even without loss, and provides no
+join barrier. That is not a near-player cover freshness guarantee. Before enabled
+connected prediction acceptance, add measured nearby/owned-hull priority while
+retaining global fairness, or an explicit synchronization/recovery policy. Verify
+a real newly destroyed hull across1..4clients at the original UDP fault settings,
+with server-authoritative contact and visible correction; do not infer this from
+late-join record convergence or a geometry fixture. Prepared remote revisions
+remove redundant geometry rebuilding but cannot create undelivered cover state.

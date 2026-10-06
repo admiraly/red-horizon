@@ -236,3 +236,12 @@ Prepared immutable rendering inputs2fcfe4e and finer-grid07cf5b5 are isolated,
 verified prerequisites, not main/full-checkpoint features. The next complete
 cover batch must activate matching geometry and UDP state with body/weapon/LOS/
 navigation hooks, preserve original gates and measure mixed query lengths.
+
+Current wreck continuation integrates immutable frame0 local/co-op presentation
+and UDPv8 global fair records with separate client cache/census. Full extended
+checkpoint e9a99f39beb8 passed659.9070s with all227authored inputs matched.
+No body/LOS/rifle/shell/navigation cover hooks are enabled. Prepared body query
+at497e089 has2514calls and independent conservative contact/no-deepening escape
+evidence, but remains isolated. Next: explicit local/remote query context, dynamic
+detours/invalidation, weapon contact and useful far/map presentation, preserving
+all original motion/health/symmetry/arrival/recovery gates.

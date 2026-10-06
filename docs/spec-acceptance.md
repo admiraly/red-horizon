@@ -1,5 +1,12 @@
 # Specification acceptance ledger
 
+Current continuation integrates captured frame0 wreck presentation and UDPv8
+immutable replication. It verifies local/co-op display fixtures, genuine server
+casualty streaming, late join,1800tick expiry and separate authority/cache state.
+Physical body/weapon/LOS/navigation cover, useful far/map visibility and hardware
+readability/budgets remain unaccepted. Prepared body/source-context work is
+isolated. Exact current full checkpoint status is in status.md.
+
 Current tracked-vehicle scope includes authoritative heading, acceleration/braking,
 bounded turning, slow reverse, complete-segment collision, generation-safe ownership
 and UDPv7 heading. Canonical roads now feed whole-circle contact and matching
