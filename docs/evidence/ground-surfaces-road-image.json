@@ -1,0 +1,2629 @@
+{
+  "job": "2804557c94cf",
+  "scope": "Actual production fragment, controlled diagnostic textures; top-down geometry/material fixture, not natural gameplay or target GPU quality acceptance",
+  "road_report": {
+    "suite": "canonical-road-material-gl",
+    "passed": true,
+    "software_rendered": true,
+    "context": "GL renderer: llvmpipe (LLVM 22.1.8, 256 bits)\nGL version: 4.6 (Compatibility Profile) Mesa 26.2.3",
+    "embedded_fragment_sha256": "ff6c23d88b561f710a27dabf45dba2121a6700f37091a43fa195922f3bf53b29",
+    "client_embedded_source_checked": true,
+    "canonical_segments": 19,
+    "samples": 186,
+    "shoulder_metres": 2,
+    "old_wall_stripes_absent": 3,
+    "connectors_visible": 4,
+    "fixture": "real production NASM-embedded fragment, flat test geometry and diagnostic equal-albedo textures; not gameplay or art acceptance",
+    "screenshot": "/home/levy/optane-tmp/red-horizon-road-dogleg.ppm",
+    "measurements": [
+      {
+        "label": "segment-0-offset-0.0",
+        "world_xz": [
+          2400.0,
+          1300.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-0-offset-9.5",
+        "world_xz": [
+          2400.0,
+          1309.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-0-offset-10.0",
+        "world_xz": [
+          2400.0,
+          1310.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-0-offset-10.5",
+        "world_xz": [
+          2400.0,
+          1310.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-0-offset-11.0",
+        "world_xz": [
+          2400.0,
+          1311.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-0-offset-11.5",
+        "world_xz": [
+          2400.0,
+          1311.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-0-offset-12.1",
+        "world_xz": [
+          2400.0,
+          1312.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-0-offset-20.0",
+        "world_xz": [
+          2400.0,
+          1320.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-1-offset-0.0",
+        "world_xz": [
+          3860.0,
+          1175.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-1-offset-9.5",
+        "world_xz": [
+          3868.5644690459485,
+          1179.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-1-offset-10.0",
+        "world_xz": [
+          3869.015230574683,
+          1179.3273106758477
+        ],
+        "edge_metres": 8.526512829121202e-14,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-1-offset-10.5",
+        "world_xz": [
+          3869.4659921034167,
+          1179.5436762096401
+        ],
+        "edge_metres": 0.49999999999989164,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-1-offset-11.0",
+        "world_xz": [
+          3869.916753632151,
+          1179.7600417434326
+        ],
+        "edge_metres": 1.0000000000001048,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-1-offset-11.5",
+        "world_xz": [
+          3870.367515160885,
+          1179.9764072772248
+        ],
+        "edge_metres": 1.4999999999998082,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-1-offset-12.1",
+        "world_xz": [
+          3870.908428995366,
+          1180.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-1-offset-20.0",
+        "world_xz": [
+          3878.0304611493657,
+          1183.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-2-offset-0.0",
+        "world_xz": [
+          4000.0,
+          1050.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-2-offset-9.5",
+        "world_xz": [
+          4000.0,
+          1059.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-2-offset-10.0",
+        "world_xz": [
+          4000.0,
+          1060.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-2-offset-10.5",
+        "world_xz": [
+          4000.0,
+          1060.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-2-offset-11.0",
+        "world_xz": [
+          4000.0,
+          1061.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-2-offset-11.5",
+        "world_xz": [
+          4000.0,
+          1061.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-2-offset-12.1",
+        "world_xz": [
+          4000.0,
+          1062.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-2-offset-20.0",
+        "world_xz": [
+          4000.0,
+          1070.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-3-offset-0.0",
+        "world_xz": [
+          4140.0,
+          1175.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-3-offset-9.5",
+        "world_xz": [
+          4131.4355309540515,
+          1179.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-3-offset-10.0",
+        "world_xz": [
+          4130.984769425318,
+          1179.3273106758477
+        ],
+        "edge_metres": -3.2152058793144533e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-3-offset-10.5",
+        "world_xz": [
+          4130.534007896583,
+          1179.5436762096401
+        ],
+        "edge_metres": 0.5000000000002984,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-3-offset-11.0",
+        "world_xz": [
+          4130.083246367849,
+          1179.7600417434326
+        ],
+        "edge_metres": 1.0000000000001048,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-3-offset-11.5",
+        "world_xz": [
+          4129.632484839115,
+          1179.9764072772248
+        ],
+        "edge_metres": 1.4999999999998082,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-3-offset-12.1",
+        "world_xz": [
+          4129.091571004634,
+          1180.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-3-offset-20.0",
+        "world_xz": [
+          4121.969538850634,
+          1183.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-4-offset-0.0",
+        "world_xz": [
+          5600.0,
+          1300.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-4-offset-9.5",
+        "world_xz": [
+          5600.0,
+          1309.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-4-offset-10.0",
+        "world_xz": [
+          5600.0,
+          1310.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-4-offset-10.5",
+        "world_xz": [
+          5600.0,
+          1310.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-4-offset-11.0",
+        "world_xz": [
+          5600.0,
+          1311.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-4-offset-11.5",
+        "world_xz": [
+          5600.0,
+          1311.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-4-offset-12.1",
+        "world_xz": [
+          5600.0,
+          1312.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-4-offset-20.0",
+        "world_xz": [
+          5600.0,
+          1320.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-5-offset-0.0",
+        "world_xz": [
+          2400.0,
+          3900.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-5-offset-9.5",
+        "world_xz": [
+          2400.0,
+          3909.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-5-offset-10.0",
+        "world_xz": [
+          2400.0,
+          3910.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-5-offset-10.5",
+        "world_xz": [
+          2400.0,
+          3910.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-5-offset-11.0",
+        "world_xz": [
+          2400.0,
+          3911.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-5-offset-11.5",
+        "world_xz": [
+          2400.0,
+          3911.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-5-offset-12.1",
+        "world_xz": [
+          2400.0,
+          3912.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-5-offset-20.0",
+        "world_xz": [
+          2400.0,
+          3920.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-6-offset-0.0",
+        "world_xz": [
+          3860.0,
+          3775.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-6-offset-9.5",
+        "world_xz": [
+          3868.5644690459485,
+          3779.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-6-offset-10.0",
+        "world_xz": [
+          3869.015230574683,
+          3779.327310675848
+        ],
+        "edge_metres": 1.8118839761882555e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-6-offset-10.5",
+        "world_xz": [
+          3869.4659921034167,
+          3779.54367620964
+        ],
+        "edge_metres": 0.49999999999989164,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-6-offset-11.0",
+        "world_xz": [
+          3869.916753632151,
+          3779.7600417434323
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-6-offset-11.5",
+        "world_xz": [
+          3870.367515160885,
+          3779.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-6-offset-12.1",
+        "world_xz": [
+          3870.908428995366,
+          3780.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-6-offset-20.0",
+        "world_xz": [
+          3878.0304611493657,
+          3783.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-7-offset-0.0",
+        "world_xz": [
+          4000.0,
+          3650.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-7-offset-9.5",
+        "world_xz": [
+          4000.0,
+          3659.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-7-offset-10.0",
+        "world_xz": [
+          4000.0,
+          3660.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-7-offset-10.5",
+        "world_xz": [
+          4000.0,
+          3660.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-7-offset-11.0",
+        "world_xz": [
+          4000.0,
+          3661.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-7-offset-11.5",
+        "world_xz": [
+          4000.0,
+          3661.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-7-offset-12.1",
+        "world_xz": [
+          4000.0,
+          3662.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-7-offset-20.0",
+        "world_xz": [
+          4000.0,
+          3670.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-8-offset-0.0",
+        "world_xz": [
+          4140.0,
+          3775.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-8-offset-9.5",
+        "world_xz": [
+          4131.4355309540515,
+          3779.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-8-offset-10.0",
+        "world_xz": [
+          4130.984769425318,
+          3779.327310675848
+        ],
+        "edge_metres": -2.255973186038318e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-8-offset-10.5",
+        "world_xz": [
+          4130.534007896583,
+          3779.54367620964
+        ],
+        "edge_metres": 0.5000000000002984,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-8-offset-11.0",
+        "world_xz": [
+          4130.083246367849,
+          3779.7600417434323
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-8-offset-11.5",
+        "world_xz": [
+          4129.632484839115,
+          3779.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-8-offset-12.1",
+        "world_xz": [
+          4129.091571004634,
+          3780.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-8-offset-20.0",
+        "world_xz": [
+          4121.969538850634,
+          3783.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-9-offset-0.0",
+        "world_xz": [
+          5600.0,
+          3900.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-9-offset-9.5",
+        "world_xz": [
+          5600.0,
+          3909.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          169,
+          70,
+          0
+        ],
+        "gravel_fraction": 0.7071129707112971
+      },
+      {
+        "label": "segment-9-offset-10.0",
+        "world_xz": [
+          5600.0,
+          3910.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          169,
+          70,
+          0
+        ],
+        "gravel_fraction": 0.7071129707112971
+      },
+      {
+        "label": "segment-9-offset-10.5",
+        "world_xz": [
+          5600.0,
+          3910.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          143,
+          96,
+          0
+        ],
+        "gravel_fraction": 0.5983263598326359
+      },
+      {
+        "label": "segment-9-offset-11.0",
+        "world_xz": [
+          5600.0,
+          3911.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          85,
+          154,
+          0
+        ],
+        "gravel_fraction": 0.35564853556485354
+      },
+      {
+        "label": "segment-9-offset-11.5",
+        "world_xz": [
+          5600.0,
+          3911.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          26,
+          213,
+          0
+        ],
+        "gravel_fraction": 0.1087866108786611
+      },
+      {
+        "label": "segment-9-offset-12.1",
+        "world_xz": [
+          5600.0,
+          3912.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-9-offset-20.0",
+        "world_xz": [
+          5600.0,
+          3920.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-10-offset-0.0",
+        "world_xz": [
+          2400.0,
+          6500.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-10-offset-9.5",
+        "world_xz": [
+          2400.0,
+          6509.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-10-offset-10.0",
+        "world_xz": [
+          2400.0,
+          6510.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-10-offset-10.5",
+        "world_xz": [
+          2400.0,
+          6510.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-10-offset-11.0",
+        "world_xz": [
+          2400.0,
+          6511.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-10-offset-11.5",
+        "world_xz": [
+          2400.0,
+          6511.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-10-offset-12.1",
+        "world_xz": [
+          2400.0,
+          6512.1
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-10-offset-20.0",
+        "world_xz": [
+          2400.0,
+          6520.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-11-offset-0.0",
+        "world_xz": [
+          3860.0,
+          6375.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-11-offset-9.5",
+        "world_xz": [
+          3868.5644690459485,
+          6379.110945142055
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-11-offset-10.0",
+        "world_xz": [
+          3869.015230574683,
+          6379.327310675848
+        ],
+        "edge_metres": 1.8118839761882555e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-11-offset-10.5",
+        "world_xz": [
+          3869.4659921034167,
+          6379.54367620964
+        ],
+        "edge_metres": 0.49999999999969447,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-11-offset-11.0",
+        "world_xz": [
+          3869.916753632151,
+          6379.760041743432
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-11-offset-11.5",
+        "world_xz": [
+          3870.367515160885,
+          6379.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-11-offset-12.1",
+        "world_xz": [
+          3870.908428995366,
+          6380.236045917775
+        ],
+        "edge_metres": 2.0999999999998877,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-11-offset-20.0",
+        "world_xz": [
+          3878.0304611493657,
+          6383.654621351696
+        ],
+        "edge_metres": 10.00000000000037,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-12-offset-0.0",
+        "world_xz": [
+          4000.0,
+          6250.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-12-offset-9.5",
+        "world_xz": [
+          4000.0,
+          6259.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-12-offset-10.0",
+        "world_xz": [
+          4000.0,
+          6260.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-12-offset-10.5",
+        "world_xz": [
+          4000.0,
+          6260.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-12-offset-11.0",
+        "world_xz": [
+          4000.0,
+          6261.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-12-offset-11.5",
+        "world_xz": [
+          4000.0,
+          6261.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-12-offset-12.1",
+        "world_xz": [
+          4000.0,
+          6262.1
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-12-offset-20.0",
+        "world_xz": [
+          4000.0,
+          6270.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-13-offset-0.0",
+        "world_xz": [
+          4140.0,
+          6375.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-13-offset-9.5",
+        "world_xz": [
+          4131.4355309540515,
+          6379.110945142055
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-13-offset-10.0",
+        "world_xz": [
+          4130.984769425318,
+          6379.327310675848
+        ],
+        "edge_metres": -2.255973186038318e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-13-offset-10.5",
+        "world_xz": [
+          4130.534007896583,
+          6379.54367620964
+        ],
+        "edge_metres": 0.5000000000001013,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-13-offset-11.0",
+        "world_xz": [
+          4130.083246367849,
+          6379.760041743432
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-13-offset-11.5",
+        "world_xz": [
+          4129.632484839115,
+          6379.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-13-offset-12.1",
+        "world_xz": [
+          4129.091571004634,
+          6380.236045917775
+        ],
+        "edge_metres": 2.0999999999998877,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-13-offset-20.0",
+        "world_xz": [
+          4121.969538850634,
+          6383.654621351696
+        ],
+        "edge_metres": 10.00000000000037,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-14-offset-0.0",
+        "world_xz": [
+          5600.0,
+          6500.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-14-offset-9.5",
+        "world_xz": [
+          5600.0,
+          6509.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-14-offset-10.0",
+        "world_xz": [
+          5600.0,
+          6510.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-14-offset-10.5",
+        "world_xz": [
+          5600.0,
+          6510.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-14-offset-11.0",
+        "world_xz": [
+          5600.0,
+          6511.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-14-offset-11.5",
+        "world_xz": [
+          5600.0,
+          6511.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-14-offset-12.1",
+        "world_xz": [
+          5600.0,
+          6512.1
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-14-offset-20.0",
+        "world_xz": [
+          5600.0,
+          6520.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-15-offset-0.0",
+        "world_xz": [
+          1000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-15-offset-9.5",
+        "world_xz": [
+          990.5,
+          2600.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-15-offset-10.0",
+        "world_xz": [
+          990.0,
+          2600.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-15-offset-10.5",
+        "world_xz": [
+          989.5,
+          2600.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-15-offset-11.0",
+        "world_xz": [
+          989.0,
+          2600.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-15-offset-11.5",
+        "world_xz": [
+          988.5,
+          2600.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-15-offset-12.1",
+        "world_xz": [
+          987.9,
+          2600.0
+        ],
+        "edge_metres": 2.1000000000000227,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-15-offset-20.0",
+        "world_xz": [
+          980.0,
+          2600.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-16-offset-0.0",
+        "world_xz": [
+          1000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-16-offset-9.5",
+        "world_xz": [
+          990.5,
+          5200.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-16-offset-10.0",
+        "world_xz": [
+          990.0,
+          5200.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-16-offset-10.5",
+        "world_xz": [
+          989.5,
+          5200.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-16-offset-11.0",
+        "world_xz": [
+          989.0,
+          5200.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-16-offset-11.5",
+        "world_xz": [
+          988.5,
+          5200.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-16-offset-12.1",
+        "world_xz": [
+          987.9,
+          5200.0
+        ],
+        "edge_metres": 2.1000000000000227,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-16-offset-20.0",
+        "world_xz": [
+          980.0,
+          5200.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-17-offset-0.0",
+        "world_xz": [
+          7000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-17-offset-9.5",
+        "world_xz": [
+          6990.5,
+          2600.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-17-offset-10.0",
+        "world_xz": [
+          6990.0,
+          2600.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-17-offset-10.5",
+        "world_xz": [
+          6989.5,
+          2600.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-17-offset-11.0",
+        "world_xz": [
+          6989.0,
+          2600.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-17-offset-11.5",
+        "world_xz": [
+          6988.5,
+          2600.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-17-offset-12.1",
+        "world_xz": [
+          6987.9,
+          2600.0
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-17-offset-20.0",
+        "world_xz": [
+          6980.0,
+          2600.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-18-offset-0.0",
+        "world_xz": [
+          7000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-18-offset-9.5",
+        "world_xz": [
+          6990.5,
+          5200.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-18-offset-10.0",
+        "world_xz": [
+          6990.0,
+          5200.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-18-offset-10.5",
+        "world_xz": [
+          6989.5,
+          5200.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-18-offset-11.0",
+        "world_xz": [
+          6989.0,
+          5200.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-18-offset-11.5",
+        "world_xz": [
+          6988.5,
+          5200.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-18-offset-12.1",
+        "world_xz": [
+          6987.9,
+          5200.0
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-18-offset-20.0",
+        "world_xz": [
+          6980.0,
+          5200.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "old-wall-crossing-1300.0",
+        "world_xz": [
+          4000.0,
+          1300.0
+        ],
+        "edge_metres": 170.3046114936547,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "dogleg-1300.0",
+        "world_xz": [
+          4000.0,
+          1050.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "old-wall-crossing-3900.0",
+        "world_xz": [
+          4000.0,
+          3900.0
+        ],
+        "edge_metres": 170.3046114936547,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "dogleg-3900.0",
+        "world_xz": [
+          4000.0,
+          3650.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "old-wall-crossing-6500.0",
+        "world_xz": [
+          4000.0,
+          6500.0
+        ],
+        "edge_metres": 170.3046114936547,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "dogleg-6500.0",
+        "world_xz": [
+          4000.0,
+          6250.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-1000.0-2600.0",
+        "world_xz": [
+          1000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-1000.0-5200.0",
+        "world_xz": [
+          1000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-7000.0-2600.0",
+        "world_xz": [
+          7000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-7000.0-5200.0",
+        "world_xz": [
+          7000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-0.0",
+        "world_xz": [
+          3920.0,
+          1050.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-9.5",
+        "world_xz": [
+          3913.2824855787276,
+          1043.2824855787278
+        ],
+        "edge_metres": -0.4999999999998437,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-10.0",
+        "world_xz": [
+          3912.9289321881347,
+          1042.9289321881345
+        ],
+        "edge_metres": -7.993605777301127e-14,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-10.5",
+        "world_xz": [
+          3912.5753787975414,
+          1042.5753787975414
+        ],
+        "edge_metres": 0.4999999999998437,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "corner-cap-1050.0-11.0",
+        "world_xz": [
+          3912.221825406948,
+          1042.221825406948
+        ],
+        "edge_metres": 0.9999999999999272,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "corner-cap-1050.0-11.5",
+        "world_xz": [
+          3911.8682720163547,
+          1041.8682720163547
+        ],
+        "edge_metres": 1.5000000000000124,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "corner-cap-1050.0-12.1",
+        "world_xz": [
+          3911.4440079476426,
+          1041.4440079476428
+        ],
+        "edge_metres": 2.1000000000000814,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-1050.0-20.0",
+        "world_xz": [
+          3905.857864376269,
+          1035.8578643762692
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-3650.0-0.0",
+        "world_xz": [
+          3920.0,
+          3650.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-3650.0-9.5",
+        "world_xz": [
+          3913.2824855787276,
+          3643.2824855787276
+        ],
+        "edge_metres": -0.49999999999968203,
+        "rgb": [
+          170,
+          69,
+          0
+        ],
+        "gravel_fraction": 0.7112970711297071
+      },
+      {
+        "label": "corner-cap-3650.0-10.0",
+        "world_xz": [
+          3912.9289321881347,
+          3642.9289321881347
+        ],
+        "edge_metres": -2.4158453015843406e-13,
+        "rgb": [
+          170,
+          70,
+          0
+        ],
+        "gravel_fraction": 0.7083333333333334
+      },
+      {
+        "label": "corner-cap-3650.0-10.5",
+        "world_xz": [
+          3912.5753787975414,
+          3642.5753787975414
+        ],
+        "edge_metres": 0.4999999999998437,
+        "rgb": [
+          142,
+          97,
+          0
+        ],
+        "gravel_fraction": 0.5941422594142259
+      },
+      {
+        "label": "corner-cap-3650.0-11.0",
+        "world_xz": [
+          3912.221825406948,
+          3642.221825406948
+        ],
+        "edge_metres": 0.9999999999999272,
+        "rgb": [
+          84,
+          155,
+          0
+        ],
+        "gravel_fraction": 0.3514644351464435
+      },
+      {
+        "label": "corner-cap-3650.0-11.5",
+        "world_xz": [
+          3911.8682720163547,
+          3641.8682720163547
+        ],
+        "edge_metres": 1.5000000000000124,
+        "rgb": [
+          26,
+          213,
+          0
+        ],
+        "gravel_fraction": 0.1087866108786611
+      },
+      {
+        "label": "corner-cap-3650.0-12.1",
+        "world_xz": [
+          3911.4440079476426,
+          3641.4440079476426
+        ],
+        "edge_metres": 2.100000000000243,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-3650.0-20.0",
+        "world_xz": [
+          3905.857864376269,
+          3635.857864376269
+        ],
+        "edge_metres": 10.00000000000016,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-6250.0-0.0",
+        "world_xz": [
+          3920.0,
+          6250.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-6250.0-9.5",
+        "world_xz": [
+          3913.2824855787276,
+          6243.282485578728
+        ],
+        "edge_metres": -0.49999999999968203,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-6250.0-10.0",
+        "world_xz": [
+          3912.9289321881347,
+          6242.928932188134
+        ],
+        "edge_metres": 7.993605777301127e-14,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-6250.0-10.5",
+        "world_xz": [
+          3912.5753787975414,
+          6242.575378797541
+        ],
+        "edge_metres": 0.5000000000001652,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "corner-cap-6250.0-11.0",
+        "world_xz": [
+          3912.221825406948,
+          6242.221825406948
+        ],
+        "edge_metres": 1.0000000000002505,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "corner-cap-6250.0-11.5",
+        "world_xz": [
+          3911.8682720163547,
+          6241.868272016355
+        ],
+        "edge_metres": 1.499999999999691,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "corner-cap-6250.0-12.1",
+        "world_xz": [
+          3911.4440079476426,
+          6241.444007947643
+        ],
+        "edge_metres": 2.100000000000243,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-6250.0-20.0",
+        "world_xz": [
+          3905.857864376269,
+          6235.857864376269
+        ],
+        "edge_metres": 9.99999999999984,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      }
+    ]
+  },
+  "ppm_sha256": "e1454b2637c85fd5b60f87e0d6761672071371e6d9b8d6aa601157bbffb2418a",
+  "png_sha256": "afe577cfb8bc509378cd8d9b86caae931aa427dc9f788ec943f23f8c68517bba",
+  "prior_focused_job": "7617cf75db83",
+  "identical_to_inspected_focused_image": true
+}

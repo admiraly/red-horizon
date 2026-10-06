@@ -47,10 +47,14 @@ braking and bounded turning. Drivers can reverse after braking through zero;
 released input coasts to a stop. Cannon aim remains independent. Complete hull
 segments retain terrain/body collision, and UDPv7 clients render the same heading
 while moving or pivoting in place. See [ground motion](docs/ground-motion.md) and
-[pose replication](docs/ground-presentation.md). Road traction, slope limits,
+[pose replication](docs/ground-presentation.md). Canonical roads match visible
+materials and physical whole-hull contact. Off-road tanks/artillery accelerate
+and travel at 0.8/0.7 of their paved targets, with bounded braking when leaving
+pavement; see [surface outcomes](docs/ground-surface-outcomes.md) and
+[current verification](docs/status.md). Road-preferring routes, steep-slope limits,
 wheeled vehicles, articulated turrets and useful wreck cover remain open work.
 
-`test --suite fast` checks small real-core combat/replay, operation, waypoints, terrain, tactics, players, reload, audio and asset integrity including default8k/16k motion checks and baked-model provenance. It omits large combat scale/replay, real UDP, graphics and build-tool isolation checks; full extended verification retains them. Focused core suites: operation, waypoints, terrain, player, tactics, combat, vehicles, ground-motion, effects. `build --target client --objects-only` validates assembly without linking or a GPU; it does not compile GLSL. Actual transitive NASM include/incbin dependencies control incremental rebuilds.
+`test --suite fast` checks small real-core combat/replay, operation, waypoints, terrain, tactics, players, reload, audio and asset integrity including default8k/16k motion checks and baked-model provenance. It omits large combat scale/replay, real UDP, graphics and build-tool isolation checks; full extended verification retains them. Focused core suites: operation, waypoints, terrain, player, tactics, combat, vehicles, ground-motion, ground-surfaces, effects. `build --target client --objects-only` validates assembly without linking or a GPU; it does not compile GLSL. Actual transitive NASM include/incbin dependencies control incremental rebuilds.
 
 Slow checks can append `--background`. A job receives a frozen source copy, revision/hash, log and result path. Use `python3 tools/dev.py jobs` and `collect JOB_ID` to reconcile results. Build outputs and evidence remain under ignored `build/` and `runs/`.
 

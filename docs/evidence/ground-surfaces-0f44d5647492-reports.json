@@ -1,0 +1,25 @@
+[
+  {
+    "suite": "dense_driver",
+    "passed": true,
+    "cases": 16,
+    "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"
+  },
+  {
+    "suite": "tools",
+    "passed": true,
+    "checks": [
+      "cold/incremental",
+      "single module invalidation",
+      "shader isolation",
+      "transitive includes",
+      "source preservation",
+      "failed build preserves previous objects",
+      "fast real-core suite",
+      "immutable background source",
+      "revision identity",
+      "failed assembly reported",
+      "job collection"
+    ]
+  }
+]

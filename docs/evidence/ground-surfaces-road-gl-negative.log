@@ -1,0 +1,2 @@
+legacy-straight-stripes correctly rejected: AssertionError: ('segment-0-offset-10.5', (2400.0, 1310.5), 0.5, 0.6074999999999999, [172, 67, 0], 0.7196652719665272)
+missing-connectors correctly rejected: AssertionError: ('segment-15-offset-0.0', (1000.0, 2600.0), -10.0, 0.72, [0, 239, 0], 0.0)

@@ -1,5 +1,14 @@
 # Canonical road materials
 
+Root integration supplement: source `a429a7d` passed full frozen extended job
+`2804557c94cf` (497.18s, 76 reports, 158 matched authored inputs).
+Exact current scope, archived public traces and remaining limits are in
+`status.md` and `evidence/ground-surfaces-session.json`. The worker-only proofs
+below retain their original source scope. The earlier held-artillery failure is
+resolved by bounded steering preview at root; road-preferring routing and steep
+slope handling remain unimplemented.
+
+
 The terrain material now follows the generated canonical 19-segment capsule
 network instead of three unbounded straight stripes. The three east–west roads
 follow the authored doglegs around the walls, and the four north–south connectors

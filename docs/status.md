@@ -1,5 +1,88 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+The canonical road/handling batch is integrated and verified. The full-game goal
+remains active. Source `a429a7d` passed frozen full extended job `2804557c94cf`
+in 497.18 seconds, with 76 recorded reports and all 158 authored runtime,
+schema, shader, tool, test and canonical-content inputs matching root. Exact
+hashes, commands, results and scope are in `evidence/ground-surfaces-jobs.json`
+and `evidence/ground-surfaces-session.json`. All 12 root batch jobs and all
+worker sessions are terminal and reconciled; worker worktrees are clean.
+
+Nineteen canonical capsule roads follow clear doglegs around the five walls and
+feed both the SSE2 sampler and actual embedded terrain fragment. Paved half-width
+is 10 m; the 2 m visual shoulder is cosmetic. Complete nominal body-circle
+containment in one capsule determines traction; union junctions may conservatively
+classify off-road. AI tank speed targets are 0.5/0.4 m per tick paved/off-road,
+artillery 0.2/0.14, driven tank 0.6/0.48. Acceleration and slow reverse scale by
+0.8 for off-road tanks and 0.7 for artillery. Braking, yaw, collision envelopes
+and body radii remain unchanged. Leaving pavement retains momentum and decelerates
+through the actuator, rather than instantly clamping speed.
+
+Exact discrete terminal braking and bounded 6 m AI steering preview preserve
+the original 360-tick held-artillery arrival, 1,200-tick wall recovery and final
+settling checks. No coordinate snap, faster physical envelope, deadline increase,
+HP renewal or flattened hazard is used. Original 8k/16k 95% movement, 400-tick
+actor-health symmetry and replay checks passed. The original 18 m/30-tick driven
+steady-speed control and waypoint maximum-speed controls now explicitly start on
+pavement; ownership/cannon/map/health guards and numerical caps remain intact.
+Abrupt destinations inside inherited stopping distance can still be overshot.
+The natural hotspot census retains 14 nearby overlapping pairs; this is not
+universal formation-clearance acceptance.
+
+Evidence includes 2,806 center samples, 5,877 body samples, malformed/ABI/read-only
+checks, 17 independent public surface cases and 70 physically stoppable approaches.
+The prior immutable runtime exposes 19 missing-surface faults. Actual GL validates
+186 material samples against the linked client shader; old stripes and missing
+connectors are causal negatives. `evidence/ground-surfaces-road-dogleg.png` is an
+inspected top-down production-fragment diagnostic with controlled textures, not
+natural gameplay or art acceptance. Graphics uses private Xvfb/llvmpipe Mesa26.2.3
+and null audio, not target-GPU performance or physical listening acceptance.
+
+UDPv7 schema/wire strides are unchanged. Content fingerprint `0x321a5da9` covers
+the actual asset manifest, canonical roads and resolved handling policy. Build
+checks and an independent co-op reconstruction enforce it. Mutating each component
+rejects a stale fingerprint; actual UDP fault, ownership, combat and pose-replication
+checks pass. Validator diagnostics use stderr; build stdout retains one JSON result.
+The full run verifies incremental dependencies, frozen isolation, preservation
+of prior objects/executables on failed assembly and actual client GL/co-op paths.
+
+Seed42, 900-tick single-thread CPU benchmarks at the same runtime/content inputs:
+
+| Scenario | Initial actors | Tick mean/p95 ms | End alive by side / engaged | Peak RSS KiB | Projectile drops / navigation overflow |
+|---|---:|---:|---|---:|---:|
+| SCALE-HOTSPOT | 8,192 | 3.887 / 5.803 | 2,149 / 1,667 / 216 | 17,920 | 271,985 / 444,143 |
+| SCALE-STRETCH | 16,384 | 11.815 / 12.760 | 7,129 / 6,705 / 1,339 | 18,300 | 546,592 / 2,667,508 |
+
+Maximum inspected neighbors were 57/37, with zero truncated queries. The runs
+used the i7-14700K host and overlapped verification. Later changes affect only
+compatibility/build tooling and a test; exact source differences are recorded.
+These figures establish neither isolated speedup nor GPU, audible mix or four
+rendered-client scale acceptance. Rejected launches and path pressure remain limits.
+
+Four failed attempts remain explicitly failed with complete retained logs:
+`d85662117334` exposed 7.466 m held-artillery error at 360 ticks;
+`68284a947b16` exposed 24 mm wall error at 1,200 ticks;
+`5bb52464fde3` failed the stale asset-only co-op fingerprint assertion;
+`3245e9dd2705` failed extra validator JSON on build stdout. The first two led to
+physical steering/braking fixes; the latter two corrected integration contracts.
+Focused vehicles, tactics, network, tooling and graphics jobs passed, followed by
+the accepted full frozen checkpoint above. Earlier failures are not relabeled passes.
+
+Next terrain prerequisite is prepared in isolated contract `c5b0cd3` and component
+`90706d5`, with exact evidence in `evidence/terrain-relief-prepared.json`. Its raised
+hill/gradient component is not integrated and establishes no root slope handling.
+`ground-terrain-next.md` defines the next whole-body grade, route, height/render and
+compatibility work, including combined corner slopes and cusp conventions.
+Road-preferring routes, meaningful steep-slope admission, wheeled roles, oriented
+hulls/vertical interactions, suspension, damage states and useful wreck cover remain
+required. Full operation/intelligence, streamed world, runtime jobs/reload/snapshots,
+Windows, recorded audiovisual craft, human playtests and sustained four-client
+hardware acceptance remain open. No remote publication occurred; code license
+still awaits owner approval.
+
+Earlier verified ground-hull checkpoint follows; its input match applies to
+that recorded revision, rather than the current road candidate.
+
 The ground-hull motion batch is integrated. The full-game goal remains active.
 Runtime checkpoint `7d37522` uses authoritative tank/artillery heading, acceleration,
 braking and bounded turning for AI and human drivers. Translation follows the hull

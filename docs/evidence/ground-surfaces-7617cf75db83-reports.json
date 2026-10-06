@@ -1,0 +1,3522 @@
+[
+  {
+    "suite": "battle-metrics",
+    "passed": true,
+    "multi_frame_reduction": true,
+    "independent_peaks_distinguished": true,
+    "simultaneous_positive_negative_frames": true,
+    "reset": true,
+    "authority_unchanged": true
+  },
+  {
+    "suite": "visibility_reduce",
+    "passed": true,
+    "maximum_pixel_words": 8294400,
+    "duplicate_and_class_union": true,
+    "dead_invalid_stale_rejected": true,
+    "absent_ids_not_inferred": true,
+    "null_and_oversize_bounds": true
+  },
+  {
+    "suite": "visibility_framebuffer",
+    "passed": true,
+    "real_gl_fbo_smoke": true,
+    "software": true,
+    "resolution": [
+      320,
+      240
+    ],
+    "integer_attachment_readback": true,
+    "masked_cosmetics_preserve_ids": true,
+    "default_fbo_restored": true,
+    "map_bytes": 307200,
+    "gl_errors": 0
+  },
+  {
+    "suite": "graphics",
+    "passed": true,
+    "renderer": "software",
+    "modes": 2,
+    "entities_submitted": 8192,
+    "report": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/7617cf75db83/source/runs/headless-graphics-ed25072e75/result.json"
+  },
+  {
+    "suite": "hazard-warning-actual-gl",
+    "passed": true,
+    "cases": {
+      "friendly_shell": {
+        "warning_gl_fixture": true,
+        "launch_result": 0,
+        "predicted_hazards": 1,
+        "uniform": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "eye": [
+          3500,
+          22.7999992,
+          2000
+        ],
+        "expected_eye_y": 22.7999992,
+        "authority_before": "038bdc51c4ebcb18",
+        "authority_after": "038bdc51c4ebcb18",
+        "simulation_tick": 0,
+        "local_ticks": 3,
+        "initial_local_ticks": 3,
+        "image_sha256": "3826cc88e995b766dd96243f212803c1daabbeb178753c01127168fb026794d5"
+      },
+      "enemy_shell": {
+        "warning_gl_fixture": true,
+        "launch_result": 0,
+        "predicted_hazards": 1,
+        "uniform": [
+          1,
+          0.500004828,
+          0.433333337,
+          35
+        ],
+        "eye": [
+          3500,
+          22.7999992,
+          2000
+        ],
+        "expected_eye_y": 22.7999992,
+        "authority_before": "a1bf10cb0481fc12",
+        "authority_after": "a1bf10cb0481fc12",
+        "simulation_tick": 0,
+        "local_ticks": 3,
+        "initial_local_ticks": 3,
+        "image_sha256": "7984e1b34ae263a62eda56987a867cec1b6766a4cac36caef5e177ef1975f4cf"
+      }
+    },
+    "changed_pixels": 2284,
+    "changed_bounds_top_down": [
+      461,
+      57,
+      818,
+      90
+    ],
+    "render_authority_unchanged": true,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/7617cf75db83/source/build/revisions/945ef20be736bdc0bc5064acc5311e006073b4dd-705642d9b424ab30/red-horizon",
+    "executable_sha256": "60841cc5a158f8bca891186eb9533e986bd8e9102048e3794353414da35ec186",
+    "scope": "Private Xvfb software GL; actual production projectile launch, four physical flight steps, hazard prediction/query and HUD; frozen render clocks; paired friendly/enemy threat. No gameplay performance, network warning or listening claim."
+  },
+  {
+    "suite": "census_cli",
+    "passed": true,
+    "pre_context_invalid_cases": 12,
+    "valid_capture": "separately covered by production GL oracle"
+  },
+  {
+    "suite": "view-projection-actual-gl",
+    "passed": true,
+    "fov45_aircraft_pixels": 3496,
+    "fov90_aircraft_pixels": 590,
+    "authority_unchanged": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-fov-45-aircraft.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fov-90-aircraft.ppm"
+    ],
+    "context": "private Xvfb software GL; initial pose fixture, frozen simulation, cosmetic projection changes only"
+  },
+  {
+    "suite": "dense-client",
+    "passed": true,
+    "actual_GL": true,
+    "runtime_pose_or_damage_writes": false,
+    "frame_peaks": {
+      "scale-front": {
+        "battle_metrics": true,
+        "samples": 120,
+        "simultaneous_projectiles_effects_audio_frames": 118,
+        "peak_living": 8192,
+        "peak_engaged": 3333,
+        "peak_projectiles": 479,
+        "peak_submitted_high": 71,
+        "peak_submitted_low": 2776,
+        "peak_submitted_markers": 5354,
+        "peak_effect_records": 64,
+        "peak_trail_records": 128,
+        "peak_audio_voices": 128,
+        "visible_individual_count": "unmeasured",
+        "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+      },
+      "scale-hotspot": {
+        "battle_metrics": true,
+        "samples": 120,
+        "simultaneous_projectiles_effects_audio_frames": 117,
+        "peak_living": 8192,
+        "peak_engaged": 4522,
+        "peak_projectiles": 480,
+        "peak_submitted_high": 88,
+        "peak_submitted_low": 3950,
+        "peak_submitted_markers": 4166,
+        "peak_effect_records": 64,
+        "peak_trail_records": 128,
+        "peak_audio_voices": 128,
+        "visible_individual_count": "unmeasured",
+        "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+      }
+    },
+    "pixel_visible_actor_count": "unmeasured",
+    "audio_device": "null; waveform routing only"
+  },
+  {
+    "suite": "visibility-actual-gl",
+    "passed": true,
+    "cases": {
+      "three_classes": {
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "observed": [
+          1,
+          1,
+          1
+        ],
+        "expected_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "observed_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "authority_before": "7f3596c3e322642c",
+        "authority_after": "7f3596c3e322642c"
+      },
+      "normal_colour_changed_pixels": 59133,
+      "normal_colour_max_channel_error": 2,
+      "offscreen": {
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "observed": [
+          1,
+          1,
+          1
+        ],
+        "expected_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "observed_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "authority_before": "a133cc80df4a6a20",
+        "authority_after": "a133cc80df4a6a20"
+      },
+      "behind_camera": {
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "observed": [
+          1,
+          1,
+          1
+        ],
+        "expected_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "observed_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "authority_before": "750e4962dded1768",
+        "authority_after": "750e4962dded1768"
+      },
+      "below_terrain": {
+        "expected": [
+          1,
+          1,
+          1
+        ],
+        "observed": [
+          1,
+          1,
+          1
+        ],
+        "expected_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "observed_actor_classes": {
+          "0": [
+            1
+          ],
+          "1": [
+            2
+          ],
+          "2": [
+            3
+          ]
+        },
+        "authority_before": "d1473b30ea7a17c2",
+        "authority_after": "d1473b30ea7a17c2"
+      },
+      "prop_occluded": {
+        "expected": [
+          0,
+          0,
+          0
+        ],
+        "observed": [
+          0,
+          0,
+          0
+        ],
+        "expected_actor_classes": {},
+        "observed_actor_classes": {},
+        "authority_before": "efea21ffa26c6fef",
+        "authority_after": "efea21ffa26c6fef"
+      },
+      "actor_occluded": {
+        "expected": [
+          1,
+          0,
+          0
+        ],
+        "observed": [
+          1,
+          0,
+          0
+        ],
+        "expected_actor_classes": {
+          "0": [
+            1
+          ]
+        },
+        "observed_actor_classes": {
+          "0": [
+            1
+          ]
+        },
+        "authority_before": "2f699590cd08b1e2",
+        "authority_after": "2f699590cd08b1e2"
+      },
+      "no_army": {
+        "expected": [
+          0,
+          0,
+          0
+        ],
+        "observed": [
+          0,
+          0,
+          0
+        ],
+        "expected_actor_classes": {},
+        "observed_actor_classes": {},
+        "authority_before": "a2715a7f7ecddd22",
+        "authority_after": "a2715a7f7ecddd22"
+      },
+      "remote_human_no_army": {
+        "expected": [
+          0,
+          0,
+          0
+        ],
+        "observed": [
+          0,
+          0,
+          0
+        ],
+        "expected_actor_classes": {},
+        "observed_actor_classes": {},
+        "authority_before": "553b1079425de800",
+        "authority_after": "553b1079425de800"
+      }
+    },
+    "render_authority_unchanged": true,
+    "context": "Private Xvfb software OpenGL; frozen development-only poses; actual production source meshes, terrain, bunker and pixel readback. No performance or combat claim."
+  },
+  {
+    "suite": "rendered-aircraft",
+    "passed": true,
+    "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+    "bomber_pixels": 8908,
+    "normalized_silhouette_iou": 0.6224,
+    "bank_changed_pixels": 12052,
+    "trail_changed_pixels": 22,
+    "trail_authority_unchanged": true,
+    "bomb_pixels": 2196,
+    "air_round_pixels": 1196,
+    "actual_bomb_launch": [
+      2169.998291015625,
+      127.34989929199219,
+      1999.5015869140625,
+      6,
+      0,
+      34,
+      36.0,
+      1
+    ],
+    "actual_bomb_impact": [
+      2881.189697265625,
+      15.261004447937012,
+      1996.1678466796875,
+      7,
+      0,
+      176,
+      36.0,
+      2
+    ],
+    "actual_air_gun": [
+      2443.005615234375,
+      155.54965209960938,
+      2499.719970703125,
+      8,
+      1,
+      1,
+      0.0,
+      1
+    ],
+    "actual_air_destroyed": [
+      2345.005615234375,
+      156.0974884033203,
+      2499.706298828125,
+      9,
+      1,
+      15,
+      2.0,
+      11
+    ],
+    "actual_impact_effect_pixels": 2226,
+    "actual_destroy_effect_pixels": 449,
+    "mid_distant_map_absolute_y": true,
+    "stale_generation_fallback": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm"
+    ]
+  },
+  {
+    "suite": "rendered-ground-heading",
+    "passed": true,
+    "fixture": "development-only frozen stamped hull poses; real source meshes and GL",
+    "hull_pixels": 2956,
+    "stationary_pivot_changed_pixels": 2772,
+    "near_mid_distant_map_heading": true,
+    "stale_generation_and_inactive_fallback": true,
+    "render_authority_unchanged": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-ground-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-ground-forward.ppm",
+      "/home/levy/optane-tmp/red-horizon-ground-stationary-pivot.ppm"
+    ]
+  },
+  {
+    "suite": "canonical-road-material-gl",
+    "passed": true,
+    "software_rendered": true,
+    "context": "GL renderer: llvmpipe (LLVM 22.1.8, 256 bits)\nGL version: 4.6 (Compatibility Profile) Mesa 26.2.3",
+    "embedded_fragment_sha256": "ff6c23d88b561f710a27dabf45dba2121a6700f37091a43fa195922f3bf53b29",
+    "client_embedded_source_checked": true,
+    "canonical_segments": 19,
+    "samples": 186,
+    "shoulder_metres": 2,
+    "old_wall_stripes_absent": 3,
+    "connectors_visible": 4,
+    "fixture": "real production NASM-embedded fragment, flat test geometry and diagnostic equal-albedo textures; not gameplay or art acceptance",
+    "screenshot": "/home/levy/optane-tmp/red-horizon-road-dogleg.ppm",
+    "measurements": [
+      {
+        "label": "segment-0-offset-0.0",
+        "world_xz": [
+          2400.0,
+          1300.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-0-offset-9.5",
+        "world_xz": [
+          2400.0,
+          1309.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-0-offset-10.0",
+        "world_xz": [
+          2400.0,
+          1310.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-0-offset-10.5",
+        "world_xz": [
+          2400.0,
+          1310.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-0-offset-11.0",
+        "world_xz": [
+          2400.0,
+          1311.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-0-offset-11.5",
+        "world_xz": [
+          2400.0,
+          1311.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-0-offset-12.1",
+        "world_xz": [
+          2400.0,
+          1312.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-0-offset-20.0",
+        "world_xz": [
+          2400.0,
+          1320.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-1-offset-0.0",
+        "world_xz": [
+          3860.0,
+          1175.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-1-offset-9.5",
+        "world_xz": [
+          3868.5644690459485,
+          1179.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-1-offset-10.0",
+        "world_xz": [
+          3869.015230574683,
+          1179.3273106758477
+        ],
+        "edge_metres": 8.526512829121202e-14,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-1-offset-10.5",
+        "world_xz": [
+          3869.4659921034167,
+          1179.5436762096401
+        ],
+        "edge_metres": 0.49999999999989164,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-1-offset-11.0",
+        "world_xz": [
+          3869.916753632151,
+          1179.7600417434326
+        ],
+        "edge_metres": 1.0000000000001048,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-1-offset-11.5",
+        "world_xz": [
+          3870.367515160885,
+          1179.9764072772248
+        ],
+        "edge_metres": 1.4999999999998082,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-1-offset-12.1",
+        "world_xz": [
+          3870.908428995366,
+          1180.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-1-offset-20.0",
+        "world_xz": [
+          3878.0304611493657,
+          1183.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-2-offset-0.0",
+        "world_xz": [
+          4000.0,
+          1050.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-2-offset-9.5",
+        "world_xz": [
+          4000.0,
+          1059.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-2-offset-10.0",
+        "world_xz": [
+          4000.0,
+          1060.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-2-offset-10.5",
+        "world_xz": [
+          4000.0,
+          1060.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-2-offset-11.0",
+        "world_xz": [
+          4000.0,
+          1061.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-2-offset-11.5",
+        "world_xz": [
+          4000.0,
+          1061.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-2-offset-12.1",
+        "world_xz": [
+          4000.0,
+          1062.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-2-offset-20.0",
+        "world_xz": [
+          4000.0,
+          1070.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-3-offset-0.0",
+        "world_xz": [
+          4140.0,
+          1175.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-3-offset-9.5",
+        "world_xz": [
+          4131.4355309540515,
+          1179.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-3-offset-10.0",
+        "world_xz": [
+          4130.984769425318,
+          1179.3273106758477
+        ],
+        "edge_metres": -3.2152058793144533e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-3-offset-10.5",
+        "world_xz": [
+          4130.534007896583,
+          1179.5436762096401
+        ],
+        "edge_metres": 0.5000000000002984,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-3-offset-11.0",
+        "world_xz": [
+          4130.083246367849,
+          1179.7600417434326
+        ],
+        "edge_metres": 1.0000000000001048,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-3-offset-11.5",
+        "world_xz": [
+          4129.632484839115,
+          1179.9764072772248
+        ],
+        "edge_metres": 1.4999999999998082,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-3-offset-12.1",
+        "world_xz": [
+          4129.091571004634,
+          1180.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-3-offset-20.0",
+        "world_xz": [
+          4121.969538850634,
+          1183.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-4-offset-0.0",
+        "world_xz": [
+          5600.0,
+          1300.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-4-offset-9.5",
+        "world_xz": [
+          5600.0,
+          1309.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-4-offset-10.0",
+        "world_xz": [
+          5600.0,
+          1310.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-4-offset-10.5",
+        "world_xz": [
+          5600.0,
+          1310.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-4-offset-11.0",
+        "world_xz": [
+          5600.0,
+          1311.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-4-offset-11.5",
+        "world_xz": [
+          5600.0,
+          1311.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-4-offset-12.1",
+        "world_xz": [
+          5600.0,
+          1312.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-4-offset-20.0",
+        "world_xz": [
+          5600.0,
+          1320.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-5-offset-0.0",
+        "world_xz": [
+          2400.0,
+          3900.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-5-offset-9.5",
+        "world_xz": [
+          2400.0,
+          3909.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-5-offset-10.0",
+        "world_xz": [
+          2400.0,
+          3910.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-5-offset-10.5",
+        "world_xz": [
+          2400.0,
+          3910.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-5-offset-11.0",
+        "world_xz": [
+          2400.0,
+          3911.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-5-offset-11.5",
+        "world_xz": [
+          2400.0,
+          3911.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-5-offset-12.1",
+        "world_xz": [
+          2400.0,
+          3912.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-5-offset-20.0",
+        "world_xz": [
+          2400.0,
+          3920.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-6-offset-0.0",
+        "world_xz": [
+          3860.0,
+          3775.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-6-offset-9.5",
+        "world_xz": [
+          3868.5644690459485,
+          3779.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-6-offset-10.0",
+        "world_xz": [
+          3869.015230574683,
+          3779.327310675848
+        ],
+        "edge_metres": 1.8118839761882555e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-6-offset-10.5",
+        "world_xz": [
+          3869.4659921034167,
+          3779.54367620964
+        ],
+        "edge_metres": 0.49999999999989164,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-6-offset-11.0",
+        "world_xz": [
+          3869.916753632151,
+          3779.7600417434323
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-6-offset-11.5",
+        "world_xz": [
+          3870.367515160885,
+          3779.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-6-offset-12.1",
+        "world_xz": [
+          3870.908428995366,
+          3780.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-6-offset-20.0",
+        "world_xz": [
+          3878.0304611493657,
+          3783.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-7-offset-0.0",
+        "world_xz": [
+          4000.0,
+          3650.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-7-offset-9.5",
+        "world_xz": [
+          4000.0,
+          3659.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-7-offset-10.0",
+        "world_xz": [
+          4000.0,
+          3660.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-7-offset-10.5",
+        "world_xz": [
+          4000.0,
+          3660.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-7-offset-11.0",
+        "world_xz": [
+          4000.0,
+          3661.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-7-offset-11.5",
+        "world_xz": [
+          4000.0,
+          3661.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-7-offset-12.1",
+        "world_xz": [
+          4000.0,
+          3662.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-7-offset-20.0",
+        "world_xz": [
+          4000.0,
+          3670.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-8-offset-0.0",
+        "world_xz": [
+          4140.0,
+          3775.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-8-offset-9.5",
+        "world_xz": [
+          4131.4355309540515,
+          3779.1109451420552
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-8-offset-10.0",
+        "world_xz": [
+          4130.984769425318,
+          3779.327310675848
+        ],
+        "edge_metres": -2.255973186038318e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-8-offset-10.5",
+        "world_xz": [
+          4130.534007896583,
+          3779.54367620964
+        ],
+        "edge_metres": 0.5000000000002984,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-8-offset-11.0",
+        "world_xz": [
+          4130.083246367849,
+          3779.7600417434323
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-8-offset-11.5",
+        "world_xz": [
+          4129.632484839115,
+          3779.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-8-offset-12.1",
+        "world_xz": [
+          4129.091571004634,
+          3780.2360459177758
+        ],
+        "edge_metres": 2.100000000000085,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-8-offset-20.0",
+        "world_xz": [
+          4121.969538850634,
+          3783.6546213516954
+        ],
+        "edge_metres": 10.000000000000178,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-9-offset-0.0",
+        "world_xz": [
+          5600.0,
+          3900.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-9-offset-9.5",
+        "world_xz": [
+          5600.0,
+          3909.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          169,
+          70,
+          0
+        ],
+        "gravel_fraction": 0.7071129707112971
+      },
+      {
+        "label": "segment-9-offset-10.0",
+        "world_xz": [
+          5600.0,
+          3910.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          169,
+          70,
+          0
+        ],
+        "gravel_fraction": 0.7071129707112971
+      },
+      {
+        "label": "segment-9-offset-10.5",
+        "world_xz": [
+          5600.0,
+          3910.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          143,
+          96,
+          0
+        ],
+        "gravel_fraction": 0.5983263598326359
+      },
+      {
+        "label": "segment-9-offset-11.0",
+        "world_xz": [
+          5600.0,
+          3911.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          85,
+          154,
+          0
+        ],
+        "gravel_fraction": 0.35564853556485354
+      },
+      {
+        "label": "segment-9-offset-11.5",
+        "world_xz": [
+          5600.0,
+          3911.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          26,
+          213,
+          0
+        ],
+        "gravel_fraction": 0.1087866108786611
+      },
+      {
+        "label": "segment-9-offset-12.1",
+        "world_xz": [
+          5600.0,
+          3912.1
+        ],
+        "edge_metres": 2.099999999999909,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-9-offset-20.0",
+        "world_xz": [
+          5600.0,
+          3920.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-10-offset-0.0",
+        "world_xz": [
+          2400.0,
+          6500.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-10-offset-9.5",
+        "world_xz": [
+          2400.0,
+          6509.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-10-offset-10.0",
+        "world_xz": [
+          2400.0,
+          6510.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-10-offset-10.5",
+        "world_xz": [
+          2400.0,
+          6510.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-10-offset-11.0",
+        "world_xz": [
+          2400.0,
+          6511.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-10-offset-11.5",
+        "world_xz": [
+          2400.0,
+          6511.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-10-offset-12.1",
+        "world_xz": [
+          2400.0,
+          6512.1
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-10-offset-20.0",
+        "world_xz": [
+          2400.0,
+          6520.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-11-offset-0.0",
+        "world_xz": [
+          3860.0,
+          6375.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-11-offset-9.5",
+        "world_xz": [
+          3868.5644690459485,
+          6379.110945142055
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-11-offset-10.0",
+        "world_xz": [
+          3869.015230574683,
+          6379.327310675848
+        ],
+        "edge_metres": 1.8118839761882555e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-11-offset-10.5",
+        "world_xz": [
+          3869.4659921034167,
+          6379.54367620964
+        ],
+        "edge_metres": 0.49999999999969447,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-11-offset-11.0",
+        "world_xz": [
+          3869.916753632151,
+          6379.760041743432
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-11-offset-11.5",
+        "world_xz": [
+          3870.367515160885,
+          6379.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-11-offset-12.1",
+        "world_xz": [
+          3870.908428995366,
+          6380.236045917775
+        ],
+        "edge_metres": 2.0999999999998877,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-11-offset-20.0",
+        "world_xz": [
+          3878.0304611493657,
+          6383.654621351696
+        ],
+        "edge_metres": 10.00000000000037,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-12-offset-0.0",
+        "world_xz": [
+          4000.0,
+          6250.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-12-offset-9.5",
+        "world_xz": [
+          4000.0,
+          6259.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-12-offset-10.0",
+        "world_xz": [
+          4000.0,
+          6260.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-12-offset-10.5",
+        "world_xz": [
+          4000.0,
+          6260.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-12-offset-11.0",
+        "world_xz": [
+          4000.0,
+          6261.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-12-offset-11.5",
+        "world_xz": [
+          4000.0,
+          6261.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-12-offset-12.1",
+        "world_xz": [
+          4000.0,
+          6262.1
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-12-offset-20.0",
+        "world_xz": [
+          4000.0,
+          6270.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-13-offset-0.0",
+        "world_xz": [
+          4140.0,
+          6375.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-13-offset-9.5",
+        "world_xz": [
+          4131.4355309540515,
+          6379.110945142055
+        ],
+        "edge_metres": -0.5000000000001261,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-13-offset-10.0",
+        "world_xz": [
+          4130.984769425318,
+          6379.327310675848
+        ],
+        "edge_metres": -2.255973186038318e-13,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-13-offset-10.5",
+        "world_xz": [
+          4130.534007896583,
+          6379.54367620964
+        ],
+        "edge_metres": 0.5000000000001013,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-13-offset-11.0",
+        "world_xz": [
+          4130.083246367849,
+          6379.760041743432
+        ],
+        "edge_metres": 1.0000000000000089,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-13-offset-11.5",
+        "world_xz": [
+          4129.632484839115,
+          6379.976407277225
+        ],
+        "edge_metres": 1.499999999999904,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-13-offset-12.1",
+        "world_xz": [
+          4129.091571004634,
+          6380.236045917775
+        ],
+        "edge_metres": 2.0999999999998877,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-13-offset-20.0",
+        "world_xz": [
+          4121.969538850634,
+          6383.654621351696
+        ],
+        "edge_metres": 10.00000000000037,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-14-offset-0.0",
+        "world_xz": [
+          5600.0,
+          6500.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-14-offset-9.5",
+        "world_xz": [
+          5600.0,
+          6509.5
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-14-offset-10.0",
+        "world_xz": [
+          5600.0,
+          6510.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-14-offset-10.5",
+        "world_xz": [
+          5600.0,
+          6510.5
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-14-offset-11.0",
+        "world_xz": [
+          5600.0,
+          6511.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-14-offset-11.5",
+        "world_xz": [
+          5600.0,
+          6511.5
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-14-offset-12.1",
+        "world_xz": [
+          5600.0,
+          6512.1
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-14-offset-20.0",
+        "world_xz": [
+          5600.0,
+          6520.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-15-offset-0.0",
+        "world_xz": [
+          1000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-15-offset-9.5",
+        "world_xz": [
+          990.5,
+          2600.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-15-offset-10.0",
+        "world_xz": [
+          990.0,
+          2600.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-15-offset-10.5",
+        "world_xz": [
+          989.5,
+          2600.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-15-offset-11.0",
+        "world_xz": [
+          989.0,
+          2600.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-15-offset-11.5",
+        "world_xz": [
+          988.5,
+          2600.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-15-offset-12.1",
+        "world_xz": [
+          987.9,
+          2600.0
+        ],
+        "edge_metres": 2.1000000000000227,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-15-offset-20.0",
+        "world_xz": [
+          980.0,
+          2600.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-16-offset-0.0",
+        "world_xz": [
+          1000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-16-offset-9.5",
+        "world_xz": [
+          990.5,
+          5200.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-16-offset-10.0",
+        "world_xz": [
+          990.0,
+          5200.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-16-offset-10.5",
+        "world_xz": [
+          989.5,
+          5200.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-16-offset-11.0",
+        "world_xz": [
+          989.0,
+          5200.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-16-offset-11.5",
+        "world_xz": [
+          988.5,
+          5200.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-16-offset-12.1",
+        "world_xz": [
+          987.9,
+          5200.0
+        ],
+        "edge_metres": 2.1000000000000227,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-16-offset-20.0",
+        "world_xz": [
+          980.0,
+          5200.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-17-offset-0.0",
+        "world_xz": [
+          7000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-17-offset-9.5",
+        "world_xz": [
+          6990.5,
+          2600.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-17-offset-10.0",
+        "world_xz": [
+          6990.0,
+          2600.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-17-offset-10.5",
+        "world_xz": [
+          6989.5,
+          2600.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-17-offset-11.0",
+        "world_xz": [
+          6989.0,
+          2600.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-17-offset-11.5",
+        "world_xz": [
+          6988.5,
+          2600.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-17-offset-12.1",
+        "world_xz": [
+          6987.9,
+          2600.0
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-17-offset-20.0",
+        "world_xz": [
+          6980.0,
+          2600.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-18-offset-0.0",
+        "world_xz": [
+          7000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-18-offset-9.5",
+        "world_xz": [
+          6990.5,
+          5200.0
+        ],
+        "edge_metres": -0.5,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-18-offset-10.0",
+        "world_xz": [
+          6990.0,
+          5200.0
+        ],
+        "edge_metres": 0.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "segment-18-offset-10.5",
+        "world_xz": [
+          6989.5,
+          5200.0
+        ],
+        "edge_metres": 0.5,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "segment-18-offset-11.0",
+        "world_xz": [
+          6989.0,
+          5200.0
+        ],
+        "edge_metres": 1.0,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "segment-18-offset-11.5",
+        "world_xz": [
+          6988.5,
+          5200.0
+        ],
+        "edge_metres": 1.5,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "segment-18-offset-12.1",
+        "world_xz": [
+          6987.9,
+          5200.0
+        ],
+        "edge_metres": 2.100000000000364,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "segment-18-offset-20.0",
+        "world_xz": [
+          6980.0,
+          5200.0
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "old-wall-crossing-1300.0",
+        "world_xz": [
+          4000.0,
+          1300.0
+        ],
+        "edge_metres": 170.3046114936547,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "dogleg-1300.0",
+        "world_xz": [
+          4000.0,
+          1050.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "old-wall-crossing-3900.0",
+        "world_xz": [
+          4000.0,
+          3900.0
+        ],
+        "edge_metres": 170.3046114936547,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "dogleg-3900.0",
+        "world_xz": [
+          4000.0,
+          3650.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "old-wall-crossing-6500.0",
+        "world_xz": [
+          4000.0,
+          6500.0
+        ],
+        "edge_metres": 170.3046114936547,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "dogleg-6500.0",
+        "world_xz": [
+          4000.0,
+          6250.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-1000.0-2600.0",
+        "world_xz": [
+          1000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-1000.0-5200.0",
+        "world_xz": [
+          1000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-7000.0-2600.0",
+        "world_xz": [
+          7000.0,
+          2600.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "connector-7000.0-5200.0",
+        "world_xz": [
+          7000.0,
+          5200.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-0.0",
+        "world_xz": [
+          3920.0,
+          1050.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-9.5",
+        "world_xz": [
+          3913.2824855787276,
+          1043.2824855787278
+        ],
+        "edge_metres": -0.4999999999998437,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-10.0",
+        "world_xz": [
+          3912.9289321881347,
+          1042.9289321881345
+        ],
+        "edge_metres": -7.993605777301127e-14,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-1050.0-10.5",
+        "world_xz": [
+          3912.5753787975414,
+          1042.5753787975414
+        ],
+        "edge_metres": 0.4999999999998437,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "corner-cap-1050.0-11.0",
+        "world_xz": [
+          3912.221825406948,
+          1042.221825406948
+        ],
+        "edge_metres": 0.9999999999999272,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "corner-cap-1050.0-11.5",
+        "world_xz": [
+          3911.8682720163547,
+          1041.8682720163547
+        ],
+        "edge_metres": 1.5000000000000124,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "corner-cap-1050.0-12.1",
+        "world_xz": [
+          3911.4440079476426,
+          1041.4440079476428
+        ],
+        "edge_metres": 2.1000000000000814,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-1050.0-20.0",
+        "world_xz": [
+          3905.857864376269,
+          1035.8578643762692
+        ],
+        "edge_metres": 10.0,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-3650.0-0.0",
+        "world_xz": [
+          3920.0,
+          3650.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-3650.0-9.5",
+        "world_xz": [
+          3913.2824855787276,
+          3643.2824855787276
+        ],
+        "edge_metres": -0.49999999999968203,
+        "rgb": [
+          170,
+          69,
+          0
+        ],
+        "gravel_fraction": 0.7112970711297071
+      },
+      {
+        "label": "corner-cap-3650.0-10.0",
+        "world_xz": [
+          3912.9289321881347,
+          3642.9289321881347
+        ],
+        "edge_metres": -2.4158453015843406e-13,
+        "rgb": [
+          170,
+          70,
+          0
+        ],
+        "gravel_fraction": 0.7083333333333334
+      },
+      {
+        "label": "corner-cap-3650.0-10.5",
+        "world_xz": [
+          3912.5753787975414,
+          3642.5753787975414
+        ],
+        "edge_metres": 0.4999999999998437,
+        "rgb": [
+          142,
+          97,
+          0
+        ],
+        "gravel_fraction": 0.5941422594142259
+      },
+      {
+        "label": "corner-cap-3650.0-11.0",
+        "world_xz": [
+          3912.221825406948,
+          3642.221825406948
+        ],
+        "edge_metres": 0.9999999999999272,
+        "rgb": [
+          84,
+          155,
+          0
+        ],
+        "gravel_fraction": 0.3514644351464435
+      },
+      {
+        "label": "corner-cap-3650.0-11.5",
+        "world_xz": [
+          3911.8682720163547,
+          3641.8682720163547
+        ],
+        "edge_metres": 1.5000000000000124,
+        "rgb": [
+          26,
+          213,
+          0
+        ],
+        "gravel_fraction": 0.1087866108786611
+      },
+      {
+        "label": "corner-cap-3650.0-12.1",
+        "world_xz": [
+          3911.4440079476426,
+          3641.4440079476426
+        ],
+        "edge_metres": 2.100000000000243,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-3650.0-20.0",
+        "world_xz": [
+          3905.857864376269,
+          3635.857864376269
+        ],
+        "edge_metres": 10.00000000000016,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-6250.0-0.0",
+        "world_xz": [
+          3920.0,
+          6250.0
+        ],
+        "edge_metres": -10.0,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-6250.0-9.5",
+        "world_xz": [
+          3913.2824855787276,
+          6243.282485578728
+        ],
+        "edge_metres": -0.49999999999968203,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-6250.0-10.0",
+        "world_xz": [
+          3912.9289321881347,
+          6242.928932188134
+        ],
+        "edge_metres": 7.993605777301127e-14,
+        "rgb": [
+          172,
+          67,
+          0
+        ],
+        "gravel_fraction": 0.7196652719665272
+      },
+      {
+        "label": "corner-cap-6250.0-10.5",
+        "world_xz": [
+          3912.5753787975414,
+          6242.575378797541
+        ],
+        "edge_metres": 0.5000000000001652,
+        "rgb": [
+          145,
+          94,
+          0
+        ],
+        "gravel_fraction": 0.606694560669456
+      },
+      {
+        "label": "corner-cap-6250.0-11.0",
+        "world_xz": [
+          3912.221825406948,
+          6242.221825406948
+        ],
+        "edge_metres": 1.0000000000002505,
+        "rgb": [
+          86,
+          153,
+          0
+        ],
+        "gravel_fraction": 0.3598326359832636
+      },
+      {
+        "label": "corner-cap-6250.0-11.5",
+        "world_xz": [
+          3911.8682720163547,
+          6241.868272016355
+        ],
+        "edge_metres": 1.499999999999691,
+        "rgb": [
+          27,
+          212,
+          0
+        ],
+        "gravel_fraction": 0.11297071129707113
+      },
+      {
+        "label": "corner-cap-6250.0-12.1",
+        "world_xz": [
+          3911.4440079476426,
+          6241.444007947643
+        ],
+        "edge_metres": 2.100000000000243,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      },
+      {
+        "label": "corner-cap-6250.0-20.0",
+        "world_xz": [
+          3905.857864376269,
+          6235.857864376269
+        ],
+        "edge_metres": 9.99999999999984,
+        "rgb": [
+          0,
+          239,
+          0
+        ],
+        "gravel_fraction": 0.0
+      }
+    ]
+  },
+  {
+    "suite": "client-environment",
+    "passed": true,
+    "preset_sky_rgb": {
+      "clear": [
+        68.24971111111111,
+        113.66586666666667,
+        154.62864444444443
+      ],
+      "overcast": [
+        96.30802222222222,
+        115.62815555555555,
+        130.85966666666667
+      ],
+      "rain": [
+        120.98948888888889,
+        133.69166666666666,
+        142.1524222222222
+      ],
+      "fog": [
+        84.3832,
+        109.2438,
+        130.02484444444445
+      ]
+    },
+    "preset_ground_rgb": {
+      "clear": [
+        127.8163,
+        114.35083333333333,
+        89.1883
+      ],
+      "overcast": [
+        113.43146666666667,
+        101.4971,
+        79.2647
+      ],
+      "rain": [
+        74.2183,
+        66.95373333333333,
+        53.47983333333333
+      ],
+      "fog": [
+        116.39963333333333,
+        105.47573333333334,
+        84.1407
+      ]
+    },
+    "source_ground_range": [
+      115,
+      141
+    ],
+    "actual_F4_all_presets": true,
+    "player_authority_unchanged": true,
+    "frozen_fixture_rain_motion": [
+      {
+        "view": "forward",
+        "visible_pixels": [
+          500,
+          488
+        ],
+        "moved_pixels": 968
+      },
+      {
+        "view": "side",
+        "visible_pixels": [
+          449,
+          701
+        ],
+        "moved_pixels": 1150
+      }
+    ],
+    "off_corridor_grass": "/tmp/rh-weather-off-corridor-grass.ppm",
+    "screenshots": [
+      "/tmp/rh-weather-clear.ppm",
+      "/tmp/rh-weather-overcast.ppm",
+      "/tmp/rh-weather-rain.ppm",
+      "/tmp/rh-weather-fog.ppm"
+    ]
+  },
+  {
+    "suite": "animated-source-meshes",
+    "passed": true,
+    "idle_frames": [
+      7,
+      11
+    ],
+    "idle_changed_pixels": 647,
+    "walk_frame": 20,
+    "walk_blend": 0.8541297912597656,
+    "actual_actor_moved_metres": 1.5588149485023772,
+    "stationary_tracks_frozen": true,
+    "source_meshes": 18,
+    "initial_lod_counts": [
+      68,
+      2546,
+      5578
+    ],
+    "stdout": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":139,\"gpu_samples\":130,\"cpu_frame_mean_ms\":25.939784,\"cpu_frame_p95_ms\":35.148597,\"cpu_frame_p99_ms\":503.016132,\"gpu_draw_mean_ms\":2.602091,\"gpu_draw_p95_ms\":4.083400,\"gpu_draw_p99_ms\":4.855712}\n{\"battle_metrics\":true,\"samples\":138,\"simultaneous_projectiles_effects_audio_frames\":67,\"peak_living\":8192,\"peak_engaged\":1128,\"peak_projectiles\":480,\"peak_submitted_high\":70,\"peak_submitted_low\":2546,\"peak_submitted_markers\":8190,\"peak_effect_records\":58,\"peak_trail_records\":32,\"peak_audio_voices\":44,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=2 low=0 markers=7944 source_triangles=34913 animation_frame=9\nclient frames=138 submitted_entities=8192 screenshot=(none)\ncamera_x=2000.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=0\noperation state=0 req=178 supply=600 waypoint_orders=1\nselected_goal_x=1997.812 selected_goal_z=4000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n"
+  },
+  {
+    "suite": "rendered-shell-lifecycle",
+    "passed": true,
+    "fixture": "development-only pose/pool writes; real GL renderer; simulation clock frozen",
+    "inactive_damage": 80,
+    "active_horizontal_pixels": 700,
+    "active_vertical_pixels": 700,
+    "horizontal_extent": [
+      62,
+      12
+    ],
+    "vertical_extent": [
+      12,
+      62
+    ],
+    "deactivated_gold_pixels": 0,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-shell-baseline.ppm",
+      "/home/levy/optane-tmp/red-horizon-shell-inactive-damage80.ppm",
+      "/home/levy/optane-tmp/red-horizon-shell-active-horizontal.ppm",
+      "/home/levy/optane-tmp/red-horizon-shell-active-vertical.ppm",
+      "/home/levy/optane-tmp/red-horizon-shell-deactivated.ppm"
+    ]
+  },
+  {
+    "suite": "rendered-tracer",
+    "passed": true,
+    "shots": 3,
+    "tracers": 1,
+    "yellow_pixels": 150,
+    "screenshot": "/tmp/red-horizon-tracer.ppm",
+    "shell_source": 12,
+    "impact_pixels": 138,
+    "impact_events": 61,
+    "event_sequence": 482,
+    "actual_launch": [
+      2000.0,
+      19.00979995727539,
+      3860.0,
+      1,
+      0,
+      48,
+      18.0,
+      443
+    ],
+    "actual_impact": [
+      2000.0,
+      18.000225067138672,
+      3979.9970703125,
+      3,
+      0,
+      59,
+      18.0,
+      481
+    ],
+    "drive_metres": 0.5742662890211968,
+    "cannon_launch": [
+      2000.453857421875,
+      19.007917404174805,
+      3860.48193359375,
+      1,
+      0,
+      86,
+      18.0,
+      522
+    ],
+    "cannon_hud_pixel": [
+      255,
+      168,
+      51
+    ],
+    "fixture": "development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL",
+    "observer_enemy_metres": 200,
+    "pool_before_encounter": 295,
+    "control_terrain_orange_pixels": 170605,
+    "paired_changed_pixels": 312,
+    "paired_render_authority_unchanged": true,
+    "paired_acquired_effects_restored": true
+  },
+  {
+    "suite": "authoritative-client-gameplay",
+    "passed": true,
+    "spawn": {
+      "x": 3780.0,
+      "y": 26.903400421142578,
+      "z": 3900.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 1,
+      "connected": 1,
+      "shots": 0,
+      "hits": 0,
+      "suppression": 0,
+      "generation": 1
+    },
+    "moved_metres": 2.167724609375,
+    "final": {
+      "x": 1000.0,
+      "y": 26.44499969482422,
+      "z": 1300.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 1,
+      "connected": 1,
+      "shots": 34,
+      "hits": 1,
+      "suppression": 0,
+      "generation": 3
+    },
+    "rendered_health_title": true,
+    "accepted_hits": 1,
+    "redeploy_pixel": [
+      230,
+      56,
+      41
+    ],
+    "damaged": {
+      "x": 2000.0,
+      "y": 17.80500030517578,
+      "z": 3900.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 90,
+      "ammo": 26,
+      "reload": 0,
+      "cooldown": 1,
+      "respawn": 0,
+      "front": 1,
+      "connected": 1,
+      "shots": 34,
+      "hits": 1,
+      "suppression": 25,
+      "generation": 2
+    },
+    "dead": {
+      "x": 2000.0,
+      "y": 17.80500030517578,
+      "z": 3900.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 0,
+      "ammo": 26,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 30,
+      "front": 1,
+      "connected": 1,
+      "shots": 34,
+      "hits": 1,
+      "suppression": 100,
+      "generation": 2
+    },
+    "redeployed": {
+      "x": 1000.0,
+      "y": 26.44499969482422,
+      "z": 1300.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 1,
+      "connected": 1,
+      "shots": 34,
+      "hits": 1,
+      "suppression": 0,
+      "generation": 3
+    },
+    "stdout": "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":670,\"gpu_samples\":661,\"cpu_frame_mean_ms\":20.605475,\"cpu_frame_p95_ms\":38.362298,\"cpu_frame_p99_ms\":43.683750,\"gpu_draw_mean_ms\":2.646677,\"gpu_draw_p95_ms\":4.054454,\"gpu_draw_p99_ms\":5.396971}\n{\"battle_metrics\":true,\"samples\":669,\"simultaneous_projectiles_effects_audio_frames\":661,\"peak_living\":8192,\"peak_engaged\":1152,\"peak_projectiles\":480,\"peak_submitted_high\":92,\"peak_submitted_low\":2547,\"peak_submitted_markers\":7691,\"peak_effect_records\":64,\"peak_trail_records\":128,\"peak_audio_voices\":128,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=0 low=0 markers=7230 source_triangles=0 animation_frame=34\nclient frames=669 submitted_entities=8192 screenshot=(none)\ncamera_x=1000.00 camera_z=1300.00 shots=34 hits=1 last_order=0\nweapon ammo=30 reloads=1 front=1\noperation state=0 req=607 supply=600 waypoint_orders=0\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=3\nstart_player_x=3780.000 start_player_z=3900.000\n"
+  },
+  {
+    "suite": "graphical-coop",
+    "passed": true,
+    "port": 60795,
+    "starts": [
+      {
+        "x": 3780.0,
+        "y": 30.543399810791016,
+        "z": 1300.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 0,
+        "connected": 1,
+        "shots": 0,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 1
+      },
+      {
+        "x": 3780.0,
+        "y": 26.903400421142578,
+        "z": 3900.0,
+        "yaw": 0.0,
+        "pitch": 0.0,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 0,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 1
+      }
+    ],
+    "remote_player_pixels": [
+      33,
+      35
+    ],
+    "final": [
+      {
+        "x": 1000.0,
+        "y": 26.44499969482422,
+        "z": 1300.0,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 0,
+        "connected": 1,
+        "shots": 4,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 4
+      },
+      {
+        "x": 1001.61328125,
+        "y": 26.43227767944336,
+        "z": 1301.127685546875,
+        "yaw": 0.0,
+        "pitch": -0.03999999910593033,
+        "hp": 100,
+        "ammo": 30,
+        "reload": 0,
+        "cooldown": 0,
+        "respawn": 0,
+        "front": 1,
+        "connected": 1,
+        "shots": 4,
+        "hits": 0,
+        "suppression": 0,
+        "generation": 2
+      }
+    ],
+    "cost": 5,
+    "rejected_ack_preserved_goal": true,
+    "network_gui_board_drive_cannon_exit": true,
+    "network_gui_crouch_jump": true,
+    "network_camera_crouch_jump": true,
+    "recorded_spatial_audio_live_routing": true,
+    "recorded_footsteps_live_routing": true,
+    "replicated_shell_changed_pixels": 4,
+    "replicated_shell_screen_position": [
+      640,
+      360
+    ],
+    "replicated_shell_restored": true,
+    "replicated_shell_authority_unchanged": true,
+    "replicated_shell_screenshot": "/tmp/red-horizon-network-projectile-visible.ppm",
+    "owned_goal": [
+      4994.375,
+      3904.444091796875
+    ],
+    "dead": {
+      "x": 2000.0,
+      "y": 17.80500030517578,
+      "z": 3900.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 0,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 30,
+      "front": 0,
+      "connected": 1,
+      "shots": 4,
+      "hits": 0,
+      "suppression": 100,
+      "generation": 3
+    },
+    "recovered": {
+      "x": 1000.0,
+      "y": 26.44499969482422,
+      "z": 1300.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 0,
+      "connected": 1,
+      "shots": 4,
+      "hits": 0,
+      "suppression": 0,
+      "generation": 4
+    },
+    "client_stdout": [
+      "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":1110,\"gpu_samples\":1101,\"cpu_frame_mean_ms\":17.768040,\"cpu_frame_p95_ms\":32.954902,\"cpu_frame_p99_ms\":36.158714,\"gpu_draw_mean_ms\":3.740867,\"gpu_draw_p95_ms\":6.833373,\"gpu_draw_p99_ms\":8.414952}\n{\"battle_metrics\":true,\"samples\":1109,\"simultaneous_projectiles_effects_audio_frames\":0,\"peak_living\":8192,\"peak_engaged\":0,\"peak_projectiles\":0,\"peak_submitted_high\":103,\"peak_submitted_low\":2466,\"peak_submitted_markers\":2515,\"peak_effect_records\":64,\"peak_trail_records\":0,\"peak_audio_voices\":128,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=0 low=0 markers=13 source_triangles=0 animation_frame=14\nclient frames=1109 submitted_entities=8192 screenshot=(none)\ncamera_x=1000.00 camera_z=1300.00 shots=4 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=0\noperation state=0 req=831 supply=600 waypoint_orders=1\nselected_goal_x=4994.375 selected_goal_z=3904.444\nplayer id=0 hp=100 suppression=0 respawn=0 generation=4\nstart_player_x=3780.000 start_player_z=1300.000\nnetwork connected=1 player=0 front=0 server_tick=594 known_living=11 local_sim_ticks=0\n",
+      "4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":1230,\"gpu_samples\":1221,\"cpu_frame_mean_ms\":16.195886,\"cpu_frame_p95_ms\":28.128082,\"cpu_frame_p99_ms\":32.323271,\"gpu_draw_mean_ms\":3.426870,\"gpu_draw_p95_ms\":6.545565,\"gpu_draw_p99_ms\":8.462326}\n{\"battle_metrics\":true,\"samples\":1229,\"simultaneous_projectiles_effects_audio_frames\":0,\"peak_living\":8192,\"peak_engaged\":0,\"peak_projectiles\":0,\"peak_submitted_high\":87,\"peak_submitted_low\":2469,\"peak_submitted_markers\":1868,\"peak_effect_records\":64,\"peak_trail_records\":0,\"peak_audio_voices\":128,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=1 low=10 markers=1 source_triangles=34880 animation_frame=5\nclient frames=1229 submitted_entities=8192 screenshot=(none)\ncamera_x=1001.61 camera_z=1301.13 shots=4 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=870 supply=600 waypoint_orders=1\nselected_goal_x=5000.000 selected_goal_z=3900.000\nplayer id=1 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=3900.000\nnetwork connected=1 player=1 front=1 server_tick=603 known_living=12 local_sim_ticks=0\n"
+    ]
+  }
+]

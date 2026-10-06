@@ -1,0 +1,93 @@
+{
+  "status": "verified integrated road/handling slice; full-game goal active",
+  "goal": "full specification remains active",
+  "root_runtime_commit": "53d2211",
+  "content_fingerprint": "0x321a5da9",
+  "content_sha256": "321a5da948d4e67e4be105cd86330d18d87719d949995112c42de0bc5929ca95",
+  "surface_policy": {
+    "tank_offroad": 0.8,
+    "artillery_offroad": 0.7,
+    "body_rule": "entire nominal body circle inside one capsule; union-junction conservative false negatives",
+    "boundary_rule": "scale desired speed/acceleration/reverse; retain bounded brake/yaw/contact; no velocity clamp"
+  },
+  "first_failed_jobs": [
+    "d85662117334",
+    "68284a947b16",
+    "5bb52464fde3",
+    "3245e9dd2705"
+  ],
+  "failures_and_fixes": {
+    "held_artillery": "original360ticks7.466m short; bounded6m AIbodypreview fixes samefixture withoriginalcaps/radii",
+    "wall_arrival": "1200tick24mm short; exactdiscretebraking envelope fixes original2mm/last10settlingdeadline",
+    "content_assertion": "207.332s full candidate failed stale asset-only assertion; independent combined assets/roads/policy reconstruction and dynamic actual asset hash fixed; extended network passed68.004s",
+    "build_json": "274.569s full candidate passed51reports then tooling JSONDecodeError; route validator diagnostics to stderr, preserve exactly one build result on stdout"
+  },
+  "fixture_changes": [
+    "originalwaypointsteadycaps have explicit paved starts; original.5/.2caps unchanged",
+    "original18m30tickdriving gate uses explicit pavement; cannon/ownership/map/health guards unchanged"
+  ],
+  "verified_focused_jobs": [
+    "c4ca2beb8683",
+    "8526a8d6f9cd"
+  ],
+  "benchmark_jobs": [
+    "a3893de26737",
+    "ca39d2deea0b"
+  ],
+  "benchmark_scope": "single-thread900tickCPU, overlappedfullverification; notcausalspeedup orGPU/4renderedclients",
+  "limits": [
+    "No road-preferring route planner",
+    "No meaningful slopes in root terrain or grade rejection yet",
+    "No wheeled roster, oriented hulls, suspension, damage handling or wreck cover",
+    "Full operation/platform/jobs/streaming/craft/4client acceptance remains required"
+  ],
+  "compatibility_commit": "945ef20",
+  "verified_network_job": "86596fd2f3d4",
+  "prepared_next": {
+    "contract": "c5b0cd3",
+    "component": "90706d5",
+    "evidence": "docs/evidence/terrain-relief-prepared.json",
+    "integrated": false
+  },
+  "content_negative_controls": "docs/evidence/ground-surfaces-content-negative.json",
+  "root_compatibility_source": "945ef20be736bdc0bc5064acc5311e006073b4dd",
+  "all_workers_terminal": true,
+  "road_image": "docs/evidence/ground-surfaces-road-image.json",
+  "tooling_commit": "a429a7d",
+  "verified_tools_job": "0f44d5647492",
+  "verified_graphics_job": "7617cf75db83",
+  "accepted_full_job": "2804557c94cf",
+  "accepted_revision": "a429a7d9ab1715b7eeb654d068f4df196f5db265-705642d9b424ab30",
+  "accepted_seconds": 497.17989148200286,
+  "accepted_report_count": 76,
+  "authored_input_count": 158,
+  "current_source_mismatches": [],
+  "all_batch_jobs_terminal": true,
+  "full_log": "docs/evidence/ground-surfaces-full.log",
+  "batch_job_ids": [
+    "d85662117334",
+    "68284a947b16",
+    "c4ca2beb8683",
+    "8526a8d6f9cd",
+    "5bb52464fde3",
+    "86596fd2f3d4",
+    "a3893de26737",
+    "ca39d2deea0b",
+    "3245e9dd2705",
+    "0f44d5647492",
+    "7617cf75db83",
+    "2804557c94cf"
+  ],
+  "final_public_observer": {
+    "library_sha256": "f536d9deb9f498580090b63d31d564efb276a905587f0e7182858ab0c05b4dc6",
+    "observer_sha256": "aef7185d69ae25b096364d65db3ae199fa3f0f85d3bd317b7ebeefbbbad0e078",
+    "passed": true,
+    "case_count": 17
+  },
+  "final_road_gl": {
+    "embedded_fragment_sha256": "ff6c23d88b561f710a27dabf45dba2121a6700f37091a43fa195922f3bf53b29",
+    "sample_count": 186,
+    "client_embedded_source_checked": true,
+    "software_rendered": true
+  }
+}

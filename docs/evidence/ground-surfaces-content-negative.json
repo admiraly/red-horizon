@@ -1,0 +1,23 @@
+{
+  "baseline": {
+    "ground_content": "0x321a5da9",
+    "canonical_sha256": "321a5da948d4e67e4be105cd86330d18d87719d949995112c42de0bc5929ca95",
+    "checked": true
+  },
+  "content/asset-manifest.json": {
+    "exit_code": 1,
+    "mutation_sha256": "dccd69cdf1ef3c10bf3820775435f40829a776a3bade5454e8200517e584bca4",
+    "rejected_stale_protocol": true
+  },
+  "content/terrain/roads.json": {
+    "exit_code": 1,
+    "mutation_sha256": "42c2855aaeef80e1957e893f13a0cd7aa0ba6af5392f37ecb97490cf65a549b5",
+    "rejected_stale_protocol": true
+  },
+  "schemas/ground_surfaces.inc": {
+    "exit_code": 1,
+    "mutation_sha256": "71daf8281753e905f1c758b8824708dd8a9f0f4110ccd2d6a32841fb297ee97d",
+    "rejected_stale_protocol": true
+  },
+  "scope": "Private tooling copies; checks stale fingerprints reject asset, road and actual policy mutations. Real incompatible-client rejection is separately verified by extended co-op tests."
+}

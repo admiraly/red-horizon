@@ -1,16 +1,20 @@
 # Specification acceptance ledger
 
-Current ground-motion integration adds a real shared tracked approximation to
-§6g/§10e/§15/§16: authoritative hull heading, acceleration/braking, bounded turning,
-human slow reverse, complete-segment collision, player-generation ownership and
-UDPv7 heading presentation. Worker-focused and root public-path proofs exist;
-root full frozen extended checkpoint `8e107f76cc77` passed in 480.14s
-at source `7d37522`, with 145 authored inputs matched.
-Exact scope is in `docs/evidence/ground-motion-session.json`. The original crowd destination
-check exposed overshoot; corrected approach braking passes its existing arrival
-and deadline gates in focused production tests. This is partial progress, not acceptance
-of complete vehicle realism. Road/off-road surfaces, slope limits, wheeled roles,
-oriented hulls, suspension, damage handling and useful wreck cover remain open.
+Current tracked-vehicle scope includes authoritative heading, acceleration/braking,
+bounded turning, slow reverse, complete-segment collision, generation-safe ownership
+and UDPv7 heading. Canonical roads now feed whole-circle contact and matching
+material geometry. Off-road factors are 0.8 for tanks and 0.7 for artillery; bounded
+braking, yaw and collision envelopes remain intact. Original arrival/scale/health
+gates remain. Integration source `a429a7d` passed frozen full job
+`2804557c94cf` in 497.18s, with 76 reports and 158 authored inputs matched.
+Focused network, tooling and graphics checks also passed. Final exact acceptance
+is owned by `status.md` and `docs/evidence/ground-surfaces-session.json`.
+
+This is progress toward §6g/§10e/§15/§16, not full vehicle realism. Raised relief
+is prepared in isolated `90706d5` and is not integrated. Whole-hull steep-slope
+limits, road-preferring navigation, wheeled roles, oriented hulls, suspension,
+damage handling and useful wreck cover remain open. The earlier full hull checkpoint
+`8e107f76cc77` remains historical evidence at its recorded `7d37522` source.
 
 Audit baseline: `716bbd011cfc2f788d64223951ff9c533b7fc470`, 2026-10-05. This is a requirement ledger for the complete `docs/spec.txt`, not a declaration that the game is complete. Root work on player motion, view settings and footsteps is concurrent and **not accepted by this audit**. Later integrations must supply their own exact source identity and scoped evidence.
 

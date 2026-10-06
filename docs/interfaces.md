@@ -118,7 +118,23 @@ before publication, tracks generation/death/interest separately and clears poses
 on disconnect. Near/mid models and distant/map markers read stamped headings,
 including stationary pivots. Renderer state is cosmetic and read-only.
 
-Current shapes are planar conservative circles. Roads/slopes, wheeled chassis,
+Canonical road contact: `terrain_road_body(XMM0=x,XMM1=z,XMM2=radius)` returns
+EAX=1 for a complete circle contained in one paved capsule, 0 off-road, -1 invalid.
+Input coordinates/radius must be finite and within the documented map bounds.
+Generated read-only records come from `content/terrain/roads.json`; no surface
+state or entity/player/wire stride is added. `schemas/ground_surfaces.inc` defines
+tank/artillery off-road factors 0.8/0.7 and aliases the actual body-radius macros.
+Desired speed, acceleration and reverse scale; braking/yaw/contact envelopes do
+not. Retained boundary-crossing momentum decelerates through the actuator.
+Terminal arrival uses the exact discrete braking sum; AI body guidance previews
+at most 6 m without accepting any unchecked hull translation.
+
+UDPv7 content fingerprint `0x321a5da9` covers the actual asset-manifest hash,
+canonical roads and resolved handling policy. `tools/ground_content.py --check`
+validates it before builds; co-op checks independently reconstruct it and retain
+incompatible-client rejection. Schema fingerprint and wire layouts are unchanged.
+
+Current shapes are planar conservative circles. Steep slopes, wheeled chassis,
 oriented hulls, suspension, damage handling and wreck cover remain separate work.
 Focused worker evidence is in ground-motion.md, ground-motion-outcomes.md and
 ground-presentation.md; final integrated evidence belongs to status.md.

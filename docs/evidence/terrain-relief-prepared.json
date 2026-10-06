@@ -1,0 +1,27 @@
+{
+  "status": "prepared isolated component; not integrated into authoritative world or root rendering",
+  "base": "53d2211",
+  "contract_commit": "c5b0cd3",
+  "component_commit": "90706d54cd387359d439906f5919c7ceac810dfa",
+  "worker": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-relief",
+  "worker_status": "",
+  "files": {
+    "schemas/terrain_relief.inc": "46fb2a954d881a5ab1db0ec060987554c3ca60c057726056143d21d6f239a588",
+    "content/terrain/relief.json": "14f6ff27a80651705d5b41a7c17873f678dc47515b685a0ec8d9ab33280ada97",
+    "src/nav/terrain_relief.asm": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+    "schemas/terrain_relief_data.inc": "089963c299029d632a5705740325477e6368f6d93c3debfc7af68d8492edc691",
+    "shaders/terrain_relief.glsl": "32666c2c204e6af2322ddc6a0306eed696979f73ca40020830005869473fed09",
+    "tools/terrain_relief.py": "dcd70d59830e1fd84301b3215ed73756451107517170ebe4092ab7511aa92dbc",
+    "tests/probe_terrain_relief.asm": "22a236d4893d04926c7dac1805861430980db5e2a9705763f4698aa9e87db6a6",
+    "tests/test_terrain_relief.py": "2e3b351cdd6ddb209b408080d17b88e30be3c87f4248ddfeacec3728f90c8a05",
+    "docs/terrain-relief.md": "f6632fc0d896033fc147cc4397042e102dac9156e83bce93663f7b8d1e2b8ca5"
+  },
+  "limits": [
+    "No world height hook",
+    "No whole-hull grade rejection",
+    "No slope-aware route planner",
+    "No rendered relief or GPU comparison",
+    "No root compatibility/build integration"
+  ],
+  "focused_log": "docs/evidence/terrain-relief-prepared.log"
+}

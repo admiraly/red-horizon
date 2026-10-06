@@ -1,5 +1,14 @@
 # Shared tracked ground-hull motion
 
+Root integration supplement: source `a429a7d` passed full frozen extended job
+`2804557c94cf` (497.18s, 76 reports, 158 matched authored inputs).
+Exact current scope, archived public traces and remaining limits are in
+`status.md` and `evidence/ground-surfaces-session.json`. The worker-only proofs
+below retain their original source scope. The earlier held-artillery failure is
+resolved by bounded steering preview at root; road-preferring routing and steep
+slope handling remain unimplemented.
+
+
 `src/game/ground_motion.asm` implements the root-owned 32-byte
 `schemas/ground_motion.inc` contract for living tanks and self-propelled artillery.
 It has no allocations and uses NASM x86-64/SSE2, with platform `atan2f`, `sinf`

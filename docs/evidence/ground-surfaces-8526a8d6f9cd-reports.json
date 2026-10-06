@@ -1,0 +1,92 @@
+[
+  {
+    "suite": "tactics-default-motion",
+    "passed": true,
+    "evidence": [
+      {
+        "units": 8192,
+        "tick": 30,
+        "mean_ground_metres_by_front": [
+          3.754,
+          3.741,
+          3.746,
+          3.745,
+          3.756,
+          3.707
+        ],
+        "player_bubble_ground": 414,
+        "player_bubble_moving": 407
+      },
+      {
+        "units": 8192,
+        "tick": 120,
+        "mean_ground_metres_by_front": [
+          16.514,
+          16.46,
+          16.4,
+          16.13,
+          16.159,
+          15.817
+        ],
+        "player_bubble_ground": 429,
+        "player_bubble_moving": 429
+      },
+      {
+        "units": 8192,
+        "tick": 300,
+        "mean_ground_metres_by_front": [
+          40.4,
+          40.568,
+          40.231,
+          39.554,
+          38.558,
+          38.993
+        ],
+        "player_bubble_ground": 455,
+        "player_bubble_moving": 455
+      },
+      {
+        "units": 16384,
+        "tick": 30,
+        "mean_ground_metres_by_front": [
+          3.635,
+          3.658,
+          3.63,
+          3.632,
+          3.642,
+          3.61
+        ],
+        "player_bubble_ground": 845,
+        "player_bubble_moving": 827
+      },
+      {
+        "units": 16384,
+        "tick": 120,
+        "mean_ground_metres_by_front": [
+          15.66,
+          15.919,
+          15.741,
+          15.513,
+          15.476,
+          15.528
+        ],
+        "player_bubble_ground": 882,
+        "player_bubble_moving": 882
+      },
+      {
+        "units": 16384,
+        "tick": 300,
+        "mean_ground_metres_by_front": [
+          38.099,
+          38.697,
+          38.646,
+          37.655,
+          37.635,
+          37.813
+        ],
+        "player_bubble_ground": 934,
+        "player_bubble_moving": 934
+      }
+    ]
+  }
+]

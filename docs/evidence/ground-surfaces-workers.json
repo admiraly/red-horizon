@@ -1,0 +1,57 @@
+[
+  {
+    "worker": "road-body",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-body",
+    "commit": "3615cf3e1327d1c85a953e2b34225eec48d44839",
+    "clean": true,
+    "owned_source_sha256": {
+      "src/nav/terrain_surface.asm": "4e529a4aef451601e6bb9cd8929175c709eab7a82206c71d91ae53c4f8c08acf",
+      "tests/test_terrain_surface.py": "6b6ba9ae2b0a836e30f4e9ff9cccf00e0a5d9c7be8af39cd58a7b5accea227ae"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "road-motion",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-motion",
+    "commit": "61762ea4aa5c4acb505bc8657735313af9a7ad84",
+    "clean": true,
+    "owned_source_sha256": {
+      "src/game/ground_motion.asm": "12136bd8768ff83d6a531989b734587a2eaf9f4647df0dcba3991c72b5e81485",
+      "tests/test_ground_motion.py": "030059454cc4873c75284494f85adafb6dfbcaf6e6d494d9a4aff4fb3b723cf4"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "road-render",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-render",
+    "commit": "2c14a4adbd1253cfbb277a2100b4c32c88854641",
+    "clean": true,
+    "owned_source_sha256": {
+      "shaders/battle.frag": "216398d46ff9124e17141742cca307c0875723c7b8d4f6a1fa2df6a22717efff",
+      "src/render/shaders.asm": "db806941f0edd21f704e54faddd990acd817dd92f7ee4f881bcd6353c1ee60d6",
+      "tests/test_road_gl.py": "d270ec6b69e11d00e9b2ac4c41dce022e690a6ce4ad14e19a7522e2aa04c8a89"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "road-oracle",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-oracle",
+    "commit": "2dfbea15b522ab8237b3b488eb2a51eafc162284",
+    "clean": true,
+    "owned_source_sha256": {
+      "tests/test_ground_surface_outcomes.py": "aef7185d69ae25b096364d65db3ae199fa3f0f85d3bd317b7ebeefbbbad0e078"
+    },
+    "root_owned_source_mismatches": []
+  },
+  {
+    "worker": "road-avoidance",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-avoidance",
+    "commit": "752482fcbeb35478243adc0798a9018600399173",
+    "clean": true,
+    "owned_source_sha256": {
+      "src/nav/crowd.asm": "2842c8578972415742549082113047ad1774fdb98e1371cb7b6a384389e8a833",
+      "tests/test_crowd.py": "4d0e14472e39319633862550c84f9c313d2ca5dcb20e37c2bba708f7a85818d6"
+    },
+    "root_owned_source_mismatches": []
+  }
+]

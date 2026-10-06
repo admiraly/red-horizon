@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/road-avoidance/tests/test_crowd_outcomes.py", line 165, in <module>
+    row=encounter(name,records,ticks,overlap=overlap,ignore=ignore)
+  File "/mnt/titan_nv3/projects/red-horizon-workers/road-avoidance/tests/test_crowd_outcomes.py", line 143, in encounter
+    assert all(error<.6 for error in arrivals.values()),(name,'movement frozen or failed detour',result)
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('held_artillery', 'movement frozen or failed detour', {'name': 'held_artillery', 'ticks': 360, 'initial': {'0': (1000.0, 2000.0), '1': (1012.0, 2000.0)}, 'final': {'0': (1028.1541748046875, 2002.9783935546875), '1': (1012.0, 2000.0)}, 'arrival_error': {'0': 7.465664790986766}, 'initial_minimum_gap': 3.0199999999999996, 'minimum_swept_gap': 0.2000392773368187, 'final_minimum_gap': 7.446447935783453, 'overlapping_pair_ticks': 0, 'samples': [{'tick': 30, 'poses': {'0': (1002.7300415039062, 2000.001953125), '1': (1012.0, 2000.0)}}, {'tick': 120, 'poses': {'0': (1003.3023681640625, 2003.60888671875), '1': (1012.0, 2000.0)}}, {'tick': 360, 'poses': {'0': (1028.1541748046875, 2002.9783935546875), '1': (1012.0, 2000.0)}}], 'physical_trace_sha256': '8c7f600af664ec540629caf664f0af735dd6e352c6c87e216c5c0337b6ada153', 'ground_pose_trace_sha256': '03a1a1c06f0715e0f3afe1bae926072b2399ac5a461516051358bacc29f9bc7d', 'checksum': '6bc06945aaf257ae', 'source_generation_change_tick': None})

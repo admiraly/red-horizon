@@ -1,0 +1,32 @@
+[
+  {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-body",
+    "head": "3615cf3e1327d1c85a953e2b34225eec48d44839",
+    "status": ""
+  },
+  {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-avoidance",
+    "head": "752482fcbeb35478243adc0798a9018600399173",
+    "status": ""
+  },
+  {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-motion",
+    "head": "61762ea4aa5c4acb505bc8657735313af9a7ad84",
+    "status": ""
+  },
+  {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-render",
+    "head": "2c14a4adbd1253cfbb277a2100b4c32c88854641",
+    "status": ""
+  },
+  {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/road-oracle",
+    "head": "2dfbea15b522ab8237b3b488eb2a51eafc162284",
+    "status": ""
+  },
+  {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-relief",
+    "head": "90706d54cd387359d439906f5919c7ceac810dfa",
+    "status": ""
+  }
+]

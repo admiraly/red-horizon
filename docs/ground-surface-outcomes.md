@@ -1,5 +1,14 @@
 # Road handling gameplay outcomes
 
+Root integration supplement: source `a429a7d` passed full frozen extended job
+`2804557c94cf` (497.18s, 76 reports, 158 matched authored inputs).
+Exact current scope, archived public traces and remaining limits are in
+`status.md` and `evidence/ground-surfaces-session.json`. The worker-only proofs
+below retain their original source scope. The earlier held-artillery failure is
+resolved by bounded steering preview at root; road-preferring routing and steep
+slope handling remain unimplemented.
+
+
 `tests/test_ground_surface_outcomes.py LIBRARY --report REPORT` observes the actual public authoritative gameplay path. It sends orders, boards tanks, calls `player_input`, and advances `sim_tick`. It never calls `ground_step`, `terrain_surface`, or `terrain_road_body`, and never writes motion sidecars or future motion state.
 
 Sparse fixtures place one legitimate tank or artillery birth, increment its generation, choose a long forward waypoint, and let a real tick seed the hull. Other initial fixture entities are absent. Health is not renewed; production combat and hazard policy are unchanged. These fixtures establish local handling and do not establish dense battle performance.

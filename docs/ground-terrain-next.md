@@ -1,85 +1,78 @@
-# Next terrain-dependent vehicle slice — sampler prepared, integration pending
+# Raised terrain and whole-body grade — next integration
 
-The current hull batch adds physical heading and momentum. The next coherent
-slice should make surface handling authoritative and show the same roads to the
-player. This note records a read-only source audit during frozen integration;
-it supplies no road, steep-slope or wheeled-vehicle acceptance.
+The canonical road/handling batch is integrated at `53d2211`; its current full
+verification status and exact evidence are in `status.md`. The original sampler
+preparation at `2a70494` is historical. Roads use 19 clear capsule segments, a
+10 m paved half-width and a 2 m cosmetic shoulder. Whole-circle containment in
+one capsule determines physical contact; junctions may conservatively classify
+off-road. Road/off-road factors alter desired speed, acceleration and reverse,
+while retaining braking, yaw, collision envelopes and inherited momentum.
+Road-preferring route planning remains absent.
 
-CPU terrain_height and both vertex shaders share a quadratic bowl plus triangular
-ridge. Its gradient norm is below0.023, approximately1.31degrees. battle.frag's
-cosmetic gravel strips cross three solid walls; adopting those strips as physical
-routes would be incorrect. Collision/navigation currently remains available
-independently of rendering, which the new surface data must preserve.
+The authoritative bowl/ridge alone has gradient norm below 0.023, about 1.31
+degrees. It cannot prove useful slope admission. The next isolated prerequisite
+is contract commit `c5b0cd3` plus component commit `90706d5` in the clean
+`/mnt/titan_nv3/projects/red-horizon-workers/terrain-relief` worktree. Its exact
+source hashes and focused terminal evidence are in
+`evidence/terrain-relief-prepared.json` and `evidence/terrain-relief-prepared.log`.
+This component is not part of root authority, navigation or rendering yet.
 
-The isolated sampler at worker commit `2a70494` accepts finite in-map X/Z and returns height,
-analytic X/Z derivatives and center surface class. A single canonical road table
-should generate NASM and GLSL constants offline. Verified standalone geometry is
-19 segments: three five-segment east-west front roads, plus four north-south
-connectors atX1000/7000. Each front road atZ1300/3900/6500 follows:
+The field is a product of two continuous trapezoids: X breaks
+5400/5480/5620/5820, Z breaks 4800/5000/5400/5600 and height 64 m.
+The rising X ramp is 80 m at derivative 0.8; the falling X ramp and Z fades
+are 200 m at magnitude 0.32. Combined corners are steeper than either central
+axis: (5479,4999) gives gradient (0.796,0.316), about 40.58 degrees.
+The sampler's chosen zero derivative at exact factor breaks is a cusp convention,
+not a grade-clearance guarantee.
 
-```
-(1000,z) -> (3800,z) -> (3920,z-250) -> (4080,z-250)
-         -> (4200,z) -> (7000,z)
-```
+Root must define one grade contract before further worker implementation. A
+conservative query should cover the full swept body, including intervals crossing
+factor breaks and both one-sided gradients at cusps. Level endpoints can conceal
+a steep intervening ramp. Within each relief facet the total gradient is affine;
+its squared norm is convex. Clipping an expanded body-segment bounding rectangle
+against each facet and checking the corners gives a bounded conservative maximum.
+It may reject a safe diagonal segment; measure and document those false positives.
+Include the existing bowl/ridge gradient, invalid-input preservation and a fixed
+facet-work bound. Terrain/loading/camera state must not affect admission.
 
-The ridge crossing sits50m beyond the wall end. A 10m paved half-width
-accommodates current conservative hull radii. Independent segment/rectangle
-checks include the 4.49m maximum hull radius and measure at least 35.51m
-clearance from all five static walls. These checks do not establish clearance
-from dynamic actors or road-preferring navigation.
-Replace cosmetic strips with this exact shared geometry. Static table/handling
-changes require a content fingerprint change, not new entity/ground/wire strides.
+Suggested initial design limits are 35 degrees for the tracked tank and 25 degrees
+for artillery, with foot motion considered separately. These are implementation
+choices to validate, not numerical requirements taken from the specification.
+The central steep ramp should reject tracked motion while the gentle ramp permits
+useful uphill/downhill and reverse. No uniform speed multiplier or isolated
+center derivative can establish whole-body slope behavior.
 
-Surface multipliers can change desired speed and acceleration before existing
-hull evolution. Retain the current maximum envelopes and bounded braking when
-crossing a boundary; do not instantly clamp retained momentum. Center class alone
-is insufficient evidence of full-hull road contact. Define footprint sampling or
-conservative whole-shape classification, measure boundary behavior, and retain
-terrain/body collision, public controls, replay and8k/16k useful movement. Current
-steady-speed fixtures should explicitly name their surface when this policy changes.
+World height, LOS, projectiles, ground surface samples and both rendered terrain
+height functions must consume the same relief. The CPU height entry is
+`src/nav/terrain.asm:terrain_height`; derivatives currently live separately in
+`src/nav/terrain_surface.asm`. Both `shaders/battle.vert` and `shaders/mesh.vert`
+define the current height expression. Production projectiles, aircraft clearance,
+player eye/motion and nav waypoints already call the CPU height entry. Audit the
+actual register assumptions when inserting a new helper call: the present leaf
+height routine clobbers XMM0–3, and some callers may retain values in other
+caller-saved SIMD registers. A SysV-valid callee alone cannot prove those callers
+remain correct. Preserve established behavior or repair and verify each caller. Extend the content fingerprint with
+canonical relief and grade policy. Static data needs no mutable profile state;
+if profiles later become selectable, initialize, hash and save that authority and
+advertise join compatibility. Do not store physical policy in cosmetic weather.
 
-Steep-slope acceptance needs meaningful authoritative geometry. A continuous
-raised patch away from dense initial encounters could have a steep80m ramp rising
-64m and a gentle200m ramp reaching the same height. Tests must drive the real
-actuator along both, retain useful movement on the gentle approach and reject the
-steep approach without body slides or teleportation. The entire footprint segment
-needs a bounded grade test; level endpoints can conceal a steep intervening ramp.
-Derivatives and heights must agree with rendered geometry. Uphill/downhill and
-reverse cases need separate outcomes, not a uniform role-speed constant.
+Navigation needs reachable bypasses and role constraints alongside grade rejection.
+The current 22-node graph is derived from five solid obstacles and uses shared
+artillery-conservative corridor checks. Rejecting a ramp without routes around it
+can strand vehicles that can reach the plateau from its gentle side. Preserve
+bounded path work, original arrival deadlines and real actor health; do not move
+or flatten hazards to manufacture progress. Independent proofs must include full
+body edges, intermediate steep crossings, cusp sides, useful ascent/descent,
+reverse, invalid inputs, player-to-AI handoff, exact replay and unchanged 8k/16k
+95% useful motion and 400-tick health symmetry.
 
-Navigation currently has22 nodes derived from five obstacles and shares
-artillery-conservative corridor checks. Adding a grade rejection without contour
-or bypass nodes can strand otherwise reachable vehicles. Keep the static road
-slice independent, then introduce steep geometry with explicit reachability,
-bounded path work and meaningful role constraints. Oriented hulls, vertical
-interactions, suspension and wheeled roles remain further required work.
+The isolated component passed 6,201 actual NASM height/gradient samples, ten invalid
+inputs, 52 generator negatives preserving both outputs, read-only/ABI checks,
+deterministic generated record identity and real GLSL compilation. Two actual-NASM
+negative candidates were rejected. Compilation is not GPU execution; this proof
+establishes no integrated slope or rendered-height behavior.
 
-If a terrain profile becomes selectable or mutable, it affects future authority:
-initialize, hash and save it, advertise compatibility on join and reject mismatches.
-Cosmetic weather is unsuitable storage. Do not start parallel implementation until
-root defines and owns sampler/grade/generated-content contracts and isolates
-worker file ownership.
-
-Prepared source and focused evidence are recorded in
-`docs/evidence/terrain-surface-prepared.json`. The real assembly sampler passed
-2,806 valid samples and eight invalid-input cases; 27 malformed generator inputs
-preserved both existing outputs. NASM/GLSL/canonical/runtime tables agree, and
-the helper compiled with glslangValidator. The worker is clean. None of its nine
-new files are integrated into root yet.
-
-For the next integration, classify road contact conservatively: a circular hull
-is on-road only when it fits inside at least one paved capsule. Check distance
-to that segment against half-width minus role radius. A union junction may give
-a conservative off-road result even when the circle fits across several capsules;
-this is acceptable if documented and measured, and avoids claiming center-only
-classification proves full contact. Keep road/off-road acceleration and desired
-speed within the existing envelopes; boundary crossings brake retained momentum
-through the current actuator. Apply the same generated distance helper to gravel
-and shoulder material, with exact-road interior and explicit visual shoulders.
-
-Root will own build dependencies, standalone probe dependencies, physical
-actuator hooks, content compatibility and shader embedding. Focused outcomes must
-include same-role road/off-road differences, boundary crossing, stationary turning,
-reverse, driver-to-AI handoff, full-footprint classification at bends, camera
-independence and replay. Validate actual painted doglegs in GL. Freeze the whole
-batch only after those outcomes and unchanged scale/health/collision checks pass.
+Oriented hulls, vertical interactions, suspension, wheeled chassis, traffic/road
+preferences, damage handling and useful wreck cover remain required independently.
+The complete operation, army intelligence, streaming, Windows, runtime jobs,
+recorded audiovisual craft and four-client hardware acceptance also remain open.

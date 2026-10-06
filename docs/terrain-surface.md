@@ -1,5 +1,14 @@
 # Stateless terrain surface data and sampler
 
+Root integration supplement: source `a429a7d` passed full frozen extended job
+`2804557c94cf` (497.18s, 76 reports, 158 matched authored inputs).
+Exact current scope, archived public traces and remaining limits are in
+`status.md` and `evidence/ground-surfaces-session.json`. The worker-only proofs
+below retain their original source scope. The earlier held-artillery failure is
+resolved by bounded steering preview at root; road-preferring routing and steep
+slope handling remain unimplemented.
+
+
 This bounded standalone slice adds canonical roads, deterministic generated
 NASM/GLSL tables and a real NASM surface sampler. It does not alter existing
 terrain, movement, navigation, rendering, network or build hooks.
