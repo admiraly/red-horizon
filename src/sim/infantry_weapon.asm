@@ -7,8 +7,10 @@ extern depot_ammunition_take,terrain_height,world_los
 section .bss align=64
 global infantry_weapons
 infantry_weapons: resb ENTITY_CAPACITY*INFANTRY_WEAPON_STRIDE
+global infantry_shot_cooldowns
+infantry_shot_cooldowns: resd ENTITY_CAPACITY
 section .text
-global infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash,infantry_weapon_resupply,infantry_weapon_resupply_tick
+global infantry_weapon_shot,infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash,infantry_weapon_resupply,infantry_weapon_resupply_tick
 ; EDI stable actor ->RDX own entity,R8 stock record, EAX0 valid or-1.
 ; Validity does not reset/refill or change state. No enemy reads.
 record:
@@ -49,6 +51,8 @@ birth:
  mov qword [r8+12],0
  mov qword [r8+20],0
  mov dword [r8+28],0
+ lea r9,[infantry_shot_cooldowns]
+ mov dword [r9+rdi*4],0
 .done:
  ret
 ; Explicit fresh-world initialization. Invalid count is atomic/no-op.
@@ -60,6 +64,9 @@ infantry_weapon_init:
  xor eax,eax
  mov ecx,ENTITY_CAPACITY*INFANTRY_WEAPON_STRIDE/8
  rep stosq
+ lea rdi,[infantry_shot_cooldowns]
+ mov ecx,ENTITY_CAPACITY
+ rep stosd
  xor ebx,ebx
 .loop:
  cmp ebx,[sim_count]
@@ -97,6 +104,13 @@ infantry_weapon_tick:
  call stock_valid
  test eax,eax
  jnz .next
+ lea r9,[infantry_shot_cooldowns]
+ cmp dword [r9+rbx*4],INFANTRY_SHOT_TICKS
+ ja .next
+ cmp dword [r9+rbx*4],0
+ je .cooldown_ready
+ dec dword [r9+rbx*4]
+.cooldown_ready:
  cmp dword [r8+12],0
  je .ready
  cmp dword [r8+4],0
@@ -174,6 +188,39 @@ infantry_weapon_fire:
 .invalid:
  mov eax,-1
  ret
+; EDI actor: the sole gameplay shot gate for army and human rifle targets.
+; Same return contract as stock-only fire. Caller acquires actual range/LOS.
+; A successful finite shot starts8ticks; blocked/invalid requests change nothing.
+infantry_weapon_shot:
+ push rbx
+ call record
+ test eax,eax
+ jnz .done
+ mov eax,[rdx+ENTITY_GENERATION]
+ cmp eax,[r8]
+ jne .invalid
+ call stock_valid
+ test eax,eax
+ jnz .invalid
+ lea rbx,[infantry_shot_cooldowns]
+ lea rbx,[rbx+rdi*4]
+ cmp dword [rbx],INFANTRY_SHOT_TICKS
+ ja .invalid
+ cmp dword [rbx],0
+ jne .unavailable
+ call infantry_weapon_fire
+ test eax,eax
+ jnz .done
+ mov dword [rbx],INFANTRY_SHOT_TICKS
+.done:
+ pop rbx
+ ret
+.unavailable:
+ mov eax,1
+ jmp .done
+.invalid:
+ mov eax,-1
+ jmp .done
 ; R8 own record ->EAX0valid/-1 corrupt. No writes; RDX/R8 preserved.
 ; Per-body received rounds are bounded by all12 finite initial depot stores.
 stock_valid:
@@ -398,6 +445,15 @@ infantry_weapon_resupply_tick:
  ret
 ; RAX rolling checksum,R8 FNV prime; includes all persistent bounded records.
 infantry_weapon_hash:
+ lea rsi,[infantry_shot_cooldowns]
+ mov ecx,ENTITY_CAPACITY*4
+.cooldown_hash:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .cooldown_hash
  lea rsi,[infantry_weapons]
  mov ecx,ENTITY_CAPACITY*INFANTRY_WEAPON_STRIDE
 .loop:

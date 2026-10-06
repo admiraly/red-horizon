@@ -1,8 +1,9 @@
 %ifndef INFANTRY_WEAPON_INC
 %define INFANTRY_WEAPON_INC
-; Authoritative army rifle policy3; human threat shots use this same finite stock.
-%define INFANTRY_WEAPON_VERSION 3
+; Authoritative army rifle policy4; human threat shots use this same finite stock.
+%define INFANTRY_WEAPON_VERSION 4
 %define INFANTRY_WEAPON_STRIDE 32
+%define INFANTRY_SHOT_TICKS 8
 %define INFANTRY_MAGAZINE 30
 %define INFANTRY_RESERVE 90
 %define INFANTRY_RELOAD_TICKS 60
@@ -16,3 +17,5 @@
 %endif
 
 ; v3: infantry-to-human threat shots also debit the same validated magazine.
+
+; v4: both gameplay targets share one8tick generation-safe weapon cooldown.

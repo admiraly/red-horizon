@@ -105,13 +105,17 @@ tick.value=16
 for _ in range(10):lib.player_tick()
 assert p.hp==100 and p.hits==0 and entities[1].hp==100
 # Living enemies suppress and kill; dead players cannot move or fire.
-p=reset();place_enemy(3900,2080);tick.value=16
-for _ in range(10):lib.player_tick()
-assert p.hp==0 and p.respawn==30 and p.suppression>0
+p=reset();place_enemy(3900,2080)
+# The former fixture called player_tick ten times at the same world tick,
+# bypassing a real weapon cadence. Advance genuine fixed world ticks instead.
+for _ in range(240):
+    lib.sim_tick()
+    if p.hp==0:break
+assert p.hp==0 and 0<p.respawn<=30 and p.suppression>0
 x,z,shots=p.x,p.z,p.shots
 lib.player_input(0,5,1,1,0,0);lib.player_tick()
 assert (p.x,p.z,p.shots)==(x,z,shots)
-for _ in range(29):lib.player_tick()
+for _ in range(p.respawn):lib.sim_tick()
 assert p.hp==100 and p.respawn==0 and p.generation==2
 assert math.hypot(p.x-3900,p.z-2080)>160
 # When all connected deployment sites are unavailable, do not spawn into danger.

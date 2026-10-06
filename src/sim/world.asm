@@ -16,7 +16,7 @@ extern company_control_goal
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash,player_blast
-extern infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash,infantry_weapon_resupply_tick
+extern infantry_weapon_init,infantry_weapon_tick,infantry_weapon_shot,infantry_weapon_hash,infantry_weapon_resupply_tick
 extern depot_ammunition_init,depot_ammunition_hash
 extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
@@ -696,7 +696,7 @@ sim_tick:
  je .launch_shell
  mov edi,r12d
  sub rsp,8
- call infantry_weapon_fire
+ call infantry_weapon_shot
  add rsp,8
  test eax,eax
  jnz .attack_next

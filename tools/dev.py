@@ -373,6 +373,7 @@ def main():
             execute([sys.executable,'tests/test_player_ammunition_report.py',str(library)])
             execute([sys.executable,'tests/test_player_ammunition_abi.py',str(library)])
             execute([sys.executable,'tests/test_player_threat_ammunition.py',str(library)])
+            execute([sys.executable,'tests/test_infantry_cadence.py',str(library)])
             execute([sys.executable,'tests/test_player_blast.py',str(library)])
             execute([sys.executable,'tests/test_player_blast.py',str(library),'--artillery'])
             execute([sys.executable,'tests/test_player_bomb.py',str(library)])

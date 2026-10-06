@@ -13,11 +13,12 @@ with tempfile.TemporaryDirectory(prefix='rh-infantry-abi-')as directory:
   assert tuple(output)==tuple(0x123401+j for j in range(6))+(0,),tuple(output)
   return rc
  assert l.sim_init(32,3)==0
- assert probe_call(0,0)==0 and probe_call(1,0)==0 and probe_call(2,0)==0 and probe_call(3,0)==0 and probe_call(4,0)==0
+ assert probe_call(0,0)==0 and probe_call(1,0)==0 and probe_call(2,0)==0 and probe_call(3,0)==0 and probe_call(4,0)==0 and probe_call(5,0)==0
  count=C.c_uint.in_dll(l,'sim_count');count.value=32769
- for which in (0,1,2,3,4):
+ for which in (0,1,2,3,4,5):
   before=l.sim_checksum();assert probe_call(which,0)==-1 and l.sim_checksum()==before
  count.value=32
- for actor in (12,14,15,32,32768,0xffffffff):
-  before=l.sim_checksum();assert probe_call(2,actor)==-1 and l.sim_checksum()==before
- print(json.dumps({'suite':'infantry-weapon-ABI','passed':True,'entry_points':5,'invalid_atomic_calls':11,'six_nonvolatile_registers_preserved':True,'aligned_call_frames':True,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Isolated CPU ABI and public gate proof; physical reload/combat verified separately.']}))
+ for which in (2,5):
+  for actor in (12,14,15,32,32768,0xffffffff):
+   before=l.sim_checksum();assert probe_call(which,actor)==-1 and l.sim_checksum()==before
+ print(json.dumps({'suite':'infantry-weapon-ABI','passed':True,'entry_points':6,'invalid_atomic_calls':18,'six_nonvolatile_registers_preserved':True,'aligned_call_frames':True,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Isolated CPU ABI and public gate proof; physical reload/combat verified separately.']}))

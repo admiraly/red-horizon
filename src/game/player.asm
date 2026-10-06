@@ -3,7 +3,7 @@
 %include "schemas/player_ammunition.inc"
 %include "schemas/entity.inc"
 default rel
-extern infantry_weapon_fire
+extern infantry_weapon_shot
 extern player_ammunition_init,player_ammunition_equip,player_ammunition_reserve,player_ammunition_reload_finish,player_ammunition_fire,player_ammunition_resupply,player_ammunition_hash
 extern company_assign,company_release,company_control_init,company_redeploy
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
@@ -858,7 +858,7 @@ enemy_attack:
  jz .next
  ; Infantry threats use the same finite current-body magazine as army shots.
  mov edi,r12d
- call infantry_weapon_fire
+ call infantry_weapon_shot
  test eax,eax
  jnz .next
  add dword [rbx+PLAYER_SUPPRESSION],25
