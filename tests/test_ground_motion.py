@@ -264,8 +264,36 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         step((1000,2000),publish=False)
         assert bytes(states)==before and calls.value==n and surface_calls.value==ns+1
     checks.append('invalid surface result preserves existing and recycled sidecars')
+    discrete_cases=0
+    for kind,cap,b in ((1,.5,.04),(2,.2,.025)):
+        for paved in (0,1):
+            for heading in (0,math.pi/2):
+                for distance in (.1,.3,.7,1.5,5,20):
+                    for seeded in (False,True):
+                        initial_speed=cap if paved else cap*(.8 if kind==1 else .7)
+                        steps=math.ceil(initial_speed/b)
+                        stopping=steps*initial_speed-b*steps*(steps-1)/2
+                        if seeded and distance<stopping+.01:continue
+                        reset(kind,heading);surface.value=paved
+                        axis=1 if heading==0 else 0
+                        goal=[1000.,1000.];goal[axis]=C.c_float(1000+distance).value
+                        if seeded:
+                            states[0].speed=initial_speed
+                            states[0].vx=initial_speed if axis==0 else 0
+                            states[0].vz=initial_speed if axis==1 else 0
+                        maximum=1000.;late=None
+                        for t in range(300):
+                            old=states[0].speed;step(tuple(goal),cap)
+                            maximum=max(maximum,(entities[0].x,entities[0].z)[axis])
+                            assert abs(states[0].speed-old)<=b+1e-6
+                            assert maximum<=goal[axis]+.0002,'discrete braking overshot reachable straight goal'
+                            if t==290:late=(entities[0].x,entities[0].z)
+                        assert math.dist((entities[0].x,entities[0].z),goal)<.001
+                        assert math.dist(late,(entities[0].x,entities[0].z))<.0005
+                        discrete_cases+=1
+    checks.append('discrete stopping envelope converges from rest and physically stoppable full momentum across roles/surfaces/headings')
     actuator_report={'suite':'ground-motion-actuator','passed':True,'library_sha256':lib_sha,'checks':checks,
-      'surface_cases':surface_cases,'invalid_rejected_cases':invalid,'acceleration':acceleration,'turn':turn,'reverse':reverse,'approaches':approaches,
+      'discrete_stopping_cases':discrete_cases,'surface_cases':surface_cases,'invalid_rejected_cases':invalid,'acceleration':acceleration,'turn':turn,'reverse':reverse,'approaches':approaches,
       'collision_evidence':'Explicit development clear/blocked/partial stub; not production collision or scale evidence',
       'runtime':'Actual NASM x86-64 SSE2 module; Python development observer'}
     print(json.dumps(actuator_report,sort_keys=True))

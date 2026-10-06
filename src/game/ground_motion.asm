@@ -26,7 +26,8 @@ pi: dd 3.141592653589793
 tau: dd 6.283185307179586
 reverse_threshold: dd 2.35619449
 sharp: dd 1.04719755
-approach_gain: dd 0.15
+half: dd 0.5
+eight: dd 8.0
 one: dd 1.0
 surface_multipliers: dd GROUND_TANK_OFFROAD,GROUND_ARTILLERY_OFFROAD
 body_radii: dd GROUND_TANK_RADIUS,GROUND_ARTILLERY_RADIUS
@@ -410,11 +411,32 @@ ground_step:
  minss xmm2,[rsp+16]
  cmp dword [rsp+60],GROUND_AI
  jne .target_speed
- ; Range-proportional terminal approach begins braking before crossing the goal.
- ; 0.15/tick terminal gain is below both roles' maximum-speed stopping envelope.
- ; Translation still follows the bounded hull axis; no endpoint snap is used.
+ ; Invert exact discrete stopping distance S=n*v-b*n*(n-1)/2.
+ ; n=floor((sqrt(1+8*d/b)-1)/2)+1 selects the stopping-speed interval.
+ ; AI desired speed remains within the unchanged cap and brake envelope.
+ ; Translation still follows the hull axis; no endpoint snap is used.
+ mov eax,[rsp+56]
+ lea rdx,[brake]
+ movss xmm4,[rdx+rax*4]
  movss xmm3,[rsp+68]
- mulss xmm3,[approach_gain]
+ movaps xmm5,xmm3
+ divss xmm5,xmm4
+ mulss xmm5,[eight]
+ addss xmm5,[one]
+ sqrtss xmm5,xmm5
+ subss xmm5,[one]
+ mulss xmm5,[half]
+ cvttss2si eax,xmm5
+ inc eax
+ cvtsi2ss xmm5,eax
+ movaps xmm6,xmm5
+ subss xmm6,[one]
+ mulss xmm6,xmm5
+ mulss xmm6,xmm4
+ mulss xmm6,[half]
+ addss xmm3,xmm6
+ divss xmm3,xmm5
+ minss xmm3,[rsp+68]
  minss xmm2,xmm3
 .target_speed:
  movss [rsp+28],xmm2

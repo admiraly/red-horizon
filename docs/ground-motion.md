@@ -93,15 +93,18 @@ ends; observed final X4221.823730/X4215.236816. The old automatic AI reverse
 selection oscillated and failed that original recovery gate. Driver reverse
 semantics are unchanged. Full tactics and integration evidence belongs to root.
 
-AI arrival applies a range-proportional terminal target speed (0.15 times remaining
-metres per tick) before ordinary bounded braking. Remaining range is measured
-against the original navigation steering destination, before crowd avoidance
-reduces it to a one-tick steering intent. This avoids full-speed goal overshoot
-and subsequent long tracked U-turns. Human controls use local wish points, so the
-arrival taper applies only to AI. A 60-degree forward steering arc permits tracked
-movement while turning toward reachable detours; larger errors still brake and
-pivot. Every translated segment still follows the hull axis and passes unchanged
-exact body/terrain collision. There is no endpoint snap or arrival teleport.
+AI arrival inverts the exact discrete stopping sum for the current role's
+unchanged braking rate `b`: `S=n*v-b*n*(n-1)/2`, where `n=ceil(v/b)`.
+For remaining range `d`, the interval index is
+`n=floor((sqrt(1+8*d/b)-1)/2)+1`, and the safe target is
+`min(d,(d+b*n*(n-1)/2)/n)`, additionally limited by current road/off-road
+and navigation targets. This replaces the earlier range-proportional 0.15 gain,
+which imposed unnecessary low-speed coasting even on a clear final corridor.
+Remaining range uses the original navigation destination before crowd intent;
+human wish-point driving does not use arrival braking. Translation still follows
+the hull axis with bounded acceleration and unchanged whole-segment collision.
+No coordinates are snapped or endpoints fabricated. Physically un-stoppable sudden
+nearby goals inherited at full momentum remain a separate unavoidable overshoot case.
 
 Terminal followup evidence: `/tmp/rh-ground-motion-approach-focused.log` passed
 15 actuator groups, 48 malformed cases and five production-kernel scenarios.
@@ -172,3 +175,30 @@ forward observations were tank 0.500000/0.400000 and artillery 0.199951/0.140000
 The new artillery road observation permits 0.0001 m/tick world-coordinate float
 rounding from the crowd intent endpoint; no original body, wall, handoff, deadline
 or arrival bound changed. All commands completed terminal before handoff.
+
+
+Discrete braking followup: `/tmp/rh-road-discrete-focused.log` passed 20 actuator
+groups, all original 48 malformed cases, 70 reachable straight approaches and the
+five original production collision plus four surface cases. The added approaches
+cover tank/artillery, road/off-road, X/Z headings, rest and full momentum only where
+the supplied range exceeds that momentum's exact stopping sum. Original arrival
+and safety tolerances remain; coordinate rounding up to 0.0002 m is observed without
+snap. This does not claim arbitrary abrupt destinations are physically stoppable.
+
+Actual-world proof freezes all other object files from failed integration job
+`68284a947b16` and replaces only this actuator with source SHA256
+`12136bd8768ff83d6a531989b734587a2eaf9f4647df0dcba3991c72b5e81485`.
+The resulting actual-world library SHA256 is
+`8aba3e74aba88b5a220a1e1f1e73a1253501988a66dd88d2027538e4f943a210`.
+Unchanged `tests/test_terrain.py` passes in `/tmp/rh-road-discrete-terrain.log`,
+including the original 1200-tick wall arrival and final-ten-tick settling gates.
+The diagnostic `/tmp/rh-road-discrete-diagnose.log` records exact (4050,1300)
+arrival, zero speed and 452.947622 m of safe physical travel by tick1200. The old
+proportional gain left 0.024048 m range at that deadline despite zero earlier
+wall-contact stops. No speed, acceleration, brake, yaw, terrain clearance, contact
+rule or fixture deadline was raised to obtain this improvement.
+
+A distinct actual-world held-artillery avoidance failure remains: original360tick
+fixture error7.465665m,10 contact stops and73 stopped ticks. This actuator arrival
+change does not conceal or solve that upstream local-detour inefficiency. Full
+crowd/world integration remains unaccepted until that failure is resolved.
