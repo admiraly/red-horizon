@@ -1,5 +1,48 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Nearest sampled-actor first entry is integrated at fdb0f7b. Previously,
+sim_shell_contact returned the first sampled enemy with a nearby segment point,
+so a farther low-ID actor could hide a nearer actor. The actual prior build
+reproduces that fault. The query now chooses the earliest closed 3D sphere entry,
+with physical-ID ties and exact interpolated contact XYZ/t. A sound swept XZ
+envelope rejects distant candidates before height/trigonometry work.
+
+This retains the existing opposing-actor-only 4 m contact envelope and bounded
+216-actor sample. It is not an oriented mesh hitbox or an all-actor ray query.
+Terrain still takes precedence in projectile_tick; wreck contacts, blast LOS,
+body collision and dynamic navigation remain pending. The complete game goal
+and all broader acceptance requirements remain active.
+
+Actual NASM primitive verification covers 5,086 calls, 5,000 independent paths,
+80-digit reference arithmetic, closed tangency/endpoints, tiny/zero movement,
+57 invalid cases, readonly source/SysV and three assembled faults. Maximum first-t
+error is 2.961e-8. The production index/query observer uses declared initial births
+and one public tick: 207 readonly calls/200 paths, reverse nearest selection,
+physical-ID ties and a grazing broadphase case, with contact XYZ error <=1.908e-6 m.
+No in-flight HP/pose/clock renewal supplies that evidence.
+
+Compatibility is explicitly UDP v9, schema 0xf90d92f8, content 0x10001089;
+canonical SHA256 is 1000108943944ac50a4166bcedaec67a750053938856018294ce817e8d433d6f.
+Packet layouts remain unchanged. Content now includes contact policy version,
+radius and sample bound, with an independent receiver-side reconstruction.
+
+Full frozen cb0726815280 PASSED 644.1174 s/103 reports at
+fdb0f7b387563ca5f2344fd05032ca5af0f9f778-0a93996bb6d28d00, with all 234 authored
+inputs matching. It retains original 8k/16k motion/replay/health/label symmetry,
+arrival/recovery, real local/co-op graphics, audio and the original UDP fault
+matrix. Focused fast ab90f14ab1c9 passed126.2886s before the final XZ optimization/
+compatibility edits; extended network bdc8e42cc382 passed134.1692s before the final
+XZ optimization. The final full snapshot verifies the integrated source. All three
+frozen jobs and exec sessions are terminal; linked client/co-op artifacts are
+rebuilt and isolated worktrees are clean. No publication occurred.
+
+Isolated terrain-solid preparation 8c6791e adds exact point first contact against
+the five current authored boxes. Its 3,068 calls/3,000 independent paths verify
+nearest entry, closed bounds, flags/ties, malformed-source atomicity and four
+assembled faults. It is not integrated and excludes analytic ground, actors,
+wrecks and physical body hooks. Evidence is under first-contact-* and
+terrain-solid-contact-prepared-*; earlier paragraphs retain historical checkpoints.
+
 Immutable captured-pose wreck rendering and self-contained UDPv8 replication are
 integrated atcff654e; observer correction81270ee retains snapshots consumed during
 ACK waits. Current content is0xdbb0a2ab. Separate local/co-op wreck batches use

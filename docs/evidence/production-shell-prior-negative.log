@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/projectile-first-contact/tests/test_shell_contact.py", line 45, in <module>
+    hit,xyz=query(c,(990,y,1000),(1020,y,1000));assert hit==24;cases.append({'name':'nearer_high_ID_before_far_low_ID','hit':hit,'contact':xyz})
+            ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/projectile-first-contact/tests/test_shell_contact.py", line 39, in query
+    wanted=min(expected) if expected else None;assert actual==(-1 if wanted is None else wanted[1]),(actual,wanted,start,end)
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (0, (0.4000000059604645, 24), (990.0, 27.464035034179688, 1000.0), (1020.0, 27.464035034179688, 1000.0))

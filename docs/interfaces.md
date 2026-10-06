@@ -232,3 +232,18 @@ and high-detail frame0 tank/artillery geometry, leaving live census unchanged.
 First-person culling is800m; tactical submissions can produce zero pixels.
 The shared shader darkens only those wreck scenery roles. No useful far/map
 representation, hardware budget or physical cover acceptance follows from this.
+
+### Sampled actor first-entry policy v2
+
+UDPv9/schema0xf90d92f8/content0x10001089 includes SHELL_CONTACT_VERSION2,
+RADIUS4.0 and MAX_SAMPLES216 in independently reconstructed content identity.
+All wire payload layouts remain unchanged. sim_shell_contact accepts EDI source
+side/XMM0..5 segment endpoints, returns opposing sampled live entity or-1; on hit
+XMM0..2 contain contact XYZ and XMM3 contains first t. Equal f32 entries tie by
+physical ID. It is still an opposing-only proximity envelope, not an oriented
+hull hitbox/all-actor sweep or terrain/wreck arbitration.
+
+segment_sphere accepts readonly centerXYZ/radius16 with capacity, finite bounded
+endpoints, radius.001..4096; returns1hit/0clear/-1invalid and first t only on hit.
+Closed tangency/endpoints and start-inside t0 apply. Non-hit restores original
+XMM0; SysV/readonly/SSE2 double intermediates, no heap or external calls.

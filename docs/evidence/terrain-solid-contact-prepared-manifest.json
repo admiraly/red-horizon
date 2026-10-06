@@ -1,0 +1,25 @@
+{
+  "classification": "Prepared exact authored-solid first contact; not integrated",
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-solid-contact",
+  "head": "8c6791e3de34a24ac55f94d717eedac7554d9013",
+  "base": "fdb0f7b",
+  "source_sha256": {
+    "src/nav/terrain_solid_query.asm": "3d77d62dafff05a8dacaf36a9f937a5c11af9955fe5882ed743ca0568680b1e2",
+    "schemas/terrain_solid_query.inc": "e27c2dabdde91e515a02bfc42027162fcd1ee6a18644ccc592071a65bb43de25",
+    "tests/probe_terrain_solid_query.asm": "627ca61cedc018e0ad58773ba8662feded2a39c2e951dc9ca107c511a5390594",
+    "tests/test_terrain_solid_query.py": "332f6e1ca2fb5b1260eabcd0b3c6d923c5ff5c9c5dadef92bfd5fbd6e6466362",
+    "src/nav/terrain.asm": "106d2f28ab5999e008a8a344cd7a4979b83ad3c9b22b2f3cd4daeeb844c8a13d",
+    "src/nav/segment_box.asm": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99"
+  },
+  "report": "docs/evidence/terrain-solid-contact-prepared.json",
+  "limits": [
+    "Current five authored solids only; no analytic ground",
+    "No terrain/wreck/actor contact arbitration hooks",
+    "No body movement, navigation or LOS activation",
+    "Development malformed-source surrogate matches actual initial table, then mutates declared cases"
+  ],
+  "development_corrections": [
+    "Initial first-slot fault fixture crossed only one box; corrected line crosses box3 before box0",
+    "Initial max-error reporter included mutated negative results; production metric frozen before controls"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "classification": "Accepted sampled-actor nearest first-entry correction; full physical cover still pending",
+  "runtime_commit": "fdb0f7b",
+  "worker_commit": "064ae2f",
+  "full_checkpoint": {
+    "job_id": "cb0726815280",
+    "status": "passed",
+    "revision": "fdb0f7b387563ca5f2344fd05032ca5af0f9f778-0a93996bb6d28d00",
+    "seconds": 644.1174313919983,
+    "report_count": 103,
+    "authored_input_count": 234,
+    "current_source_mismatches": []
+  },
+  "three_jobs_terminal": true,
+  "job_ledger": "docs/evidence/first-contact-jobs.json",
+  "primitive_evidence": "docs/evidence/segment-sphere-first-entry.json",
+  "production_evidence": "docs/evidence/production-shell-first-entry.json",
+  "prior_causal_failure": "docs/evidence/production-shell-prior-negative.log",
+  "prepared_only": "docs/evidence/terrain-solid-contact-prepared-manifest.json",
+  "terminal_exec_sessions": [
+    87358,
+    44701,
+    45657
+  ],
+  "limits": [
+    "Opposing live actors only, at most216samples",
+    "Retained4m proximity/contact envelope; not oriented mesh geometry",
+    "Terrain-before-actor precedence and terrain/wreck arbitration remain pending",
+    "No wreck LOS/blast/body/navigation hooks",
+    "No target hardware/human acceptance from software-GL regression",
+    "All broader game specification remains active; no publication"
+  ],
+  "workspace_artifacts": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/fdb0f7b387563ca5f2344fd05032ca5af0f9f778-0a93996bb6d28d00/red-horizon",
+      "sha256": "88ec813ef194e710bdba73a65a3bf8159efc1c4ae231c6ceb0efcd2db59d1a3e"
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/fdb0f7b387563ca5f2344fd05032ca5af0f9f778-0a93996bb6d28d00/red-horizon-coop-server",
+      "sha256": "6bcd96cba72cd31d907273a8410017f7cda0df7cd824c787b33fcb5a99ea2f03"
+    }
+  ]
+}

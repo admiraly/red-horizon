@@ -94,3 +94,11 @@ a real newly destroyed hull across1..4clients at the original UDP fault settings
 with server-authoritative contact and visible correction; do not infer this from
 late-join record convergence or a geometry fixture. Prepared remote revisions
 remove redundant geometry rebuilding but cannot create undelivered cover state.
+
+Actor first-entry prerequisite is now integrated atfdb0f7b (UDPv9) and accepted
+by fullcb0726815280. XMM3 supplies first t alongside XYZ and sampled actor ID;
+the opposing-only4m envelope/216sample cap remain fidelity limits. Prepared
+terrain-solid8c6791e supplies exact first t/slot/flags across the five current
+authored boxes, but excludes analytic ground. Neither activates wreck contact.
+The next merger must use a typed result so a wreck's retired entity identity
+cannot be mistaken for a living victim after generation reuse.

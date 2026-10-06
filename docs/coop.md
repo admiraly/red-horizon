@@ -1,5 +1,11 @@
 # Actual authoritative cooperative world transport (UDP v6)
 
+Current actor-contact policy uses UDPv9/schema0xf90d92f8/content0x10001089,
+with all payload layouts unchanged. Contact policy version/radius/sample bound
+are independently fingerprinted. Fullcb0726815280 passed644.1174s. See
+first-contact.md for exact physics scope; older protocol paragraphs below retain
+historical evidence.
+
 Current wreck extension uses UDPv8/content0xdbb0a2ab, message106 and17entries of
 slot+record68bytes in1196bytes maximum. It provides a dedicated immutable remote
 cache, global fair cursor, tombstones/server-clock expiry and late-join recovery.

@@ -245,3 +245,10 @@ at497e089 has2514calls and independent conservative contact/no-deepening escape
 evidence, but remains isolated. Next: explicit local/remote query context, dynamic
 detours/invalidation, weapon contact and useful far/map presentation, preserving
 all original motion/health/symmetry/arrival/recovery gates.
+
+Nearest sampled-actor first entry is integrated atfdb0f7b and accepted by full
+cb0726815280 (644.1174s,103reports,234matched authored inputs). Existing4m opposing
+actor envelope and216sample bound remain explicit limitations. UDPv9 fingerprints
+contact policy. Isolated8c6791e exact five-solid contact is prepared; next merge
+ground/solid/wreck/actor contact with typed ownership, blast LOS and body/nav
+queries, preserving original scale/symmetry/arrival/recovery and matched co-op.
