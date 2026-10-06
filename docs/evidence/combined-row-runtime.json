@@ -1,0 +1,303 @@
+{
+  "passed": true,
+  "baseline_root": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/b0240f5853b8/source",
+  "input_objects": {
+    "src/sim/air_admission.asm": {
+      "source_sha256": "f899b5f13f21f36d9522b67a1de277582bf39a2db8dfeb2c4cd0a1708a12caa9",
+      "object_sha256": "7d15f3dec0bfe31faa3073214c17f947adf2cbcd5438c3269da12966e1d9956c"
+    },
+    "src/sim/operation.asm": {
+      "source_sha256": "a6e0ef492353b260474e35eb498c1e7727fd416c04e1c041611342aa9b1c6d7f",
+      "object_sha256": "4d692100ce48c6da62cc809cd21b10a4f3b77426b3b7d2b145a8864e761f90ac"
+    },
+    "src/sim/ordnance_admission.asm": {
+      "source_sha256": "0287fba4de2583dbeae4ceac5eef59626dd5a5648e0204d0baaac848a2453507",
+      "object_sha256": "813d45c186ee29a4d9db1e87a84c68dfc44f20779b8d58725939557ccf132388"
+    },
+    "src/sim/projectiles.asm": {
+      "source_sha256": "1f6e3ddb00e8d0e1f06601dff44bb9b7fa8a7538e2637c3232e5534c821bba00",
+      "object_sha256": "b418abb50af70b7f7f7adaa727384ebc7e285bea4a9a094d7c91bc5c7ac7ef67"
+    },
+    "src/sim/scenarios.asm": {
+      "source_sha256": "82fd7646724f99a5309143cd2ee11757b19b87076a6375368fc2dada41557b97",
+      "object_sha256": "bd69ebb639af15839b2aff3077512ab5dbe0b108323ad3e61bdd15a6f37f740e"
+    },
+    "src/sim/world.asm": {
+      "source_sha256": "a560e537a5c261a922144a7f281f4ea4951db2c46283006a1f696d496a7f95d4",
+      "object_sha256": "d43c294991e8e8567a5dcf61c71196af0bb1903b53c12e37c60fd566d3d14db5"
+    },
+    "src/sim/world_contact.asm": {
+      "source_sha256": "df98603b9dd35c19064601629a9cd400d8e21b419d51f5838498f39bf82f30a4",
+      "object_sha256": "1eee8c70c54fbbccf46b89e6c13277773584411a3a6d7a195cfdd92c8492cae5"
+    },
+    "src/sim/wreck_remote.asm": {
+      "source_sha256": "9878e8c138d337908bcd96a970b6561b6766789296133056a9bf062bc66db02e",
+      "object_sha256": "d7c41eccd7b532b101ef3c1da32c2c12a8f29894ee2064e1db07b9f3d07e25ad"
+    },
+    "src/sim/wrecks.asm": {
+      "source_sha256": "2c6a4cabd1969519c4aa095653445e2dd4e8b06e934d63d8fafd225c1a668365",
+      "object_sha256": "3befce11e57d2a7ab4faf792a681327143e1c014f063916fb243a93160a6e766"
+    },
+    "src/nav/crowd.asm": {
+      "source_sha256": "b4a5cf13344c4375e8d9b93c9859423a788a80c272a5aba12240b7d765c97857",
+      "object_sha256": "35c49bd5cc631bc1c6eb3a0dd94960706b7302e5cf9ce1827a8beb2968176989"
+    },
+    "src/nav/ground_contact.asm": {
+      "source_sha256": "46c3f632099fa0957bc7d3e0d072c7e4a080e631d896457cb0bb5ba40b799ed6",
+      "object_sha256": "18a37fc12566d8c591b1b9412f64df4f41a1074c3b591ccb319f0210a78fae13"
+    },
+    "src/nav/ground_eye.asm": {
+      "source_sha256": "e276a00e08d989e8c62f8bf57288444a8dfcf2370781454efda011b27aa235ec",
+      "object_sha256": "523729bb60c2aa8768def78d5e3a4cab5bc38ebc1b484dae0ada211a14d1ec6b"
+    },
+    "src/nav/ground_support.asm": {
+      "source_sha256": "bb6dbe014a499c309c3f9991aebe21e595e9cdfe6fe993f6649f7c06fd0d9651",
+      "object_sha256": "fd4bbd49c5086b5612aa75bf908c9642f7d6eeb2f673d117a7aecdfc4c8a36be"
+    },
+    "src/nav/segment_box.asm": {
+      "source_sha256": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99",
+      "object_sha256": "dd04b80318654adf55c09eb3f957b48a58a7eaf13f0974cc5d32a468ee4844de"
+    },
+    "src/nav/segment_sphere.asm": {
+      "source_sha256": "6bc0c73f7d5de611c4a26c08d0e559acbe862055151bae4c80298dd3e7674901",
+      "object_sha256": "78c12fd233aa3c8edf1df5bb9a5fa1736798f89030a9d3853d32d0d0167cd950"
+    },
+    "src/nav/squads.asm": {
+      "source_sha256": "4f0fb1ae6819e986c9df4922c8b62c35621f92963f93b1bc47b7d45b50745b58",
+      "object_sha256": "5232fe110cc220f697cab3188d34c9af845680b4b118f7764c496c20a7eb9860"
+    },
+    "src/nav/terrain.asm": {
+      "source_sha256": "f0d700ab865136dacf38fd0193de53b04f2e217862b6cd9e4ebec335b4975e58",
+      "object_sha256": "f65e9623bf43792bcd895b201095306424233b47448c81f8e30027457b9515d7"
+    },
+    "src/nav/terrain_body.asm": {
+      "source_sha256": "7560ab2ddca3d24070e49341bab36a02eb1100a50f74d87d9d941fa34f413f41",
+      "object_sha256": "e27287e08310c7a6e7b4fc2d9bdd63ae7837964e98c42fa76f171a0c74736e13"
+    },
+    "src/nav/terrain_grade.asm": {
+      "source_sha256": "6b0054c2196a2fe96c303df9d9df002e560fa22ccd8d854c0c24d3340f3ac072",
+      "object_sha256": "0c187330ae02fcfb4be1019ebfe8434e95074b0065b0c45abfe6768eb73cb1b0"
+    },
+    "src/nav/terrain_ground_query.asm": {
+      "source_sha256": "c6cb57ec98b9cbf6888a3fe161d85c15034d9e92dda1b5d9b24520906048f7c7",
+      "object_sha256": "6be7da23dbb97568649975b8a5cd4e54af94619df826f7f714fb3b7cc8004973"
+    },
+    "src/nav/terrain_relief.asm": {
+      "source_sha256": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+      "object_sha256": "66266fc7c0ab3948d12c5c7048be8d87ab39d694bc890682798e9d77f0470a80"
+    },
+    "src/nav/terrain_solid_query.asm": {
+      "source_sha256": "3d77d62dafff05a8dacaf36a9f937a5c11af9955fe5882ed743ca0568680b1e2",
+      "object_sha256": "8f6d83162b386e927dcf37edc4d32850b5aa525e2cbbc8150d596841928387c6"
+    },
+    "src/nav/terrain_surface.asm": {
+      "source_sha256": "2f4da01bc8f7c451df16268820fd5b276c9231856ba8bbabb503dd4b956b476a",
+      "object_sha256": "7b733ae508a0151b90f685ff00893d9b3eda22de217fb5cdd0fe716f8a429197"
+    },
+    "src/nav/world_body.asm": {
+      "source_sha256": "3c3a85feaa6e35639dceb285e1e86ffb081eec7e394419b72ba08da8943e6c6b",
+      "object_sha256": "faa5570f2805f1cc2cfadfc5f5a72751df549b23308b3209e4b83986ed1198fb"
+    },
+    "src/nav/world_los.asm": {
+      "source_sha256": "7605e6ebf163660deb9e999ebadee2b3a1d9fd8d279aa3aa0e1deb3644c99d1a",
+      "object_sha256": "0c3ccccd745b9458a35a18a8fd9508c8d4a31fc26fe0349744d41149fc2d925a"
+    },
+    "src/nav/wreck_nav.asm": {
+      "source_sha256": "bc78e8e521246e2dcafe4b6b5775b877ce4250c157d1f64669acd18db7d66a28",
+      "object_sha256": "c2d98647e023849d62843d04acfb6e8a44788efcca5ac88a2df794e364eb005c"
+    },
+    "src/nav/wreck_query.asm": {
+      "source_sha256": "26c56ca9462762ec43835864e39a7d4b0fc98cefd7bb1d886577a7b24d1c9131",
+      "object_sha256": "c10f7fd6d4639b3334256da9dc491069d2ad040c8981c88162b33db8488eda78"
+    },
+    "src/ai/aircraft.asm": {
+      "source_sha256": "5bb46ee81fcb2398337a76759cf3a3f1db0ec11364c502aa1f00b84aa32e9861",
+      "object_sha256": "fcb1c3e7e95e1a1e288e0b32a2f80e5c893c45faa5d0fca8f6ecb8ba8d74300b"
+    },
+    "src/ai/bomb_fall.asm": {
+      "source_sha256": "e9bb1cde64ca9ea08b9be6830c390c758002eb6fabb2e1a6a6f1400e63b8d004",
+      "object_sha256": "1cce6ca23a471dfb9c85eb2368c541efd65dbe0073bd2a4fd1bd20d66b062459"
+    },
+    "src/ai/company_assault.asm": {
+      "source_sha256": "0ca63544b22dca25e1f60eef2c163aaaad1cf23e4cac7f6cd3487124c0be3565",
+      "object_sha256": "c1cd462083b89b5e245a49ca378623a773a6469c2523d6a762b032e3842c3d96"
+    },
+    "src/ai/hazard_steering.asm": {
+      "source_sha256": "d27a3b03f79b500c25da797c43195bbd8d2efe74e878f6e50edb93045e14dfe1",
+      "object_sha256": "bcb16ec833296d1d6c2263d456a37bb608902b5efb25d98fe787df6981beb18b"
+    },
+    "src/ai/hazards.asm": {
+      "source_sha256": "ff17308349a1ddd5de4469e1c563f258022093d17186949950633f1edc911112",
+      "object_sha256": "d33c1cf5b2cece9f99cb43c910301e31aa96fd779662c6f66931ce6b40e0b69f"
+    },
+    "src/ai/tactics.asm": {
+      "source_sha256": "f1aef0d63d0e513a92c2c62c00d4c5533f89e7b926fc32abf68ed034e0a9ddc6",
+      "object_sha256": "54dabf6071a82fe06feaffa153bc373f865dd283f485da68d35157b2d2b32505"
+    },
+    "src/game/ground_motion.asm": {
+      "source_sha256": "12136bd8768ff83d6a531989b734587a2eaf9f4647df0dcba3991c72b5e81485",
+      "object_sha256": "44db3edca7bad42d299df7c46aa094140f1b505757db523bde06b731a595a5d2"
+    },
+    "src/game/player.asm": {
+      "source_sha256": "e313bcbfee97483b051365926bb5382905c6af318d06267d81e83bcb3b61d047",
+      "object_sha256": "d8a18ee9dac17191e751c978765df2fcb773c93b5ec7567f0bda13979d01de96"
+    },
+    "src/game/vehicles.asm": {
+      "source_sha256": "0ba97f7b1f2ca5b36e95fcb098c92e6d2dd66f09d881c9d3e30b9bb2b1f89f37",
+      "object_sha256": "bf80b93208d1952bccad4e9b8fce52ddf836b5e457e33f6918623b841513e616"
+    }
+  },
+  "candidate_query_source_sha256": "ecc446760d8c9fc9b84a717b7bac6df3cccad52380c2c3bc8e5f536234051bbb",
+  "library_sha256": [
+    "828d9fc85caef51a539c68af56208dc04a778f309b44c9171bdba46b11cd49f0",
+    "5b0b4dc92d8894c6fb206fe8c0b1a16256f7ddc7bf05012a2f87064e2e04a0c1"
+  ],
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "2e617c817dce5fe2",
+        "c5ab27ab9fae810c",
+        "5ffe06d1e939a93f",
+        "56490412123ad297",
+        "eb2f708ba6b175b1",
+        "aa89bbaecd98337d",
+        "d33487a244896a5f",
+        "e9368cc15eea14df",
+        "c0b18e54d3e0f3ee",
+        "674cd4fe4f0fd3c2",
+        "916ff10abbaba529",
+        "d3dcc99429b52b26",
+        "654f0eb43524cba5",
+        "556712d8d45f3819",
+        "62ca37b6741c0f77",
+        "437fe996e0383050",
+        "78bac7d1703e8ab3",
+        "cc756da59fbc5277",
+        "ddd8cdd5f4c09b2f",
+        "1395f287083dbe7e",
+        "3c4967abdad20219",
+        "3727e62d203da0de",
+        "6bcc61071d8319e3",
+        "317d1c3f327ca077",
+        "d0b92f4bfccaace4",
+        "b1ca1895e8f93e62",
+        "2c00b2310af852f4",
+        "7a6163ee8649bf2c",
+        "67bde85cfe4416f2",
+        "ff622e9b4c00135c"
+      ],
+      "timings": [
+        {
+          "mean_ms": 15.909470035555554,
+          "p95_ms": 19.019057
+        },
+        {
+          "mean_ms": 15.929091844444445,
+          "p95_ms": 18.955093
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "b4c8b42b92514819",
+        "4aa13ed49e4a3e8b",
+        "749cfea6b1a23eb0",
+        "c5dc6d38892dbfbb",
+        "70293fa4e4210184",
+        "b241397094e3e503",
+        "17b194938c84ab39",
+        "77d7b3460b6bcff9",
+        "aa6e132176e2d687",
+        "4711d6eb0c115d42",
+        "d8fe6025f52b869e",
+        "37c679c264f13b73",
+        "28eb61dd3cc25782",
+        "16d67aa6e1728a0a",
+        "c97a60aaa981ade8",
+        "a757277226e63c2c",
+        "e824ce13416d4eee",
+        "fcf0e0e557c9e32f",
+        "33eec2f08fdacd29",
+        "7b7608437405571a",
+        "5360338b4a2649e9",
+        "9583fc413cba1f7d",
+        "e2dc14e6326d630a",
+        "4b7165672dd58c3b",
+        "3e4382fc39bbb5cc",
+        "306b861611e71c52",
+        "0341565ecd3f2ee2",
+        "dcd3865f5e5d98a5",
+        "19d4367e9b6cce15",
+        "aa0097c5b1150927"
+      ],
+      "timings": [
+        {
+          "mean_ms": 43.04567434444445,
+          "p95_ms": 57.994078
+        },
+        {
+          "mean_ms": 36.37063446888889,
+          "p95_ms": 47.462414
+        }
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "equal_checksum_and_all_entity_samples": [
+        "ed5f9f292fb2fc6b",
+        "49fdb91b163583f3",
+        "e891c3833c9e66cd",
+        "b52ecba4b948051c",
+        "3c9e8c6897fb0c4f",
+        "9fcf7667e824a75e",
+        "d08b22d35029261c",
+        "8d8d5365a1eb55a7",
+        "3a08f54aa16e956a",
+        "7fff1bd9d6f6c92e",
+        "517e1d7d51827afa",
+        "cb6bffb54407b8dd",
+        "fa3c9ff7047a45e6",
+        "7a68a595da6489f8",
+        "6b0479f702534a27",
+        "d42230b7aa6bb921",
+        "ceaf9c5baa5547b6",
+        "f22e41dbea2783fd",
+        "e7fd540717da238b",
+        "919ae17d2a8c04ce",
+        "9003da6bbea235ac",
+        "5556ea20867bca23",
+        "b0c7987596b8e905",
+        "3baa244d921e7e0d",
+        "e218a2fe68993fb8",
+        "3890e81b5ee73116",
+        "d731309e978bdbc0",
+        "5fc288c7e3a29ff2",
+        "fdeb2cf50c672aaa",
+        "c84f164a033d5406"
+      ],
+      "timings": [
+        {
+          "mean_ms": 33.925822626666665,
+          "p95_ms": 42.236623
+        },
+        {
+          "mean_ms": 33.89028318333333,
+          "p95_ms": 42.024111
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Paired production simulation, identical copied objects except wreck_query; immutable libraries.",
+    "Authority checksum and all entity bytes every30 ticks, seed42; concurrent frozen verification may affect timings.",
+    "Not graphical, UDP, human-quality or full integration acceptance."
+  ]
+}

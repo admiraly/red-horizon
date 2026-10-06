@@ -13,14 +13,14 @@
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/b0240f5853b8/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/b0240f5853b8/result.json",
     "pid": 1903131,
-    "observed_utc": "2026-10-06T11:17:18.243229+00:00",
     "terminal_result": {
       "job_id": "b0240f5853b8",
       "exit_code": 1,
       "revision": "ccff52f768e702de59233630e992866088f1d64f-1a1492e3fb5e47c0",
       "seconds": 759.5344625909929,
       "status": "failed"
-    }
+    },
+    "observed_utc": "2026-10-06T11:24:53.533180+00:00"
   },
   {
     "job_id": "e6091687a43d",
@@ -31,12 +31,35 @@
       "--suite",
       "fast"
     ],
-    "status": "running",
+    "status": "passed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-row-query/runs/jobs/e6091687a43d/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-row-query/runs/jobs/e6091687a43d/result.json",
     "pid": 1995847,
+    "terminal_result": {
+      "job_id": "e6091687a43d",
+      "exit_code": 0,
+      "revision": "330cc744073b04e5eeb83fd852ef096a90669900-a13c5ab97ed78e34",
+      "seconds": 208.1878269620065,
+      "status": "passed"
+    },
+    "observed_utc": "2026-10-06T11:24:53.533366+00:00"
+  },
+  {
+    "job_id": "4f9cf0815524",
+    "revision": "dc2c4fb8ba7c860bd4da2b5d9917c77634bceb7a-3795e595064024f2",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/combined-assault/runs/jobs/4f9cf0815524/result.json",
+    "pid": 2067260,
     "verified_live": true,
-    "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-row-query/tools/dev.py _worker e6091687a43d test --suite fast ",
-    "observed_utc": "2026-10-06T11:15:21.434200+00:00"
+    "proc_cmdline": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/combined-assault/tools/dev.py _worker 4f9cf0815524 test --suite all --extended ",
+    "observed_utc": "2026-10-06T11:24:53.533572+00:00"
   }
 ]

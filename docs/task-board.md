@@ -317,3 +317,13 @@ Combined b0240f5853b8 is terminal FAILED759.5345s at authentic wreck replay
 after drops (test_wreck_network.py:93). Reproduce with frozen artifacts and
 distinguish a dropped packet first delivery from duplicate/stale resurrection
 before correcting any code or test. The prior v19 candidate remains unintegrated.
+
+2026-10-06 causal replay correction and coherent checkpoint: initial-row fast
+e6091687a43d PASSED208.1878s; short-query fallback3aad7b7 focused/900tick parity
+passes. Wrong duplicate assertion reproduced with17 dropped genuine new wrecks;
+corrected actual main/v19 extended streams pass. v19 paired900tick row search
+keeps90 world/entity samples equal and improves hotspot p9557.994→47.462ms,
+still above33.3ms. New full4f9cf0815524 is live atdc2c4fb-3795e595064024f2;
+root v17 runtime remains accepted. Next: reconcile this handle, integrate matching
+passed coherent source, then protected air missions/shared company intent and
+remaining decision costs. Historical failed full logs remain retained.

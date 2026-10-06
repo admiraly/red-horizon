@@ -1,0 +1,9 @@
+{
+  "main_server_sha256": "00dfd26fe7f0e211ac4695da43b3219a608ce8df996d5040d12b041d02bf4a11",
+  "main_adapter_sha256": "4198c15233a83d1cdf9d7ac27a33fee89e97433eea5e6c8a60b820ac6d42b2e2",
+  "observer_source_sha256": "21687091e1fb25dc2ed308e82d09ed537de79826ff5de78474cfc0bbb5353dce",
+  "causal_probe_source_sha256": "938c1f62b0407d8d444115d6a9456a471c01c4b21d67fdf82d5b157af436a376",
+  "main_extended_exit_code": 0,
+  "frozen_v19_extended_exit_code": 0,
+  "runtime_changed": false
+}

@@ -1,31 +1,40 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
-Combined full b0240f5853b8 FAILED759.5345s at authentic wreck UDP replay:
- test_wreck_network.py:93 expects three selected packets to leave the cache
-unchanged after intentional packet drops. The parser checks, actual player input,
-co-op ordnance and ground transport passed before this assertion. Diagnosis is
-in progress against the exact frozen server/adapter; do not treat the failed
-checkpoint as integrated or passed. Exact result/log/reports are
- docs/evidence/combined-assault-full-failed-*. Main remains v17.
+Current main runtime remains accepted07d6536/v17; the full-game goal is active.
+Combined full b0240f5853b8 FAILED759.5345s at authentic wreck replay. An exact
+frozen repeat proves the selected last packet was dropped:17 previously unseen
+valid records are first deliveries, not duplicate resurrection. The observer is
+now corrected on main: duplicate samples must have been delivered, and delayed
+first delivery plus its repeat are checked separately. Actual main v17 and frozen
+v19 extended fixtures pass real1800tick expiry/late join/guards; v19 recovers16
+new records in that repeat. Retained authentic payloads replay causally against
+both adapters, proving the old immutability assertion wrong. No networking
+runtime was changed. Exact capture/source/artifact hashes and logs are
+ docs/evidence/combined-wreck-* and main-wreck-*. The failed checkpoint is retained.
 
-Current isolated search candidate cfa0312/330cc74 narrows rows of the already
-existing128×128/62.5m wreck grid; this is not a new finer grid. Independent
-all-record geometry/body oracles retain original cases and add256/176 long,
-reverse, near-horizontal and outside-map paths. Cache/remote lifecycle negatives
-pass. A full-map diagonal visits27 instead of1024 records, while coincident
-geometry retains1024 visits. Actual900tick paired production worlds preserve90
-hash/all-entity samples. Mean/p95ms baseline→candidate:8k open10.847/12.890→
-11.140/13.165;8k hotspot32.363/38.461→27.790/32.859;16k open24.029/29.748→
-24.667/30.223. This demonstrates a dense benefit and small open regression on
-concurrent local development hardware, not graphics or reference-budget acceptance.
-Frozen fast e6091687a43d at330cc74-a13c5ab97ed78e34 is pending. No row-query
-runtime is integrated. Exact source and immutable-library/object hashes are in
- docs/evidence/wreck-row-runtime.json; scope is docs/wreck-row-query.md.
+The initial row candidate330cc74 fast e6091687a43d PASSED208.1878s. Optimized
+3aad7b7 additionally scans short rectangles directly, removing projection cost.
+Original2,000/2,500 geometry/body paths plus256/176 long paths and401 context
+calls pass; all caller/source/lifecycle/assembled negatives remain. Paired900tick
+v17 worlds preserve90 hashes/all-entity samples:mean/p95ms baseline→row,
+8k open10.675/12.655→10.719/12.703;8k hotspot31.520/37.618→27.270/32.387;
+16k open23.310/28.690→23.341/28.626. The earlier fast result does not cover this
+later runtime. See docs/wreck-row-query.md for exact source/object/library hashes.
+
+Combineddc2c4fb adds optimized rows and the observer correction to company1 and
+full-range/nearest-visible acquisition2. Its900tick pairedv19 worlds preserve90
+hashes/all-entity samples:8k open15.909/19.019→15.929/18.955;8k hotspot43.046/
+57.994→36.371/47.462;16k open33.926/42.237→33.890/42.024ms. Dense/stretch
+still exceed33.3ms; this is concurrent local CPU timing, not reference hardware,
+GPU or human-quality acceptance. Coherent full4f9cf0815524 is verified live at
+ dc2c4fb-3795e595064024f2 with original scale/motion/symmetry/held-arrival/recovery,
+actual graphics and UDP fault gates scheduled. Only that matching checkpoint
+can authorize integration. Main runtime remains v17; code licence pending.
 
 Wreck body collision and explicit replicated-cover foot prediction were
 integrated at f8d80b8. The corrected relevance/query/deployment/quit batch is
 now integrated from db54418 with full97b74ea394b4 PASSED1036.1950s/125reports
-and all282 authored inputs matching main. VERSION2 local vertex selection
+and all282 authored inputs matching accepted07d6536. VERSION2 local vertex selection
 handles the tested9-wreck scene while checking every edge against all cover.
 Disjoint wreck envelopes reject before exact intersections; source validation
 and original radii/ties/escape semantics remain. Exterior fallback avoids site
@@ -41,7 +50,7 @@ captured wrecks. Persistent local routes use a512-slot FIFO and at most8 builds
 per tick; new intervening wrecks trigger local replanning.
 
 Frozen full43b83242e4da PASSED946.8517s/123 reports. All278 authored inputs
-match main exactly, from snapshot
+matched the accepted f8d80b8 runtime exactly, from snapshot
 09c6ce82aa24871bacf0170522ebe413aed980e7-999ea2bdc1f0b1d9.
 Extended network634d5a189315 PASSED131.7513s/11 reports. Original8k/16k
 motion/replay,400tick health/label symmetry,360tick held arrival,1200tick recovery,

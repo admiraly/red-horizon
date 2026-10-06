@@ -34,3 +34,13 @@ entity byte. Mean/p95 milliseconds (baseline→row) are 8k open
 10.847/12.890→11.140/13.165, 8k hotspot32.363/38.461→27.790/32.859,
 and 16k open24.029/29.748→24.667/30.223. Dense benefit has a small open-scene
 regression; these are not reference hardware or graphics budget claims.
+
+Initial330cc74 frozen fast e6091687a43d PASSED208.1878s. A subsequent small
+rectangle fallback scans at most three columns directly, avoiding projection
+cost for short rays. All same focused oracles pass at query sourceSHA256
+ ecc446760d8c9fc9b84a717b7bac6df3cccad52380c2c3bc8e5f536234051bbb.
+Its second900tick paired run again preserves90 hash/all-entity samples:
+8k open mean/p9510.675/12.655→10.719/12.703ms;8k hotspot31.520/37.618→
+27.270/32.387ms;16k open23.310/28.690→23.341/28.626ms. Open mean cost is now
+within0.5% in these samples. This later runtime is not covered by the earlier
+fast result and requires a matching coherent integration checkpoint.
