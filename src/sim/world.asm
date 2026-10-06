@@ -17,6 +17,7 @@ extern sim_aircraft
 extern air_hit,air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
 extern ground_init,ground_step,ground_hash
+extern wreck_init,wreck_register,wreck_tick,wreck_hash
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
 sim_count: resd 1
@@ -139,6 +140,7 @@ sim_init:
  call ordnance_init
  call vehicle_init
  call ground_init
+ call wreck_init
  call crowd_init
  call air_init
  call hazard_init
@@ -234,6 +236,7 @@ sim_tick:
  sub rsp,96
  inc dword [sim_tick_count]
  sub rsp,8
+ call wreck_tick
  call ai_tick
  call nav_tick
  call air_tick
@@ -633,6 +636,10 @@ sim_tick:
  mov eax,[rbx+ENTITY_SIDE]
  lea rcx,[sim_alive]
  dec dword [rcx+rax*4]
+ mov edi,r12d
+ sub rsp,8
+ call wreck_register
+ add rsp,8
  jmp .apply_next
 .survive:
  sub [rbx+ENTITY_HP],eax
@@ -700,6 +707,7 @@ sim_checksum:
  call ordnance_hash
  call vehicle_hash
  call ground_hash
+ call wreck_hash
  call air_hash
  call nav_hash
  call crowd_hash
@@ -1070,6 +1078,13 @@ sim_air_damage:
  mov eax,[rdx+ENTITY_SIDE]
  lea rcx,[sim_alive]
  dec dword [rcx+rax*4]
+ mov rdi,rdx
+ lea rax,[sim_entities]
+ sub rdi,rax
+ shr edi,5
+ sub rsp,8
+ call wreck_register
+ add rsp,8
  jmp .done
 .hit:
  test esi,esi
