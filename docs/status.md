@@ -10,8 +10,21 @@ verified. The124 structured suite reports retain original8k/16k motion/replay,
 co-op and UDP fault cases. Exact source/report hashes: combined-assault-integration.
 Compatibility is UDPv19/schema0xe683e0bb/content0xe310d315 (canonicalSHA256
  e310d315ac36e3de67f774e82da78264045c05b283beaf56bbac06c1ec0afa5a).
-The full-game goal remains active. Root artifact rebuilding follows integration;
-previous v17 builds are historical until replaced.
+The full-game goal remains active. Root headless/co-op/client and simulation/
+client-adapter libraries are rebuilt at39f55ca-f0af61ff208504d6. Actual company
+replay/withdrawal and8192army180tick co-op checks pass, including1192 airXZ
+refreshes. Exact artifact SHA256s and logs: combined-main-build.json. Previous
+v17 artifacts and checks below are historical.
+New isolated aircraft candidate1c8ceb1/v20 implements generation-bound own
+bomber escorts, trailing/flank flight goals and real-range/LOS-gated bomber-threat
+priority. The750m fighter search now covers3 cells in each direction. Matching
+focused1800public ticks show actual following, perceived threat damage and finite
+gun/bomb action, with adjacent-cell and priority-disabled NASM controls. Both
+contested bombers survive and the escort dies; no general survival advantage is
+claimed. Full details: docs/air-escort.md. Frozen fast f604660e9502 PASSED266.7072s
+at1c8ceb1-e6a5f9beaf846fcc. Full/scale/GL acceptance is pending; this candidate
+is not integrated. Timed company air support/shared mission UI remains open.
+
 Combined full b0240f5853b8 FAILED759.5345s at authentic wreck replay. An exact
 frozen repeat proves the selected last packet was dropped:17 previously unseen
 valid records are first deliveries, not duplicate resurrection. The observer is

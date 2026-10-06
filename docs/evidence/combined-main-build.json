@@ -1,0 +1,35 @@
+{
+  "built_revision": "39f55ca4a12a07442052ef6845d31a6f6fc842ea-f0af61ff208504d6",
+  "canonical_content": "0xe310d315",
+  "artifacts": {
+    "build/red-horizon-server": {
+      "bytes": 169040,
+      "sha256": "f767bf1671040a57cc471faf1253f0d49d20497001c7f37d492fc6f106487fbd"
+    },
+    "build/red-horizon-coop-server": {
+      "bytes": 177152,
+      "sha256": "a34ef9b3051b1df25dbb8db394839500908be4f80567910571e79339e4ea32b9"
+    },
+    "build/red-horizon": {
+      "bytes": 298904,
+      "sha256": "6e4593772c23a47dbf5eca6e79b6d6931e0644b42e88bbd377e5f2b920a7e6a2"
+    },
+    "build/libsim.so": {
+      "bytes": 173248,
+      "sha256": "0cff3e42e31d47fd5c8b7049f1c21502e138cb1605090b27c5f4d88676a7d1bd"
+    },
+    "build/libcoopclient.so": {
+      "bytes": 184128,
+      "sha256": "a51f210da1ffb7a218d900f36d0bc990bd85e7d4b0776e5217cfa4322f9687bd"
+    }
+  },
+  "checks": [
+    "Root headless/co-op/full client link",
+    "Actual company1200tick staging/release/advance replay and genuine blast withdrawal",
+    "Actual8192army180tickUDP/co-op adapter,1192 airXZrefreshes"
+  ],
+  "limits": [
+    "Rebuild and focused smoke checks; complete acceptance carried by exact matching frozen4f9cf0815524 inputs.",
+    "Local hardware tick budget/graphics/human craft/full specification remain incomplete."
+  ]
+}
