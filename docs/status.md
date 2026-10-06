@@ -84,7 +84,7 @@ the worker. Evidence/player-blast-main-player.json records merged native epochs.
 
 Frozen full5c24e859ca9b FAILED/collected at 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76,
 PID2000914; evidence/player-blast-full-pending.json. Earlier full
-3ed19c6f8298 remains running at its distinct v34 epoch;06b65992aceb remains
+3ed19c6f8298 failed at its distinct v34 epoch;06b65992aceb remains
 FAILED despite successful focused corrected-observer rechecks. Full checkpoint,
 dedicated multiplayer blast pixel evidence, complete human capsule,
 fighter-human contact/target designation, shared infantry shot scheduling,
@@ -133,7 +133,7 @@ earlier player full06b65992aceb FAILED/collected at its separatev33 epoch:
 exit1,1478.211900s, command-wheel selected-wedge pixel assertion (9/15/19
 unselected fill rather than expected selected shade). Diagnosis/recheck pending;
 evidence/player-ammunition-full-failed.json retains exact result/log hash.
-The new infantry full remains running and is not claimed passed. Noninfantry synthetic threat damage, shared NPC
+The v34 infantry full failed; corrected blast fulld8f5c5b64ed3 is running and is not claimed passed. Noninfantry synthetic threat damage, shared NPC
 army/human shot cadence and NPC human-shot audio/tracers remain unresolved in
 this integrated batch. Physical hostile blast damage against humans is now
 being implemented separately; no integration claim for that candidate.
