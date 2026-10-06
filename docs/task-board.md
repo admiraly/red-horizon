@@ -505,3 +505,13 @@ full/minimum GL depletion and real two-client timeout pass. Frozen full
 fixture/quality limits. Next weapon authority task: NPC damage against humans
 must consume actual finite rifle stock and respect role weapons; existing
 enemy_attack's16-tick synthetic threat damage bypass remains unaccepted.
+
+Infantry human-threat stock correction (root, integrated0b4d7d6): actual
+range/LOS damage now debits existing finite generation-valid rifle stock.
+Sparse armed/exhausted/reload/corrupt/wall/replay, original focused player,
+real gameplay/minimum co-op GL and corrected complete network25 pass. Frozen
+fast78 passed at the earlier documented epoch; final full3ed19c6f8298 pending.
+Derived completed-tick marker fixes the physical route observer without changing
+gameplay/hash or its speed bound. Subsequent task: physical tank/artillery/bomb
+blasts against humans; eliminate noninfantry synthetic rifle damage, preserve
+co-op friendly protection, real LOS/death/crew recovery and finite source shots.

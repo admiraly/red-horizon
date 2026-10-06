@@ -1,3 +1,39 @@
+Finite infantry damage against humans is integrated in0b4d7d6b3e7a79b3830cb16cf6b8493463a64242,
+authored fingerprintaafce4d008140d67,401 inputs. UDPv34/schema8136ed0d/
+content77e16f9b fingerprints infantry policy3; packet layouts unchanged.
+The older rifle threat scan damaged humans without spending ammunition, even
+with empty/reloading/corrupt stocks. It now debits the same current-generation
+conserved infantry magazine after physical range/LOS acquisition; unavailable
+stock cannot inflict suppression or damage. An80-tick actual sparse control
+spends5 rounds for50 damage; empty/corrupt stock causes0 damage, real60-tick
+reload delays damage until64, and an actual wall prevents debit. Replay matches.
+
+Focused original player/controller/deployment/terrain, actual gameplay and
+320x240 two-client stock/timeout GL pass. Frozen fastf50f834fa763 PASSED and
+collected299.575142s,78 explicit pass reports, atc65b243-ec7be176c311b2b6.
+That fast epoch precedes the subsequent derived publication/UDP fixture changes.
+The final complete network rerun exits0 with25 reports. Six old keepalive
+fixtures now pass the correct EDI dummy/slot plus ESI flags argument. The first
+corrected rerun FAILED after14 pass reports at a mixed mid-tick /proc movement
+sample; its failure and corrected premature evidence record are retained.
+
+sim_tick_completed is a derived diagnostic published after every world tick;
+no gameplay reader/hash inclusion.100 paired actual ticks with marker tampering
+match every checksum and future state. The server observer checks coherent
+completed/start counters and retains its original speed bound. Physical actual
+8192/four-peer resupply still grants90 at360, depot11910, unchanged goal resumed,
+all6144 infantry/12 stores conserved; no live writes or stops after startup.
+Updated focused player/publication/physical server proofs pass. Exact epochs,
+original/failure/final reports: evidence/player-threat-session.json.
+
+Frozen full3ed19c6f8298 RUNNING at0b4d7d6-aafce4d008140d67,PID1871314;
+earlier player full06b65992aceb remains pending at its separatev33 epoch.
+Neither is claimed passed. Noninfantry synthetic threat damage, shared NPC
+army/human shot cadence and NPC human-shot audio/tracers remain unresolved in
+this integrated batch. Physical hostile blast damage against humans is now
+being implemented separately; no integration claim for that candidate.
+Whole-game goal active, specification incomplete, licence pending/no publication.
+
 Finite player ammunition is integrated in ee97d37d72ec16c1de65c39bddb85ac14f1c5e4a,
 authored fingerprint2969032aadf8d434,399 inputs. Public player64/state848 bytes
 remain; UDPv33/schema8bdfbab4/contente4212358 carries own40-byte message110.
