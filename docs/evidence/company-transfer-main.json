@@ -1,0 +1,188 @@
+{
+  "main_runtime_commit": "84aa70c5798eebb0599252f89fa5e425f14c5e95",
+  "candidate_commit": "7362317d99cc0db7730e665086413bdcd1c3c4a6",
+  "frozen_authored_inputs_matched": 338,
+  "artifacts": {
+    "headless": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827/red-horizon-server",
+      "sha256": "22192709aeb566124707be5582cb618f3977605a58827de618d1776e351a374b"
+    },
+    "coop": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827/red-horizon-coop-server",
+      "sha256": "3e0fd5cf91d1d040cc737cc0fbe79b2a734b80fe0c16386b68005adc7344694c"
+    },
+    "client": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827/red-horizon",
+      "sha256": "85ff1e99f4cd167952a7cab6a3f7bed6829f021e708bfe3b6fa60e21a60c4527"
+    },
+    "libsim.so": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/libsim.so",
+      "sha256": "0e14ba514144d752ee4c8f0636e0c4efb0c224f5343e38e1147d5e17944a47e3"
+    },
+    "libcoopclient.so": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/libcoopclient.so",
+      "sha256": "541cd6e2312bc13105d40ef1b8c7a78c3c9430ff55792faadbe399b4881f744e"
+    }
+  },
+  "builds": {
+    "headless": {
+      "target": "headless",
+      "revision": "84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827",
+      "assembled": 4,
+      "assembled_sources": [
+        "src/sim/company_remote.asm",
+        "src/sim/world.asm",
+        "src/ai/company_control.asm",
+        "src/ai/company_transfer.asm"
+      ],
+      "seconds": 0.37650627200491726,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827/red-horizon-server"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.34251474200573284,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827/red-horizon-coop-server"
+    },
+    "client": {
+      "target": "client",
+      "revision": "84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827",
+      "assembled": 2,
+      "assembled_sources": [
+        "src/platform/linux/client.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.44030658999690786,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827/red-horizon"
+    }
+  },
+  "checks": [
+    {
+      "suite": "company-exclusive-control",
+      "passed": true,
+      "physical": {
+        "assignment_keys": [
+          0,
+          256,
+          512,
+          1
+        ],
+        "physical_displacements_m": [
+          0.0,
+          24.0234375
+        ],
+        "disconnected_cohort_autonomous_travel_m": 14.406944936677146,
+        "hash_samples": [
+          "d256a1c27b326d0d",
+          "9039b4b95c14f124",
+          "15f864d2b0c4b891",
+          "cdd9b2a30038500f",
+          "91bd147f15fb44d9",
+          "bae13bf2cd099d97",
+          "e37cc0e30b08409a",
+          "6b3ef7167617ea79",
+          "5497f0f9dea78a5b",
+          "8ca20dbb0a63eaae"
+        ]
+      },
+      "library_sha256": "5fb62a494ec16f617dd7a6c89b4a6348bd143110f9125518b9c38788509ea147"
+    },
+    {
+      "suite": "company-consented-transfer",
+      "passed": true,
+      "physical": {
+        "keys_after": [
+          256,
+          0,
+          512,
+          1
+        ],
+        "physical_displacements_m": [
+          0.0,
+          23.9990234375
+        ],
+        "checksum": "4c5f0ccc1e9d1a65"
+      },
+      "library_sha256": "ab3be9b00a7828ae5f79455eca83ce71476b8c8c999df280defb6d0dade56b9c"
+    },
+    {
+      "suite": "company-transfer-actual-udp",
+      "passed": true,
+      "before_keys": [
+        19,
+        285,
+        534,
+        0
+      ],
+      "after_keys": [
+        285,
+        19,
+        534,
+        0
+      ],
+      "library_sha256": "541cd6e2312bc13105d40ef1b8c7a78c3c9430ff55792faadbe399b4881f744e",
+      "server_sha256": "3e0fd5cf91d1d040cc737cc0fbe79b2a734b80fe0c16386b68005adc7344694c"
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "before_keys": [
+        19,
+        276
+      ],
+      "after_keys": [
+        276,
+        19
+      ],
+      "queued_behind_inflight_movement": true,
+      "fault_relays": [
+        {
+          "latency_ms": 75,
+          "received": 672,
+          "dropped": 33,
+          "reordered": 92
+        },
+        {
+          "latency_ms": 75,
+          "received": 616,
+          "dropped": 30,
+          "reordered": 84
+        }
+      ]
+    }
+  ],
+  "checks_log": "docs/evidence/company-transfer-main-checks.log",
+  "checks_sha256": "22dd93c9aff76c994db1db2f9f616cdd17d8e2c736cdbc360fcc57640f6853a8",
+  "frozen_extended_job": {
+    "job_id": "43d31a2cf5a3",
+    "revision": "7362317d99cc0db7730e665086413bdcd1c3c4a6-9beb3e4179d7c827",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-transfer/runs/jobs/43d31a2cf5a3/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-transfer/runs/jobs/43d31a2cf5a3/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-transfer/runs/jobs/43d31a2cf5a3/result.json",
+    "pid": 3802833
+  },
+  "observed_state": {
+    "status": "running"
+  },
+  "live_process": "Ss   /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/company-transfer/tools/dev.py _worker 43d31a2cf5a3 test --suite all --extended",
+  "jobs_reconciled": {
+    "foreground": "all terminal passed",
+    "prior72366ca35c1e": "terminal failed and retained",
+    "43d31a2cf5a3": "running"
+  },
+  "limits": [
+    "Full extended checkpoint is pending; no complete specification, target GPU or human quality acceptance.",
+    "Transfer means explicit two-company exchange with default keyboard/window-title UI; assistance, squad splitting and complete contextual/remappable controls remain unfinished."
+  ]
+}

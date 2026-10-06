@@ -396,3 +396,13 @@ display-open retry retains the actual timeout gates and the focused rerun passes
 Preserve the failed result; the isolated consent-transfer batch continues. Transfers/assistance, recruitment,
 formation selection, remappable contextual commands, shared countdown/support,
 full operation/content and target performance/human quality remain open.
+
+Main consent-transfer batch7362317: guarded request/accept/decline/cancel,
+current generations/leases and proposal IDs, cross-front ownership exchange,
+preserved bodies/company intent, queued reliable controls and visible feedback.
+Matching main API, original8192 read-only four-peer/production-adapter UDP and
+actual two-client75ms/loss/reorder transfer checks pass. All338 authored inputs
+match frozen43d31a2cf5a3, currently RUNNING. Preserve original scale, realGL and
+UDP gates; collect that exact job. Last full pass remains3112ca82aa0d. Broader
+contextual/remappable/fullscreen UI, assistance, splitting, recruitment, shared
+countdown/support and remaining complete-operation/quality budgets remain ready work.

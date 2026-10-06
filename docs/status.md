@@ -1,5 +1,41 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integrates the consent-transfer batch7362317. UDP v25 uses
+schema0x2f1d4d2e/content0x6618d669. Two humans explicitly exchange companies;
+both retain a company, their bodies and their companies' accepted intents.
+Generations, lease serials, current proposal IDs, expiry and recipient consent
+are checked before one atomic swap. Command/deployment fronts and ownership
+highlights follow the exchanged formations. No units or requisition are created.
+
+F5–F8 request P0–P3, F9 accepts the visible offer, F10 declines and F11 cancels.
+Requests queue behind movement acknowledgements. Actual two rendered clients
+pass with75ms one-way delay, loss, jitter and reorder: one held request, explicit
+recipient acceptance, unchanged body generations/positions and preserved goals;
+old-front commands reject and new-front commands succeed. The main rerun observes
+the queue behind in-flight movement. Exact scoped evidence and limitations:
+docs/company-transfer.md and docs/evidence/company-transfer-focused.json.
+
+Fast61, network16, tooling2 and graphics29 suite reports pass in their recorded
+scopes, plus the additional rendered fault scenario. Main binaries/libraries are
+rebuilt at84aa70c5798eebb0599252f89fa5e425f14c5e95-9beb3e4179d7c827. Matching company control, transfer API,
+read-only original8192 four-peer/production-adapter UDP and actual rendered fault
+checks all pass. All338 authored inputs match the frozen source. Exact artifacts:
+docs/evidence/company-transfer-main.json and its matching main logs.
+
+Frozen full43d31a2cf5a3 is RUNNING at7362317-9beb3e4179d7c827,
+not passed. Prior72366ca35c1e remains FAILED1155.5021s after135 passing suite
+reports, at private Xvfb startup for the final timeout fixture. The corrected
+bounded display-open retry and strict final gameplay observation retain the
+actual graphics/timeout/health gates; failures are preserved. All foreground
+jobs are terminal;43d31a2cf5a3 is the sole running managed job. Last fully passed
+checkpoint remains3112ca82aa0d. No full-game completion claim is made.
+
+Transfer UI currently uses default keys/window-title feedback. Assistance,
+squad splitting, recruitment, remappable contextual controls/fullscreen text,
+shared timed assaults, broader operation/content/platform requirements and
+hardware performance/human quality remain incomplete. The full-game goal is active.
+
+
 Current main integrates the focused-verified company replication batch52e2a2a.
 UDPv24/schema0xb35e47af/content0x22634bc6 sends four complete company leases
 and accepted intents, validates entire batches and current body generations,
