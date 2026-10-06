@@ -1,3 +1,51 @@
+Shared actual infantry firing cadence is integrated in86a8573; runtime contracts
+in94e8a92, policy4,UDPv36/schema6de33575/content487332b0. Both real army and
+human rifle-damage paths now call one finite validated shot gate. A successful
+shot starts an8tick private cooldown; genuine living validated world ticks own
+countdown, death freezes it and actual new weapon-body generation resets it.
+Cooldowns participate in authority hash; corrupt/stale/invalid/blocked requests
+are atomic. Existing stock-only debit API remains separate, never a gameplay
+rifle-damage path. Public stock32/entity32/player64/state848 layouts unchanged.
+
+Causal80tick actual comparison: old four-human visits fire at13/14/15/16 etc,
+spending20; mixed army/human fires two rounds at15/31/47/63/79, spending30.
+Candidate four-human case spends5 at13/29/45/61/77; mixed spends10 at7..79 every8,
+army100→70. Every actual shot corresponds to one damaged target and one round;
+no later pose/HP/stock/clock renewal. Both cases replay identically. Invalid
+stocks/cadence, dead freeze, new-body reset and hash inclusion gates pass.
+Six-entry18-invalid-call NASM ABI preserves six nonvolatile registers/alignment.
+Original finite1400tick ammo/reload/faction control, actual original8192 GL
+movement/hit/reload/damage/death/redeployment and corrected source-mesh gates pass.
+
+Frozen fast80c2e26e6a2c PASSED/collected316.953322s,85 explicit reports,
+5bc5580-a3a0632b7c4cfdc7. All168 runtime/schema/shader/content inputs match the
+final candidate; later development observer/ABI refinements are separate proof.
+Complete corrected network exits0 with26 reports, including original8192/four
+endpoints, real finite shell-human death/stock invalidation/deployment, physical
+resupply, broad malformed/parser/session/UDP fault regressions. Initial network
+run FAILED after6 reports because post-startup nm inspection missed unchanged
+birth_tick<5 fixture guard. Symbols now read before server starts; original
+bound and no post-birth writes remain. Failed run retained, not counted passed.
+Exact separate epochs/reports: evidence/infantry-cadence-session.json and
+ evidence/infantry-cadence-fast-passed.json.
+
+Single paired original8192/400tick scale-front seed42 CPU experiment: all
+reported non-timing world metrics match previous runtime; new authority checksum
+intentionally includes cooldowns. Candidate mean13.418865ms/p9515.926034ms vs
+baseline13.223762ms/p9515.529005ms amid concurrent verification. This is one
+host CPU experiment, not sustained/hardware graphics or per-actor label-health
+proof. Exact reports: evidence/infantry-cadence-benchmark.json.
+
+Matching-main focused player checks running. Frozen full6c0e578a78f7 RUNNING,
+86a85731eb1f9cc3e51b21d28136277a399cb8a6-1c87bd9c49b149b5,PID2138286; metadata
+ evidence/infantry-cadence-full-pending.json. Previous corrected blast
+fulld8f5c5b64ed3 remains live at its earlier epoch. Failed3ed19c6f8298 and
+5c24e859ca9b remain failed/collected. No full pass or complete-game claim.
+Army-first processing and human16tick scans remain: fair joint target arbitration
+and actual NPC rifle shot audio/tracers are still incomplete. Broader spec,
+hardware quality/performance and platform/content work remain. Goal active,
+licence pending owner approval; no remote publication.
+
 Mesh observer correction: exact failed v34 frozen executable passes unchanged
 source-pose idle/walk selection, actual movement, pixel-change and frozen-track
 assertions when input waits for actual Tab/front/hold acknowledgement. Old
