@@ -7634,6 +7634,13 @@
       "log_sha256": "e0ccf9a25bf426b7c37e3df6a5a5ecd3dfc190b810156233ce578dbd20dc9aa6",
       "reports": [],
       "failure_tail": null
+    },
+    {
+      "name": "network-initial-birth-boundary",
+      "exit_code": 1,
+      "log_sha256": "ef09d9031b61f543bd07621c07a3fc2d80ecd7e1d2c5e71aaf2f8101e92265be",
+      "failure_tail": "_whole_batch_atomic\": true, \"offer_current_participant_generation_front_connected_gates\": true, \"whole_batch_atomic\": true, \"follow_mode_accepted_invalid_mode5_rejected\": true, \"direct_receive_authority_checksum_preserved\": true, \"transport_players_entities_companies_preserved\": true, \"transport_advances_existing_remote_clock\": true, \"stale_equal_tick_rejected\": true, \"body_generation_front_disconnect_gates\": true, \"tombstone_no_resurrection\": true, \"close_timeout_reset\": true, \"library_sha256\": \"32c4828c776f09b677943fbb2fcc983a51d43590438f280e87025ba150e9efc2\"}\nTraceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/tests/test_company_remote.py\", line 92, in <module>\n    birth_tick=struct.unpack('<I',os.pread(birth,4,symbols['sim_tick_count']))[0];assert birth_tick<5\n                                                                                         ^^^^^^^^^^^^\nAssertionError\nERROR: Command '['/usr/bin/python3', 'tests/test_company_remote.py', '/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/libcoopclient.so', '/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/revisions/5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7/red-horizon-coop-server']' returned non-zero exit status 1.\n{\"target\": \"coop\", \"revision\": \"5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7\", \"assembled\": 1, \"assembled_sources\": [\"src/net/coop_server.asm\"], \"seconds\": 0.5267694649955956, \"executable\": \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/revisions/5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7/red-horizon-coop-server\"}\n{\"target\": \"headless\", \"revision\": \"5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7\", \"assembled\": 0, \"assembled_sources\": [], \"seconds\": 0.5403688049991615, \"executable\": \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/build/revisions/5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7/red-horizon-server\"}\n",
+      "explicit_passes_before_failure": 6
     }
   ],
   "limits": [
@@ -7643,6 +7650,7 @@
   ],
   "fixture_corrections": [
     "Original player test invoked10 player_tick calls with unchanged native tick16, bypassing real weapon time. Genuine fixed sim_tick drives actual death and30tick redeployment now.",
-    "Baseline observer initially assumed1successful shot per tick; corrected observation explicitly exposes double army/human same-tick debit and verifies each actual damage target equals one spent round. Failed first observer retained."
+    "Baseline observer initially assumed1successful shot per tick; corrected observation explicitly exposes double army/human same-tick debit and verifies each actual damage target equals one spent round. Failed first observer retained.",
+    "Network company-remote fixture missed its unchanged birth_tick<5 guard while nm inspected symbols after server startup. Inspect immutable binary symbols before spawning server, preserving original early-birth bound and no post-fixture writes. Failed run retained; rerun pending."
   ]
 }

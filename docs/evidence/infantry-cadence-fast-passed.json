@@ -1,0 +1,29 @@
+{
+  "job_id": "80c2e26e6a2c",
+  "exit_code": 0,
+  "revision": "5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7",
+  "seconds": 316.9533223659964,
+  "status": "passed",
+  "metadata": {
+    "job_id": "80c2e26e6a2c",
+    "revision": "5bc5580d8bb6cb6883316dc800aa5c279303f378-a3a0632b7c4cfdc7",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/runs/jobs/80c2e26e6a2c/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/runs/jobs/80c2e26e6a2c/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-cadence/runs/jobs/80c2e26e6a2c/result.json",
+    "pid": 2074650
+  },
+  "collected": true,
+  "log_sha256": "b724d2db022a2be5f4201ded0851ffce43016b2eb2acae51a1d1e1ab282022f2",
+  "explicit_pass_reports": 85,
+  "runtime_inputs_compared": 168,
+  "runtime_differences": [],
+  "limitations": [
+    "Later development-only mesh/isolated blast fixture/ABI invalid selector and early server birth correction are separate proofs; frozen fast source remains immutable. Full/network acceptance separate."
+  ]
+}

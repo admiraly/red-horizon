@@ -78,10 +78,10 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
  finally:lib.net_client_close();sock.close()
  print(json.dumps({'suite':'company-remote-parser','passed':True,'malformed_or_foreign_packets':rejected,'malformed_proposals':offer_rejected,'proposal_whole_batch_atomic':True,'offer_current_participant_generation_front_connected_gates':True,'whole_batch_atomic':True,'follow_mode_accepted_invalid_mode5_rejected':True,'direct_receive_authority_checksum_preserved':True,'transport_players_entities_companies_preserved':True,'transport_advances_existing_remote_clock':True,'stale_equal_tick_rejected':True,'body_generation_front_disconnect_gates':True,'tombstone_no_resurrection':True,'close_timeout_reset':True,'library_sha256':hashlib.sha256(private.read_bytes()).hexdigest()}))
  # Actual world, three observer peers and production NASM adapter as player3.
+ symbols={line.split()[2]:int(line.split()[0],16)for line in subprocess.check_output(['nm','-n',str(server)],text=True).splitlines()if len(line.split())==3}
  host=subprocess.Popen([str(server),'--port','0','--units','8192','--ticks','420'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True);peers=[];memory=None
  try:
   ready=json.loads(host.stdout.readline());address=('127.0.0.1',ready['port'])
-  symbols={line.split()[2]:int(line.split()[0],16)for line in subprocess.check_output(['nm','-n',str(server)],text=True).splitlines()if len(line.split())==3}
   # Initial encounter construction only: one generation71 infantry birth in
   # front0 cohort0, far from all deployment positions. No later state writes.
   os.kill(host.pid,signal.SIGSTOP)
