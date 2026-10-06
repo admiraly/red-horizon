@@ -51,7 +51,11 @@ try:
         os.close(read_fd); read_fd = None
         env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
         env.pop('WAYLAND_DISPLAY', None)
-        display = X.XOpenDisplay(env['DISPLAY'].encode()); assert display
+        deadline=time.monotonic()+3
+        while not display and time.monotonic()<deadline:
+            display=X.XOpenDisplay(env['DISPLAY'].encode())
+            if not display:time.sleep(.02)
+        assert display,'private X server did not accept a display connection'
         process = subprocess.Popen([str(EXE)]+(['--width','320','--height','240'] if '--small' in sys.argv else []), cwd=EXE.parent, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         def title(win):

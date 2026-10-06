@@ -31,5 +31,20 @@
     "log": "/tmp/command-wheel-render-boundary-small.log",
     "sha256": "92006e20c8022ba0488f62f4d0f8982b6a9213c818f47a7b010a42cb624acbd5",
     "contents": "{\"suite\": \"actual-small-command-wheel\", \"passed\": true, \"viewport\": [320, 240], \"five_framebuffer_labels\": {\"MOVE\": [136, 43], \"HOLD\": [67, 112], \"FOLLOW\": [193, 112], \"RETREAT\": [118, 181], \"DEFEND\": [165, 71]}, \"center_cancel_uncharged\": true, \"capture\": \"/tmp/command-wheel-small.ppm\", \"limits\": [\"Minimum viewport software GL label/layout check; human readability unverified.\"]}\n"
-  }
+  },
+  "candidate_recheck": [
+    {
+      "exit_code": 1,
+      "log": "/tmp/player-blast-wheel-latest.log",
+      "sha256": "08c2a70625839cb1518864a99ea6d34cfc6c65f6005ea4b463672368888e7b12",
+      "contents": "Traceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon/tests/test_client_command_wheel.py\", line 54, in <module>\n    display = X.XOpenDisplay(env['DISPLAY'].encode()); assert display\n                                                              ^^^^^^^\nAssertionError\n"
+    },
+    {
+      "exit_code": 0,
+      "log": "/tmp/player-blast-wheel-latest-retry.log",
+      "sha256": "4fd8466efcc980410337274cc18c0b4571138244582c31219c61f8c8981e7d37",
+      "contents": "{\"suite\": \"actual-solo-command-wheel\", \"passed\": true, \"crosshair_point\": [3780.0, 3945.0634765625], \"committed_point\": [3780.0, 3945.0634765625], \"four_framebuffer_labels\": true, \"selection_colour_rgb\": [31, 82, 64], \"release_one_charge\": true, \"held_input_no_fire_or_order\": true, \"direct_key_held_through_close_consumed\": true, \"escape_same_event_batch_cancels\": true, \"world_continues\": true, \"aim_frozen_and_cursor_restored\": true, \"center_right_escape_cancel\": true, \"follow_hold_preserve_waypoint\": true, \"release_uses_final_cursor\": true, \"defend_framebuffer_sector_ack_and_crosshair_point\": true, \"foreign_front_rejected\": true, \"tactical_middle_suppressed\": true, \"executable_sha256\": \"b9cbf9af62f208089e34f7f20852a2a5364533f5d4121489ca46fbef646d3d69\", \"limits\": [\"Actual GLFW/GL/XTest on private software GL, not target hardware quality.\", \"Five command modes; remaining contextual roster and human quality acceptance separate.\"]}\n"
+    }
+  ],
+  "private_display_connection": "Retry XOpenDisplay for <=3 seconds after Xvfb displayfd readiness; first candidate recheck failed before client launch, successful corrected recheck retained."
 }
