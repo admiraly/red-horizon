@@ -34,6 +34,19 @@ Compatibility is UDPv13/schema0x3da66749/content0x9187d777, canonicalSHA256
 Exact evidence: docs/evidence/wreck-cover-vision-jobs.json and associated reports;
 implementation/limits: docs/wreck-cover-vision.md and docs/bomb-release.md.
 
+Prepared body movement candidate919a48b (evidence commit69e899f) now connects
+actual crowd/manual/hull sweeps, placement and replicated-cache foot preview in
+an isolated worktree. Foreground fast and focused terrain-body suites passed;
+13 public casualty-wreck movement cases have zero independent slab penetrations,
+and identical accepted-build fixtures expose ten missing-collision cases. Seven
+extracted actual preview controls pass with unchanged authority/source bytes;
+client assembly and linking pass. Directly blocked AI routes still stall or
+oscillate, so this gameplay candidate is not integrated. Bounded detours,
+compatibility policy bump, frozen full and real GL/UDP checks remain required.
+Exact evidence/limitations: docs/world-body-prepared.md and
+ docs/evidence/wreck-body-hooks-prepared.json. Accepted runtime/full/protocol
+above remain unchanged.
+
 Rejected checkpointse3156c1dcf11 (806.3532s/106 reports) and2f4f186da724
 (866.8967s/114 reports) are retained. The first failed a UDP wreck live-counter
 comparison; the observer could stop before the marker pass finished. A derived

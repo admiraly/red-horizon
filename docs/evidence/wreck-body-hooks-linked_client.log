@@ -1,0 +1,6 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x9187d777", "canonical_sha256": "9187d777c57f5934b8551f623e9da1d16fdd71b41f60fc983fa9ffca93d8a7b9", "checked": true}
+{"target": "client", "revision": "9b07e88a5dd832fbf50c6869f00e9f7bc5ee3a4c-3a763d4985fc1216", "assembled": 0, "assembled_sources": [], "seconds": 0.3332913769991137, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-world/build/revisions/9b07e88a5dd832fbf50c6869f00e9f7bc5ee3a4c-3a763d4985fc1216/red-horizon"}

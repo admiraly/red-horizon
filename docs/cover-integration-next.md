@@ -6,6 +6,11 @@ after full frozenffd071da659c passed. Movement, navigation and connected
 prediction remain open. They need a coherent batch with the original physical/
 motion/arrival/recovery/health/label-symmetry gates.
 
+Prepared gameplay hooks919a48b now have13 actual movement and seven extracted
+client-source controls. Zero penetrations are verified, but every direct wreck-
+blocked AI route fails240tick arrival. Evidence69e899f is retained; do not integrate
+until bounded persistent detours and the complete checkpoint pass.
+
 ## Vision and fire
 
 The world LOS/context wrapper has64 contract/18 actual-geometry checks;

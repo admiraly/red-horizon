@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-world/tests/test_wreck_prediction.py", line 68, in <module>
+    count.value=0;preview('authority_wreck_remote_empty',False)
+                  ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/wreck-body-world/tests/test_wreck_prediction.py", line 62, in preview
+    assert (target[0]==p[0])==blocked,(label,list(target),p[0]);assert target[2]==p[2]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('authority_wreck_remote_empty', [3495.840087890625, 47.0, 2000.0], 3495.840087890625)
