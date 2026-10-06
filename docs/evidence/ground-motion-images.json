@@ -1,0 +1,19 @@
+{
+  "job": "8e107f76cc77",
+  "fixture": "development-only frozen stamped hull poses; real source meshes and GL",
+  "scope": "Actual software GL, frozen development pose; not natural physics or human art acceptance",
+  "images": [
+    {
+      "source": "/home/levy/optane-tmp/red-horizon-ground-forward.ppm",
+      "source_sha256": "b6a0d4732d7985b520cf3bbe049c14ac02e7229ee570c97eedd073e99650bef2",
+      "png": "docs/evidence/ground-motion-forward.png",
+      "png_sha256": "3f76a817dbdcec0c55fb10a94a09dbf8ed4582e2f8a7ae63fd8c137b906205f2"
+    },
+    {
+      "source": "/home/levy/optane-tmp/red-horizon-ground-stationary-pivot.ppm",
+      "source_sha256": "4d02b505015de30c5f9047c231d8123775d6fe8424243a03064f30f4a6f4dd3b",
+      "png": "docs/evidence/ground-motion-stationary-pivot.png",
+      "png_sha256": "0b3e2f895ed8add0e5d06f9b7fc167978c5b855872f3795758c7ac3667f82619"
+    }
+  ]
+}

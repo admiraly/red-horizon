@@ -143,8 +143,10 @@ UDP contracts and world/controller hooks; isolated motion, collision, public-pat
 oracle and presentation workers supplied committed focused evidence. Shared hull
 heading, acceleration, braking, bounded pivoting and human slow reverse are real
 world state; collision accepts complete reachable segments, and UDPv7/rendering
-consume the same generation-stamped pose. Root frozen candidate a8fd4b7 is under
-integration verification; worker passes alone do not establish final acceptance.
+consume the same generation-stamped pose. Root checkpoint `7d37522` passed full frozen extended job `8e107f76cc77`
+in 480.14 seconds; exact source/evidence is in
+`docs/evidence/ground-motion-session.json`. This verifies the stated slice,
+not complete vehicle realism.
 The original 30-tick18m steady-drive gate remains after a measured acceleration
 phase. Original8k/16k95%army progress and1200tick wall recovery remain unchanged.
 Driver corner recovery fixtures explicitly steer tangent and allow90ticks for
@@ -161,10 +163,19 @@ hardware quality remain independently required; the complete goal stays active.
 
 Terrain prerequisite discovered during integration: authoritative terrain_height
 and both GLSL height functions currently share the same analytic bowl/ridge.
-Its conservative gradient norm is <0.023 (roughly1.31degrees); there is no road
-surface data. Therefore natural current-map driving cannot establish steep-slope
+Its conservative gradient norm is <0.023 (roughly1.31degrees); there is no authoritative road
+surface data. battle.frag paints cosmetic gravel strips atZ1300/3900/6500;
+those strips cross the actual ridge walls, so they cannot simply become promised
+vehicle routes. Shared visible/physical polylines need real clear doglegs around
+those obstacles. Therefore natural current-map driving cannot establish steep-slope
 rejection or road traction. Next terrain implementation must add real shared
 surface geometry and meaningful height variation before claiming those behaviors,
 retain body/corridor reachability and keep collision independent of visual loading.
 Artificial steep development fixtures must exercise the same authoritative sampler,
 not replace slope observations with uniform role constants.
+
+The next stateless road/surface prerequisite is prepared in isolated clean commit
+`2a70494`, with exact evidence in `docs/evidence/terrain-surface-prepared.json`.
+Root handling/rendering/content integration is pending; no road traction acceptance
+follows from that standalone source. Next contracts and scoped outcomes are in
+`docs/ground-terrain-next.md`.

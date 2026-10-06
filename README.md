@@ -38,11 +38,19 @@ python3 tools/dev.py coop --port 7777
 python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
 ```
 
-The `server` command runs the shared local headless simulation. `coop` hosts the actual shared-world UDP server; its default runs until interrupted, and `--ticks N` makes a finite test run. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot are reserved and fail explicitly until implemented. Headless metrics do not establish GPU frame rate or complete army intelligence.
+The `server` command runs the shared local headless simulation. `coop` hosts the actual shared-world UDP server; its default runs until interrupted, and `--ticks N` makes a finite test run. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot launch concentrated encounters while retaining the full army. Headless metrics do not establish GPU frame rate or complete army intelligence.
 
 Client controls: WASD, Shift sprint, Ctrl crouch, Space grounded jump, mouse aim/fire, R reload, E enter nearby allied armor, Q exit, Tab tactical view, F1/F2/F3 front selection, F4 clear/overcast/rain/fog, 1/2/3 advance/hold/retreat, tactical click destination, Escape quit. Health, suppression, death and safe redeployment are authoritative. Network slots0–2 own their matching fronts; slot3 supports front0. Nearby actors use licensed source models with movement-driven authored soldier/tank animation; simplified source meshes and distant role/team markers preserve army visibility. The installed rifle, fortifications, trees and structures also use downloaded models. See [model pipeline and source limitations](docs/models.md). Photographed grass, mud, gravel and rocky terrain blend across the battlefield; cosmetic weather adds drifting clouds, rain, wet ground and distance fog. See [texture sources](docs/textures.md) and [weather controls](docs/environment-renderer.md). Recorded rifle/explosion/footstep PCM shares a128-voice stereo mixer with listener-relative panning and distance culling; a missing device is nonfatal. `RH_AUDIO_DEVICE=null` supports headless graphics smoke.
 
-`test --suite fast` checks small real-core combat/replay, operation, waypoints, terrain, tactics, players, reload, audio and asset integrity including default8k/16k motion checks and baked-model provenance. It omits large combat scale/replay, real UDP, graphics and build-tool isolation checks; full extended verification retains them. Focused core suites: operation, waypoints, terrain, player, tactics, combat, vehicles, effects. `build --target client --objects-only` validates assembly without linking or a GPU; it does not compile GLSL. Actual transitive NASM include/incbin dependencies control incremental rebuilds.
+Tanks and self-propelled artillery share authoritative hull heading, acceleration,
+braking and bounded turning. Drivers can reverse after braking through zero;
+released input coasts to a stop. Cannon aim remains independent. Complete hull
+segments retain terrain/body collision, and UDPv7 clients render the same heading
+while moving or pivoting in place. See [ground motion](docs/ground-motion.md) and
+[pose replication](docs/ground-presentation.md). Road traction, slope limits,
+wheeled vehicles, articulated turrets and useful wreck cover remain open work.
+
+`test --suite fast` checks small real-core combat/replay, operation, waypoints, terrain, tactics, players, reload, audio and asset integrity including default8k/16k motion checks and baked-model provenance. It omits large combat scale/replay, real UDP, graphics and build-tool isolation checks; full extended verification retains them. Focused core suites: operation, waypoints, terrain, player, tactics, combat, vehicles, ground-motion, effects. `build --target client --objects-only` validates assembly without linking or a GPU; it does not compile GLSL. Actual transitive NASM include/incbin dependencies control incremental rebuilds.
 
 Slow checks can append `--background`. A job receives a frozen source copy, revision/hash, log and result path. Use `python3 tools/dev.py jobs` and `collect JOB_ID` to reconcile results. Build outputs and evidence remain under ignored `build/` and `runs/`.
 

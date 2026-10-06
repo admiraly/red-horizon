@@ -1,6 +1,6 @@
 # Cooperative projectile trajectories
 
-Gameplay UDP v5 introduced type104; current UDPv6 retains that record layout. It transmits a count and up to18 records, each
+Gameplay UDP v5 introduced type104; current UDPv7 retains that record layout. It transmits a count and up to18 records, each
 an authoritative pool index followed by the first60 bytes of `PROJECTILE_STRIDE`.
 The fields include real pool/source generations, XYZ, velocity, kind, side,
 remaining TTL and active state. The largest datagram is1196 bytes. A separate

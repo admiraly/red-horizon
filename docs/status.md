@@ -1,38 +1,77 @@
-# Status — Linux shared-world prototype,2026-10-06
+# Status — Linux shared-world prototype, 2026-10-06
 
-Ground-hull integration is in progress; the full game goal remains active.
-Runtime92d3fda now uses shared authoritative tank/artillery heading, acceleration,
-braking and bounded turning for both AI and human drivers. Complete reachable
-segments retain body/terrain safety; infantry and aircraft keep their established
-controllers. UDPv7 and near/mid/distant/map presentation consume the same stamped
-heading, including stationary pivots. The whole1MiB sidecar and16-byte private
-player-generation claim stamps are included in authoritative checksums.
+The ground-hull motion batch is integrated. The full-game goal remains active.
+Runtime checkpoint `7d37522` uses authoritative tank/artillery heading, acceleration,
+braking and bounded turning for AI and human drivers. Translation follows the hull
+axis; slow reverse brakes through zero. Contact accepts a complete reachable
+segment or holds. Generation-stamped driver ownership prevents recycled players
+from inheriting control. The complete 1 MiB motion sidecar and 16-byte private
+ownership stamps participate in authoritative checksums. UDPv7 and the near, mid,
+distant and map render paths use the same stamped heading, including stopped pivots.
 
-Focused public-path proofs establish actual acceleration, bounded brake/reverse,
-AI/driver continuity, camera-independent hull motion and twelve actual cannon
-shots. Natural120tick8k/16k cohorts check every living tank/artillery's displacement
-against its stamped heading/velocity and replay actual combat. Those are motion
-and local sweep proofs, not all-army mutual-clearance or complete realism acceptance.
-Worker network/GL proofs use real packets and sourced meshes; targetGPU craft and
-Windows remain outside those scopes. Root full frozen verification is pending.
+Frozen full extended job `8e107f76cc77` passed in 480.14 seconds,
+with 73 recorded reports. All 145 authored runtime, schema, shader, tool
+and test inputs match root. Every launched verification job and worker session
+in this batch is reconciled. Earlier failed jobs and their exact logs are retained.
 
-Integration diagnostics caught genuine AI wall oscillation and destination
-overshoot. AI detours now pivot forward, terminal braking uses original navigation
-range, and a practical60degree steering arc allows bounded artillery turns without
-repeated stops. All original crowd-arrival deadlines and1200tick tactics recovery
-pass focused tests. The waypoint fixture now checks vehicle acceleration from rest
-and retains original0.5/0.2m steady caps. The terrain vehicle's original1200tick
-arrival deadline remains; exact coordinate snapping is replaced by <2mm arrival
-and <2mm final-ten-tick settling (measured0.953mm arrival). Human exact-arrival
-checks remain unchanged. Driver-only corner fixtures explicitly steer tangent and
-allow90ticks for physical pivot/acceleration; human50tick intervals remain.
+Public-path tests cover direct and world-tick driving, bounded braking/reverse,
+AI/driver handoff, camera-independent motion, twelve actual cannon shots and replay.
+The four natural 120-tick 8,192/16,384 cohorts perform 1,083,691 movement/heading
+checks with zero faults. They retain actual combat, HP and casualties. Four-driver
+cohorts add 93/82 nearby relative sweeps with zero faults; the larger cohort loses
+some drivers to actual combat. This is motion and sampled local-contact coverage,
+not an all-army pairwise-clearance census. Network and software-GL proofs exercise
+actual packets and sourced meshes, including malformed/reordered updates, death
+versus interest hiding, stopped pivots and read-only rendering.
+
+Integration found and fixed real AI wall oscillation and destination overshoot.
+AI detours now pivot forward and terminal braking uses the original navigation
+range. Original crowd-arrival deadlines, 1,200-tick tactics wall recovery, 8k/16k
+95% useful-motion gates and 400-tick actor-health symmetry remain. Tracked arrival
+uses less than 2 mm position error and less than 2 mm final-ten-tick settling under
+the original deadline; exact human arrival remains. The waypoint fixture checks
+acceleration from rest and retains the original 0.5/0.2 m steady caps. Six driver
+corner fixtures allow 90 ticks for explicit tangent steering and physical pivoting;
+human fixtures retain 50 ticks. An isolated legacy one-tick direction control is
+supplemented by actual 180-tick tracked retreat and exact replay for both factions.
+
+Two late GUI fixtures released steering after 0.35 seconds while the hull was
+still turning. They now hold real input until the original useful travel is
+observed within the unchanged two-second budget, then release in `finally`.
+The focused reruns passed against unchanged immutable client/server binaries.
+The earlier full jobs remain recorded failures; their partial results are not
+represented as whole-suite passes. Source identities, diagnoses, focused logs,
+worker commits and all frozen jobs are in `docs/evidence/ground-motion-session.json`
+and `docs/evidence/ground-motion-jobs.json`.
+
+Single-thread seed42/900-tick headless samples on the i7-14700K measure:
+
+| Initial actors / scenario | Mean / p95 tick | Maximum records per query | Peak RSS |
+|---|---|---|---|
+| 8,192 / hotspot | 4.163 / 6.007 ms | 67, zero truncated | 18,300 KiB |
+| 16,384 / stretch | 12.934 / 18.716 ms | 38, zero truncated | 17,884 KiB |
+
+These jobs overlapped development verification. They establish measured CPU runs,
+not an isolated speedup, target-GPU budget or four-rendered-client performance.
+Finite ordnance drops of 290,496/511,196 and navigation overflows of
+445,677/2,685,997 remain pressure gaps. Read-only whole-world checksum costs are
+recorded separately and are not tick-time or causal-overhead measurements.
+
+The next surface prerequisite is verified in clean isolated worker commit
+`2a70494`: a stateless assembly height/gradient sampler and 19 generated road
+segments, checked against the five walls with at least 35.51 m clearance including
+the largest hull radius. Its 2,806 valid samples, eight invalid cases and 27
+malformed generator cases pass. Those nine files are not integrated into root;
+road-dependent vehicle handling and matching road rendering remain to implement.
+The next integration contract is in `docs/ground-terrain-next.md`.
 
 Road/off-road traction, meaningful steep slopes, wheeled roles, oriented hulls,
-suspension, damage handling and useful wreck cover are still required. Full
-operation/intelligence/streaming/runtime jobs/Windows/audio craft/four-client target
-performance and human playtesting also remain open. No complete-game claim follows
-from this integration. Evidence is being reconciled in
-docs/evidence/ground-motion-session.json and ground-motion-jobs.json.
+suspension, damage handling and useful wreck cover remain required. Complete
+operation, intelligence, streaming, runtime jobs/reload, Windows, audio/art craft,
+human playtesting and sustained four-client hardware performance also remain open.
+Software-GL captures establish renderer behavior; they do not establish target-GPU
+performance or human visual-quality acceptance. No remote publication occurred in
+this batch. Code licence remains pending owner approval.
 
 
 The controller/body continuation keeps the complete game goal active. Runtime

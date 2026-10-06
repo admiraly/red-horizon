@@ -1,0 +1,39 @@
+{
+  "status": "standalone prerequisite verified; NOT integrated in root",
+  "worker_commit": "2a70494888c8c773233c726543037c647295d130",
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-collision",
+  "clean": true,
+  "source_sha256": {
+    "content/terrain/roads.json": "71389b1a4fe1775c1ac7c55ece4d3d1bbc40f7203dc28d06672bd6f70b150866",
+    "docs/terrain-surface.md": "4070acdd53dd48402ebc94b83f624235b9c61d0b5e0a89dbadc389575ef9dcff",
+    "schemas/terrain_roads.inc": "120050de2ccf56efb0b84688de56f1debf50611c4d7d5c38e64787c97aa2e734",
+    "schemas/terrain_surface.inc": "a700c6f4b74226d2bd64261547dcaf8974441678c21fd2ec3701c9a43405e080",
+    "shaders/terrain_roads.glsl": "917e5c1b9fade3040bc990cc8d6aa54538a162b1a57d3e2d4e19b7a334d2a882",
+    "src/nav/terrain_surface.asm": "e4f72afeb41061afb7c7789c4aded4dac179f6b28e30aca7aa7324b89168d221",
+    "tests/probe_terrain_surface.asm": "d15402774de8b409ef5d2d4aa64794652fa1a7efedf17a8dbb70cb996b3c9625",
+    "tests/test_terrain_surface.py": "a0d82754c309c7aacf4f4a34b2575ad6cd06323ff292f666738fb3c893c81eb1",
+    "tools/terrain_surfaces.py": "ab0b085b87f67de01fef05a3ef10c834e705f2894f5edc8f19fd2a62df1a307d"
+  },
+  "focused_sessions": [
+    62755,
+    65728,
+    91660
+  ],
+  "focused_exit_codes": [
+    0,
+    0,
+    0
+  ],
+  "valid_samples": 2806,
+  "invalid_samples": 8,
+  "malformed_generator_documents": 27,
+  "canonical_segments": 19,
+  "minimum_wall_clearance_metres_including_half_width_and_4_49m_hull": 35.51,
+  "limitations": [
+    "No root build or world hooks",
+    "No road-dependent movement or rendering",
+    "No steep-slope geometry or clearance acceptance",
+    "No root content fingerprint change",
+    "No full-scale integrated verification"
+  ]
+}

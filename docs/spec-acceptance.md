@@ -4,7 +4,9 @@ Current ground-motion integration adds a real shared tracked approximation to
 §6g/§10e/§15/§16: authoritative hull heading, acceleration/braking, bounded turning,
 human slow reverse, complete-segment collision, player-generation ownership and
 UDPv7 heading presentation. Worker-focused and root public-path proofs exist;
-the root full frozen checkpoint is still required. The original crowd destination
+root full frozen extended checkpoint `8e107f76cc77` passed in 480.14s
+at source `7d37522`, with 145 authored inputs matched.
+Exact scope is in `docs/evidence/ground-motion-session.json`. The original crowd destination
 check exposed overshoot; corrected approach braking passes its existing arrival
 and deadline gates in focused production tests. This is partial progress, not acceptance
 of complete vehicle realism. Road/off-road surfaces, slope limits, wheeled roles,

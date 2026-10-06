@@ -1,5 +1,5 @@
 {
-  "status": "terminal approach integrated; frozen fast check in progress",
+  "status": "verified ground-hull slice; full specification goal remains active",
   "goal": "full specification remains active",
   "first_candidate": {
     "source_commit": "dcd5ddf",
@@ -29,5 +29,82 @@
     "waypointfirsttick trackedacceleration then originalsteadycaps",
     "terrain trackedarrival <2mm plus last10ticksettling under original1200deadline; actual0.953mm error",
     "six driveredge/corner90ticks plus tangentsteering; human50unchanged"
-  ]
+  ],
+  "accepted_fast_job": "dd842290e076",
+  "failed_full_job": "1e77978b19d6",
+  "retreat_fixture": {
+    "root_commit": "dee78f2",
+    "legacy_control": "one-tick direction isolated with hazards/crowd/ground policies disabled",
+    "new_physical_gate": "four tank/artillery births bothsides, firsttickstationaryturn, >10m retreat by180ticks, exactreplay",
+    "wholeworld": "default300tickreplay and400tick actorhealthsymmetry unchanged",
+    "focused_session": 52302,
+    "focused_exit_code": 0
+  },
+  "benchmark_jobs": [
+    "cea05dfe8803",
+    "eaa417d47181"
+  ],
+  "benchmark_contention": "benchmarks and first failedfull were concurrently active; no isolated speedup comparison",
+  "failed_full_jobs": [
+    "1e77978b19d6",
+    "168e4efce65f",
+    "257030ff2917"
+  ],
+  "late_graphics_fixture": {
+    "failed_job": "168e4efce65f",
+    "failure": "0.35sec Wtap moved0.06m duringpivot/acceleration; original>.5mtravel gate failed",
+    "test_only_commit": "6956087",
+    "replacement": "hold actualW until>.5m usefulmotion within2sec normalinput observationbudget; releaseinfinally",
+    "focused_session": 57611,
+    "focused_exit_code": 0,
+    "drive_metres": 0.558710099487487,
+    "client": "unchanged immutable dee78f2 client; no runtime changes",
+    "remaining_full_gates": "passed in 8e107f76cc77"
+  },
+  "late_coop_fixture": {
+    "failed_job": "257030ff2917",
+    "failure": "0.35sec W tap released before bounded hull turn could achieve original >1m forward travel",
+    "test_only_commit": "7d37522",
+    "replacement": "hold actual W until >1m authoritative forward progress within unchanged 2sec observation budget; release in finally",
+    "focused_session": 22365,
+    "focused_exit_code": 0,
+    "client_and_server": "unchanged immutable dee78f2 binaries",
+    "proof": "real two-client board/drive/cannon/exit, ownership, actual projectile pixels and recovery passed",
+    "log": "docs/evidence/ground-motion-client-coop-focused.log"
+  },
+  "next_prerequisite": "docs/evidence/terrain-surface-prepared.json",
+  "accepted_full_job": {
+    "job_id": "8e107f76cc77",
+    "revision": "7d37522e46700fd424aa0c925bf120639f29bc9d-05072e1e43c8c48a",
+    "seconds": 480.1393361679984,
+    "report_count": 73,
+    "authored_input_count": 145,
+    "current_source_mismatches": [],
+    "public_path_library_sha256": "d0665f8c2465991477c879b4d58fbbbe6fcbc2e6f83f314796da35dc40332bd9",
+    "observer_sha256": "3746c4c68b7c52164936ef0e875cfd0f7fb41b58cb167398e30db24f950da53f"
+  },
+  "proof_limits": [
+    "Single-thread headless scale, not target GPU or four rendered clients",
+    "Software GL proves actual renderer paths, not human art acceptance",
+    "Natural cohorts check all tank/artillery motion, not all-army mutual clearances",
+    "Road sampler remains isolated and is not a root feature",
+    "Full operation/roster/platform/runtime/craft requirements remain open"
+  ],
+  "network": {
+    "authentic_ground_packets": 45,
+    "owned_priority_packets": 45,
+    "authority_matches": 801,
+    "moving_authority_matches": 737,
+    "max_packet": 1196,
+    "distinct_moving_hulls": 126
+  },
+  "graphics": {
+    "hull_pixels": 2963,
+    "stationary_pivot_changed_pixels": 2864,
+    "near_mid_distant_map_heading": true,
+    "stale_generation_and_inactive_fallback": true,
+    "render_authority_unchanged": true
+  },
+  "accepted_suite_reports": "docs/evidence/ground-motion-8e107f76cc77-reports.json",
+  "all_jobs_reconciled": true
 }
