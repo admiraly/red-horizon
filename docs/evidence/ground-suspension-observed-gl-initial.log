@@ -1,0 +1,1 @@
+Initial observer invocation supplied libsim.so under build/revisions; actual dev.py library lives at source/build/libsim.so. Loader rejected before any GL or runtime query. Corrected only the invocation path.

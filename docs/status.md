@@ -1,5 +1,26 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current derived hull suspension is integrated at71c61c7. Final focused frozen
+job4c865d935b13 passed16.7343s with input fingerprint9af9b6d215bb4e7f; full
+extended frozen jobdfc1f67207e7 passed545.8247s/87reports with all195authored
+inputs matched at71c61c74c8a9514dcccddb92934db673db60762a-9af9b6d215bb4e7f.
+Contact7296cases, spring3462calls, combined1928productionqueries/1333lag
+samples/525floor corrections pass. ActualGL192cases/414144vertices and real
+client near/mid/distant/map plus three analytical intermediate responses pass.
+All six root jobs and five extra observer/fetch sessions are terminal/reconciled;
+worker trees are clean. Exact job/source/artifact manifests are in
+evidence/ground-suspension-jobs.json and ground-suspension-session.json.
+Supplemental replay of actual observed poses adds12cases/26244vertices with
+minimum analytic terrain gap+.091552734m. Sampled authority stays unchanged.
+See ground-suspension-rendering.md for exact evidence and limits. This is
+cosmetic five-point suspension/contact, not oriented physical hulls or complete
+vehicle realism. Upright driver-eye/muzzle authority and missing turret socket
+metadata remain explicit next work. Full-game goal stays active.
+
+The stateless terrain-support checkpoint below is historical; its pending
+suspension statements describe that earlier scope.
+
+
 Terrain-supported tracked presentation is integrated at 646ea71; full-game goal
 remains active. Focused frozen job 361553e92439 passed 13.91s. Independent kernel
 proof covers 9,712 actual-height cases and ABI/read-only/invalid controls. Actual

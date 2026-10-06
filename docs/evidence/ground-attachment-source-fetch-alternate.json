@@ -1,0 +1,23 @@
+{
+  "scope": "Development source preparation only; no runtime/baked asset change or new license acceptance",
+  "sources": [
+    {
+      "filename": "Tank.blend",
+      "expected_sha256": "1949b020efda14164b62f153e8d186e624aa4b6edb8d3539a31d42e2286a5692",
+      "download_url": "https://drive.google.com/uc?export=download&id=1uaTlQ-HqN27if0knwsGTpL2NiQKFEKms",
+      "requested_url": "https://drive.usercontent.google.com/download?id=1uaTlQ-HqN27if0knwsGTpL2NiQKFEKms&export=download&confirm=t",
+      "received_bytes": 2009,
+      "received_sha256": "df62b8e0befdab71e353c8d357bb23d632e38cc91495f235abcf02f8f87d55e9",
+      "status": "rejected_hash_mismatch"
+    },
+    {
+      "filename": "Tank3.blend",
+      "expected_sha256": "882975a599e7d265803f971424b2ffe7ca6d7aab5736cec98058e99239092e7d",
+      "download_url": "https://drive.google.com/uc?export=download&id=1z_CR2nhFwz8n2z0JM6sI5bXD-2iC4_r5",
+      "requested_url": "https://drive.usercontent.google.com/download?id=1z_CR2nhFwz8n2z0JM6sI5bXD-2iC4_r5&export=download&confirm=t",
+      "received_bytes": 2009,
+      "received_sha256": "0ed236c3ce95b88dd2e5233f4baf240093d0c5956829b852b5c4db8242556a09",
+      "status": "rejected_hash_mismatch"
+    }
+  ]
+}

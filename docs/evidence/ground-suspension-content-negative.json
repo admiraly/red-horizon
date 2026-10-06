@@ -1,0 +1,102 @@
+{
+  "scope": "Isolated stale-fingerprint negatives; no runtime changes",
+  "source_sha256": {
+    "tools/ground_content.py": "999037921f37a5d5f16b0a3781c47839cc30bfed9c44372cfe7ab01d3212779b",
+    "tools/terrain_world.py": "7dcd825d7571f57d51352a37bc8001538934520b6d38c367478936a709eaec78",
+    "schemas/terrain_grade.inc": "9d9e998359170f0b8dc68fdf4a9a9e79281347dcfeb14e9e4c82d5d05bfe2e1c",
+    "schemas/terrain_body.inc": "d93faa9c64814c67eeefae976f4d9b16c82053461267fb053c8a0f7db553457a",
+    "content/terrain/relief.json": "14f6ff27a80651705d5b41a7c17873f678dc47515b685a0ec8d9ab33280ada97",
+    "src/net/protocol.inc": "5f3854e53a4f323f19aa7267a1cc32a7c14e978a57b744cb0d73304e5e7dfcbc",
+    "schemas/ground_support.inc": "dfb0f427054f217e8013587972974ae20342144429b27569ee999e68f46177c8",
+    "schemas/ground_contact.inc": "2d7bbf07cd8071f6b0e676c0cf738d7806cfdcd85071ca233243c7437146386b",
+    "schemas/suspension.inc": "910c1cae3b7296bad1867f513aafad2d3adf716cd3da104dbf0c11b20dca5695",
+    "schemas/ground_visual.inc": "d9697192881a7bb062a6415d6530b0743ff14803b8df04a0fbc852bcd0b73cff"
+  },
+  "mutations": [
+    {
+      "mutation": "relief_height",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0xf0ed0a1d"
+    },
+    {
+      "mutation": "tank_grade",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x8859dc52"
+    },
+    {
+      "mutation": "tank_skin",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0xc4699cb4"
+    },
+    {
+      "mutation": "render_spacing",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0xdad65e0c"
+    },
+    {
+      "mutation": "support_width",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x4de2ff07"
+    },
+    {
+      "mutation": "support_offset",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x659484b4"
+    },
+    {
+      "mutation": "spring_rate",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x3820040f"
+    },
+    {
+      "mutation": "continuity_jump",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x25aa470a"
+    },
+    {
+      "mutation": "continuity_dt",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x42fd27e7"
+    },
+    {
+      "mutation": "contact_version",
+      "rejected": true,
+      "exit_code": 1,
+      "diagnostic": "AssertionError: Ground content compatibility mismatch: expected 0x567f3af4"
+    }
+  ],
+  "world_guard_mutations": [
+    {
+      "mutation": "tile_support",
+      "rejected": true,
+      "exit_code": 2,
+      "diagnostic": "terrain world: Relief support must fit inside refined tile"
+    },
+    {
+      "mutation": "unaligned_cusp",
+      "rejected": true,
+      "exit_code": 2,
+      "diagnostic": "terrain world: Relief cusp must align with refined mesh"
+    },
+    {
+      "mutation": "height_budget",
+      "rejected": true,
+      "exit_code": 2,
+      "diagnostic": "terrain world: Relief exceeds actual triangle error budget"
+    }
+  ],
+  "restored_check": {
+    "ground_content": "0x2df28e7c",
+    "canonical_sha256": "2df28e7cb2a2e227e07cdccae10111b0cd9e9ee631719ee1a1752fa245a40002",
+    "checked": true
+  }
+}

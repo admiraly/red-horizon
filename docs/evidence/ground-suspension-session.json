@@ -1,0 +1,60 @@
+{
+  "candidate_revision": "71c61c74c8a9514dcccddb92934db673db60762a-9af9b6d215bb4e7f",
+  "full_checkpoint": {
+    "job_id": "dfc1f67207e7",
+    "status": "passed",
+    "seconds": 545.8246709480009,
+    "report_count": 87,
+    "authored_input_count": 195,
+    "current_source_mismatches": []
+  },
+  "root_jobs": {
+    "total": 6,
+    "passed": 6,
+    "running": 0,
+    "all_collected": true
+  },
+  "additional_exec_sessions": [
+    {
+      "id": 12371,
+      "exit_code": 0,
+      "scope": "live software-GL hotspot observer"
+    },
+    {
+      "id": 46810,
+      "exit_code": 0,
+      "scope": "actual observed intermediate poses through source GL"
+    },
+    {
+      "id": 61909,
+      "exit_code": 0,
+      "scope": "prior stateless real client rejected; expected negative internal exit1"
+    },
+    {
+      "id": 26583,
+      "exit_code": 0,
+      "scope": "pinned source fetch; mismatching replies rejected"
+    },
+    {
+      "id": 47836,
+      "exit_code": 0,
+      "scope": "alternate public source fetch; mismatching replies rejected"
+    }
+  ],
+  "workers": "docs/evidence/ground-suspension-workers.json",
+  "content_fingerprint": "0x2df28e7c",
+  "scope": [
+    "Derived critically damped tank/artillery Y/pitch/bank",
+    "Five-point exact intermediate frame contact and downward-velocity correction",
+    "Generation/frame/XZ continuity and duplicate draw safety",
+    "Actual embedded source vertices/normals plus actual renderer client response",
+    "Original scale/movement/health/aircraft/replay, real GL/co-op/UDP/tool gates"
+  ],
+  "limitations": [
+    "Cosmetic suspension; no universal whole-mesh clearance or oriented/vertical physical hulls",
+    "Upright eye/muzzle authority; prepared driver-eye query remains isolated, no hook acceptance",
+    "Missing verified turret/socket source metadata; downloads rejected on hash mismatch",
+    "Software GL budget does not meet hardware frame goals; actual Arc budget and physical listening/human quality pending",
+    "Complete full-spec game remains unfinished and persistent goal active"
+  ]
+}

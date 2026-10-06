@@ -1,0 +1,21 @@
+{
+  "scope": "Development source preparation only; no runtime/baked asset change or new license acceptance",
+  "sources": [
+    {
+      "filename": "Tank.blend",
+      "expected_sha256": "1949b020efda14164b62f153e8d186e624aa4b6edb8d3539a31d42e2286a5692",
+      "download_url": "https://drive.google.com/uc?export=download&id=1uaTlQ-HqN27if0knwsGTpL2NiQKFEKms",
+      "received_bytes": 2009,
+      "received_sha256": "52a4297b2af5a1bf3ed891f3a70892baffca6c7371fd6d5cf2fffcd6c0bd52db",
+      "status": "rejected_hash_mismatch"
+    },
+    {
+      "filename": "Tank3.blend",
+      "expected_sha256": "882975a599e7d265803f971424b2ffe7ca6d7aab5736cec98058e99239092e7d",
+      "download_url": "https://drive.google.com/uc?export=download&id=1z_CR2nhFwz8n2z0JM6sI5bXD-2iC4_r5",
+      "received_bytes": 2009,
+      "received_sha256": "d5f6ffe3acab5f791e579fd302b5159a4aca98930bdc2ebbc34f8a1a01afc3c3",
+      "status": "rejected_hash_mismatch"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/mnt/titan_nv3/projects/red-horizon-workers/ground-contact",
+    "commit": "afe4ee6665de6847734cd689e9e04db8a8f7b1b2",
+    "clean": true,
+    "status": "terminal; all worker commands reconciled"
+  },
+  {
+    "path": "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye",
+    "commit": "d6b166372aa2d622de76bb6e076b560a4c7f26ab",
+    "clean": true,
+    "status": "terminal; all worker commands reconciled"
+  },
+  {
+    "path": "/mnt/titan_nv3/projects/red-horizon-workers/suspension-kernel",
+    "commit": "3a3a6aeaacff57466a16963e81e2900b3495d1ab",
+    "clean": true,
+    "status": "terminal; all worker commands reconciled"
+  }
+]

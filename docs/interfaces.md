@@ -165,3 +165,18 @@ Geometry and normals share yaw × pitch × bank. No entity, motion, player or wi
 stride changes; content 0x0fb51f27 includes support ABI/chassis dimensions.
 Full checkpoint 86ca2085d678 proves scoped integration. Smoothed suspension
 response remains isolated and requires corrected contact for intermediate angles.
+
+Derived ground presentation now supersedes the isolated-response state above:
+`ground_visual` ABI v1 consumes caller-owned64byte cache/output, generation, kind,
+nonzero render frame, XZ/heading/dt. Its spring48byte prefix is generation-safe;
+remaining words record frame/XZ continuity. Reset after missed frames, >4m jump or
+dt>.1; same-frame unchanged queries validate with zero spring time.
+`ground_contact` ABI v1 returns support64 for supplied current pitch/bank using
+exact yaw*pitch*bank and five projected terrain points. Contact raises springY
+and removes downwardY velocity when needed. Invalid output remains untouched;
+derived active flag clears. No wire/authority layout or replay hash change.
+Content0x2df28e7c includes contact, spring and continuity policy. Shared contracts
+are schemas/ground_visual.inc, ground_contact.inc and suspension.inc.
+Focused final snapshot4c865d935b13 passes; full dfc1f67207e7 passed545.82s/87reports with195matched inputs.
+Eye/muzzle/camera authority remains upright; ground-attachments-next.md records
+that gap and absent source socket metadata.

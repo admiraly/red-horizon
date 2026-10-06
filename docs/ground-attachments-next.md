@@ -172,3 +172,12 @@ subsequent complete descriptor/report read established that metadata is missing.
 No runtime edits, asset conversion, tests or full-suite acceptance occurred in
 this audit. Root's frozen full job is independently owned and was not altered or
 claimed passed here.
+
+Root followup preparation: bounded downloads from both pinned Drive URLs and
+the public file-content endpoint each returned2009bytes with mismatching SHA256,
+so no source was accepted or baked assets changed. Exact requests/digests are in
+evidence/ground-attachment-source-fetch.json and its alternate report. This
+leaves verified turret/pivot extraction pending; it does not block the prepared
+legacy driver-eye transform or the remaining independent gameplay streams.
+Ignored scratch/source locations were also inspected by filename; unrelated
+project assets were not opened or reused.

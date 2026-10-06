@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon/docs/evidence/ground-suspension-stateless-negative.py", line 86, in <module>
+    assert abs(after[i]-want)<4e-6 and abs(after[i+3]-velocity)<3e-5,('actual spring',i,after,want,velocity,elapsed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('actual spring', 1, (38.18251419067383, 0.0011997383553534746, -0.30651259422302246, 0.0, 0.0, 0.0, 1, 2, 2.839688539505005, 1, 0, 0), -0.09538870396598623, 1.0875381198998046, 0.14844846725463867)

@@ -1,0 +1,9 @@
+{
+  "passed_negative_control": true,
+  "exit_code": 1,
+  "baseline_client": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/86ca2085d678/source/build/revisions/646ea71e98ed7412a77d122e262126249b41d94f-1d1c6916dffe4340/red-horizon",
+  "baseline_client_sha256": "8dd1b105307240b42efd132c5e3a63c63854a679d024358544bae60d483165c1",
+  "terrain_library_sha256": "7e4691b491e37ea8e72fc20888c4d8809a2492d0635ad7a7561246601cba3ed6",
+  "observer_sha256": "428ac0836448ff68385290e87161e81ebb36077a4152ac4cc9a0039beb9149ce",
+  "scope": "Actual prior stateless renderer instantly takes changed tilt, violating independently predicted damped angle at observed elapsed render time. Static presentation has known zero spring velocity; pose and render clock are actual process observations. Initial birth fixtures only; no natural driving claim. Initial observer used the new contact floor for the old static precondition and failed before response; retained separately, corrected baseline precondition only."
+}

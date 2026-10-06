@@ -184,3 +184,13 @@ vertex/normal and actual client instance/pixel proofs. Full job 86ca2085d678
 passed 540.59s/84reports with all 183 authored inputs matched. Independent next
 spring-response kernel work stays isolated; it cannot
 be integrated before intermediate-frame contact correction is specified/verified.
+
+Suspension continuation: root71c61c7 integrates the verified spring plus intermediate
+five-point contact and per-generation render cache. Final focused snapshot
+4c865d935b13 passes192actualGL cases/414144vertices, analytical dynamic client
+responses and unchanged sampled authority. Full frozen dfc1f67207e7 passed545.82s/87reports with195matched inputs.
+Independent eye-attachment audit afe4ee6 is integrated as documentation only.
+Next read-only unsmoothed driver-eye query contract38ae5f4 is isolated in
+feature/ground-eye; worker d6b1663 is clean and verified6488queries/58invalid
+cases/three assembled negatives. No entry/driver/LOS/aim hook or eye feature
+accepted yet; exact source hashes/evidence in evidence/ground-eye-prepared.json.

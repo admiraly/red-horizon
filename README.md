@@ -53,8 +53,9 @@ and travel at 0.8/0.7 of their paved targets, with bounded braking when leaving
 pavement; see [surface outcomes](docs/ground-surface-outcomes.md) and
 [current verification](docs/status.md). Raised terrain and whole-body slope admission are integrated with focused
 proof and a passing full extended checkpoint. Tracked source hulls also follow
-terrain pitch/roll through a shared chassis support frame; dynamic suspension
-and oriented physical collision remain pending. See [terrain integration](docs/ground-terrain-next.md).
+terrain pitch/roll with critically damped suspension and corrected intermediate
+contact. Focused CPU/GL/client proof passes; current full checkpoint is recorded
+in [status](docs/status.md). Oriented physical collision remains pending. See [terrain integration](docs/ground-terrain-next.md).
 Road-preferring routes,
 wheeled vehicles, articulated turrets and useful wreck cover remain open work.
 

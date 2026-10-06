@@ -1,0 +1,78 @@
+{
+  "command": [
+    "/mnt/titan_nv3/projects/red-horizon/build/revisions/71c61c74c8a9514dcccddb92934db673db60762a-9af9b6d215bb4e7f/red-horizon",
+    "--scenario",
+    "scale-hotspot",
+    "--frames",
+    "120",
+    "--width",
+    "1280",
+    "--height",
+    "720",
+    "--census",
+    "--screenshot",
+    "/mnt/titan_nv3/projects/red-horizon/runs/suspension-client-budget/client.ppm"
+  ],
+  "client_sha256": "f37c844d05393d60055b09adbee7918281a4b7a2592fe4ebfc9d9183ec910be4",
+  "wall_seconds": 6.763338388002012,
+  "context": "name of display: :1\ndisplay: :1  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Mesa (0xffffffff)\n    Device: llvmpipe (LLVM 22.1.8, 256 bits) (0xffffffff)\n    Version: 26.2.3\n    Accelerated: no\n    Video memory: 47909MB\n    Unified memory: yes\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 0 MB, largest block: 0 MB\n    VBO free aux. memory - total: 34735 MB, largest block: 34735 MB\n    Texture free memory - total: 0 MB, largest block: 0 MB\n    Texture free aux. memory - total: 34735 MB, largest block: 34735 MB\n    Renderbuffer free memory - total: 0 MB, largest block: 0 MB\n    Renderbuffer free aux. memory - total: 34735 MB, largest block: 34735 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 0 MB\n    Total available memory: 47909 MB\n    Currently available dedicated video memory: 0 MB\nOpenGL vendor string: Mesa\nOpenGL renderer string: llvmpipe (LLVM 22.1.8, 256 bits)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "reports": [
+    {
+      "client_metrics": true,
+      "cpu_samples": 120,
+      "gpu_samples": 112,
+      "cpu_frame_mean_ms": 55.296137,
+      "cpu_frame_p95_ms": 69.68357,
+      "cpu_frame_p99_ms": 73.521348,
+      "gpu_draw_mean_ms": 25.090678,
+      "gpu_draw_p95_ms": 34.846333,
+      "gpu_draw_p99_ms": 36.214037
+    },
+    {
+      "visibility_census": true,
+      "visible_actors": 1079,
+      "visible_high": 56,
+      "visible_low": 569,
+      "visible_markers": 454,
+      "individually_detailed_actors": 625,
+      "width": 1280,
+      "height": 720,
+      "source_tick": 197,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 2.226962,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "bbdb43bb4e56ac2e",
+      "authority_after": "bbdb43bb4e56ac2e"
+    },
+    {
+      "battle_metrics": true,
+      "samples": 120,
+      "simultaneous_projectiles_effects_audio_frames": 117,
+      "peak_living": 8192,
+      "peak_engaged": 4369,
+      "peak_projectiles": 480,
+      "peak_submitted_high": 88,
+      "peak_submitted_low": 3950,
+      "peak_submitted_markers": 4166,
+      "peak_effect_records": 64,
+      "peak_trail_records": 128,
+      "peak_audio_voices": 128,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    }
+  ],
+  "coverage": {
+    "initial_army": 8192,
+    "seed": 42,
+    "resolution": [
+      1280,
+      720
+    ],
+    "frames": 120,
+    "replicated": 0,
+    "audio": "ALSA null; physical listening unverified",
+    "threads": "single simulation thread",
+    "scope": "Software GL actual client with live combat and final pixel census. Timings include concurrent verification, initialization and final census drawing. No hardware FPS goal or isolated support-overhead/speedup claim."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye",
+  "root_contract_commit": "38ae5f4",
+  "worker_commit": "d6b1663",
+  "clean": true,
+  "source_sha256": {
+    "schemas/ground_eye.inc": "451f94f225d0c24d90abf794cbb9ddfc976b31da6204a6608ee4b0b407fc361c",
+    "src/nav/ground_eye.asm": "e276a00e08d989e8c62f8bf57288444a8dfcf2370781454efda011b27aa235ec",
+    "tests/probe_ground_eye.asm": "6f1acd282ec2d7d83206b5e1dcb483dcf23f4ed439ecae2422329657de771a67",
+    "tests/test_ground_eye.py": "55716af54ae65dd8ae560e7a374dd03d547404c0412525bc5b38c9713d7eac1d",
+    "docs/ground-eye.md": "b9148ce84d92d60287f4560f48b76cb0dd06ba0ad7a6e3881f0dfb54d09c6064"
+  },
+  "scope": "PREPARED isolated query only; no driver/LOS/aim/camera integration or full-game acceptance; root content/runtime unchanged"
+}

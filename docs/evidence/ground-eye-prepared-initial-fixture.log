@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye/tests/test_ground_eye.py", line 89, in <module>
+    assert production_raise>.1,'fixtures do not exercise actual rotated floor correction'
+           ^^^^^^^^^^^^^^^^^^^
+AssertionError: fixtures do not exercise actual rotated floor correction
