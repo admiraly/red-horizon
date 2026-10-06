@@ -1,0 +1,36 @@
+{
+  "job": {
+    "job_id": "1433fa199da8",
+    "revision": "99a6e5f13eeb53d1c03ca056cecb1924751ae802-8a4fa4cff8cf5608",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/1433fa199da8/result.json",
+    "pid": 727224
+  },
+  "result": {
+    "job_id": "1433fa199da8",
+    "exit_code": 1,
+    "revision": "99a6e5f13eeb53d1c03ca056cecb1924751ae802-8a4fa4cff8cf5608",
+    "seconds": 1338.0283612130006,
+    "status": "failed"
+  },
+  "raw_log": "docs/evidence/depot-ammunition-full-failed.log",
+  "raw_sha256": "4c840ca91ab60ea15a8b78539194f9718fbc3828267df062d85952766674c302",
+  "reports": 155,
+  "explicit_passes": 154,
+  "failure": "Graphical transfer-fault fixture timed out observing transfer_pending==1 while movement net_pending>0.",
+  "recheck": "Changed development relay holds actual ACK delivery until queue is observed; same frozen old client/server pass corrected --transfer-fault. Runtime binaries unchanged; failed full remains failed.",
+  "recheck_raw": "docs/evidence/depot-transfer-frozen-recheck.log",
+  "limitations": [
+    "Corrected focused check is not a rerun or full pass of this checkpoint.",
+    "New company HUD checkpoint412520d69630 still running its independent frozen source."
+  ],
+  "recheck_sha256": "9c990bf4cd88ec11d31f27190206d0d65c405ba62d6fb46a9a104e29d109b7af"
+}

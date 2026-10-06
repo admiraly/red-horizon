@@ -1,3 +1,15 @@
+Frozen depot checkpoint1433fa199da8 is FAILED/collected: exit1 after
+1338.028361s, 155 reports/154 explicit passes at99a6e5f-8a4fa4cff8cf5608.
+Graphical transfer-fault fixture missed queued-state observation while a movement
+request was pending. A development-only ACK-delivery gate makes that precondition
+observable, and the same immutable old client/server pass the corrected focused
+test. No runtime or game state changes; failed full remains failed. Exact raw
+failure and focused recheck: [evidence/depot-ammunition-full-failed.json](evidence/depot-ammunition-full-failed.json).
+The harness correction is currently in isolated depot-supply feature, alongside
+bounded owned finite depot report/cache and tactical inventory presentation.
+New company-HUD checkpoint412520d69630 remains RUNNING, PID847578 confirmed
+live. Full game remains incomplete, no publication, license pending approval.
+
 Current main integrates owned-company ammunition report, recipient-only UDP
 and solo/co-op HUD in e02e872 at authored fingerprint2c6c9a8caf52601e. All376
 authored files match verified feature08297f9. Matching main client/co-op/headless
