@@ -8,6 +8,8 @@ default rel
 %include "schemas/wreck.inc"
 %include "schemas/wreck_remote.inc"
 %include "schemas/company_remote.inc"
+%include "schemas/company_supply.inc"
+extern company_supply_report
 extern sim_wrecks
 extern sim_projectiles
 %include "src/net/protocol.inc"
@@ -809,6 +811,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_companies
+ mov edi,r12d
+ mov rsi,r13
+ call send_supply
 .nextslot:
  add r13,NET_RECORD
  inc r12d
@@ -1515,4 +1520,37 @@ send_companies:
  pop rbx
  ret
 
+section .note.GNU-stack noalloc noexec nowrite progbits
+
+section .text
+; Recipient primary company only; no enemy or other-owner inventory disclosure.
+send_supply:
+ push rbx
+ push r12
+ sub rsp,8
+ mov rbx,rsi
+ mov r12d,edi
+ mov esi,edi
+ mov edi,NET_SUPPLY
+ mov edx,COMPANY_SUPPLY_PAYLOAD
+ call header
+ mov edi,r12d
+ lea rsi,[output+44]
+ mov edx,COMPANY_SUPPLY_STRIDE
+ call company_supply_report
+ test eax,eax
+ jnz .done
+ mov eax,r12d
+ shl eax,4
+ lea rdx,[player_companies]
+ mov eax,[rdx+rax+8]
+ mov [output+40],eax
+ mov rdi,rbx
+ mov esi,NET_HEADER+COMPANY_SUPPLY_PAYLOAD
+ call send_packet
+.done:
+ add rsp,8
+ pop r12
+ pop rbx
+ ret
 section .note.GNU-stack noalloc noexec nowrite progbits

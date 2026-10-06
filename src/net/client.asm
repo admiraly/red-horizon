@@ -6,6 +6,8 @@ default rel
 %include "schemas/combat.inc"
 %include "schemas/wreck_remote.inc"
 %include "schemas/company_remote.inc"
+%include "schemas/company_supply.inc"
+extern net_supply_reset,net_supply_receive
 extern net_company_reset,net_company_receive
 extern wreck_receive,wreck_remote_reset,wreck_remote_expire
 %include "src/net/protocol.inc"
@@ -128,6 +130,7 @@ net_client_open:
  rep stosd
  call wreck_remote_reset
  call net_company_reset
+ call net_supply_reset
  call reset_ground
  lea rdi,[sim_aircraft]
  mov ecx,32768*AIR_STRIDE/8
@@ -326,6 +329,8 @@ net_client_poll:
  jne .next
  cmp dword [incoming+16],NET_STATE
  je .state
+ cmp dword [incoming+16],NET_SUPPLY
+ je .supply
  cmp dword [incoming+16],NET_COMPANIES
  je .companies
  cmp dword [incoming+16],NET_ENTITIES
@@ -391,6 +396,15 @@ net_client_poll:
  mov eax,[incoming+40]
  mov [net_last_status],eax
  mov dword [pending_len],0
+ jmp .accepted
+.supply:
+ lea rdi,[incoming+40]
+ mov esi,[incoming+32]
+ mov edx,[incoming+28]
+ mov ecx,[net_player_id]
+ call net_supply_receive
+ test eax,eax
+ jnz .next
  jmp .accepted
 .companies:
  cmp dword [incoming+32],COMPANY_REMOTE_PAYLOAD
@@ -1228,6 +1242,7 @@ net_client_poll:
  call reset_projectiles
  call wreck_remote_reset
  call net_company_reset
+ call net_supply_reset
  call reset_ground
 .retry:
  cmp dword [pending_len],0
@@ -1287,6 +1302,7 @@ net_client_poll:
 net_client_close:
  call wreck_remote_reset
  call net_company_reset
+ call net_supply_reset
  call reset_ground
  call reset_projectiles
  mov rdi,[fd]

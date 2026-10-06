@@ -1,6 +1,7 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
 default rel
 %include "schemas/player.inc"
+%include "schemas/company_supply.inc"
 %include "schemas/combat.inc"
 %include "schemas/company_control.inc"
 %include "schemas/input_bindings.inc"
@@ -22,6 +23,7 @@ extern audio_footsteps_update,audio_footsteps_reset
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
+extern company_supply_report,net_supply_report
 extern company_for_player,company_control_order,company_controls,company_home_goals,company_defend_anchor
 extern net_company_for_player,net_company_records,net_company_offer,net_company_transfers
 extern net_client_transfer
@@ -33,6 +35,7 @@ extern net_connected,net_player_id,net_front,net_server_tick,net_last_status,net
 extern terrain_height,terrain_obstacles,terrain_obstacle_count
 extern world_body_step_context,net_wrecks,net_wreck_count,net_wreck_query_revision
 extern battle_vertex_source,battle_fragment_source
+extern command_hud_draw_at
 extern command_hud_init,command_hud_begin,command_hud_draw
 extern command_wheel_select,command_terrain_point,command_wheel_hud_init,command_wheel_hud_draw
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
@@ -49,6 +52,9 @@ extern glDisable,glEnable,glClearColor,glClear,glViewport,glDrawArrays,glDrawArr
 extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
+supply_low_fmt: db 'OWN LOW %u EMPTY %u',0
+supply_rounds_fmt: db 'RDS %u UNKNOWN %u',0
+supply_unavailable: db 'OWN AMMO UNAVAILABLE',0
 command_panel_fmt: db 'COMPANY %d | FRONT %u | %s ADVANCE %s HOLD %s RETREAT %s FOLLOW %s DEFEND',0
 wheel_ready_text: db 'COMMAND WHEEL: RELEASE TO ORDER / RIGHT CLICK CANCEL',0
 wheel_cancel_text: db 'COMMAND CANCELLED',0
@@ -185,6 +191,10 @@ mouse_seed: dd 3
 server_port: dd 7777
 command_message: dq net_ready_text
 section .bss
+global supply_hud_report,supply_hud_text,supply_hud_available
+supply_hud_report: resb COMPANY_SUPPLY_STRIDE
+supply_hud_text: resb 64
+supply_hud_available: resd 1
 command_panel: resb 160
 bindings_path: resq 1
 quit_latched: resd 1
@@ -2118,12 +2128,67 @@ command_panel_draw:
  mov rdi,[command_message]
  mov esi,1
  call command_hud_draw
+ call supply_panel_draw
  cmp dword [network_mode],0
  je .done
  lea rdi,[transfer_info]
  mov esi,2
  call command_hud_draw
 .done:
+ pop rbx
+ ret
+
+ ; Read-only own company stock. Network mode uses only server cache.
+supply_panel_draw:
+ push rbx
+ mov dword [supply_hud_available],0
+ mov edi,[local_player]
+ lea rsi,[supply_hud_report]
+ mov edx,COMPANY_SUPPLY_STRIDE
+ cmp dword [network_mode],0
+ jne .remote
+ call company_supply_report
+ jmp .queried
+.remote:
+ cmp dword [net_connected],1
+ jne .unavailable
+ call net_supply_report
+.queried:
+ test eax,eax
+ jnz .unavailable
+ mov dword [supply_hud_available],1
+ lea rdi,[supply_hud_text]
+ mov esi,64
+ lea rdx,[supply_low_fmt]
+ mov ecx,[supply_hud_report+16]
+ mov r8d,[supply_hud_report+20]
+ xor eax,eax
+ call snprintf
+ lea rdi,[supply_hud_text]
+ mov esi,16
+ mov edx,[view_height]
+ sub edx,158
+ call command_hud_draw_at
+ lea rdi,[supply_hud_text]
+ mov esi,64
+ lea rdx,[supply_rounds_fmt]
+ mov ecx,[supply_hud_report+24]
+ mov r8d,[supply_hud_report+28]
+ xor eax,eax
+ call snprintf
+ lea rdi,[supply_hud_text]
+ mov esi,16
+ mov edx,[view_height]
+ sub edx,136
+ call command_hud_draw_at
+ pop rbx
+ ret
+.unavailable:
+ lea rdi,[supply_unavailable]
+ mov esi,16
+ mov edx,[view_height]
+ sub edx,158
+ call command_hud_draw_at
  pop rbx
  ret
 

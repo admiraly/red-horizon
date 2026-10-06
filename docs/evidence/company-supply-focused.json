@@ -1,0 +1,109 @@
+{
+  "scope": "Owned-company NASM report plus recipient-only UDP30 cache and own-company HUD; not depot inventory/routes/full specification.",
+  "logs": {
+    "ownership-abi": {
+      "path": "docs/evidence/company-supply-ownership-abi.log",
+      "sha256": "716826da1d2614f5f5ef23a3aa1023cb45d563e4570a13f80ba4386d2762517d",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "fast": {
+      "path": "docs/evidence/company-supply-fast.log",
+      "sha256": "7728090b6c7d4ccbf153d2a6a987b6141042fb200be60016086a343759623f96",
+      "reports": 70,
+      "explicit_passes": 69
+    },
+    "network": {
+      "path": "docs/evidence/company-supply-network.log",
+      "sha256": "2ab21df2fdde68d10e706c47d7990bded78c51aaa923f0c4fa0bed5dba7f3055",
+      "reports": 20,
+      "explicit_passes": 20
+    },
+    "network-final": {
+      "path": "docs/evidence/company-supply-network-final.log",
+      "sha256": "f7eb6cc3b7fa8a42ffc69e8bb564efcd3a53e8654b167bdca349f83d7b344e4f",
+      "reports": 22,
+      "explicit_passes": 22
+    },
+    "new-udp": {
+      "path": "docs/evidence/company-supply-new-udp.log",
+      "sha256": "970920831e1e39fde163a264aa0289c5aaf61ab297b15b390dac9e6908864aec",
+      "reports": 2,
+      "explicit_passes": 2
+    },
+    "final-render-solo": {
+      "path": "docs/evidence/company-supply-final-render-solo.log",
+      "sha256": "67282b495be85a5d5d2f814b5866f02a3113db3e3dbbe5654b2aaa184769cb38",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "final-render-coop": {
+      "path": "docs/evidence/company-supply-final-render-coop.log",
+      "sha256": "13562e56313ed0bd2fff8bd223a5fc1a26fc4c56b2ff18181317c14c69d44a27",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "final-render-small": {
+      "path": "docs/evidence/company-supply-final-render-small.log",
+      "sha256": "0d806fa943f3e3ce4688bd855a718d14986ac2a3d0e18479daf8dabbd6e90d35",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "client-final-build": {
+      "path": "docs/evidence/company-supply-client-final-build.log",
+      "sha256": "18bc976e918256f91cb23cf610e94a8969e196559f6dda8e0d74fddb4b896c51",
+      "reports": 0,
+      "explicit_passes": 0
+    },
+    "coop-final-build": {
+      "path": "docs/evidence/company-supply-coop-final-build.log",
+      "sha256": "aaf3fd49d77df08bed8fdbbd73c97b9d28709fab550b7478b1eb1878877331b4",
+      "reports": 0,
+      "explicit_passes": 0
+    }
+  },
+  "builds": {
+    "client": {
+      "metadata": {
+        "target": "client",
+        "revision": "5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e",
+        "assembled": 1,
+        "assembled_sources": [
+          "src/net/client.asm"
+        ],
+        "seconds": 0.5321403970010579,
+        "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-supply-report/build/revisions/5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e/red-horizon"
+      },
+      "binary_sha256": "96d2e8d2e1902c590ee9fadf644aa73f93ce7bee72326e9a0688418e9af457f9"
+    },
+    "coop": {
+      "metadata": {
+        "target": "coop",
+        "revision": "5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e",
+        "assembled": 0,
+        "assembled_sources": [],
+        "seconds": 0.3943743239942705,
+        "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-supply-report/build/revisions/5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e/red-horizon-coop-server"
+      },
+      "binary_sha256": "bcd876d9e47afc4fe8ca3ece734b6d4ae54f774c0735be4f5e09dda9ffb89d0c"
+    },
+    "headless": {
+      "metadata": {
+        "target": "headless",
+        "revision": "5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e",
+        "assembled": 0,
+        "assembled_sources": [],
+        "seconds": 0.3886460609937785,
+        "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-supply-report/build/revisions/5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e/red-horizon-server"
+      },
+      "binary_sha256": "5ac84b0c1992cb1bccbdbb5e2ee5bf730e3cb3f1f6e4378091fa35e86aae2bbf"
+    }
+  },
+  "limits": [
+    "Core fast started before final remote sum-validation strengthening; that remote path is checked by final network tests. Runtime company report, gameplay and core policies unchanged during fast.",
+    "Development/parser/framebuffer harness corrections retained in feature narrative; do not claim failed or empty attempts as passes.",
+    "Ordinary UI scenes observe actual low/empty/unknown labels, not constructed all-state visual fixtures.",
+    "Exact whole-world wire stock oracle, packet-specific loss/reorder relay across lease transfers, Windows/hardware/art acceptance remain open."
+  ],
+  "input_revision": "5421c9bdd180498dfe5631d499e068dd3eab27e8-2c6c9a8caf52601e"
+}
