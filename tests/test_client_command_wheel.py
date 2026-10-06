@@ -93,7 +93,11 @@ try:
 
         def key(symbol, hold=.12):
             code = X.XKeysymToKeycode(display, symbol); assert code
-            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display); time.sleep(hold)
+            expected=(1-u32('tactical')) if symbol==0xff09 else None
+            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display)
+            if expected is not None:until(lambda:u32('tactical')==expected,3)
+            elif symbol in (0xffbe,0xffbf):until(lambda:u32('selected_front')==symbol-0xffbe,3)
+            else:time.sleep(hold)
             XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display); time.sleep(.10)
 
         def button(down):
@@ -101,11 +105,29 @@ try:
 
         def u32(name,offset=0):return struct.unpack('<I',os.pread(memory,4,symbols[name]+offset))[0]
         def f32(name):return struct.unpack('<f',os.pread(memory,4,symbols[name]))[0]
+        def selected_colour(x,y):
+            # Selection memory is published before its corresponding GL frame.
+            # Wait for the unchanged pixel contract at the actual render boundary.
+            observed=[]
+            def rendered():
+                image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+                try:pixel=X.XGetPixel(image,x,y)
+                finally:X.XDestroyImage(image)
+                rgb=((pixel>>16)&255,(pixel>>8)&255,pixel&255)
+                observed[:]=rgb
+                return rgb if 20<rgb[0]<40 and 70<rgb[1]<90 and 55<rgb[2]<75 else None
+            try:return until(rendered,3)
+            except AssertionError as failure:raise AssertionError(('selected wedge colour',x,y,observed)) from failure
         def mouse(number,down):
             XT.XTestFakeButtonEvent(display,number,int(down),0);X.XFlush(display)
             if number==2 and not down:until(lambda:u32('wheel_down')==0,2)
         def motion(x,y):XT.XTestFakeMotionEvent(display,-1,x,y,0);X.XFlush(display);time.sleep(.12)
         def record():return struct.unpack('<4I2f2I',os.pread(memory,32,control))
+        def economic_snapshot():
+            def completed():
+                a=u32('local_sim_ticks');b=u32('sim_tick_count');funds=u32('sim_requisition');c=u32('sim_tick_count');d=u32('local_sim_ticks')
+                return (a,funds) if a==b==c==d else None
+            return until(completed,3)
         company=u32('player_companies');assert company<1536
         control=symbols['company_controls']+company*32
         key(0xffbf) # Own front1, no authority edits.
@@ -141,15 +163,12 @@ try:
         mouse(1,True);held_code=X.XKeysymToKeycode(display,ord('4'));XT.XTestFakeKeyEvent(display,held_code,1,0);X.XFlush(display);time.sleep(.6);mouse(1,False)
         assert record()==initial and player()['shots']==shots,'open wheel leaked direct key/fire intent'
         assert u32('sim_tick_count')>tick+5,'wheel paused the battlefield'
-        image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
-        selected_pixel=X.XGetPixel(image,650,310);X.XDestroyImage(image)
-        r,g,b=(selected_pixel>>16)&255,(selected_pixel>>8)&255,selected_pixel&255
-        assert 20<r<40 and 70<g<90 and 55<b<75,('selected wedge colour',r,g,b)
-        tick0=u32('sim_tick_count');funds0=u32('sim_requisition');mouse(2,False)
+        r,g,b=selected_colour(650,310)
+        tick0,funds0=economic_snapshot();mouse(2,False)
         until(lambda:record()[6]==initial[6]+1,2);ordered=record()
         assert ordered[2]==0 and math.dist(ordered[4:6],aimed)<.001,('crosshair target not committed',ordered,aimed)
-        tick1=u32('sim_tick_count');funds1=u32('sim_requisition')
-        assert funds1==funds0+39*(tick1//30-tick0//30)-5
+        tick1,funds1=economic_snapshot()
+        assert funds1==funds0+39*(tick1//30-tick0//30)-5,(tick0,tick1,funds0,funds1)
         until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED'),3)
         time.sleep(.6);assert record()[6]==ordered[6],'release or held direct key repeated a command'
         XT.XTestFakeKeyEvent(display,held_code,0,0);X.XFlush(display);time.sleep(.1)
@@ -179,10 +198,7 @@ try:
         assert u32('wheel_point_valid')==1
         defense_point=struct.unpack('<2f',os.pread(memory,8,symbols['wheel_point']))
         motion(700,300);until(lambda:u32('wheel_selected')==4,2)
-        image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
-        selected_pixel=X.XGetPixel(image,705,295);X.XDestroyImage(image)
-        r,g,b=(selected_pixel>>16)&255,(selected_pixel>>8)&255,selected_pixel&255
-        assert 20<r<40 and 70<g<90 and 55<b<75,('defend wedge colour',r,g,b)
+        r,g,b=selected_colour(705,295)
         mouse(2,False);until(lambda:record()[6]==before[6]+1,2)
         assert record()[2]==4 and math.dist(record()[4:6],defense_point)<.001
         until(lambda:text_visible(X,display,window,1,'ORDER ACCEPTED: DEFEND AREA'),3)

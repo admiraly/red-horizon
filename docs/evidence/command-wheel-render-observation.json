@@ -1,0 +1,35 @@
+{
+  "original_frozen_full": "06b65992aceb",
+  "original_frozen_status": "failed",
+  "original_executable_sha256": "68701c44b7aa18b601f0a3d80b72c329b9aa20156ca6c91e0a450dcb88443f35",
+  "observer_change": "Bound actual unchanged pixel shade, completed local authority economy, and actual Tab/front input acknowledgement. No runtime modifications; original frozen failure retained.",
+  "iterations": [
+    {
+      "log": "/tmp/command-wheel-render-boundary.log",
+      "sha256": "0c23d33f68c4ab2ceb18be60e473d75c6269ccca26d7cb34ef1e6247819c8ea8",
+      "terminal_status": "failed",
+      "contents": "Traceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon/tests/test_client_command_wheel.py\", line 162, in <module>\n    assert funds1==funds0+39*(tick1//30-tick0//30)-5\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "log": "/tmp/command-wheel-render-boundary-final.log",
+      "sha256": "53672c80f476e41d5bee070a6ef1499165e24e2cf98b86a276cbe6afa192b2d3",
+      "terminal_status": "failed",
+      "contents": "Traceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon/tests/test_client_command_wheel.py\", line 192, in <module>\n    key(0xff09);mouse(2,True);time.sleep(.3);assert u32('wheel_active')==0;mouse(2,False)\n                                                    ^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    },
+    {
+      "log": "/tmp/command-wheel-render-boundary-gated.log",
+      "sha256": "545450ca4ef04c64a599c90a38fd15154d4681fa359b0c920a98a697107995c3",
+      "terminal_status": "passed",
+      "contents": "{\"suite\": \"actual-solo-command-wheel\", \"passed\": true, \"crosshair_point\": [3780.0, 3945.0634765625], \"committed_point\": [3780.0, 3945.0634765625], \"four_framebuffer_labels\": true, \"selection_colour_rgb\": [31, 82, 64], \"release_one_charge\": true, \"held_input_no_fire_or_order\": true, \"direct_key_held_through_close_consumed\": true, \"escape_same_event_batch_cancels\": true, \"world_continues\": true, \"aim_frozen_and_cursor_restored\": true, \"center_right_escape_cancel\": true, \"follow_hold_preserve_waypoint\": true, \"release_uses_final_cursor\": true, \"defend_framebuffer_sector_ack_and_crosshair_point\": true, \"foreign_front_rejected\": true, \"tactical_middle_suppressed\": true, \"executable_sha256\": \"68701c44b7aa18b601f0a3d80b72c329b9aa20156ca6c91e0a450dcb88443f35\", \"limits\": [\"Actual GLFW/GL/XTest on private software GL, not target hardware quality.\", \"Five command modes; remaining contextual roster and human quality acceptance separate.\"]}\n"
+    }
+  ],
+  "limits": [
+    "Private Xvfb software GL; no target hardware or full-checkpoint acceptance."
+  ],
+  "minimum_viewport": {
+    "exit_code": 0,
+    "log": "/tmp/command-wheel-render-boundary-small.log",
+    "sha256": "92006e20c8022ba0488f62f4d0f8982b6a9213c818f47a7b010a42cb624acbd5",
+    "contents": "{\"suite\": \"actual-small-command-wheel\", \"passed\": true, \"viewport\": [320, 240], \"five_framebuffer_labels\": {\"MOVE\": [136, 43], \"HOLD\": [67, 112], \"FOLLOW\": [193, 112], \"RETREAT\": [118, 181], \"DEFEND\": [165, 71]}, \"center_cancel_uncharged\": true, \"capture\": \"/tmp/command-wheel-small.ppm\", \"limits\": [\"Minimum viewport software GL label/layout check; human readability unverified.\"]}\n"
+  }
+}

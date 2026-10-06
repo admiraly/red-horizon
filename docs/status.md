@@ -1,3 +1,12 @@
+Command-wheel observer correction: same exact failed frozen executable now
+passes full1280x720 and minimum320x240 checks. Actual selected RGB31/82/64,
+unchanged command charging/release/cancel/foreign-front assertions. Bound actual
+framebuffer shade, local end-of-tick economy snapshots and Tab/front input
+acknowledgement; no runtime changes. Two intermediate reruns exposed economic
+and fixed-duration key sampling races and remain recorded in
+ evidence/command-wheel-render-observation.json. Frozen06b65992aceb remains
+FAILED; this focused recheck does not establish a full pass.
+
 Finite infantry damage against humans is integrated in0b4d7d6b3e7a79b3830cb16cf6b8493463a64242,
 authored fingerprintaafce4d008140d67,401 inputs. UDPv34/schema8136ed0d/
 content77e16f9b fingerprints infantry policy3; packet layouts unchanged.
