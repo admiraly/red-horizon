@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 7, 0x4e2ac49b, 0x10d280ea
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 8, 0xca075aed, 0xdbb0a2ab
 HEADER = struct.Struct('<10I')
 
 
@@ -289,9 +289,16 @@ def verify_adapter(server, library):
         assert replicated_air>0, 'assembly adapter never applied actual aircraft sidecars'
         stdout, stderr = process.communicate(timeout=3)
         assert process.returncode == 0, (stdout, stderr)
-        lib.net_client_poll()
+        # Drain the completed server's final snapshots before testing no local ticks.
+        # Each poll keeps its32-packet budget; new self-contained streams may leave
+        # more than32 datagrams queued after the stopped60-tick server exits.
+        final_tick=json.loads(stdout.strip().splitlines()[-1])['ticks']
+        for _ in range(16):
+            lib.net_client_poll()
+            if ctypes.c_uint.in_dll(lib,'net_server_tick').value==final_tick:break
         server_tick = ctypes.c_uint.in_dll(lib, 'net_server_tick').value
         local_tick = ctypes.c_uint.in_dll(lib, 'sim_tick_count').value
+        assert server_tick==final_tick,'completed server final snapshots not received'
         for _ in range(4):
             lib.net_client_poll()
         assert ctypes.c_uint.in_dll(lib, 'sim_tick_count').value == local_tick == server_tick
@@ -479,7 +486,7 @@ def main():
         (root / 'schemas/suspension.inc').read_text() + '\n' +
         (root / 'schemas/ground_visual.inc').read_text() + '\n' +
         (root / 'schemas/ground_eye.inc').read_text() + '\n' +
-        (root / 'schemas/wreck.inc').read_text(), re.M))
+        (root / 'schemas/wreck.inc').read_text() + '\n' + (root / 'schemas/wreck_remote.inc').read_text(), re.M))
     policy = {}
     for name in ('GROUND_SURFACE_VERSION', 'GROUND_TANK_OFFROAD',
                  'GROUND_ARTILLERY_OFFROAD', 'GROUND_TANK_RADIUS',
@@ -497,7 +504,7 @@ def main():
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
         'tracked_policy': policy,
     }
-    payload.update(wreck_registry={name:definitions[name] for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
+    payload.update(wreck_presentation={name:definitions[name] for name in ('WRECK_REMOTE_VERSION','WRECK_WIRE_STRIDE','WRECK_WIRE_MAX','WRECK_PRESENTATION_VERSION','WRECK_PRESENTATION_FRAME','WRECK_PRESENTATION_LOD')},wreck_registry={name:definitions[name] for name in ('WRECK_VERSION','WRECK_CAPACITY','WRECK_LIFETIME_TICKS')},ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
         relief_abi=1,grade_abi=1,
         relief=json.loads((root/'content/terrain/relief.json').read_text()),
         grade_policy={name:definitions[name] for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},

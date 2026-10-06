@@ -49,6 +49,7 @@ void main(){
  if(identity.w==0)world.y+=height(pose.xz);
  float light=mix(.35,.58,weather.y)+mix(.65,.22,weather.y)*max(0.,dot(normal,normalize(vec3(.35,.85,-.2))));
  colour=mix(material,team,.22)*light;
+ if(identity.y==3. && (identity.z==1. || identity.z==2.))colour*=vec3(.35,.32,.29);
  if(identity.y==2)colour=mix(material,team,.35)*light;
  if(meshMode==1)colour=team;
  if(meshMode==2){

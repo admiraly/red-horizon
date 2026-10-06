@@ -355,6 +355,7 @@ def main():
             execute([sys.executable,'tests/test_ground_eye_outcomes.py',str(library)])
         if suite in ('all','headless','fast','simulation','combat','vehicles','wrecks'):
             execute([sys.executable,'tests/test_wrecks.py'])
+            execute([sys.executable,'tests/test_wreck_remote.py'])
             execute([sys.executable,'tests/test_segment_box.py'])
             execute([sys.executable,'tests/test_wreck_query.py'])
             execute([sys.executable,'tests/test_wreck_outcomes.py',str(library)])
@@ -434,6 +435,7 @@ def main():
             if (ROOT/'tests/test_net_events.py').exists(): execute([sys.executable,'tests/test_net_events.py',str(library)])
             if (ROOT/'tests/test_coop_combat.py').exists(): execute([sys.executable,'tests/test_coop_combat.py',str(server),str(library)])
             execute([sys.executable,'tests/test_ground_network.py',str(library),str(server)])
+            execute([sys.executable,'tests/test_wreck_network.py',str(library),str(server),*(['--extended'] if getattr(args,'extended',False) else [])])
         if suite in ('all','headless','tools'):
             execute([sys.executable,'tests/test_dense_driver.py'])
             if (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
@@ -455,6 +457,8 @@ def main():
             client=build('client')
             execute([sys.executable,'tests/test_support_gl.py',str(client),str(library)])
             execute([sys.executable,'tests/test_support_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_wreck_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_wreck_client.py',str(client),str(library),'--udp'])
             execute([sys.executable,'tests/test_ground_eye_client.py',str(client),str(build('coop'))])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
         if suite in ('all','graphics'):
@@ -467,6 +471,7 @@ def main():
             execute([sys.executable,'tests/test_visibility_framebuffer.py',str(census_library)])
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            execute([sys.executable,'tests/test_wreck_instance.py'])
             execute([sys.executable,'tests/test_hazard_warning_gl.py',str(client)])
             execute([sys.executable,'tests/test_census_cli.py',str(client)])
             view_library=BUILD/'libviewsettings.so'
@@ -482,6 +487,8 @@ def main():
             execute([sys.executable,'tests/test_relief_gl.py',str(client)])
             execute([sys.executable,'tests/test_support_gl.py',str(client),str(library)])
             execute([sys.executable,'tests/test_support_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_wreck_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_wreck_client.py',str(client),str(library),'--udp'])
             execute([sys.executable,'tests/test_ground_eye_client.py',str(client),str(build('coop'))])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])

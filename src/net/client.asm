@@ -4,6 +4,8 @@ default rel
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
+%include "schemas/wreck_remote.inc"
+extern wreck_receive,wreck_remote_reset,wreck_remote_expire
 %include "src/net/protocol.inc"
 extern sim_ground_motion
 extern sim_aircraft
@@ -121,6 +123,7 @@ net_client_open:
  lea rdi,[air_tick]
  mov ecx,32768
  rep stosd
+ call wreck_remote_reset
  call reset_ground
  lea rdi,[sim_aircraft]
  mov ecx,32768*AIR_STRIDE/8
@@ -297,6 +300,8 @@ net_client_poll:
  je .state
  cmp dword [incoming+16],NET_ENTITIES
  je .entities
+ cmp dword [incoming+16],NET_WRECKS
+ je .wrecks
  cmp dword [incoming+16],NET_GROUND
  je .ground
  cmp dword [incoming+16],NET_AIRCRAFT
@@ -577,6 +582,14 @@ net_client_poll:
  dec r14d
  jmp .records
 ; Self-contained ground64: validate the complete batch before any mutation.
+.wrecks:
+ lea rdi,[incoming+NET_HEADER]
+ mov esi,[incoming+32]
+ mov edx,[incoming+28]
+ call wreck_receive
+ test eax,eax
+ js .next
+ jmp .accepted
 .ground:
  cmp dword [incoming+32],4
  jb .next
@@ -1161,6 +1174,7 @@ net_client_poll:
  mov dword [net_connected],0
  mov dword [pending_len],0
  call reset_projectiles
+ call wreck_remote_reset
  call reset_ground
 .retry:
  cmp dword [pending_len],0
@@ -1171,6 +1185,8 @@ net_client_poll:
  jb .expire
  call transmit
 .expire:
+ mov edi,[net_server_tick]
+ call wreck_remote_expire
  ; Old unrefreshed entities cannot remain authoritative ghosts indefinitely.
  mov ecx,[sim_count]
  imul r9d,ecx,3
@@ -1216,6 +1232,7 @@ net_client_poll:
  pop rbp
  ret
 net_client_close:
+ call wreck_remote_reset
  call reset_ground
  call reset_projectiles
  mov rdi,[fd]

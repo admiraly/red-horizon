@@ -3,6 +3,9 @@ default rel
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
+%include "schemas/wreck.inc"
+%include "schemas/wreck_remote.inc"
+extern sim_wrecks
 extern sim_projectiles
 %include "src/net/protocol.inc"
 extern vehicle_driver_generation
@@ -50,6 +53,7 @@ event_cursors: resd 4
 air_cursors: resd 4
 ground_cursors: resd 4
 projectile_cursors: resd 4
+wreck_cursors: resd 4
 replicated: resb 4*32768
 distinct_pairs: resq 1
 interest_counts: resd 4
@@ -752,6 +756,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_projectiles
+ mov edi,r12d
+ mov rsi,r13
+ call send_wrecks
 .nextslot:
  add r13,NET_RECORD
  inc r12d
@@ -1195,6 +1202,68 @@ send_projectiles:
  add esi,44
  lea eax,[rsi-NET_HEADER]
  mov [output+32],eax
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,8
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret
+; Global source-independent fair wreck stream, includes expiry tombstones.
+; At most17 records/1196bytes; absent virgin slots skipped, no distance filter
+; that could conceal a distant death or prevent late-join/full registry recovery.
+send_wrecks:
+ push rbp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,8
+ mov r12d,edi
+ mov r13,rsi
+ mov edi,NET_WRECKS
+ mov esi,r12d
+ xor edx,edx
+ call header
+ xor r14d,r14d
+ xor r15d,r15d
+.scan:
+ lea r8,[wreck_cursors]
+ mov ebx,[r8+r12*4]
+ and ebx,WRECK_CAPACITY-1
+ lea eax,[rbx+1]
+ mov [r8+r12*4],eax
+ inc r15d
+ mov eax,ebx
+ shl eax,6
+ lea rsi,[sim_wrecks]
+ add rsi,rax
+ cmp dword [rsi+WRECK_SEQUENCE],0
+ je .next
+ imul eax,r14d,WRECK_WIRE_STRIDE
+ lea rdi,[output+NET_HEADER]
+ add rdi,rax
+ mov [rdi],ebx
+ add rdi,4
+ mov ecx,8
+ rep movsq
+ inc r14d
+.next:
+ cmp r14d,WRECK_WIRE_MAX
+ jae .send
+ cmp r15d,WRECK_CAPACITY
+ jb .scan
+.send:
+ test r14d,r14d
+ jz .done
+ imul esi,r14d,WRECK_WIRE_STRIDE
+ mov [output+32],esi
+ add esi,NET_HEADER
  mov rdi,r13
  call send_packet
 .done:

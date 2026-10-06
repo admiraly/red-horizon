@@ -6,6 +6,9 @@ default rel
 %include "schemas/ground_motion.inc"
 %include "schemas/ground_support.inc"
 %include "schemas/ground_visual.inc"
+%include "schemas/wreck.inc"
+%include "schemas/wreck_instance.inc"
+extern sim_wrecks,net_wrecks,net_connected,wreck_instance
 extern view_projection,view_half_size
 extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
@@ -22,6 +25,7 @@ extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUn
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
  global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame
+ global mesh_wreck_instances,mesh_wreck_pose
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
@@ -51,6 +55,8 @@ air_height: dd 90.0
 align 16
 tree_positions: dd 1900.,3720.,2100.,3740.,1800.,4150.,2250.,4100.,3450.,3500.,3550.,3530.,3650.,3520.,4500.,3700.,4600.,3730.,5500.,1300.,5520.,1330.,5500.,6500.,3000.,6100.,3020.,6120.,3300.,1700.,3370.,1730.
 section .bss
+mesh_wreck_instances: resd 1
+mesh_wreck_pose: resd 16
 mesh_ground_pose: resd 16 ; last actual ground instance, development diagnostics
 mesh_aircraft_pose: resd 16 ; last actual aircraft instance, development diagnostics
 mesh_program: resd 1
@@ -280,6 +286,11 @@ meshes_draw:
  mov dword [mesh_high_instances],0
  mov dword [mesh_low_instances],0
  mov dword [mesh_marker_instances],0
+ mov dword [mesh_wreck_instances],0
+ lea rdi,[mesh_wreck_pose]
+ xor eax,eax
+ mov ecx,8
+ rep stosq
  mov dword [mesh_source_triangles],0
  lea rdi,[high_flags]
  xor eax,eax
@@ -357,6 +368,7 @@ meshes_draw:
  call .props
  call .weapon
 .markers:
+ call .wrecks
  call .marker_batch
  add rsp,8
  pop r15
@@ -364,6 +376,86 @@ meshes_draw:
  pop r13
  pop r12
  pop rbx
+ pop rbp
+ ret
+
+.wrecks:
+ push rbp
+ xor r13d,r13d
+.wreck_descriptor:
+ cmp r13d,[mesh_asset_count]
+ jae .wreck_done
+ mov eax,r13d
+ shl eax,6
+ mov r12,[mesh_asset_descriptors]
+ add r12,rax
+ cmp dword [r12+4],0
+ jne .wreck_next_descriptor
+ mov eax,[r12]
+ dec eax
+ cmp eax,1
+ ja .wreck_next_descriptor
+ mov [current_descriptor],r12
+ xor r15d,r15d
+ xor r14d,r14d
+ lea rbx,[sim_wrecks]
+ cmp dword [net_connected],0
+ je .wreck_record
+ lea rbx,[net_wrecks]
+.wreck_record:
+ test dword [rbx+WRECK_FLAGS],WRECK_ACTIVE
+ jz .wreck_next_record
+ mov eax,[rbx+WRECK_KIND]
+ cmp eax,[r12]
+ jne .wreck_next_record
+ cmp dword [view_tactical],0
+ jne .wreck_append
+ movss xmm0,[rbx+WRECK_X]
+ subss xmm0,[view_camera]
+ mulss xmm0,xmm0
+ movss xmm1,[rbx+WRECK_Z]
+ subss xmm1,[view_camera+8]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[medium_range2]
+ ja .wreck_next_record
+.wreck_append:
+ mov eax,r15d
+ shl eax,6
+ lea rdi,[instances]
+ add rdi,rax
+ mov esi,64
+ mov rdx,rbx
+ mov ecx,64
+ call wreck_instance
+ test eax,eax
+ jnz .wreck_next_record
+ mov eax,r15d
+ shl eax,6
+ lea rdi,[instances]
+ add rdi,rax
+ movups xmm0,[rdi]
+ movups [mesh_wreck_pose],xmm0
+ movups xmm0,[rdi+16]
+ movups [mesh_wreck_pose+16],xmm0
+ movups xmm0,[rdi+32]
+ movups [mesh_wreck_pose+32],xmm0
+ movups xmm0,[rdi+48]
+ movups [mesh_wreck_pose+48],xmm0
+ inc r15d
+ inc dword [mesh_wreck_instances]
+.wreck_next_record:
+ add rbx,WRECK_STRIDE
+ inc r14d
+ cmp r14d,WRECK_CAPACITY
+ jb .wreck_record
+ mov dword [current_mode],0
+ mov dword [draw_lod],0
+ call .upload_draw
+.wreck_next_descriptor:
+ inc r13d
+ jmp .wreck_descriptor
+.wreck_done:
  pop rbp
  ret
 
