@@ -14,7 +14,7 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
  valid=C.c_uint.in_dll(lib,'net_company_valid');clock=C.c_uint.in_dll(lib,'net_company_tick')
  def record(i,key=0xffffffff,generation=0,serial=0,mode=0,ordered=0,x=0,z=0,sequence=0,tick=0):
   return struct.pack('<6I2f2I',i,key,generation,serial,mode,ordered,x,z,sequence,tick)
- def packet(records):return struct.pack('<I',4)+b''.join(records)
+ def packet(records):return struct.pack('<I',4)+b''.join(records)+bytes(192)
  rows=[record(0,19,1,1,1,1,2200,1300,1,5),record(1,285,1,1),record(2,534,1,1),record(3,0,1,1,0,1,2400,1300,1,5)]
  sock=socket.socket(socket.AF_INET,socket.SOCK_DGRAM);sock.bind(('127.0.0.1',0));sock.settimeout(1)
  try:
@@ -25,7 +25,7 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
    return lib.net_client_poll()
   send(struct.pack('<4I',0,0,8192,100),kind=2,tick=0)
   authority=lib.sim_checksum();initial=bytes(remote);rejected=0
-  malformed=[packet(rows)[:-1],struct.pack('<I',3)+b''.join(rows),packet(rows)+b'X']
+  malformed=[packet(rows)[:-1],struct.pack('<I',3)+b''.join(rows)+bytes(192),packet(rows)+b'X']
   for index,kw in [(0,dict(i=1)),(1,dict(key=768,generation=1)),(2,dict(key=534,generation=0)),(3,dict(key=19,generation=1)),(3,dict(key=0,generation=1,mode=3)),(3,dict(key=0,generation=1,ordered=2)),(3,dict(key=0,generation=1,ordered=1,x=math.nan)),(3,dict(key=0,generation=1,ordered=1,z=math.inf)),(3,dict(key=0,generation=1,ordered=1,x=-1)),(3,dict(key=0,generation=1,ordered=1,z=8001)),(3,dict(key=0,generation=1,ordered=1,tick=11)),(3,dict(key=0,generation=1,mode=1)),(3,dict(key=0,generation=1,sequence=1)),(3,dict(generation=1)),(3,dict(ordered=1)),(3,dict(x=1)),(3,dict(tick=1))]:
    changed=rows.copy();kw.setdefault('i',index);changed[index]=record(**kw);malformed.append(packet(changed))
   for payload in malformed:
@@ -33,7 +33,7 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
   for kw in ({'version':VERSION-1},{'schema':SCHEMA^1},{'content':CONTENT^1},{'session':2}):
    send(packet(rows),**kw);assert bytes(remote)==initial;rejected+=1
   # Direct receive is read-only with respect to all authoritative state.
-  raw=C.create_string_buffer(b''.join(rows));lib.net_company_receive.argtypes=[C.c_void_p,C.c_uint,C.c_uint]
+  raw=C.create_string_buffer(b''.join(rows)+bytes(192));lib.net_company_receive.argtypes=[C.c_void_p,C.c_uint,C.c_uint]
   assert lib.net_company_receive(raw,4,10)==0 and lib.sim_checksum()==authority
   lib.net_company_reset()
   core=(bytes(players),bytes((C.c_ubyte*(32768*32)).in_dll(lib,'sim_entities')),bytes((C.c_ubyte*(1536*32)).in_dll(lib,'company_controls')))
@@ -47,12 +47,26 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
   players[15]=2;assert lib.net_company_for_player(0)==-1;players[15]=1
   players[10]=1;assert lib.net_company_for_player(0)==-1;players[10]=0
   players[11]=0;assert lib.net_company_for_player(0)==-1;players[11]=1
+  proposals=(C.c_ubyte*192).in_dll(lib,'net_company_transfers')
+  offer=[1,1,19,285,1,1,1,1,100,1,0,0]
+  def offer_packet(values):return struct.pack('<I',4)+b''.join(rows)+struct.pack('<12I',*values)+bytes(144)
+  offer_rejected=0
+  for field,value in [(0,2),(1,4),(1,0),(2,768),(2,20),(3,534),(4,2),(5,2),(6,2),(7,2),(8,11),(8,462),(9,0),(9,0xffffffff),(10,1),(11,1)]:
+   bad=offer.copy();bad[field]=value;send(offer_packet(bad),tick=11)
+   assert bytes(remote)==b''.join(rows) and not any(proposals) and clock.value==10
+   offer_rejected+=1
+  bad=offer.copy();bad[0]=0;send(offer_packet(bad),tick=11);assert not any(proposals);offer_rejected+=1
+  send(offer_packet(offer),tick=11);assert bytes(proposals[:48])==struct.pack('<12I',*offer)
+  assert lib.net_company_offer(1,0)==1 and lib.net_company_offer(2,0)==-1
+  players[31]=2;assert lib.net_company_offer(1,0)==-1;players[31]=1
+  players[26]=0;assert lib.net_company_offer(1,0)==-1;players[26]=1
+  players[27]=0;assert lib.net_company_offer(1,0)==-1;players[27]=1
   saved=bytes(remote);changed=rows.copy();changed[0]=record(0,20,1,1)
-  for tick in (9,10):send(packet(changed),tick=tick);assert bytes(remote)==saved and clock.value==10
-  changed=rows.copy();changed[0]=record(0,serial=2);send(packet(changed),tick=11)
+  for tick in (9,10):send(packet(changed),tick=tick);assert bytes(remote)==saved and clock.value==11
+  changed=rows.copy();changed[0]=record(0,serial=2);send(packet(changed),tick=12)
   assert lib.net_company_for_player(0)==-1 and bytes(remote)==b''.join(changed)
   send(packet(rows),tick=10);assert lib.net_company_for_player(0)==-1
-  changed[0]=record(0,19,2,3);send(packet(changed),tick=12);assert lib.net_company_for_player(0)==-1
+  changed[0]=record(0,19,2,3);send(packet(changed),tick=13);assert lib.net_company_for_player(0)==-1
   players[15]=2;assert lib.net_company_for_player(0)==19
   lib.net_client_close();assert not valid.value and clock.value==0 and lib.net_company_for_player(0)==-1
   assert all(struct.unpack_from('<I',remote,i*40+4)[0]==0xffffffff for i in range(4))
@@ -61,7 +75,7 @@ with tempfile.TemporaryDirectory(prefix='rh-company-remote-') as td:
   _,destination=sock.recvfrom(1200);send(struct.pack('<4I',0,0,8192,100),kind=2,tick=0);send(packet(rows))
   time.sleep(3.05);lib.net_client_poll();assert not valid.value and not C.c_uint.in_dll(lib,'net_connected').value
  finally:lib.net_client_close();sock.close()
- print(json.dumps({'suite':'company-remote-parser','passed':True,'malformed_or_foreign_packets':rejected,'whole_batch_atomic':True,'direct_receive_authority_checksum_preserved':True,'transport_players_entities_companies_preserved':True,'transport_advances_existing_remote_clock':True,'stale_equal_tick_rejected':True,'body_generation_front_disconnect_gates':True,'tombstone_no_resurrection':True,'close_timeout_reset':True,'library_sha256':hashlib.sha256(private.read_bytes()).hexdigest()}))
+ print(json.dumps({'suite':'company-remote-parser','passed':True,'malformed_or_foreign_packets':rejected,'malformed_proposals':offer_rejected,'proposal_whole_batch_atomic':True,'offer_current_participant_generation_front_connected_gates':True,'whole_batch_atomic':True,'direct_receive_authority_checksum_preserved':True,'transport_players_entities_companies_preserved':True,'transport_advances_existing_remote_clock':True,'stale_equal_tick_rejected':True,'body_generation_front_disconnect_gates':True,'tombstone_no_resurrection':True,'close_timeout_reset':True,'library_sha256':hashlib.sha256(private.read_bytes()).hexdigest()}))
  # Actual world, three observer peers and production NASM adapter as player3.
  host=subprocess.Popen([str(server),'--port','0','--units','8192','--ticks','420'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True);peers=[];memory=None
  try:

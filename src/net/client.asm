@@ -69,6 +69,7 @@ net_projectile_count: resd 1
 projectile_tick: resd PROJECTILE_CAPACITY
 projectile_age: resd PROJECTILE_CAPACITY
 section .text
+global net_client_transfer
 global net_client_open, net_client_poll, net_client_input, net_client_order, net_client_close
 ; open(RDI=IPv4 text,ESI=port)->0 queued join/-1. Connected set only on ACK.
 net_client_open:
@@ -244,6 +245,32 @@ net_client_order:
  mov esi,16
  call command_header
  mov dword [pending_len],56
+ call transmit
+ xor eax,eax
+ pop rbp
+ ret
+ ; Reliable transfer action; no optimistic local ownership mutation.
+net_client_transfer:
+ cmp dword [net_connected],1
+ jne input_bad
+ cmp dword [pending_len],0
+ jne input_bad
+ cmp edi,3
+ ja input_bad
+ cmp esi,4
+ jae input_bad
+ cmp esi,[net_player_id]
+ je input_bad
+ mov [outgoing+40],edi
+ mov [outgoing+44],esi
+ mov [outgoing+48],edx
+ push rbp
+ mov rbp,rsp
+ inc dword [sequence]
+ mov edi,NET_TRANSFER
+ mov esi,12
+ call command_header
+ mov dword [pending_len],52
  call transmit
  xor eax,eax
  pop rbp
@@ -445,6 +472,16 @@ net_client_poll:
  lea rdi,[sim_players]
  mov ecx,64
  rep movsd
+ mov eax,[net_player_id]
+ cmp eax,4
+ jae .state_front_ready
+ shl eax,6
+ lea rdx,[sim_players]
+ mov eax,[rdx+rax+PLAYER_FRONT]
+ cmp eax,2
+ ja .state_front_ready
+ mov [net_front],eax
+.state_front_ready:
  lea rdi,[sim_sites]
  mov ecx,96
  rep movsd

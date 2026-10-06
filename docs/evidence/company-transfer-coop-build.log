@@ -1,0 +1,6 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x6618d669", "canonical_sha256": "6618d66954e66bb0e65efba8ebd40ff6d628f4283198e95fd2c0c2af609cee5d", "checked": true}
+{"target": "coop", "revision": "88f62d333499dddbc19b54f5db22ac1163260127-64ea4ad7871b1b80", "assembled": 0, "assembled_sources": [], "seconds": 0.4039528480061563, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/company-transfer/build/revisions/88f62d333499dddbc19b54f5db22ac1163260127-64ea4ad7871b1b80/red-horizon-coop-server"}

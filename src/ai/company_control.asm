@@ -3,6 +3,7 @@
 %include "schemas/player.inc"
 %include "schemas/company_control.inc"
 default rel
+extern company_transfer_init,company_transfer_hash
 extern sim_entities,sim_count,sim_players,sim_tick_count,terrain_blocked,sim_spend
 section .bss align=64
 global company_controls,player_companies
@@ -33,7 +34,7 @@ company_control_init:
  mov dword [rdi],-1
  add rdi,16
  loop .players
- ret
+ jmp company_transfer_init
 ; EDI live ground actor ->EAX own cohort key, or-1. No enemy reads.
 key:
  cmp dword [sim_count],ENTITY_CAPACITY
@@ -380,5 +381,5 @@ company_control_hash:
  inc rsi
  dec ecx
  jnz .loop
- ret
+ jmp company_transfer_hash
 section .note.GNU-stack noalloc noexec nowrite progbits

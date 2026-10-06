@@ -35,6 +35,7 @@ XT.XTestFakeButtonEvent.argtypes=[D,C.c_uint,C.c_int,W]
 XT.XTestFakeMotionEvent.argtypes=[D,C.c_int,C.c_int,C.c_int,W]
 class ImageHeader(C.Structure):
     _fields_=[('width',C.c_int),('height',C.c_int),('xoffset',C.c_int),('format',C.c_int),('data',D),('byte_order',C.c_int),('bitmap_unit',C.c_int),('bitmap_bit_order',C.c_int),('bitmap_pad',C.c_int),('depth',C.c_int),('bytes_per_line',C.c_int),('bits_per_pixel',C.c_int)]
+relays=[]
 processes=[]; memories=[]; display=None; read_fd,write_fd=os.pipe(); host=None
 
 def symbols(exe):
@@ -111,7 +112,11 @@ try:
             return struct.unpack('<ff',os.pread(host_memory,8,server_symbols['sim_waypoints']+front*8))
 
         for index in range(2):
-            process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(port),'--tactical'],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+            connection_port=port
+            if '--transfer-fault' in sys.argv:
+                from test_coop import FaultRelay
+                relay=FaultRelay(('127.0.0.1',port),latency_ms=75);relays.append(relay);connection_port=relay.socket.getsockname()[1]
+            process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(connection_port),'--tactical'],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
             processes.append(process)
             memory=os.open(f'/proc/{process.pid}/mem',os.O_RDWR);memories.append(memory)
             clients.append({'process':process,'memory':memory,'window':0})
@@ -175,6 +180,47 @@ try:
             blue=max([pixels(r,False)for r in foreign],default=0)
             X.XDestroyImage(image);assert green>0 and blue>0,(index,company,green,blue,len(owned),read_u32(clients[index]['memory'],client_symbols,'view_company'),read_u32(clients[index]['memory'],client_symbols,'view_player'),remote_company(index,index),client_player(index,index))
             company_pixels.append({'player':index,'company':company,'owned_green_pixels':green,'foreign_allied_blue_pixels':blue})
+        if '--transfer' in sys.argv or '--transfer-fault' in sys.argv:
+            original_keys=[remote_company(i,i)[1]for i in range(2)]
+            key(0,ord('2'));until(lambda:read_u32(clients[0]['memory'],client_symbols,'waypoint_orders')==1)
+            key(1,ord('1'));until(lambda:read_u32(clients[1]['memory'],client_symbols,'waypoint_orders')==1)
+            intents=[os.pread(host_memory,24,server_symbols['company_controls']+k*32+8)for k in original_keys]
+            queued_behind_movement=False
+            if relays:
+                focus(0)
+                until(lambda:read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,2)
+                code=X.XKeysymToKeycode(display,0xffc3)
+                XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)
+                until(lambda:read_u32(clients[0]['memory'],client_symbols,'transfer_pending')==1 and read_u32(clients[0]['memory'],client_symbols,'net_pending')>0,1)
+                queued_behind_movement=True
+                time.sleep(.7);XT.XTestFakeKeyEvent(display,code,0,0);X.XFlush(display);time.sleep(.1)
+            else:key(0,0xffc3,.7) # F6 requests P1, held key is one request.
+            until(lambda:'P0 OFFERS COMPANY EXCHANGE' in title(clients[1]['window']))
+            proposal=struct.unpack('<12I',os.pread(host_memory,48,server_symbols['company_transfers']))
+            assert proposal[0:4]==(1,1,*original_keys) and proposal[9]==1,proposal
+            assert [remote_company(i,i)[1]for i in range(2)]==original_keys
+            before_players=[server_player(i)for i in range(2)]
+            key(1,0xffc6,.4) # F9 is explicit recipient acceptance.
+            until(lambda:[remote_company(i,i)[1]for i in range(2)]==original_keys[::-1])
+            until(lambda:all(read_u32(clients[i]['memory'],client_symbols,'view_company')==original_keys[1-i]for i in range(2)))
+            after_players=[server_player(i)for i in range(2)]
+            assert all((a['x'],a['y'],a['z'],a['generation'])==(b['x'],b['y'],b['z'],b['generation'])for a,b in zip(before_players,after_players))
+            assert [p['front']for p in after_players]==[1,0]
+            assert all(os.pread(host_memory,24,server_symbols['company_controls']+k*32+8)==intent for k,intent in zip(original_keys,intents))
+            until(lambda:'COMPANY EXCHANGE ACCEPTED' in title(clients[1]['window']))
+            assert all(f'CO-OP P{i} OWN FRONT {1-i}' in title(clients[i]['window'])for i in range(2))
+            # Inspection remains permitted, but commands require the exchanged front.
+            key(0,0xffbe);key(0,ord('2'))
+            until(lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(clients[0]['window']))
+            assert read_u32(clients[0]['memory'],client_symbols,'waypoint_orders')==1
+            key(0,0xffbf);key(0,ord('2'))
+            until(lambda:read_u32(clients[0]['memory'],client_symbols,'waypoint_orders')==2)
+            assert os.pread(host_memory,24,server_symbols['company_controls']+original_keys[0]*32+8)==intents[0]
+            for index in (1,0):
+                key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
+                assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
+            print(json.dumps({'suite':'graphical-consented-company-transfer','passed':True,'before_keys':original_keys,'after_keys':original_keys[::-1],'held_proposal_key_one_request':True,'queued_behind_inflight_movement':queued_behind_movement,'fault_relays':[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays],'visible_recipient_offer_and_acceptance':True,'body_generation_and_positions_preserved':True,'fronts_and_ownership_highlights_updated':True,'company_intents_preserved':True,'old_front_denied_new_front_accepted':True,'local_simulation_ticks':0,'limits':['Actual window-title feedback and F5-F11 default keys; full contextual wheel/remapping/fullscreen text presentation remains separate.']}))
+            raise SystemExit(0)
         if '--timeout' in sys.argv:
             host.terminate();host.communicate(timeout=5)
             # until normally audits every live child: remove our retired host.
@@ -433,6 +479,7 @@ try:
             outputs.append(stdout)
         print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'company_marker_pixels':company_pixels,'other_owner_goal_displayed_without_local_order':True,'shared_goal_cross_pixels':shared_goal_pixels,'remote_company_generation_after_redeploy':True,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':final_owned_goal,'redeployment_preserved_company_intent':True,'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
+    for relay in relays:relay.close()
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)
         except ProcessLookupError:pass

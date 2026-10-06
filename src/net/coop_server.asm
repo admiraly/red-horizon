@@ -16,6 +16,7 @@ extern vehicle_entity_driver
 extern sim_ground_motion
 extern sim_aircraft
 extern strcmp, printf, fflush
+extern company_transfer,company_transfers
 extern company_for_player,company_control_order,company_controls,player_companies
 extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
@@ -431,6 +432,8 @@ handle_packet:
  je .input
  cmp dword [packet+16],NET_ORDER
  je .order
+ cmp dword [packet+16],NET_TRANSFER
+ je .transfer
  cmp dword [packet+16],NET_LEAVE
  je .leave
  jmp .ack
@@ -450,6 +453,20 @@ handle_packet:
  movss xmm2,[packet+52]
  movss xmm3,[packet+56]
  call player_input
+ test eax,eax
+ jnz .ack
+ mov dword [r13+SLOT_ACKSTATUS],0
+ jmp .ack
+.transfer:
+ cmp dword [packet+32],12
+ jne .ack
+ mov edi,r12d
+ mov esi,[packet+44]
+ mov edx,[packet+40]
+ mov ecx,[packet+48]
+ call company_transfer
+ cmp eax,-2
+ je .ownership
  test eax,eax
  jnz .ack
  mov dword [r13+SLOT_ACKSTATUS],0
@@ -548,10 +565,9 @@ handle_packet:
  inc dword [rejections]
 .ok:
  mov eax,r12d
- cmp eax,3
- jb .ackfront
- xor eax,eax
-.ackfront:
+ shl eax,6
+ lea rdx,[sim_players]
+ mov eax,[rdx+rax+PLAYER_FRONT]
  mov [output+44],eax
  mov eax,[sim_count]
  mov [output+48],eax
@@ -1487,6 +1503,10 @@ send_companies:
  inc r12d
  cmp r12d,COMPANY_REMOTE_COUNT
  jb .loop
+ lea rsi,[company_transfers]
+ mov rdi,r13
+ mov ecx,COMPANY_TRANSFER_PLAYERS*COMPANY_TRANSFER_STRIDE/8
+ rep movsq
  mov rdi,rbx
  mov esi,NET_HEADER+COMPANY_REMOTE_PAYLOAD
  call send_packet
