@@ -857,14 +857,10 @@ enemy_attack:
  test eax,eax
  jz .next
  ; Infantry threats use the same finite current-body magazine as army shots.
- ; Keep noninfantry's existing synthetic threat path explicitly separate.
- cmp dword [r14+ENTITY_KIND],0
- jne .threat_shot
  mov edi,r12d
  call infantry_weapon_fire
  test eax,eax
  jnz .next
-.threat_shot:
  add dword [rbx+PLAYER_SUPPRESSION],25
  cmp dword [rbx+PLAYER_SUPPRESSION],100
  jbe .damage

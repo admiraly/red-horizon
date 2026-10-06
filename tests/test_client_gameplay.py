@@ -92,7 +92,11 @@ try:
 
         def key(symbol, hold=.12):
             code = X.XKeysymToKeycode(display, symbol); assert code
-            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display); time.sleep(hold)
+            expected=(1-struct.unpack('<I',os.pread(memory,4,symbols['tactical']))[0]) if symbol==0xff09 else None
+            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display)
+            if expected is not None:until(lambda:struct.unpack('<I',os.pread(memory,4,symbols['tactical']))[0]==expected,3)
+            elif symbol==ord('r'):until(lambda:player()['reload']>0,3)
+            else:time.sleep(hold)
             XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display); time.sleep(.10)
 
         def button(down):
@@ -110,7 +114,7 @@ try:
         before = player()['shots']; button(True); time.sleep(.35); button(False)
         assert player()['shots'] == before and player()['ammo'] == 0, player()
         until(lambda: player()['ammo'] == 30 and player()['reload'] == 0, 4)
-        button(True); time.sleep(.35); button(False); time.sleep(.1)
+        button(True); until(lambda:player()['shots']>=before+3,3); button(False); time.sleep(.1)
         final = player(); assert 26 <= final['ammo'] <= 28 and 32 <= final['shots'] <= 34, final
         until(lambda: str(final['ammo']) + '/30' in title(window), 2)
         # Development fixture: isolated clear terrain, actual enemy actor and real
@@ -126,9 +130,21 @@ try:
         button(False); time.sleep(.05)
         assert struct.unpack('<f', os.pread(memory, 4, symbols['hit_flash']))[0] > 0, 'authoritative hit did not produce HUD feedback'
         accepted_hits = player()['hits'] - hits_before
-        # A separate actor inflicts actual periodic enemy attack damage. Player HP
-        # is never written by the driver. Authority chooses death and safe spawn.
-        os.pwrite(memory, struct.pack('<ff6I', 2040., 3900., 400, 1, 1, 1, 0xffffffff, 1), enemy_address)
+        # Stage a different living infantry body with its genuine finite stock.
+        # The old fixture changed an infantry body into a tank without equipping
+        # tank shells and relied on synthetic tank-as-rifle human damage.
+        # Preserve actual HP/generation/ammunition; relocate once, then let the
+        # real infantry weapon, death and safe deployment run without renewal.
+        attacker=None
+        for ident in range(4096,8192):
+            if ident==4096:continue
+            values=struct.unpack('<ff6I',os.pread(memory,32,symbols['sim_entities']+ident*32))
+            weapon=struct.unpack('<8I',os.pread(memory,32,symbols['infantry_weapons']+ident*32))
+            if values[2]>0 and values[3]==1 and values[4]==0 and weapon[0]==values[7] and weapon[1]>=10:
+                attacker=(ident,values,weapon);break
+        assert attacker,'no genuinely armed living infantry fixture source'
+        ident,values,weapon=attacker
+        os.pwrite(memory,struct.pack('<ff6I',2040.,3900.,values[2],1,0,1,0xffffffff,values[7]),symbols['sim_entities']+ident*32)
         damaged = until(lambda: p if (p := player())['hp'] < 100 and p['suppression'] > 0 else None, 3)
         assert damaged['suppression'] > 0, damaged
         until(lambda: player()['hp'] == 0, 9)
@@ -160,7 +176,7 @@ try:
         finally:os.kill(process.pid,signal.SIGCONT)
         stdout, stderr = process.communicate(timeout=5); assert process.returncode == 0, (stdout, stderr)
         assert f"hp={final_hud_hp}" in stdout and 'player id=0' in stdout, stdout
-        print(json.dumps({'suite':'authoritative-client-gameplay','passed':True,'spawn':spawn,'moved_metres':distance,'final':final,'exit_hp_is_last_rendered_hud_value':final_hud_hp,'rendered_health_title':True,'accepted_hits':accepted_hits,'redeploy_pixel':[red,green,blue],'damaged':damaged,'dead':dead,'redeployed':redeployed,'stdout':stdout}))
+        print(json.dumps({'suite':'authoritative-client-gameplay','passed':True,'spawn':spawn,'moved_metres':distance,'final':final,'exit_hp_is_last_rendered_hud_value':final_hud_hp,'rendered_health_title':True,'accepted_hits':accepted_hits,'redeploy_pixel':[red,green,blue],'damage_source_actual_infantry_id':ident,'initial_attacker_weapon':weapon,'attacker_hp_generation_preserved':True,'damaged':damaged,'dead':dead,'redeployed':redeployed,'stdout':stdout}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

@@ -1,15 +1,16 @@
 ; Hostile explosion damage against current on-foot human bodies.
 ; No ammunition source, projectile creation, movement or local client damage.
 %include "schemas/player.inc"
+%include "schemas/player_blast.inc"
 default rel
 extern sim_players,sim_player_vehicle,player_deaths,vehicle_detach,player_motion_reset
 extern world_los
 section .rodata
 zero: dd 0.0
 maximum: dd 8000.0
-min_y: dd -2000.0
-max_y: dd 2000.0
-maximum_radius: dd 256.0
+min_y: dd -PLAYER_BLAST_MAX_Y
+max_y: dd PLAYER_BLAST_MAX_Y
+maximum_radius: dd PLAYER_BLAST_MAX_RADIUS
 section .text
 global player_apply_damage,player_blast
 ; EDI body slot,ESI positive damage<=1000,EDX source side0/1.
@@ -26,7 +27,7 @@ player_apply_damage:
  ja .bad
  test esi,esi
  jz .bad
- cmp esi,1000
+ cmp esi,PLAYER_BLAST_MAX_DAMAGE
  ja .bad
  test edx,edx
  jz .none
@@ -44,7 +45,7 @@ player_apply_damage:
  ja .bad
  cmp dword [rbx+PLAYER_GENERATION],0
  je .bad
- add dword [rbx+PLAYER_SUPPRESSION],25
+ add dword [rbx+PLAYER_SUPPRESSION],PLAYER_BLAST_SUPPRESSION
  cmp dword [rbx+PLAYER_SUPPRESSION],100
  jbe .damage
  mov dword [rbx+PLAYER_SUPPRESSION],100
@@ -109,7 +110,7 @@ player_blast:
  mov r15d,edi
  test esi,esi
  jz .bad
- cmp esi,1000
+ cmp esi,PLAYER_BLAST_MAX_DAMAGE
  ja .bad
  mov [rsp+16],esi
  movss [rsp],xmm0

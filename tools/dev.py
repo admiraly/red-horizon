@@ -373,6 +373,10 @@ def main():
             execute([sys.executable,'tests/test_player_ammunition_report.py',str(library)])
             execute([sys.executable,'tests/test_player_ammunition_abi.py',str(library)])
             execute([sys.executable,'tests/test_player_threat_ammunition.py',str(library)])
+            execute([sys.executable,'tests/test_player_blast.py',str(library)])
+            execute([sys.executable,'tests/test_player_bomb.py',str(library)])
+            execute([sys.executable,'tests/test_player_blast_gates.py',str(library)])
+            execute([sys.executable,'tests/test_player_blast_abi.py',str(library)])
             execute([sys.executable,'tests/test_tick_publication.py',str(library)])
         if suite in ('all','headless','fast','simulation','combat'):
             execute([sys.executable,'tests/test_infantry_ammunition.py',str(library)])
@@ -570,6 +574,7 @@ def main():
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
             if (ROOT/'tests/test_client_effects.py').exists(): execute([sys.executable,'tests/test_client_effects.py',str(client)])
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
+            execute([sys.executable,'tests/test_client_player_blast.py',str(client)])
             execute([sys.executable,'tests/test_player_ammunition_hud.py',str(client)])
             execute([sys.executable,'tests/test_player_ammunition_hud.py',str(client),'--small'])
             execute([sys.executable,'tests/test_client_company.py',str(client)])
