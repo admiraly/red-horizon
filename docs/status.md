@@ -1,3 +1,50 @@
+Physical human blast damage is integrated in7365608 (runtime/helper contracts
+in53e2475 and950e4ea), source epoch 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76.
+Hostile tank shells, artillery shells and bomber bombs now affect human players
+through actual physical impact, 3D range and world LOS. Infantry alone uses the
+finite rifle threat path; vehicle/aircraft proximity no longer fabricates rifle
+damage. At most4 current on-foot bodies; friendly co-op explosions do no human
+damage. Surviving boarded hulls shield crew, existing hull-death authority owns
+crew recovery. Death clears reload/private motion, with only genuine subsequent
+deployment equipping a new body. UDPv35/schemaef14b691/content2ee63137;
+public player64/state848 bytes unchanged.
+
+Native proofs: finite tank shot impacts40 and human100→20HP; actual artillery
+trajectory impacts66 and human100→0HP. Production bomber FSM spends8→7, releases
+at native21 and impacts native149 beside a human, causing genuine death.
+26 malformed cases preserve checksums; actual opaque wall/friendly/unknown-body
+and boarding gates, two humans, once-only death and30-tick redeployment pass.
+Same-explosion exposure is decided before its army casualty creates a wreck;
+the new wreck then actually occludes the same ray. Three-entry17-call NASM ABI
+proof preserves six nonvolatile registers/aligned stack, including real direct
+and blast damage. No live health/stock/pose/clock renewal in physical traces.
+
+Frozen fast09aa16d65ce1 PASSED/collected,361.168117s,83 explicit pass reports,
+b1d10c1-01fc1229108c65b8. All168 runtime/content/schema/shader inputs match the
+final candidate exactly; final development observers/ABI/artillery/pre-wreck/GL
+registrations are later separate proofs, not retroactively part of that fast.
+Complete network suite exits0 with25 reports, including original8192/four peers,
+finite stock/depot accounting, coherent physical resupply and broad UDP faults.
+Actual original8192 software GL fixture retains all army HP/kind/generation/
+stores, relocates only startup poses/orders, then two real shell impacts kill
+the player; red redeployment pixel230/56/41 and genuine generation2 spawn pass.
+Original movement/hit/reload/infantry damage/death/redeployment HUD also passes;
+its legacy tank relabel fixture is replaced by an actually armed living infantry
+body preserving HP/generation/stocks. Real input/state boundaries are observed
+under concurrent rendering load. Failed fixture/observer iterations retained.
+Exact independent logs/binary epochs: evidence/player-blast-session.json and
+ evidence/player-blast-fast-passed.json. Matching-main focused player checks
+are running; no uncollected terminal result is claimed passed.
+
+Frozen full5c24e859ca9b RUNNING at 7365608ee3e87580fcdba9682be58fdfc39915de-300a1a3812f46c76,
+PID2000914; evidence/player-blast-full-pending.json. Earlier full
+3ed19c6f8298 remains running at its distinct v34 epoch;06b65992aceb remains
+FAILED despite successful focused corrected-observer rechecks. Full checkpoint,
+dedicated multiplayer blast pixel/transport evidence, complete human capsule,
+fighter-human contact/target designation, shared infantry shot scheduling,
+vehicle/air rearm, hardware quality/performance and full specification remain.
+Whole-game goal active; licence pending owner approval, no remote publication.
+
 Command-wheel observer correction: same exact failed frozen executable now
 passes full1280x720 and minimum320x240 checks. Actual selected RGB31/82/64,
 unchanged command charging/release/cancel/foreign-front assertions. Bound actual
