@@ -18,7 +18,7 @@ command_hud_glyphs: resd 128
 command_hud_length: resd 1
 command_hud_rows: resd 1
 section .text
-global command_hud_init,command_hud_begin,command_hud_draw
+global command_hud_init,command_hud_begin,command_hud_draw,command_hud_draw_at
 ; EDI linked battle program. All locations required, -1 on invalid shader.
 command_hud_init:
  push rbx
@@ -53,16 +53,38 @@ command_hud_begin:
 ; RDI NUL text, ESI row0..2. Caller owns current program/VAO/depth state.
 ; Maximum128 bytes and width-clipped text; normalize lowercase without mutation.
 command_hud_draw:
+ cmp esi,2
+ ja .return
+ cvtsi2ss xmm1,esi
+ mulss xmm1,[line_step]
+ cvtsi2ss xmm2,[view_height]
+ subss xmm2,[bottom_margin]
+ addss xmm1,xmm2
+ cvttss2si edx,xmm1
+ mov esi,16
+ jmp command_hud_draw_at
+.return: ret
+; RDI text, ESI/EDX nonnegative top-left framebuffer pixels; clip at right edge.
+; Independent placement lets contextual UI share the same bounded font.
+command_hud_draw_at:
  push rbx
  push r12
- sub rsp,8
+ sub rsp,24
+ mov [rsp],esi
+ mov [rsp+4],edx
+ test esi,esi
+ js .done
+ test edx,edx
+ js .done
+ cmp edx,[view_height]
+ jae .done
  mov r12d,esi
- cmp esi,2
- ja .done
  test rdi,rdi
  jz .done
  mov eax,[view_width]
- sub eax,32
+ sub eax,r12d
+ sub eax,16
+ jle .done
  xor edx,edx
  mov ecx,12
  div ecx
@@ -113,12 +135,8 @@ command_hud_draw:
  cvtsi2ss xmm1,[view_height]
  call glUniform2f
  mov edi,[origin_loc]
- movss xmm0,[origin_x]
- cvtsi2ss xmm1,[view_height]
- subss xmm1,[bottom_margin]
- cvtsi2ss xmm2,r12d
- mulss xmm2,[line_step]
- addss xmm1,xmm2
+ cvtsi2ss xmm0,dword [rsp]
+ cvtsi2ss xmm1,dword [rsp+4]
  call glUniform2f
  mov edi,4
  xor esi,esi
@@ -127,7 +145,7 @@ command_hud_draw:
  call glDrawArraysInstanced
  inc dword [command_hud_rows]
 .done:
- add rsp,8
+ add rsp,24
  pop r12
  pop rbx
  ret

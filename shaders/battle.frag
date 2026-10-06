@@ -10,6 +10,7 @@ uniform vec4 weather; // elapsed render time, cloud coverage, rain, fog density
 uniform sampler2DArray terrainTextures;
 uniform vec3 camera;
 uniform vec2 angle;
+uniform int commandWheelMode;
 layout(location=0) out vec4 outputColour;
 layout(location=1) out uint outputActorCode;
 float noise(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
@@ -82,6 +83,16 @@ const uvec2 commandFont[64]=uvec2[64](
  uvec2(4473390u,1u));
 void main(){
  outputActorCode=0u;
+ if(materialMode==13){
+  float r=length(effectUV),radius=worldPosition.x;
+  if(r>1.)discard;
+  int sector=abs(effectUV.x)>abs(effectUV.y)?(effectUV.x<0.?1:3):(effectUV.y<0.?0:2);
+  bool selected=r*radius>=38.&&sector==commandWheelMode;
+  vec3 shade=selected?vec3(.12,.32,.25):vec3(.035,.06,.075);
+  if(r>.985||abs(abs(effectUV.x)-abs(effectUV.y))<.012)shade=vec3(.24,.45,.39);
+  if(r*radius<38.)shade=vec3(.035,.06,.075);
+  outputColour=vec4(shade,1);return;
+ }
  if(materialMode==12){
   ivec2 cell=ivec2(floor(effectUV*vec2(6,8)));
   bool lit=false;

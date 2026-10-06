@@ -423,3 +423,18 @@ PASSED1208.495s/139 reports and is collected. Matching main checks and the
 new frozen combined checkpoint43d0d7f2c2bc are tracked in docs/status.md.
 Contextual wheel, remapping, narrow-view wrapping, assistance/recruitment/timed
 plans and wider game requirements remain open.
+
+
+Current command integration: root owns authority/input/render interfaces.
+Company follow is locally integrated (5f0687c) with physical API, fast, UDP and
+actual rendered evidence in docs/evidence/company-follow-focused.json and
+company-follow-main.json. Full checkpointc881a96c1725 is frozen and running;
+it does not include the separate command-wheel worktree.
+
+Next command batch, feature/command-wheel: compact middle-button radial UI and
+first-person terrain targeting use the existing four modes/cost/lease. Physical
+ray/ABI, actual solo labels/cancel/key edges, minimum viewport and two actual
+rendered UDP clients with delay/loss/reorder have scoped passes; final routine
+fast suite and integration evidence are being collected. Full contextual order
+roster, remapping, assistance, recruitment and shared timing remain dependency-
+ready follow-up work rather than implied completed commands.

@@ -1,0 +1,6 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xb5f51cbd", "canonical_sha256": "b5f51cbdcc9d14efc99a5158b857ce2b3c9e09fa3d336ec346717ebd50caf234", "checked": true}
+{"target": "coop", "revision": "e1b9e009139a41adcb8c81e57b5161347157442c-7643b2012d750bc6", "assembled": 0, "assembled_sources": [], "seconds": 0.2946820210054284, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/command-wheel/build/revisions/e1b9e009139a41adcb8c81e57b5161347157442c-7643b2012d750bc6/red-horizon-coop-server"}

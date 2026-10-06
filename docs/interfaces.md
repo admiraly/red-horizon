@@ -321,3 +321,15 @@ Its contact output is not promised nearest. Complete source validation/prepared
 revision discipline precedes early exit. Only world_los consumes it; regular
 wreck_query_context/body/projectile APIs retain closest contact and identity ties.
 All original geometry/range/visibility/weapon/health/motion thresholds are retained.
+
+Verified contextual wheel contract (integration evidence in status.md):
+command_wheel_select(XMM0 screenDX,XMM1 screenDY) returns mode0/1/2/3 for
+up/left/down/right or-1 within38pixel radius or on invalid coordinates.
+command_terrain_point(RDI six-float originXYZ/directionXYZ) returns EAX0 with
+XMM0/1 finite first sampled/refined visible terrainXZ, or-1. It is read-only,
+uses private aligned stack scratch and preserves SysV nonvolatile GPRs. Bounds:
+512 four-metre steps,12 bisections, existing finite static LOS. It does not read
+actor/enemy coordinates. command_hud_draw_at(RDI text,ESI x,EDX y) provides
+bounded128glyph, width-clipped pixel placement; command_hud_draw keeps rows0..2.
+command_wheel_hud_init/draw own only cosmetic OpenGL uniforms/draws. No wire,
+player/entity, lease, cost or authoritative clock contract change.

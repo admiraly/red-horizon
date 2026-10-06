@@ -23,16 +23,18 @@ ROWS={
 'W':('10001','10001','10001','10101','10101','10101','01010'),
 ':':('00000','00100','00100','00000','00100','00100','00000'),
 '-':('00000','00000','00000','11111','00000','00000','00000'),
+'V':('10001','10001','10001','10001','10001','01010','00100'),
 'I':('11111','00100','00100','00100','00100','00100','11111'),
 'L':('10000','10000','10000','10000','10000','10000','11111')}
-def text_visible(X,display,window,row,text,width=1280,height=720,column=0):
+def text_visible(X,display,window,row,text,width=1280,height=720,column=0,origin=None):
     image=X.XGetImage(display,window,0,0,width,height,(1<<64)-1,2)
     assert image,'framebuffer unavailable'
     try:
         for index,char in enumerate(text):
             for y,line in enumerate(ROWS[char]):
                 for x,expected in enumerate(line):
-                    pixel=X.XGetPixel(image,16+(index+column)*12+x*2+1,height-114+row*22+y*2+1)
+                    left,top=origin if origin is not None else (16,height-114+row*22)
+                    pixel=X.XGetPixel(image,left+(index+column)*12+x*2+1,top+y*2+1)
                     red,green,blue=(pixel>>16)&255,(pixel>>8)&255,pixel&255
                     if expected=='1':
                         if not(red>200 and green>220 and blue>200):return False

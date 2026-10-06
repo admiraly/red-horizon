@@ -363,6 +363,7 @@ def main():
             execute([sys.executable,'tests/test_company_control.py'])
             execute([sys.executable,'tests/test_company_transfer.py'])
             execute([sys.executable,'tests/test_company_follow.py'])
+            execute([sys.executable,'tests/test_command_wheel.py'])
         if suite in ('all','headless','fast','simulation','combat'):
             execute([sys.executable,'tests/test_ground_acquisition.py',str(library)])
             execute([sys.executable,'tests/test_ground_target_selection.py',str(library)])
@@ -547,6 +548,8 @@ def main():
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
             execute([sys.executable,'tests/test_client_company.py',str(client)])
             execute([sys.executable,'tests/test_quit_event.py',str(client)])
+            execute([sys.executable,'tests/test_client_command_wheel.py',str(client)])
+            execute([sys.executable,'tests/test_client_command_wheel.py',str(client),'--small'])
             if (ROOT/'tests/test_client_coop.py').exists():
                 server=build('coop')
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server)])
@@ -555,6 +558,7 @@ def main():
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer-fault'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--retreat'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--follow'])
+                execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--wheel-fault'])
                 execute([sys.executable,'tests/test_client_coop.py',str(client),str(server),'--transfer-hud'])
     return 0
 if __name__=='__main__':

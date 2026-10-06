@@ -518,3 +518,15 @@ counts/losses/scopes. Full frozen evidence belongs to
 This does not accept oriented vehicle kinematics, fullvertical/limb collision, safe
 initialarmy formation, arbitraryterrain/streaming reachability, nativejobs, hardware
 GPU/fourrenderedclient/Windows budgets or the complete operation/game.
+
+
+Command evidence amendment, 2026-10-06: older rows describing absent company
+ownership/transfer have been superseded by the exact focused and main evidence
+in docs/evidence/company-transfer*, company-interface* and company-follow*.
+Primary human company leases, consented cross-front exchanges, accepted intent
+replication and owner-follow behavior exist. This does not establish complete
+squad ownership, assistance, recruitment, or the full command roster. The
+separate command-wheel batch adds four contextual radial choices and actual
+crosshair terrain targeting; exact verified integration will be recorded in
+status.md. Remapping, attack/defend/suppress/flank/regroup/embark/disembark/support,
+shared assault planning and human quality acceptance remain incomplete.
