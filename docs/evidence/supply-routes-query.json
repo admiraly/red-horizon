@@ -1,0 +1,23 @@
+{
+  "scope": "Read-only carried-ammunition query foundation; no movement/world hook or detour yet.",
+  "logs": {
+    "query": {
+      "path": "docs/evidence/supply-routes-query.log",
+      "sha256": "be2acc3418ef6c18d8b18c596a6f96ddc712a4f3075979564e267b10d95a9fd1",
+      "reports": 1,
+      "explicit_passes": 1
+    },
+    "query-combat": {
+      "path": "docs/evidence/supply-routes-query-combat.log",
+      "sha256": "db190de61160f153c90655ef8d029612afd5113a3549811c9098dfb66e7e4c1e",
+      "reports": 24,
+      "explicit_passes": 24
+    },
+    "query-build": {
+      "path": "docs/evidence/supply-routes-query-build.log",
+      "sha256": "b7b4dd354b780b817316b7ba0fa0ddf67999630f6f49674cfff51073573e59b7",
+      "reports": 0,
+      "explicit_passes": 0
+    }
+  }
+}
