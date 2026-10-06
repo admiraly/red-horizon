@@ -58,8 +58,19 @@ That fixture's longer horizon is explicit and documented, with no replenishment.
 Default8192/900ticks records6 bombs/6 impacts/4021 gun launches/4 air destructions.
 Actual GL/source bank poses and bomb/gun/destruction/paired cosmetic controls
 pass on the matching immutable client; inspected feedback remains visually
-sparse, not cinematic acceptance. Frozen fast195a64c32e56 is live at
-00c3d9e-afae1bf596b7aae4 (PID2788793). Full/UDP/scale acceptance remains pending.
+sparse, not cinematic acceptance. Initial frozen fast195a64c32e56 PASSED257.4234s, but natural scale observation
+finds6 distinct living fighters crossing world edges. This supersedes its fast
+acceptance for integration. Flight policy2 activates every edge at1200m to leave
+bank-reversal clearance. Original8192/900ticks now observes459956 bounded living
+aircraft steps,211.7851m minimum clearance and9/9/3594/3 actual air events.
+Corrected1f3ed26 frozen fast558332fecbfd is live at
+1f3ed26-42bc0ec70974dc4c (PID2831613). Earlier GL/UDP/timings cover00c3d9e;
+matching corrected GL and8192/180tick UDP checks now pass. Every public living
+aircraft remains inside the map across original8k open/hotspot/16k open900tick
+runs:1,839,823 total steps; minimum clearances211.7851/380.8945/234.6461m.
+Exact reports and prior boundary failures are retained under air-bank-*.
+Frozen full831bb1419f53 is also verified live on the same
+1f3ed26-42bc0ec70974dc4c (PID2839489); full integration acceptance remains pending.
 Unsafe diagonal700m corner births and arbitrary edge strike ingress remain
 unaccepted; exact earlier failures and fixture changes: docs/air-bank-flight.md.
 

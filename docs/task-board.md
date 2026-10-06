@@ -359,3 +359,9 @@ v21 bank/roll/pitch/lead, staged strike recovery and boundary latch candidate is
 committed00c3d9e; focused/admission/actualGL pass, frozen fast195a64c32e56 running.
 Full verification, scale budget, safe arbitrary birth/ingress, shared company support
 intent/UI, separation/rearming and human spectacle quality remain open.
+
+Current isolated bank correction1f3ed26 passes matching GL/UDP and original
+8k open/hotspot/16k open bounds through900ticks (1,839,823 living-aircraft steps).
+Earlier00c3d9e fast passed but natural scale caught6 map-edge crossing fighters;
+that result does not authorize integration. Corrected fast558332fecbfd and frozen
+full831bb1419f53 are live. Main remains fully verified v20.

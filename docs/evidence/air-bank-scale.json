@@ -1,0 +1,2238 @@
+{
+  "passed": true,
+  "library_sha256": [
+    "439389e0535997fc697f26c7df0b9fed153d823c6501d518075989a905eba1d7",
+    "e12af838fef5de8526c3183e12a04cbcc95cb0bc9a20a6913cf9e48a1558b88d"
+  ],
+  "candidate_escort_source_sha256": "e73f86a40da8e3e66b3e7734caee1f7360ea76d6df0a88a7dc951736c7eda6f1",
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 900,
+      "timings": [
+        {
+          "mean_ms": 16.034711636666668,
+          "p95_ms": 19.071629
+        },
+        {
+          "mean_ms": 16.11912355666667,
+          "p95_ms": 18.761242
+        }
+      ],
+      "samples": [
+        [
+          {
+            "tick": 30,
+            "checksum": "26ac4b3e744bab49",
+            "army_alive": [
+              4092,
+              4070
+            ],
+            "air_alive": 512,
+            "air_stores": 47875,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 60,
+            "checksum": "93c87794328ecb54",
+            "army_alive": [
+              4056,
+              3983
+            ],
+            "air_alive": 512,
+            "air_stores": 47630,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 90,
+            "checksum": "39a5896ea706f515",
+            "army_alive": [
+              4038,
+              3932
+            ],
+            "air_alive": 510,
+            "air_stores": 47049,
+            "active_valid_escorts": 254,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 120,
+            "checksum": "622021d763be7cd8",
+            "army_alive": [
+              4016,
+              3903
+            ],
+            "air_alive": 509,
+            "air_stores": 46627,
+            "active_valid_escorts": 253,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 150,
+            "checksum": "9f8208fe1f0f0c83",
+            "army_alive": [
+              3999,
+              3859
+            ],
+            "air_alive": 502,
+            "air_stores": 45018,
+            "active_valid_escorts": 246,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 180,
+            "checksum": "c71db1c817d892f8",
+            "army_alive": [
+              3975,
+              3820
+            ],
+            "air_alive": 490,
+            "air_stores": 42582,
+            "active_valid_escorts": 234,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 210,
+            "checksum": "cd5db17672a1fc50",
+            "army_alive": [
+              3949,
+              3792
+            ],
+            "air_alive": 474,
+            "air_stores": 39488,
+            "active_valid_escorts": 218,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 240,
+            "checksum": "c3d1f8e64a85aad1",
+            "army_alive": [
+              3916,
+              3765
+            ],
+            "air_alive": 458,
+            "air_stores": 36443,
+            "active_valid_escorts": 202,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 270,
+            "checksum": "4febbdfaf04b2982",
+            "army_alive": [
+              3890,
+              3731
+            ],
+            "air_alive": 447,
+            "air_stores": 34310,
+            "active_valid_escorts": 191,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 300,
+            "checksum": "6b73cc218c9660ba",
+            "army_alive": [
+              3851,
+              3706
+            ],
+            "air_alive": 435,
+            "air_stores": 32003,
+            "active_valid_escorts": 179,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 330,
+            "checksum": "4949f7c46edadba2",
+            "army_alive": [
+              3828,
+              3682
+            ],
+            "air_alive": 425,
+            "air_stores": 30060,
+            "active_valid_escorts": 168,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 360,
+            "checksum": "f56d793a1b53bddb",
+            "army_alive": [
+              3803,
+              3662
+            ],
+            "air_alive": 414,
+            "air_stores": 27940,
+            "active_valid_escorts": 155,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 390,
+            "checksum": "8125074ae55dc881",
+            "army_alive": [
+              3788,
+              3637
+            ],
+            "air_alive": 407,
+            "air_stores": 26532,
+            "active_valid_escorts": 148,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 420,
+            "checksum": "7776d285b4451696",
+            "army_alive": [
+              3772,
+              3623
+            ],
+            "air_alive": 400,
+            "air_stores": 25148,
+            "active_valid_escorts": 137,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 450,
+            "checksum": "237a2cb02f70eb9d",
+            "army_alive": [
+              3743,
+              3606
+            ],
+            "air_alive": 396,
+            "air_stores": 24340,
+            "active_valid_escorts": 133,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 480,
+            "checksum": "e3aa264ec529ce3e",
+            "army_alive": [
+              3723,
+              3585
+            ],
+            "air_alive": 392,
+            "air_stores": 23525,
+            "active_valid_escorts": 120,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 510,
+            "checksum": "b59566f612a3ed8e",
+            "army_alive": [
+              3700,
+              3567
+            ],
+            "air_alive": 387,
+            "air_stores": 22500,
+            "active_valid_escorts": 117,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 540,
+            "checksum": "d1e709279a452a5b",
+            "army_alive": [
+              3682,
+              3553
+            ],
+            "air_alive": 381,
+            "air_stores": 21275,
+            "active_valid_escorts": 116,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 570,
+            "checksum": "5dd7c4b510538b73",
+            "army_alive": [
+              3665,
+              3530
+            ],
+            "air_alive": 375,
+            "air_stores": 20121,
+            "active_valid_escorts": 110,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 600,
+            "checksum": "457ed3e6e25c77f6",
+            "army_alive": [
+              3658,
+              3518
+            ],
+            "air_alive": 372,
+            "air_stores": 19466,
+            "active_valid_escorts": 103,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 630,
+            "checksum": "786c81592aaa5b63",
+            "army_alive": [
+              3633,
+              3497
+            ],
+            "air_alive": 364,
+            "air_stores": 18063,
+            "active_valid_escorts": 90,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 660,
+            "checksum": "696bfd62cca94ae8",
+            "army_alive": [
+              3620,
+              3478
+            ],
+            "air_alive": 356,
+            "air_stores": 16634,
+            "active_valid_escorts": 84,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 690,
+            "checksum": "cc50a4d936840f47",
+            "army_alive": [
+              3602,
+              3455
+            ],
+            "air_alive": 354,
+            "air_stores": 16185,
+            "active_valid_escorts": 82,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 720,
+            "checksum": "b71492bd7d4c11ee",
+            "army_alive": [
+              3583,
+              3430
+            ],
+            "air_alive": 353,
+            "air_stores": 15906,
+            "active_valid_escorts": 81,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 750,
+            "checksum": "5037560c9ec95819",
+            "army_alive": [
+              3567,
+              3405
+            ],
+            "air_alive": 351,
+            "air_stores": 15660,
+            "active_valid_escorts": 80,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 780,
+            "checksum": "7b2738429d2fc923",
+            "army_alive": [
+              3550,
+              3383
+            ],
+            "air_alive": 347,
+            "air_stores": 15110,
+            "active_valid_escorts": 79,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 810,
+            "checksum": "834fb0ca8ab6fd88",
+            "army_alive": [
+              3534,
+              3354
+            ],
+            "air_alive": 345,
+            "air_stores": 14752,
+            "active_valid_escorts": 77,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 840,
+            "checksum": "0877f4f4c6578f88",
+            "army_alive": [
+              3514,
+              3330
+            ],
+            "air_alive": 343,
+            "air_stores": 14377,
+            "active_valid_escorts": 75,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 870,
+            "checksum": "07764b0c9aed279b",
+            "army_alive": [
+              3499,
+              3310
+            ],
+            "air_alive": 341,
+            "air_stores": 13997,
+            "active_valid_escorts": 72,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 900,
+            "checksum": "2d53c5bb950b955d",
+            "army_alive": [
+              3481,
+              3293
+            ],
+            "air_alive": 335,
+            "air_stores": 13100,
+            "active_valid_escorts": 67,
+            "living_aircraft_outside_map": 0
+          }
+        ],
+        [
+          {
+            "tick": 30,
+            "checksum": "41e14b91861ebc36",
+            "army_alive": [
+              4088,
+              4068
+            ],
+            "air_alive": 512,
+            "air_stores": 47880,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 60,
+            "checksum": "3970795f0efeef24",
+            "army_alive": [
+              4067,
+              4010
+            ],
+            "air_alive": 512,
+            "air_stores": 47697,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 90,
+            "checksum": "9b9f543956c9ce59",
+            "army_alive": [
+              4044,
+              3950
+            ],
+            "air_alive": 512,
+            "air_stores": 47666,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 120,
+            "checksum": "27b9d95561745c5f",
+            "army_alive": [
+              4023,
+              3907
+            ],
+            "air_alive": 512,
+            "air_stores": 47665,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 150,
+            "checksum": "a905306cb71e1567",
+            "army_alive": [
+              4003,
+              3858
+            ],
+            "air_alive": 512,
+            "air_stores": 47665,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 180,
+            "checksum": "7d403492d07d385b",
+            "army_alive": [
+              3979,
+              3795
+            ],
+            "air_alive": 512,
+            "air_stores": 47665,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 210,
+            "checksum": "b17bddbe0aa7e5fa",
+            "army_alive": [
+              3953,
+              3776
+            ],
+            "air_alive": 512,
+            "air_stores": 47648,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 240,
+            "checksum": "f71b33aa761edfa1",
+            "army_alive": [
+              3922,
+              3747
+            ],
+            "air_alive": 512,
+            "air_stores": 47531,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 270,
+            "checksum": "9001b122a3903f99",
+            "army_alive": [
+              3909,
+              3727
+            ],
+            "air_alive": 512,
+            "air_stores": 47287,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 300,
+            "checksum": "b4ed340bf49eec3e",
+            "army_alive": [
+              3892,
+              3720
+            ],
+            "air_alive": 512,
+            "air_stores": 47083,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 330,
+            "checksum": "14214ef6755ad0aa",
+            "army_alive": [
+              3882,
+              3705
+            ],
+            "air_alive": 512,
+            "air_stores": 46920,
+            "active_valid_escorts": 254,
+            "living_aircraft_outside_map": 2
+          },
+          {
+            "tick": 360,
+            "checksum": "5af66de2c59d271d",
+            "army_alive": [
+              3863,
+              3688
+            ],
+            "air_alive": 512,
+            "air_stores": 46752,
+            "active_valid_escorts": 252,
+            "living_aircraft_outside_map": 4
+          },
+          {
+            "tick": 390,
+            "checksum": "3f58bd2285f468a9",
+            "army_alive": [
+              3843,
+              3650
+            ],
+            "air_alive": 511,
+            "air_stores": 46466,
+            "active_valid_escorts": 254,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 420,
+            "checksum": "04fc13c5178793c5",
+            "army_alive": [
+              3830,
+              3635
+            ],
+            "air_alive": 511,
+            "air_stores": 46381,
+            "active_valid_escorts": 255,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 450,
+            "checksum": "76757f54a6381575",
+            "army_alive": [
+              3815,
+              3611
+            ],
+            "air_alive": 511,
+            "air_stores": 46281,
+            "active_valid_escorts": 255,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 480,
+            "checksum": "f8260ecb73142b93",
+            "army_alive": [
+              3785,
+              3590
+            ],
+            "air_alive": 511,
+            "air_stores": 46189,
+            "active_valid_escorts": 254,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 510,
+            "checksum": "d3ce7942e4e9d5d6",
+            "army_alive": [
+              3760,
+              3577
+            ],
+            "air_alive": 511,
+            "air_stores": 46073,
+            "active_valid_escorts": 254,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 540,
+            "checksum": "05220f7f3f2012f8",
+            "army_alive": [
+              3741,
+              3545
+            ],
+            "air_alive": 511,
+            "air_stores": 45963,
+            "active_valid_escorts": 254,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 570,
+            "checksum": "7c925d89e7398f34",
+            "army_alive": [
+              3732,
+              3529
+            ],
+            "air_alive": 510,
+            "air_stores": 45662,
+            "active_valid_escorts": 239,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 600,
+            "checksum": "6c12ac31ca5d5650",
+            "army_alive": [
+              3720,
+              3523
+            ],
+            "air_alive": 510,
+            "air_stores": 45501,
+            "active_valid_escorts": 221,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 630,
+            "checksum": "e0c0e53397e9428a",
+            "army_alive": [
+              3714,
+              3513
+            ],
+            "air_alive": 510,
+            "air_stores": 45338,
+            "active_valid_escorts": 185,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 660,
+            "checksum": "20ce2d406a77e0cf",
+            "army_alive": [
+              3706,
+              3504
+            ],
+            "air_alive": 510,
+            "air_stores": 45128,
+            "active_valid_escorts": 186,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 690,
+            "checksum": "a33836eccef0ed1a",
+            "army_alive": [
+              3701,
+              3492
+            ],
+            "air_alive": 510,
+            "air_stores": 44975,
+            "active_valid_escorts": 181,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 720,
+            "checksum": "91833c8466b52a0a",
+            "army_alive": [
+              3684,
+              3472
+            ],
+            "air_alive": 510,
+            "air_stores": 44834,
+            "active_valid_escorts": 175,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 750,
+            "checksum": "6575797278ecefd6",
+            "army_alive": [
+              3670,
+              3461
+            ],
+            "air_alive": 510,
+            "air_stores": 44696,
+            "active_valid_escorts": 174,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 780,
+            "checksum": "9725bb19ce35eac6",
+            "army_alive": [
+              3656,
+              3442
+            ],
+            "air_alive": 510,
+            "air_stores": 44523,
+            "active_valid_escorts": 165,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 810,
+            "checksum": "85761585d756fa72",
+            "army_alive": [
+              3640,
+              3424
+            ],
+            "air_alive": 509,
+            "air_stores": 44187,
+            "active_valid_escorts": 168,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 840,
+            "checksum": "8a21f36bb60318b8",
+            "army_alive": [
+              3626,
+              3407
+            ],
+            "air_alive": 509,
+            "air_stores": 43997,
+            "active_valid_escorts": 168,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 870,
+            "checksum": "321b60cd9993af92",
+            "army_alive": [
+              3607,
+              3389
+            ],
+            "air_alive": 508,
+            "air_stores": 43584,
+            "active_valid_escorts": 167,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 900,
+            "checksum": "0d9524d1502eb5af",
+            "army_alive": [
+              3593,
+              3382
+            ],
+            "air_alive": 508,
+            "air_stores": 43402,
+            "active_valid_escorts": 159,
+            "living_aircraft_outside_map": 0
+          }
+        ]
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "timings": [
+        {
+          "mean_ms": 36.141970478888894,
+          "p95_ms": 46.978787
+        },
+        {
+          "mean_ms": 36.64432480888889,
+          "p95_ms": 47.974517
+        }
+      ],
+      "samples": [
+        [
+          {
+            "tick": 30,
+            "checksum": "2121052cf05bc9bb",
+            "army_alive": [
+              3898,
+              3986
+            ],
+            "air_alive": 512,
+            "air_stores": 47821,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 60,
+            "checksum": "6dedc54792bea15f",
+            "army_alive": [
+              3798,
+              3831
+            ],
+            "air_alive": 512,
+            "air_stores": 47489,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 90,
+            "checksum": "23cf31edad6c41dd",
+            "army_alive": [
+              3724,
+              3727
+            ],
+            "air_alive": 511,
+            "air_stores": 47066,
+            "active_valid_escorts": 255,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 120,
+            "checksum": "e7fd0861bc83e505",
+            "army_alive": [
+              3633,
+              3641
+            ],
+            "air_alive": 505,
+            "air_stores": 45743,
+            "active_valid_escorts": 249,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 150,
+            "checksum": "09898db8ec63c939",
+            "army_alive": [
+              3523,
+              3553
+            ],
+            "air_alive": 499,
+            "air_stores": 44369,
+            "active_valid_escorts": 243,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 180,
+            "checksum": "6b43b5a0cef5ccef",
+            "army_alive": [
+              3428,
+              3390
+            ],
+            "air_alive": 485,
+            "air_stores": 41600,
+            "active_valid_escorts": 229,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 210,
+            "checksum": "4a1f169630c87c44",
+            "army_alive": [
+              3333,
+              3250
+            ],
+            "air_alive": 470,
+            "air_stores": 38679,
+            "active_valid_escorts": 214,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 240,
+            "checksum": "8cf56088ba33547f",
+            "army_alive": [
+              3236,
+              3174
+            ],
+            "air_alive": 452,
+            "air_stores": 35128,
+            "active_valid_escorts": 195,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 270,
+            "checksum": "a792d5179d5bc8c9",
+            "army_alive": [
+              3169,
+              3119
+            ],
+            "air_alive": 436,
+            "air_stores": 32067,
+            "active_valid_escorts": 179,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 300,
+            "checksum": "066c0ee0bc869b05",
+            "army_alive": [
+              3098,
+              3061
+            ],
+            "air_alive": 427,
+            "air_stores": 30377,
+            "active_valid_escorts": 170,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 330,
+            "checksum": "14c1cfd489e2467a",
+            "army_alive": [
+              3029,
+              2920
+            ],
+            "air_alive": 420,
+            "air_stores": 28903,
+            "active_valid_escorts": 157,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 360,
+            "checksum": "d5e00aa0028178c4",
+            "army_alive": [
+              2973,
+              2887
+            ],
+            "air_alive": 412,
+            "air_stores": 27406,
+            "active_valid_escorts": 150,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 390,
+            "checksum": "d566e9b16f04fd41",
+            "army_alive": [
+              2921,
+              2860
+            ],
+            "air_alive": 407,
+            "air_stores": 26414,
+            "active_valid_escorts": 145,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 420,
+            "checksum": "46827197ee38ac27",
+            "army_alive": [
+              2879,
+              2775
+            ],
+            "air_alive": 401,
+            "air_stores": 25226,
+            "active_valid_escorts": 140,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 450,
+            "checksum": "c93f69413e358751",
+            "army_alive": [
+              2837,
+              2732
+            ],
+            "air_alive": 398,
+            "air_stores": 24535,
+            "active_valid_escorts": 130,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 480,
+            "checksum": "83863e48513f8796",
+            "army_alive": [
+              2789,
+              2680
+            ],
+            "air_alive": 392,
+            "air_stores": 23347,
+            "active_valid_escorts": 121,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 510,
+            "checksum": "c6823ba06636aeab",
+            "army_alive": [
+              2768,
+              2649
+            ],
+            "air_alive": 385,
+            "air_stores": 21960,
+            "active_valid_escorts": 117,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 540,
+            "checksum": "77de9ebd27040102",
+            "army_alive": [
+              2739,
+              2613
+            ],
+            "air_alive": 380,
+            "air_stores": 20974,
+            "active_valid_escorts": 114,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 570,
+            "checksum": "8e373b4eacc4b5b0",
+            "army_alive": [
+              2716,
+              2585
+            ],
+            "air_alive": 374,
+            "air_stores": 19716,
+            "active_valid_escorts": 103,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 600,
+            "checksum": "d10750ada07a681d",
+            "army_alive": [
+              2701,
+              2563
+            ],
+            "air_alive": 371,
+            "air_stores": 18973,
+            "active_valid_escorts": 100,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 630,
+            "checksum": "ccb2b5c1b8cfb591",
+            "army_alive": [
+              2684,
+              2540
+            ],
+            "air_alive": 368,
+            "air_stores": 18300,
+            "active_valid_escorts": 95,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 660,
+            "checksum": "538338a9cd72953d",
+            "army_alive": [
+              2655,
+              2522
+            ],
+            "air_alive": 367,
+            "air_stores": 17985,
+            "active_valid_escorts": 101,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 690,
+            "checksum": "621757207a495c93",
+            "army_alive": [
+              2613,
+              2472
+            ],
+            "air_alive": 366,
+            "air_stores": 17679,
+            "active_valid_escorts": 101,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 720,
+            "checksum": "7944a73507e327b4",
+            "army_alive": [
+              2594,
+              2446
+            ],
+            "air_alive": 363,
+            "air_stores": 17015,
+            "active_valid_escorts": 101,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 750,
+            "checksum": "06930bb45ad54b5d",
+            "army_alive": [
+              2562,
+              2401
+            ],
+            "air_alive": 360,
+            "air_stores": 16462,
+            "active_valid_escorts": 99,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 780,
+            "checksum": "27e32a3d99f27ae7",
+            "army_alive": [
+              2534,
+              2372
+            ],
+            "air_alive": 353,
+            "air_stores": 15327,
+            "active_valid_escorts": 92,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 810,
+            "checksum": "774344d5d00a6aae",
+            "army_alive": [
+              2509,
+              2338
+            ],
+            "air_alive": 352,
+            "air_stores": 15047,
+            "active_valid_escorts": 91,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 840,
+            "checksum": "79503b458cfa4556",
+            "army_alive": [
+              2479,
+              2315
+            ],
+            "air_alive": 351,
+            "air_stores": 14791,
+            "active_valid_escorts": 90,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 870,
+            "checksum": "05500b7b3c26d780",
+            "army_alive": [
+              2455,
+              2284
+            ],
+            "air_alive": 347,
+            "air_stores": 14016,
+            "active_valid_escorts": 86,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 900,
+            "checksum": "1ecd83974a0198b1",
+            "army_alive": [
+              2445,
+              2253
+            ],
+            "air_alive": 344,
+            "air_stores": 13573,
+            "active_valid_escorts": 84,
+            "living_aircraft_outside_map": 0
+          }
+        ],
+        [
+          {
+            "tick": 30,
+            "checksum": "2b67faf9a83409ce",
+            "army_alive": [
+              3908,
+              3985
+            ],
+            "air_alive": 512,
+            "air_stores": 47816,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 60,
+            "checksum": "14a6a11db8818005",
+            "army_alive": [
+              3819,
+              3824
+            ],
+            "air_alive": 512,
+            "air_stores": 47506,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 90,
+            "checksum": "4f3130b85aeb0a43",
+            "army_alive": [
+              3746,
+              3728
+            ],
+            "air_alive": 512,
+            "air_stores": 47483,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 120,
+            "checksum": "d7ab4ed155b85ef7",
+            "army_alive": [
+              3604,
+              3620
+            ],
+            "air_alive": 512,
+            "air_stores": 47480,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 150,
+            "checksum": "4513238691f062f5",
+            "army_alive": [
+              3464,
+              3438
+            ],
+            "air_alive": 512,
+            "air_stores": 47428,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 180,
+            "checksum": "858c6f2cb4435246",
+            "army_alive": [
+              3368,
+              3325
+            ],
+            "air_alive": 512,
+            "air_stores": 47394,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 210,
+            "checksum": "7fc10c1aca882a2e",
+            "army_alive": [
+              3260,
+              3258
+            ],
+            "air_alive": 512,
+            "air_stores": 47343,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 240,
+            "checksum": "67a12fb7fc4c77b5",
+            "army_alive": [
+              3161,
+              3167
+            ],
+            "air_alive": 512,
+            "air_stores": 47213,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 270,
+            "checksum": "859461c5f121d9ac",
+            "army_alive": [
+              3078,
+              2972
+            ],
+            "air_alive": 512,
+            "air_stores": 47050,
+            "active_valid_escorts": 256,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 300,
+            "checksum": "8ea1c07e67c40ef1",
+            "army_alive": [
+              3017,
+              2896
+            ],
+            "air_alive": 512,
+            "air_stores": 46904,
+            "active_valid_escorts": 252,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 330,
+            "checksum": "2d5f55d5388c0657",
+            "army_alive": [
+              2953,
+              2847
+            ],
+            "air_alive": 512,
+            "air_stores": 46737,
+            "active_valid_escorts": 249,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 360,
+            "checksum": "128dbd0ebe072337",
+            "army_alive": [
+              2886,
+              2755
+            ],
+            "air_alive": 512,
+            "air_stores": 46547,
+            "active_valid_escorts": 250,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 390,
+            "checksum": "21d34c05f4464bfa",
+            "army_alive": [
+              2864,
+              2706
+            ],
+            "air_alive": 512,
+            "air_stores": 46446,
+            "active_valid_escorts": 249,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 420,
+            "checksum": "fd2ad20ea560ec0c",
+            "army_alive": [
+              2828,
+              2650
+            ],
+            "air_alive": 512,
+            "air_stores": 46314,
+            "active_valid_escorts": 249,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 450,
+            "checksum": "646d95022315f83f",
+            "army_alive": [
+              2788,
+              2621
+            ],
+            "air_alive": 511,
+            "air_stores": 46180,
+            "active_valid_escorts": 250,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 480,
+            "checksum": "1c0bd928fba49f7e",
+            "army_alive": [
+              2754,
+              2580
+            ],
+            "air_alive": 511,
+            "air_stores": 46108,
+            "active_valid_escorts": 250,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 510,
+            "checksum": "bb7137d5329fc2ca",
+            "army_alive": [
+              2729,
+              2537
+            ],
+            "air_alive": 511,
+            "air_stores": 45944,
+            "active_valid_escorts": 250,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 540,
+            "checksum": "5c206c417bcf6c1a",
+            "army_alive": [
+              2715,
+              2522
+            ],
+            "air_alive": 511,
+            "air_stores": 45782,
+            "active_valid_escorts": 250,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 570,
+            "checksum": "2640b25fd481df08",
+            "army_alive": [
+              2704,
+              2498
+            ],
+            "air_alive": 511,
+            "air_stores": 45681,
+            "active_valid_escorts": 250,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 600,
+            "checksum": "d2fdfd54e03f8263",
+            "army_alive": [
+              2683,
+              2470
+            ],
+            "air_alive": 510,
+            "air_stores": 45368,
+            "active_valid_escorts": 247,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 630,
+            "checksum": "5a667a86e86fcee4",
+            "army_alive": [
+              2658,
+              2453
+            ],
+            "air_alive": 510,
+            "air_stores": 45236,
+            "active_valid_escorts": 216,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 660,
+            "checksum": "dfd9ac72b8e6190b",
+            "army_alive": [
+              2629,
+              2435
+            ],
+            "air_alive": 509,
+            "air_stores": 45057,
+            "active_valid_escorts": 216,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 690,
+            "checksum": "8708afe649ba313a",
+            "army_alive": [
+              2610,
+              2408
+            ],
+            "air_alive": 509,
+            "air_stores": 44942,
+            "active_valid_escorts": 214,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 720,
+            "checksum": "2ae61c832a21b0b8",
+            "army_alive": [
+              2585,
+              2381
+            ],
+            "air_alive": 509,
+            "air_stores": 44766,
+            "active_valid_escorts": 213,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 750,
+            "checksum": "5efeec457c104b99",
+            "army_alive": [
+              2575,
+              2369
+            ],
+            "air_alive": 509,
+            "air_stores": 44578,
+            "active_valid_escorts": 208,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 780,
+            "checksum": "e52be43083f4c11d",
+            "army_alive": [
+              2571,
+              2358
+            ],
+            "air_alive": 509,
+            "air_stores": 44414,
+            "active_valid_escorts": 195,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 810,
+            "checksum": "fc1fd8cf9313f0ce",
+            "army_alive": [
+              2538,
+              2328
+            ],
+            "air_alive": 509,
+            "air_stores": 44244,
+            "active_valid_escorts": 197,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 840,
+            "checksum": "9fcbcbcee980c5eb",
+            "army_alive": [
+              2513,
+              2321
+            ],
+            "air_alive": 509,
+            "air_stores": 44075,
+            "active_valid_escorts": 202,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 870,
+            "checksum": "2d3dea77da2c28f3",
+            "army_alive": [
+              2488,
+              2299
+            ],
+            "air_alive": 509,
+            "air_stores": 43931,
+            "active_valid_escorts": 205,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 900,
+            "checksum": "579bf26c910f692c",
+            "army_alive": [
+              2468,
+              2288
+            ],
+            "air_alive": 509,
+            "air_stores": 43771,
+            "active_valid_escorts": 204,
+            "living_aircraft_outside_map": 1
+          }
+        ]
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "timings": [
+        {
+          "mean_ms": 34.64022445222222,
+          "p95_ms": 43.899827
+        },
+        {
+          "mean_ms": 34.4965362,
+          "p95_ms": 43.231996
+        }
+      ],
+      "samples": [
+        [
+          {
+            "tick": 30,
+            "checksum": "ce28c619e91aba3b",
+            "army_alive": [
+              8174,
+              8160
+            ],
+            "air_alive": 1024,
+            "air_stores": 96114,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 60,
+            "checksum": "b05758fc9521fe06",
+            "army_alive": [
+              8121,
+              8024
+            ],
+            "air_alive": 1024,
+            "air_stores": 95862,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 90,
+            "checksum": "53d694e45fb93c47",
+            "army_alive": [
+              8108,
+              7938
+            ],
+            "air_alive": 1022,
+            "air_stores": 95128,
+            "active_valid_escorts": 510,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 120,
+            "checksum": "a7c7d782700fb1f5",
+            "army_alive": [
+              8094,
+              7883
+            ],
+            "air_alive": 1015,
+            "air_stores": 93464,
+            "active_valid_escorts": 503,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 150,
+            "checksum": "7f5154f67f0ce698",
+            "army_alive": [
+              8055,
+              7830
+            ],
+            "air_alive": 1008,
+            "air_stores": 91735,
+            "active_valid_escorts": 496,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 180,
+            "checksum": "b320ef80f486961a",
+            "army_alive": [
+              8037,
+              7780
+            ],
+            "air_alive": 990,
+            "air_stores": 88015,
+            "active_valid_escorts": 478,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 210,
+            "checksum": "1c2233512dc1e3f2",
+            "army_alive": [
+              8008,
+              7733
+            ],
+            "air_alive": 967,
+            "air_stores": 83422,
+            "active_valid_escorts": 455,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 240,
+            "checksum": "e226bae4c42f633c",
+            "army_alive": [
+              7975,
+              7692
+            ],
+            "air_alive": 945,
+            "air_stores": 79093,
+            "active_valid_escorts": 433,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 270,
+            "checksum": "ffa36b4ae02d07b6",
+            "army_alive": [
+              7923,
+              7640
+            ],
+            "air_alive": 920,
+            "air_stores": 74312,
+            "active_valid_escorts": 408,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 300,
+            "checksum": "3b579c11bcd9a7e4",
+            "army_alive": [
+              7870,
+              7577
+            ],
+            "air_alive": 890,
+            "air_stores": 68791,
+            "active_valid_escorts": 379,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 330,
+            "checksum": "47039a9904596580",
+            "army_alive": [
+              7820,
+              7530
+            ],
+            "air_alive": 863,
+            "air_stores": 63602,
+            "active_valid_escorts": 326,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 360,
+            "checksum": "5ab105f43a55304b",
+            "army_alive": [
+              7789,
+              7482
+            ],
+            "air_alive": 837,
+            "air_stores": 58680,
+            "active_valid_escorts": 306,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 390,
+            "checksum": "6608192c90456f9a",
+            "army_alive": [
+              7757,
+              7448
+            ],
+            "air_alive": 819,
+            "air_stores": 55222,
+            "active_valid_escorts": 273,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 420,
+            "checksum": "f17ec4ef5f09e763",
+            "army_alive": [
+              7734,
+              7421
+            ],
+            "air_alive": 801,
+            "air_stores": 51813,
+            "active_valid_escorts": 219,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 450,
+            "checksum": "0310d44afa8c7fd3",
+            "army_alive": [
+              7704,
+              7383
+            ],
+            "air_alive": 781,
+            "air_stores": 48124,
+            "active_valid_escorts": 194,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 480,
+            "checksum": "6a2adcd7897761ef",
+            "army_alive": [
+              7670,
+              7341
+            ],
+            "air_alive": 765,
+            "air_stores": 45137,
+            "active_valid_escorts": 167,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 510,
+            "checksum": "088c437fd8b122c9",
+            "army_alive": [
+              7630,
+              7300
+            ],
+            "air_alive": 748,
+            "air_stores": 42215,
+            "active_valid_escorts": 173,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 540,
+            "checksum": "cd6688a8c82c25b4",
+            "army_alive": [
+              7600,
+              7254
+            ],
+            "air_alive": 735,
+            "air_stores": 39742,
+            "active_valid_escorts": 170,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 570,
+            "checksum": "cb5a6052fb6acd47",
+            "army_alive": [
+              7551,
+              7228
+            ],
+            "air_alive": 730,
+            "air_stores": 38678,
+            "active_valid_escorts": 166,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 600,
+            "checksum": "a93b3ffbca924db4",
+            "army_alive": [
+              7531,
+              7206
+            ],
+            "air_alive": 725,
+            "air_stores": 37550,
+            "active_valid_escorts": 161,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 630,
+            "checksum": "ea727fd5462a5483",
+            "army_alive": [
+              7511,
+              7181
+            ],
+            "air_alive": 714,
+            "air_stores": 35453,
+            "active_valid_escorts": 151,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 660,
+            "checksum": "d2ca850fd7a8f37e",
+            "army_alive": [
+              7495,
+              7162
+            ],
+            "air_alive": 708,
+            "air_stores": 34208,
+            "active_valid_escorts": 147,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 690,
+            "checksum": "a9547ba59f3cae54",
+            "army_alive": [
+              7470,
+              7142
+            ],
+            "air_alive": 702,
+            "air_stores": 33140,
+            "active_valid_escorts": 147,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 720,
+            "checksum": "f72d1b1ed1237670",
+            "army_alive": [
+              7449,
+              7107
+            ],
+            "air_alive": 694,
+            "air_stores": 31639,
+            "active_valid_escorts": 143,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 750,
+            "checksum": "05c1675f161351a8",
+            "army_alive": [
+              7422,
+              7081
+            ],
+            "air_alive": 690,
+            "air_stores": 30929,
+            "active_valid_escorts": 142,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 780,
+            "checksum": "5ca2778e523675f6",
+            "army_alive": [
+              7388,
+              7052
+            ],
+            "air_alive": 686,
+            "air_stores": 30178,
+            "active_valid_escorts": 138,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 810,
+            "checksum": "4aeb7408c02e76cd",
+            "army_alive": [
+              7369,
+              7015
+            ],
+            "air_alive": 679,
+            "air_stores": 29214,
+            "active_valid_escorts": 135,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 840,
+            "checksum": "b3ea135681939763",
+            "army_alive": [
+              7346,
+              6987
+            ],
+            "air_alive": 677,
+            "air_stores": 28921,
+            "active_valid_escorts": 137,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 870,
+            "checksum": "361dffe381faf707",
+            "army_alive": [
+              7305,
+              6950
+            ],
+            "air_alive": 671,
+            "air_stores": 27910,
+            "active_valid_escorts": 136,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 900,
+            "checksum": "62532320658e8253",
+            "army_alive": [
+              7285,
+              6920
+            ],
+            "air_alive": 670,
+            "air_stores": 27660,
+            "active_valid_escorts": 138,
+            "living_aircraft_outside_map": 0
+          }
+        ],
+        [
+          {
+            "tick": 30,
+            "checksum": "b52c57f72b4c5049",
+            "army_alive": [
+              8173,
+              8160
+            ],
+            "air_alive": 1024,
+            "air_stores": 96119,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 60,
+            "checksum": "6d5daaa8176e886b",
+            "army_alive": [
+              8115,
+              8015
+            ],
+            "air_alive": 1024,
+            "air_stores": 95897,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 90,
+            "checksum": "2594df60f57abd42",
+            "army_alive": [
+              8098,
+              7939
+            ],
+            "air_alive": 1024,
+            "air_stores": 95836,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 120,
+            "checksum": "fd4a747e382c27c4",
+            "army_alive": [
+              8059,
+              7889
+            ],
+            "air_alive": 1024,
+            "air_stores": 95829,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 150,
+            "checksum": "613c2a7db56f2910",
+            "army_alive": [
+              7983,
+              7817
+            ],
+            "air_alive": 1024,
+            "air_stores": 95829,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 180,
+            "checksum": "66194d7a19a31542",
+            "army_alive": [
+              7931,
+              7762
+            ],
+            "air_alive": 1024,
+            "air_stores": 95829,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 210,
+            "checksum": "4edcca816aab400d",
+            "army_alive": [
+              7883,
+              7708
+            ],
+            "air_alive": 1024,
+            "air_stores": 95829,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 240,
+            "checksum": "dc3cbd4414272a29",
+            "army_alive": [
+              7852,
+              7669
+            ],
+            "air_alive": 1024,
+            "air_stores": 95716,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 270,
+            "checksum": "6b77c34d970187de",
+            "army_alive": [
+              7824,
+              7633
+            ],
+            "air_alive": 1024,
+            "air_stores": 95455,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 300,
+            "checksum": "a4006a104af9749c",
+            "army_alive": [
+              7806,
+              7609
+            ],
+            "air_alive": 1024,
+            "air_stores": 95147,
+            "active_valid_escorts": 512,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 330,
+            "checksum": "939b3a7fb10b5e46",
+            "army_alive": [
+              7796,
+              7597
+            ],
+            "air_alive": 1023,
+            "air_stores": 94654,
+            "active_valid_escorts": 511,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 360,
+            "checksum": "897fe54b4ff2cc29",
+            "army_alive": [
+              7783,
+              7587
+            ],
+            "air_alive": 1021,
+            "air_stores": 94048,
+            "active_valid_escorts": 508,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 390,
+            "checksum": "32fcf373033cb16b",
+            "army_alive": [
+              7753,
+              7564
+            ],
+            "air_alive": 1021,
+            "air_stores": 93870,
+            "active_valid_escorts": 506,
+            "living_aircraft_outside_map": 3
+          },
+          {
+            "tick": 420,
+            "checksum": "9c37016e869c34ff",
+            "army_alive": [
+              7709,
+              7532
+            ],
+            "air_alive": 1021,
+            "air_stores": 93663,
+            "active_valid_escorts": 506,
+            "living_aircraft_outside_map": 3
+          },
+          {
+            "tick": 450,
+            "checksum": "08afd48da70222fe",
+            "army_alive": [
+              7684,
+              7499
+            ],
+            "air_alive": 1021,
+            "air_stores": 93498,
+            "active_valid_escorts": 506,
+            "living_aircraft_outside_map": 3
+          },
+          {
+            "tick": 480,
+            "checksum": "faa045b990b76a2b",
+            "army_alive": [
+              7669,
+              7473
+            ],
+            "air_alive": 1021,
+            "air_stores": 93216,
+            "active_valid_escorts": 508,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 510,
+            "checksum": "6a9e65fd887bfeae",
+            "army_alive": [
+              7651,
+              7452
+            ],
+            "air_alive": 1021,
+            "air_stores": 92885,
+            "active_valid_escorts": 508,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 540,
+            "checksum": "2c39c6e0ba498b43",
+            "army_alive": [
+              7636,
+              7445
+            ],
+            "air_alive": 1021,
+            "air_stores": 92587,
+            "active_valid_escorts": 508,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 570,
+            "checksum": "af53429d5e0f4dfb",
+            "army_alive": [
+              7624,
+              7438
+            ],
+            "air_alive": 1021,
+            "air_stores": 92311,
+            "active_valid_escorts": 504,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 600,
+            "checksum": "d06aca65b2d2b370",
+            "army_alive": [
+              7606,
+              7419
+            ],
+            "air_alive": 1021,
+            "air_stores": 92020,
+            "active_valid_escorts": 489,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 630,
+            "checksum": "185b2ccfd1ad3649",
+            "army_alive": [
+              7590,
+              7406
+            ],
+            "air_alive": 1021,
+            "air_stores": 91762,
+            "active_valid_escorts": 439,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 660,
+            "checksum": "661135f965c5c8c7",
+            "army_alive": [
+              7572,
+              7382
+            ],
+            "air_alive": 1020,
+            "air_stores": 91285,
+            "active_valid_escorts": 440,
+            "living_aircraft_outside_map": 1
+          },
+          {
+            "tick": 690,
+            "checksum": "4ee1f0fb359f2c65",
+            "army_alive": [
+              7554,
+              7369
+            ],
+            "air_alive": 1019,
+            "air_stores": 90795,
+            "active_valid_escorts": 440,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 720,
+            "checksum": "546c3045e933f0e1",
+            "army_alive": [
+              7538,
+              7352
+            ],
+            "air_alive": 1018,
+            "air_stores": 90359,
+            "active_valid_escorts": 431,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 750,
+            "checksum": "f23032721f6be57a",
+            "army_alive": [
+              7521,
+              7333
+            ],
+            "air_alive": 1017,
+            "air_stores": 89896,
+            "active_valid_escorts": 412,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 780,
+            "checksum": "f5f62b71c3917ba2",
+            "army_alive": [
+              7509,
+              7312
+            ],
+            "air_alive": 1016,
+            "air_stores": 89406,
+            "active_valid_escorts": 359,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 810,
+            "checksum": "b3eddb6a53309295",
+            "army_alive": [
+              7498,
+              7281
+            ],
+            "air_alive": 1015,
+            "air_stores": 88933,
+            "active_valid_escorts": 364,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 840,
+            "checksum": "7c48d4359394b9c1",
+            "army_alive": [
+              7485,
+              7261
+            ],
+            "air_alive": 1015,
+            "air_stores": 88564,
+            "active_valid_escorts": 367,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 870,
+            "checksum": "8eb7f700f595d676",
+            "army_alive": [
+              7472,
+              7246
+            ],
+            "air_alive": 1014,
+            "air_stores": 88027,
+            "active_valid_escorts": 364,
+            "living_aircraft_outside_map": 0
+          },
+          {
+            "tick": 900,
+            "checksum": "a5b5cecfc1f2c687",
+            "army_alive": [
+              7459,
+              7226
+            ],
+            "air_alive": 1012,
+            "air_stores": 87321,
+            "active_valid_escorts": 358,
+            "living_aircraft_outside_map": 0
+          }
+        ]
+      ]
+    }
+  ],
+  "limits": [
+    "Actual production public ticks, original army layouts, finite stores and immutable copied libraries.",
+    "Feature changes decisions and hash; paired outcomes intentionally need not agree and timings do not isolate a single query cost.",
+    "Concurrent frozen fast verification; local CPU wall time only, no GPU/network/human-quality acceptance."
+  ]
+}
