@@ -131,6 +131,7 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
             explicit_contact_steering=True
         before=pose(actor)
         before_depth=penetration(before,kind)
+        before_driver_eye=(players[0].x,players[0].y,players[0].z) if mode=='driver' else None
         lib.sim_tick()
         after=pose(actor)
         assert actor.hp==100,(name,'movement fixture polluted by damage',tick,actor.hp)
@@ -165,8 +166,14 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
             if hasattr(lib,'ground_eye') and ground is not None:
                 lib.ground_eye.argtypes=[C.POINTER(C.c_float),C.c_uint,C.c_uint]+[C.c_float]*3
                 eye=(C.c_float*3)()
-                assert lib.ground_eye(eye,kind,12,actor.x,actor.z,ground[12].heading)==0
-                assert max(abs(v-w) for v,w in zip((players[0].x,players[0].y,players[0].z),eye))<1e-5,(name,'driver detached from supported hull eye')
+                rc=lib.ground_eye(eye,kind,12,actor.x,actor.z,ground[12].heading)
+                if a.legacy and rc==-1:
+                    # Motion/body-disabled causal control may leave valid support.
+                    # The production eye guard must retain its last valid position.
+                    assert (players[0].x,players[0].y,players[0].z)==before_driver_eye,(name,'invalid legacy support published an eye')
+                else:
+                    assert rc==0
+                    assert max(abs(v-w) for v,w in zip((players[0].x,players[0].y,players[0].z),eye))<1e-5,(name,'driver detached from supported hull eye')
             else:assert pose(players[0])==after,(name,'driver detached from actual hull')
         if tick in (29,119,ticks-1):samples.append({'tick':tick+1,'pose':after})
     end=pose(actor)
