@@ -1,3 +1,12 @@
+Mesh observer correction: exact failed v34 frozen executable passes unchanged
+source-pose idle/walk selection, actual movement, pixel-change and frozen-track
+assertions when input waits for actual Tab/front/hold acknowledgement. Old
+fixed-duration Tab was missed under rendering load, leaving TACTICAL while
+walking-pose telemetry is updated in first person. No runtime changes.
+ evidence/mesh-mode-input-boundary.json retains exact focused report/log hash;
+full3ed19c6f8298 stays FAILED. Corrected fulld8f5c5b64ed3 remains live at its
+immutable pre-mesh-observer epoch; it is not mutated or restarted.
+
 Infantry-threat frozen full3ed19c6f8298 FAILED/collected at
 0b4d7d6-aafce4d008140d67,exit1,1440.723541s: actual-client mesh test
 condition timed out with TACTICAL title. Exact result/log hash retained in

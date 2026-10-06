@@ -92,7 +92,12 @@ try:
 
         def key(symbol, hold=.12):
             code = X.XKeysymToKeycode(display, symbol); assert code
-            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display); time.sleep(hold)
+            expected=1-u32('tactical') if symbol==0xff09 else None
+            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display)
+            if expected is not None:until(lambda:u32('tactical')==expected,3)
+            elif symbol in (0xffbe,0xffbf,0xffc0):until(lambda:u32('selected_front')==symbol-0xffbe,3)
+            elif symbol==ord('2'):until(lambda:u32('company_controls',u32('player_companies')*32+8)==1,3)
+            else:time.sleep(hold)
             XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display); time.sleep(.10)
 
         def button(down):
