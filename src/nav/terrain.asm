@@ -1,5 +1,6 @@
 ; Authoritative SSE2 analytic terrain and bounded static-solid queries.
 default rel
+extern terrain_relief
 section .rodata align=16
 global terrain_obstacle_count, terrain_obstacles
 terrain_obstacle_count: dd 5
@@ -26,7 +27,15 @@ corner_near: dd 2.0
 ray_eighth: dd 0.125
 section .text
 global terrain_height, terrain_blocked, terrain_los, terrain_move, terrain_path_clear
+; Preserve old leaf-visible every GPR and XMM4..15 while integrating relief.
+; Inputs XMM0/1 XZ; return XMM0 total height, XMM1..3 caller scratch.
+; Outside-map/nonfinite relief contributes canonical zero, preserving old base math.
 terrain_height:
+ push rax
+ push rdi
+ sub rsp,24
+ movss [rsp],xmm0
+ movss [rsp+4],xmm1
  subss xmm0,[center]
  subss xmm1,[center]
  movaps xmm2,xmm0
@@ -43,6 +52,14 @@ terrain_height:
  addss xmm0,xmm1
  addss xmm0,[base]
  addss xmm0,xmm3
+ movss [rsp+8],xmm0
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ call terrain_relief
+ addss xmm0,[rsp+8]
+ add rsp,24
+ pop rdi
+ pop rax
  ret
 terrain_blocked:
  xor eax,eax

@@ -1,0 +1,105 @@
+default rel
+extern terrain_height,terrain_surface
+section .text
+global test_terrain_height,test_terrain_surface
+; Development probe: XMM0/1 XZ, RDI output height/GPR/SIMD snapshots.
+test_terrain_height:
+ push rbx
+ push rbp
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov [rsp],rdi
+ mov rax,0x00123400
+ mov rbx,0x00123401
+ mov rcx,0x00123402
+ mov rdx,0x00123403
+ mov rsi,0x00123404
+ mov rdi,0x00123405
+ mov rbp,0x00123406
+ mov r8,0x00123407
+ mov r9,0x00123408
+ mov r10,0x00123409
+ mov r11,0x0012340a
+ mov r12,0x0012340b
+ mov r13,0x0012340c
+ mov r14,0x0012340d
+ mov r15,0x0012340e
+ movups xmm4,[patterns+0]
+ movups xmm5,[patterns+16]
+ movups xmm6,[patterns+32]
+ movups xmm7,[patterns+48]
+ movups xmm8,[patterns+64]
+ movups xmm9,[patterns+80]
+ movups xmm10,[patterns+96]
+ movups xmm11,[patterns+112]
+ movups xmm12,[patterns+128]
+ movups xmm13,[patterns+144]
+ movups xmm14,[patterns+160]
+ movups xmm15,[patterns+176]
+ call terrain_height
+ mov [rsp+8],rdi
+ mov rdi,[rsp]
+ movss [rdi],xmm0
+ mov [rdi+8],rax
+ mov [rdi+16],rbx
+ mov [rdi+24],rcx
+ mov [rdi+32],rdx
+ mov [rdi+40],rsi
+ movq xmm3,[rsp+8]
+ movq [rdi+48],xmm3
+ mov [rdi+56],rbp
+ mov [rdi+64],r8
+ mov [rdi+72],r9
+ mov [rdi+80],r10
+ mov [rdi+88],r11
+ mov [rdi+96],r12
+ mov [rdi+104],r13
+ mov [rdi+112],r14
+ mov [rdi+120],r15
+ movups [rdi+128],xmm4
+ movups [rdi+144],xmm5
+ movups [rdi+160],xmm6
+ movups [rdi+176],xmm7
+ movups [rdi+192],xmm8
+ movups [rdi+208],xmm9
+ movups [rdi+224],xmm10
+ movups [rdi+240],xmm11
+ movups [rdi+256],xmm12
+ movups [rdi+272],xmm13
+ movups [rdi+288],xmm14
+ movups [rdi+304],xmm15
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbp
+ pop rbx
+ ret
+test_terrain_surface:
+ push rdi
+ call terrain_surface
+ pop rdi
+ movss [rdi],xmm0
+ movss [rdi+4],xmm1
+ movss [rdi+8],xmm2
+ mov [rdi+12],eax
+ ret
+section .rodata align=16
+patterns:
+ dd 101,102,103,104
+ dd 202,203,204,205
+ dd 303,304,305,306
+ dd 404,405,406,407
+ dd 505,506,507,508
+ dd 606,607,608,609
+ dd 707,708,709,710
+ dd 808,809,810,811
+ dd 909,910,911,912
+ dd 1010,1011,1012,1013
+ dd 1111,1112,1113,1114
+ dd 1212,1213,1214,1215
+section .note.GNU-stack noalloc noexec nowrite progbits

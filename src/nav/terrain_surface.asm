@@ -1,7 +1,7 @@
 ; Stateless analytic height/gradient and bounded center-road sampler, SSE2/SysV.
 %include "schemas/terrain_surface.inc"
 default rel
-extern terrain_height
+extern terrain_height,terrain_relief
 section .rodata align=16
 %include "schemas/terrain_roads.inc"
 %if TERRAIN_ROAD_COUNT < 1 || TERRAIN_ROAD_COUNT > TERRAIN_ROAD_LIMIT
@@ -22,7 +22,7 @@ section .text
 global terrain_surface
 ; XMM0/1 XZ -> XMM0 height, XMM1/2 analytic gradient X/Z; EAX center class.
 ; Invalid input: EAX=-1, all three scalar outputs canonical +0. No writes except
-; private stack; clobbers caller-saved registers. Single aligned external call.
+; private stack; clobbers caller-saved registers. Aligned external height and derivative-component calls.
 terrain_surface:
  sub rsp,40
  ucomiss xmm0,[zero]
@@ -61,6 +61,15 @@ terrain_surface:
  movss xmm2,[rsp+4]
  subss xmm2,[center]
  mulss xmm2,[zgradient]
+ movss [rsp+16],xmm2
+ ; terrain_height already includes relief height exactly once. Add derivatives
+ ; once, preserving the existing center-road classification and invalid policy.
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ call terrain_relief
+ addss xmm1,[rsp+12]
+ addss xmm2,[rsp+16]
+ movss [rsp+12],xmm1
  movss [rsp+16],xmm2
  xor ecx,ecx
  lea rdx,[terrain_road_segments]
