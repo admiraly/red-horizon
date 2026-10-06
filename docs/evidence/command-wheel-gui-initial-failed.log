@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/command-wheel/tests/test_client_command_wheel.py", line 139, in <module>
+    mouse(2,True);until(lambda:u32('wheel_active')==1,2);motion(560,360);key(0xff1b,.7);assert u32('wheel_active')==0 and process.poll() is None;mouse(2,False);assert record()==before
+                  ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/command-wheel/tests/test_client_command_wheel.py", line 69, in until
+    raise AssertionError('condition timed out: ' + (title(window) if window else 'startup'))
+AssertionError: condition timed out: RED HORIZON | 8192 units | rifle 30/30 FIRST PERSON | front 1 order 0 | REQ 251 SUP 600 | OPERATION ACTIVE | HP 30 SUPPRESS 72 REDEPLOY 0 | ON FOOT | E board Q exit | TAB map/click F1-F3 front R reload | COMPANY 285 | COMMAND CANCELLED | WEATHER clear (F4 cycle)

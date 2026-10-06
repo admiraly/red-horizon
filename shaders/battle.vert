@@ -44,6 +44,14 @@ float terrainTileHeight(vec2 p){
 }
 void main(){
  effectAlpha=1.;effectUV=vec2(0);effectType=0;worldPosition=vec3(0);materialMode=terrain==11?1:terrain;
+ if(terrain==13){
+  int v=gl_VertexID%6;
+  vec2 uv=vec2((v==1||v==2||v==4)?1:-1,(v==2||v==4||v==5)?1:-1);
+  float radius=min(min(commandViewport.x,commandViewport.y)*.4,120.);
+  vec2 pixel=commandViewport*.5+uv*radius;
+  gl_Position=vec4(pixel/commandViewport*vec2(2,-2)+vec2(-1,1),0,1);
+  effectUV=uv;worldPosition.x=radius;colour=vec3(1);distanceFog=0;return;
+ }
  if(terrain==12){
   int v=gl_VertexID%6;
   vec2 uv=vec2((v==1||v==2||v==4)?1:0,(v==2||v==4||v==5)?1:0);

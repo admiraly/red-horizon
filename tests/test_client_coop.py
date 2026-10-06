@@ -68,7 +68,7 @@ try:
         processes.append(host);assert select.select([host.stdout],[],[],10)[0]
         ready=json.loads(host.stdout.readline());port=ready['port'];assert port>0,ready
         client_symbols=symbols(CLIENT);server_symbols=symbols(SERVER)
-        host_memory=os.open(f'/proc/{host.pid}/mem',os.O_RDWR);memories.append(host_memory)
+        host_memory=os.open(f'/proc/{host.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv else os.O_RDWR);memories.append(host_memory)
         clients=[]
 
         def title(win):
@@ -114,12 +114,12 @@ try:
 
         for index in range(2):
             connection_port=port
-            if '--transfer-fault' in sys.argv:
+            if '--transfer-fault' in sys.argv or '--wheel-fault' in sys.argv:
                 from test_coop import FaultRelay
                 relay=FaultRelay(('127.0.0.1',port),latency_ms=75);relays.append(relay);connection_port=relay.socket.getsockname()[1]
             process=subprocess.Popen([str(CLIENT),'--connect','127.0.0.1','--port',str(connection_port),'--tactical'],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
             processes.append(process)
-            memory=os.open(f'/proc/{process.pid}/mem',os.O_RDWR);memories.append(memory)
+            memory=os.open(f'/proc/{process.pid}/mem',os.O_RDONLY if '--wheel' in sys.argv or '--wheel-fault' in sys.argv else os.O_RDWR);memories.append(memory)
             clients.append({'process':process,'memory':memory,'window':0})
             clients[index]['window']=until(lambda:window_for(index))
         until(lambda: all(client_player(c,p)['connected']==1 for c in range(2) for p in range(2)))
@@ -181,6 +181,50 @@ try:
             blue=max([pixels(r,False)for r in foreign],default=0)
             X.XDestroyImage(image);assert green>0 and blue>0,(index,company,green,blue,len(owned),read_u32(clients[index]['memory'],client_symbols,'view_company'),read_u32(clients[index]['memory'],client_symbols,'view_player'),remote_company(index,index),client_player(index,index))
             company_pixels.append({'player':index,'company':company,'owned_green_pixels':green,'foreign_allied_blue_pixels':blue})
+        if '--wheel' in sys.argv or '--wheel-fault' in sys.argv:
+            def own_control(owner):
+                company=read_u32(host_memory,server_symbols,'player_companies',owner*16)
+                return struct.unpack('<4I2f2I',os.pread(host_memory,32,server_symbols['company_controls']+company*32))
+            def state(c,name):return read_u32(clients[c]['memory'],client_symbols,name)
+            def same_intent(a,b):return a[0]==b[0] and a[2:]==b[2:]
+            def mouse(c,number,down):
+                focus(c);XT.XTestFakeButtonEvent(display,number,int(down),0);X.XFlush(display)
+                if number==2 and not down:until(lambda:state(c,'wheel_down')==0,3)
+            def motion(x,y):XT.XTestFakeMotionEvent(display,-1,x,y,0);X.XFlush(display);time.sleep(.15)
+            cases=[]
+            for owner in (0,1):
+                key(owner,0xffbe+owner);key(owner,0xff09)
+                before=own_control(owner);shots=server_player(owner)['shots']
+                mouse(owner,2,True);until(lambda:state(owner,'wheel_active')==1,3)
+                assert state(owner,'wheel_point_valid')==1
+                aimed=struct.unpack('<2f',os.pread(clients[owner]['memory'],8,client_symbols['wheel_point']))
+                motion(640,280);until(lambda:state(owner,'wheel_selected')==0,3)
+                until(lambda:text_visible(X,display,clients[owner]['window'],0,'MOVE',origin=(616,266)),3)
+                tick0=read_u32(host_memory,server_symbols,'sim_tick_count');time.sleep(.5)
+                assert same_intent(own_control(owner),before) and read_u32(host_memory,server_symbols,'sim_tick_count')>tick0+5,(owner,before,own_control(owner),tick0,read_u32(host_memory,server_symbols,'sim_tick_count'))
+                mouse(owner,2,False)
+                until(lambda:state(owner,'waypoint_orders')==1,5)
+                accepted=own_control(owner);assert accepted[6]==before[6]+1 and accepted[2]==0 and math.dist(accepted[4:6],aimed)<.001
+                until(lambda:all(remote_company(c,owner)[4:8]==(0,1,*aimed) for c in (0,1)),5)
+                focus(owner);until(lambda:text_visible(X,display,clients[owner]['window'],1,'ORDER ACCEPTED'),3)
+                assert server_player(owner)['shots']==shots
+                mouse(owner,2,True);until(lambda:state(owner,'wheel_active')==1,3);motion(720,360);mouse(owner,3,True)
+                until(lambda:state(owner,'wheel_active')==0,3);mouse(owner,3,False);mouse(owner,2,False)
+                assert same_intent(own_control(owner),accepted) and state(owner,'waypoint_orders')==1
+                until(lambda:read_u32(host_memory,server_symbols,'sim_tick_count')>=accepted[7]+15)
+                mouse(owner,2,True);until(lambda:state(owner,'wheel_active')==1,3);motion(720,360);mouse(owner,2,False)
+                until(lambda:state(owner,'waypoint_orders')==2,5)
+                follow=own_control(owner);assert follow[6]==accepted[6]+1 and follow[2]==3 and follow[4:6]==accepted[4:6]
+                until(lambda:all(remote_company(c,owner)[4]==3 for c in (0,1)),5)
+                assert state(owner,'local_sim_ticks')==0
+                cases.append({'owner':owner,'point':aimed,'authority_sequence':[before[6],accepted[6],follow[6]],'cancel_uncharged':True,'world_unpaused':True,'lease_generations':[before[1],accepted[1],follow[1]]})
+            for index in (1,0):
+                key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
+                assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
+            faults=[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays]
+            if relays:assert any(r['dropped']>0 and r['reordered']>0 for r in faults)
+            print(json.dumps({'suite':'graphical-network-command-wheel','passed':True,'cases':cases,'framebuffer_labels_and_ack':True,'server_and_both_mirrors_match':True,'real_fault_relays':faults,'local_simulation_ticks':0,'limits':['Actual8192 authority and two rendered clients, read-only observers.','Four existing orders; full contextual roster/remapping and hardware quality remain open.']}))
+            raise SystemExit(0)
         if '--follow' in sys.argv:
             def anchor_pixels(client,point):
                 px=round(((point[0]-4000)/4300+1)*640);py=round((1-(point[1]-4000)/4300)*360)

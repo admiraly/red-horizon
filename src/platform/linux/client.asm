@@ -32,10 +32,11 @@ extern terrain_height,terrain_obstacles,terrain_obstacle_count
 extern world_body_step_context,net_wrecks,net_wreck_count,net_wreck_query_revision
 extern battle_vertex_source,battle_fragment_source
 extern command_hud_init,command_hud_begin,command_hud_draw
+extern command_wheel_select,command_terrain_point,command_wheel_hud_init,command_wheel_hud_draw
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
 extern glfwWindowShouldClose,glfwGetKey,glfwGetMouseButton,glfwGetCursorPos
-extern glfwSetInputMode,glfwSetWindowTitle,glfwGetTime,glfwSetKeyCallback
+extern glfwSetCursorPos,glfwSetInputMode,glfwSetWindowTitle,glfwGetTime,glfwSetKeyCallback
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glGetProgramInfoLog
 extern glUseProgram,glGetUniformLocation,glUniform3f,glUniform2f,glUniform1i,glUniform4f
@@ -47,6 +48,9 @@ extern glReadPixels,glPixelStorei,glGetString
 extern strcmp,atoi,puts,printf,snprintf,fopen,fwrite,fclose,sinf,cosf
 section .rodata
 command_panel_fmt: db 'COMPANY %d | FRONT %u | 1 ADVANCE 2 HOLD 3 RETREAT 4 FOLLOW',0
+wheel_ready_text: db 'COMMAND WHEEL: RELEASE TO ORDER / RIGHT CLICK CANCEL',0
+wheel_cancel_text: db 'COMMAND CANCELLED',0
+wheel_no_point_text: db 'MOVE DENIED: NO VISIBLE TERRAIN WITHIN 2048M',0
 command_panel_lost: db 'CO-OP CONNECTION LOST - COMPANY COMMANDS UNAVAILABLE',0
 title: db 'RED HORIZON | WASD move SHIFT sprint | mouse aim/fire | TAB tactical | 1/2/3/4 advance/hold/retreat/follow | ESC quit',0
 weather_opt: db '--weather',0
@@ -64,7 +68,7 @@ map_opt: db '--tactical',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 transfer_none: db 'F5-F8: request exchange with P0-P3 | F11: cancel own offer',0
 transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | F9 accept | F10 decline | F11 cancel own',0
 transfer_changed: db 'COMPANY ASSIGNMENT UPDATED',0
@@ -156,6 +160,7 @@ flash_decay: dd 8.0
 thirty_ticks: dd 30.0
 thirty: dq 0.03333333333333333
 maxdt: dq 0.1
+double_half: dq 0.5
 minus: dd -1.0
 align 16
 absolute_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
@@ -175,6 +180,14 @@ command_message: dq net_ready_text
 section .bss
 command_panel: resb 160
 quit_latched: resd 1
+wheel_active: resd 1
+wheel_down: resd 1
+wheel_escape_down: resd 1
+wheel_input_block: resd 1
+wheel_selected: resd 1
+wheel_point_valid: resd 1
+wheel_point: resd 2
+wheel_ray: resd 6
 window: resq 1
 program: resd 1
 vao: resd 1
@@ -682,6 +695,10 @@ main:
  call command_hud_init
  test eax,eax
  jnz .destroyfail
+ mov edi,[program]
+ call command_wheel_hud_init
+ test eax,eax
+ jnz .destroyfail
  cmp dword [census_requested],0
  je .nocensusinit
  call visibility_init
@@ -1032,7 +1049,16 @@ main:
  mov edx,12
  call glDrawArrays
 .restoredepth:
+ cmp dword [wheel_active],0
+ jne .wheeldraw
  call command_panel_draw
+ jmp .wheelhidden
+.wheeldraw:
+ call command_hud_begin
+ mov edi,[terrain_loc]
+ mov esi,[wheel_selected]
+ call command_wheel_hud_draw
+.wheelhidden:
  mov edi,0xb71
  call glEnable
 .nohud:
@@ -1245,6 +1271,14 @@ quit_key_event:
  jne .done
  cmp ecx,1
  jne .done
+ cmp dword [wheel_active],0
+ je .quit
+ mov dword [wheel_escape_down],1
+ sub rsp,8
+ call wheel_close
+ add rsp,8
+ ret
+.quit:
  mov dword [quit_latched],1
 .done:
  ret
@@ -1260,12 +1294,23 @@ update_input:
  jne .quit
  KEY 256
  test eax,eax
- jnz .quit
+ jz .escapeup
+ cmp dword [wheel_escape_down],0
+ jne .escapedone
+ cmp dword [wheel_active],0
+ je .quit
+ mov dword [wheel_escape_down],1
+ call wheel_close
+ jmp .escapedone
+.escapeup:
+ mov dword [wheel_escape_down],0
+.escapedone:
  KEY 258
  test eax,eax
  jz .tabup
  cmp dword [tab_down],0
  jne .orders
+ call wheel_close
  xor dword [tactical],1
  mov dword [mouse_seed],3
  mov rdi,[window]
@@ -1308,6 +1353,30 @@ update_input:
  inc ebx
  cmp ebx,293
  jb .frontloop
+ call wheel_update
+ cmp dword [wheel_input_block],0
+ je .directorders
+ ; Consume direct-key edges while the menu owns order input. A key held across
+ ; menu close must not become a second charged order on the next frame.
+ mov ebx,49
+.suppressedkeys:
+ mov rdi,[window]
+ mov esi,ebx
+ call glfwGetKey
+ mov ecx,ebx
+ sub ecx,49
+ test eax,eax
+ jz .suppressedup
+ bts dword [order_down_mask],ecx
+ jmp .suppressednext
+.suppressedup:
+ btr dword [order_down_mask],ecx
+.suppressednext:
+ inc ebx
+ cmp ebx,53
+ jb .suppressedkeys
+ jmp .cursorread
+.directorders:
  mov ebx,49
 .orderloop:
  mov rdi,[window]
@@ -1361,10 +1430,13 @@ update_input:
  inc ebx
  cmp ebx,53
  jb .orderloop
+.cursorread:
  mov rdi,[window]
  lea rsi,[cursor_x]
  lea rdx,[cursor_y]
  call glfwGetCursorPos
+ cmp dword [wheel_active],0
+ jne .seedcursor
  cmp dword [tactical],0
  jne .seedcursor
  cmp dword [mouse_seed],0
@@ -1412,6 +1484,8 @@ update_input:
  movss xmm3,[pitch]
  call player_input
 .afterintent:
+ cmp dword [wheel_input_block],0
+ jne .title
  cmp dword [tactical],0
  je .title
  call tactical_click
@@ -1548,6 +1622,160 @@ update_input:
  mov eax,1
  pop rbx
  ret
+; Middle-button wheel is a bounded client UI state. Release issues exactly one
+; existing local/UDP command; no optimistic company or player state changes.
+wheel_close:
+ cmp dword [wheel_active],0
+ je .done
+ sub rsp,8
+ mov dword [wheel_active],0
+ mov dword [mouse_seed],3
+ lea rax,[wheel_cancel_text]
+ mov [command_message],rax
+ mov rdi,[window]
+ mov esi,0x33001
+ mov edx,0x34003
+ cmp dword [tactical],0
+ je .cursor
+ mov edx,0x34001
+.cursor:
+ call glfwSetInputMode
+ add rsp,8
+.done: ret
+wheel_update:
+ push rbx
+ mov dword [wheel_input_block],0
+ mov rdi,[window]
+ mov esi,2
+ call glfwGetMouseButton
+ test eax,eax
+ jz .released
+ mov dword [wheel_input_block],1
+ cmp dword [wheel_down],0
+ jne .held
+ mov dword [wheel_down],1
+ cmp dword [tactical],0
+ jne .done
+ cmp dword [wheel_escape_down],0
+ jne .done
+ mov dword [wheel_active],1
+ mov dword [wheel_selected],-1
+ mov dword [wheel_point_valid],0
+ mov dword [mouse_seed],3
+ ; The terrain ray captures exactly the visible aim, including visual recoil.
+ movups xmm0,[camera]
+ movups [wheel_ray],xmm0
+ movss xmm0,[pitch]
+ addss xmm0,[recoil]
+ call sinf
+ movss [wheel_ray+16],xmm0
+ movss xmm0,[pitch]
+ addss xmm0,[recoil]
+ call cosf
+ movss [wheel_ray+12],xmm0
+ movss xmm0,[yaw]
+ call sinf
+ mulss xmm0,[wheel_ray+12]
+ movss [wheel_ray+20],xmm0 ; temporary directionX
+ movss xmm0,[yaw]
+ call cosf
+ mulss xmm0,[wheel_ray+12]
+ movss [wheel_ray+12],xmm0 ; temporary directionZ
+ movss xmm1,[wheel_ray+20]
+ movss [wheel_ray+20],xmm0
+ movss [wheel_ray+12],xmm1
+ lea rdi,[wheel_ray]
+ call command_terrain_point
+ test eax,eax
+ jnz .pointdone
+ mov dword [wheel_point_valid],1
+ movss [wheel_point],xmm0
+ movss [wheel_point+4],xmm1
+.pointdone:
+ lea rax,[wheel_ready_text]
+ mov [command_message],rax
+ mov rdi,[window]
+ mov esi,0x33001
+ mov edx,0x34001
+ call glfwSetInputMode
+ mov rdi,[window]
+ cvtsi2sd xmm0,[view_width]
+ cvtsi2sd xmm1,[view_height]
+ mulsd xmm0,[double_half]
+ mulsd xmm1,[double_half]
+ call glfwSetCursorPos
+.held:
+ cmp dword [wheel_active],0
+ je .done
+ mov rdi,[window]
+ mov esi,1
+ call glfwGetMouseButton
+ test eax,eax
+ jnz .cancel
+ call wheel_select_cursor
+ jmp .done
+.released:
+ cmp dword [wheel_down],0
+ je .done
+ mov dword [wheel_down],0
+ mov dword [wheel_input_block],1
+ cmp dword [wheel_active],0
+ je .done
+ call wheel_select_cursor
+ mov ebx,eax
+ call wheel_close
+ cmp ebx,-1
+ je .done
+ test ebx,ebx
+ jnz .existinggoal
+ cmp dword [wheel_point_valid],0
+ je .nopoint
+ movss xmm0,[wheel_point]
+ movss xmm1,[wheel_point+4]
+ jmp .send
+.existinggoal:
+ call selected_order_goal
+ comiss xmm0,[fzero]
+ jae .send
+ mov edi,[local_player]
+ call player_pointer
+ movss xmm0,[rax+PLAYER_X]
+ movss xmm1,[rax+PLAYER_Z]
+.send:
+ mov edi,[selected_front]
+ mov esi,ebx
+ cmp dword [network_mode],0
+ jne .network
+ call queue_local_order
+ jmp .done
+.network:
+ call queue_network_order
+ jmp .done
+.nopoint:
+ lea rax,[wheel_no_point_text]
+ mov [command_message],rax
+ jmp .done
+.cancel:
+ call wheel_close
+.done:
+ pop rbx
+ ret
+
+wheel_select_cursor:
+ sub rsp,8
+ mov rdi,[window]
+ lea rsi,[cursor_x]
+ lea rdx,[cursor_y]
+ call glfwGetCursorPos
+ cvtsd2ss xmm0,[cursor_x]
+ subss xmm0,[view_half_size]
+ cvtsd2ss xmm1,[cursor_y]
+ subss xmm1,[view_half_size+4]
+ call command_wheel_select
+ mov [wheel_selected],eax
+ add rsp,8
+ ret
+
 ; Unpaused tactical command: map cursor maps to operation metres. API validates
 ; finite coordinates and ownership. Only accepted goals initiate an advance.
 tactical_click:
@@ -1675,6 +1903,8 @@ collect_intent:
  jz .firevehicle
  or dword [intent_buttons],INPUT_EXIT
 .firevehicle:
+ cmp dword [wheel_input_block],0
+ jne .return
  cmp dword [tactical],0
  jne .return
  mov rdi,[window]

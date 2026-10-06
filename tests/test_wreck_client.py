@@ -22,7 +22,15 @@ try:
   server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x360x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1
   assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
-  display=X.XOpenDisplay(env['DISPLAY'].encode());assert display
+  # A display number does not prove this process opened an Xlib connection.
+  # Bound connection retries before any game/graphics assertions.
+  display_deadline=time.monotonic()+5;display_attempts=0
+  while not display:
+   display_attempts+=1;display=X.XOpenDisplay(env['DISPLAY'].encode())
+   if display:break
+   if server.poll() is not None or time.monotonic()>=display_deadline:
+    log.seek(0);raise AssertionError({'private_display_unavailable':env['DISPLAY'],'Xvfb_exit':server.poll(),'connection_attempts':display_attempts,'Xvfb_log':log.read().decode(errors='replace')})
+   time.sleep(.02)
   process=subprocess.Popen([str(EXE),'--width','640','--height','360',*(['--connect','127.0.0.1','--port',str(relay.getsockname()[1])] if network else [])],cwd=EXE.parent,env=env,stdout=log,stderr=log)
   if network:
    _,destination=relay.recvfrom(1200)
@@ -100,7 +108,7 @@ try:
     if mode in ('near','mid'):assert changed>(25 if mode=='near' else 0),(role,mode,changed)
     rows.append({'role':role,'mode':mode,'changed_pixels':changed,'wreck_instances':u32('mesh_wreck_instances'),'screenshot':path})
     assert ticks==u32('local_sim_ticks'),'stopped-clock render ticked gameplay'
-  print(json.dumps({'suite':'wreck-client-draw','passed':True,'network_transport':network,'client_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest(),'cases':rows,'received_record_then_completed_draw_observed':True,'immutable_death_pose':True,'living_instance_counts_unchanged':True,'scope':'Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets.'}))
+  print(json.dumps({'suite':'wreck-client-draw','passed':True,'network_transport':network,'private_display_connection_attempts':display_attempts,'client_sha256':hashlib.sha256(EXE.read_bytes()).hexdigest(),'cases':rows,'received_record_then_completed_draw_observed':True,'immutable_death_pose':True,'living_instance_counts_unchanged':True,'scope':'Actual local/realUDP client draw hooks, frame0 high source geometry, near/mid/map/cull and expiry replacement. Frozen cosmetic geometry fixture from actual registry helper; actual server casualty/expiry proven separately. SoftwareGL, not natural play or GPU budgets.'}))
 
 finally:
  if relay:relay.close()
