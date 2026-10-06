@@ -383,3 +383,15 @@ measured8k hotspot CPU tick time;16k/GPU/human quality remain incomplete.
 Solo formation tint dfb8a95 is an isolated27-report actual graphics prototype.
 Earlier company dependency/mesh-fixture failures above are superseded by this
 passing full checkpoint; raw evidence remains preserved.
+
+2026-10-06 main company visibility batch52e2a2a: UDPv24 carries complete
+four-player company leases and accepted intent. Atomic/stale/generation checks,
+own-company region exception, solo/co-op green formations, actual shared goal
+pixels and timeout clearing are focused verified. The four-peer original8192
+world test remains read-only; the separate remote stream test declares one
+initial far infantry birth and never renews live state. Main matches all333
+frozen authored inputs. Full72366ca35c1e remains RUNNING, not accepted; prior
+full3112ca82aa0d is still the last complete checkpoint. Continue collecting the
+immutable job without starting a duplicate. Transfers/assistance, recruitment,
+formation selection, remappable contextual commands, shared countdown/support,
+full operation/content and target performance/human quality remain open.

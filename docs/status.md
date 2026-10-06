@@ -19,6 +19,13 @@ atomically; stale/equal ticks, generations, fronts and release/rejoin are gated.
 Exact reports, artifact hashes, initial-fixture scope and corrected failures:
 docs/evidence/company-replication-focused.json and docs/company-replication.md.
 
+Main headless/co-op/client and both CPU libraries are rebuilt at727f145-dd448cce99006975.
+Matching main company API, actual four-player/production-adapter transport,
+actual two-client shared goal/redeployment and timeout checks all pass.
+Exact artifact hashes and logs: docs/evidence/company-replication-main.json.
+All foreground checks are terminal. Full72366ca35c1e is the sole new running
+managed job; its process is live and its exact snapshot/result paths are recorded.
+
 Frozen full72366ca35c1e is RUNNING at52e2a2a-dd448cce99006975; it has not passed.
 Its snapshot includes333 exact authored inputs. The preceding fully accepted
 checkpoint remains3112ca82aa0d below. Focused checks and this pending run do not

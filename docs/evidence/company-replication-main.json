@@ -1,0 +1,120 @@
+{
+  "main_runtime_commit": "727f145a2653d36e1424b6dac7c78fa83435edc4",
+  "source_candidate": "52e2a2ae8a5d49e08d1eb59f24476401c137e059",
+  "frozen_authored_inputs_matched": 333,
+  "artifacts": {
+    "headless": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon-server",
+      "sha256": "871dcee6468aba3dd28f95162e6f9cd4ed0d65ea43814406741895b4204aeeeb"
+    },
+    "coop": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon-coop-server",
+      "sha256": "0a5ea491c94d6b67129b6e922c1a60846056d4cedb2810eb2d264f1a219eeb39"
+    },
+    "client": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon",
+      "sha256": "7d4fd1efa5d1e04c3d2ff8c87029c2d7f5f507c6f1d568e89f06670701455eb0"
+    },
+    "libsim.so": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/libsim.so",
+      "sha256": "c60f933f08a942d4c87bc3a53ecb8244e31774af869cd5c6e4177a2b57da1209"
+    },
+    "libcoopclient.so": {
+      "path": "/mnt/titan_nv3/projects/red-horizon/build/libcoopclient.so",
+      "sha256": "24b91e63df036cda879a6f8d1868d5e84dabb6f84f7c7b66e4d9eea30ed75b10"
+    }
+  },
+  "builds": {
+    "headless": {
+      "target": "headless",
+      "revision": "727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/sim/company_remote.asm"
+      ],
+      "seconds": 0.3387429639988113,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon-server"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.3845549549878342,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon-coop-server"
+    },
+    "client": {
+      "target": "client",
+      "revision": "727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975",
+      "assembled": 4,
+      "assembled_sources": [
+        "src/render/mesh_shaders.asm",
+        "src/render/meshes.asm",
+        "src/platform/linux/client.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.45832010300364345,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon"
+    }
+  },
+  "checks": [
+    {
+      "suite": "company-exclusive-control",
+      "passed": true
+    },
+    {
+      "suite": "company-remote-parser",
+      "passed": true
+    },
+    {
+      "suite": "company-remote-actual-four-player",
+      "passed": true
+    },
+    {
+      "suite": "graphical-coop",
+      "passed": true
+    },
+    {
+      "suite": "graphical-company-timeout",
+      "passed": true
+    }
+  ],
+  "checks_log": "docs/evidence/company-replication-main-checks.log",
+  "checks_log_sha256": "e1505a3bc80aef131354fb30c220637bd5da2c80cc4c1c46a378b7ce758c1140",
+  "frozen_extended": {
+    "metadata": {
+      "job_id": "72366ca35c1e",
+      "revision": "52e2a2ae8a5d49e08d1eb59f24476401c137e059-dd448cce99006975",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-replication/runs/jobs/72366ca35c1e/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-replication/runs/jobs/72366ca35c1e/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-replication/runs/jobs/72366ca35c1e/result.json",
+      "pid": 3662878
+    },
+    "observed_state": {
+      "status": "running"
+    }
+  },
+  "jobs_reconciled": {
+    "foreground_checks": "all terminal passed",
+    "new_background_jobs": [
+      {
+        "id": "72366ca35c1e",
+        "status": "running",
+        "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-replication/runs/jobs/72366ca35c1e/result.json"
+      }
+    ]
+  },
+  "limits": [
+    "Full extended checkpoint is pending; focused acceptance does not imply full specification completion.",
+    "Actual software GL checks establish implemented rendering paths, not target GPU budgets or human quality."
+  ]
+}

@@ -1,0 +1,6 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x22634bc6", "canonical_sha256": "22634bc63c746767c9c5cccf63ea8b7ed952eb2134c9ec8bf25f2b7914eafd05", "checked": true}
+{"target": "client", "revision": "727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975", "assembled": 4, "assembled_sources": ["src/render/mesh_shaders.asm", "src/render/meshes.asm", "src/platform/linux/client.asm", "src/net/client.asm"], "seconds": 0.45832010300364345, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/727f145a2653d36e1424b6dac7c78fa83435edc4-dd448cce99006975/red-horizon"}
