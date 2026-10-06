@@ -3,7 +3,7 @@
 %include "schemas/player.inc"
 %include "schemas/company_control.inc"
 default rel
-extern company_transfer_init,company_transfer_hash
+extern company_transfer_init,company_transfer_hash,company_follow_place
 extern sim_entities,sim_count,sim_players,sim_tick_count,terrain_blocked,sim_spend
 section .bss align=64
 global company_controls,player_companies
@@ -13,6 +13,11 @@ section .rodata
 zero: dd 0.0
 maximum: dd 8000.0
 infinity: dd 0x7f800000
+follow_spacing: dd COMPANY_FOLLOW_SPACING
+follow_trail: dd COMPANY_FOLLOW_TRAIL
+follow_half_columns: dd 3.5
+follow_margin: dd COMPANY_FOLLOW_MARGIN
+follow_max_anchor: dd COMPANY_FOLLOW_MAX_ANCHOR
 global company_home_goals
 company_home_goals: dd 1000.0,1300.0,1000.0,3900.0,1000.0,6500.0
 section .text
@@ -259,7 +264,7 @@ company_release:
 company_control_order:
  cmp esi,COMPANY_CONTROL_SLOTS
  jae .bad
- cmp edx,2
+ cmp edx,COMPANY_CONTROL_MAX_MODE
  ja .bad
  ucomiss xmm0,[zero]
  jp .bad
@@ -331,7 +336,7 @@ company_control_goal:
  add rsi,rax
  cmp dword [rsi+12],1
  jne .auto
- cmp dword [rsi+8],2
+ cmp dword [rsi+8],COMPANY_CONTROL_MAX_MODE
  ja .auto
  mov ecx,[rsi]
  cmp ecx,COMPANY_CONTROL_PLAYERS
@@ -340,6 +345,7 @@ company_control_goal:
  shl eax,6
  lea r8,[sim_players]
  add r8,rax
+ mov r9,r8
  cmp dword [r8+PLAYER_CONNECTED],1
  jne .auto
  mov eax,[r8+PLAYER_GENERATION]
@@ -358,6 +364,8 @@ company_control_goal:
  jne .auto
  cmp dword [rsi+8],1
  je .hold
+ cmp dword [rsi+8],3
+ je .follow
  movss xmm0,[rsi+16]
  movss xmm1,[rsi+20]
  cmp dword [rsi+8],2
@@ -366,8 +374,45 @@ company_control_goal:
  lea rcx,[company_home_goals]
  movss xmm0,[rcx+rax*8]
  movss xmm1,[rcx+rax*8+4]
-.move: xor eax,eax
+ .move: xor eax,eax
 .done: ret
+.follow:
+ ; A dead owner cannot lead a moving formation; normal hazard response still
+ ; overrides this hold. Genuine redeployment renews the lease before resuming.
+ cmp dword [r9+PLAYER_HP],0
+ je .hold
+ movss xmm0,[r9+PLAYER_X]
+ movss xmm1,[r9+PLAYER_Z]
+ ucomiss xmm0,[zero]
+ jp .hold
+ jb .hold
+ ucomiss xmm0,[maximum]
+ ja .hold
+ ucomiss xmm1,[zero]
+ jp .hold
+ jb .hold
+ ucomiss xmm1,[maximum]
+ ja .hold
+ maxss xmm0,[follow_margin]
+ minss xmm0,[follow_max_anchor]
+ maxss xmm1,[follow_margin]
+ minss xmm1,[follow_max_anchor]
+ ; IDs have one unique destination within their128-ID company cohort.
+ mov eax,edi
+ and eax,127
+ mov ecx,eax
+ shr eax,3
+ and ecx,7
+ cvtsi2ss xmm2,eax
+ mulss xmm2,[follow_spacing]
+ addss xmm2,[follow_trail]
+ subss xmm0,xmm2
+ cvtsi2ss xmm2,ecx
+ subss xmm2,[follow_half_columns]
+ mulss xmm2,[follow_spacing]
+ addss xmm1,xmm2
+ mov edi,[rdx+ENTITY_KIND]
+ jmp company_follow_place
 .hold: mov eax,1
  ret
 .auto: mov eax,-1

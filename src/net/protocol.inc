@@ -1,8 +1,8 @@
-; Actual gameplay UDP v25. Change both version/fingerprints on incompatible edits.
+; Actual gameplay UDP v26. Change both version/fingerprints on incompatible edits.
 %define NET_MAGIC 0x52484332
-%define NET_VERSION 25
-%define NET_SCHEMA 0x2f1d4d2e
-%define NET_CONTENT 0x6618d669
+%define NET_VERSION 26
+%define NET_SCHEMA 0x42ffc407
+%define NET_CONTENT 0xb5f51cbd
 %define NET_HEADER 40
 %define NET_MTU 1200
 %define NET_JOIN 1

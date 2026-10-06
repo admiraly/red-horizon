@@ -181,6 +181,49 @@ try:
             blue=max([pixels(r,False)for r in foreign],default=0)
             X.XDestroyImage(image);assert green>0 and blue>0,(index,company,green,blue,len(owned),read_u32(clients[index]['memory'],client_symbols,'view_company'),read_u32(clients[index]['memory'],client_symbols,'view_player'),remote_company(index,index),client_player(index,index))
             company_pixels.append({'player':index,'company':company,'owned_green_pixels':green,'foreign_allied_blue_pixels':blue})
+        if '--follow' in sys.argv:
+            def anchor_pixels(client,point):
+                px=round(((point[0]-4000)/4300+1)*640);py=round((1-(point[1]-4000)/4300)*360)
+                image=X.XGetImage(display,clients[client]['window'],0,0,1280,720,W(-1).value,2);assert image
+                try:
+                    return sum(160<((v>>16)&255)<175 and ((v>>8)&255)>245 and 105<(v&255)<125
+                               for dx in range(-7,8) for dy in range(-7,8)
+                               for v in [X.XGetPixel(image,px+dx,py+dy)])
+                finally:X.XDestroyImage(image)
+            cases=[]
+            for owner in range(2):
+                observer=1-owner;key(owner,0xffbe+owner)
+                before=server_player(owner);key(owner,ord('4'),.7)
+                until(lambda:read_u32(clients[owner]['memory'],client_symbols,'waypoint_orders')==1)
+                until(lambda:all(remote_company(c,owner)[4]==3 for c in range(2)))
+                accepted=goal(owner)
+                assert accepted==(before['x'],before['z']),('first follow used another player point',owner,accepted,before)
+                focus(owner);until(lambda:text_visible(X,display,clients[owner]['window'],1,'ORDER ACCEPTED: FOLLOW'),3)
+                key(observer,0xffbe+owner)
+                key(owner,ord('w'),1.)
+                after=until(lambda:server_player(owner) if math.dist((before['x'],before['z']),(server_player(owner)['x'],server_player(owner)['z']))>2 else None)
+                until(lambda:all(abs(client_player(c,owner)['z']-after['z'])<.3 for c in range(2)))
+                pixels=[]
+                for c in (owner,observer):
+                    focus(c);point=client_player(c,owner)
+                    pixels.append(until(lambda:anchor_pixels(c,(point['x'],point['z'])),3))
+                assert goal(owner)==accepted,'following movement rewrote accepted waypoint'
+                assert read_u32(clients[owner]['memory'],client_symbols,'waypoint_orders')==1,'held follow charged twice'
+                displacement=math.dist((before['x'],before['z']),(after['x'],after['z']))
+                same_body=before['generation']==after['generation']
+                if same_body:assert 2<displacement<10,('walk trace included unexplained jump',before,after)
+                cases.append({'owner':owner,'owner_displacement_m':displacement,'same_body_walk':same_body,
+                              'body_generations':[before['generation'],after['generation']],
+                              'accepted_waypoint':accepted,'owner_and_observer_anchor_pixels':pixels})
+            for index in (1,0):
+                key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
+                assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
+            assert any(c['same_body_walk'] for c in cases),'no physical walking owner observed'
+            print(json.dumps({'suite':'graphical-company-follow','passed':True,'cases':cases,
+                              'framebuffer_follow_acknowledgement':True,'first_command_own_body_point':True,
+                              'accepted_waypoints_preserved':True,'held_key_one_command':True,'local_simulation_ticks':0,
+                              'limits':['Actual two-render-client UDP/GL commands and owner/observer anchors; reported generation changes are genuine redeployments, separate from walking. Formation trajectories verified separately.']}))
+            raise SystemExit(0)
         if '--retreat' in sys.argv:
             def goal_pixels(client,point):
                 px=round(((point[0]-4000)/4300+1)*640);py=round((1-(point[1]-4000)/4300)*360)
