@@ -1,3 +1,16 @@
+Owned-company supply report prerequisite is now committedd78ec36 in isolated
+feature/company-supply-report. Static query tests against frozen actual NASM
+core objects pass for low/empty/unknown counts, member death/front exclusions,
+bidirectional lease/body/front rejection, invalid output/count atomicity and
+read-only authority. Initial4 infantry/480 rounds becomes2 low,1 empty,1 unknown/
+140 known rounds in the independent fixture. Downed connected owner retains
+report. See that worktree docs/company-supply.md and exact object/module hashes.
+This is NOT merged or accepted as HUD/network shortage presentation. Next is
+ABI/original-scale ownership verification, bounded atomic remote packet/reset
+handling, then solo/co-op actual rendered truthful shortage/depot UI. All related
+foreground processes are terminal. Current full depot1433fa199da8 is confirmed
+live PID727224 with result pending; immutable source remains99a6e5f-8a4fa4cff8cf5608.
+
 Current main integrates physical finite depot resupply99a6e5f at source
 fingerprint8a4fa4cff8cf5608, all370 authored inputs match the verified worker.
 Matching main client/co-op/headless builds and28 scoped reports pass: combat24,
