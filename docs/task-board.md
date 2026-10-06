@@ -161,12 +161,14 @@ passed after bounded steering preview and exact discrete braking. Frozen full
 verification `2804557c94cf` passed in 497.18s with 76 reports/158 matched inputs;
 `status.md` records the scoped acceptance and failures.
 
-Next ready prerequisite: raised-terrain contract `c5b0cd3` and isolated component
-`90706d5`. It is not integrated. Its actual NASM height/gradient and generator
-proofs are in `docs/evidence/terrain-relief-prepared.json`. Root must define
-whole-body grade, navigation and renderer/content contracts before integration;
-`docs/ground-terrain-next.md` records the geometry, cusp/corner issues and required
-outcomes. Central-axis slopes do not bound whole-hull grade.
+Raised-terrain batch: root cc90b6d integrates canonical 64 m relief, nine closed
+whole-body grade facets, 45/35/25 degree foot/tank/artillery caps, bounded 27-node
+routes and a matching 5 m GPU tile. Four isolated workers provided grade, height,
+rendering and public-path evidence. All 16 public outcomes pass against frozen
+hill candidate; latest map-edge correction passes focused terrain-grade checks.
+Full extended job 3d022b3c7d8e passed 533.82s/81reports with 177 matched
+authored inputs. Seed42/900tick 8k/16k CPU benchmark p95 is 6.570/13.967ms.
+Root owns final compatibility and evidence; none is complete-game acceptance.
 
 Road-preferring navigation, practical wheeled roles, oriented hulls/vertical
 interactions, suspension, safe initial formation spacing, traffic recovery,

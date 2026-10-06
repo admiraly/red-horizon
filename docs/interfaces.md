@@ -151,5 +151,5 @@ uses at most 27 nodes, adding four field corners and one gentle-side entrance;
 shared cached routes remain artillery-conservative. Height preserves all GPRs
 and XMM4–15 expected by established callers. CPU and GPU use canonical relief,
 and a localized 105,000-vertex tile bounds analytic interpolation error to
-0.027 m. Full checkpoint acceptance is pending; see status.md and the terrain
+0.027 m. Full checkpoint 3d022b3c7d8e passed; see status.md and the terrain
 integration contract for exact evidence and remaining limitations.

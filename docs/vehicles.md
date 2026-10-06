@@ -30,8 +30,13 @@ Manual driving advances at most 0.6 metres per fixed tick (18 m/s at 30 Hz),
 using the existing vehicle-kind terrain movement/solid queries. This deliberate
 prototype speed is separate from the current autonomous armor speed of 15 m/s.
 The player follows the actual hull position and terrain height plus three metres.
-It is a ground approximation, with no road/off-road model, suspension, wheel/track
-physics, or dedicated slope limit in this slice.
+Later ground-motion integration adds authoritative yaw, acceleration, braking,
+bounded turning, reverse and conservative whole-body terrain/crowd contact.
+Canonical road/off-road handling has a recorded full checkpoint; raised height,
+whole-sweep role grade limits and reachable bypasses are integrated with focused
+proof and full checkpoint 3d022b3c7d8e (533.82s/81reports). See status.md for source-specific evidence.
+Suspension, terrain-supported pitch/roll, oriented/vertical physical collision
+and wheeled chassis remain required; ground-pose-next.md measures the next gap.
 
 The cannon uses the player's authoritative finite yaw/pitch to aim a 600-metre
 ray endpoint, then launches a real shared tank shell through `projectile_launch`.

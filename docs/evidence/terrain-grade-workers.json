@@ -1,0 +1,26 @@
+{
+  "grade": {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-grade",
+    "commit": "f51f8d8272f027000afaf2e02fca684d3c216bdd",
+    "clean": true,
+    "sessions": "terminal and collected, worker reports retained in component documentation"
+  },
+  "height": {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-height",
+    "commit": "6aaa6132a1f2a4fcc5425d519aa55a8d9a396fcb",
+    "clean": true,
+    "sessions": "terminal and collected, worker reports retained in component documentation"
+  },
+  "render": {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-render",
+    "commit": "b0c330e2848a96ff57ef29bcce888ee69ef2a749",
+    "clean": true,
+    "sessions": "terminal and collected, worker reports retained in component documentation"
+  },
+  "oracle": {
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/terrain-grade-oracle",
+    "commit": "f0c05d76dfa438a2b8256c0575945a9dfa1f10df",
+    "clean": true,
+    "sessions": "terminal and collected, worker reports retained in component documentation"
+  }
+}

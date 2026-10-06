@@ -1,0 +1,52 @@
+{
+  "terrain-integration-relief-gl-negative.log": {
+    "sha256": "d3e9ef82372a42b5c18ecbd26e5aa03217eeb3f83998aa9ef2c2acb0734a8179",
+    "bytes": 239
+  },
+  "terrain-integration-terrain-grade-final.log": {
+    "sha256": "af77b9715c0ad8bb1d682aa8de988da345d6f68a0d9e3671196ad162c3359816",
+    "bytes": 22219
+  },
+  "terrain-integration-grade-baseline-final.log": {
+    "sha256": "9a743253482a985738e5373944c92853b44ec2ecd6b6da3e3317090b0406b1c1",
+    "bytes": 6977
+  },
+  "terrain-integration-relief-gl-client.log": {
+    "sha256": "cd2ae16b54f16cf292ab042adb784fac98fc7e9151aedc515130670ba0c2ba7a",
+    "bytes": 1495
+  },
+  "terrain-integration-grade-candidate.log": {
+    "sha256": "438d9d59c3cf975a1664150fc8319c18f515c17e31c06bc8b18494cf53bb678a",
+    "bytes": 6687
+  },
+  "terrain-integration-content-negative.json": {
+    "sha256": "80c4bafa9806e3345c4e8da73875e5b67321a1d026bf8b7df8a74e4e4dc2d756",
+    "bytes": 2205
+  },
+  "terrain-integration-grade-candidate.json": {
+    "sha256": "3a479f0df7be883285fdf60dd67f097e3e9e4876f276a452680c25de1d841e20",
+    "bytes": 10281617
+  },
+  "terrain-integration-terrain-height-focused.log": {
+    "sha256": "e44b7fb4cb8a387c7c028e5349818238d6d4f1fc64dffb95624bd7a485508d86",
+    "bytes": 1878
+  },
+  "terrain-integration-grade-baseline-final.json": {
+    "sha256": "7af82abfc6a79c015e2b608f81ede79db4cbac4a7ec88ed27ff77dabdf270482",
+    "bytes": 9920980
+  },
+  "terrain-grade-client.png": {
+    "sha256": "df1443f041389324461506438c9a0e8294612b48acf44e9dd9974e1eff97016c",
+    "bytes": 115274,
+    "full_job": "3d022b3c7d8e",
+    "linked_client_sha256": "a89a7691320d6edd6ecb8726974d73d8d6db4b3d34814093bfb3721e8a4b3e04",
+    "scope": "Actual linked-client frozen-camera or production-shader geometry software-GL fixture, lossless PNG from original PPM; inspected, no human craft or target-GPU acceptance"
+  },
+  "terrain-grade-geometry.png": {
+    "sha256": "42051b9e1a318825a2cb961cf3752d40dc69422fd51ba772f4667f7f376dfd80",
+    "bytes": 151898,
+    "full_job": "3d022b3c7d8e",
+    "linked_client_sha256": "a89a7691320d6edd6ecb8726974d73d8d6db4b3d34814093bfb3721e8a4b3e04",
+    "scope": "Actual linked-client frozen-camera or production-shader geometry software-GL fixture, lossless PNG from original PPM; inspected, no human craft or target-GPU acceptance"
+  }
+}

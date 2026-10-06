@@ -1,0 +1,61 @@
+{
+  "candidate_revision": "cc90b6da2f9507100f1a3fa12535729d5d9bc0db-74794c2441fc12c2",
+  "full_game_goal": "active, unbounded, not achieved",
+  "checkpoint_status": "passed, terminal and collected",
+  "root_jobs_manifest": "docs/evidence/terrain-grade-jobs.json",
+  "workers": "docs/evidence/terrain-grade-workers.json",
+  "content_fingerprint": "0xaee4fda3",
+  "compatibility_and_world_negatives": "docs/evidence/terrain-integration-content-negative.json",
+  "public_observer_sha256": "175f241f3883c524713cb413193ea2584f36a0f31f12fa92ef7c0ddce8fcbae9",
+  "public_candidate_library_sha256": "c73c7119abdb1c6d9c92c3d47dba5338cf2adf31d9b436d81016bd8f76c8d343",
+  "full_candidate_library_sha256": "fda639effe84417336421908d2f910ddc1db9b8fc9979fc86db94753b9ff0de4",
+  "benchmark_context": {
+    "hardware": "i7-14700K, Nobara44/kernel7.2.3, 48GB",
+    "seed": 42,
+    "ticks": 900,
+    "threads": 1,
+    "overlap": "Full extended development verification",
+    "rendered": 0,
+    "replicated": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured"
+  },
+  "scope": [
+    "Actual stateless raised CPU height and derivatives, preserved caller register behavior",
+    "Whole swept-circle admission using nine closed facets and combined gradients with cusp sides",
+    "Useful bounded terrain bypass routes with actual-role actuator constraints",
+    "Actual embedded GPU height and localized 5m tile; software GL only",
+    "Final full checkpoint preserves original scale/health/replay, graphics, UDP fault and build-tool gates"
+  ],
+  "limitations": [
+    "Conservative rectangle may reject safe diagonal sweeps; shared cache uses artillery grade",
+    "Fixed authored profile and local refined tile; global coarse ridge approximation persists",
+    "Source hulls remain upright on slopes; support/contact geometry audit identifies next defect",
+    "No oriented/vertical collision, wheeled roster, suspension, road-preference, damage or useful wreck acceptance",
+    "Natural crowd hotspot retains overlapping pairs; no universal formation clearance",
+    "No full-operation, streaming, native runtime jobs/reload/snapshot, Windows, human craft or four-client hardware acceptance"
+  ],
+  "development_diagnostics": [
+    "Relative NASM path failed in frozen snapshot and was corrected to absolute path",
+    "Extended content-negative script initially reused a failed mutation stdout as restored JSON; report capture was corrected and seven negatives rerun successfully; no runtime source changed"
+  ],
+  "full_checkpoint": {
+    "job_id": "3d022b3c7d8e",
+    "seconds": 533.8175606379955,
+    "reports": 81,
+    "authored_inputs": 177,
+    "current_mismatches": []
+  },
+  "root_jobs": {
+    "total": 11,
+    "passed": 7,
+    "failed": 4,
+    "running": 0,
+    "all_collected": true
+  },
+  "full_public_oracle": {
+    "library_sha256": "fda639effe84417336421908d2f910ddc1db9b8fc9979fc86db94753b9ff0de4",
+    "passed_cases": 16
+  },
+  "full_client_sha256": "a89a7691320d6edd6ecb8726974d73d8d6db4b3d34814093bfb3721e8a4b3e04"
+}

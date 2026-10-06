@@ -1,0 +1,5 @@
+{"terrain_roads": 19, "checked": true}
+{"ground_content": "0x321a5da9", "canonical_sha256": "321a5da948d4e67e4be105cd86330d18d87719d949995112c42de0bc5929ca95", "checked": true}
+/mnt/titan_nv3/projects/red-horizon/runs/jobs/d122faf5238b/source/src/nav/squads.asm:630: error: label `half' inconsistently redefined
+/mnt/titan_nv3/projects/red-horizon/runs/jobs/d122faf5238b/source/src/nav/squads.asm:32: info: label `half' originally defined here
+ERROR: Command '['/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm', '-f', 'elf64', '-g', '-F', 'dwarf', '-I', '/mnt/titan_nv3/projects/red-horizon/runs/jobs/d122faf5238b/source/', '/mnt/titan_nv3/projects/red-horizon/runs/jobs/d122faf5238b/source/src/nav/squads.asm', '-o', '/mnt/titan_nv3/projects/red-horizon/runs/jobs/d122faf5238b/source/build/src_nav_squads.asm.new']' returned non-zero exit status 1.

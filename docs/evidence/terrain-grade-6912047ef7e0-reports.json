@@ -1,0 +1,20 @@
+[
+  {
+    "suite": "terrain-swept-movement",
+    "passed": true,
+    "seed": 731,
+    "random_clear_start_cases": 1997,
+    "arrival_route_steps": 64973,
+    "nearest_obstacle_endpoint": [
+      5234.0,
+      1604.0
+    ],
+    "role_steps_metres": [
+      0.12,
+      0.2,
+      0.5,
+      1000
+    ],
+    "oracle": "independent double-precision segment/rectangle intersection"
+  }
+]

@@ -1,0 +1,14 @@
+{"terrain_roads": 19, "checked": true}
+{"ground_content": "0x321a5da9", "canonical_sha256": "321a5da948d4e67e4be105cd86330d18d87719d949995112c42de0bc5929ca95", "checked": true}
+{"suite": "terrain-swept-movement", "passed": true, "seed": 731, "random_clear_start_cases": 1997, "arrival_route_steps": 64973, "nearest_obstacle_endpoint": [5234.0, 1604.0], "role_steps_metres": [0.12, 0.2, 0.5, 1000], "oracle": "independent double-precision segment/rectangle intersection"}
+PASS: analytic height, swept wall LOS, elevated rays, bounded detour, actual army collision/LOS and safe massive spawns
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6912047ef7e0/source/tests/test_terrain_surface.py", line 132, in <module>
+    check(point,'random')
+    ~~~~~^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6912047ef7e0/source/tests/test_terrain_surface.py", line 102, in check
+    assert abs(data[3]-analytical[1])<=5e-9 and abs(data[4]-analytical[2])<=1e-9,('gradient',actual_point,tuple(data[3:]),analytical)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('gradient', (5704.79736328125, 4845.453125), (-0.06931540369987488, 0.18516966700553894), (23.641841298507927, -0.06931540527343749, 0.185169671875))
+ERROR: Command '['/usr/bin/python3', 'tests/test_terrain_surface.py']' returned non-zero exit status 1.
+{"target": "headless", "revision": "c6c34c333f604925e6cc90a15bf878e57f06c902-56768d8ac728c4ab", "assembled": 21, "assembled_sources": ["src/sim/operation.asm", "src/sim/ordnance_admission.asm", "src/sim/scenarios.asm", "src/sim/world.asm", "src/sim/air_admission.asm", "src/sim/projectiles.asm", "src/nav/crowd.asm", "src/nav/terrain_surface.asm", "src/nav/squads.asm", "src/nav/terrain_relief.asm", "src/nav/terrain_body.asm", "src/nav/terrain.asm", "src/nav/terrain_grade.asm", "src/ai/hazards.asm", "src/ai/hazard_steering.asm", "src/ai/aircraft.asm", "src/ai/tactics.asm", "src/game/player.asm", "src/game/ground_motion.asm", "src/game/vehicles.asm", "src/platform/linux/headless.asm"], "seconds": 0.2731641740028863, "executable": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6912047ef7e0/source/build/revisions/c6c34c333f604925e6cc90a15bf878e57f06c902-56768d8ac728c4ab/red-horizon-server"}

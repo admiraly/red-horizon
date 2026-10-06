@@ -1,0 +1,2 @@
+missing-mesh-relief correctly rejected: AssertionError: 64.00000700000001
+coarse-relief-triangles correctly rejected: AssertionError: (1, (5437.5, 14.34765625, 4750.0, 0.3343023359775543, 0.1744185984134674, -0.01434765662997961, 1.0, 1))

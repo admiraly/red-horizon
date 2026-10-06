@@ -1,0 +1,112 @@
+{
+  "library_sha256": "fda639effe84417336421908d2f910ddc1db9b8fc9979fc86db94753b9ff0de4",
+  "model_sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
+  "authority_before_after": "9459b92714928ac7",
+  "rows": [
+    {
+      "role": 1,
+      "fixture": "shallow_control",
+      "center_xz": [
+        1000.0,
+        1000.0
+      ],
+      "heading": 0.0,
+      "vertices": 3966,
+      "minimum_source_vertex_ground_gap": -0.005482294596731663,
+      "penetrating_vertices": 0,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 1,
+      "fixture": "gentle_forward",
+      "center_xz": [
+        5750.0,
+        5200.0
+      ],
+      "heading": 1.5707963267948966,
+      "vertices": 3966,
+      "minimum_source_vertex_ground_gap": -0.8196647465229034,
+      "penetrating_vertices": 811,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 1,
+      "fixture": "gentle_cross",
+      "center_xz": [
+        5750.0,
+        5200.0
+      ],
+      "heading": 0.0,
+      "vertices": 3966,
+      "minimum_source_vertex_ground_gap": -0.5421698102727532,
+      "penetrating_vertices": 511,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 1,
+      "fixture": "plateau",
+      "center_xz": [
+        5550.0,
+        5200.0
+      ],
+      "heading": 1.5707963267948966,
+      "vertices": 3966,
+      "minimum_source_vertex_ground_gap": 0.004850148223340511,
+      "penetrating_vertices": 0,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 2,
+      "fixture": "shallow_control",
+      "center_xz": [
+        1000.0,
+        1000.0
+      ],
+      "heading": 0.0,
+      "vertices": 4086,
+      "minimum_source_vertex_ground_gap": -0.00570087693631649,
+      "penetrating_vertices": 0,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 2,
+      "fixture": "gentle_forward",
+      "center_xz": [
+        5750.0,
+        5200.0
+      ],
+      "heading": 1.5707963267948966,
+      "vertices": 4086,
+      "minimum_source_vertex_ground_gap": -0.9302976131439209,
+      "penetrating_vertices": 637,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 2,
+      "fixture": "gentle_cross",
+      "center_xz": [
+        5750.0,
+        5200.0
+      ],
+      "heading": 0.0,
+      "vertices": 4086,
+      "minimum_source_vertex_ground_gap": -0.7419827692210674,
+      "penetrating_vertices": 537,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    },
+    {
+      "role": 2,
+      "fixture": "plateau",
+      "center_xz": [
+        5550.0,
+        5200.0
+      ],
+      "heading": 1.5707963267948966,
+      "vertices": 4086,
+      "minimum_source_vertex_ground_gap": 0.004755664616823196,
+      "penetrating_vertices": 0,
+      "interpretation": "Computed from audited current upright mesh shader placement and actual CPU height; not GPU capture or future supported-hull acceptance"
+    }
+  ],
+  "scope": "Actual immutable world height, frame0 sourced geometry and renderer placement equation; cosmetic support gap, no contact physics or sampled-GPU proof"
+}

@@ -1,9 +1,73 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Raised terrain is integrated and verified at `cc90b6d`; full-game goal remains
+active. Frozen full extended job `3d022b3c7d8e` passed in 533.82 seconds at
+`cc90b6da2f9507100f1a3fa12535729d5d9bc0db-74794c2441fc12c2`,
+with 81 reports and all 177 authored inputs matched. Exact source hashes,
+commands, failures and scope are in `evidence/terrain-grade-jobs.json` and
+`evidence/terrain-grade-session.json`. All 11 root batch jobs are terminal and
+collected; all four worker trees are clean with sessions reconciled.
+Focused terrain-grade job `e857e4762e05` passed 25.11s, including the latest
+map-edge correction; earlier focused network extended job `d688c9afcccc` passed
+68.35s with the new content fingerprint. Independent public oracle `f0c05d7`
+passed all 16 cases against immutable hill candidate library `c73c7119…`; its
+map-edge failure remains separately recorded and is corrected in root.
+
+The canonical 64 m hill now affects actual CPU height/derivatives, physical LOS,
+shell terrain impact, player eye and bomber clearance. Whole swept body admission
+checks nine closed facets, combined gradients, intermediate terrain and both
+cusp sides. Foot/tank/artillery limits 45/35/25 degrees are design choices.
+The graph adds at most five hill bypass/entrance nodes, 27 total, with shared
+artillery-conservative cached routes and actual-role actuator checks. Sparse
+public tanks/artillery reach the plateau at ticks 1680/5551 within independently
+derived new-fixture budgets; driven tanks stop at the central ramp and combined
+corner. Gentle climb/descent, role-specific fringe, reverse, handoff, malformed
+input preservation and exact replay pass. No prior acceptance deadline changes.
+
+Both embedded GPU height shaders share relief. A bounded 105,000-vertex, 5 m tile
+replaces 112 coarse cells. Actual software-GL checks cover 1,750,000 raster pixels,
+with maximum analytic height error 0.024773 m below the 0.027 m gate; outer edges
+join the original mesh. The inspected `evidence/terrain-grade-client.png` shows
+the actual linked client's normal textures from a declared frozen camera, not
+natural combat or human art acceptance. Global coarse ridge interpolation,
+arbitrary selectable profiles and target-GPU performance remain unaccepted.
+
+Content fingerprint `0xaee4fda3` includes canonical relief, grade policy, sweep
+radii and the refined tile alongside existing assets/roads/handling. Four isolated
+mutations reject stale compatibility; three reject unsupported tile/cusp/error
+changes. UDPv7 schema and wire strides remain unchanged. Helpers are stateless,
+SSE2 assembly; development generation/tests are Python and shader geometry is GLSL.
+
+Seed42/900tick headless CPU samples at the full candidate's exact inputs:
+8,192 actors mean/p95 4.305/6.570 ms, end alive 2113/1662, engaged 237, peak RSS
+17928 KiB; 16,384 mean/p95 12.874/13.967 ms, end alive 7061/6714, engaged 1119,
+peak RSS 18084 KiB. Benchmarks overlap verification and use one thread on the
+i7-14700K; they establish neither isolated speedup nor GPU/audio/four-client
+performance. Projectile drops 250467/527693, navigation overflow 444143/2668290,
+maximum inspected neighbors 57/42 and zero truncated crowd queries are retained.
+
+Four failed root jobs retain their status/logs: duplicate assembly constant
+`d122faf5238b`; obsolete shallow-only derivative tolerance `6912047ef7e0`
+(corrected with float32 error bounds only on affected components); upper map
+inset rounding `da5a49e365ec` (endpoint rounded inward, unchanged radii/guard/
+original .001m gate); and `1d1736892af1`, a relative NASM path absent from the
+frozen source (relaunched with the absolute tool path). Evidence and limitations
+belong to the component documents and terrain-grade collection; the full checkpoint preserves original 8k/16k 95% useful motion, 400-tick
+health symmetry, arrival deadlines, replay, real graphics and UDP fault coverage.
+
+Next vehicle prerequisite is terrain-supported pitch/roll presentation, based
+on the actual upright hull renderer audit in `ground-pose-next.md`. Road-preferring
+nav, wheeled roles, oriented/vertical physical collision, suspension, damage/wreck
+cover, complete operation/intelligence, streaming, runtime jobs/reload/snapshots,
+Windows, recorded craft and sustained four-client hardware acceptance remain open.
+No remote publication occurred; code license awaits owner approval.
+
+Historical road checkpoint follows.
+
 The canonical road/handling batch is integrated and verified. The full-game goal
 remains active. Source `a429a7d` passed frozen full extended job `2804557c94cf`
 in 497.18 seconds, with 76 recorded reports and all 158 authored runtime,
-schema, shader, tool, test and canonical-content inputs matching root. Exact
+schema, shader, tool, test and canonical-content inputs matched at that recorded checkpoint. Exact
 hashes, commands, results and scope are in `evidence/ground-surfaces-jobs.json`
 and `evidence/ground-surfaces-session.json`. All 12 root batch jobs and all
 worker sessions are terminal and reconciled; worker worktrees are clean.
@@ -68,12 +132,14 @@ physical steering/braking fixes; the latter two corrected integration contracts.
 Focused vehicles, tactics, network, tooling and graphics jobs passed, followed by
 the accepted full frozen checkpoint above. Earlier failures are not relabeled passes.
 
-Next terrain prerequisite is prepared in isolated contract `c5b0cd3` and component
-`90706d5`, with exact evidence in `evidence/terrain-relief-prepared.json`. Its raised
-hill/gradient component is not integrated and establishes no root slope handling.
+At the historical road checkpoint, the next terrain prerequisite was prepared
+in contract `c5b0cd3` and component `90706d5`, with evidence in
+`evidence/terrain-relief-prepared.json`. That isolated component proof established
+no root slope handling then; the accepted terrain checkpoint above supersedes
+this preparation status.
 `ground-terrain-next.md` defines the next whole-body grade, route, height/render and
 compatibility work, including combined corner slopes and cusp conventions.
-Road-preferring routes, meaningful steep-slope admission, wheeled roles, oriented
+Road-preferring routes, wheeled roles, oriented
 hulls/vertical interactions, suspension, damage states and useful wreck cover remain
 required. Full operation/intelligence, streamed world, runtime jobs/reload/snapshots,
 Windows, recorded audiovisual craft, human playtests and sustained four-client

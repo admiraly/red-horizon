@@ -1,0 +1,122 @@
+{
+  "model_sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
+  "scope": "Actual baked source vertices at renderer scale, all clip frames and both LODs; no terrain pose or physical collider acceptance",
+  "bounds": [
+    {
+      "role": 1,
+      "lod": 0,
+      "frames": 10,
+      "vertices_per_frame": 3966,
+      "source_scale": 1.0,
+      "scaled_xyz_min": [
+        -1.7708756923675537,
+        0.0,
+        -3.048255205154419
+      ],
+      "scaled_xyz_max": [
+        1.7708756923675537,
+        2.6203088760375977,
+        3.0
+      ],
+      "scaled_planar_radius": 3.512201925218369,
+      "bottom_tenth_xyz_min": [
+        -1.7446216344833374,
+        0.0,
+        -2.9999992847442627
+      ],
+      "bottom_tenth_xyz_max": [
+        1.7571817636489868,
+        0.26179730892181396,
+        2.088407039642334
+      ],
+      "physical_nominal_circle_radius": 3.55
+    },
+    {
+      "role": 1,
+      "lod": 1,
+      "frames": 10,
+      "vertices_per_frame": 288,
+      "source_scale": 1.0,
+      "scaled_xyz_min": [
+        -1.894351601600647,
+        0.0,
+        -3.0
+      ],
+      "scaled_xyz_max": [
+        1.894351601600647,
+        1.699940800666809,
+        3.0
+      ],
+      "scaled_planar_radius": 3.5051117181177607,
+      "bottom_tenth_xyz_min": [
+        -1.8662666082382202,
+        0.0,
+        -2.524186849594116
+      ],
+      "bottom_tenth_xyz_max": [
+        1.8797028064727783,
+        0.16721759736537933,
+        2.3430943489074707
+      ],
+      "physical_nominal_circle_radius": 3.55
+    },
+    {
+      "role": 2,
+      "lod": 0,
+      "frames": 10,
+      "vertices_per_frame": 4086,
+      "source_scale": 1.0,
+      "scaled_xyz_min": [
+        -2.527608633041382,
+        0.0,
+        -3.565934419631958
+      ],
+      "scaled_xyz_max": [
+        2.527608633041382,
+        3.1998021602630615,
+        3.5184106826782227
+      ],
+      "scaled_planar_radius": 4.290016653536301,
+      "bottom_tenth_xyz_min": [
+        -2.385028123855591,
+        0.0,
+        -3.441770553588867
+      ],
+      "bottom_tenth_xyz_max": [
+        2.3996942043304443,
+        0.31942984461784363,
+        3.420401096343994
+      ],
+      "physical_nominal_circle_radius": 4.49
+    },
+    {
+      "role": 2,
+      "lod": 1,
+      "frames": 10,
+      "vertices_per_frame": 288,
+      "source_scale": 1.0,
+      "scaled_xyz_min": [
+        -2.402212619781494,
+        0.0,
+        -3.5
+      ],
+      "scaled_xyz_max": [
+        2.402212619781494,
+        1.9008352756500244,
+        3.5156545639038086
+      ],
+      "scaled_planar_radius": 4.257986905021568,
+      "bottom_tenth_xyz_min": [
+        -2.402212619781494,
+        0.0,
+        -3.22436785697937
+      ],
+      "bottom_tenth_xyz_max": [
+        2.402212381362915,
+        0.1791558563709259,
+        3.3240160942077637
+      ],
+      "physical_nominal_circle_radius": 4.49
+    }
+  ]
+}

@@ -1,78 +1,51 @@
-# Raised terrain and whole-body grade — next integration
+# Terrain integration and next vehicle work
 
-The canonical road/handling batch is integrated at `53d2211`; its current full
-verification status and exact evidence are in `status.md`. The original sampler
-preparation at `2a70494` is historical. Roads use 19 clear capsule segments, a
-10 m paved half-width and a 2 m cosmetic shoulder. Whole-circle containment in
-one capsule determines physical contact; junctions may conservatively classify
-off-road. Road/off-road factors alter desired speed, acceleration and reverse,
-while retaining braking, yaw, collision envelopes and inherited momentum.
-Road-preferring route planning remains absent.
+Source cc90b6d integrates canonical raised relief into CPU height/derivatives,
+physical LOS/projectiles/player eye/air clearance, full swept-body grade admission,
+bounded bypass navigation and both actual embedded GPU height shaders. Focused
+kernel, production-caller and independent public-path proofs pass. Full extended
+checkpoint 3d022b3c7d8e passed 533.82s/81reports with 177 matching authored
+inputs; status.md owns scoped acceptance.
 
-The authoritative bowl/ridge alone has gradient norm below 0.023, about 1.31
-degrees. It cannot prove useful slope admission. The next isolated prerequisite
-is contract commit `c5b0cd3` plus component commit `90706d5` in the clean
-`/mnt/titan_nv3/projects/red-horizon-workers/terrain-relief` worktree. Its exact
-source hashes and focused terminal evidence are in
-`evidence/terrain-relief-prepared.json` and `evidence/terrain-relief-prepared.log`.
-This component is not part of root authority, navigation or rendering yet.
+The field is a product of trapezoids, X 5400/5480/5620/5820 and
+Z 4800/5000/5400/5600, maximum added height 64 m. The central rising gradient
+is 0.8; the gentle ramp magnitude is 0.32. Combined corner gradients reach about
+40.58 degrees. The zero derivative convention at exact factor breaks does not
+establish clearance: nine closed facets inspect both sides, full inflated bodies,
+intermediate terrain, combined bowl/relief derivatives and a squared-norm guard.
+Expanded segment rectangles are conservative and can reject valid diagonal paths.
+Foot/tank/artillery limits 45/35/25 degrees are design choices. Read-only canonical
+geometry adds no mutable future state; protocol content fingerprint includes it.
 
-The field is a product of two continuous trapezoids: X breaks
-5400/5480/5620/5820, Z breaks 4800/5000/5400/5600 and height 64 m.
-The rising X ramp is 80 m at derivative 0.8; the falling X ramp and Z fades
-are 200 m at magnitude 0.32. Combined corners are steeper than either central
-axis: (5479,4999) gives gradient (0.796,0.316), about 40.58 degrees.
-The sampler's chosen zero derivative at exact factor breaks is a cusp convention,
-not a grade-clearance guarantee.
+The original 22-node obstacle graph expands to at most 27 nodes with four hill
+corners and one gentle-side entrance. Cached routes remain artillery-conservative;
+actual actuator queries retain the moving role. Public tanks and artillery reach
+the plateau through safe bypasses and climb/descend its gentle side. The tank can
+reach a fringe the artillery rejects. No shortest-route or road-preference claim.
+Original army movement/health/replay and arrival deadlines remain required.
 
-Root must define one grade contract before further worker implementation. A
-conservative query should cover the full swept body, including intervals crossing
-factor breaks and both one-sided gradients at cusps. Level endpoints can conceal
-a steep intervening ramp. Within each relief facet the total gradient is affine;
-its squared norm is convex. Clipping an expanded body-segment bounding rectangle
-against each facet and checking the corners gives a bounded conservative maximum.
-It may reject a safe diagonal segment; measure and document those false positives.
-Include the existing bowl/ridge gradient, invalid-input preservation and a fixed
-facet-work bound. Terrain/loading/camera state must not affect admission.
+The linked renderer replaces exactly 112 coarse cells with a localized 5 m,
+105,000-vertex patch. Actual GL triangle interpolation stays below 0.027 m error;
+outer vertices join the old mesh. Build guards reject fields that leave that
+verified fixed tile or exceed its interpolation bound. This is one authored
+profile; global coarse ridge interpolation and arbitrary terrain are not accepted.
+The inspected normal-texture client screenshot is a frozen camera fixture,
+not natural combat, human art acceptance or target-GPU performance.
 
-Suggested initial design limits are 35 degrees for the tracked tank and 25 degrees
-for artillery, with foot motion considered separately. These are implementation
-choices to validate, not numerical requirements taken from the specification.
-The central steep ramp should reject tracked motion while the gentle ramp permits
-useful uphill/downhill and reverse. No uniform speed multiplier or isolated
-center derivative can establish whole-body slope behavior.
+The next vehicle prerequisite is terrain-aligned presentation and chassis support.
+Current sourced hulls rotate about yaw only and are translated onto world height;
+this cannot establish pitch/roll, suspension or wheel/track ground contact. Before
+implementation define a shared read-only terrain pose contract, sample the whole
+chassis rather than trusting a cusp-center normal, preserve heading and actor IDs,
+and make near/mid/distant/map paths agree without renderer authority writes.
+Separate collision semantics from cosmetic suspension; a visual tilted hull alone
+does not establish oriented or vertical physical collision. Verify gentle and
+combined slopes, crest/cusp transitions, stale generations, driver handoff,
+actual mesh pixels and replay with continuous controls outside the raised field.
 
-World height, LOS, projectiles, ground surface samples and both rendered terrain
-height functions must consume the same relief. The CPU height entry is
-`src/nav/terrain.asm:terrain_height`; derivatives currently live separately in
-`src/nav/terrain_surface.asm`. Both `shaders/battle.vert` and `shaders/mesh.vert`
-define the current height expression. Production projectiles, aircraft clearance,
-player eye/motion and nav waypoints already call the CPU height entry. Audit the
-actual register assumptions when inserting a new helper call: the present leaf
-height routine clobbers XMM0–3, and some callers may retain values in other
-caller-saved SIMD registers. A SysV-valid callee alone cannot prove those callers
-remain correct. Preserve established behavior or repair and verify each caller. Extend the content fingerprint with
-canonical relief and grade policy. Static data needs no mutable profile state;
-if profiles later become selectable, initialize, hash and save that authority and
-advertise join compatibility. Do not store physical policy in cosmetic weather.
-
-Navigation needs reachable bypasses and role constraints alongside grade rejection.
-The current 22-node graph is derived from five solid obstacles and uses shared
-artillery-conservative corridor checks. Rejecting a ramp without routes around it
-can strand vehicles that can reach the plateau from its gentle side. Preserve
-bounded path work, original arrival deadlines and real actor health; do not move
-or flatten hazards to manufacture progress. Independent proofs must include full
-body edges, intermediate steep crossings, cusp sides, useful ascent/descent,
-reverse, invalid inputs, player-to-AI handoff, exact replay and unchanged 8k/16k
-95% useful motion and 400-tick health symmetry.
-
-The isolated component passed 6,201 actual NASM height/gradient samples, ten invalid
-inputs, 52 generator negatives preserving both outputs, read-only/ABI checks,
-deterministic generated record identity and real GLSL compilation. Two actual-NASM
-negative candidates were rejected. Compilation is not GPU execution; this proof
-establishes no integrated slope or rendered-height behavior.
-
-Oriented hulls, vertical interactions, suspension, wheeled chassis, traffic/road
-preferences, damage handling and useful wreck cover remain required independently.
-The complete operation, army intelligence, streaming, Windows, runtime jobs,
-recorded audiovisual craft and four-client hardware acceptance also remain open.
+Road-preferring navigation, wheeled roles, oriented physical hulls, vertical
+interactions, safe formation spacing, traffic recovery, damage states and useful
+wreck cover remain required. Complete operation/intelligence, streaming, runtime
+jobs/reload/snapshots, Windows, recorded audiovisual craft and sustained four-client
+hardware performance remain independent full-game requirements. License approval
+and human playtest gates do not prevent implementation of these next systems.

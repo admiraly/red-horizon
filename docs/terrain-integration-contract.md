@@ -1,8 +1,9 @@
 # Raised terrain integration contracts
 
 Root owns height/body/navigation/compatibility/build contracts and integration.
-The stateless relief prerequisite is integrated as source, not yet hooked into
-world height or rendering. No slope feature is accepted from source presence.
+CPU height, derivatives, body/path admission, bounded routes and GPU geometry
+are integrated at cc90b6d. Frozen full job 3d022b3c7d8e passed
+533.82s/81reports with 177 authored inputs matched. No complete terrain feature is accepted from source presence.
 
 Grade worker owns only terrain_grade.asm, terrain_grade_data.inc, terrain_grade.py,
 probe/test_terrain_grade and its verification document. Contract is
