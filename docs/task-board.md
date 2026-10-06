@@ -453,6 +453,6 @@ Area defense batch (integrator, feature/company-defend): authority, fixed
 role-aware formation, terrain projection, remappable input and fifth wheel
 sector implemented. Physical/terrain/hazard, solo/minimum-view, four-endpoint
 UDP and two-rendered-client delay/loss/reorder checks pass. Final frozen-input
-fast65 and network18 regressions pass; merged0b475d9c has31 matching reports
+fast65 and network18 regressions pass; merged0b475d9c has32 matching reports
 and360 matched authored inputs. Frozen full100a30b45dda is running, not passed. Adaptive defensive cover, remaining
 commands and shared player assault plans remain ready subsequent work.

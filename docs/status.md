@@ -1,5 +1,5 @@
 Current main integrates area defense0b475d9c at source fingerprint86121082753f4ae7.
-Matching main client/co-op/headless builds and31 scoped reports pass: tactics7,
+Matching main client/co-op/headless builds and32 scoped reports pass: tactics8,
 network18, two rendered fault/remapped input checks and environment/effects/
 minimum-view/CLI4. All360 authored inputs match the verified feature branch.
 Exact source/binary hashes, original8192 transport and graphical artifacts:
