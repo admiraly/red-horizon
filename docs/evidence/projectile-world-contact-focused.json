@@ -1,0 +1,128 @@
+[
+  {
+    "suite": "terrain-ground-continuous-contact",
+    "passed": true,
+    "calls": 1853,
+    "hits": 659,
+    "random_global_paths": 1500,
+    "near_surface_paths": 300,
+    "max_first_t_error": 2.964666567795149e-08,
+    "decimal_precision": 80,
+    "malformed_sources": 7,
+    "negative_controls": [
+      "no_relief",
+      "no_ridge_cuts",
+      "last_root"
+    ],
+    "ABI_source_preserved": true,
+    "skin_m": 0.0020000000949949026,
+    "source_sha256": "c6cb57ec98b9cbf6888a3fe161d85c15034d9e92dda1b5d9b24520906048f7c7",
+    "scope": "Continuous current base/ridge/one-relief-field point contact, no actor/wreck arbitration or runtime hooks yet."
+  },
+  {
+    "suite": "terrain-solid-first-contact",
+    "passed": true,
+    "calls": 3068,
+    "random_paths": 3000,
+    "authored_obstacles": 5,
+    "malformed_atomic_sources": 6,
+    "nearest_first_t_error": 0.0,
+    "negative_controls": [
+      "first_slot",
+      "last_entry",
+      "missing_height",
+      "tie_last_slot"
+    ],
+    "ABI_source_preserved": true,
+    "query_source_sha256": "3d77d62dafff05a8dacaf36a9f937a5c11af9955fe5882ed743ca0568680b1e2",
+    "terrain_source_sha256": "f0d700ab865136dacf38fd0193de53b04f2e217862b6cd9e4ebec335b4975e58",
+    "scope": "Prepared exact point/AABB contacts for current five authored solids. No analytic ground, actor/wreck arbitration, runtime hooks, physical bodies or scale acceptance."
+  },
+  {
+    "suite": "typed-world-contact-arbitration",
+    "passed": true,
+    "calls": 2031,
+    "random_source_orders": 2000,
+    "negative_controls": [
+      "later_hit",
+      "actor_wreck_alias"
+    ],
+    "source_readonly_ABI": true,
+    "source_sha256": "df98603b9dd35c19064601629a9cd400d8e21b419d51f5838498f39bf82f30a4",
+    "scope": "Actual NASM arbitration with assembled observable source-contract stubs; not production geometry or projectile hook acceptance."
+  },
+  {
+    "suite": "projectile-contact-damage-type",
+    "passed": true,
+    "cases": 11,
+    "negative_controls": [
+      "cover_alias",
+      "retired_generation"
+    ],
+    "source_sha256": "1a1da333322fa21957c0c1f18ece8d33c26beab792e750b4f9b26bcb2b135fcd",
+    "scope": "Actual public air-gun launch and projectile tick with assembled scripted contact source/damage observer. Cover/recycled-identity routing, not natural dogfight or production collision acceptance."
+  },
+  {
+    "suite": "production-world-contact-outcomes",
+    "passed": true,
+    "query_calls": 4,
+    "cases": [
+      {
+        "case": "actor_before_later_solid",
+        "result": [
+          0.12010006606578827,
+          4,
+          24,
+          42,
+          0,
+          0
+        ]
+      },
+      {
+        "case": "solid_before_later_actor",
+        "result": [
+          0.2857142984867096,
+          2,
+          3,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "case": "narrow_relief_before_clear_endpoint",
+        "result": [
+          0.6820899844169617,
+          1,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "case": "genuine_wreck_before_solid_and_actor",
+        "result": [
+          0.07531467080116272,
+          3,
+          12,
+          42,
+          1,
+          0
+        ]
+      },
+      {
+        "case": "public_tank_shell_stops_at_genuine_wreck",
+        "impact_xyz": [
+          5136.7783203125,
+          18.26975440979004,
+          1570.0
+        ],
+        "actor_behind_hp": 100
+      }
+    ],
+    "readonly_query_checksum_ABI": true,
+    "library_sha256": "7bc700d44a59ec1bb559c5a4108078aaee4d217d8abde51a9d5d5d34a46b0803",
+    "scope": "Actual authored solids/continuous relief/current sampled actor index/genuine casualty wreck and publicly launched tank shell. No mid-flight health/pose/projectile renewal. No wreck blast shielding/body/navigation/remote prediction acceptance."
+  }
+]

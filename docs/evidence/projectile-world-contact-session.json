@@ -1,0 +1,50 @@
+{
+  "root_baseline": "74daf98",
+  "candidate_runtime": "b1308c2d21e5807be5f59c8087fa39bb79fcbcf1",
+  "candidate_compatibility_correction": "a08665a89467503c0db77640d1c6ec33940474b1",
+  "fast_foreground_exit": 0,
+  "combat_foreground_exit": 0,
+  "terrain_height_comparison": {
+    "passed": true,
+    "points": 100000,
+    "seed": 7114,
+    "baseline": "freshly assembled74daf98 terrain+relief; not the stale root build alias",
+    "comparison": "float32 bitwise identical"
+  },
+  "query_microbenchmark": {
+    "scope": "Development ctypes on actual8192 births/1024 genuine tank casualties; concurrent full verification. Not whole-tick/FPS acceptance.",
+    "repeats": 20,
+    "short_queries_per_repeat": 512,
+    "first_rebuild_ms": 0.07503999950131401,
+    "median_ms": 0.7415549989673309,
+    "max_ms": 0.7811429968569428,
+    "hits": 10240,
+    "last_candidates": 4,
+    "last_refresh_transforms": 1024,
+    "readonly_checksum": true
+  },
+  "prepared_LOS": "5783d81",
+  "prepared_LOS_scope": "No gameplay hooks;64contract/18actualgeometry checks plus8 controlled blast-order cases and100 production-equivalence cases",
+  "failed_job": "509b8c65a602",
+  "failure": "Protocol schema constant was assigned without updating/hash-deriving schema.txt; corrected at a08665a. No failed integration accepted.",
+  "network": "09fff07c4bb2",
+  "graphical_failure": {
+    "job_id": "6b46c4176423",
+    "reason": "No repeated gold pixels at owned replicated shell footprint; projection omitted recoil and actual focal factors; small on-axis shell/HUD and unrelated live hull occlusion. Runtime/scale/network preceding checks passed; not accepted full."
+  },
+  "cancelled_retry": {
+    "job_id": "f36907a99a3e",
+    "reason": "Stop redundant full after off-axis-only focused observer repeat failed",
+    "exit_code": 143
+  },
+  "graphical_observer_scope": "Open midfield source/observer encounter declared before boarding/firing, not in-flight renewal. All8192 actors/HP/stores/generations/pool retained. Paused-server cosmetic yaw.06, settled recoil and actual render projection; pixel/restore/authority threshold intact. Basic GUI controls, not dense hull-navigation acceptance.",
+  "candidate_observer_correction": "3ab6e286526c6aa4abc20192d4ed34b68cd4fbbb",
+  "graphical_repeated_shell_pixels": [
+    4,
+    9,
+    4
+  ],
+  "full_accepted": "7835919d439c",
+  "integrated_runtime": "3ab6e286526c6aa4abc20192d4ed34b68cd4fbbb",
+  "all_jobs_terminal": true
+}

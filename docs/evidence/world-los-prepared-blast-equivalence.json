@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "cases": 100,
+  "seed": 92014,
+  "same_return_and_checksum": true,
+  "baseline_library": "/mnt/titan_nv3/projects/red-horizon-workers/world-contact/build/libsim.so",
+  "candidate_library": "/mnt/titan_nv3/projects/red-horizon-workers/world-los/build/libsim.so",
+  "scope": "100 genuine64-unit public tick+blast cases; retained terrain-only LOS. Not future wreck shielding acceptance.",
+  "baseline_sha256": "7bc700d44a59ec1bb559c5a4108078aaee4d217d8abde51a9d5d5d34a46b0803",
+  "candidate_sha256": "fa86bf8585bbe82c3fe065d6f99a4c69b2a10b378f244e6e41065cb739e28f07",
+  "candidate_commit": "5783d81"
+}

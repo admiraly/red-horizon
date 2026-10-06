@@ -1,0 +1,344 @@
+[
+  {
+    "suite": "fast-combat",
+    "passed": true,
+    "fixture_units": 128,
+    "checks": [
+      "roles/fronts",
+      "physical combat/counts",
+      "same-run replay",
+      "side-swap symmetry",
+      "invalid-state preservation",
+      "guarded damage",
+      "CLI",
+      "fixed-tick pacing"
+    ],
+    "scale_coverage": false
+  },
+  {
+    "suite": "air-battle-scenario",
+    "passed": true,
+    "army": 8192,
+    "initial_relocated": 320,
+    "aircraft_per_side": 32,
+    "ground_per_side": 128,
+    "kind_side_front_HP_generation_preserved": true,
+    "no_fixture_weapon_or_event_writes": true,
+    "actual_300tick_events": {
+      "8": 2696,
+      "6": 62,
+      "9": 62,
+      "7": 60
+    },
+    "checksum": "0x3682bf9c58fbfe2a",
+    "replay": true
+  },
+  {
+    "suite": "dense-scenarios",
+    "passed": true,
+    "seed": 42,
+    "replay": true,
+    "no_fixture_weapon_or_event_writes": true,
+    "terrain_valid": true,
+    "visible_individual_count": "unmeasured",
+    "scenarios": [
+      {
+        "scenario": "scale-front",
+        "ground_per_side": 1280,
+        "aircraft_per_side": 32,
+        "army": 8192,
+        "initial_kind_mix": {
+          "0": 6144,
+          "1": 1024,
+          "2": 512,
+          "3": 512
+        },
+        "samples": [
+          {
+            "tick": 1,
+            "engaged_total": 3322,
+            "living_cohort_enemy_targets": 2560
+          },
+          {
+            "tick": 8,
+            "engaged_total": 3104,
+            "living_cohort_enemy_targets": 1481
+          },
+          {
+            "tick": 16,
+            "engaged_total": 2980,
+            "living_cohort_enemy_targets": 1238
+          },
+          {
+            "tick": 30,
+            "engaged_total": 2810,
+            "living_cohort_enemy_targets": 1744
+          }
+        ],
+        "moved_cohort": 2619,
+        "actual_hp_damage": 149270,
+        "dead": 818,
+        "actual_events": {
+          "1": 360,
+          "2": 243,
+          "8": 1013,
+          "6": 63,
+          "3": 366,
+          "4": 245,
+          "9": 4
+        },
+        "checksum": "0x8d7cef981c2fe390"
+      },
+      {
+        "scenario": "scale-hotspot",
+        "ground_per_side": 1920,
+        "aircraft_per_side": 32,
+        "army": 8192,
+        "initial_kind_mix": {
+          "0": 6144,
+          "1": 1024,
+          "2": 512,
+          "3": 512
+        },
+        "samples": [
+          {
+            "tick": 1,
+            "engaged_total": 4515,
+            "living_cohort_enemy_targets": 3837
+          },
+          {
+            "tick": 8,
+            "engaged_total": 4184,
+            "living_cohort_enemy_targets": 1399
+          },
+          {
+            "tick": 16,
+            "engaged_total": 4160,
+            "living_cohort_enemy_targets": 1325
+          },
+          {
+            "tick": 30,
+            "engaged_total": 3957,
+            "living_cohort_enemy_targets": 901
+          }
+        ],
+        "moved_cohort": 3779,
+        "actual_hp_damage": 181124,
+        "dead": 1028,
+        "actual_events": {
+          "1": 498,
+          "2": 300,
+          "8": 992,
+          "6": 41,
+          "3": 511,
+          "4": 304,
+          "9": 8
+        },
+        "checksum": "0x57194030fe135c31"
+      }
+    ]
+  },
+  {
+    "suite": "dense-scenarios",
+    "passed": true,
+    "seed": 42,
+    "ticks_per_replay": 120,
+    "replays_per_scenario": 2,
+    "reports": [
+      {
+        "scenario": "scale-front",
+        "army_initial": 8192,
+        "initial_per_side": [
+          4096,
+          4096
+        ],
+        "initial_role_counts_per_side": [
+          3072,
+          512,
+          256,
+          256
+        ],
+        "relocated_ground_actors": 2560,
+        "physical_engagement_samples": [
+          {
+            "tick": 1,
+            "living_regional_target_valid": 2560,
+            "per_side": [
+              1280,
+              1280
+            ]
+          },
+          {
+            "tick": 8,
+            "living_regional_target_valid": 1481,
+            "per_side": [
+              720,
+              761
+            ]
+          },
+          {
+            "tick": 16,
+            "living_regional_target_valid": 1238,
+            "per_side": [
+              554,
+              684
+            ]
+          },
+          {
+            "tick": 30,
+            "living_regional_target_valid": 1744,
+            "per_side": [
+              1120,
+              624
+            ]
+          }
+        ],
+        "regional_moved_120ticks": 2555,
+        "regional_damaged_120ticks": 1135,
+        "retained_actual_combat_events_120ticks": {
+          "1": 360,
+          "2": 243,
+          "8": 1013,
+          "6": 63,
+          "3": 366,
+          "4": 245,
+          "9": 4
+        },
+        "total_events_emitted_120ticks": 2484,
+        "projectile_peak": 479,
+        "projectile_dropped": 50673,
+        "alive_120ticks": [
+          3690,
+          3684
+        ],
+        "checksum_120ticks": "0xedd1d9ba617e6529"
+      },
+      {
+        "scenario": "scale-hotspot",
+        "army_initial": 8192,
+        "initial_per_side": [
+          4096,
+          4096
+        ],
+        "initial_role_counts_per_side": [
+          3072,
+          512,
+          256,
+          256
+        ],
+        "relocated_ground_actors": 3840,
+        "physical_engagement_samples": [
+          {
+            "tick": 1,
+            "living_regional_target_valid": 3837,
+            "per_side": [
+              1917,
+              1920
+            ]
+          },
+          {
+            "tick": 8,
+            "living_regional_target_valid": 1399,
+            "per_side": [
+              1046,
+              353
+            ]
+          },
+          {
+            "tick": 16,
+            "living_regional_target_valid": 1325,
+            "per_side": [
+              657,
+              668
+            ]
+          },
+          {
+            "tick": 30,
+            "living_regional_target_valid": 901,
+            "per_side": [
+              357,
+              544
+            ]
+          }
+        ],
+        "regional_moved_120ticks": 3715,
+        "regional_damaged_120ticks": 1509,
+        "retained_actual_combat_events_120ticks": {
+          "1": 498,
+          "2": 300,
+          "8": 992,
+          "6": 41,
+          "3": 511,
+          "4": 304,
+          "9": 8
+        },
+        "total_events_emitted_120ticks": 2845,
+        "projectile_peak": 480,
+        "projectile_dropped": 66781,
+        "alive_120ticks": [
+          3579,
+          3585
+        ],
+        "checksum_120ticks": "0x68dff91ca9266eaa"
+      }
+    ],
+    "oracle": "living actual enemy targets; independent range and production terrain LOS",
+    "visible_actors": "unmeasured: this headless test does not establish pixel visibility",
+    "individually_detailed_actors": "unmeasured",
+    "no_fixture_damage_ordnance_or_event_fabrication": true
+  },
+  {
+    "suite": "tracked-retreat-orders",
+    "passed": true,
+    "ticks": 180,
+    "first_tick_stationary_pivot": true,
+    "retreat_metres": [
+      53.18988037109375,
+      14.32196044921875,
+      53.17529296875,
+      14.330078125
+    ],
+    "replay": true,
+    "runtime": "actual sim_tick; four sparse development births"
+  },
+  {
+    "suite": "terrain-swept-movement",
+    "passed": true,
+    "seed": 731,
+    "random_clear_start_cases": 1997,
+    "arrival_route_steps": 64973,
+    "nearest_obstacle_endpoint": [
+      5234.0,
+      1604.0
+    ],
+    "role_steps_metres": [
+      0.12,
+      0.2,
+      0.5,
+      1000
+    ],
+    "oracle": "independent double-precision segment/rectangle intersection"
+  },
+  {
+    "suite": "navigation",
+    "passed": true,
+    "oracle_cases": 2000,
+    "route_arrival_ticks": [
+      900,
+      8429,
+      6324,
+      5206
+    ],
+    "step_metres": 0.5,
+    "FIFO_admitted_requests": 1024,
+    "requests_per_tick_cap": 8,
+    "saturation_fallbacks": 512,
+    "cover_physical_LOS": true,
+    "stuck_replans": 1,
+    "scout_support_corridor_builds": 2,
+    "driver": "actual assembly corridor queries plus integrated sim_tick movement/replay",
+    "integrated_route_ticks": 10544,
+    "integrated_replay_checksum": "0xba00a3c3f9842c72",
+    "aircraft_ground_capture_excluded": true
+  }
+]

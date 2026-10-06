@@ -1,5 +1,62 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Projectile first obstruction is integrated at3ab6e28. Shells, bombs and air-gun
+rounds now select the nearest entry across continuous current-profile ground,
+all five authored solids, captured-pose wreck bounds and sampled opposing actors.
+Typed hit identity/generation prevents a wreck or retired actor index entering
+air-gun direct damage. Impact events use contact XYZ; solid/wreck blast evaluation
+moves at most1cm toward the incoming clear segment, clamped to its start.
+
+Ground sweep verification covers1,853 calls with Decimal80 arithmetic, all
+profile breaks, seven malformed sources and three assembled causal faults;
+first-t error≤2.965e-8. Existing terrain_height is bitwise unchanged at100,000
+freshly assembled baseline/candidate points. Typed arbitration2,031 checks,
+air-gun routing11 checks and real geometry/public shell outcomes verify actor/
+wall/wreck ordering, narrow relief and no direct damage through retired identity.
+A genuine casualty wreck stops a publicly launched shell on its independently
+transformed boundary. Detailed evidence/limits: docs/projectile-world-contact.md
+and docs/evidence/projectile-world-contact-*.
+
+Full frozen7835919d439c PASSED652.6317s/110 reports at
+3ab6e286526c6aa4abc20192d4ed34b68cd4fbbb-4454d8a8dba89fa7; all253 authored inputs
+match the integrated checkout. Original8k/16k motion/replay,400tick health/label
+symmetry,360tick held arrival,1200tick recovery, real local/co-op GL, audio and
+extended UDP faults remain exercised. Fast/combat foreground checks and the
+extended network09fff07c4bb2 (131.6578s) passed. Compatibility is UDPv10/schema
+0x68cc0f99/content0x6a9c717a; canonical SHA256
+6a9c717ad1bb1b47dcb7f9ee73771a1e8d15489d8dad9edae9f1ba83519853a8.
+Wire layouts are unchanged. Linked root client/co-op and both test libraries
+are rebuilt from matching authored inputs.
+
+Retained unsuccessful checkpoints:509b8c65a602 failed252.8164s at the schema
+text/hash check (fixeda08665a);6b46c4176423 failed647.8377s at owned replicated
+shell visibility. The latter observer omitted rendered recoil/actual projection
+and could inspect a round behind another live hull or the crosshair. The final
+fixture stages source/observer in open mid-field before boarding/firing, settles
+recoil and uses a.06rad cosmetic view turn with actual projection. All8192 actors,
+HP/stores/generations/pool and paired repeated-pixel/restore/authority checks
+remain. This is basic GUI/control visibility, not dense hull-navigation acceptance.
+Three focused real co-op repeats passed with4/9/4 repeated shell pixels. Redundant
+retryf36907a99a3e was cancelled after an off-axis-only focused repeat failed;
+its terminal143 result and logs are retained. The final full snapshot passes.
+
+Limits remain explicit: actor contact is opposing-only4m spheres from at most216
+samples, not oriented/all-actor geometry. Wreck bounds are conservative captured
+frame0 high/low AABBs, not mesh collision. Vision/rifle/blast shielding by wrecks,
+body/nav/connected prediction and nearby replication freshness are still open;
+world visual/physical LOD mismatch and culling limits remain. An isolated LOS/
+explicit-source helper and atomic blast eligibility are prepared at5783d81,
+with64 contract/18 real-geometry checks, eight ordering cases and100 original
+terrain-only blast-equivalence cases. They are not integrated gameplay hooks.
+Ground surface blast origins need an outward-clear policy before closed ground
+LOS can be activated. Next contract: docs/cover-integration-next.md.
+
+All five frozen jobs, foreground sessions and earlier workers are terminal;
+root and both current isolated worktrees are clean after evidence commits.
+The complete game goal remains active; no publication occurred.
+
+Earlier checkpoints below are historical and retain their original limitations.
+
 Nearest sampled-actor first entry is integrated at fdb0f7b. Previously,
 sim_shell_contact returned the first sampled enemy with a nearby segment point,
 so a farther low-ID actor could hide a nearer actor. The actual prior build

@@ -1,0 +1,84 @@
+# Next physical-cover integration contract
+
+This is an implementation contract from the caller audit, not feature acceptance.
+The first-obstruction projectile batch leaves wreck vision, rifle/blast shielding,
+movement, navigation and connected prediction open. They need a coherent batch
+with the original physical/motion/arrival/recovery/health/label-symmetry gates.
+
+## Vision and fire
+
+An isolated world LOS/context wrapper is prepared at79bfa24, with64contract/
+18actual-geometry checks, and atomic blast eligibility at5783d81. Gameplay
+callers are still unconnected. Use a separate world-cover LOS wrapper so foundational terrain component tests
+retain their small independent link contract. It should query continuous ground,
+authored solid boxes and wrecks; actor sampling belongs to shot contact, not
+visibility. Caller/source faults are blocked. Preserve original eye/hull eye
+origins and finite map rules; do not reintroduce seven-point ground marching.
+
+Audit all existing terrain_los calls, including world acquisition and blast,
+player spawn threat checks and fire, vehicle enter/fire, tactics, aircraft
+acquisition/pass alignment, hazards/steering and squad cover placement. Each
+caller needs an explicit authority/remote source choice and focused actual-path
+verification. Changing the terrain primitive globally would silently expand
+standalone component dependencies and does not establish those caller paths.
+
+Blast damage must evaluate visibility against one pre-explosion cover state.
+The current sim_blast applies casualties while walking candidates; adding wreck
+LOS directly could let a newly killed earlier candidate shield later candidates
+in the same instantaneous explosion. Collect the bounded eligible damage set
+before applying casualties, rather than delaying all wreck registration to the
+next tick. Verify ordering and label symmetry with multiple simultaneous genuine
+vehicle casualties, both physical index orders and actual wreck sequences.
+
+Contact events stay at the surface; cover blast evaluation uses the incoming
+clear-side origin defined in the projectile contract. Test near-side damage,
+far-side shielding, outgoing/embedded origins, another intervening wreck, ground
+relief and expiry. Ground-impact blast origins need special verification: the
+2mm contact skin plus float XYZ interpolation can put the event on the closed
+ground boundary. A naive ground LOS call then rejects every ray at t=0. Define
+an outward clear-side blast origin or a proven outgoing-surface policy before
+activating the wrapper; test real gravity bomb/artillery impacts on slopes,
+ridge breaks and raised relief without health/pose/clock renewal. Cover identities must never select direct living HP by index.
+
+## Bodies and routes
+
+Compose terrain/body/grade/support checks with the prepared planar wreck sweep
+at the original .551/3.551/4.491m infantry/tank/artillery radii. Every accepted
+movement fragment, including slide/fallback/controller fragments, must be swept.
+The shared crowd actuator has explicit .terrain_candidate/.manual_candidate/
+.hull_terrain paths, then .endpoint, plus a separate .legacy path when crowd
+steering is disabled. Querying only the usual endpoint leaves the legacy path
+unchecked; querying only long goals misses actual component slides. Placement
+uses crowd_occupied and terrain_body_blocked and needs its own zero-motion
+wreck occupation check. Squad route tests call terrain_body_path_clear at four
+sites. Preserve controller final-army snapshot timing and hull eye/support tests.
+
+Newly conservative wreck boxes can overlap living bodies: permit only the proven
+non-deepening initial nearest-face escape. No shrinking radii, teleport escape,
+or expiry clock renewal. Explicitly retain the planar approximation limitation.
+
+Squad corridors currently have27 static nodes and bounded512 request slots,
+eight builds per tick; no wreck-revision key exists. Add bounded local detours
+around relevant cover and coalesce revision invalidation without delaying the
+physical query. A death elsewhere must not invalidate every corridor or induce
+unbounded full-registry transforms. Test bursts of real deaths/expiry/replacement,
+held artillery arrivals≤360ticks, recovery≤1200ticks, 8k/16k≥95% motion and the
+original400tick health/label-symmetry checks. Actual user driver/army navigation
+must reach the same physical destinations.
+
+Connected prediction must explicitly select net_wrecks/count/revision via the
+context API; legacy wrappers read sim_wrecks. Same revision values across sources
+must not reuse another source's bounds. Existing self-contained lossy packets
+can take6.1seconds to scan a full1024 ring absent loss; there is no reliable join
+barrier or guaranteed nearby freshness. Match newly admitted cover before
+claiming prediction parity. Never import remote poses into authoritative hashes.
+
+## Graphics and acceptance
+
+The physical bound is the captured frame0 high/low geometry union plus skin.
+High/low roof mismatch and800m draw culling remain explicit; map view currently
+has no visible wreck pixels. Avoid making an invisible blocker acceptance claim.
+Pair actual body/shot/visibility fixtures with local and co-op screenshots and
+lossy UDP lifecycle evidence, including near relevant cover and retirement.
+Preserve real graphics, scale and network fault coverage at the frozen full
+checkpoint; passing focused geometry tests alone does not establish the game.
