@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/tests/test_ground_acquisition.py", line 51, in <module>
+    a=run(kind,side,coords); b=run(kind,side,coords)
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/tests/test_ground_acquisition.py", line 38, in run
+    assert first_fire is not None, ('no finite-ammo launch',kind,side,coords)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('no finite-ammo launch', 1, 0, (1249, 2000, 1698, 2000))

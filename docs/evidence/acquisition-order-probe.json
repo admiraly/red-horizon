@@ -1,0 +1,93 @@
+{
+  "passed": true,
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 300,
+      "equal_checksum_and_entity_samples": [
+        "86646252604a7274",
+        "77af1e32c85aa562",
+        "19622964dcc70f82",
+        "e7e4090be9619163",
+        "bc8a52c731300600",
+        "3b1af83e52afc082",
+        "b7c84e6a32dfa4cf",
+        "0a239e4c5c5e076f",
+        "c95c9d71d53df945",
+        "91f5c24ba9e2715f"
+      ],
+      "timings": [
+        {
+          "mean_ms": 12.789447366666666,
+          "p95_ms": 14.440596
+        },
+        {
+          "mean_ms": 13.18909268,
+          "p95_ms": 14.919955
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 300,
+      "equal_checksum_and_entity_samples": [
+        "a9426b6108e651b1",
+        "97e19a362fbcde60",
+        "25edeef199168253",
+        "53300c95a02fe57f",
+        "62499046c1443777",
+        "e00cd784fed90948",
+        "cbd13a86e65e0610",
+        "f1a59caece34851c",
+        "c6bdf95040b8869d",
+        "f6e6601b8c367dd4"
+      ],
+      "timings": [
+        {
+          "mean_ms": 32.667369916666665,
+          "p95_ms": 53.489957
+        },
+        {
+          "mean_ms": 28.174063536666665,
+          "p95_ms": 48.542109
+        }
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 300,
+      "equal_checksum_and_entity_samples": [
+        "ba29a1d84fc3d650",
+        "bd24f260764c20b4",
+        "42edc9e6a95c4b7f",
+        "3590cea5bada572e",
+        "d91c478b29499785",
+        "fb134e96f6be294d",
+        "87e75b7100ce647f",
+        "4a42d0062ada1fdc",
+        "f96d667c85bad489",
+        "3f20c8824e5c3864"
+      ],
+      "timings": [
+        {
+          "mean_ms": 25.919865756666667,
+          "p95_ms": 29.793273
+        },
+        {
+          "mean_ms": 26.87173001,
+          "p95_ms": 30.75427
+        }
+      ]
+    }
+  ],
+  "world_source_sha256": "72ee458f08047f1e4092bdcc91a902bf6044de2cd8fe34324b1a74d5590fb8b5",
+  "library_sha256": "41b66dbcd75a474c4e7254922dd2904caa0069efd6e71619957ba59628ac0466",
+  "limits": [
+    "300 ticks, production versus generated NASM acquisition loop, concurrent frozen checkpoints.",
+    "Exact authoritative hash/all entity bytes each30 ticks; unchanged nearest distance and original reservoir-order tie precedence.",
+    "Not full scale or integration acceptance."
+  ]
+}

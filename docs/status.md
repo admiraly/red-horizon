@@ -64,7 +64,16 @@ and advance64.731m. A genuine guarded blast causes casualties and physical
 withdrawal; manual hold cancels immediately; invalid IDs/count preserve plans.
 The unchanged tactics suite retains original8k/16k motion/recovery checks;
 frozen fast24fff30243be PASSED216.1469s with282 matching worker inputs.
-Full430466389e9b is running at0479f0f-cfcf9d5924b561c0. This ground slice observes
+Full430466389e9b FAILED590.7751s at the co-op movement check's valid input
+immediately after a malformed one. The failure did not capture its ACK status.
+A causal frozen-server batch proves status1 then rate-limit7 in the same tick;
+valid crouch succeeds after a later observed tick. The observer now waits for a
+later authoritative snapshot, preserving all original movement assertions and
+server rate policy. Corrected focused movement passes against the frozen runtime.
+Candidate b7154c6 is now frozen in fullc2b6c894af84 (source
+ b7154c6-d9abe7f21d2cd76f), verified live. Exact failure/source hashes and causal
+reports are in docs/evidence/company-assault-full-failed.json and
+ company-coop-input-rate.json. This ground slice observes
 ordinary artillery fire; reserved support targets, bomber/fighter coordination,
 ownership UI, rendered plan intent and human quality remain unproven. Its initial
 assault fixture has depleted enemy ammunition; no contested-quality claim.
@@ -72,7 +81,23 @@ Exact progress/limits: docs/company-assault-progress.md. Private UDPv16 policy i
 separate from the corrected v17 branch; combine/recompute compatibility and run
 another exact full checkpoint before integrating both. Main remains f8d80b8/v14.
 
-All foreground checks are terminal. Two new frozen full jobs are verified live;
+An independent ground acquisition candidate205136b is outside main. Tanks
+search2-cell and artillery3-cell envelopes for their unchanged450m/650m ranges.
+Actual ticks hit449m tanks at45 and649m artillery at107–109; mirrored sides,
+cardinal directions and replay pass. Beyond-range/diagonal/wall-hidden targets
+stay unharmed. The original library fails the same distant-target check.
+Original tactics and fast suites pass.24-ID cell reservoirs still omit actors
+in dense cells, so this is cell-range completeness only.
+Concurrent300tick original/candidate p95ms is10.756/14.752 (8kopen),
+39.477/54.916 (8khotspot),22.400/29.813 (16kopen). Changed combat workload means
+these are not isolated query costs; hotspot fails33.3ms. A generated near-first
+heavy-weapon loop matches authority hashes and all entity bytes every30ticks
+through300 while lowering hotspot p9553.490→48.542ms; open slightly worsens.
+It remains an unpromoted experiment. More cost diagnosis and full integration
+are required. Privatev18 compatibility is separate fromv16/v17 branches.
+Exact source, logs, negative control and limits: docs/ground-acquisition.md.
+
+All foreground checks are terminal. Two frozen full jobs are verified live;
 exact handles are docs/evidence/wreck-dense-pending-jobs.json. Failed runs and
 exploratory fixtures are retained. No remote publication; full-game goal active.
 

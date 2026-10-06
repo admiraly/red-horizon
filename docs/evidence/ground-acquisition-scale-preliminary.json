@@ -1,0 +1,102 @@
+{
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 0,
+      "ticks": 300,
+      "runs": [
+        {
+          "path": "/mnt/titan_nv3/projects/red-horizon/build/libsim.so",
+          "sha256": "9ddb14a1b8ee08e1aed4c843eb5b99721a2b8ea10d76977af97652fee200c935",
+          "mean_ms": 9.613964826666667,
+          "p95_ms": 10.756111,
+          "checksum": "26387576afd88ff8",
+          "alive": [
+            3857,
+            3677
+          ],
+          "engaged": 371
+        },
+        {
+          "path": "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/build/libsim.so",
+          "sha256": "172c3ad67a0063c755e95fd25d010686f1a35b47aacef463ea090e88c5497f9b",
+          "mean_ms": 13.008599336666666,
+          "p95_ms": 14.752141,
+          "checksum": "91f5c24ba9e2715f",
+          "alive": [
+            3887,
+            3684
+          ],
+          "engaged": 243
+        }
+      ]
+    },
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 300,
+      "runs": [
+        {
+          "path": "/mnt/titan_nv3/projects/red-horizon/build/libsim.so",
+          "sha256": "9ddb14a1b8ee08e1aed4c843eb5b99721a2b8ea10d76977af97652fee200c935",
+          "mean_ms": 25.74825178333333,
+          "p95_ms": 39.477202,
+          "checksum": "af46c20f07cb0586",
+          "alive": [
+            3028,
+            2954
+          ],
+          "engaged": 667
+        },
+        {
+          "path": "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/build/libsim.so",
+          "sha256": "172c3ad67a0063c755e95fd25d010686f1a35b47aacef463ea090e88c5497f9b",
+          "mean_ms": 33.33508959,
+          "p95_ms": 54.915866,
+          "checksum": "f6e6601b8c367dd4",
+          "alive": [
+            3015,
+            2933
+          ],
+          "engaged": 775
+        }
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 300,
+      "runs": [
+        {
+          "path": "/mnt/titan_nv3/projects/red-horizon/build/libsim.so",
+          "sha256": "9ddb14a1b8ee08e1aed4c843eb5b99721a2b8ea10d76977af97652fee200c935",
+          "mean_ms": 19.45514684333333,
+          "p95_ms": 22.399657,
+          "checksum": "bc18ec8c5fe30138",
+          "alive": [
+            7874,
+            7564
+          ],
+          "engaged": 1210
+        },
+        {
+          "path": "/mnt/titan_nv3/projects/red-horizon-workers/ground-acquisition/build/libsim.so",
+          "sha256": "172c3ad67a0063c755e95fd25d010686f1a35b47aacef463ea090e88c5497f9b",
+          "mean_ms": 26.04597146,
+          "p95_ms": 29.812678,
+          "checksum": "3f20c8824e5c3864",
+          "alive": [
+            7879,
+            7583
+          ],
+          "engaged": 905
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "300tick preliminary headless diagnostic alongside two full verification jobs.",
+    "Alternating order; changed acquisition changes real combat so workload/checksums are not identical.",
+    "No GPU, networking or isolated performance acceptance."
+  ]
+}

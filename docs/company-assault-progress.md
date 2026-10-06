@@ -44,3 +44,17 @@ and company-assault-source.json. This candidate still requires fast/full, networ
 and actual graphics checkpoints before integration. The source branch is separate
 from unintegrated dense-routing/deployment candidates; reconcile/recompute shared
 compatibility contracts before any combined integration.
+
+Continuation: frozen fast24fff30243be passed216.14686958099628s.
+Full430466389e9b failed590.7751071189996s at unchanged co-op movement's
+immediate valid input after malformed-input ACK. That assertion did not capture
+its ACK status. A separate frozen production server reproduction queues both
+packets before one receive batch: malformed status1/tick2, valid status7/tick2;
+a valid input after observing tick3 succeeds with status0. Server rate policy
+is unchanged. The corrected observer waits for an actual later server snapshot,
+retaining all crouch speed, jump height/landing, malformed rejection and adapter
+clock assertions; it passes against the same frozen runtime. No deadline,
+physics, movement or wire policy was relaxed. Two exploratory probes failed to
+produce a same-tick batch or expected status3; inspection confirms .rate uses7.
+Exact terminal log, source hashes, causal report and corrected log are retained.
+A fresh full checkpoint remains required; this slice is not integrated.

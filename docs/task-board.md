@@ -272,3 +272,14 @@ No new candidate is integrated until exact full/network/GL evidence passes;
 combine private16/17 contracts coherently and validate again. Next AI work:
 support targeting/reservations, protected bomber/intercept missions, ownership
 and rendered intent; actual ranged acquisition must cover declared weapon range.
+
+2026-10-06 continuation (root owns isolated worktrees): ground acquisition
+205136b has actual long-range travel/hit, LOS/range negatives, mirrored labels,
+replay, original tactics and fast evidence. Unintegrated: hotspot cost worsens;
+near-first generated NASM preserves sampled complete authority but remains over
+budget. Next: reduce measured query cost and verify full original scale gates.
+Company full430466389e9b failed590.7751s at co-op input scheduling; exact log and
+frozen causal rate-limit7 reproduction retained. Corrected observer passes
+against frozen runtime; b7154c6 fullc2b6c894af84 verified live. Profile
+full97b74ea394b4 remains verified live. Reconcile same handles and integrate only
+matching verified coherent batches; main still f8d80b8/v14.
