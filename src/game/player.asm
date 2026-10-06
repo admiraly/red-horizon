@@ -359,6 +359,18 @@ player_tick:
  pop r12
  pop rbx
  ret
+global player_motion_reset
+; Bounded death helper for shared player damage; no body/weapon birth.
+player_motion_reset:
+ cmp edi,PLAYER_CAPACITY
+ jae .bad
+ sub rsp,8
+ call motion_clear
+ add rsp,8
+ xor eax,eax
+ ret
+.bad: mov eax,-1
+ ret
  ; EDI bounded player slot. Clear private state on join/leave/death.
 motion_clear:
  mov eax,edi
@@ -820,6 +832,9 @@ enemy_attack:
  cmp dword [r14+ENTITY_HP],0
  je .next
  cmp dword [r14+ENTITY_SIDE],1
+ jne .next
+ ; Vehicles/aircraft hurt humans through their physical weapons, not a rifle ray.
+ cmp dword [r14+ENTITY_KIND],0
  jne .next
  movss xmm0,[r14+ENTITY_X]
  subss xmm0,[rbx+PLAYER_X]

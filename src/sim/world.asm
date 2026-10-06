@@ -15,7 +15,7 @@ extern terrain_body_init,terrain_body_hash
 extern company_control_goal
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
-extern player_init, player_tick, player_hash
+extern player_init, player_tick, player_hash,player_blast
 extern infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash,infantry_weapon_resupply_tick
 extern depot_ammunition_init,depot_ammunition_hash
 extern combat_event
@@ -898,6 +898,7 @@ sim_blast:
  movss [rsp],xmm0
  movss [rsp+4],xmm1
  movss [rsp+8],xmm3
+ movss [rsp+100],xmm2
  mulss xmm2,xmm2
  movss [rsp+12],xmm2
  mulss xmm0,[cell_scale]
@@ -1005,6 +1006,14 @@ sim_blast:
  inc r14d
  cmp r14d,1
  jle .zloop
+ ; Stage/apply human exposure before army deaths register new wreck cover.
+ mov edi,r12d
+ mov esi,r13d
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ movss xmm2,[rsp+100]
+ movss xmm3,[rsp+8]
+ call player_blast
  xor r14d,r14d
 .apply:
  cmp r14d,ebp
@@ -1028,6 +1037,7 @@ sim_blast:
  inc r14d
  jmp .apply
 .applied:
+ ; Existing result remains the army eligibility count.
  mov eax,ebp
  add rsp,968
  pop r15
