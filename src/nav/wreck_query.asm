@@ -15,6 +15,8 @@ zero: dd 0.0
 mapmax: dd 8000.0
 cell: dd 62.5
 padding: dd 6.0
+body_min_y: dd -16000.0
+body_max_y: dd 16000.0
 skin: dd 0.002
 align 16
 abs_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
@@ -244,8 +246,21 @@ coordinate_cell:
  cmova eax,edx
  ret
 
-global wreck_query
+global wreck_query,wreck_body_query
+; Radius-inflated planar body projection, with no-deepening overlap escape.
+wreck_body_query:
+ movaps xmm6,xmm4
+ movaps xmm5,xmm3
+ movaps xmm3,xmm2
+ movaps xmm2,xmm1
+ xorps xmm1,xmm1
+ xorps xmm4,xmm4
+ mov edx,1
+ jmp query_start
 wreck_query:
+ xor edx,edx
+ xorps xmm6,xmm6
+query_start:
  test rdi,rdi
  jz .invalid_leaf
  cmp esi,WRECK_QUERY_BYTES
@@ -255,8 +270,10 @@ wreck_query:
  push r13
  push r14
  push r15
- sub rsp,80
+ sub rsp,112
  mov r15,rdi
+ mov [rsp+72],edx
+ movss [rsp+76],xmm6
  movss [rsp],xmm0
  movss [rsp+4],xmm1
  movss [rsp+8],xmm2
@@ -272,6 +289,13 @@ wreck_query:
  inc ecx
  cmp ecx,6
  jb .validate
+ mov eax,[rsp+76]
+ and eax,0x7fffffff
+ cmp eax,__float32__(4.491)
+ ja .invalid
+ movss xmm0,[rsp+76]
+ ucomiss xmm0,[zero]
+ jb .invalid
  mov dword [wreck_query_candidates],0
  cmp dword [cache_valid],1
  jne .refresh
@@ -287,21 +311,25 @@ wreck_query:
  movss xmm0,[rsp]
  minss xmm0,[rsp+12]
  subss xmm0,[padding]
+ subss xmm0,[rsp+76]
  call coordinate_cell
  mov [rsp+24],eax
  movss xmm0,[rsp]
  maxss xmm0,[rsp+12]
  addss xmm0,[padding]
+ addss xmm0,[rsp+76]
  call coordinate_cell
  mov [rsp+28],eax
  movss xmm0,[rsp+8]
  minss xmm0,[rsp+20]
  subss xmm0,[padding]
+ subss xmm0,[rsp+76]
  call coordinate_cell
  mov r12d,eax
  movss xmm0,[rsp+8]
  maxss xmm0,[rsp+20]
  addss xmm0,[padding]
+ addss xmm0,[rsp+76]
  call coordinate_cell
  mov [rsp+32],eax
  mov dword [rsp+36],-1 ; selected slot
@@ -322,6 +350,31 @@ wreck_query:
  imul eax,24
  lea rdi,[wreck_query_bounds]
  add rdi,rax
+ cmp dword [rsp+72],0
+ je .clip
+ movss xmm0,[rsp+76]
+ movss xmm1,[rdi]
+ subss xmm1,xmm0
+ movss [rsp+48],xmm1
+ movss xmm1,[body_min_y]
+ movss [rsp+52],xmm1
+ movss xmm1,[rdi+8]
+ subss xmm1,xmm0
+ movss [rsp+56],xmm1
+ movss xmm1,[rdi+12]
+ addss xmm1,xmm0
+ movss [rsp+60],xmm1
+ movss xmm1,[body_max_y]
+ movss [rsp+64],xmm1
+ movss xmm1,[rdi+20]
+ addss xmm1,xmm0
+ movss [rsp+68],xmm1
+ lea rdi,[rsp+48]
+ mov rsi,rsp
+ call body_escape
+ test eax,eax
+ jnz .next_record
+.clip:
  mov esi,24
  movss xmm0,[rsp]
  movss xmm1,[rsp+4]
@@ -393,7 +446,7 @@ wreck_query:
 .invalid:
  mov eax,-1
 .done:
- add rsp,80
+ add rsp,112
  pop r15
  pop r14
  pop r13
@@ -402,5 +455,66 @@ wreck_query:
  ret
 .invalid_leaf:
  mov eax,-1
+ ret
+; Ignore a start-overlap only if at least one initial minimum-depth face
+; has nonincreasing distance along the requested nonzero segment. The minimum
+; of affine face distances can then never exceed initial depth, even mid-path.
+; Output1 allowed overlap escape/slide;0 ordinary closed contact query.
+body_escape:
+ movss xmm0,[rsi]
+ ucomiss xmm0,[rdi]
+ jb .block
+ ucomiss xmm0,[rdi+12]
+ ja .block
+ movss xmm1,[rsi+8]
+ ucomiss xmm1,[rdi+8]
+ jb .block
+ ucomiss xmm1,[rdi+20]
+ ja .block
+ movaps xmm2,xmm0
+ subss xmm2,[rdi]
+ movss xmm3,[rdi+12]
+ subss xmm3,xmm0
+ movaps xmm4,xmm1
+ subss xmm4,[rdi+8]
+ movss xmm5,[rdi+20]
+ subss xmm5,xmm1
+ movaps xmm6,xmm2
+ minss xmm6,xmm3
+ minss xmm6,xmm4
+ minss xmm6,xmm5
+ movss xmm0,[rsi+12]
+ subss xmm0,[rsi]
+ movss xmm1,[rsi+20]
+ subss xmm1,[rsi+8]
+ ucomiss xmm0,[zero]
+ jne .moving
+ ucomiss xmm1,[zero]
+ je .block
+.moving:
+ ucomiss xmm2,xmm6
+ jne .right
+ ucomiss xmm0,[zero]
+ jbe .allow
+.right:
+ ucomiss xmm3,xmm6
+ jne .back
+ ucomiss xmm0,[zero]
+ jae .allow
+.back:
+ ucomiss xmm4,xmm6
+ jne .front
+ ucomiss xmm1,[zero]
+ jbe .allow
+.front:
+ ucomiss xmm5,xmm6
+ jne .block
+ ucomiss xmm1,[zero]
+ jae .allow
+.block:
+ xor eax,eax
+ ret
+.allow:
+ mov eax,1
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits
