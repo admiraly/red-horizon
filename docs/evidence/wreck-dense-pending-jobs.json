@@ -1,8 +1,8 @@
 [
   {
-    "job_id": "3b2d4140c644",
-    "revision": "0b224d69b7073b91b8c8374350f4d4561e00ce8d-32d403ce0bb136fb",
-    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/runs/jobs/3b2d4140c644/source",
+    "job_id": "97b74ea394b4",
+    "revision": "db54418a82aeeb6017d0d0897112fca656c9049c-9ad5aacfc94bf30c",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/97b74ea394b4/source",
     "command": [
       "test",
       "--suite",
@@ -10,20 +10,18 @@
       "--extended"
     ],
     "status": "running",
-    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/runs/jobs/3b2d4140c644/job.log",
-    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/runs/jobs/3b2d4140c644/result.json",
-    "pid": 997144,
-    "observed_process_live": true,
-    "observed_at_utc": "2026-10-06T09:44:45.149086+00:00",
-    "observed_process_command": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-relevance/tools/dev.py _worker 3b2d4140c644 test --suite all --extended ",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/97b74ea394b4/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/97b74ea394b4/result.json",
+    "pid": 1461643,
+    "observed_process_command": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/tools/dev.py _worker 97b74ea394b4 test --suite all --extended ",
     "observed_process_state": "S",
-    "authored_input_count": 278,
-    "current_worker_source_mismatches": []
+    "observed_at_utc": "2026-10-06T10:17:54.882626+00:00",
+    "observed_process_live": true
   },
   {
-    "job_id": "0b1256549755",
-    "revision": "7e7718ea8a2ecdd24fd944064d9e9fb06989028c-078e1891bd33af04",
-    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/0b1256549755/source",
+    "job_id": "430466389e9b",
+    "revision": "0479f0fa7c90bedaf8eced22554409740d53a577-cfcf9d5924b561c0",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/430466389e9b/source",
     "command": [
       "test",
       "--suite",
@@ -31,14 +29,12 @@
       "--extended"
     ],
     "status": "running",
-    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/0b1256549755/job.log",
-    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/runs/jobs/0b1256549755/result.json",
-    "pid": 1053878,
-    "observed_process_live": true,
-    "observed_at_utc": "2026-10-06T09:44:45.181457+00:00",
-    "observed_process_command": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/wreck-nav-profile/tools/dev.py _worker 0b1256549755 test --suite all --extended ",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/430466389e9b/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/430466389e9b/result.json",
+    "pid": 1461688,
+    "observed_process_command": "/usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/company-assault/tools/dev.py _worker 430466389e9b test --suite all --extended ",
     "observed_process_state": "S",
-    "authored_input_count": 280,
-    "current_worker_source_mismatches": []
+    "observed_at_utc": "2026-10-06T10:17:54.882849+00:00",
+    "observed_process_live": true
   }
 ]

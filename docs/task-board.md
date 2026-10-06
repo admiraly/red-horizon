@@ -261,3 +261,14 @@ relevance prototype7e75121 is isolated; full3b2d4140c644 runs frozen from
 0b224d6-32d403ce0bb136fb. Root investigates hotspot pass costs independently.
 Acceptance requires original scale/arrival/recovery/health/label gates, real GL
 and UDP faults; focused24-route evidence does not replace that checkpoint.
+
+
+Latest integrator update: prior3b2d4140c644 and0b1256549755 are FAILED, not
+pending or accepted. Corrected dense/profile/quit/exterior-deploy candidate
+ db54418 has full97b74ea394b4 running. Independent ground company-assault0479f0f
+passes focused tactics, public physical controls and frozen fast24fff30243be;
+full430466389e9b runs. Integrator owns shared policy/compatibility merging.
+No new candidate is integrated until exact full/network/GL evidence passes;
+combine private16/17 contracts coherently and validate again. Next AI work:
+support targeting/reservations, protected bomber/intercept missions, ownership
+and rendered intent; actual ranged acquisition must cover declared weapon range.

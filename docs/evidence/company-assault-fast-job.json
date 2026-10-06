@@ -1,0 +1,18 @@
+{
+  "job_id": "24fff30243be",
+  "revision": "0479f0fa7c90bedaf8eced22554409740d53a577-cfcf9d5924b561c0",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/24fff30243be/source",
+  "command": [
+    "test",
+    "--suite",
+    "fast"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/24fff30243be/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-assault/runs/jobs/24fff30243be/result.json",
+  "pid": 1402104,
+  "exit_code": 0,
+  "seconds": 216.14686958099628,
+  "authored_input_count": 282,
+  "worker_source_mismatches": []
+}

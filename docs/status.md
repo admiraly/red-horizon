@@ -42,20 +42,39 @@ hazard warnings, oriented/vertical hulls, streamed hierarchy, graphics/playtest
 quality and broader specification requirements remain open. The full-game goal
 remains active; code license awaits owner approval. No remote publication.
 
-Current independent continuation: dense relevance full3b2d4140c644 is running
-from0b224d6-32d403ce0bb136fb; exact live PID/status and source-match audit are
-in docs/evidence/wreck-dense-pending-jobs.json. It is not accepted or integrated.
-A separate query-envelope candidate7e7718e preserves36,772 byte-equal query
-results and30tick checksum samples through900 real hotspot ticks. Paired p95
-falls from41.315ms to35.065ms under concurrent workloads; still above33.3ms.
-Its full0b1256549755 is running from7e7718e-078e1891bd33af04, also unintegrated.
-All foreground profile/final focused/differential sessions are terminal; failed
-signed-byte observer and exploratory mixed-source check are retained/excluded.
-Exact evidence is in the isolated worktrees' docs/wreck-query-envelope.md and
-wreck-nav-relevance.md. Main runtime remains f8d80b8/UDPv14. The next larger
-gameplay batch is a physical coordinated assault with scoped intelligence,
-role-specific support and protected bomber missions; acceptance contract:
- docs/combined-arms-next.md. This is planned behaviour, not implemented acceptance.
+Current continuation: both earlier candidate checkpoints failed and remain
+unintegrated. Dense relevance3b2d4140c644 FAILED986.8829s/122 reports at
+co-op quit; envelope0b1256549755 FAILED858.8579s/106 reports at dense screenshot
+variety. Exact logs/reports are docs/evidence/wreck-dense-routing-jobs.json.
+The first failure is reproduced by a queued Escape press/release that polling
+misses; an assembly event latch passes three actual-client controls. The second
+repeats with48 hotspot colours: a healthy redeployed player sits inside the
+rendered site building at1000/1300. Exterior site candidates retain all original
+body/crowd/threat checks. Four clear joins and threatened-candidate rejection,
+focused player tests, unchanged dense GL and final graphical co-op now pass.
+Corrected profile candidate db54418 is frozen in full97b74ea394b4, running from
+ db54418-9ad5aacfc94bf30c. Private UDPv17/schema0x6aa0d743/content0x7138ea65
+remains outside main. Ground/body/nav collision for site buildings is still open.
+
+Ground company coordination is implemented separately at0479f0f. Bounded
+mixed cohorts stage in distinct ranks, wait on physical readiness and genuine
+artillery, then advance;25% losses or timeouts withdraw. Actual1200tick replay
+fixtures reach staging30/preparation630/advance660, hold30 preparation ticks,
+and advance64.731m. A genuine guarded blast causes casualties and physical
+withdrawal; manual hold cancels immediately; invalid IDs/count preserve plans.
+The unchanged tactics suite retains original8k/16k motion/recovery checks;
+frozen fast24fff30243be PASSED216.1469s with282 matching worker inputs.
+Full430466389e9b is running at0479f0f-cfcf9d5924b561c0. This ground slice observes
+ordinary artillery fire; reserved support targets, bomber/fighter coordination,
+ownership UI, rendered plan intent and human quality remain unproven. Its initial
+assault fixture has depleted enemy ammunition; no contested-quality claim.
+Exact progress/limits: docs/company-assault-progress.md. Private UDPv16 policy is
+separate from the corrected v17 branch; combine/recompute compatibility and run
+another exact full checkpoint before integrating both. Main remains f8d80b8/v14.
+
+All foreground checks are terminal. Two new frozen full jobs are verified live;
+exact handles are docs/evidence/wreck-dense-pending-jobs.json. Failed runs and
+exploratory fixtures are retained. No remote publication; full-game goal active.
 
 The following paragraphs retain earlier checkpoint history. Claims of pending
 body integration below describe those earlier revisions, not current main.
