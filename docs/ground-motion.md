@@ -80,7 +80,7 @@ These prove linked kernels, not world hooks, network, graphics, scale or target
 hardware acceptance. Root must add the module to those actual paths and verify.
 
 Remaining physical scope includes oriented hull footprints, suspension, wheeled
-chassis, road/off-road traction, slopes, wreck collision and damage-dependent
+chassis, slopes, wreck collision and damage-dependent
 handling. This tracked approximation does not claim those features or complete
 vehicle realism. Finite same-build math does not establish cross-platform
 bit-identical floating-point replay. Actual screenshot/GL appearance, packet
@@ -126,3 +126,49 @@ initial30tick acceleration and18m/s steady drive in
 root's latest renderer/protocol/kernel integration; they are not final full
 checkpoint or target-GPU acceptance evidence. All worker jobs were collected
 terminal before handoff.
+
+
+Tracked surface handling derives from actual authoritative X/Z using the stateless
+`terrain_road_body` helper and the root-owned `schemas/ground_surfaces.inc` v1.
+The whole conservative circle must fit inside a single paved capsule: tank radius
+3.55 m, artillery radius 4.49 m. Junctions can conservatively classify off-road.
+Tank off-road desired speed, acceleration and reverse caps use multiplier 0.8;
+artillery uses 0.7. Thus ordinary tank/artillery targets are 0.4/0.14 m/tick off-road,
+legitimate driver tank forward 0.48 and reverse 0.144. Road tuning remains unchanged.
+Braking, turning, contact and maximum physical envelopes retain their original limits.
+A road-to-off-road transition retains momentum and brakes toward its new target;
+there is no instantaneous speed clamp. Both AI and driver use the same query.
+
+Malformed count/source/input/claim/current-state requests never call the helper.
+Policy-off legacy movement also bypasses it. Valid generation/role resets are deferred
+until the surface query succeeds, so an invalid helper return preserves the existing
+sidecar even during recycling. Classification is derived without new future-affecting
+state, allocations or hash fields. This slice does not implement slope limits,
+wheeled chassis, suspension or damage-dependent handling.
+
+The surface unit probe deliberately controls road/off-road/invalid returns, checks
+actual body radius and call-site alignment, and clobbers all caller-saved SIMD and
+integer registers. Original 15 actuator groups and 48 malformed requests remain;
+four surface groups add role targets/rates, boundary braking, reverse through zero,
+AI/driver handoff and invalid-helper generation preservation. Production collision
+proof links the actual stateless helper, not that stub. Its original five body/wall/
+handoff gates remain, with the steady road-cap handoff explicitly placed inside a
+paved front corridor; four further real-kernel cases compare tank/artillery forward
+speed on that corridor with an adjacent off-road pose. Integration, actual rendered
+pavement, UDP content compatibility, army-scale movement and target GPU acceptance
+still require the integrator's frozen checkpoint.
+
+Terminal surface run `/tmp/rh-road-motion-focused.log` passed both proof libraries.
+The dependency was frozen from road-body commit
+`3615cf3e1327d1c85a953e2b34225eec48d44839`, source SHA256
+`4e529a4aef451601e6bb9cd8929175c709eab7a82206c71d91ae53c4f8c08acf`.
+It was temporarily transplanted for verification and restored afterward; this
+worker commit owns no helper or shared-contract changes. Actual production-library
+SHA256 is `6aa942fc40481d416b1ea770b7de255114268f1e31a0da7682243a26931d5dd0`.
+Held infantry/tank/artillery minimum swept gaps were 4.224060/7.712036/8.240051 m;
+the wall case ends X3984.443848, Z1301.425049 before the unchanged wall boundary.
+The original road-cap handoff remains 0.600000 to 0.560000 m/tick. Real road/off-road
+forward observations were tank 0.500000/0.400000 and artillery 0.199951/0.140000.
+The new artillery road observation permits 0.0001 m/tick world-coordinate float
+rounding from the crowd intent endpoint; no original body, wall, handoff, deadline
+or arrival bound changed. All commands completed terminal before handoff.

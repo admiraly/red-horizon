@@ -3,6 +3,7 @@
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
 %include "schemas/ground_motion.inc"
+%include "schemas/ground_surfaces.inc"
 %macro MATHCALL 1
 %ifidn __OUTPUT_FORMAT__,elf64
  call %1 wrt ..plt
@@ -13,7 +14,7 @@
 default rel
 extern sim_entities,sim_count,sim_waypoints
 extern sim_players,sim_player_vehicle,sim_vehicles,vehicle_entity_driver,vehicle_driver_generation
-extern crowd_move,crowd_step,crowd_hull_step,sinf,cosf,atan2f
+extern crowd_move,crowd_step,crowd_hull_step,terrain_road_body,sinf,cosf,atan2f
 section .bss align=64
 global sim_ground_motion,ground_enabled
 sim_ground_motion: resb ENTITY_CAPACITY*GROUND_STRIDE
@@ -26,6 +27,9 @@ tau: dd 6.283185307179586
 reverse_threshold: dd 2.35619449
 sharp: dd 1.04719755
 approach_gain: dd 0.15
+one: dd 1.0
+surface_multipliers: dd GROUND_TANK_OFFROAD,GROUND_ARTILLERY_OFFROAD
+body_radii: dd GROUND_TANK_RADIUS,GROUND_ARTILLERY_RADIUS
 source_max: dd 8000.0
 map_min: dd -8000.0
 map_max: dd 16000.0
@@ -170,7 +174,7 @@ seed:
 ; EDI entity, ESI AI/driver. Input five floats; returns physical endpoint.
 ; Stack: input0..16, desiredangle20, delta24, targetspeed28, newheading32,
 ; signed speed36, endpoint40/44, sin48/cos52, role index56, mode60, ID64,
-; original navigation goal distance68.
+; original navigation goal distance68, deferred birth reset72, surface multiplier76.
 ground_step:
  push rbx
  push rbp
@@ -287,6 +291,7 @@ ground_step:
 .validated:
  cmp dword [ground_enabled],0
  je .legacy
+ mov dword [rsp+72],0
  mov eax,[rbx+ENTITY_GENERATION]
  cmp [rbp+GROUND_GENERATION],eax
  jne .reset
@@ -331,20 +336,43 @@ ground_step:
  andps xmm0,[abs_mask]
  ucomiss xmm0,xmm1
  ja .out
- jmp .evolve
+ jmp .surface
 .reset:
+ ; Delay reset until the stateless surface query succeeds: failed inputs never mutate.
+ mov dword [rsp+72],1
+.surface:
+ mov eax,[rsp+56]
+ lea rdx,[body_radii]
+ movss xmm2,[rdx+rax*4]
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ call terrain_road_body
+ cmp eax,1
+ ja .out
+ movss xmm0,[one]
+ test eax,eax
+ jnz .surface_ready
+ mov eax,[rsp+56]
+ lea rdx,[surface_multipliers]
+ movss xmm0,[rdx+rax*4]
+.surface_ready:
+ movss [rsp+76],xmm0
+ cmp dword [rsp+72],0
+ je .evolve
  mov edi,[rsp+64]
  call seed
 .evolve:
  mov eax,[rsp+56]
  lea rdx,[ai_caps]
- movss xmm4,[rsp+16]
- minss xmm4,[rdx+rax*4]
+ movss xmm4,[rdx+rax*4]
+ mulss xmm4,[rsp+76]
+ minss xmm4,[rsp+16]
  cmp dword [rsp+60],GROUND_DRIVER
  jne .intent
  ; Driver actual cap .6, not AI .5.
- movss xmm4,[rsp+16]
- minss xmm4,[caps]
+ movss xmm4,[caps]
+ mulss xmm4,[rsp+76]
+ minss xmm4,[rsp+16]
 .intent:
  movss [rsp+16],xmm4
  ; Preserve distance to actual nav goal, not the crowd's one-tick intent point.
@@ -411,8 +439,9 @@ ground_step:
 .reverse_target:
  mov eax,[rsp+56]
  lea rdx,[reverse_caps]
- movss xmm1,[rsp+28]
- minss xmm1,[rdx+rax*4]
+ movss xmm1,[rdx+rax*4]
+ mulss xmm1,[rsp+76]
+ minss xmm1,[rsp+28]
  xorps xmm1,[sign_mask]
  movss [rsp+28],xmm1
 .forward:
@@ -461,8 +490,11 @@ ground_step:
  andps xmm3,[abs_mask]
  ucomiss xmm3,xmm2
  jb .decelerate
+ mov eax,[rsp+56]
  lea rdx,[accel]
- jmp .rate
+ movss xmm2,[rdx+rax*4]
+ mulss xmm2,[rsp+76]
+ jmp .apply_rate
 .brake_zero:
  pxor xmm1,xmm1
 .decelerate:
@@ -470,6 +502,7 @@ ground_step:
 .rate:
  mov eax,[rsp+56]
  movss xmm2,[rdx+rax*4]
+.apply_rate:
  subss xmm1,xmm0
  minss xmm1,xmm2
  xorps xmm2,[sign_mask]

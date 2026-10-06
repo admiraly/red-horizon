@@ -26,6 +26,8 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     blocked=C.c_uint.in_dll(lib,'test_blocked'); partial=C.c_uint.in_dll(lib,'test_partial')
     calls=C.c_uint.in_dll(lib,'test_collision_calls'); cmode=C.c_uint.in_dll(lib,'test_collision_mode')
     budget=C.c_float.in_dll(lib,'test_collision_budget')
+    surface=C.c_int.in_dll(lib,'test_surface');surface_calls=C.c_uint.in_dll(lib,'test_surface_calls')
+    surface_radius=C.c_float.in_dll(lib,'test_surface_radius');surface_alignment=C.c_uint.in_dll(lib,'test_surface_alignment')
     lib.test_ground_step.argtypes=[C.c_uint,C.c_uint,C.POINTER(C.c_float)];lib.test_ground_step.restype=C.c_int
     lib.test_ground_hash.argtypes=[C.c_uint64,C.c_uint64];lib.test_ground_hash.restype=C.c_uint64
     checks=[]
@@ -35,7 +37,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         C.memset(C.addressof(claims),255,C.sizeof(claims));C.memset(C.addressof(vehicles),0,C.sizeof(vehicles))
         entities[0]=E(1000,1000,400,0,kind,0,0,7)
         for i in range(6):goals[i*2]=1000+math.sin(heading)*100;goals[i*2+1]=1000+math.cos(heading)*100
-        blocked.value=partial.value=calls.value=0
+        blocked.value=partial.value=calls.value=surface_calls.value=0;surface.value=1
         lib.ground_init()
     def board():
         drivers[0]=0;claims[0]=0;vehicles[0]=0;vehicles[1]=entities[0].gen;vehicles[2]=0;vehicles[3]=1
@@ -167,9 +169,9 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     invalid=0
     def rejected(**kw):
         global invalid
-        before=bytes(states);n=calls.value;old=(entities[0].x,entities[0].z)
+        before=bytes(states);n=calls.value;ns=surface_calls.value;old=(entities[0].x,entities[0].z)
         p=step(publish=False,**kw)
-        assert bytes(states)==before and calls.value==n
+        assert bytes(states)==before and calls.value==n and surface_calls.value==ns
         invalid+=1
     reset();board();step((1000,2000),.6,1)
     for value in (float('nan'),float('inf'),-float('inf'),-1):rejected(amount=value,mode=1)
@@ -199,7 +201,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     checks.append('off-map initialized births skipped without sidecar seeding')
     reset(heading=math.pi/2);before=bytes(states);enabled.value=0
     p=step((1000,2000),.5)
-    assert p==(1000,1000.5) and bytes(states)==before and calls.value==0
+    assert p==(1000,1000.5) and bytes(states)==before and calls.value==0 and surface_calls.value==0
     checks.append('policy off genuine immediate legacy movement causal control')
     reset();seed=14695981039346656037;prime=1099511628211
     def reference(data):
@@ -213,14 +215,63 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         raw[offset]^=1; assert lib.test_ground_hash(seed,prime)!=expected;raw[offset]^=1
     enabled.value=0;assert lib.test_ground_hash(seed,prime)!=expected
     checks.append('FNV policy and every persistent state field including inactive tail')
+    surface_cases=[]
+    for kind,cap,rate,mult,radius in ((1,.5,.02,.8,3.55),(2,.2,.01,.7,4.49)):
+        reset(kind);surface.value=0
+        for t in range(60):
+            oldspeed=states[0].speed;step((1000,2000),cap)
+            assert states[0].speed-oldspeed<=rate*mult+1e-6
+            assert surface_alignment.value==8 and abs(surface_radius.value-radius)<1e-6
+        assert abs(states[0].speed-cap*mult)<1e-6
+        surface_cases.append({'kind':kind,'offroad_forward':states[0].speed,'acceleration':rate*mult,'radius':surface_radius.value})
+        surface.value=1
+        oldspeed=states[0].speed;step((1000,2000),cap)
+        assert abs(states[0].speed-oldspeed-rate)<1e-6
+        for t in range(30):step((1000,2000),cap)
+        assert abs(states[0].speed-cap)<1e-6
+        surface.value=0
+        before=states[0].speed;step((1000,2000),cap)
+        assert abs(states[0].speed-(before-(.04 if kind==1 else .025)))<1e-6,'boundary clamped momentum'
+        for t in range(30):step((1000,2000),cap)
+        assert abs(states[0].speed-cap*mult)<1e-6
+    checks.append('real-radius surface queries scale role targets/acceleration and brake across boundaries')
+    reset();board();surface.value=0
+    for t in range(60):step((1000,2000),.6,1)
+    assert abs(states[0].speed-.48)<1e-6
+    seen_zero=False
+    for t in range(60):
+        previous=states[0].speed;step((1000,0),.6,1)
+        if states[0].speed==0:seen_zero=True
+        if states[0].speed<0:assert seen_zero
+        assert abs(states[0].speed-previous)<=.040001
+    assert abs(states[0].speed+.144)<1e-6
+    surface_cases.append({'driver_offroad_forward':.48,'driver_offroad_reverse':states[0].speed,'braked_through_zero':seen_zero})
+    checks.append('off-road driver controls share policy and preserve braking through zero')
+    reset();board()
+    for t in range(35):step((1000,2000),.6,1)
+    surface.value=0;drivers[0]=-1;claims[0]=-1;vehicles[3]=0
+    step((1000,2000),.5)
+    assert abs(states[0].speed-.56)<1e-6
+    for t in range(10):step((1000,2000),.5)
+    assert abs(states[0].speed-.4)<1e-6
+    board();step((1000,2000),.6,1)
+    assert abs(states[0].speed-.416)<1e-6
+    checks.append('road-to-offroad AI/driver handoff retains momentum with bounded rates')
+    for recycled in (False,True):
+        reset();step((1000,2000))
+        if recycled:entities[0].gen+=1
+        surface.value=-1;before=bytes(states);n=calls.value;ns=surface_calls.value
+        step((1000,2000),publish=False)
+        assert bytes(states)==before and calls.value==n and surface_calls.value==ns+1
+    checks.append('invalid surface result preserves existing and recycled sidecars')
     actuator_report={'suite':'ground-motion-actuator','passed':True,'library_sha256':lib_sha,'checks':checks,
-      'invalid_rejected_cases':invalid,'acceleration':acceleration,'turn':turn,'reverse':reverse,'approaches':approaches,
+      'surface_cases':surface_cases,'invalid_rejected_cases':invalid,'acceleration':acceleration,'turn':turn,'reverse':reverse,'approaches':approaches,
       'collision_evidence':'Explicit development clear/blocked/partial stub; not production collision or scale evidence',
       'runtime':'Actual NASM x86-64 SSE2 module; Python development observer'}
     print(json.dumps(actuator_report,sort_keys=True))
     # Independent production body/terrain path: same actuator, real collision code.
     real_objects=[]
-    sources=('src/game/ground_motion.asm','src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_body.asm','tests/ground_motion_probe.asm')
+    sources=('src/game/ground_motion.asm','src/nav/crowd.asm','src/nav/terrain.asm','src/nav/terrain_body.asm','src/nav/terrain_surface.asm','tests/ground_motion_probe.asm')
     for source in sources:
         obj=pathlib.Path(td)/(pathlib.Path(source).stem+'-real.o')
         subprocess.run([nasm,'-f','elf64','-DGROUND_REAL_COLLISION=1','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(obj)],check=True)
@@ -270,12 +321,25 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     for tick in range(150):real_step((4050,1300))
     assert re[0].x<=3988-3.55+.001 and re[0].x>3971
     real_cases.append({'case':'driven-tank-vs-production-terrain-wall','ticks':150,'end':[re[0].x,re[0].z]})
-    real_reset([(1000,1000,1)])
-    for tick in range(40):real_step((1000,2000))
+    # Explicit paved interior for the original road-cap momentum gate.
+    real_reset([(1100,1300,1)])
+    rw[0]=2100;rw[1]=1300;actual.ground_init()
+    for tick in range(40):real_step((2100,1300))
     rd[0]=-1;rc[0]=-1;rv[3]=0
     before=rg[0].speed
-    real_step((1000,2000),.5,0)
+    real_step((2100,1300),.5,0)
     assert abs(before-.6)<1e-6 and abs(rg[0].speed-.56)<1e-6
     real_cases.append({'case':'actual-crowd-AI-handoff-preserves-bounded-momentum','before':before,'after':rg[0].speed})
+    # Real stateless helper: road interiors attain original caps; adjacent full-body
+    # off-road poses attain role caps without changing wall/body safety assertions.
+    real_surfaces=[]
+    for kind,cap,mult in ((1,.5,.8),(2,.2,.7)):
+        for z,expected in ((1300,cap),(1320,cap*mult)):
+            real_reset([(1100,z,kind)])
+            rd[0]=-1;rc[0]=-1;rv[3]=0
+            rw[0]=2100;rw[1]=z;actual.ground_init()
+            for t in range(80):real_step((2100,z),cap,0)
+            assert abs(rg[0].speed-expected)<.0001,(kind,z,expected,rg[0].speed,re[0].x,re[0].z,rg[0].heading)
+            real_surfaces.append({'kind':kind,'z':z,'speed':rg[0].speed})
     print(json.dumps({'suite':'ground-motion-production-collision','passed':True,'library_sha256':hashlib.sha256(real_so.read_bytes()).hexdigest(),
-      'cases':real_cases,'scope':'Actual actuator plus production crowd/terrain kernels; no world hooks, network, graphics or scale acceptance'},sort_keys=True))
+      'cases':real_cases,'surfaces':real_surfaces,'scope':'Actual actuator plus production crowd/terrain kernels; no world hooks, network, graphics or scale acceptance'},sort_keys=True))
