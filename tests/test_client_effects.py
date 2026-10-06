@@ -272,7 +272,17 @@ try:
         def attached():return struct.unpack('<i',os.pread(memory,4,vehicle_address))[0]
         key(ord('e'));until(lambda:attached()==tank,2)
         until(lambda:f'ARMOR #{tank} CANNON' in title(window) and ' HULL ' in title(window),2)
-        position=player();key(ord('w'),.35);driven=player()
+        # A tracked hull may first pivot toward the requested direction, then
+        # accelerate. Observe actual useful motion within the normal2s input
+        # budget instead of assuming instant speed during a0.35s tap.
+        position=player()
+        drive_key=X.XKeysymToKeycode(display,ord('w'))
+        XT.XTestFakeKeyEvent(display,drive_key,1,0);X.XFlush(display)
+        try:
+            until(lambda:math.hypot(player()['x']-position['x'],player()['z']-position['z'])>.5,2)
+            driven=player()
+        finally:
+            XT.XTestFakeKeyEvent(display,drive_key,0,0);X.XFlush(display)
         drive_distance=math.hypot(driven['x']-position['x'],driven['z']-position['z'])
         assert drive_distance>.5,(position,driven)
         vehicle=symbols['sim_vehicles']
