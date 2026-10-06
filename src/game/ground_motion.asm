@@ -12,7 +12,7 @@
 %endmacro
 default rel
 extern sim_entities,sim_count,sim_waypoints
-extern sim_players,sim_player_vehicle,sim_vehicles,vehicle_entity_driver
+extern sim_players,sim_player_vehicle,sim_vehicles,vehicle_entity_driver,vehicle_driver_generation
 extern crowd_move,crowd_step,crowd_hull_step,sinf,cosf,atan2f
 section .bss align=64
 global sim_ground_motion,ground_enabled
@@ -257,6 +257,10 @@ ground_step:
  je .out
  cmp dword [rdx+PLAYER_GENERATION],0
  je .out
+ mov ecx,[rdx+PLAYER_GENERATION]
+ lea rdx,[vehicle_driver_generation]
+ cmp [rdx+rdi*4],ecx
+ jne .out
 .validated:
  cmp dword [ground_enabled],0
  je .legacy

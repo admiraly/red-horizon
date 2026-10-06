@@ -22,6 +22,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     goals=(C.c_float*12).in_dll(lib,'sim_waypoints'); drivers=(C.c_int*32768).in_dll(lib,'vehicle_entity_driver')
     players=(C.c_uint*64).in_dll(lib,'sim_players'); claims=(C.c_int*4).in_dll(lib,'sim_player_vehicle')
     vehicles=(C.c_uint*32).in_dll(lib,'sim_vehicles')
+    driver_generations=(C.c_uint*4).in_dll(lib,'vehicle_driver_generation')
     blocked=C.c_uint.in_dll(lib,'test_blocked'); partial=C.c_uint.in_dll(lib,'test_partial')
     calls=C.c_uint.in_dll(lib,'test_collision_calls'); cmode=C.c_uint.in_dll(lib,'test_collision_mode')
     budget=C.c_float.in_dll(lib,'test_collision_budget')
@@ -38,7 +39,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         lib.ground_init()
     def board():
         drivers[0]=0;claims[0]=0;vehicles[0]=0;vehicles[1]=entities[0].gen;vehicles[2]=0;vehicles[3]=1
-        players[5]=100;players[11]=1;players[15]=11
+        players[5]=100;players[11]=1;players[15]=11;driver_generations[0]=11
     def step(goal=None,amount=.5,mode=0,ident=0,source=None,publish=True):
         e=entities[0];before=bytes(entities)
         a=(C.c_float*5)(*(source or (e.x,e.z)),*(goal or (e.x,e.z)),amount)
@@ -150,7 +151,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         rejected(goal=(value,1000),mode=1);rejected(goal=(1000,value),mode=1)
     rejected(source=(1001,1000),mode=1);rejected(ident=32768,mode=1);rejected(mode=2)
     count.value=32769;rejected(mode=1);count.value=1
-    for array,index,value in ((players,5,0),(players,11,0),(players,15,0),(vehicles,0,1),(vehicles,1,8),(vehicles,2,1),(vehicles,3,0),(claims,0,-1),(drivers,0,-1)):
+    for array,index,value in ((players,5,0),(players,11,0),(players,15,0),(players,15,12),(driver_generations,0,12),(vehicles,0,1),(vehicles,1,8),(vehicles,2,1),(vehicles,3,0),(claims,0,-1),(drivers,0,-1)):
         old=array[index];array[index]=value;rejected(mode=1);array[index]=old
     for field,value in (('hp',0),('gen',0),('kind',0),('side',1),('front',3)):
         old=getattr(entities[0],field);setattr(entities[0],field,value);rejected(mode=1);setattr(entities[0],field,old)
@@ -193,6 +194,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
     rw=(C.c_float*12).in_dll(actual,'sim_waypoints');rd=(C.c_int*32768).in_dll(actual,'vehicle_entity_driver')
     rp=(C.c_uint*64).in_dll(actual,'sim_players');rc=(C.c_int*4).in_dll(actual,'sim_player_vehicle')
     rv=(C.c_uint*32).in_dll(actual,'sim_vehicles')
+    rdriver_generations=(C.c_uint*4).in_dll(actual,'vehicle_driver_generation')
     actual.test_ground_step.argtypes=[C.c_uint,C.c_uint,C.POINTER(C.c_float)];actual.test_ground_step.restype=C.c_int
     def real_reset(rows):
         C.memset(C.addressof(re),0,C.sizeof(re));rn.value=len(rows);rtick.value=0
@@ -202,7 +204,7 @@ with tempfile.TemporaryDirectory(prefix='rh-ground-motion-') as td:
         for i in range(6):rw[i*2]=rows[0][0];rw[i*2+1]=rows[0][1]+100
         actual.terrain_body_init();actual.crowd_init();actual.ground_init()
         rd[0]=0;rc[0]=0;rv[0]=0;rv[1]=re[0].gen;rv[2]=0;rv[3]=1
-        rp[5]=100;rp[11]=1;rp[15]=11
+        rp[5]=100;rp[11]=1;rp[15]=11;rdriver_generations[0]=11
     def real_step(goal,amount=.6,mode=1):
         rtick.value+=1;actual.crowd_begin(); e=re[0];old=(e.x,e.z)
         a=(C.c_float*5)(e.x,e.z,*goal,amount);before=bytes(re)

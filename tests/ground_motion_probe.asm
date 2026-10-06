@@ -12,6 +12,8 @@ sim_players: resb 4*64
 sim_player_vehicle: resd 4
 sim_vehicles: resb 4*32
 vehicle_entity_driver: resd ENTITY_CAPACITY
+global vehicle_driver_generation
+vehicle_driver_generation: resd 4
 global test_blocked,test_partial,test_collision_calls,test_collision_mode,test_collision_budget
 test_blocked: resd 1
 test_partial: resd 1

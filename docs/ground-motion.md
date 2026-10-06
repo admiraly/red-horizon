@@ -30,7 +30,8 @@ and stamps the new record. A same-generation AI/driver transition uses existing
 heading and speed. Invalid count, ID, living state, role, side/front, finite input,
 source pose, requested step or driver claim leaves persistent state unchanged.
 A driver must have a connected living generated player, allied living tank,
-matching entity generation and all bidirectional ownership records. Corrupted
+matching entity generation, the stamped driver player generation and all
+bidirectional ownership records. Same-slot recycled players cannot inherit control. Corrupted
 same-generation sidecar floats, limits or flags also hold without mutation.
 
 AI uses the existing bounded `crowd_move` result only as a local steering intent.
@@ -54,7 +55,7 @@ RED_HORIZON_NASM=/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm python3 te
 ```
 
 The terminal worker run `/tmp/rh-ground-motion-worker.log` passed 11 actuator
-groups and 40 malformed cases. The first library deliberately stubs collision
+groups and 42 malformed cases. The first library deliberately stubs collision
 with explicit clear/blocked/partial results and legacy normalized movement; it
 proves actuator math, ABI, state preservation, ownership, handoff, generation
 recycling and byte-for-byte FNV behavior, **not production collision**.
