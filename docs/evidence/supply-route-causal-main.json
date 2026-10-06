@@ -1,0 +1,52 @@
+{
+  "main_revision": "a1aa80f11f267f1ac415acd29d7f406794941b4a-fdd0559a26913e58",
+  "authored_inputs_matching_worker": 389,
+  "runtime_sources_unchanged_from": "43e2439",
+  "main_rechecks": {
+    "interruptions": {
+      "path": "docs/evidence/supply-route-causal-main-interruptions.log",
+      "sha256": "1378d4112be51609b74c374a59e85dabd4219e36e2eece108118daa570f42ae2",
+      "exit_code": 0,
+      "runtime_binary_sha256": "8f7c2679d40ce9f892c37f740dac23c8266ee90335c8419d4d3e7ba78a232f9c"
+    },
+    "udp": {
+      "path": "docs/evidence/supply-route-causal-main-udp.log",
+      "sha256": "33054eae52b5be4664f412b5e199667cd3e0eb202152a13d93bf433a2d50b6ca",
+      "exit_code": 0,
+      "runtime_binary_sha256": "5e74416dbc45f1957f791103bd08e2352b298ef4823f296130ca61e02d649ffd"
+    }
+  },
+  "frozen_checkpoints": [
+    {
+      "job_id": "2f3064f06f08",
+      "revision": "43e2439129940cd57611c9b5a8a741b71056e4a1-a5675e2e443c6c49",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/2f3064f06f08/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/2f3064f06f08/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/2f3064f06f08/result.json",
+      "pid": 1241983
+    },
+    {
+      "job_id": "8ea5d34ac91d",
+      "revision": "a1aa80f11f267f1ac415acd29d7f406794941b4a-fdd0559a26913e58",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8ea5d34ac91d/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8ea5d34ac91d/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8ea5d34ac91d/result.json",
+      "pid": 1331941
+    }
+  ],
+  "scope": "Permanent causal regressions and unchanged runtime. Full checkpoints still running, not acceptance passes."
+}

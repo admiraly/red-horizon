@@ -33,6 +33,8 @@
 | Observed shell/bomb danger, physical evasion and local warnings | four isolated workers + integrator | private hazard contract/terrain/projectiles | runtime aed6e55; frozen extended c7edbd70ea56 passed241.57s,50suite reports/137matched inputs; physical blast survival, readonly warning GL and budget pass; bounded cells may omit threats; exact integration evidence in docs/evidence/hazard-session.json |
 | Ground ordnance admission fairness | three isolated workers + integrator | causal physical pressure + same-tick queues | runtime a9c7b99; balanced actual mixed grants and sustained mirrored pressure, full-world health/queue order label symmetry; exact verification in docs/evidence/ordnance-session.json; air contention remains pending |
 | Physical nearby infantry resupply detours | integrator | finite infantry/depot stocks and corridor navigation |43e2439: genuine arrival90-round debit/resumption, real capture-cut, command/stock/ABI gates, fast84 explicit reports, UDP22 and original scale pass; frozen full2f3064f06f08 pending; no convoys or broader rearm |
+| Causal supply hazard/wall/UDP regression coverage | integrator | finite detours |a1aa80f: combat28, genuine shell negative control, independent6223-segment wall trip and actual8192/four-peer resupply journey pass; full8ea5d34ac91d pending |
+| Finite player rifle reserves/depot rearm and own-stock HUD | next ready | finite depot transaction/player64-byte ABI |unimplemented; player reload currently creates30 rounds. Contract/evidence requirements in docs/player-ammunition-design.md |
 | Wider vehicles, layered recorded sound pack, production art/effects | next ready | current combat batch |pending |
 | Streaming map,complete operation/recovery | next ready | terrain/nav/logistics |pending |
 

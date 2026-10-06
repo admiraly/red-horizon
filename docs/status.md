@@ -1,3 +1,36 @@
+Causal supply regressions are integrated ina1aa80f, authored fingerprint
+fdd0559a26913e58; all389 authored inputs match the verified worker. CPU runtime,
+assets and protocol policy remain unchanged from43e2439. Focused combat28 reports
+passes; matching main sparse interruption/wall and actual8192/four-peer UDP
+journeys both pass. Evidence: evidence/supply-route-causality.json and
+supply-route-causal-main.json, including exact distinct test/binary epochs.
+
+The real UDP actor receives90 at360 (depot12000→11910), conserves all6144 infantry/
+12-depot totals and returns toward the unchanged objective by480, with no writes
+or freezes after one honest initial fixture. Production single-shell causal
+control: hazard disabled kills the supply-bound actor; enabled acquires danger
+at8, evades physically, keeps100HP, credits90 at374 and resumes the objective.
+Same-build active replay matches. A60m proximity fixture across the actual opaque
+wall grants nothing until a body-safe trip around it: credit3150, primary
+arrival6223, then30-tick hold. Independent0.551m expanded-wall slabs check all
+6223 physical segments and role speeds/primary bytes/conservation remain valid.
+These sparse fixtures do not establish streaming, hardware or authored-site art.
+
+Frozen full8ea5d34ac91d is RUNNING at a1aa80f-fdd0559a26913e58, PID1331941
+confirmed live. Earlier detour full2f3064f06f08 also remains RUNNING,
+PID1241983 confirmed live. Both are pending; no restarted snapshots or premature
+passes. All foreground checks are terminal/reconciled; both feature branches
+and main are committed. The preceding depot full902e4f699f7a remains passed/
+collected; older failed checkpoints remain failed as recorded below.
+
+Next gameplay implementation: the player rifle still creates30 rounds on every
+reload, without finite reserve accounting. docs/player-ammunition-design.md
+records the unimplemented per-body conservation, real finite depot rearm,
+body-only equipment, unchanged64-byte player ABI, own-server report/cache,
+solo/co-op reserve display and required evidence. No completed player rearm is
+claimed. Whole-game goal stays active; specification incomplete, licence
+pending owner approval and no remote publication authorization.
+
 Physical nearby infantry resupply detours are integrated in43e2439, authored
 fingerprinta5675e2e443c6c49; all387 authored inputs exactly match the verified
 worker. Low-stock moving infantry selects an allied healthy connected uncontested
@@ -28,11 +61,10 @@ assertion expected8 versus correctly rebuilt11;03e2b2e corrects it. Historical
 All foreground jobs are terminal and reconciled. Main and feature are committed.
 
 Limitations: stateless nearby infantry detours, no hysteresis or route reachability
-preflight, no convoys/production/player/vehicle/air rearm, no actual UDP-specific
-detour journey oracle or new hardware-budget/human/art acceptance. Existing
-cover/wreck responses can delay travel. Next useful checks are causal detour
-hazard/terrain/UDP journeys, followed by further finite unit logistics and the
-remaining full-spec implementation. Persistent whole-game goal remains active;
+preflight, no convoys/production/player/vehicle/air rearm, no exact world-to-wire stock oracle or new hardware-budget/human/art
+acceptance. The actual UDP-specific journey now passes as recorded above. Existing
+cover/wreck responses can delay travel. Causal detour hazard/terrain/UDP journeys now pass; next is finite player
+ammunition and the remaining full-spec implementation. Persistent whole-game goal remains active;
 full specification is incomplete, no publication, licence pending owner approval.
 
 Previous depot inventory batch integrated finite allied depot reports and tactical-map inventory
