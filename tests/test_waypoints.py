@@ -66,15 +66,22 @@ assert lib.sim_order(0,0,1) == 0
 old_b = (b.x,b.z)
 lib.sim_tick()
 assert (a.x,a.z) == arrival and (b.x,b.z) != old_b
-# Role speeds use metres per fixed 1/30-second tick. Start with clear body
-# spacing so valid crowd recovery/yield does not replace unrestricted movement.
+# Role speeds use metres per fixed 1/30-second tick. Vehicles accelerate from
+# rest; preserve their original forward-cap checks after the approach phase.
+# Clear body spacing keeps crowd recovery from replacing free motion.
 reset()
 for kind in range(4):
     unit(kind,1000,1000+kind*20,0,0,kind)
 lib.sim_tick()
-for kind,expected in enumerate((0.12,0.5,0.2,5.0)):
+for kind,expected in enumerate((0.12,0.02,0.01,5.0)):
     actor = entities[kind]
     assert math.isclose(math.hypot(actor.x-1000,actor.z-(1000+kind*20)),expected,abs_tol=0.0001)
+for _ in range(29):
+    before=[(entities[kind].x,entities[kind].z) for kind in range(4)]
+    lib.sim_tick()
+for kind,expected in ((1,0.5),(2,0.2)):
+    actor=entities[kind]
+    assert math.isclose(math.dist(before[kind],(actor.x,actor.z)),expected,abs_tol=0.0001)
 # Explicit advance is a movement command even while a visible target survives.
 reset()
 a=unit(0,3500,1000,0,0)
