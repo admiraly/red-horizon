@@ -1,8 +1,8 @@
 # Next physical-cover integration contract
 
 This is an implementation contract from the caller audit, not feature acceptance.
-Authoritative wreck vision and rifle/blast shielding are implemented at f60fc28
-and undergoing frozen full verification. Movement, navigation and connected
+Authoritative wreck vision and rifle/blast shielding are integrated at6226468
+after full frozenffd071da659c passed. Movement, navigation and connected
 prediction remain open. They need a coherent batch with the original physical/
 motion/arrival/recovery/health/label-symmetry gates.
 
@@ -45,9 +45,11 @@ ridge breaks and raised relief without health/pose/clock renewal. Cover identiti
 ## Bodies and routes
 
 An isolated ground-only composition is prepared on feature/wreck-body-world
-at8c159bc (parent088a458):48 assembled source/role/radius/ABI cases and70 actual
+at9b07e88 (foundation8c159bc/088a458):48 assembled source/role/radius/ABI cases and70 actual
 geometry/source-switch cases. It is unconnected and not part of this accepted
-candidate. The explicit world_body_*_context signature is EDI role,RSI stable
+candidate. The manual-step proposal additionally passes1,500 intents and two
+actual-core omitted-sweep negatives; actual movement/hull/routes are unconnected.
+The explicit world_body_*_context signature is EDI role,RSI stable
 wreck source,EDX active count,RCX derived revision, with XMM ground coordinates.
 
 Compose terrain/body/grade/support checks with the prepared planar wreck sweep

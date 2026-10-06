@@ -1,0 +1,335 @@
+[
+  {
+    "suite": "production-wreck-cover-outcomes",
+    "passed": true,
+    "cases": [
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 0,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 0,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 1,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 1,
+        "side": 1,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 0,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 0,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 1,
+        "near_id": 24,
+        "far_id": 26,
+        "far_hp": 100
+      },
+      {
+        "case": "genuine_wreck_blast_shields_far_side",
+        "kind": 2,
+        "side": 1,
+        "near_id": 26,
+        "far_id": 24,
+        "far_hp": 100
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 0,
+        "ids": [
+          24,
+          26
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 0,
+        "ids": [
+          26,
+          24
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 1,
+        "ids": [
+          24,
+          26
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "same_explosion_does_not_self_shield",
+        "side": 1,
+        "ids": [
+          26,
+          24
+        ],
+        "sequences": [
+          1,
+          2
+        ]
+      },
+      {
+        "case": "public_rifle_and_enemy_threat",
+        "cover_kind": 0,
+        "hits": 1,
+        "victim_hp": 66,
+        "player_hp": 90
+      },
+      {
+        "case": "public_rifle_and_enemy_threat",
+        "cover_kind": 1,
+        "hits": 0,
+        "victim_hp": 100,
+        "player_hp": 100
+      },
+      {
+        "case": "public_rifle_and_enemy_threat",
+        "cover_kind": 2,
+        "hits": 0,
+        "victim_hp": 100,
+        "player_hp": 100
+      },
+      {
+        "case": "new_cover_blocks_actual_acquisition_and_infantry_damage",
+        "ticks": 16,
+        "HP": [
+          100,
+          100
+        ]
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          1000,
+          2000
+        ],
+        "impact": [
+          1000.0,
+          23.0020809173584,
+          1999.959228515625
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          3300,
+          2000
+        ],
+        "impact": [
+          3300.0,
+          16.742082595825195,
+          1999.959228515625
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          4000,
+          2000
+        ],
+        "impact": [
+          4000.0,
+          32.00208282470703,
+          1999.9591064453125
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          5470,
+          5150
+        ],
+        "impact": [
+          5470.0,
+          70.82410430908203,
+          5149.9609375
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "real_artillery_ground_burst",
+        "anchor": [
+          5600,
+          5200
+        ],
+        "impact": [
+          5600.0,
+          79.28195190429688,
+          5199.9609375
+        ],
+        "ticks": 14,
+        "victim_hp": 0
+      },
+      {
+        "case": "public_bomb_ground_burst",
+        "source": [
+          1000,
+          143.0,
+          2000
+        ],
+        "impact": [
+          1004.9984130859375,
+          21.57874298095703,
+          2898.44775390625
+        ],
+        "ticks": 150,
+        "victim_hp": 0
+      },
+      {
+        "case": "public_bomb_ground_burst",
+        "source": [
+          4000,
+          152.0,
+          2000
+        ],
+        "impact": [
+          4004.99853515625,
+          30.495929718017578,
+          2898.753662109375
+        ],
+        "ticks": 150,
+        "victim_hp": 0
+      },
+      {
+        "case": "public_bomb_ground_burst",
+        "source": [
+          5600,
+          134.60499954223633,
+          4300
+        ],
+        "impact": [
+          5604.99853515625,
+          68.08502960205078,
+          4965.751953125
+        ],
+        "ticks": 111,
+        "victim_hp": 0
+      }
+    ],
+    "no_inflight_health_pose_clock_ordnance_renewal": true,
+    "library_sha256": "f75aecacd560e1f770641b4d7e5b3c4051ef92aac2044f63843b1e489b8f3a2d",
+    "scope": "Actual corpse capture/blast atomicity/world acquisition/infantry/human rifle and gravity artillery/bomb damage. Controlled initial births; no body/nav/remote prediction or artistic/whole-operation acceptance."
+  },
+  {
+    "suite": "bomb-inherited-velocity-release",
+    "passed": true,
+    "numeric_cases": 1004,
+    "invalid_cases": 7,
+    "maximum_float_root_error": 0.0,
+    "actual_flight_cases": [
+      {
+        "side": 0,
+        "initial_height": 90,
+        "inherited_vy": 0.5,
+        "impact_tick": 183,
+        "impact_error_m": 3.871881335638188,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      },
+      {
+        "side": 0,
+        "initial_height": 120,
+        "inherited_vy": -0.5,
+        "impact_tick": 109,
+        "impact_error_m": 3.9844967606468993,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      },
+      {
+        "side": 1,
+        "initial_height": 90,
+        "inherited_vy": 0.5,
+        "impact_tick": 183,
+        "impact_error_m": 3.871881335638188,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      },
+      {
+        "side": 1,
+        "initial_height": 120,
+        "inherited_vy": -0.5,
+        "impact_tick": 109,
+        "impact_error_m": 3.9844967606468993,
+        "victim_hp": 0,
+        "remaining_stores": 0
+      }
+    ],
+    "no_inflight_renewal": true,
+    "library_sha256": "f75aecacd560e1f770641b4d7e5b3c4051ef92aac2044f63843b1e489b8f3a2d",
+    "limits": [
+      "target-height prediction does not establish arbitrary terrain interception or moving-target lead",
+      "controlled initial fixtures; no graphics or artistic-quality acceptance"
+    ]
+  },
+  {
+    "suite": "owned-projectile-priority",
+    "passed": true,
+    "cases": 18,
+    "maximum_owned_priority": 4,
+    "minimum_fair_capacity": 14,
+    "MTU_maximum": 1196,
+    "negative_controls": [
+      "priority_omitted",
+      "freshest_omitted",
+      "source_generation_omitted",
+      "dedup_omitted"
+    ],
+    "preserved_authority_and_ABI": true,
+    "source_sha256": "ca4bfdafaeb1ac9043de3d6ab2b82b9b26d5fcf962a883ca63f1da73779ab8ca",
+    "scope": "Actual extracted server packet builder with controlled core records. Real UDP/GUI and extended network verification remain separate."
+  }
+]

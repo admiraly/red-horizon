@@ -1,5 +1,66 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Authoritative wreck cover, inherited-velocity bomber release and owned-cannon
+replication are integrated at6226468. Gameplay sight/fire callers now use the
+continuous ground/authored-solid/captured-wreck LOS composition. Blast eligibility
+is collected before casualties from that same explosion register, while genuine
+casualty registration remains immediate. Ground impact events stay at contact;
+blast evaluation rises1cm above ground contact. Existing incoming-side solid/
+wreck backoff, eye origins, unit radii, speed and original acceptance gates remain.
+
+Bomb release timing now includes inherited climb/descent and position-before-
+gravity tick ordering. Independent Decimal70 roots pass1,004 cases and7 invalid
+inputs; four actual public-tick stationary-target flights, both faction labels
+and climbing/descending cases, consume their only initial store, cause genuine
+damage and impact within3.872/3.984m at183/109ticks. This does not establish arbitrary
+terrain interception, moving-target lead or artistic dogfight quality.
+
+The real UDP projectile stream prioritises at most4 freshest current-generation
+moving rounds from a validated owned cannon, retaining at least14 general fair/
+tombstone entries. Duplicate slots are excluded; maximum packet1196bytes and
+interest radius stay unchanged. Eighteen actual packet-builder cases and four
+assembled causal negatives pass. No reliable visibility guarantee below the10Hz
+snapshot period or under loss is claimed.
+
+Full frozenffd071da659c PASSED874.9651s/116 reports at
+50f99e8769af6b4b1544a12cc77f27fcb66e357b-32a0aaae51eb9f64. All265 authored inputs
+match the integrated main checkout. Original8k/16k motion/replay,400tick health/
+label symmetry,360tick held arrival,1200tick recovery, local/co-op real GL, audio
+and extended UDP faults are retained. The focused extended network suite passed;
+rebuilt root headless/co-op/client executables and both core/network libraries
+also pass the24 cover outcomes, bomber observer and packet-builder checks.
+Compatibility is UDPv13/schema0x3da66749/content0x9187d777, canonicalSHA256
+9187d777c57f5934b8551f623e9da1d16fdd71b41f60fc983fa9ffca93d8a7b9.
+Exact evidence: docs/evidence/wreck-cover-vision-jobs.json and associated reports;
+implementation/limits: docs/wreck-cover-vision.md and docs/bomb-release.md.
+
+Rejected checkpointse3156c1dcf11 (806.3532s/106 reports) and2f4f186da724
+(866.8967s/114 reports) are retained. The first failed a UDP wreck live-counter
+comparison; the observer could stop before the marker pass finished. A derived
+completed-pass stamp now guards the unchanged assertion; three local and three
+UDP capture runs passed, and18 incomplete states were observed in100 independent
+stops (the original failed tuple was not captured). The second failed to receive
+a live owned cannon round. A focused repeat recorded a real moving round at
+TTL237,59 finite stores and no nearby wreck; fair retired-slot circulation could
+miss short trajectories. Prioritising fresh owned samples corrected delivery;
+three real two-client repeats and the final full run passed. An earlier priority
+prototype called an ownership table and crashed; its rejected focused log is
+retained. Corrected code uses mutually validated ownership/generation reads.
+All launched jobs and focused sessions are terminal; no remote publication.
+
+Wreck body movement, bounded navigation detours, explicit replicated-cover client
+prediction and remote hazard warnings remain unconnected. Prepared query/manual
+proposal work is isolated on feature/wreck-body-world at9b07e88:48 composition/
+ABI cases,70 genuine geometry/source cases, the original focused terrain-body
+suite and1,500 manual intents pass; two actual-core omitted-sweep negatives fail.
+These do not establish actor/hull movement, routing or connected prediction.
+Original conservative geometry/roof mismatch,800m wreck draw culling and no map
+wreck pixels remain limitations. Hardware GPU budgets, human play/art quality,
+broader operation/platform/weapon requirements and owner-approved license remain
+open; the fully-up-to-spec persistent goal remains active.
+
+The following paragraphs retain earlier checkpoint history.
+
 Projectile first obstruction is integrated at3ab6e28. Shells, bombs and air-gun
 rounds now select the nearest entry across continuous current-profile ground,
 all five authored solids, captured-pose wreck bounds and sampled opposing actors.
