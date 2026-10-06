@@ -14,6 +14,7 @@ extern company_control_goal
 extern ai_init, ai_tick, ai_entity_goal, ai_override, ai_hash
 extern hazard_init,hazard_tick,hazard_entity_goal,hazard_hash
 extern player_init, player_tick, player_hash
+extern infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_hash
 extern combat_event
 extern projectile_init,projectile_spawn,projectile_tick,projectile_hash
 extern ordnance_init,ordnance_begin,ordnance_request,ordnance_flush,ordnance_hash,ordnance_enabled
@@ -143,6 +144,7 @@ sim_init:
  call ai_init
  call nav_init
  call projectile_init
+ call infantry_weapon_init
  call ordnance_init
  call vehicle_init
  call ground_init
@@ -242,6 +244,7 @@ sim_tick:
  sub rsp,ACQUIRE_STACK_BYTES
  inc dword [sim_tick_count]
  sub rsp,8
+ call infantry_weapon_tick
  call wreck_tick
  call ai_tick
  call nav_tick
@@ -658,6 +661,13 @@ sim_tick:
  je .launch_shell
  cmp eax,2
  je .launch_shell
+ mov edi,r12d
+ sub rsp,8
+ call infantry_weapon_fire
+ add rsp,8
+ test eax,eax
+ jnz .attack_next
+ xor eax,eax
  lea rcx,[power]
  mov eax,[rcx+rax*4]
  lea rcx,[damage]
@@ -795,6 +805,7 @@ sim_checksum:
  sub rsp,8
  call operation_hash
  call projectile_hash
+ call infantry_weapon_hash
  call ordnance_hash
  call vehicle_hash
  call ground_hash

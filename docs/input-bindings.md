@@ -73,3 +73,7 @@ a conflict. The complete test profile uses defend9. The co-op transfer controlle
 stops at exchange_cancel rather than treating newly appended actions as
 transfer responses. Defend authority policy and scoped evidence are described
 in company-defend.md and status.md.
+
+Compatibility note: infantry ammunition advances current peers to UDP28/schema
+0x7ce46b6e/content0x6974e792. Earlier version numbers above describe the
+original verified batch, not current peer compatibility.

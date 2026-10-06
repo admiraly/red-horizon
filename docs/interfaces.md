@@ -366,3 +366,22 @@ vectors dx>0,dy<0 with .5<=dx/abs(dy)<=2 outside the38pixel deadzone; remaining
 cardinal sectors are unchanged. GLSL uses the same boundaries. Defense wheel
 release requires the captured visible terrain point, and network acceptance
 feedback waits for the server ACK. Evidence/limits: status.md.
+
+
+Army rifle policy1 (schemas/infantry_weapon.inc): infantry_weapons contains
+32768x32byte server-owned records: entity generation0, magazine4, carried
+reserve8, remaining reload ticks12, actual rounds fired16, empty tick20,
+reserved24/28. World init clears and equips living valid infantry; authoritative
+world tick recognizes genuine new living generations and advances reloads.
+infantry_weapon_fire(EDI actor) returns0 for one spent round,1 unavailable,
+-1invalid. World calls only after actual enemy range/LOS acquisition and existing
+8tick cadence; it queues unchanged rifle damage only on0. The gate never selects
+a target or directly applies damage. Dead actors freeze stocks; side/front/lease
+changes cannot replenish them. Normal round conservation is mag+reserve+shots120.
+Corrupt counts/stocks are atomic or skipped, including a nonempty magazine with
+a pending reload. Explicit infantry_weapon_init is for fresh-world initialization,
+not a resupply API. All entries preserve SysV nonvolatile GPRs and allocate nothing.
+Records participate in sim_checksum. UDP28/schema0x7ce46b6e/content0x6974e792
+fingerprints the policy; entity/player wire layouts remain unchanged, NPC stock
+metadata is not replicated. Resupply must use an explicit finite stock transfer
+and version this conservation contract rather than resetting generations/stocks.

@@ -196,7 +196,15 @@ try:
             def state(c,name):return read_u32(clients[c]['memory'],client_symbols,name)
             def same_intent(a,b):return a[0]==b[0] and a[2:]==b[2:]
             def mouse(c,number,down):
-                focus(c);XT.XTestFakeButtonEvent(display,number,int(down),0);X.XFlush(display)
+                focus(c)
+                remapped='--bindings' in sys.argv or ('--mixed-bindings' in sys.argv and c==1)
+                if remapped:
+                    # Fixture profile binds wheel=C and cancel=X; MMB is Quit.
+                    symbol={2:ord('c'),3:ord('x')}[number]
+                    code=X.XKeysymToKeycode(display,symbol);assert code
+                    XT.XTestFakeKeyEvent(display,code,int(down),0)
+                else:XT.XTestFakeButtonEvent(display,number,int(down),0)
+                X.XFlush(display)
                 if number==2 and not down:until(lambda:state(c,'wheel_down')==0,3)
             def motion(x,y):XT.XTestFakeMotionEvent(display,-1,x,y,0);X.XFlush(display);time.sleep(.15)
             cases=[]
@@ -241,7 +249,7 @@ try:
                 assert clients[index]['process'].returncode==0 and 'local_sim_ticks=0' in stdout,(stdout,stderr)
             faults=[{'latency_ms':r.latency_ms,'received':r.received,'dropped':r.dropped,'reordered':r.reordered}for r in relays]
             if relays:assert any(r['dropped']>0 and r['reordered']>0 for r in faults)
-            print(json.dumps({'suite':'graphical-network-command-wheel','passed':True,'cases':cases,'framebuffer_labels_and_ack':True,'server_and_both_mirrors_match':True,'real_fault_relays':faults,'local_simulation_ticks':0,'limits':['Actual8192 authority and two rendered clients, read-only observers.','Five command modes; full contextual roster and hardware quality remain open.']}))
+            print(json.dumps({'suite':'graphical-network-command-wheel','passed':True,'cases':cases,'framebuffer_labels_and_ack':True,'server_and_both_mirrors_match':True,'real_fault_relays':faults,'local_simulation_ticks':0,'remapped_controls':('--bindings' in sys.argv or '--mixed-bindings' in sys.argv),'limits':['Actual8192 authority and two rendered clients, read-only observers.','Five command modes; full contextual roster and hardware quality remain open.']}))
             raise SystemExit(0)
         if '--follow' in sys.argv:
             def anchor_pixels(client,point):
@@ -622,18 +630,31 @@ try:
         final_owned_goal=goal(0)
         until(lambda:all(remote_company(c,0)[2]==recovered['generation'] and remote_company(c,0)[6:8]==accepted_goal for c in range(2)))
         # Second client inspects the first owner's front, without issuing an order.
-        if 'TACTICAL' not in title(clients[1]['window']):key(1,0xff09)
+        # The title always includes the TACTICAL MAP / RELOAD help footer.
+        # Read actual mode before toggling; title substring is not mode state.
+        if read_u32(clients[1]['memory'],client_symbols,'tactical')==0:key(1,0xff09)
         key(1,0xffbe)
-        until(lambda:read_u32(clients[1]['memory'],client_symbols,'frame_count')>0)
-        time.sleep(.12)
-        image=X.XGetImage(display,clients[1]['window'],0,0,1280,720,W(-1).value,2);assert image
+        until(lambda:read_u32(clients[1]['memory'],client_symbols,'selected_front')==0 and read_u32(clients[1]['memory'],client_symbols,'tactical')==1,3)
+        frame_before=read_u32(clients[1]['memory'],client_symbols,'frame_count')
+        until(lambda:read_u32(clients[1]['memory'],client_symbols,'frame_count')>=frame_before+2,3)
         gx=round(((accepted_goal[0]-4000)/4300+1)*640);gy=round((1-(accepted_goal[1]-4000)/4300)*360)
-        shared_goal_pixels=0
-        for dx in range(-11,12):
-            for dy in range(-11,12):
-                pixel=X.XGetPixel(image,gx+dx,gy+dy);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
-                shared_goal_pixels+=160<r<175 and g>245 and 105<b<125
-        X.XDestroyImage(image);assert shared_goal_pixels>0,('other owner goal cross not rendered',accepted_goal,gx,gy)
+        def shared_goal_pixels_now():
+            image=X.XGetImage(display,clients[1]['window'],0,0,1280,720,W(-1).value,2);assert image
+            try:
+                total=0
+                for dx in range(-11,12):
+                    for dy in range(-11,12):
+                        pixel=X.XGetPixel(image,gx+dx,gy+dy);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
+                        total+=160<r<175 and g>245 and 105<b<125
+                return total
+            finally:X.XDestroyImage(image)
+        try:shared_goal_pixels=until(shared_goal_pixels_now,3)
+        except AssertionError:
+            raise AssertionError(('other owner goal cross not rendered',accepted_goal,gx,gy,
+                                  {'selected_front':read_u32(clients[1]['memory'],client_symbols,'selected_front'),
+                                   'tactical':read_u32(clients[1]['memory'],client_symbols,'tactical'),
+                                   'frame_before':frame_before,'frame_now':read_u32(clients[1]['memory'],client_symbols,'frame_count'),
+                                   'owner_body':client_player(1,0),'owner_intent':remote_company(1,0),'title':title(clients[1]['window'])}))
         final=[server_player(i) for i in range(2)]
         outputs=[]
         for index in (1,0):

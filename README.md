@@ -38,6 +38,8 @@ python3 tools/dev.py coop --port 7777
 python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
 ```
 
+Army infantry now carries finite rifle magazines and reserves, reloads over time, and stops firing when exhausted. [Ammunition behavior and remaining logistics work](docs/infantry-ammunition.md) explains the current limits.
+
 Company identity, command acknowledgement, exchange offers and connection loss now render inside the game view. Retreat markers show the actual home destination; returning to advance preserves the accepted waypoint. Default F5–F8 requests an exchange, F9 accepts, F10 declines and F11 cancels. Narrow windows currently clip long status lines.
 
 The `server` command runs the shared local headless simulation. `coop` hosts the actual shared-world UDP server; its default runs until interrupted, and `--ticks N` makes a finite test run. Throughput mode is default; `--realtime` schedules at 30 Hz. Scale-front and scale-hotspot launch concentrated encounters while retaining the full army. Headless metrics do not establish GPU frame rate or complete army intelligence.

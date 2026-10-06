@@ -122,7 +122,7 @@ Status vocabulary: **Verified slice** means the stated implemented behavior has 
 | 8a | Data-driven requisition/supply capacity/costs; recruit/build/support and sustain capability | **Partial:** E2 connected capacity/income/checked spend. Hardcoded sites/income, spending on orders only; no production/recruit/build/support transactions or weapon resupply. |
 | 8b | Deployment/depot/production/observation/air-control/artillery/command sites visibly change capability | **Partial:** four numeric roles and command/deployment/income paths. Observation/air/artillery unlocks and full capability/UI mapping absent. |
 | 8c | Fixed major buildings, bounded field cover/repair/emplacements | **Missing:** static decorative structures are not a placement/repair implementation. |
-| 8d | Capacity/connectivity primary logistics, selected meaningful physical convoys; local ammo/resupply/shortage; gradual readable route-cut degradation | **Partial:** E2 graph and E5 finite air stores/ground shell reserves. No local infantry ammo, rearm/resupply/convoys/warnings/capability degradation path. Supply capacity changes immediately; full logistics semantics missing. |
+| 8d | Capacity/connectivity primary logistics, selected meaningful physical convoys; local ammo/resupply/shortage; gradual readable route-cut degradation | **Partial:** E2 graph and E5 finite air stores/ground shell reserves. Local infantry magazines/reserves/timed reload and exhaustion now have scoped CPU/real-authority evidence in status.md. Rearm/resupply/convoys/shortage presentation and gradual capability degradation remain missing. Supply capacity changes immediately; full logistics semantics missing. |
 | 8e | Recovery reroute/escort/restore/rescue/seize supplies produces choices | **Partial:** graph recapture restores capacity. Full selectable recovery missions and player rewards absent. |
 
 ## Section 9 — terrain/streaming/destruction
@@ -548,3 +548,10 @@ crosshair terrain and authoritative feedback. This is a verified slice only
 once scoped final evidence is recorded in status.md; it does not accept
 adaptive defense, complete contextual roster, shared assaults, whole operation
 or hardware/human quality. Historical rows above remain historical evidence.
+
+
+Army rifle amendment: finite carried magazines/reserves, real timed reloads,
+LOS-gated per-round damage, generation/lifecycle gates and checksum state close
+the infinite infantry stock source. Original8k/16k and side-label tests retain
+their thresholds. This does not accept resupply, stock replication, NPC reload
+animation, complete logistics/weapon roster or full operation quality.

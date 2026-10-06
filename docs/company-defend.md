@@ -34,3 +34,7 @@ Compatibility: company-control policy3 and UDP27; record sizes stay unchanged.
 Both peers must use schema0x24a8a531 and content0x00ac549b. Old peers fail the
 existing compatibility gates rather than interpreting mode4 differently.
 Exact scoped results and pending full checkpoints belong to `docs/status.md`.
+
+Compatibility note: infantry ammunition advances current peers to UDP28/schema
+0x7ce46b6e/content0x6974e792. Earlier version numbers above describe the
+original verified batch, not current peer compatibility.
