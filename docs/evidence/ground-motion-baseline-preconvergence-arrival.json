@@ -1,0 +1,53 @@
+{
+  "scope": "Independent public sim_tick clear20.3m settled-arrival causal control; no direct actuator calls or sidecar writes.",
+  "source_commit": "a8fd4b7",
+  "library_path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/bc7833855d0c/source/build/libsim.so",
+  "library_sha256": "e3b747db996dfde955cdb3b5e0dd3143a659611ed20c197929385840953fd0cd",
+  "observer_sha256": "3746c4c68b7c52164936ef0e875cfd0f7fb41b58cb167398e30db24f950da53f",
+  "cases": [
+    {
+      "name": "ai_tank_settled_arrival",
+      "passed": false,
+      "assertion_args": [
+        [
+          "AI passed goal but did not settle",
+          1,
+          120,
+          0.28003815667687937
+        ]
+      ],
+      "actual_final": [
+        3500.455810546875,
+        2019.975830078125
+      ],
+      "actual_motion": [
+        -2.863187789916992,
+        0.07999999821186066,
+        0.03999999910593033,
+        -0.02197265625,
+        -0.076904296875,
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "name": "ai_artillery_settled_arrival",
+      "ticks": 240,
+      "goal": [
+        3500.0,
+        2020.3
+      ],
+      "final": [
+        3500.199462890625,
+        2020.515625
+      ],
+      "final_goal_error": 0.2937338682574761,
+      "maximum_last_ten_steps": 0.029970934218444552,
+      "trace_sha256": "3abc5f58c99400282d4760923c136f6695b688f7d408bc066e69e4f87e7bd6e3",
+      "passed": true
+    }
+  ],
+  "all_passed": false,
+  "runtime_frozen": true
+}

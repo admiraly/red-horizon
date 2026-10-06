@@ -14,6 +14,12 @@ the actuator's exact tuning constants. Straight, perpendicular steering, release
 input braking, reversal through zero, stopped heading, independent camera aim
 and twelve actual cannon direction cases retain useful movement and fire gates.
 AI tanks and self-propelled artillery use public orders and waypoints. Actual
+20.3 m clear goals additionally require useful approach, arrival within 0.6 m
+at 120 tank/240 artillery ticks, and less than 0.03 m motion throughout the final
+ten ticks; passing briefly through a goal does not establish a settled arrival.
+The older crowd observer's held-armour/artillery and wall-route deadlines remain
+unchanged and independently constrain detour progress.
+Actual
 boarding/exit must preserve shared moving state; generation recycling must clear
 old momentum. NaN/infinite/overrange input and enemy, stale entity-generation,
 or disconnected claims cannot actuate the hull. The candidate also requires a
@@ -124,3 +130,40 @@ controller preservation 88234, historical terrain preservation 93711, candidate
 ground 49870, candidate controller 66350, candidate policy-off 85936, failed
 short-corner terrain 6845, and accepted terrain 38438. The initially unsuccessful
 fixture observations were diagnosed before adaptation, never accepted as passes.
+
+## Terminal approach review and later integrated candidate
+
+The pre-convergence `a8fd4b7` library SHA-256
+`e3b747db996dfde955cdb3b5e0dd3143a659611ed20c197929385840953fd0cd`
+passes collision checks but fails the new clear-goal tank settled-arrival gate:
+its maximum displacement over the last ten of 120 ticks is 0.2800 m. The exact
+[negative control](evidence/ground-motion-baseline-preconvergence-arrival.json)
+records actual pose/state and the failed assertion. Its artillery result is only
+just below the 0.03 m late-motion gate. Root's original held-armour outcome also
+exposed overshoot; none of its arrival tolerances or deadlines were removed.
+
+Independent source review of actuator change `d1cf007` confirms it preserves
+the original supplied navigation-goal range before the one-tick crowd steering
+point replaces the local target. AI terminal speed uses that range while the
+whole accepted segment still follows the bounded hull axis. The 0.15 gain begins
+normal tank braking at about 3.333 m and normal artillery braking at 1.333 m,
+ahead of their maximum steady AI discrete stopping travel of 2.88/0.7 m.
+The enlarged 60-degree translation steering arc retains the prior role speed,
+turn-rate and collision bounds. This remains a practical planar approximation;
+it does not prove oriented hull dynamics, suspension or road/slope handling.
+An AI handoff inheriting driver speed 0.6 can physically overshoot a newly
+requested very close goal, so no universal no-overshoot handoff claim is made.
+World manual hold supplies exactly current XZ and uses bounded shared braking;
+review found no alternate hold bypass. Goal-range scratch is temporary; all
+existing 32-byte persistent records and policy, plus the private player claim
+stamps, remain covered by authoritative hashes.
+
+Root's integrated `b53b7cd` immutable library SHA-256
+`a1ca4eb6f6953211be63238d4a6194f40cf09f5f3d197487ea868248480eda77`
+passes the complete current ground observer (session 93742, exit 0). Clear tank
+arrival error is 0.00679 m with maximum late motion 0.001365 m; artillery error
+is 0.000928 m with zero late motion. The four natural replayed scale cohorts
+perform 178,246/178,928/363,243/363,274 surviving hull coherence checks, all with
+zero faults, while actual combat and useful living motion remain. Refreshed
+original baseline session 49510 is terminal exit 0 and retains the exact new
+observer hash. Root's final full frozen checkpoint remains a separate requirement.

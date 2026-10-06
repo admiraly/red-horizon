@@ -131,6 +131,18 @@ def army(kind):
  if not a.legacy:assert not braking and stopped[-1]['distance']<TOL,'AI hold did not brake to rest'
  return dict(name='ai_tank' if kind==1 else 'ai_artillery',acceleration_faults=fault,instant_braking_fault=braking,straight_metres=sum(speed),turn_metres=sum(r['distance'] for r in turn),braking_metres=sum(r['distance'] for r in stopped),first_five_steps=speed[:5],trace_sha256=trace(rows+turn+stopped))
 
+def arrival(kind):
+ e=reset(kind=kind,driver=False);start=pos(e);goal=(e.x,e.z+20.3)
+ assert lib.sim_waypoint(0,0,*goal)==0 and lib.sim_order(0,0,0)==0
+ ticks=120 if kind==1 else 240;rows=[]
+ for _ in range(ticks):rows.append(observe(12,lib.sim_tick))
+ error=math.dist(pos(e),goal);late_motion=max(r['distance'] for r in rows[-10:])
+ assert math.dist(start,pos(e))>15,'short goal lost useful approach'
+ if not a.legacy:
+  assert error<.6,('AI short goal failed arrival deadline',kind,ticks,pos(e),goal,error)
+  assert late_motion<.03,('AI passed goal but did not settle',kind,ticks,late_motion)
+ return dict(name='ai_tank_settled_arrival' if kind==1 else 'ai_artillery_settled_arrival',ticks=ticks,goal=goal,final=pos(e),final_goal_error=error,maximum_last_ten_steps=late_motion,trace_sha256=trace(rows))
+
 def handoff():
  e=reset(driver=False);assert lib.sim_order(0,0,0)==0
  for _ in range(60):observe(12,lib.sim_tick)
@@ -299,7 +311,7 @@ def dense(n,driven=False):
 
 def checked(call):
  r=call();assert r==call(),'exact same-build production replay differs';return r
-rows=[checked(lambda:driving(world=False)),checked(lambda:driving(world=True)),checked(reversal),checked(lambda:army(1)),checked(lambda:army(2)),checked(handoff),checked(invalid_and_generation),checked(invalid_claims),checked(cannon)]
+rows=[checked(lambda:driving(world=False)),checked(lambda:driving(world=True)),checked(reversal),checked(lambda:army(1)),checked(lambda:army(2)),checked(handoff),checked(invalid_and_generation),checked(invalid_claims),checked(cannon),checked(lambda:arrival(1)),checked(lambda:arrival(2))]
 plain=driving(camera=False);varied=driving(camera=True)
 assert plain['trace_sha256']==varied['trace_sha256'],'camera aim changed actual driving trajectory'
 rows.append(dict(name='camera_independent_trajectory',trace_sha256=plain['trace_sha256']))

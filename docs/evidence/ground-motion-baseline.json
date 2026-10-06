@@ -4,7 +4,7 @@
   "legacy": true,
   "private_player_claim_stamp_present": false,
   "library_sha256": "d547457034be364788c6eca42c42ba15c376e0b5efab2aab2bf67789085439fa",
-  "observer_sha256": "15b5c4804beb6e46837c19563d54bcb8648e7abbdd4ca90a2634bbd7fb2e100f",
+  "observer_sha256": "3746c4c68b7c52164936ef0e875cfd0f7fb41b58cb167398e30db24f950da53f",
   "cases": [
     {
       "name": "drive_direct_api",
@@ -122,6 +122,36 @@
     {
       "name": "camera_cannon_independent_of_hull",
       "physical_shell_checks": 12
+    },
+    {
+      "name": "ai_tank_settled_arrival",
+      "ticks": 120,
+      "goal": [
+        3500.0,
+        2020.3
+      ],
+      "final": [
+        3500.0,
+        2020.300048828125
+      ],
+      "final_goal_error": 4.8828125045474735e-05,
+      "maximum_last_ten_steps": 0.0,
+      "trace_sha256": "4135896cbb0ce4c19bf0bece06979a51dbd5a98afd4e4a4b7b75637668fcd61e"
+    },
+    {
+      "name": "ai_artillery_settled_arrival",
+      "ticks": 240,
+      "goal": [
+        3500.0,
+        2020.3
+      ],
+      "final": [
+        3500.0,
+        2020.300048828125
+      ],
+      "final_goal_error": 4.8828125045474735e-05,
+      "maximum_last_ten_steps": 0.0,
+      "trace_sha256": "f42ba38e95d47ffdef4dfa04508f2eca6dd1c798cad7178c1a0ef39c81d1c9e7"
     },
     {
       "name": "camera_independent_trajectory",
