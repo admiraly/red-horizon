@@ -161,7 +161,13 @@ def record(name,kind,start,ticks,goal=None,mode='army',intent=None,mirror=False,
                 assert depth<=before_depth+TOL,(name,'initial penetration deepened',tick,before,after,before_depth,depth)
                 if before_depth<=TOL:assert not violation(before,after,kind),(name,'reentered static body')
             else:assert not violation(before,after,kind),(name,'expanded static-solid sweep',tick,before,after,depth)
-        if mode=='driver':assert pose(players[0])==after,(name,'driver detached from actual hull')
+        if mode=='driver':
+            if hasattr(lib,'ground_eye') and ground is not None:
+                lib.ground_eye.argtypes=[C.POINTER(C.c_float),C.c_uint,C.c_uint]+[C.c_float]*3
+                eye=(C.c_float*3)()
+                assert lib.ground_eye(eye,kind,12,actor.x,actor.z,ground[12].heading)==0
+                assert max(abs(v-w) for v,w in zip((players[0].x,players[0].y,players[0].z),eye))<1e-5,(name,'driver detached from supported hull eye')
+            else:assert pose(players[0])==after,(name,'driver detached from actual hull')
         if tick in (29,119,ticks-1):samples.append({'tick':tick+1,'pose':after})
     end=pose(actor)
     if not a.legacy and goal is not None:

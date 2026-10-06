@@ -1871,6 +1871,10 @@ sync_player:
  jne .noprediction
  cmp dword [rbx+PLAYER_HP],0
  je .noprediction
+ mov eax,[local_player]
+ lea rdx,[sim_player_vehicle]
+ cmp dword [rdx+rax*4],0
+ jge .noprediction ; boarded eye follows received hull authority, no foot strafe
  call glfwGetTime
  subsd xmm0,[last_net_time]
  comisd xmm0,[net_predict_timeout]

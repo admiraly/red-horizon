@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 7, 0x4e2ac49b, 0x2df28e7c
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 7, 0x4e2ac49b, 0x8b275091
 HEADER = struct.Struct('<10I')
 
 
@@ -477,7 +477,8 @@ def main():
         (root / 'schemas/ground_support.inc').read_text() + '\n' +
         (root / 'schemas/ground_contact.inc').read_text() + '\n' +
         (root / 'schemas/suspension.inc').read_text() + '\n' +
-        (root / 'schemas/ground_visual.inc').read_text(), re.M))
+        (root / 'schemas/ground_visual.inc').read_text() + '\n' +
+        (root / 'schemas/ground_eye.inc').read_text(), re.M))
     policy = {}
     for name in ('GROUND_SURFACE_VERSION', 'GROUND_TANK_OFFROAD',
                  'GROUND_ARTILLERY_OFFROAD', 'GROUND_TANK_RADIUS',
@@ -495,7 +496,7 @@ def main():
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
         'tracked_policy': policy,
     }
-    payload.update(ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
+    payload.update(ground_eye={name:definitions[name] for name in ('EYE_VERSION','EYE_LOCAL_HEIGHT')},ground_visual={name:definitions[name] for name in ('CONTACT_VERSION','SUSPENSION_VERSION','SUSPENSION_Y_OMEGA','SUSPENSION_PITCH_OMEGA','SUSPENSION_BANK_OMEGA','SUSPENSION_Y_LIMIT','SUSPENSION_ANGLE_LIMIT','SUSPENSION_Y_VELOCITY_LIMIT','SUSPENSION_ANGLE_VELOCITY_LIMIT','VISUAL_VERSION','VISUAL_MAX_DT','VISUAL_JUMP_SQ')},
         relief_abi=1,grade_abi=1,
         relief=json.loads((root/'content/terrain/relief.json').read_text()),
         grade_policy={name:definitions[name] for name in ('TERRAIN_GRADE_VERSION','GRADE_INF_LIMIT_SQ','GRADE_TANK_LIMIT_SQ','GRADE_ARTY_LIMIT_SQ','GRADE_GUARD_SQ','GRADE_BASE_X','GRADE_BASE_Z','BODY_INF_SWEEP_RADIUS','BODY_TANK_SWEEP_RADIUS','BODY_ARTY_SWEEP_RADIUS')},

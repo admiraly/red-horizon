@@ -83,7 +83,12 @@ def step(direction=None,camera=(0.,0.)):
  if moving:check(grade<=limit+.00003,f'accepted role{kind} sweep exceeds slope limit')
  actual_h=lib.terrain_height(*after);expected=height(*after)
  check(abs(actual_h-expected)<.0015,'public world height missing canonical raised relief')
- if V[0]==12:check(abs(P[0].y-expected-3)<.002,'boarded player eye missing raised world height')
+ if V[0]==12:
+  if hasattr(lib,'ground_eye'):
+   lib.ground_eye.argtypes=[C.c_void_p,C.c_uint,C.c_uint]+[C.c_float]*3;lib.ground_eye.restype=C.c_int
+   eye=(C.c_float*3)();assert lib.ground_eye(eye,1,12,*after,m.heading)==0
+   check(max(abs(v-w) for v,w in zip((P[0].x,P[0].y,P[0].z),eye))<.002,'boarded supported eye missing raised world frame')
+  else:check(abs(P[0].y-expected-3)<.002,'legacy boarded eye missing raised world height')
  return dict(before=before,after=after,speed=m.speed,heading=m.heading,maximum_sampled_grade=grade,
              world_height=actual_h,expected_height=expected,driver_eye=P[0].y if V[0]==12 else None)
 def digest(rows):return hashlib.sha256(b''.join(struct.pack('<ffff',*r['after'],r['speed'],r['world_height']) for r in rows)).hexdigest()

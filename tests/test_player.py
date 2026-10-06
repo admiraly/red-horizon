@@ -205,6 +205,7 @@ lib.player_tick();assert motion[0].grounded==1, 'held jump through death must re
 # Boarded jump/crouch never applies infantry altitude. Existing vehicle mask in
 # this isolated patch rejects newmovement bits for drive; root must widen to127.
 p=reset();entities[0].x,entities[0].z=p.x,p.z;entities[0].kind=1
+lib.ground_init() # Complete the initial role-changing birth before boarding.
 assert lib.vehicle_enter(0)==0
 lib.player_input(0,64|32,0,0,0,0);lib.player_tick()
 assert motion[0].initialized==0 and motion[0].latch==64

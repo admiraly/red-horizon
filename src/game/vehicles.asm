@@ -2,11 +2,13 @@
 %include "schemas/entity.inc"
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
+%include "schemas/ground_motion.inc"
+%include "schemas/ground_eye.inc"
 default rel
 extern sim_entities,sim_count,sim_players,player_deaths
 extern sim_shell_ammo,sim_shell_cooldown,projectile_launch,combat_event
 extern crowd_begin,crowd_step,crowd_occupied
-extern ground_step
+extern ground_step,ground_eye,sim_ground_motion
 extern terrain_height,terrain_body_blocked,terrain_los,sinf,cosf
 section .bss align=64
 global sim_vehicles,sim_player_vehicle,vehicle_entity_driver,vehicle_shots
@@ -24,7 +26,6 @@ one: dd 1.0
 minus_one: dd -1.0
 entry_radius2: dd 64.0
 eye: dd 1.8
-hull_eye: dd 3.0
 drive_step: dd 0.6
 cannon_range: dd 600.0
 world_max: dd 8000.0
@@ -219,17 +220,17 @@ vehicle_enter:
  call terrain_body_blocked
  test eax,eax
  jnz .failed
- movss xmm0,[r15+ENTITY_X]
- movss xmm1,[r15+ENTITY_Z]
- call terrain_height
- addss xmm0,[hull_eye]
- movss [rsp+4],xmm0
- movaps xmm4,xmm0
+ lea rdi,[rsp+8]
+ mov esi,r14d
+ call hull_eye_query
+ test eax,eax
+ jnz .failed
+ movss xmm4,[rsp+12]
  movss xmm0,[rbx+PLAYER_X]
  movss xmm1,[rbx+PLAYER_Y]
  movss xmm2,[rbx+PLAYER_Z]
- movss xmm3,[r15+ENTITY_X]
- movss xmm5,[r15+ENTITY_Z]
+ movss xmm3,[rsp+8]
+ movss xmm5,[rsp+16]
  call terrain_los
  test eax,eax
  jz .failed
@@ -257,11 +258,11 @@ vehicle_enter:
  lea rax,[sim_shell_cooldown]
  mov eax,[rax+r14*4]
  mov [rdx+VEHICLE_COOLDOWN],eax
- mov eax,[r15+ENTITY_X]
+ mov eax,[rsp+8]
  mov [rbx+PLAYER_X],eax
- mov eax,[r15+ENTITY_Z]
+ mov eax,[rsp+16]
  mov [rbx+PLAYER_Z],eax
- mov eax,[rsp+4]
+ mov eax,[rsp+12]
  mov [rbx+PLAYER_Y],eax
  xor eax,eax
  jmp .out
@@ -438,6 +439,12 @@ vehicle_tick_player:
  mov r14d,eax
  mov r15,rdx
 .drive:
+ ; Validate current stamped support before movement or cannon aim.
+ lea rdi,[rsp+40]
+ mov esi,r14d
+ call hull_eye_query
+ test eax,eax
+ jnz .refresh
  ; Direct helper calls also refresh bounded bodies; common-player calls may
  ; have just boarded/exited another slot. No stale placement/controller index.
  call crowd_begin
@@ -456,11 +463,17 @@ vehicle_tick_player:
  call ground_step
  movss [r15+ENTITY_X],xmm0
  movss [r15+ENTITY_Z],xmm1
- movss [rbx+PLAYER_X],xmm0
- movss [rbx+PLAYER_Z],xmm1
- call terrain_height
- addss xmm0,[hull_eye]
- movss [rbx+PLAYER_Y],xmm0
+ lea rdi,[rsp+40]
+ mov esi,r14d
+ call hull_eye_query
+ test eax,eax
+ jnz .refresh
+ mov eax,[rsp+40]
+ mov [rbx+PLAYER_X],eax
+ mov eax,[rsp+44]
+ mov [rbx+PLAYER_Y],eax
+ mov eax,[rsp+48]
+ mov [rbx+PLAYER_Z],eax
  test r13d,INPUT_FIRE
  jz .refresh
  ; All cannon aim is server player state, never client position or damage.
@@ -490,9 +503,9 @@ vehicle_tick_player:
  mulss xmm0,[cannon_range]
  movaps xmm1,xmm0
  mulss xmm0,[rsp+16]
- addss xmm0,[r15+ENTITY_X]
+ addss xmm0,[rbx+PLAYER_X]
  mulss xmm1,[rsp+20]
- addss xmm1,[r15+ENTITY_Z]
+ addss xmm1,[rbx+PLAYER_Z]
  movss [rsp+28],xmm0
  movss [rsp+32],xmm1
  movss xmm1,[rsp+24]
@@ -574,6 +587,41 @@ vehicle_tick_player:
  ret
 .unhandled:
  xor eax,eax
+ ret
+ ; Internal read-only eye query. RDI output12, ESI hull ID, EAX status.
+ ; Validate live entity/motion identity before loading any stamped axis.
+hull_eye_query:
+ cmp esi,[sim_count]
+ jae .bad
+ mov eax,esi
+ shl eax,5
+ lea r8,[sim_entities]
+ add r8,rax
+ lea r9,[sim_ground_motion]
+ add r9,rax
+ cmp dword [r8+ENTITY_KIND],1
+ jne .bad
+ cmp dword [r8+ENTITY_SIDE],0
+ jne .bad
+ cmp dword [r8+ENTITY_HP],0
+ je .bad
+ mov eax,[r8+ENTITY_GENERATION]
+ test eax,eax
+ jz .bad
+ cmp eax,[r9+GROUND_GENERATION]
+ jne .bad
+ cmp dword [r9+GROUND_KIND],1
+ jne .bad
+ test dword [r9+GROUND_FLAGS],GROUND_ACTIVE
+ jz .bad
+ movss xmm0,[r8+ENTITY_X]
+ movss xmm1,[r8+ENTITY_Z]
+ movss xmm2,[r9+GROUND_HEADING]
+ mov esi,1
+ mov edx,EYE_STRIDE
+ jmp ground_eye
+.bad:
+ mov eax,-1
  ret
 vehicle_hash:
  lea rsi,[sim_vehicles]

@@ -18,6 +18,13 @@ R=(.55,3.55,4.49);TOL=.002
 
 def pos(b):return b.x,b.z
 
+def check_eye(slot,i):
+ if not hasattr(lib,'ground_eye'):assert pos(P[slot])==pos(E[i]);return
+ lib.ground_eye.argtypes=[C.c_void_p,C.c_uint,C.c_uint]+[C.c_float]*3;lib.ground_eye.restype=C.c_int
+ out=(C.c_float*3)();assert lib.ground_eye(out,1,12,E[i].x,E[i].z,G[i].heading)==0
+ assert V[slot]==i and max(abs(x-y) for x,y in zip((P[slot].x,P[slot].y,P[slot].z),out))<.00001,'driver detached from supported eye'
+
+
 def closest(a0,a1,b0,b1):
  d=(a0[0]-b0[0],a0[1]-b0[1]);v=(a1[0]-a0[0]-b1[0]+b0[0],a1[1]-a0[1]-b1[1]+b0[1]);vv=v[0]**2+v[1]**2;t=max(0,min(1,-(d[0]*v[0]+d[1]*v[1])/vv)) if vv else 0
  return math.hypot(d[0]+t*v[0],d[1]+t*v[1])
@@ -31,7 +38,13 @@ def reset(n=32):
   for f in range(3):assert lib.sim_order(side,f,1)==0
 
 def actor(i,kind,xy,side=0):
- e=E[i];e.x,e.z=xy;e.hp=400;e.kind=kind;e.side=side;e.front=0;e.target=-1;alive[side]+=1;return e
+ e=E[i];e.x,e.z=xy;e.hp=400;e.kind=kind;e.side=side;e.front=0;e.target=-1;alive[side]+=1
+ # Initial development birth: role-changing fixture must carry matching motion.
+ # Preserve existing valid born hull axes; initialize only previously other roles.
+ if G is not None and kind in (1,2) and (G[i].kind!=kind or G[i].generation!=e.generation or not G[i].flags&1):
+  goals=(C.c_float*12).in_dll(lib,'sim_waypoints');dx=C.c_float(goals[side*6]-e.x).value;dz=C.c_float(goals[side*6+1]-e.z).value
+  G[i]=Ground(math.atan2(dx,dz) if dx or dz else 0,0,0,0,0,e.generation,kind,1)
+ return e
 
 def human(slot,xy):
  assert lib.player_join(slot,0)==0;b=P[slot];b.x,b.z=xy;b.y=lib.terrain_height(*xy)+1.8;return b
@@ -99,7 +112,7 @@ def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=Fals
  if diagonal:assert pos(source)[1]-start[1]>15,(name,'lost requested free-axis progress')
  if overlap and outward:assert math.dist(pos(source),pos(other))>sr+br+1,(name,'no outward recovery')
  if transition and not a.legacy:assert pos(source)[0]>3505,(name,'stale body blocked after transition')
- if mode=='driver':assert pos(P[0])==pos(source),(name,'boarded duplicate/driver detached')
+ if mode=='driver':check_eye(0,12)
  return dict(name=name,mode=mode,obstacle=obstacle,ticks=120,start=start,final=pos(source),swept_overlap_ticks=faults,initial_overlap_ticks=initial,minimum_relative_distance=minimum,progress_m=progress,explicit_driver_contact_steering=explicit_contact_steering,trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 
 def checked(*args,**kwargs):
@@ -161,11 +174,11 @@ def placements():
  offsets=((-6,0),(6,0),(0,-6),(0,6),(-6,-6),(6,6),(-6,6),(6,-6))
  for i,(dx,dz) in enumerate(offsets):
   norm=math.hypot(dx,dz);xy=(3500+dx+4.5*dx/norm,2000+dz+4.5*dz/norm);points.append(xy);actor(i,2,xy)
- rc=lib.vehicle_exit(0)
+ before_eye=bytes(P[0]);rc=lib.vehicle_exit(0)
  overlaps=sum(math.dist(pos(P[0]),xy)<R[2]+.55-TOL for xy in points) if rc==0 else 0
  if not a.legacy:assert not overlaps,('exit published into artillery footprint',pos(P[0]))
  assert rc in (-1,0)
- if rc==-1:assert V[0]==12 and pos(P[0])==pos(hull),'failed exit altered legitimate claim'
+ if rc==-1:assert V[0]==12 and bytes(P[0])==before_eye,'failed exit altered legitimate claim'
  exit_=dict(name='artillery_ring_exit',return_code=rc,published_body_overlaps=overlaps,boarded=V[0]==12)
  if a.legacy:assert deploy['published_body_overlaps'] and exit_['published_body_overlaps'],'placement causal controls absent'
  return [deploy,exit_]

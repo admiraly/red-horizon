@@ -28,6 +28,11 @@ lib.terrain_height.argtypes=[C.c_float,C.c_float];lib.terrain_height.restype=C.c
 lib.terrain_blocked.argtypes=[C.c_float,C.c_float,C.c_uint];lib.terrain_blocked.restype=C.c_int
 lib.vehicle_tick_player.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
 lib.sim_checksum.restype=C.c_uint64
+lib.ground_eye.argtypes=[C.c_void_p,C.c_uint,C.c_uint]+[C.c_float]*3;lib.ground_eye.restype=C.c_int
+def supported_eye(actor=12):
+    out=(C.c_float*3)();motion=(C.c_float*(32768*8)).in_dll(lib,'sim_ground_motion');e=entities[actor]
+    assert lib.ground_eye(out,1,12,e.x,e.z,motion[actor*8])==0
+    return tuple(out)
 
 
 def reset(x=3500,z=2000):
@@ -76,8 +81,8 @@ assert 6<acceleration_distance<12,(start,e.x,e.z,acceleration_steps)
 # Retain the original18m steady drive gate after the measured acceleration phase.
 start=e.x
 for _ in range(30):assert lib.vehicle_tick_player(0,0,1,0)==1
-assert abs(e.x-start-18)<.02 and p.x==e.x and p.z==e.z
-assert abs(p.y-lib.terrain_height(e.x,e.z)-3)<.001
+assert abs(e.x-start-18)<.02
+assert max(abs(a-b) for a,b in zip((p.x,p.y,p.z),supported_eye()))<.00001
 for x,z in[(math.nan,0),(math.inf,0),(2,0),(0,-2)]:
     before=bytes(p),bytes(e)
     assert lib.vehicle_tick_player(0,0,x,z)==1 and (bytes(p),bytes(e))==before

@@ -346,11 +346,14 @@ def main():
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
                 if suite in ('all','headless','fast','simulation',test) and (ROOT/'tests'/('test_'+test+'.py')).exists(): execute([sys.executable,'tests/test_'+test+'.py',str(library)])
+        if suite in ('all','headless','fast','simulation','terrain','vehicles','ground-support'):
+            execute([sys.executable,'tests/test_ground_eye_outcomes.py',str(library)])
         if suite in ('all','headless','terrain','vehicles','ground-support'):
             execute([sys.executable,'tests/test_ground_support.py'])
             execute([sys.executable,'tests/test_ground_contact.py'])
             execute([sys.executable,'tests/test_suspension.py'])
             execute([sys.executable,'tests/test_ground_visual.py'])
+            execute([sys.executable,'tests/test_ground_eye.py'])
         if suite in ('all','headless','simulation','terrain','vehicles','ground-motion','ground-surfaces','terrain-grade'):
             execute([sys.executable,'tests/test_terrain_relief.py'])
             execute([sys.executable,'tests/test_terrain_grade.py'])
@@ -441,6 +444,7 @@ def main():
             client=build('client')
             execute([sys.executable,'tests/test_support_gl.py',str(client),str(library)])
             execute([sys.executable,'tests/test_support_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_ground_eye_client.py',str(client),str(build('coop'))])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
         if suite in ('all','graphics'):
             execute([sys.executable,'tests/test_battle_metrics.py'])
@@ -467,6 +471,7 @@ def main():
             execute([sys.executable,'tests/test_relief_gl.py',str(client)])
             execute([sys.executable,'tests/test_support_gl.py',str(client),str(library)])
             execute([sys.executable,'tests/test_support_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_ground_eye_client.py',str(client),str(build('coop'))])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])
             if (ROOT/'tests/test_client_shells.py').exists(): execute([sys.executable,'tests/test_client_shells.py',str(client)])
