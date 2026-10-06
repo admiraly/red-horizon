@@ -316,11 +316,55 @@
       "all",
       "--extended"
     ],
-    "status": "running",
+    "status": "failed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/0b0739a72b85/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/company-interface/runs/jobs/0b0739a72b85/result.json",
     "pid": 3061964,
-    "verified_live": true,
-    "observed_utc": "2026-10-06T13:34:53.209532+00:00"
+    "verified_live": false,
+    "observed_utc": "2026-10-06T13:34:53.209532+00:00",
+    "terminal_result": {
+      "job_id": "0b0739a72b85",
+      "exit_code": 1,
+      "revision": "21b2cd4ff6160a7d212171ec96725edf0a5addc1-c0410da9e5e40bce",
+      "seconds": 1179.9039720760047,
+      "status": "failed"
+    }
+  },
+  {
+    "job_id": "2ac346c0f764",
+    "revision": "5a397bc36a73e26e1eefea0af24161a4334acda0-b5914981f1314599",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-occlusion/runs/jobs/2ac346c0f764/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "passed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-occlusion/runs/jobs/2ac346c0f764/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-occlusion/runs/jobs/2ac346c0f764/result.json",
+    "pid": 3154318,
+    "terminal_result": {
+      "job_id": "2ac346c0f764",
+      "exit_code": 0,
+      "revision": "5a397bc36a73e26e1eefea0af24161a4334acda0-b5914981f1314599",
+      "seconds": 251.52666172799945,
+      "status": "passed"
+    },
+    "verified_live": false
+  },
+  {
+    "job_id": "3112ca82aa0d",
+    "revision": "c0c8f0492b00af7bf3661296af27da2b19d06175-507ba71505a61d3a",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-occlusion/runs/jobs/3112ca82aa0d/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-occlusion/runs/jobs/3112ca82aa0d/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/wreck-occlusion/runs/jobs/3112ca82aa0d/result.json",
+    "pid": 3179770
   }
 ]

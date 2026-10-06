@@ -39,7 +39,11 @@ after core/tools/network/most graphics passed. The mesh fixture now observes a
 genuinely assigned front1 infantry actor and issues its own company order;
 original movement/pixel/clip and stationary-track thresholds are unchanged.
 Matching focused mesh check passes with owned actor3712,1.6787m actual movement
-and1816 changed idle-pose pixels. Complete graphics recheck is running. The company batches are now integrated as a coherent focused-verified batch;
+and1816 changed idle-pose pixels. Complete focused graphics recheck exits0 with27 actual suite reports, including
+owned mesh movement/poses, aircraft, support/wreck/eye, effects, unchanged original
+solo gameplay, own-company map/keys, quit delivery and two-client co-op. Exact
+log: company-main-graphics-corrected.log. Current matching full checkpoint remains
+pending, including the separately isolated LOS occlusion optimization below. The company batches are now integrated as a coherent focused-verified batch;
 matching full acceptance remains pending. Exact commands,
 initial failed fixtures and limitations: docs/company-control.md in those worktrees.
 Company membership replication/highlights, transfer/assistance and assignment
@@ -1655,3 +1659,13 @@ main tick loops, not isolated whole-frame costs or accepted speedups. Exact sour
 library hashes and probe: company-control-pass-profile.json and company-control-
 nested-profile.json. The corrected exact dependency/tools suite exits0, including
 its nested fast suite and immutable-background/failed-build-preservation gates.
+
+Isolated5a397bc boolean wreck LOS query stops at the first exact real blocker
+after complete source validation; regular body/projectile APIs retain nearest
+contact and identity ties.407 context and64 assembled world-LOS cases pass, with
+corrupt farther-source and nearest-after-any controls. Original8k open/hotspot/
+16k open900tick paired whole-authority/entity samples match every30ticks.
+Concurrent hotspot mean/p95 changes35.333/45.306→19.498/22.477ms;16k remains
+over33.3ms and graphics/frame budgets are unaccepted. Frozen fast2ac346c0f764
+PASSED251.5267s. Matching full3112ca82aa0d is live atc0c8f04-507ba71505a61d3a,
+with the corrected owned graphical fixture. Candidate is not integrated yet.
