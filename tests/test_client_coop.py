@@ -176,7 +176,13 @@ try:
         try:
             army=os.pread(host_memory,8192*32,server_symbols['sim_entities'])
             armor=next(i for i in range(4096) if struct.unpack_from('<I',army,i*32+8)[0]>0 and struct.unpack_from('<I',army,i*32+16)[0]==1)
-            p=server_player(1)
+            # Stage the boarding encounter in open mid-field before firing.
+            # A round hidden behind unrelated friendly hulls is valid geometry,
+            # but cannot establish a visible replicated-projectile footprint.
+            # Keep all8192 actors and every HP/ammo/generation/pool field intact.
+            p=server_player(1);p.update(x=3500.,z=2000.)
+            p['y']=ground_eye(p)
+            os.pwrite(host_memory,struct.pack('<3f',p['x'],p['y'],p['z']),server_symbols['sim_players']+64)
             os.pwrite(host_memory,struct.pack('<2f',p['x']+2,p['z']),server_symbols['sim_entities']+armor*32)
         finally:os.kill(host.pid,signal.SIGCONT)
         def vehicle_owner(memory,symbols,index):return struct.unpack('<i',os.pread(memory,4,symbols['sim_player_vehicle']+index*4))[0]

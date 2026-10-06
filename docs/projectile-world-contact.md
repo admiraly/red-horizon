@@ -75,3 +75,17 @@ cosmetic view by.06rad while the server is paused. Round/eye/HP/ammo/pool remain
 unchanged; source generation, original paired repeated-gold-pixel threshold and
 readonly-authority comparison remain. All camera/yaw/draw controls are restored.
 This is a presentation-observer correction, not a physics or feature allowance.
+
+An off-axis view alone did not resolve every repeat: a later footprint had
+vehicle colour in both visible/hidden frames, so an unrelated friendly hull
+occluded the received round. The boarding encounter is now staged in open
+mid-field at(3500,2000) before boarding/firing, with every actor/HP/ammo/
+generation/pool field retained. Only source/observer initial encounter poses
+move; no in-flight state renewal. Basic GUI boarding/forward progress/fire/exit
+thresholds remain; this fixture is not dense hull-navigation acceptance. Dense
+motion/controller/network gates stay separately exercised. The previous
+redundant full retry was cancelled after the focused repeat failed.
+The final open-ground observer passed three real two-client repeats with4/9/4
+repeatable gold shell pixels, actual projected locations(600,360)/(601,360)/
+(600,360), restored visibility and unchanged client authority. Full verification
+must still pass at the final snapshot; these repeats do not substitute for it.
