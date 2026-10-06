@@ -56,3 +56,18 @@ terrain-aware muzzle launches, damage states and useful wreck cover, additional
 vehicle roles and physical orientation. Software GL and null audio checks do
 not establish target hardware performance, recorded sound listening or human
 artistic acceptance. The complete game goal stays active.
+
+Extended controls now establish live stamped births before disabling motion.
+For the body-disabled legacy control only, leaving supported bounds must hold
+the previous valid eye; ordinary candidate paths still require valid support
+and exact attachment. The counterfactual controls do not disable new eye safety
+for the sake of producing an old fault. Original physical negative controls and
+all candidate movement/health/density gates remain.
+
+Final root checkpoint: frozen full extended job6950d874d02f passed574.9486s
+at89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b,90reports
+and all201authored inputs matched. Seventeen root jobs and four extra exec
+sessions are terminal, including ten retained failed job attempts and one
+failed extra body-control attempt. Current and old physical/rendered controls
+remain separately labelled. See evidence/ground-eye-session.json for exact
+source/artifact identities and limitations.

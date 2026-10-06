@@ -1,0 +1,77 @@
+{
+  "candidate_revision": "89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b",
+  "full_checkpoint": {
+    "job_id": "6950d874d02f",
+    "status": "passed",
+    "seconds": 574.9485579440006,
+    "report_count": 90,
+    "authored_input_count": 201,
+    "current_source_mismatches": []
+  },
+  "root_jobs": {
+    "total": 17,
+    "passed": 7,
+    "failed_retained": 10,
+    "running": 0,
+    "all_collected": true
+  },
+  "additional_exec_sessions": "docs/evidence/ground-eye-extra-sessions.json",
+  "workers": "docs/evidence/ground-eye-workers.json",
+  "worker_artifacts": "docs/evidence/ground-eye-worker-artifacts.json",
+  "accepted_frozen_artifacts": [
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/libsim.so",
+      "sha256": "089d0fba89dbf072a89a55baaeb735aa5f6642f26a2f4e1039468c1d5ff9f49c",
+      "bytes": 134008
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/client-build.json",
+      "sha256": "3b0b103e3ef654835c07f57f80478ffa19fdc6b3c4527f798d5df36097eae181",
+      "bytes": 977
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/revisions/89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b/red-horizon",
+      "sha256": "6506579f64495a71315fe7f5ac26984f9a350976a7bd4ca56e71aec1fbbbcd98",
+      "bytes": 264192
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/coop-build.json",
+      "sha256": "01293c06accd38110365f9880dfd12eb8090b10c2115d35b040e16b70ab602a2",
+      "bytes": 360
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/revisions/89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b/red-horizon-coop-server",
+      "sha256": "2bccb78dd8072b2522318c454080360f98166e6554d89f535d769fcfb7a25615",
+      "bytes": 141272
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/headless-build.json",
+      "sha256": "941b4b4f512726065879b142959896ddd4e3820978a45a5c3f61d43480e017ac",
+      "bytes": 358
+    },
+    {
+      "path": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/6950d874d02f/source/build/revisions/89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b/red-horizon-server",
+      "sha256": "70ded69845631f95d1c5e57d109d99e8acfba57dcfa666c450ff48f6a3433d38",
+      "bytes": 134024
+    }
+  ],
+  "workspace_builds": "docs/evidence/ground-eye-workspace-builds.json",
+  "content_fingerprint": "0x8b275091",
+  "canonical_content_sha256": "8b275091a755d20a2e53b01c8379cc707d6bed1c08376d6a232f831fd48d9170",
+  "scope": [
+    "Stateless unsmoothed terrain-supported/contact-corrected retained3m driver anchor",
+    "Actual boarding and entry LOS, held driving and supported-eye cannon targets",
+    "Identity/ownership/numeric guards, lifecycle and independent public gameplay replay",
+    "Actual local/UDP keyboard camera and boarded received-eye preview integration",
+    "Original8k/16k movement/health/symmetry/arrival/replay and real GL/audio/UDP-fault/tooling gates"
+  ],
+  "limitations": [
+    "Legacy3m gameplay anchor, not measured cockpit/socket",
+    "Shell origin remains upright hull-center; no articulated turret/barrel or muzzle socket",
+    "Cosmetic five-point hull suspension; no universal mesh clearance/oriented physical hulls",
+    "Client preview timing fixture is not latency/fault acceptance; existing UDP faults are separately retained",
+    "SoftwareGL/null audio do not establish target GPU, physical listening or human quality",
+    "Additional vehicle/weapon roles, wreck cover, full operation/intelligence/streaming, Windows and live runtime jobs/reload remain",
+    "Full-spec game goal remains active and incomplete"
+  ]
+}

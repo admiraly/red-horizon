@@ -1,4 +1,9 @@
-# Prepared terrain-supported legacy eye kernel
+# Terrain-supported legacy eye kernel
+
+The preparation evidence below is historical. Root now integrates the kernel
+through tank boarding, entry LOS, driving and cannon targets; see
+[ground-eye-integration.md](ground-eye-integration.md) and the final root status
+for verification scope. The stateless component itself still owns no hooks.
 
 `src/nav/ground_eye.asm` implements the frozen root-owned
 `schemas/ground_eye.inc` v1 ABI. It queries unsmoothed `ground_support`, queries

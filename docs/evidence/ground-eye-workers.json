@@ -1,0 +1,26 @@
+[
+  {
+    "task": "ground_oracle",
+    "commit": "b8473dba0281d1b7bd4e5e8f8606a52afa1d55f6",
+    "root_integrated_commit": "43e8a1d",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye-oracle",
+    "owned": [
+      "tests/test_ground_eye_outcomes.py",
+      "docs/ground-eye-outcomes.md"
+    ],
+    "clean": true,
+    "all_jobs_terminal": true
+  },
+  {
+    "task": "ground_presentation",
+    "commit": "1e51fbc0a75e90955b4c65b0d4504ef662cc911b",
+    "root_integrated_commit": "98fa49a",
+    "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye-client",
+    "owned": [
+      "tests/test_ground_eye_client.py",
+      "docs/ground-eye-client.md"
+    ],
+    "clean": true,
+    "all_jobs_terminal": true
+  }
+]

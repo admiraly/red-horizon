@@ -1,0 +1,3663 @@
+[
+  {
+    "suite": "vehicles",
+    "passed": true,
+    "actual_steady_drive_metres_per_second": 18,
+    "first30tick_acceleration_metres": 9.297427915912714,
+    "exclusive_ownership": true,
+    "generation_cleanup": true,
+    "safe_exit": true,
+    "persistent_cannon_ammo": true,
+    "swept_shell_damage": true,
+    "single_destruction_event": true,
+    "fixtures": "real assembly; development-only initial state setup"
+  },
+  {
+    "flat_stub_samples": 8,
+    "ground_support_samples": 9712,
+    "invalid_preserved": 58,
+    "library_sha256": "a1564dcab0d49071131692ef495801b64769362d04c4bd3414430947c2ce07f4",
+    "max_cpu_fit_error": [
+      1.0042908641594295e-05,
+      1.0530724088853027e-06,
+      1.2796113554869315e-06
+    ],
+    "negative_controls": [
+      "flat_pitch",
+      "wrong_forward",
+      "center_only"
+    ],
+    "scope": "stateless five-height support and exact mesh rotation; no runtime caller, suspension, oriented collision, entire mesh clearance or rendered acceptance",
+    "source_sha256": "bb6dbe014a499c309c3f9991aebe21e595e9cdfe6fe993f6649f7c06fd0d9651",
+    "stack_alignment_errors": 0,
+    "world_entities": 8192,
+    "world_library_sha256": "a9b6c179a9a4a2c20ce422d0f8eef36b93e222fc0399fa238cc96d20af527efe",
+    "world_readonly_checksum": "a7d5f9699df660cc"
+  },
+  {
+    "alignment_errors": 0,
+    "ground_contact_samples": 7296,
+    "invalid_zero_query_preserved": 68,
+    "library_sha256": "371a42454be71aa86bd6a0d54c4808029224b69e671497e4cb4bc820c1c5fb8c",
+    "max_cpu_floor_error": 3.814697265625e-06,
+    "max_independent_matrix_floor_error": 0.0002111147449568307,
+    "negative_controls": [
+      "upright_only",
+      "omitted_local_y",
+      "wrong_rotation"
+    ],
+    "nonfinite_height_preserved": 1,
+    "scope": "isolated five-point intermediate-pose contact; no renderer integration, entire mesh clearance or physical suspension acceptance",
+    "source_sha256": "46c3f632099fa0957bc7d3e0d072c7e4a080e631d896457cb0bb5ba40b799ed6"
+  },
+  {
+    "alignment_errors": 0,
+    "causal_negatives": [
+      "linear_step",
+      "wrong_velocity",
+      "stale_reads"
+    ],
+    "invalid_cases": 66,
+    "library_sha256": "4814f89b1a9747f8d127cc2af1e619145e617a182807a95bf5082fba65d98f26",
+    "maximum_partition_difference": 1.0056843962047424e-06,
+    "maximum_single_step_error": [
+      0.0004602474932653422,
+      3.3220884221307756e-07,
+      3.5099082928979897e-07,
+      3.9264536241034875e-05,
+      1.3739384439048763e-06,
+      1.6893837484488472e-06
+    ],
+    "scope": "isolated cosmetic response; no renderer/terrain contact correction or physical/game suspension acceptance",
+    "source_sha256": "3e5fb2c016ef2a9651319b012774994d39167e9c2a200487e464984b248663df",
+    "suspension_calls": 3462
+  },
+  {
+    "suite": "ground-visual",
+    "passed": true,
+    "calls": 1928,
+    "dynamic_angle_lag_samples": 1333,
+    "contact_corrections": 525,
+    "minimum_independent_corner_gap": -3.811614860182999e-06,
+    "maximum_damping_angle_error": 3.080525112775234e-08,
+    "causal_negatives": [
+      "no_floor",
+      "always_reset",
+      "double_step"
+    ],
+    "library_sha256": "09a05c3a7c9df302408cd6cbb25850f0baae6b9039bc0df33652291454786fb7",
+    "scope": "actual NASM derived spring/contact composition; five sample contact points, no physical hull or natural gameplay acceptance"
+  },
+  {
+    "alignment_errors": 0,
+    "ground_eye_cases": 6488,
+    "hostile_result_gate_cases": 4,
+    "invalid_zero_query_preserved": 58,
+    "library_sha256": "6c3595938fffb445156070bcfa2ebaebe0e0a3847cea76e32252735450a076df",
+    "maximum_independent_xyz_error": [
+      0.0002460007244735607,
+      0.0001194279703966572,
+      0.00024721088993828744
+    ],
+    "maximum_rotated_floor_raise": 0.05292510986328125,
+    "maximum_rotated_floor_raise_case": [
+      1,
+      5478.416015625,
+      5376.85693359375,
+      3.1415927410125732
+    ],
+    "negative_controls": [
+      "upright_eye",
+      "wrong_axis",
+      "omitted_contact_floor"
+    ],
+    "scope": "prepared stateless legacy eye; no driver/camera integration or physical socket acceptance",
+    "source_sha256": "e276a00e08d989e8c62f8bf57288444a8dfcf2370781454efda011b27aa235ec"
+  },
+  {
+    "causal_negative_controls": [
+      {
+        "expected": [
+          32.0,
+          0.8,
+          0.0
+        ],
+        "library_sha256": "2e74cf2283ef7e8fad7d2959ba27398db5f6201174feba6931cb0895cc073739",
+        "name": "flat-missing-relief",
+        "observed": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rejected_components": [
+          0,
+          1
+        ]
+      },
+      {
+        "expected": [
+          32.0,
+          0.8,
+          0.0
+        ],
+        "library_sha256": "4d1523de3c597fc04421f739f4246839f2f3061bfb908e8b425c5a75a2bf7a13",
+        "name": "rising-gradient-sign-inverted",
+        "observed": [
+          32.0,
+          -0.800000011920929,
+          0.0
+        ],
+        "rejected_components": [
+          1
+        ]
+      }
+    ],
+    "combined_corner_degrees": 40.57773443057469,
+    "combined_corner_gradient": [
+      0.7960000038146973,
+      0.31599998474121094
+    ],
+    "continuity": [
+      {
+        "axis": 0,
+        "break": 5400.0,
+        "heights": [
+          0.0,
+          0.0,
+          0.0078125
+        ]
+      },
+      {
+        "axis": 0,
+        "break": 5480.0,
+        "heights": [
+          63.9921875,
+          64.0,
+          64.0
+        ]
+      },
+      {
+        "axis": 0,
+        "break": 5620.0,
+        "heights": [
+          64.0,
+          64.0,
+          63.99687576293945
+        ]
+      },
+      {
+        "axis": 0,
+        "break": 5820.0,
+        "heights": [
+          0.0031250000465661287,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "axis": 1,
+        "break": 4800.0,
+        "heights": [
+          0.0,
+          0.0,
+          0.0031250000465661287
+        ]
+      },
+      {
+        "axis": 1,
+        "break": 5000.0,
+        "heights": [
+          63.99687576293945,
+          64.0,
+          64.0
+        ]
+      },
+      {
+        "axis": 1,
+        "break": 5400.0,
+        "heights": [
+          64.0,
+          64.0,
+          63.99687576293945
+        ]
+      },
+      {
+        "axis": 1,
+        "break": 5600.0,
+        "heights": [
+          0.0031250000465661287,
+          0.0,
+          0.0
+        ]
+      }
+    ],
+    "generator_rejections": 52,
+    "gentle_degrees": 17.744671253312237,
+    "gentle_gradient": -0.3199999928474426,
+    "glsl": "actual GLSL450 compute-helper compilation; no rendering/GPU execution claim",
+    "invalid_samples": 10,
+    "library_sha256": "4b945af436d2c7719f5e86cc4ee2e144a0d4d98153f2b1d3006160f60d443f34",
+    "maximum_absolute_error": [
+      4.364776607701515e-06,
+      5.8650970413687276e-08,
+      2.5510787982074845e-08
+    ],
+    "passed": true,
+    "peak_height": 64.0,
+    "runtime": "actual NASM x86-64 SSE2, Python development observer",
+    "scope": "isolated stateless component; no world terrain, navigation, grade clearance, surface/motion, protocol, scale or visual acceptance",
+    "source_sha256": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+    "steep_degrees": 38.659808670565035,
+    "steep_gradient": 0.800000011920929,
+    "suite": "terrain-relief-component",
+    "valid_samples": 6201
+  },
+  {
+    "suite": "terrain-grade",
+    "passed": true,
+    "library_sha256": "44ab172f90c022ae25d5138c7c728adf7027dfed00f2cf9841cba2e1f3480b0d",
+    "facets": 9,
+    "maximum_facet_corner_checks": 36,
+    "samples": {
+      "clear": 3819,
+      "blocked": 292,
+      "invalid": 82
+    },
+    "named_cases": [
+      {
+        "name": "shallow_base",
+        "role": 0,
+        "points": [
+          "1000.0",
+          "1000.0",
+          "1200.0",
+          "1300.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 0,
+        "points": [
+          "3200.0",
+          "4000.0",
+          "4800.0",
+          "4000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 0,
+        "points": [
+          "6000.0",
+          "5200.0",
+          "6100.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "steep_ramp",
+        "role": 0,
+        "points": [
+          "5440.0",
+          "5200.0",
+          "5440.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_start_clear",
+        "role": 0,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5390.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_end_clear",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_steep",
+        "role": 0,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "closed_cusp_both_sides",
+        "role": 0,
+        "points": [
+          "5480.0",
+          "5200.0",
+          "5480.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "gentle_east_approach",
+        "role": 0,
+        "points": [
+          "5750.0",
+          "5200.0",
+          "5750.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "gentle_south_approach",
+        "role": 0,
+        "points": [
+          "5560.0",
+          "4900.0",
+          "5560.0",
+          "4900.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "map_footprint_bounds",
+        "role": 0,
+        "points": [
+          "0.0",
+          "0.0",
+          "8000.0",
+          "8000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "shallow_base",
+        "role": 1,
+        "points": [
+          "1000.0",
+          "1000.0",
+          "1200.0",
+          "1300.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 1,
+        "points": [
+          "3200.0",
+          "4000.0",
+          "4800.0",
+          "4000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 1,
+        "points": [
+          "6000.0",
+          "5200.0",
+          "6100.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "steep_ramp",
+        "role": 1,
+        "points": [
+          "5440.0",
+          "5200.0",
+          "5440.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "intermediate_start_clear",
+        "role": 1,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5390.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_end_clear",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_steep",
+        "role": 1,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "closed_cusp_both_sides",
+        "role": 1,
+        "points": [
+          "5480.0",
+          "5200.0",
+          "5480.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "gentle_east_approach",
+        "role": 1,
+        "points": [
+          "5750.0",
+          "5200.0",
+          "5750.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "gentle_south_approach",
+        "role": 1,
+        "points": [
+          "5560.0",
+          "4900.0",
+          "5560.0",
+          "4900.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "map_footprint_bounds",
+        "role": 1,
+        "points": [
+          "0.0",
+          "0.0",
+          "8000.0",
+          "8000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "shallow_base",
+        "role": 2,
+        "points": [
+          "1000.0",
+          "1000.0",
+          "1200.0",
+          "1300.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 2,
+        "points": [
+          "3200.0",
+          "4000.0",
+          "4800.0",
+          "4000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 2,
+        "points": [
+          "6000.0",
+          "5200.0",
+          "6100.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "steep_ramp",
+        "role": 2,
+        "points": [
+          "5440.0",
+          "5200.0",
+          "5440.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "intermediate_start_clear",
+        "role": 2,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5390.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_end_clear",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_steep",
+        "role": 2,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "closed_cusp_both_sides",
+        "role": 2,
+        "points": [
+          "5480.0",
+          "5200.0",
+          "5480.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "gentle_east_approach",
+        "role": 2,
+        "points": [
+          "5750.0",
+          "5200.0",
+          "5750.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "gentle_south_approach",
+        "role": 2,
+        "points": [
+          "5560.0",
+          "4900.0",
+          "5560.0",
+          "4900.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "map_footprint_bounds",
+        "role": 2,
+        "points": [
+          "0.0",
+          "0.0",
+          "8000.0",
+          "8000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "shallow_base",
+        "role": 3,
+        "points": [
+          "1000.0",
+          "1000.0",
+          "1200.0",
+          "1300.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 3,
+        "points": [
+          "3200.0",
+          "4000.0",
+          "4800.0",
+          "4000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "shallow_base",
+        "role": 3,
+        "points": [
+          "6000.0",
+          "5200.0",
+          "6100.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "steep_ramp",
+        "role": 3,
+        "points": [
+          "5440.0",
+          "5200.0",
+          "5440.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_start_clear",
+        "role": 3,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5390.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_end_clear",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "intermediate_steep",
+        "role": 3,
+        "points": [
+          "5390.0",
+          "5200.0",
+          "5500.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "closed_cusp_both_sides",
+        "role": 3,
+        "points": [
+          "5480.0",
+          "5200.0",
+          "5480.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "gentle_east_approach",
+        "role": 3,
+        "points": [
+          "5750.0",
+          "5200.0",
+          "5750.0",
+          "5200.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "gentle_south_approach",
+        "role": 3,
+        "points": [
+          "5560.0",
+          "4900.0",
+          "5560.0",
+          "4900.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "map_footprint_bounds",
+        "role": 3,
+        "points": [
+          "0.0",
+          "0.0",
+          "8000.0",
+          "8000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "footprint_center_plateau",
+        "role": 1,
+        "points": [
+          "5482.0",
+          "5200.0",
+          "5482.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "footprint_center_plateau",
+        "role": 2,
+        "points": [
+          "5482.0",
+          "5200.0",
+          "5482.0",
+          "5200.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "combined_gradient_corner",
+        "role": 2,
+        "points": [
+          "5448.0",
+          "4908.0",
+          "5448.0",
+          "4908.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "nan",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "-inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "-0.0010000000474974513",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "8000.0009765625",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "nan",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "-inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "-0.0010000000474974513",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "8000.0009765625",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "nan",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-0.0010000000474974513",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "8000.0009765625",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "nan"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-0.0010000000474974513"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 0,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "8000.0009765625"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "nan",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "-inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "-0.0010000000474974513",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "8000.0009765625",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "nan",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "-inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "-0.0010000000474974513",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "8000.0009765625",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "nan",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-0.0010000000474974513",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "8000.0009765625",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "nan"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-0.0010000000474974513"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 1,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "8000.0009765625"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "nan",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "-inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "-0.0010000000474974513",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "8000.0009765625",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "nan",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "-inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "-0.0010000000474974513",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "8000.0009765625",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "nan",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-0.0010000000474974513",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "8000.0009765625",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "nan"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-0.0010000000474974513"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 2,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "8000.0009765625"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "nan",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "-inf",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "-0.0010000000474974513",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "8000.0009765625",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "nan",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "-inf",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "-0.0010000000474974513",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "8000.0009765625",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "nan",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-inf",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "-0.0010000000474974513",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "8000.0009765625",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "nan"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-inf"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "-0.0010000000474974513"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_coordinate",
+        "role": 3,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "8000.0009765625"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_role",
+        "role": 4,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "invalid_role",
+        "role": 4294967295,
+        "points": [
+          "5500.0",
+          "5200.0",
+          "5600.0",
+          "5300.0"
+        ],
+        "result": -1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5400.0",
+          "4800.0",
+          "5400.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5400.0",
+          "4800.0",
+          "5400.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5400.0",
+          "4800.0",
+          "5400.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5400.0",
+          "4800.0",
+          "5400.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5400.0",
+          "5000.0",
+          "5400.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5400.0",
+          "5000.0",
+          "5400.0",
+          "5000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5400.0",
+          "5000.0",
+          "5400.0",
+          "5000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5400.0",
+          "5000.0",
+          "5400.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5400.0",
+          "5400.0",
+          "5400.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5400.0",
+          "5400.0",
+          "5400.0",
+          "5400.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5400.0",
+          "5400.0",
+          "5400.0",
+          "5400.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5400.0",
+          "5400.0",
+          "5400.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5400.0",
+          "5600.0",
+          "5400.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5400.0",
+          "5600.0",
+          "5400.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5400.0",
+          "5600.0",
+          "5400.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5400.0",
+          "5600.0",
+          "5400.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5480.0",
+          "4800.0",
+          "5480.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5480.0",
+          "4800.0",
+          "5480.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5480.0",
+          "4800.0",
+          "5480.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5480.0",
+          "4800.0",
+          "5480.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5480.0",
+          "5000.0",
+          "5480.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5480.0",
+          "5000.0",
+          "5480.0",
+          "5000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5480.0",
+          "5000.0",
+          "5480.0",
+          "5000.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5480.0",
+          "5000.0",
+          "5480.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5480.0",
+          "5400.0",
+          "5480.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5480.0",
+          "5400.0",
+          "5480.0",
+          "5400.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5480.0",
+          "5400.0",
+          "5480.0",
+          "5400.0"
+        ],
+        "result": 0
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5480.0",
+          "5400.0",
+          "5480.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5480.0",
+          "5600.0",
+          "5480.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5480.0",
+          "5600.0",
+          "5480.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5480.0",
+          "5600.0",
+          "5480.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5480.0",
+          "5600.0",
+          "5480.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5620.0",
+          "4800.0",
+          "5620.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5620.0",
+          "4800.0",
+          "5620.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5620.0",
+          "4800.0",
+          "5620.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5620.0",
+          "4800.0",
+          "5620.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5620.0",
+          "5000.0",
+          "5620.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5620.0",
+          "5000.0",
+          "5620.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5620.0",
+          "5000.0",
+          "5620.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5620.0",
+          "5000.0",
+          "5620.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5620.0",
+          "5400.0",
+          "5620.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5620.0",
+          "5400.0",
+          "5620.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5620.0",
+          "5400.0",
+          "5620.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5620.0",
+          "5400.0",
+          "5620.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5620.0",
+          "5600.0",
+          "5620.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5620.0",
+          "5600.0",
+          "5620.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5620.0",
+          "5600.0",
+          "5620.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5620.0",
+          "5600.0",
+          "5620.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5820.0",
+          "4800.0",
+          "5820.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5820.0",
+          "4800.0",
+          "5820.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5820.0",
+          "4800.0",
+          "5820.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5820.0",
+          "4800.0",
+          "5820.0",
+          "4800.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5820.0",
+          "5000.0",
+          "5820.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5820.0",
+          "5000.0",
+          "5820.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5820.0",
+          "5000.0",
+          "5820.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5820.0",
+          "5000.0",
+          "5820.0",
+          "5000.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5820.0",
+          "5400.0",
+          "5820.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5820.0",
+          "5400.0",
+          "5820.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5820.0",
+          "5400.0",
+          "5820.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5820.0",
+          "5400.0",
+          "5820.0",
+          "5400.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 0,
+        "points": [
+          "5820.0",
+          "5600.0",
+          "5820.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 1,
+        "points": [
+          "5820.0",
+          "5600.0",
+          "5820.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 2,
+        "points": [
+          "5820.0",
+          "5600.0",
+          "5820.0",
+          "5600.0"
+        ],
+        "result": 1
+      },
+      {
+        "name": "all_breakpoint_cusps",
+        "role": 3,
+        "points": [
+          "5820.0",
+          "5600.0",
+          "5820.0",
+          "5600.0"
+        ],
+        "result": 1
+      }
+    ],
+    "readonly_inputs_and_facets": true,
+    "sysv_preservation": true,
+    "canonical_assembled_coefficients": true,
+    "malformed_generator_rejections": 19,
+    "incompatible_policy_rejections": 3,
+    "generated_bytes_deterministic": true,
+    "stale_output_rejected": true,
+    "actual_flat_and_center_only_controls_rejected": true,
+    "actual_guard_threshold_control_rejected": true,
+    "outside_relief_gradient_upper_bound": 0.02285278976405288,
+    "limits": [
+      "Expanded sweep AABB may conservatively block diagonal/corner paths.",
+      "Grade-valid relief support must stay outside ridge interior X3200..4800.",
+      "Standalone stateless helper; no world/body/navigation/render/build hook or scale acceptance."
+    ]
+  },
+  {
+    "flight_samples": [
+      [
+        5364.99853515625,
+        5199.875,
+        124.58306884765625,
+        14.583070755004883,
+        109.99999809265137
+      ],
+      [
+        5459.90087890625,
+        5171.8134765625,
+        131.17373657226562,
+        62.73858642578125,
+        68.43515014648438
+      ],
+      [
+        5529.73095703125,
+        5101.68798828125,
+        141.17373657226562,
+        78.94693756103516,
+        62.22679901123047
+      ],
+      [
+        5557.3935546875,
+        5006.669921875,
+        151.17373657226562,
+        78.93216705322266,
+        72.24156951904297
+      ],
+      [
+        5545.775390625,
+        4907.49462890625,
+        160.17373657226562,
+        49.19947814941406,
+        110.97425842285156
+      ],
+      [
+        5530.814453125,
+        4808.61767578125,
+        150.17373657226562,
+        17.427980422973633,
+        132.745756149292
+      ]
+    ],
+    "height_library_sha256": "5a068731a36db8dba9733ff1accb280722db0dbcb20e8842469f395a4e2c2899",
+    "legacy_bitwise_controls": 11,
+    "maximum_absolute_errors": [
+      5.818114757971671e-06,
+      7.651519773332893e-08,
+      3.227996825394541e-08
+    ],
+    "minimum_bomber_clearance": 54.81165313720703,
+    "passed": true,
+    "player_eye": 80.77000427246094,
+    "player_feet": 78.97000122070312,
+    "projectile_impact": [
+      5436.1767578125,
+      43.739200592041016,
+      5200.0
+    ],
+    "projectile_muzzle_height": 41.76490020751953,
+    "protected_GPRs": 15,
+    "protected_XMM_registers": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "raised_air_samples": 50,
+    "scope": "actual authoritative height/gradient/LOS/projectile/player/aircraft paths; no grade traversal/nav bypass/render/net/scale acceptance",
+    "source_sha256": {
+      "src/nav/terrain.asm": "106d2f28ab5999e008a8a344cd7a4979b83ad3c9b22b2f3cd4daeeb844c8a13d",
+      "src/nav/terrain_relief.asm": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+      "src/nav/terrain_surface.asm": "2f4da01bc8f7c451df16268820fd5b276c9231856ba8bbabb503dd4b956b476a",
+      "tests/probe_terrain_height.asm": "a6462ca4389c236f238e83409ae2fd8dbb62b1df07bcfcf41cae4efa726b20cd"
+    },
+    "suite": "terrain-height-integration",
+    "valid_samples": 3055,
+    "world_library_sha256": "a9b6c179a9a4a2c20ce422d0f8eef36b93e222fc0399fa238cc96d20af527efe"
+  },
+  {
+    "suite": "terrain-grade-outcomes",
+    "passed": true,
+    "legacy": false,
+    "library_sha256": "b026cef933e430c70482766503487534bee5105fc108d920ca572fb6eda30ed3",
+    "observer_sha256": "cb9873a478298c6ec6ed557bde265e44b4289ddbf49be802e07bb2740b303e6e",
+    "cases": [
+      {
+        "name": "whole_hull_central_steep_stop",
+        "result": {
+          "start": [
+            5375.0,
+            5200.0
+          ],
+          "goal": [
+            5500.0,
+            5200.0
+          ],
+          "ticks": 200,
+          "final": [
+            5396.4404296875,
+            5200.0
+          ],
+          "goal_error": 103.5595703125,
+          "distance": 21.4404296875,
+          "maximum_accepted_grade": 0.0030464313688609544,
+          "trace_sha256": "76f532e02acfd17f1f5abf24f12efdb97fc5682b69f396f6e61a7a7093c1ec49",
+          "checksum": "c2887170b840e9a1"
+        }
+      },
+      {
+        "name": "combined_gradient_corner_stop",
+        "result": {
+          "start": [
+            5380.0,
+            4965.0
+          ],
+          "goal": [
+            5510.0,
+            4965.0
+          ],
+          "ticks": 300,
+          "final": [
+            5440.798828125,
+            4965.0
+          ],
+          "goal_error": 69.201171875,
+          "distance": 60.798828125,
+          "maximum_accepted_grade": 0.6971061040447967,
+          "trace_sha256": "c7b70be598b51200c5dfa11d27d62b11db61a61cae2cecc09c87ed167859290e",
+          "checksum": "03a17dcfc9c12f55"
+        }
+      },
+      {
+        "name": "whole_body_clear_parallel_edge",
+        "result": {
+          "start": [
+            5395.0,
+            5150.0
+          ],
+          "goal": [
+            5395.0,
+            5300.0
+          ],
+          "ticks": 150,
+          "final": [
+            5395.0,
+            5215.0380859375
+          ],
+          "goal_error": 84.9619140625,
+          "distance": 65.0380859375,
+          "maximum_accepted_grade": 0.0030497485569649222,
+          "trace_sha256": "ba6e8fc95984965d8bd4aca768a13f4ff5b321f4d00ac28d953fdb9ccac7cce4",
+          "checksum": "fe475095d9971da5"
+        }
+      },
+      {
+        "name": "tank_reachable_plateau",
+        "route_length_budget": 1520.4443381325418,
+        "result": {
+          "start": [
+            5375.0,
+            5200.0
+          ],
+          "goal": [
+            5550.0,
+            5200.0
+          ],
+          "ticks": 4202,
+          "final": [
+            5550.0,
+            5200.0
+          ],
+          "goal_error": 0.0,
+          "distance": 175.0,
+          "maximum_accepted_grade": 0.5827028010297646,
+          "trace_sha256": "94324b43a4e1b2ba1b81a5da2861c8ddb3bec89b5dfd6df6309ccc27a3d2a49b",
+          "checksum": "f8c7a890d2e1d853"
+        }
+      },
+      {
+        "name": "artillery_reachable_plateau",
+        "route_length_budget": 1520.4443381325418,
+        "result": {
+          "start": [
+            5375.0,
+            5200.0
+          ],
+          "goal": [
+            5550.0,
+            5200.0
+          ],
+          "ticks": 11261,
+          "final": [
+            5550.0,
+            5200.0
+          ],
+          "goal_error": 0.0,
+          "distance": 175.0,
+          "maximum_accepted_grade": 0.4137684816779215,
+          "trace_sha256": "116465691c9ba3e1382c452ae16a58fe49369799167ede719059c39e5bd2cd1d",
+          "checksum": "eab7660ecf10d24a"
+        }
+      },
+      {
+        "name": "tank_gentle_ascent",
+        "result": {
+          "start": [
+            5750.0,
+            5200.0
+          ],
+          "goal": [
+            5590.0,
+            5200.0
+          ],
+          "ticks": 560,
+          "final": [
+            5589.99951171875,
+            5200.0
+          ],
+          "goal_error": 0.00048828125,
+          "distance": 160.00048828125,
+          "maximum_accepted_grade": 0.31676228647257787,
+          "trace_sha256": "cc0e845df98f9c3dd960717b784a69c8356f8dfd4de7f29689107768c8b0d095",
+          "checksum": "6bc8717958c58030"
+        }
+      },
+      {
+        "name": "tank_gentle_descent",
+        "result": {
+          "start": [
+            5590.0,
+            5200.0
+          ],
+          "goal": [
+            5750.0,
+            5200.0
+          ],
+          "ticks": 560,
+          "final": [
+            5750.00048828125,
+            5200.0
+          ],
+          "goal_error": 0.00048828125,
+          "distance": 160.00048828125,
+          "maximum_accepted_grade": 0.31676228647257787,
+          "trace_sha256": "6a382e1bdce6a2ec7053ce14fcdc5873fd8725fa57a0a0c7ff583ec948554aba",
+          "checksum": "7ba82fadf5c3a62d"
+        }
+      },
+      {
+        "name": "artillery_gentle_ascent",
+        "result": {
+          "start": [
+            5750.0,
+            5200.0
+          ],
+          "goal": [
+            5590.0,
+            5200.0
+          ],
+          "ticks": 1303,
+          "final": [
+            5590.0,
+            5200.0
+          ],
+          "goal_error": 0.0,
+          "distance": 160.0,
+          "maximum_accepted_grade": 0.31676229004553724,
+          "trace_sha256": "86cbacfa871c921f1d4dff9d7fa8908a0c8ab52beca0921cad416ae631b40e18",
+          "checksum": "feb8938fd3d473d4"
+        }
+      },
+      {
+        "name": "artillery_gentle_descent",
+        "result": {
+          "start": [
+            5590.0,
+            5200.0
+          ],
+          "goal": [
+            5750.0,
+            5200.0
+          ],
+          "ticks": 1303,
+          "final": [
+            5750.0,
+            5200.0
+          ],
+          "goal_error": 0.0,
+          "distance": 160.0,
+          "maximum_accepted_grade": 0.31676229004553724,
+          "trace_sha256": "e33e50713aeb5862030b7d5f20c548638318ec86d756fde755054ca8fcf95c08",
+          "checksum": "36c3f95295a7ffa2"
+        }
+      },
+      {
+        "name": "authentic_role_slope_difference",
+        "roles": [
+          {
+            "kind": 1,
+            "result": {
+              "start": [
+                5380.0,
+                4940.0
+              ],
+              "goal": [
+                5460.0,
+                4940.0
+              ],
+              "ticks": 850,
+              "final": [
+                5460.00048828125,
+                4940.0
+              ],
+              "goal_error": 0.00048828125,
+              "distance": 80.00048828125,
+              "maximum_accepted_grade": 0.6264229143593883,
+              "trace_sha256": "dd9b0d45fa147c2aa609ad6877cb097a26b7373ae5c3e35349b20c0c6cd53679",
+              "checksum": "7d1f32f5e9e0ae01"
+            }
+          },
+          {
+            "kind": 2,
+            "result": {
+              "start": [
+                5380.0,
+                4940.0
+              ],
+              "goal": [
+                5460.0,
+                4940.0
+              ],
+              "ticks": 850,
+              "final": [
+                5395.5087890625,
+                4939.9873046875
+              ],
+              "goal_error": 64.49121218705754,
+              "distance": 15.508794258615952,
+              "maximum_accepted_grade": 0.002953654472072029,
+              "trace_sha256": "6d798ed9ed9b92b0beca59c3e40565ec7aed0f3d9e3e45b27a348371ea5b4538",
+              "checksum": "1f40334b4b1e4320"
+            }
+          }
+        ]
+      },
+      {
+        "name": "driver_uphill_camera_independence",
+        "result": {
+          "start": [
+            5750.0,
+            5200.0
+          ],
+          "goal": [
+            5450.0,
+            5200.0
+          ],
+          "ticks": 100,
+          "final": [
+            5708.9609375,
+            5200.0
+          ],
+          "goal_error": 258.9609375,
+          "distance": 41.0390625,
+          "maximum_accepted_grade": 0.31659145235955016,
+          "trace_sha256": "60b290cd3d025581aeb199262ceba116c2958e6878e7f9cf1b7e617f307218b2",
+          "checksum": "c223ccdbd010b5d5"
+        }
+      },
+      {
+        "name": "driver_downhill_camera_independence",
+        "result": {
+          "start": [
+            5590.0,
+            5200.0
+          ],
+          "goal": [
+            5890.0,
+            5200.0
+          ],
+          "ticks": 100,
+          "final": [
+            5631.0390625,
+            5200.0
+          ],
+          "goal_error": 258.9609375,
+          "distance": 41.0390625,
+          "maximum_accepted_grade": 0.31676228647257787,
+          "trace_sha256": "a7cf5fd0f68decb0913903d7f5e9c1315611256c33a57c7f01a2c0dbdcab9c6c",
+          "checksum": "be8f1b824bf64330"
+        }
+      },
+      {
+        "name": "gentle_slope_bounded_reverse",
+        "trace_sha256": "30fa4d5159d6192833540a649ceb5c33617b94683f67dc03e575486524fc53be"
+      },
+      {
+        "name": "real_driver_to_ai_grade_handoff",
+        "last_driver": {
+          "before": [
+            5728.64013671875,
+            5200.0
+          ],
+          "after": [
+            5728.16015625,
+            5200.0
+          ],
+          "speed": 0.48000001907348633,
+          "heading": -1.5707963705062866,
+          "maximum_sampled_grade": 0.31655305419791857,
+          "world_height": 45.09528732299805,
+          "expected_height": 45.09528752565003,
+          "driver_eye": 47.95547866821289
+        },
+        "first_ai": {
+          "before": [
+            5728.16015625,
+            5200.0
+          ],
+          "after": [
+            5727.72021484375,
+            5200.0
+          ],
+          "speed": 0.4400000274181366,
+          "heading": -1.5707963705062866,
+          "maximum_sampled_grade": 0.3165539340744089,
+          "world_height": 45.23455047607422,
+          "expected_height": 45.234548390779736,
+          "driver_eye": null
+        }
+      },
+      {
+        "name": "malformed_public_input_preserves_authority",
+        "inputs": 4
+      },
+      {
+        "name": "exact_raised_world_replay",
+        "trace_sha256": "60b290cd3d025581aeb199262ceba116c2958e6878e7f9cf1b7e617f307218b2",
+        "checksum": "25532aaac501f30c"
+      }
+    ],
+    "detected_legacy_faults": [],
+    "limits": [
+      "Public gameplay APIs only; sparse initial births, no motion/grade helper calls, private sidecar writes or HP renewal.",
+      "Independent sampled actual swept circles include cusp sides and combined analytic hill+bowl gradients; samples support outcomes but do not prove continuous safety everywhere.",
+      "Conservative route budget based on actual outer bypass and gentle entrance distances; existing acceptance deadlines unchanged.",
+      "No suspension, oriented hull, shortest routes, per-role nav cache, visual art or dense scale acceptance established."
+    ]
+  },
+  {
+    "suite": "terrain-surface",
+    "passed": true,
+    "library_sha256": "71b1f7ba1f06f6109ee37fb9b425de480a7860c26bcc6646a249327d91a12b2d",
+    "road_records": 19,
+    "samples_by_category": {
+      "center": 19,
+      "inner_edge": 42,
+      "outer_edge": 38,
+      "end_cap": 152,
+      "junction": 38,
+      "offroad": 8,
+      "random": 2500,
+      "cusp": 9
+    },
+    "invalid_inputs": 8,
+    "body_samples_by_category": {
+      "zero_radius": 19,
+      "tank": 19,
+      "artillery": 19,
+      "edges_caps_bends": 804,
+      "oversized": 9,
+      "tiny": 6,
+      "junction_conservative": 1,
+      "random": 5000
+    },
+    "body_invalid_inputs": 15,
+    "body_union_junction_conservative": true,
+    "height_matches_real_terrain_bitwise": true,
+    "sysv_preservation": true,
+    "readonly_road_bytes": true,
+    "minimum_road_plus_4_49m_hull_solid_clearance": 35.51,
+    "map_inset_clear": true,
+    "malformed_generator_rejections": 27,
+    "generated_bytes_deterministic": true,
+    "canonical_nasm_glsl_records_equal": true,
+    "glsl_helper_compiled": true,
+    "limitations": [
+      "Whole-circle classification in one capsule; conservative union-junction false negatives, no production traction hooks or slope clearance.",
+      "Ridge cusp derivative is explicitly chosen, not a physical grade acceptance.",
+      "Sampler and generated GLSL helper are not yet wired to production runtime or renderer.",
+      "No road speed, navigation preference, terrain-profile, network or full-scale acceptance claim."
+    ]
+  },
+  {
+    "suite": "ground-surface-outcomes",
+    "passed": true,
+    "legacy": false,
+    "library_sha256": "b026cef933e430c70482766503487534bee5105fc108d920ca572fb6eda30ed3",
+    "observer_sha256": "aef7185d69ae25b096364d65db3ae199fa3f0f85d3bd317b7ebeefbbbad0e078",
+    "cases": [
+      {
+        "name": "paired_ai_tank",
+        "factor": 0.8,
+        "road": {
+          "first_step": 0.019999999552965164,
+          "last_step": 0.5,
+          "distance": 31.5,
+          "trace_sha256": "10fb80721c6a1139815c13d3c3a49c02e9ff1502bf7f3f7623a1dd6f398fc471",
+          "checksum": "83b5bf47e0edd34d"
+        },
+        "offroad": {
+          "first_step": 0.01600000075995922,
+          "last_step": 0.4000000059604645,
+          "distance": 25.2012939453125,
+          "trace_sha256": "1bd4947149c27f8125689d68573665355d7adcc6206289ecebddae424022189b",
+          "checksum": "97881dd404dd4ab3"
+        }
+      },
+      {
+        "name": "paired_ai_artillery",
+        "factor": 0.7,
+        "road": {
+          "first_step": 0.009999999776482582,
+          "last_step": 0.199951171875,
+          "distance": 13.097412109375,
+          "trace_sha256": "8b41d34a894918e9bd80539d22235e6195975a43f741309d4ed36b787f97d578",
+          "checksum": "990dedf12894f926"
+        },
+        "offroad": {
+          "first_step": 0.00699999975040555,
+          "last_step": 0.14000000059604645,
+          "distance": 9.1707763671875,
+          "trace_sha256": "6f66973fd9d09323b1bde947ece3d031c196d30853cc2881cb2ff504c7b3f2c4",
+          "checksum": "16c5720686d9385c"
+        }
+      },
+      {
+        "name": "paired_driver_tank",
+        "factor": 0.8,
+        "road": {
+          "first_step": 0.019999999552965164,
+          "last_step": 0.6000000238418579,
+          "distance": 36.2989501953125,
+          "trace_sha256": "6d2867c7fa227b7206105068b9f8a0e384fe6bd8e973e16b885fb26c495d549f",
+          "checksum": "c426071718d26f54"
+        },
+        "offroad": {
+          "first_step": 0.01600000075995922,
+          "last_step": 0.48000001907348633,
+          "distance": 29.0391845703125,
+          "trace_sha256": "18db2ae036e93b8d7234d990725cfd28769a61dd177280335f3900585187a39f",
+          "checksum": "5b5defe2bf82fdd4"
+        }
+      },
+      {
+        "name": "whole_hull_edge_tank",
+        "centre": {
+          "first_step": 0.019999999552965164,
+          "last_step": 0.5,
+          "distance": 31.5,
+          "trace_sha256": "10fb80721c6a1139815c13d3c3a49c02e9ff1502bf7f3f7623a1dd6f398fc471",
+          "checksum": "83b5bf47e0edd34d"
+        },
+        "edge": {
+          "first_step": 0.01600000075995922,
+          "last_step": 0.4000000059604645,
+          "distance": 25.2012939453125,
+          "trace_sha256": "ab2264bc1fc421f56fe7fed92c97f69368909f953f525c9fb072dc39b3b0ffb4",
+          "checksum": "011c1a9de31d57e3"
+        }
+      },
+      {
+        "name": "whole_hull_edge_artillery",
+        "centre": {
+          "first_step": 0.009999999776482582,
+          "last_step": 0.199951171875,
+          "distance": 13.097412109375,
+          "trace_sha256": "8b41d34a894918e9bd80539d22235e6195975a43f741309d4ed36b787f97d578",
+          "checksum": "990dedf12894f926"
+        },
+        "edge": {
+          "first_step": 0.00699999975040555,
+          "last_step": 0.14000000059604645,
+          "distance": 9.1707763671875,
+          "trace_sha256": "bd111337cf6ee1b0633564ddf76e92bb8fd07568cc89094313fc8db774b0a041",
+          "checksum": "f85ddd15ccc0e9b4"
+        }
+      },
+      {
+        "name": "endcap_tank",
+        "result": {
+          "first_step": 0.019999999552965164,
+          "last_step": 0.019999999552965164,
+          "distance": 0.020025485014072145,
+          "trace_sha256": "ddbacb83bb1533db0f608ec90dadf26ec1b17297804e40071225ca5727759e56",
+          "checksum": "c442df2dd8403cf4"
+        }
+      },
+      {
+        "name": "endcap_artillery",
+        "result": {
+          "first_step": 0.00699999975040555,
+          "last_step": 0.00699999975040555,
+          "distance": 0.007034947165051528,
+          "trace_sha256": "a4c8feb9a85759fe53115eb885fab19ee45c71beb781b11959ba150382bb8327",
+          "checksum": "ab5d80da81ae5201"
+        }
+      },
+      {
+        "name": "diagonal_dogleg",
+        "result": {
+          "first_step": 0.019999999552965164,
+          "last_step": 0.6000000238418579,
+          "distance": 27.298052409468326,
+          "trace_sha256": "c8d326b41a624ced9c17937df9119a00b7713e262a92ad54ba2b14656bf67124",
+          "checksum": "c878d7906225b277"
+        }
+      },
+      {
+        "name": "both_boundaries_bounded_transition",
+        "transitions": [
+          {
+            "tick": 43,
+            "from_road": false,
+            "to_road": true,
+            "before": [
+              2000.0,
+              1293.6798095703125
+            ],
+            "old_speed": 0.48000001907348633,
+            "speed": 0.5
+          },
+          {
+            "tick": 65,
+            "from_road": true,
+            "to_road": false,
+            "before": [
+              2000.0,
+              1306.5794677734375
+            ],
+            "old_speed": 0.6000000238418579,
+            "speed": 0.5600000023841858
+          }
+        ],
+        "result": {
+          "first_step": 0.01600000075995922,
+          "last_step": 0.48000001907348633,
+          "distance": 55.4984130859375,
+          "trace_sha256": "f03123f3ea51ed13ae59853b4bfc45b90a26b465c506ce1bd40465a43573b308",
+          "checksum": "3f794386d0d257e7"
+        }
+      },
+      {
+        "name": "road_reverse",
+        "forward": {
+          "before": [
+            2026.6993408203125,
+            1300.0
+          ],
+          "after": [
+            2027.29931640625,
+            1300.0
+          ],
+          "old_speed": 0.6000000238418579,
+          "speed": 0.6000000238418579,
+          "heading": 1.5707963705062866,
+          "centre_road": true,
+          "body_road": true
+        },
+        "trace_sha256": "c0dccae3a89e0108561e2ebb12a95440982435b924ad1909c8ceda32686a7bef"
+      },
+      {
+        "name": "offroad_reverse",
+        "forward": {
+          "before": [
+            2021.3594970703125,
+            1400.0
+          ],
+          "after": [
+            2021.8394775390625,
+            1400.0
+          ],
+          "old_speed": 0.48000001907348633,
+          "speed": 0.48000001907348633,
+          "heading": 1.5707963705062866,
+          "centre_road": false,
+          "body_road": false
+        },
+        "trace_sha256": "66ec4c10e96ca9c361fc30c375fd4832109ce9ccb1e946182907910de17a5f2f"
+      },
+      {
+        "name": "same_momentum_same_braking",
+        "surfaces": [
+          {
+            "surface": "road",
+            "incoming": 0.40000003576278687
+          },
+          {
+            "surface": "offroad",
+            "incoming": 0.40000003576278687
+          }
+        ]
+      },
+      {
+        "name": "same_momentum_same_yaw_law",
+        "surfaces": [
+          {
+            "surface": "road"
+          },
+          {
+            "surface": "offroad"
+          }
+        ]
+      },
+      {
+        "name": "offroad_ai_driver_ai_handoff",
+        "ai_last": {
+          "before": [
+            2018.8009033203125,
+            1400.0
+          ],
+          "after": [
+            2019.200927734375,
+            1400.0
+          ],
+          "old_speed": 0.4000000059604645,
+          "speed": 0.4000000059604645,
+          "heading": 1.5707963705062866,
+          "centre_road": false,
+          "body_road": false
+        },
+        "first_driver": {
+          "before": [
+            2019.200927734375,
+            1400.0
+          ],
+          "after": [
+            2019.616943359375,
+            1400.0
+          ],
+          "old_speed": 0.4000000059604645,
+          "speed": 0.41600000858306885,
+          "heading": 1.5707963705062866,
+          "centre_road": false,
+          "body_road": false
+        },
+        "first_returned_ai": {
+          "before": [
+            2019.616943359375,
+            1400.0
+          ],
+          "after": [
+            2020.0169677734375,
+            1400.0
+          ],
+          "old_speed": 0.41600000858306885,
+          "speed": 0.4000000059604645,
+          "heading": 1.5707963705062866,
+          "centre_road": false,
+          "body_road": false
+        }
+      },
+      {
+        "name": "camera_cannon_road",
+        "trace_sha256": "6d2867c7fa227b7206105068b9f8a0e384fe6bd8e973e16b885fb26c495d549f"
+      },
+      {
+        "name": "camera_cannon_offroad",
+        "trace_sha256": "18db2ae036e93b8d7234d990725cfd28769a61dd177280335f3900585187a39f"
+      },
+      {
+        "name": "exact_world_replay",
+        "trace_sha256": "f03123f3ea51ed13ae59853b4bfc45b90a26b465c506ce1bd40465a43573b308",
+        "checksum": "3f794386d0d257e7"
+      }
+    ],
+    "detected_legacy_faults": [],
+    "limits": [
+      "Only public sim_tick/player_input/boarding/orders move the authority; no surface/ground actuator calls or motion writes.",
+      "Sparse initial development births, same genuine terrain and unchanged HP/combat/hazard policy.",
+      "Independent canonical capsule distance determines observed source surface; whole-circle fit in one capsule is the documented approximation.",
+      "No slope limits, suspension, oriented hulls, road routing preference, visual quality, target GPU or dense-scale acceptance established here."
+    ]
+  },
+  {
+    "acceleration": {
+      "1": {
+        "first_speed": 0.019999999552965164,
+        "last_speed": 0.5
+      },
+      "2": {
+        "first_speed": 0.009999999776482582,
+        "last_speed": 0.20000000298023224
+      }
+    },
+    "approaches": {
+      "1": {
+        "arrival_error": 0.0,
+        "maximum_forward_coordinate": 1012.0
+      },
+      "2": {
+        "arrival_error": 6.103515625e-05,
+        "maximum_forward_coordinate": 1008.0000610351562
+      }
+    },
+    "checks": [
+      "route-seeded stationary heading",
+      "role acceleration and distinct forward caps",
+      "AI fixed-goal terminal braking converges without snap or overshoot",
+      "driver local steering points retain full steady speed",
+      "AI driver handoff shares momentum without initialization",
+      "released input brakes with bounded coasting and stopped facing",
+      "tracked pivots bounded turns hull axis translation useful progress",
+      "driver reverse bounded lower cap and braking through zero",
+      "AI rearward detours pivot forward instead of slow reverse oscillation",
+      "contact holds exact position stops speed and permits pivot; partial query rejected",
+      "generation kind recycle resets seed and momentum safely",
+      "invalid count role generation claim pose finite inputs preserve state",
+      "off-map initialized births skipped without sidecar seeding",
+      "policy off genuine immediate legacy movement causal control",
+      "FNV policy and every persistent state field including inactive tail",
+      "real-radius surface queries scale role targets/acceleration and brake across boundaries",
+      "off-road driver controls share policy and preserve braking through zero",
+      "road-to-offroad AI/driver handoff retains momentum with bounded rates",
+      "invalid surface result preserves existing and recycled sidecars",
+      "discrete stopping envelope converges from rest and physically stoppable full momentum across roles/surfaces/headings"
+    ],
+    "collision_evidence": "Explicit development clear/blocked/partial stub; not production collision or scale evidence",
+    "discrete_stopping_cases": 70,
+    "invalid_rejected_cases": 48,
+    "library_sha256": "6972b1309d95914636225abd0b5aaba8b8a23bcd8bb6d049bbe2204db6043c97",
+    "passed": true,
+    "reverse": {
+      "driver_tank": -0.18000000715255737
+    },
+    "runtime": "Actual NASM x86-64 SSE2 module; Python development observer",
+    "suite": "ground-motion-actuator",
+    "surface_cases": [
+      {
+        "acceleration": 0.016,
+        "kind": 1,
+        "offroad_forward": 0.4000000059604645,
+        "radius": 3.549999952316284
+      },
+      {
+        "acceleration": 0.006999999999999999,
+        "kind": 2,
+        "offroad_forward": 0.14000000059604645,
+        "radius": 4.489999771118164
+      },
+      {
+        "braked_through_zero": true,
+        "driver_offroad_forward": 0.48,
+        "driver_offroad_reverse": -0.14400000870227814
+      }
+    ],
+    "turn": {
+      "1": {
+        "maximum_turn": 0.06000000238418579,
+        "travel": 39.50006503558671
+      },
+      "2": {
+        "maximum_turn": 0.025000035762786865,
+        "travel": 13.900399673118933
+      }
+    }
+  },
+  {
+    "cases": [
+      {
+        "case": "driven-tank-vs-held-kind-0",
+        "end": [
+          1000.0,
+          1007.7759399414062
+        ],
+        "minimum_swept_gap": 4.22406005859375,
+        "ticks": 100
+      },
+      {
+        "case": "driven-tank-vs-held-kind-1",
+        "end": [
+          1000.0,
+          1004.2879638671875
+        ],
+        "minimum_swept_gap": 7.7120361328125,
+        "ticks": 100
+      },
+      {
+        "case": "driven-tank-vs-held-kind-2",
+        "end": [
+          1000.0,
+          1003.7599487304688
+        ],
+        "minimum_swept_gap": 8.24005126953125,
+        "ticks": 100
+      },
+      {
+        "case": "driven-tank-vs-production-terrain-wall",
+        "end": [
+          3984.44384765625,
+          1301.425048828125
+        ],
+        "ticks": 150
+      },
+      {
+        "after": 0.5600000023841858,
+        "before": 0.6000000238418579,
+        "case": "actual-crowd-AI-handoff-preserves-bounded-momentum"
+      }
+    ],
+    "library_sha256": "d8986a6aee6f16732fe12c394c65fde33d865e49bf9c390edf00558277232df1",
+    "passed": true,
+    "scope": "Actual actuator plus production crowd/terrain kernels; no world hooks, network, graphics or scale acceptance",
+    "suite": "ground-motion-production-collision",
+    "surfaces": [
+      {
+        "kind": 1,
+        "speed": 0.5,
+        "z": 1300
+      },
+      {
+        "kind": 1,
+        "speed": 0.4000000059604645,
+        "z": 1320
+      },
+      {
+        "kind": 2,
+        "speed": 0.199951171875,
+        "z": 1300
+      },
+      {
+        "kind": 2,
+        "speed": 0.14000000059604645,
+        "z": 1320
+      }
+    ]
+  },
+  {
+    "suite": "ground-motion-outcomes",
+    "passed": true,
+    "legacy": false,
+    "private_player_claim_stamp_present": true,
+    "library_sha256": "b026cef933e430c70482766503487534bee5105fc108d920ca572fb6eda30ed3",
+    "observer_sha256": "3746c4c68b7c52164936ef0e875cfd0f7fb41b58cb167398e30db24f950da53f",
+    "cases": [
+      {
+        "name": "drive_direct_api",
+        "camera_varied": false,
+        "acceleration_faults": 0,
+        "first_strafe_fault": 0,
+        "instant_braking_fault": 0,
+        "straight_metres": 21.8394775390625,
+        "turn_metres": 32.159621959755356,
+        "braking_metres": 2.64013671875,
+        "first_five_steps": [
+          0.0159912109375,
+          0.031982421875,
+          0.0479736328125,
+          0.06396484375,
+          0.0799560546875
+        ],
+        "final_straight_speed": 0.47998046875,
+        "trace_sha256": "de390e3d2eeac160d8053bfb0652f497b687184d63063495b457e42007ee7900",
+        "checksum": "52182b81139108e8"
+      },
+      {
+        "name": "drive_world_tick",
+        "camera_varied": false,
+        "acceleration_faults": 0,
+        "first_strafe_fault": 0,
+        "instant_braking_fault": 0,
+        "straight_metres": 21.8394775390625,
+        "turn_metres": 32.159621959755356,
+        "braking_metres": 2.64013671875,
+        "first_five_steps": [
+          0.0159912109375,
+          0.031982421875,
+          0.0479736328125,
+          0.06396484375,
+          0.0799560546875
+        ],
+        "final_straight_speed": 0.47998046875,
+        "trace_sha256": "de390e3d2eeac160d8053bfb0652f497b687184d63063495b457e42007ee7900",
+        "checksum": "ee436cc57de6b647"
+      },
+      {
+        "name": "brake_through_zero_reverse",
+        "faults": 0,
+        "first_twelve_signed_steps": [
+          0.43994140625,
+          0.4000244140625,
+          0.3599853515625,
+          0.3199462890625,
+          0.280029296875,
+          0.239990234375,
+          0.199951171875,
+          0.1600341796875,
+          0.1199951171875,
+          0.0799560546875,
+          0.0400390625,
+          0.0
+        ],
+        "final_signed_step": -0.14404296875,
+        "trace_sha256": "77c8fa3e18ab07e0f23dbb43dcb1d3dcfbd925f5df4ebbc6bf4a4688719b46c8"
+      },
+      {
+        "name": "ai_tank",
+        "acceleration_faults": 0,
+        "instant_braking_fault": 0,
+        "straight_metres": 31.20166015625,
+        "turn_metres": 27.797184892007053,
+        "braking_metres": 1.7994787893173734,
+        "first_five_steps": [
+          0.0159912109375,
+          0.031982421875,
+          0.0479736328125,
+          0.06396484375,
+          0.0799560546875
+        ],
+        "trace_sha256": "4d8350a9eac35a0b4f62fae895ad1dfaf045b198acbc2d086e32174b1185bd97"
+      },
+      {
+        "name": "ai_artillery",
+        "acceleration_faults": 0,
+        "instant_braking_fault": 0,
+        "straight_metres": 11.27099609375,
+        "turn_metres": 8.649880503142427,
+        "braking_metres": 0.3244750760719318,
+        "first_five_steps": [
+          0.0069580078125,
+          0.0140380859375,
+          0.02099609375,
+          0.0279541015625,
+          0.0350341796875
+        ],
+        "trace_sha256": "4594018e0a3f0f8a76f30fd5a4863c913ecd5118b2c47545338d7ee7496c9133"
+      },
+      {
+        "name": "ai_driver_ai_handoff",
+        "before_boarding": [
+          0.0,
+          0.4000000059604645,
+          0.0,
+          0.0,
+          0.4000244140625,
+          2,
+          1,
+          1
+        ],
+        "before_exit": [
+          0.0,
+          0.41600000858306885,
+          0.0,
+          0.0,
+          0.416015625,
+          2,
+          1,
+          1
+        ],
+        "first_ai_return_distance": 0.4000244140625
+      },
+      {
+        "name": "invalid_input_and_recycled_claim",
+        "invalid_inputs": 4,
+        "recycled_generation": 3
+      },
+      {
+        "name": "invalid_claims_cannot_actuate",
+        "claims": [
+          "enemy_side",
+          "entity_generation",
+          "disconnected",
+          "player_generation"
+        ],
+        "stale_player_generation_actuated_fault": false
+      },
+      {
+        "name": "camera_cannon_independent_of_hull",
+        "physical_shell_checks": 12
+      },
+      {
+        "name": "ai_tank_settled_arrival",
+        "ticks": 120,
+        "goal": [
+          3500.0,
+          2020.3
+        ],
+        "final": [
+          3500.0,
+          2020.300048828125
+        ],
+        "final_goal_error": 4.8828125045474735e-05,
+        "maximum_last_ten_steps": 0.0,
+        "trace_sha256": "4bf65d6bc3bb9b3a88dc23bc64a9720c97d50cc6f83cc6ad75719e8843ac0528"
+      },
+      {
+        "name": "ai_artillery_settled_arrival",
+        "ticks": 240,
+        "goal": [
+          3500.0,
+          2020.3
+        ],
+        "final": [
+          3500.0,
+          2020.300048828125
+        ],
+        "final_goal_error": 4.8828125045474735e-05,
+        "maximum_last_ten_steps": 0.0,
+        "trace_sha256": "480eadcbf6cde65a5d4052048c2c4070983f9c058597baadcda590630d075520"
+      },
+      {
+        "name": "camera_independent_trajectory",
+        "trace_sha256": "de390e3d2eeac160d8053bfb0652f497b687184d63063495b457e42007ee7900"
+      },
+      {
+        "name": "whole_hull_contact_wall",
+        "swept_overlap_ticks": 0,
+        "held_contact_ticks": 121,
+        "near_contact_ticks": 130,
+        "approach_metres": 17.08182713936011,
+        "trace_sha256": "c8fcc5b7fc6bebbaac95eaa86ebed2aeeb364494c7b403d794e86990d5924b91"
+      },
+      {
+        "name": "whole_hull_contact_artillery",
+        "swept_overlap_ticks": 0,
+        "held_contact_ticks": 141,
+        "near_contact_ticks": 142,
+        "approach_metres": 11.7598876953125,
+        "trace_sha256": "660047deae21186d5a8f8808a6db35bb5b52afff1d62afcc0408037b4ed07fd6"
+      },
+      {
+        "name": "whole_hull_contact_human",
+        "swept_overlap_ticks": 0,
+        "held_contact_ticks": 133,
+        "near_contact_ticks": 134,
+        "approach_metres": 15.5997314453125,
+        "trace_sha256": "16211a86e3af882a3940e4fa481c30e2e74cc6751e3040a7d6555c852ec41642"
+      }
+    ],
+    "dense": [
+      {
+        "name": "actual_scale_hotspot",
+        "units": 8192,
+        "ticks": 120,
+        "initial_boarded_tank_ids": [],
+        "observed_living_driver_frames": 0,
+        "observed_driver_moving_ticks": 0,
+        "driver_near_relative_sweep_checks": 0,
+        "driver_relative_sweep_faults": 0,
+        "initial_ground_vehicles": 1536,
+        "surviving_original_ground_vehicles": 1423,
+        "moved_over_one_metre": 1241,
+        "coherence_checks": 178608,
+        "coherence_faults": 0,
+        "maximum_heading_turn": 0.06000006198883057,
+        "army_hp_before": 1208320,
+        "army_hp_after": 1009158,
+        "dead_before": 0,
+        "dead_after": 1068,
+        "trace_sha256": "aa1f95f0f59bc5e3ded4295a1194c335cc96c855a0c2d506aff0712336916a0d",
+        "checksum": "a484c0e9e6f9f13d"
+      },
+      {
+        "name": "actual_scale_hotspot_four_drivers",
+        "units": 8192,
+        "ticks": 120,
+        "initial_boarded_tank_ids": [
+          204,
+          477,
+          1228,
+          1501
+        ],
+        "observed_living_driver_frames": 480,
+        "observed_driver_moving_ticks": 480,
+        "driver_near_relative_sweep_checks": 120,
+        "driver_relative_sweep_faults": 0,
+        "initial_ground_vehicles": 1536,
+        "surviving_original_ground_vehicles": 1434,
+        "moved_over_one_metre": 1266,
+        "coherence_checks": 179151,
+        "coherence_faults": 0,
+        "maximum_heading_turn": 0.06000006198883057,
+        "army_hp_before": 1208320,
+        "army_hp_after": 1015505,
+        "dead_before": 0,
+        "dead_after": 1055,
+        "trace_sha256": "d41cf41eecdc99abba4aaf75559fed9c684736d8fb813bf1b54f64c750f62532",
+        "checksum": "ab4e18c40397308e"
+      },
+      {
+        "name": "actual_scale_hotspot",
+        "units": 16384,
+        "ticks": 120,
+        "initial_boarded_tank_ids": [],
+        "observed_living_driver_frames": 0,
+        "observed_driver_moving_ticks": 0,
+        "driver_near_relative_sweep_checks": 0,
+        "driver_relative_sweep_faults": 0,
+        "initial_ground_vehicles": 3072,
+        "surviving_original_ground_vehicles": 2975,
+        "moved_over_one_metre": 2797,
+        "coherence_checks": 363725,
+        "coherence_faults": 0,
+        "maximum_heading_turn": 0.06000006198883057,
+        "army_hp_before": 2416640,
+        "army_hp_after": 2212698,
+        "dead_before": 0,
+        "dead_after": 1069,
+        "trace_sha256": "3adc243dbef6a7cae4f98ea448c1c473a80a5835297ee1d5cc26dc98a58f827d",
+        "checksum": "4fd4b3eec7ca6bb5"
+      },
+      {
+        "name": "actual_scale_hotspot_four_drivers",
+        "units": 16384,
+        "ticks": 120,
+        "initial_boarded_tank_ids": [
+          204,
+          477,
+          1228,
+          1501
+        ],
+        "observed_living_driver_frames": 480,
+        "observed_driver_moving_ticks": 480,
+        "driver_near_relative_sweep_checks": 104,
+        "driver_relative_sweep_faults": 0,
+        "initial_ground_vehicles": 3072,
+        "surviving_original_ground_vehicles": 2968,
+        "moved_over_one_metre": 2791,
+        "coherence_checks": 363134,
+        "coherence_faults": 0,
+        "maximum_heading_turn": 0.06000006198883057,
+        "army_hp_before": 2416640,
+        "army_hp_after": 2216167,
+        "dead_before": 0,
+        "dead_after": 1078,
+        "trace_sha256": "08cb8b3a215ca0403d56fa12e82221327952821162d9093dbdf1f6f7ee0fb766",
+        "checksum": "98828dc99d675811"
+      }
+    ],
+    "limits": [
+      "Production sim_tick and vehicle/player public APIs only; no ground actuator/probe calls.",
+      "Development-only sparse initial placement and generation changes; no motion sidecar writes.",
+      "Observed displacement, stamped heading and signed speed jointly checked; circles do not establish oriented hull, suspension, terrain slope or road semantics.",
+      "Dense observes every living tank/artillery movement and retains real HP/combat, but does not test every pair of army actors."
+    ]
+  }
+]

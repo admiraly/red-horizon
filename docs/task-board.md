@@ -194,3 +194,19 @@ Next read-only unsmoothed driver-eye query contract38ae5f4 is isolated in
 feature/ground-eye; worker d6b1663 is clean and verified6488queries/58invalid
 cases/three assembled negatives. No entry/driver/LOS/aim hook or eye feature
 accepted yet; exact source hashes/evidence in evidence/ground-eye-prepared.json.
+
+Driver-eye continuation: root12f83f9 integrates the verified stateless eye query
+through boarding/LOS, held driving and cannon targets. Root owns the shared
+contract, motion/generation validation, client preview and content fingerprint.
+Independent public gameplay and actual local/UDP client oracles are integrated
+from b8473db and1e51fbc. Frozen vehicles c086272ddad8 passes78.32s; actual
+component/GL/client integration7c777004ac3e passes36.08s. Full extended
+6950d874d02f passed574.9486s/90reports with201matched inputs at89b957e,
+including legacy birth/bounds corrections9721bc2/89b957e; no complete-game acceptance is inferred. Original
+physical radii/speed/grade/health/arrival gates remain. Verified source socket
+metadata and turret groups are needed before the muzzle/articulation slice;
+wreck cover, wider roster and all operation/platform/hardware work remain ready.
+
+Independent next vehicle damage/wreck-cover audit is in wreck-cover-next.md.
+Both real casualty paths, physical queries, persistent presentation/replication
+and original density/recovery deadlines must be covered by that next slice.

@@ -1,0 +1,30 @@
+{
+  "scope": "Four genuinely boarded stationary helpers, includes Python/ctypes overhead; no world tick, graphics, network or hardware acceptance; no optimized-runtime-only overhead inference",
+  "results": [
+    {
+      "library": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c086272ddad8/source/build/libsim.so",
+      "library_sha256": "adb46d91e10d0caf5d5123f20fa135259998e02f16b59097a09db3636a9d1f2d",
+      "four_driver_groups": 10000,
+      "actual_driver_helper_calls": 40000,
+      "mean_ms": 0.1065545325,
+      "p95_ms": 0.107506,
+      "p99_ms": 0.110389,
+      "max_ms": 0.67119,
+      "authority_unchanged": true
+    },
+    {
+      "library": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/dfc1f67207e7/source/build/libsim.so",
+      "library_sha256": "e078a793890c5ffc90cb06723e5d6e2e0fb70f85d342597410c7af46e2d36ecf",
+      "four_driver_groups": 10000,
+      "actual_driver_helper_calls": 40000,
+      "mean_ms": 0.1051609168,
+      "p95_ms": 0.106487,
+      "p99_ms": 0.110205,
+      "max_ms": 0.834853,
+      "authority_unchanged": true
+    }
+  ],
+  "candidate_runtime_source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/c086272ddad8/source",
+  "candidate_runtime_source_mismatches": [],
+  "candidate_runtime_source_file_count": 47
+}

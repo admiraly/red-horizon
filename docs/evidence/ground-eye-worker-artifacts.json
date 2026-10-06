@@ -1,0 +1,38 @@
+[
+  {
+    "original": "/tmp/eye-client-build.log",
+    "retained": "docs/evidence/ground-eye-worker-eye-client-build.log",
+    "sha256": "d94e8629291d1aa427bf259c93f89fa8cdaca1f2ac9af54edfe0eaa20b773889",
+    "bytes": 2019
+  },
+  {
+    "original": "/tmp/eye-coop-build.log",
+    "retained": "docs/evidence/ground-eye-worker-eye-coop-build.log",
+    "sha256": "17686994d2dd104a8cdce37aa28e3acfb5fa43e03d690e496eb55ca6f5165b00",
+    "bytes": 900
+  },
+  {
+    "original": "/tmp/ground-eye-client-final.log",
+    "retained": "docs/evidence/ground-eye-client-candidate.log",
+    "sha256": "0f76eb9c5671036c2c26c54de30fb2364b5cd59c7f7d11101183be00529cdd53",
+    "bytes": 625
+  },
+  {
+    "original": "/tmp/ground-eye-client-old-negative.log",
+    "retained": "docs/evidence/ground-eye-client-prior-accepted-negative.log",
+    "sha256": "4fbf38c2ec3442f562167c5d57f678f71e48eebb117694423f557d7ac7473cf9",
+    "bytes": 1336
+  },
+  {
+    "original": "/tmp/ground-eye-candidate.json",
+    "retained": "docs/evidence/ground-eye-oracle-candidate.json",
+    "sha256": "3d35ccd6cfa6c0be811ff6e6b90d61eab8e54516f90fff3e5d7356e2123ec852",
+    "bytes": 8857
+  },
+  {
+    "original": "/tmp/ground-eye-prior-accepted.json",
+    "retained": "docs/evidence/ground-eye-oracle-prior-accepted.json",
+    "sha256": "f8b923d9da8030d6bc0e4e18a5d22b6fa34854d406df485e39e8c5bf31e28590",
+    "bytes": 8762
+  }
+]

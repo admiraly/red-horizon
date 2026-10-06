@@ -1,0 +1,257 @@
+[
+  {
+    "path": "docs/evidence/ground-eye-1a4a30d5bcfb-failed.log",
+    "sha256": "bd7b37f402ab5fd34ef50e77a6e459c0739224218268edf434e6198fa4958129",
+    "bytes": 75503
+  },
+  {
+    "path": "docs/evidence/ground-eye-1a4a30d5bcfb-reports.json",
+    "sha256": "a40ebab503f3f774c7434b5e14985d53cbcd25f2f9cc6f6bba7a6dcc4cd1a3b0",
+    "bytes": 111036
+  },
+  {
+    "path": "docs/evidence/ground-eye-421ef4486a0c-reports.json",
+    "sha256": "4529afd2de6e3e0bb598ea8e2539a46c6ffd6fa8cf18ff806f38805624e2809a",
+    "bytes": 3449
+  },
+  {
+    "path": "docs/evidence/ground-eye-616f3d009b4b-failed.log",
+    "sha256": "b4a5474bf17c16cf2000c3ae92e14639ef22b0459c059310bcd67e39140a620b",
+    "bytes": 32769
+  },
+  {
+    "path": "docs/evidence/ground-eye-616f3d009b4b-reports.json",
+    "sha256": "99b6b66a4dfdf49cc47a85913c41acf6d21abfb2244653558af74059295ddb68",
+    "bytes": 50657
+  },
+  {
+    "path": "docs/evidence/ground-eye-6950d874d02f-reports.json",
+    "sha256": "3d9cc770557d6e37f3ae547a6b56eb2c8a37fe9159837546ef422dff8e3de520",
+    "bytes": 741094
+  },
+  {
+    "path": "docs/evidence/ground-eye-69c71e3912f4-failed.log",
+    "sha256": "bf709ea8ac7a2071c75e87f3aa2ded853a89e3f4bf320a68a5ae8dd4fed0131b",
+    "bytes": 58487
+  },
+  {
+    "path": "docs/evidence/ground-eye-69c71e3912f4-reports.json",
+    "sha256": "e021fda6920a3b5f8520a324c25621932bdaaff2020f6356fb6669d792e79b1c",
+    "bytes": 87125
+  },
+  {
+    "path": "docs/evidence/ground-eye-71e535368afa-failed.log",
+    "sha256": "a7a71b0d6281aa8df4a6b9c983285dc01cd71e8cbdc2b5fed9cf5fcde9eafdc8",
+    "bytes": 125802
+  },
+  {
+    "path": "docs/evidence/ground-eye-71e535368afa-reports.json",
+    "sha256": "798be4d8b5e80a4774d7d6e987cbc7e9b64f11df9f5118db522838e5a2dc9e3f",
+    "bytes": 226261
+  },
+  {
+    "path": "docs/evidence/ground-eye-7b64d0953040-failed.log",
+    "sha256": "23241d6c46e3ab25ae01fd9fa90c4e1e58c4c1f239c045fea3010e005b93f62d",
+    "bytes": 294764
+  },
+  {
+    "path": "docs/evidence/ground-eye-7b64d0953040-reports.json",
+    "sha256": "1a108fa14dcd3d9dec1fa1e5ce28ac3e0fe657bfa15f3542743404b942f4354d",
+    "bytes": 534285
+  },
+  {
+    "path": "docs/evidence/ground-eye-7c777004ac3e-reports.json",
+    "sha256": "7a54a3a3aba8153b5f32c14612e861878d7fde2d533424250cdfeb8e5feb8440",
+    "bytes": 77177
+  },
+  {
+    "path": "docs/evidence/ground-eye-9d9a894a4599-failed.log",
+    "sha256": "9dc628b167cff5e87df2dcfc48627a6d27848fd8ea32b8958a07ca6f22324571",
+    "bytes": 152990
+  },
+  {
+    "path": "docs/evidence/ground-eye-9d9a894a4599-reports.json",
+    "sha256": "83ccf6d674e4b9e7c8aac5759d54d126ee2af0943c1f77fd5cfdc922d88bf7ea",
+    "bytes": 241277
+  },
+  {
+    "path": "docs/evidence/ground-eye-9e2da26021c7-failed.log",
+    "sha256": "5e2c7ea0d08212c38cce04cfc17a8696d69a77299933c3cfcd422272aca3589c",
+    "bytes": 1988
+  },
+  {
+    "path": "docs/evidence/ground-eye-9e2da26021c7-reports.json",
+    "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "bytes": 3
+  },
+  {
+    "path": "docs/evidence/ground-eye-9f63da3f58df-reports.json",
+    "sha256": "f3a8b3787801a7afecc6ebecb76f3a4a229e44f79970f921fd8e22d383b5e271",
+    "bytes": 3466
+  },
+  {
+    "path": "docs/evidence/ground-eye-9f9805f8dfdf-failed.log",
+    "sha256": "702215eba60b32aed8ced7ff6a6807e8a0df0201e5d4c41ee8948efbf2712987",
+    "bytes": 8108
+  },
+  {
+    "path": "docs/evidence/ground-eye-9f9805f8dfdf-reports.json",
+    "sha256": "834b188bc9b71538a1d36c21045ba9973b558a47c98038052416ae17a04197f8",
+    "bytes": 7873
+  },
+  {
+    "path": "docs/evidence/ground-eye-body-legacy-fixed.log",
+    "sha256": "465d66bc1257aafd7debea1f75843647c0c63c48343a7582b46d575c866019a3",
+    "bytes": 24964
+  },
+  {
+    "path": "docs/evidence/ground-eye-body-legacy.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  {
+    "path": "docs/evidence/ground-eye-c086272ddad8-reports.json",
+    "sha256": "f7c4e73763ac628284482d46fca0abdf7d5232d4c265e23b48e977ef6dd645d6",
+    "bytes": 161657
+  },
+  {
+    "path": "docs/evidence/ground-eye-cf53195023d1-failed.log",
+    "sha256": "797a47e8dd4e1e537f301c8c2f891663a798eae998ca0610d79451b1101c75d1",
+    "bytes": 74830
+  },
+  {
+    "path": "docs/evidence/ground-eye-cf53195023d1-reports.json",
+    "sha256": "f19d9105f8a7858606ee3eb3f89abc166af1b4336eb943d8aa574e30d5b19402",
+    "bytes": 106489
+  },
+  {
+    "path": "docs/evidence/ground-eye-client-candidate.log",
+    "sha256": "0f76eb9c5671036c2c26c54de30fb2364b5cd59c7f7d11101183be00529cdd53",
+    "bytes": 625
+  },
+  {
+    "path": "docs/evidence/ground-eye-client-prior-accepted-negative.log",
+    "sha256": "4fbf38c2ec3442f562167c5d57f678f71e48eebb117694423f557d7ac7473cf9",
+    "bytes": 1336
+  },
+  {
+    "path": "docs/evidence/ground-eye-client.png",
+    "sha256": "0aa39097cdc8f9528ab2ccdff2af5b26f1913fba1c1de28ac3df53087c9649eb",
+    "bytes": 680350
+  },
+  {
+    "path": "docs/evidence/ground-eye-collect.py",
+    "sha256": "235ba2abf42f83a97403e176ebda855a1c5566cf783a82a522e3d2055f785c7b",
+    "bytes": 2073
+  },
+  {
+    "path": "docs/evidence/ground-eye-controller-legacy.log",
+    "sha256": "3b4e262683afc5e1735b122747ea4129da91929e4b75c59bee982bbaddc392a8",
+    "bytes": 16602
+  },
+  {
+    "path": "docs/evidence/ground-eye-cost.json",
+    "sha256": "64877f1ccc101f8ee19c0b913d951e53574683b5974cd417b25f857d19887a2d",
+    "bytes": 1267
+  },
+  {
+    "path": "docs/evidence/ground-eye-cost.py",
+    "sha256": "c39d874a63692bdf9e99bf4d88f55b41770d8cc51d00b00db9c3c7669e44d455",
+    "bytes": 2439
+  },
+  {
+    "path": "docs/evidence/ground-eye-d39c4784a2fd-reports.json",
+    "sha256": "44f64a342bc4514a97ecd3edba50349480e5556a4d4afd2fa92d79bbb7c318aa",
+    "bytes": 3450
+  },
+  {
+    "path": "docs/evidence/ground-eye-d6d2d74f7dd5-reports.json",
+    "sha256": "d1ce6f02d1bb791ab66737dfea4adf5e6d7552060148e91ddd35e99d8a2cc448",
+    "bytes": 3471
+  },
+  {
+    "path": "docs/evidence/ground-eye-db0b1a37d54c-failed.log",
+    "sha256": "c7db56e311fd69579630115c81638c99839286193a6532790e5ccf56fc7652f5",
+    "bytes": 58279
+  },
+  {
+    "path": "docs/evidence/ground-eye-db0b1a37d54c-reports.json",
+    "sha256": "147d6c62b4917c469894fa3b75167432b56957917f96b95e226a2392a3b21756",
+    "bytes": 87125
+  },
+  {
+    "path": "docs/evidence/ground-eye-extra-sessions.json",
+    "sha256": "4700a3fe091dbfa91a306b9ed2b6f126e7655330dae769dc1f79bbc2cc4b6ede",
+    "bytes": 853
+  },
+  {
+    "path": "docs/evidence/ground-eye-jobs.json",
+    "sha256": "0bc723c1c37499423292c46d5d52874cdde958a99fd07b0b5c2a7149e9841b1c",
+    "bytes": 365715
+  },
+  {
+    "path": "docs/evidence/ground-eye-motion-legacy-fixed.json",
+    "sha256": "5eaf42dc4e60037155123264919dbed87ca8987e29927afc76827f4facf69fe1",
+    "bytes": 9252
+  },
+  {
+    "path": "docs/evidence/ground-eye-motion-legacy-fixed.log",
+    "sha256": "ecfb4368ec31cdc586d86e7ab4ceb02052d151ef7cc2a7075d13b17ae3f53d38",
+    "bytes": 7332
+  },
+  {
+    "path": "docs/evidence/ground-eye-oracle-candidate.json",
+    "sha256": "3d35ccd6cfa6c0be811ff6e6b90d61eab8e54516f90fff3e5d7356e2123ec852",
+    "bytes": 8857
+  },
+  {
+    "path": "docs/evidence/ground-eye-oracle-prior-accepted.json",
+    "sha256": "f8b923d9da8030d6bc0e4e18a5d22b6fa34854d406df485e39e8c5bf31e28590",
+    "bytes": 8762
+  },
+  {
+    "path": "docs/evidence/ground-eye-prepared-initial-fixture.log",
+    "sha256": "484a5f950e67a92ac995ee28e7b0f834f306decee7914688b552c72f1f21de14",
+    "bytes": 340
+  },
+  {
+    "path": "docs/evidence/ground-eye-prepared.json",
+    "sha256": "52456c67cefbbe04ecc7039269f9fcb184f0fa4a42e5ad41a6f0d3d8ae468d72",
+    "bytes": 813
+  },
+  {
+    "path": "docs/evidence/ground-eye-prepared.log",
+    "sha256": "93ad7d3b0e2010c606f4b371aae1763dde772afb60ded380357e2d940788bd0a",
+    "bytes": 720
+  },
+  {
+    "path": "docs/evidence/ground-eye-session.json",
+    "sha256": "a079378e82b69ea127bec5dc4363d1a5ea5f92208ff4ae6cc590485b1b0a84a3",
+    "bytes": 3790
+  },
+  {
+    "path": "docs/evidence/ground-eye-worker-artifacts.json",
+    "sha256": "a76028f2232113d038485edbc5adcc24cea99a4b1238c81b3059c301291f1b80",
+    "bytes": 1382
+  },
+  {
+    "path": "docs/evidence/ground-eye-worker-eye-client-build.log",
+    "sha256": "d94e8629291d1aa427bf259c93f89fa8cdaca1f2ac9af54edfe0eaa20b773889",
+    "bytes": 2019
+  },
+  {
+    "path": "docs/evidence/ground-eye-worker-eye-coop-build.log",
+    "sha256": "17686994d2dd104a8cdce37aa28e3acfb5fa43e03d690e496eb55ca6f5165b00",
+    "bytes": 900
+  },
+  {
+    "path": "docs/evidence/ground-eye-workers.json",
+    "sha256": "23ccf0f9602a8302f4c4783e0ce2c34ad4889b63ef3edeb26759921a4af6bb2e",
+    "bytes": 741
+  },
+  {
+    "path": "docs/evidence/ground-eye-workspace-builds.json",
+    "sha256": "f173a914ca670be7449f5f2681e050e3607999ea2f229d24be954f5a6f2f4fc5",
+    "bytes": 1143
+  }
+]

@@ -1,0 +1,242 @@
+{
+  "suite": "ground-eye-outcomes",
+  "passed": true,
+  "legacy": false,
+  "runtime_source_revision": "5006c475839f7b68d8c2c1881e35c60a6997ef5e-64e1971ae59b3105",
+  "library_sha256": "fd8a0c43a76328eb9b44c981381941bb4c930db33edc12f97679dcccf1013e8f",
+  "observer_sha256": "9d979a7f5f14b422a187f8ea28dde6a8b4f7d9d17713542798fad36e27045afa",
+  "cases": [
+    {
+      "name": "descending_slope_direct",
+      "world_tick": false,
+      "ticks": 180,
+      "natural_hull_travel_m": 52.46524638012761,
+      "maximum_eye_error_m": 0.00032605371081021335,
+      "maximum_eye_hull_xz_offset_m": 0.9057664567766913,
+      "maximum_actual_heading_change": 0.06000006198883057,
+      "trace_sha256": "808c6c602ef92edffecf1d008233994054dd562000eb9410fbeaae1b47c3d469",
+      "physical_hull_trace_sha256": "fb0a777842dc703d12bfca2afb93b969e9ab8fb798111c435f7421764279851b",
+      "checksum": "80bcd0d3f487a41d"
+    },
+    {
+      "name": "banked_slope_world",
+      "world_tick": true,
+      "ticks": 180,
+      "natural_hull_travel_m": 52.46683251205987,
+      "maximum_eye_error_m": 0.0003268248744538642,
+      "maximum_eye_hull_xz_offset_m": 0.7409196163031966,
+      "maximum_actual_heading_change": 0.060000002384185784,
+      "trace_sha256": "45d8a90fb51fbf0f67ff642db24a1ba20f74680f3efb32d330b3cc3e1d43db5a",
+      "physical_hull_trace_sha256": "7c59814f454675f94efaa6a934e49ceecd23f932cae30f06638b3e4e5bb99580",
+      "checksum": "64d2e2573ca9ed05"
+    },
+    {
+      "name": "plateau_crest_descent_world",
+      "world_tick": true,
+      "ticks": 600,
+      "natural_hull_travel_m": 218.78360575512758,
+      "maximum_eye_error_m": 0.00034404071572459075,
+      "maximum_eye_hull_xz_offset_m": 0.9057681677246834,
+      "maximum_actual_heading_change": 0.06000006198883057,
+      "trace_sha256": "daafb41bc055b5776a47967af2225a92323c18006a58b9ea6d2eff65e852ba0f",
+      "physical_hull_trace_sha256": "9920dd946350e72b7ccada52c5573c47cb3942d3052ca5c470c713bee2217984",
+      "checksum": "29344bbd34dd5bf3"
+    },
+    {
+      "name": "ridge_cusp_world",
+      "world_tick": true,
+      "ticks": 180,
+      "natural_hull_travel_m": 52.46416138677093,
+      "maximum_eye_error_m": 0.00012336068409110073,
+      "maximum_eye_hull_xz_offset_m": 0.06764777238340214,
+      "maximum_actual_heading_change": 0.06000006198883057,
+      "trace_sha256": "cece1a8d1448c68d4cd9c38a05d29db20620b263d1f767e1c51ce03f5d39230b",
+      "physical_hull_trace_sha256": "6cdea645615d9fb9a240296cbe0c56829fe31e212184837c02a6b40e11488f49",
+      "checksum": "44f147592a254dda"
+    },
+    {
+      "name": "supported_eye_cannon_target",
+      "yaw": 0,
+      "pitch": 0,
+      "velocity_error": 3.911812020729262e-06,
+      "actual_source": [
+        5700.0,
+        56.89500045776367,
+        5100.0
+      ]
+    },
+    {
+      "name": "supported_eye_cannon_target",
+      "yaw": 0.7,
+      "pitch": 0.4,
+      "velocity_error": 6.910765790124562e-06,
+      "actual_source": [
+        5700.0,
+        56.89500045776367,
+        5100.0
+      ]
+    },
+    {
+      "name": "supported_eye_cannon_target",
+      "yaw": -1.7,
+      "pitch": -0.3,
+      "velocity_error": 3.718891095127617e-06,
+      "actual_source": [
+        5700.0,
+        56.89500045776367,
+        5100.0
+      ]
+    },
+    {
+      "name": "supported_eye_cannon_target",
+      "yaw": 2.4,
+      "pitch": 0.7,
+      "velocity_error": 3.2955138082236728e-06,
+      "actual_source": [
+        5700.0,
+        56.89500045776367,
+        5100.0
+      ]
+    },
+    {
+      "name": "exit",
+      "claims_released": true,
+      "scope": "Actual validated hull-centred exit"
+    },
+    {
+      "name": "disconnect",
+      "claims_released": true,
+      "scope": "Actual movement before expressly labelled lifecycle state injection"
+    },
+    {
+      "name": "player_generation",
+      "claims_released": true,
+      "scope": "Actual movement before expressly labelled lifecycle state injection"
+    },
+    {
+      "name": "entity_generation",
+      "claims_released": true,
+      "scope": "Actual movement before expressly labelled lifecycle state injection"
+    },
+    {
+      "name": "player_death",
+      "claims_released": true,
+      "scope": "Actual movement before expressly labelled lifecycle state injection"
+    },
+    {
+      "name": "natural_ai_driver_ai_handoff",
+      "initial_ai_speed": 0.19200001657009125,
+      "first_ai_return_step": 0.43994140625,
+      "checksum": "d29c914eed6a7d51"
+    },
+    {
+      "name": "numeric_and_unknown_input_rejected_before_history",
+      "cases": [
+        [
+          1,
+          "NaN",
+          0
+        ],
+        [
+          1,
+          "infinite",
+          0
+        ],
+        [
+          1,
+          0,
+          "infinite"
+        ],
+        [
+          128,
+          0,
+          0
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "complete_authority_unchanged": true
+    },
+    {
+      "name": "invalid_motion_generation",
+      "held_claim": false,
+      "return_code": -1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": false,
+      "repeated_held_input_checksum_stable": false,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_generation",
+      "held_claim": true,
+      "return_code": 1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": true,
+      "repeated_held_input_checksum_stable": true,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_kind",
+      "held_claim": false,
+      "return_code": -1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": false,
+      "repeated_held_input_checksum_stable": false,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_kind",
+      "held_claim": true,
+      "return_code": 1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": true,
+      "repeated_held_input_checksum_stable": true,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_flags",
+      "held_claim": false,
+      "return_code": -1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": false,
+      "repeated_held_input_checksum_stable": false,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_flags",
+      "held_claim": true,
+      "return_code": 1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": true,
+      "repeated_held_input_checksum_stable": true,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_heading",
+      "held_claim": false,
+      "return_code": -1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": false,
+      "repeated_held_input_checksum_stable": false,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    },
+    {
+      "name": "invalid_motion_heading",
+      "held_claim": true,
+      "return_code": 1,
+      "physical_resources_events_claim_changed": false,
+      "complete_checksum_changed": true,
+      "repeated_held_input_checksum_stable": true,
+      "input_edge_scope": "Valid FIRE edge is consumed by an existing claim before the eye guard; held state must preserve pose, motion, ownership, ammunition and projectiles."
+    }
+  ],
+  "limits": [
+    "Actual public gameplay paths; independent least-squares support, matrix composition and contact floor use only real terrain_height samples.",
+    "Sparse initial friendly birth fixtures; no post-start pose/health manipulation outside labelled lifecycle/security injections.",
+    "Legacy local anchor height3 retained; no measured cockpit/turret socket or transformed physical shell origin claim.",
+    "No renderer, network, scale throughput or complete vehicle realism acceptance."
+  ]
+}

@@ -1,5 +1,10 @@
 # Ground attachments: measured next implementation slice
 
+The eye integration now supersedes the upright driver-eye and pending eye-hook
+observations below. See [ground-eye-integration.md](ground-eye-integration.md).
+The source geometry/socket audit and remaining muzzle/turret work still apply.
+The audit text below records the prior accepted71c runtime.
+
 Read-only audit of root `71c61c74c8a9514dcccddb92934db673db60762a` on
 2026-10-06. This document changes no runtime or current frozen verification.
 It does not claim driver attachment, turret articulation or barrel-aligned fire

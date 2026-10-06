@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye-client/tests/test_ground_eye_client.py", line 81, in <module>
+    try:initial=wait(sample)
+                ~~~~^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye-client/tests/test_ground_eye_client.py", line 21, in wait
+    raise AssertionError('ground eye client condition timed out')
+AssertionError: ground eye client condition timed out
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/ground-eye-client/tests/test_ground_eye_client.py", line 82, in <module>
+    except AssertionError as exc:raise AssertionError(('supported driver eye did not match live hull',observe(mem,sym,armor))) from exc
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('supported driver eye did not match live hull', ((5795.0400390625, 5250.0029296875, 400, 0, 1, 0, 4294967295, 1), (1.4945181608200073, 0.0, 0.0, 0.0, 0.0, 1, 1, 1), (5795.0400390625, 26.99060821533203, 5250.0029296875, 0.0, -0.03999999910593033, 100, 30, 0, 0, 0, 1, 1, 0, 0, 0, 1), (5795.94482421875, 26.850994110107422, 5249.99951171875), 0.90478515625))

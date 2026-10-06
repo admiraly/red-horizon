@@ -1,0 +1,26 @@
+[
+  {
+    "target": "client",
+    "revision": "89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.34314149499550695,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b/red-horizon",
+    "executable_sha256": "e5ebc49b3cd98217e93dd602813dea4e8d268a28cd52f245204823b38b7243e1",
+    "bytes": 259336,
+    "scope": "Linked workspace artifact; frozen integrated full tests remain separately owned"
+  },
+  {
+    "target": "coop",
+    "revision": "89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b",
+    "assembled": 1,
+    "assembled_sources": [
+      "src/net/coop_server.asm"
+    ],
+    "seconds": 0.3288865399954375,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b/red-horizon-coop-server",
+    "executable_sha256": "51a0c8d3650c86692529063ff8824e2f49724af8dbdcaf414e2d2da9707559c9",
+    "bytes": 138392,
+    "scope": "Linked workspace artifact; frozen integrated full tests remain separately owned"
+  }
+]

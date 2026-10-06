@@ -1,6 +1,65 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
-Current derived hull suspension is integrated at71c61c7. Final focused frozen
+Terrain-supported driver eye is integrated at12f83f9, with legacy birth-control
+fixture corrections9721bc2/89b957e. Boarding/LOS, held driving and cannon target XYZ use
+unsmoothed supported/contact-corrected eye authority; the connected client keeps
+received eye XYZ while boarded. Content fingerprint is0x8b275091; UDPv7/schema
+sizes remain unchanged. Root owns runtime/contracts/integration. Public oracle
+b8473db and actual-client oracle1e51fbc came from clean isolated workers.
+
+Frozen vehicles c086272ddad8 passed78.3172s; ground-support/actualGL/client
+7c777004ac3e passed36.0837s. Independent23replayed gameplay cases show eye error
+≤0.0003441m and shell-velocity error≤0.00000692m/tick, versus prior accepted
+upright-eye errors up to0.91668m. Four actual natural hull trace hashes match
+that prior runtime exactly. Real keyboard local/UDP clients show68supported-eye
+samples, reverse−0.144m/tick, fire/exit and convergence;35held-W preview samples
+retain received XYZ in a labelled cosmetic timing fixture. The prior actual
+client fails the same eye observer by0.904785m. Full UDP faults have their
+separate complete integration gate; the timing fixture cannot establish latency
+or long-term frozen-server behavior.
+
+Full extended frozen job6950d874d02f PASSED574.9486s/90reports with all201
+authored inputs matched at
+89b957ed8cd41f9be1a3352cee22113669f79d1d-450d228a6b32576b. It retains original
+scale/physical/combat/replay, actual GL/client/audio/co-op/UDP-fault and tooling
+coverage. All17root jobs and four additional exec sessions are terminal and
+reconciled; both active-batch worker trees are clean. Exact job/source/artifact
+and scope manifests are evidence/ground-eye-jobs.json and ground-eye-session.json.
+Linked workspace client/co-op artifacts are ready. Initial full job
+cf53195023d1 failed106.3763s because its motion-disabled legacy fixture recycled
+the entity generation before a public birth tick could stamp it. The corrected
+control runs its public birth tick before disabling later actuation; candidate
+stamp validation is unchanged. Focused extended9d9a894a4599 failed133.7333s
+and superseded full7b64d0953040 failed222.6548s on the body-disabled legacy
+control leaving supported bounds. Corrected89b957e requires the last valid eye
+to be held only for that intentionally invalid negative-control support; the
+normal candidate still requires a valid query and exact eye attachment. The
+corrected motion/body/controller legacy standalone checks all pass.
+Earlier seven root focused failures retain exact
+logs for obsolete centered-eye assertions and incomplete initial role-changing
+birth fixtures. No radii, grade, movement, health, symmetry or arrival gate was
+relaxed. Evidence is under evidence/ground-eye-* and ground-eye-integration.md.
+
+Seed42/900tick matching baseline/stretch benchmarks retain exact previous
+checksums d744c67d94a73520/27f6b09d60005c9c; p95 timings are6.515/13.800ms on
+this i7-14700K. Seed1hotspot runs at8192/16384 report p95 6.627/12.958ms.
+These overlap validation and are CPU-only. A separate four-boarded-stationary
+helper measurement preserves authority across40000calls: mean/p95
+0.10655/0.10751ms per group, including development Python/ctypes overhead and
+32-actor crowd refresh; it is not a full-world performance comparison.
+
+The retained3m anchor is gameplay policy, not a measured cockpit. The shell
+still launches from upright hull center until verified muzzle/socket and turret
+group metadata exist. Camera has no forced chassis roll; the hull spring remains
+cosmetic. Oriented physical hulls, full roster, wreck cover, complete operation,
+streaming, Windows, live jobs/reload and hardware/human audiovisual acceptance
+remain open. Software GL/null audio do not close those gates. Full-game goal
+stays active.
+
+The suspension checkpoint below is historical; its pending driver-eye statements
+describe the earlier scope and are superseded above.
+
+Derived hull suspension was integrated at71c61c7. Final focused frozen
 job4c865d935b13 passed16.7343s with input fingerprint9af9b6d215bb4e7f; full
 extended frozen jobdfc1f67207e7 passed545.8247s/87reports with all195authored
 inputs matched at71c61c74c8a9514dcccddb92934db673db60762a-9af9b6d215bb4e7f.

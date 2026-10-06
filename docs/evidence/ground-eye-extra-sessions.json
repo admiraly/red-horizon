@@ -1,0 +1,27 @@
+[
+  {
+    "id": 33694,
+    "exit_code": 0,
+    "scope": "Corrected motion-disabled legacy public birth control",
+    "log": "docs/evidence/ground-eye-motion-legacy-fixed.log"
+  },
+  {
+    "id": 83586,
+    "exit_code": 0,
+    "scope": "Controller legacy control with supported eye",
+    "log": "docs/evidence/ground-eye-controller-legacy.log"
+  },
+  {
+    "id": 62834,
+    "exit_code": 1,
+    "scope": "Body-disabled control initially expected valid support beyond bounds; failed",
+    "log": "docs/evidence/ground-eye-body-legacy.log",
+    "stderr": "AssertionError at test_terrain_body_outcomes.py line168: ground_eye must return0"
+  },
+  {
+    "id": 57970,
+    "exit_code": 0,
+    "scope": "Corrected body-disabled control requires holding the last valid eye when support is invalid",
+    "log": "docs/evidence/ground-eye-body-legacy-fixed.log"
+  }
+]
