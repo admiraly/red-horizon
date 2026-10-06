@@ -1,5 +1,43 @@
 # Status — Linux shared-world prototype, 2026-10-06
 
+Current main integrates3bc7e5d: saved remappable controls for all30 existing
+client actions. --bindings FILE loads a regular text profile up to4096 bytes;
+partial overrides retain defaults. NASM validates all entries, duplicate actions
+and final physical-input exclusivity before atomically publishing codes/labels.
+Bad files/duplicates fail before window creation. Every action can use a named
+keyboard input or one of eight mouse buttons. Company, exchange, weather,
+vehicle and wheel-cancel hints show the actual loaded labels. Queued keyboard
+or mouse quit taps survive a slow frame; inside the wheel they cancel. Different
+co-op clients can use different saved profiles without changing authority policy.
+
+Scoped worker fast64 reports (63 explicit passes plus hazard outcomes) and seven
+final parser/CLI/solo/small-view/mixed-profile fault-UDP/default/quit checks pass.
+Physical remapped movement uses the same body; finite fire/reload, keyboard wheel,
+held-order charge, default-key inactivity, foreign-front denial and explicit
+exchange consent are verified. Headless parser/ABI/30-action platform dispatch
+does not require graphics libraries. Exact epochs, reports, hashes and corrected
+fixtures: docs/evidence/input-bindings-focused.json. Matching main rebuilt
+client/co-op/headless and six focused checks pass at3bc7e5d-f52a43dfd074c4e1,
+matching all357 authored inputs. All foreground jobs are terminal and collected.
+Frozen full7cc8322a2c38 is RUNNING, not passed, and is the sole managed running
+checkpoint. Exact six reports, binary hashes and job metadata:
+docs/evidence/input-bindings-main.json.
+
+Previous frozen wheel fulld6a9a612944d FAILED1177.703s after137 reports at the
+original tactical-click spending assertion in test_client_company.py. Source
+audit found that its observer can read the tick counter at tick entry before
+that tick's economy pass. The corrected read-only fixture requires matching
+begin/end authority and completed local tick stamps; exact39 income and5 cost
+remain. The same frozen wheel binary passes with the corrected
+fixture; see docs/evidence/command-wheel-full-economy-recovery.log. Failed job is terminal/collected and retained in
+command-wheel-full-failed.{json,log}; no full wheel pass is claimed.
+
+Bindings are startup-only Linux profiles: no in-game editor/reload, chords,
+gamepad or scancode mapping yet. Full contextual roster, richer tactics,
+assistance/recruitment/shared plans, complete operation/platform/content and
+hardware/human-quality acceptance remain unfinished. Previous integration
+history follows.
+
 Current main integratesbc883ad: contextual command wheel and display startup recovery.
 Hold middle mouse in first person: MOVE up, HOLD left, RETREAT down, FOLLOW right;
 release commits one existing lease-validated five-point order. Centre/right click/
@@ -18,8 +56,8 @@ between fast and final tests. Exact epochs and limitations:
 docs/evidence/command-wheel-focused.json. Runtime is NASM+GLSL; UDPv26/content
 0xb5f51cbd and existing authority layouts/costs remain. Matching main client/co-op/headless builds and six physical/rendered/fault-UDP/
 wreck checks pass atbc883ad-7643b2012d750bc6. All348 authored inputs match.
-Frozen full extended jobd6a9a612944d is RUNNING, not passed. It is the sole
-running managed checkpoint; every foreground job is terminal and collected.
+Frozen full extended jobd6a9a612944d later FAILED at the original economic
+observer assertion; its collected evidence and correction are recorded above.
 Exact matching builds, six reports and full job metadata:
 docs/evidence/command-wheel-main.json.
 

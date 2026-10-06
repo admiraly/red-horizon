@@ -530,3 +530,12 @@ separate command-wheel batch adds four contextual radial choices and actual
 crosshair terrain targeting; scoped local integration evidence is recorded in
 status.md. Remapping, attack/defend/suppress/flank/regroup/embark/disembark/support,
 shared assault planning and human quality acceptance remain incomplete.
+
+
+Control amendment: saved --bindings profiles cover all30 currently implemented
+Linux actions with atomic NASM validation and dynamic command/exchange labels.
+Different-profile co-op consent and selected actual movement/combat/wheel/map
+controls pass. This supplies remappable existing controls, not the missing
+contextual command roster, complete accessibility, in-game editor, Windows or
+whole-operation quality acceptance. Exact evidence is in input-bindings-focused
+and matching-main reports linked from status.md.

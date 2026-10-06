@@ -435,6 +435,15 @@ Next command batch, feature/command-wheel: compact middle-button radial UI and
 first-person terrain targeting use the existing four modes/cost/lease. Physical
 ray/ABI, actual solo labels/cancel/key edges, minimum viewport and two actual
 rendered UDP clients with delay/loss/reorder have scoped passes; routine fast63 reports pass and the batch is locally integrated. Matching main six checks pass atbc883ad-7643b2012d750bc6; frozen full
-d6a9a612944d is running. Full contextual order
+d6a9a612944d later failed the original economy observer and is collected. Full contextual order
 roster, remapping, assistance, recruitment and shared timing remain dependency-
 ready follow-up work rather than implied completed commands.
+
+
+Saved control profiles integrated at3bc7e5d: root owns all30 action IDs, atomic
+NASM file loading, key/mouse routing and dynamic hints. fast64 and seven focused
+checks pass; different-profile co-op consent also passes under real delay/loss/
+reorder. Main builds/six checks pass at3bc7e5d-f52a43dfd074c4e1; frozen full
+7cc8322a2c38 is running with357 source inputs.
+In-game editing, wider commands/assistance/recruitment/plans and full game
+acceptance remain open. Evidence: docs/evidence/input-bindings-focused.json.
