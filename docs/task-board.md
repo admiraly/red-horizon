@@ -456,3 +456,28 @@ UDP and two-rendered-client delay/loss/reorder checks pass. Final frozen-input
 fast65 and network18 regressions pass; merged0b475d9c has32 matching reports
 and360 matched authored inputs. Frozen full100a30b45dda is running, not passed. Adaptive defensive cover, remaining
 commands and shared player assault plans remain ready subsequent work.
+
+
+Finite infantry ammunition (integrator, feature/infantry-ammunition): infinite
+army rifle damage is replaced by30-round magazines,90 carried rounds and60-tick
+reloads. Causal exhaustion/LOS/lifecycle/ABI and original8k/16k replay/400tick
+health symmetry pass; four real UDP endpoints conserve737280 initial army rounds
+without authority writes. Final fast/network regressions precede integration.
+Next logistics work: finite connected-depot inventory and genuine resupply;
+observed own shortages/return routes, replicated presentation and NPC reload
+animation. Do not use renewed bodies, HP, clocks or replenished test stores to
+keep exhausted armies shooting. Existing full defense100a30b45dda stays isolated.
+
+Finite depot follow-up contract (root, ready after ammunition integration):
+The current12-site graph exposes owner+8, role+16, connected+20, health+24
+and contest flags+28. Its sim_supply totals are recomputed capacity, not
+consumable rounds, so they cannot be used as a refill inventory. Add a separate
+bounded finite depot store, checked against actual allied healthy connected
+uncontested depot/production capability and physical proximity. Preserve stock
+conservation with cumulative received rounds when extending infantry records;
+actual transfer must debit the depot before crediting an actor. Route cuts,
+capture and destruction must block transfers without creating new ammunition.
+Verify competing requests, exhaustion, cut/restoration, capture, generation
+reuse and replay on independent fixtures, then original8192 read-only UDP.
+Do not route units to hidden enemies or reset generations to regain equipment.
+Supply-aware movement and readable shortages are subsequent dependent work.

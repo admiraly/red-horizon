@@ -1,0 +1,84 @@
+{
+  "network-current": {
+    "reports": 19,
+    "explicit_passes": 19,
+    "log": "infantry-ammunition-network-current.log"
+  },
+  "wheel-fault-remapped": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "log": "infantry-ammunition-wheel-fault-remapped.log"
+  },
+  "wheel-fault-default": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "log": "infantry-ammunition-wheel-fault-default.log"
+  },
+  "coop-current": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "log": "infantry-ammunition-coop-current.log"
+  },
+  "coop-old-mode-recovery": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "log": "infantry-ammunition-coop-old-mode-recovery.log"
+  },
+  "scale-final": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "log": "infantry-ammunition-scale-final.log"
+  },
+  "fast-verified": {
+    "reports": 67,
+    "explicit_passes": 66,
+    "log": "infantry-ammunition-fast-verified.log"
+  },
+  "fast": {
+    "reports": 7,
+    "explicit_passes": 7,
+    "log": "infantry-ammunition-fast.log",
+    "result": "canceled exit143; disqualified"
+  },
+  "scale": {
+    "reports": 3,
+    "explicit_passes": 3,
+    "log": "infantry-ammunition-scale.log",
+    "result": "canceled exit143; disqualified"
+  },
+  "wheel-fault-current": {
+    "reports": 0,
+    "explicit_passes": 0,
+    "log": "infantry-ammunition-wheel-fault-current.log",
+    "result": "failed fixture using Quit input; corrected run passes"
+  },
+  "discarded_runs": {
+    "fast and scale overlapping libsim link": "Explicitly stopped owned processes; exit143. Disqualified, replaced by serial/private-library passes.",
+    "wheel-fault-current": "Failed: remapped MMB is Quit while wheel fixture still pressed MMB. Fixture now dispatches actual C/X inputs; remapped fault run passes.",
+    "coop-old-recovery": "Initial fresh-frame repair still timed out on actual mode. Corrected actual-mode gate passes same frozen executable."
+  },
+  "verification_epochs": {
+    "final_runtime": "365 inputs, 123e12d37553a0d0; final guard and ABI in fast67/network18/private original scale pass.",
+    "current_suite": "366 inputs, 0f843790d00b054f; adds ammo UDP registration and actual-mode repair; network19 and default graphical co-op pass.",
+    "review": "366 inputs,381aeff17b03b7b0; only co-op wheel test remapped dispatch changed; real remapped two-client fault wheel passes."
+  },
+  "limits": [
+    "No depot resupply/shortage presentation/NPC reload animation/NPC stock replication or full roster.",
+    "Original 8192/16384 scale and400-tick health symmetry thresholds unchanged.",
+    "Graphical tests use declared encounter fixtures except wheel read-only authority; software GL does not establish target GPU or human artistic acceptance.",
+    "Full defense job100a30b45dda failed and collected; focused recovery does not turn full green.",
+    "No remote publication; code license pending owner approval."
+  ],
+  "scale-current": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "result": "exit0",
+    "log": "infantry-ammunition-scale-current.log"
+  },
+  "bindings-current": {
+    "reports": 1,
+    "explicit_passes": 1,
+    "result": "exit0",
+    "log": "infantry-ammunition-bindings-current.log"
+  }
+}

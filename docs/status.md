@@ -1,11 +1,52 @@
+Infantry ammunition batch verified in isolated feature/infantry-ammunition:
+NASM army rifle stocks30 magazine+90 reserve,60-tick reload, one round per
+actual range/LOS-valid shot. Genuine new body generations equip once; ordinary
+orders/side/front changes never refill. Dead stocks freeze; malformed records
+are rejected without replenishment. Stocks participate in authority checksum.
+UDP28/schema0x7ce46b6e/content0x6974e792; entity/player record sizes unchanged,
+NPC stock records are server-only.
+
+Final runtime epoch123e12d37553a0d0 passes fast67 reports (66 explicit passes
+plus hazard outcomes), network18, ABI and unchanged original8192/16384 scale,
+including400-tick side-label health symmetry. Current366-input epoch
+0f843790d00b054f adds the real ammunition UDP test and corrected map-mode fixture:
+network19 and default graphical co-op pass; private-library original scale
+passes again. Review epoch381aeff17b03b7b0 only updates remapped wheel fixture
+input dispatch; real default/remapped two-client fault wheels and31-action solo
+input checks pass. The current fast rerun is still live, not a claimed pass.
+Exact epochs, raw failures/recoveries and limitations:
+[evidence/infantry-ammunition-focused.json](evidence/infantry-ammunition-focused.json).
+
+The1400-tick sparse physical trace fires exactly120 rounds, reloads at ticks
+300/596/892 and exhausts at1128; target HP then stays40. No live pose/HP/ammo/
+clock renewal is used. Separate explicit lifecycle/corruption fixtures remain
+separate evidence. Original8192 authority/four-endpoint read-only observation
+conserves737280 initial rounds through real combat. Depot resupply, visible
+shortages, NPC reload animation, stock replication, alternate weapons, complete
+logistics and full-operation/hardware/human acceptance remain unfinished.
+No remote publication; code license remains pending owner approval.
+
+Full defense100a30b45dda FAILED1241.289s/146 reports (145 explicit passes plus
+hazard outcomes), terminal/collected. The co-op test used the permanent title
+help footer as map-mode state. Corrected actual-mode/fresh-frame/pixel checks
+pass the SAME frozen defense executable and the new ammunition executable.
+Failed full stays failed. Initial incomplete synchronization repair and the
+remapped-wheel fixture's obsolete MMB input failure are retained; actual C/X
+wheel input passes. Two earlier overlapping libsim suites were deliberately
+stopped with143 and disqualified; serial/private-library replacement checks pass.
+Matching-main integration and the next immutable full checkpoint follow below.
+
 Current main integrates area defense0b475d9c at source fingerprint86121082753f4ae7.
 Matching main client/co-op/headless builds and32 scoped reports pass: tactics8,
 network18, two rendered fault/remapped input checks and environment/effects/
 minimum-view/CLI4. All360 authored inputs match the verified feature branch.
 Exact source/binary hashes, original8192 transport and graphical artifacts:
 [company-defend-main.json](evidence/company-defend-main.json). Frozen full
-extended job100a30b45dda is RUNNING at this exact merge/input fingerprint;
-PID113382 is confirmed live, result pending. It is not a full pass. The prior
+extended job100a30b45dda FAILED at this exact merge/input fingerprint after
+1241.289s and is terminal/collected. Its co-op marker assertion used the title
+help footer as map-mode state; the corrected actual-mode and fresh-frame fixture
+passes the SAME frozen executable. The failed full run remains failed. See
+[evidence/company-defend-full-summary.json](evidence/company-defend-full-summary.json). The prior
 full controls failure7cc8322a2c38 is terminal and collected, as detailed below.
 
 Area defense batch verified on isolated feature/company-defend before integration:

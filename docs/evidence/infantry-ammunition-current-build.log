@@ -1,0 +1,12 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x6974e792", "canonical_sha256": "6974e792cf95cbdf3a377511d5ef79209933388b0a453d77194e5a604e077793", "checked": true}
+{"target": "client", "revision": "f54d31ac61aa75d8fc424ce687d2f0b1d372fc5b-0f843790d00b054f", "assembled": 0, "assembled_sources": [], "seconds": 0.4198936879984103, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/build/revisions/f54d31ac61aa75d8fc424ce687d2f0b1d372fc5b-0f843790d00b054f/red-horizon"}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x6974e792", "canonical_sha256": "6974e792cf95cbdf3a377511d5ef79209933388b0a453d77194e5a604e077793", "checked": true}
+{"target": "coop", "revision": "f54d31ac61aa75d8fc424ce687d2f0b1d372fc5b-0f843790d00b054f", "assembled": 0, "assembled_sources": [], "seconds": 0.3225199849985074, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/build/revisions/f54d31ac61aa75d8fc424ce687d2f0b1d372fc5b-0f843790d00b054f/red-horizon-coop-server"}

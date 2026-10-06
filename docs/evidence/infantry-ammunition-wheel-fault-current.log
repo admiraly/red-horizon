@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/tests/test_client_coop.py", line 206, in <module>
+    mouse(owner,2,True);until(lambda:state(owner,'wheel_active')==1,3)
+                        ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/tests/test_client_coop.py", line 52, in until
+    result=predicate()
+  File "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/tests/test_client_coop.py", line 206, in <lambda>
+    mouse(owner,2,True);until(lambda:state(owner,'wheel_active')==1,3)
+                                     ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/tests/test_client_coop.py", line 196, in state
+    def state(c,name):return read_u32(clients[c]['memory'],client_symbols,name)
+                             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/infantry-ammunition/tests/test_client_coop.py", line 89, in read_u32
+    def read_u32(memory,sym,name,offset=0):return struct.unpack('<I',os.pread(memory,4,sym[name]+offset))[0]
+                                                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 4 bytes

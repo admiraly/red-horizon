@@ -1,0 +1,13 @@
+{
+  "job_id": "100a30b45dda",
+  "exit_code": 1,
+  "revision": "0b475d9c8e30cc45404880921fce106dba04a679-86121082753f4ae7",
+  "seconds": 1241.2893365380005,
+  "status": "failed",
+  "suite_reports": 146,
+  "explicit_passed": 145,
+  "failure": "tests/test_client_coop.py:636 other owner goal cross not rendered",
+  "diagnosis": "Title always contains TACTICAL MAP / RELOAD help footer. Testing title substring skipped actual map toggle. Corrected read-only mode check and bounded fresh-frame/pixel wait pass same frozen executable.",
+  "initial_synchronization_attempt": "Timed out because actual mode remained first person; retained recovery log.",
+  "full_status": "failed, terminal and collected; focused repair is not a full rerun pass"
+}
