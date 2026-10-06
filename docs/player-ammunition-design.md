@@ -1,9 +1,9 @@
-# Next gameplay batch: finite player rifle reserves
+# Finite player rifle reserves
 
-This is an implementation contract, not a completed feature. Current player.asm
-reload completion writes30 unconditionally. NPC infantry already uses finite
-carried reserves and depot inventories. Spec sections6/8 require useful weapons
-and local ammunition/logistics; remove this remaining player infinite source.
+The following contract is implemented in the player-ammunition batch. Exact
+focused CPU, UDP and real GL evidence is in evidence/player-ammunition-session.json.
+Integration/full-checkpoint status is recorded in status.md; these paths do not
+establish the complete game specification. Reload no longer creates rounds.
 
 Preserve the public64-byte player record and existing movement, cadence, partial
 magazine reload, suppression, body deployment and ownership behavior. Add a
@@ -53,3 +53,22 @@ Static malformed fixtures must be distinct from genuine tick encounters. Preserv
 all original scale/recovery/symmetry tests and record every source/binary epoch.
 No broader weapon roster, vehicle/air rearm, convoys or complete-spec claim from
 this batch alone. Licence remains pending; no remote publication authorization.
+
+Verified scope: actual120-round depletion, partial reload conservation, genuine
+80m walk/90-round debit, real death/deployment and failed spawn, one-body12,120
+shots exhaust a12,000-round depot over72,031 ticks without live renewal.
+Own40-byte server reports use UDPv33/message110 and atomic90-tick client cache;
+original8192/four-endpoint traces correlate142 exact native ticks and follow
+real damaged/new bodies.21 actual UDP parser fault packets preserve state.
+Solo/co-op full depletion renders reserve/reload/empty at1280x720 and320x240;
+these HUD traces use one declared initial authority pose. Two original-world
+rendered clients show stock90 then actual server-timeout unavailability at both
+resolutions without memory writes. The last rifle row is placed at height-48
+and the minimum-view empty message is RIFLE EMPTY REARM DEPOT.
+
+Stock quantities are authoritative; lifetime player receipts preserve issued
+depot debits across retired bodies. Own unknown/dead stock never fabricates a
+full/empty reserve. No dedicated rendered unknown-word acceptance, hardware
+quality/performance, wider weapon/vehicle/air stocks or full logistics claim.
+An existing synthetic enemy_attack path still bypasses NPC rifle stocks; fixing
+that independent limitation is subsequent work.

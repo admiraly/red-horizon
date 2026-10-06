@@ -1,0 +1,130 @@
+{
+  "candidate_base": "2bab696eed687be13a98a123c0da68da72495628",
+  "final_authored_epoch_before_commit": "2bab696eed687be13a98a123c0da68da72495628-2969032aadf8d434",
+  "authored_inputs": 399,
+  "wire": {
+    "version": 33,
+    "schema": "0x8bdfbab4",
+    "content": "0xe4212358",
+    "own_stock_message": 110,
+    "payload_bytes": 40,
+    "datagram_bytes": 80,
+    "public_player_bytes": 64,
+    "state_bytes": 848
+  },
+  "checks": {
+    "stock": {
+      "exit_code": 0,
+      "log_sha256": "336044281504ace885c47a1cc8371f250954b35fb004fbe6cae22ff5c2c306f7",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/stock.json"
+    },
+    "report": {
+      "exit_code": 0,
+      "log_sha256": "d11784528180079ca857a782e3181ecc69e056fe7d037af5fda25ff8532eee55",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/report.json"
+    },
+    "abi": {
+      "exit_code": 0,
+      "log_sha256": "ce7a9e9ffcafab6ef4b71d7fb490cae5c727296644d6610dfae1395bff2eb6c3",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/abi.json"
+    },
+    "fast": {
+      "exit_code": 0,
+      "log_sha256": "6ae39129a539e8866fe1c3b559a383ccdf3bf03c401ff2cb23893817bfebca4c",
+      "explicit_pass_reports": 77,
+      "reports": "docs/evidence/player-ammunition/fast.json"
+    },
+    "network": {
+      "exit_code": 0,
+      "log_sha256": "ea72f0eb7bdb9575bf4be232bffb69d97e0fb337c555b41acff3518d63096781",
+      "explicit_pass_reports": 23,
+      "reports": "docs/evidence/player-ammunition/network.json"
+    },
+    "own-udp": {
+      "exit_code": 0,
+      "log_sha256": "eaddec6206e85e4f450bc6eb41a9384ebf88d9796066708dceba5497f702d23e",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/own-udp.json"
+    },
+    "udp-faults": {
+      "exit_code": 0,
+      "log_sha256": "ab3dd6e454cd1862093d41dfee81a1872c3c5dbee6fab3181bf2f53743fbff48",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/udp-faults.json"
+    },
+    "tools-dependencies": {
+      "exit_code": 0,
+      "log_sha256": "54ea7a44052f4910703a74b4a2529d941715f01203f1da76bd76a04467d981e4",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/tools-dependencies.json"
+    },
+    "hud": {
+      "exit_code": 0,
+      "log_sha256": "aa12a25d5f6400d6265057257cbc54f74b7723b5af08a51b156bff5587ac995f",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/hud.json"
+    },
+    "hud-small": {
+      "exit_code": 0,
+      "log_sha256": "dd5a107e1098771803e812ef9dba1afa2b393741dfc5c491621cd8de29c9755a",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/hud-small.json"
+    },
+    "coop-depletion": {
+      "exit_code": 0,
+      "log_sha256": "783d2c06183cd8418e6c8f9bb97213f42d7c215da43d3943eb26b399e58b44c8",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/coop-depletion.json"
+    },
+    "coop-depletion-small": {
+      "exit_code": 0,
+      "log_sha256": "39cded1638b01bed154ec6fb2d5c0ad314d6096c2e57a8a896e627c74fbe9a23",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/coop-depletion-small.json"
+    },
+    "coop-hud": {
+      "exit_code": 0,
+      "log_sha256": "c7642a6e850a8fe11fb0be35726cfb016707b9761c15cb61171e3affdc4c15f9",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/coop-hud.json"
+    },
+    "coop-hud-small": {
+      "exit_code": 0,
+      "log_sha256": "7d90756fd6765a42d223f7fe3a30d0997e62b157a9971acb6b4b62f7c4c1ec86",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/coop-hud-small.json"
+    },
+    "gameplay": {
+      "exit_code": 0,
+      "log_sha256": "6e4f7f6ed6d91ed844478bdff70caad79046d76044b967201bf2eea262981da4",
+      "explicit_pass_reports": 1,
+      "reports": "docs/evidence/player-ammunition/gameplay.json"
+    }
+  },
+  "binary_epochs": {
+    "core_library_sha256": "13981d223273cc68487e4938c247e66f13f7fdaed5a16df3bd847ad5c4dbd576",
+    "server": "2bab696-da9089b030be50ee",
+    "adapter": "f2034cd88a7d1a394ef8c806b415e0e33de9d46998c585800e4e4e44b1ff357c",
+    "final_client": "2bab696-0016555f936661a5",
+    "initial_coop_reserve_timeout_client": "2bab696-fe74bc2f6601154c",
+    "note": "Final runtime/client inputs unchanged after final client build; later development runner adds both co-op depletion tests. Fast was a live foreground runner with unchanged core inputs; its final build metadata is 2bab696-68c8a2dbacd46c77, not an immutable full checkpoint."
+  },
+  "corrected_failures": [
+    "Development UDP test passed flags in EDI instead of the actual ESI argument; fixed the ctypes signature/call, never adjusted runtime or player HP.",
+    "First CPU walk expected credit120, but float-stepped position1060.004 remains outside60m; actual credit150 preserved.",
+    "Original/air scene solo and original co-op graphical bodies die during full depletion; final HUD fixtures declare one startup authority pose, preserving all8192 actors and never writing HP/ammunition/clock or renewing pose. Separate original-world UDP traces follow real death/redeployment.",
+    "Co-op transfer HUD row overwrote rifle row; moved rifle to height-48. Empty wording exceeded minimum-view24-glyph capacity; shortened to RIFLE EMPTY REARM DEPOT.",
+    "Existing gameplay exit compared authority HP with last-rendered HUD telemetry from a different paused mid-frame epoch (100 versus90). Observer now compares the matching HUD epoch; movement/shots/reload/hit/death/redeployment/pixels/tactical gates remain."
+  ],
+  "limits": [
+    "Frozen full extended checkpoint pending integration; focused checks do not establish complete specification acceptance.",
+    "Player rifle only; no wider weapon roster, vehicle/air rearm, convoys or replenishment production.",
+    "Unknown stock payload/cache tested; actual rendered unknown/dead rifle word is not a standalone pixel acceptance case.",
+    "Software GL; no hardware performance or human weapon/readability quality acceptance.",
+    "Existing enemy_attack synthetic damage path can still bypass NPC weapon stock and role-specific attacks; separate corrective batch required.",
+    "Code license pending owner approval; no remote publication authorization."
+  ]
+}

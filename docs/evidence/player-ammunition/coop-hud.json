@@ -1,0 +1,47 @@
+[
+  {
+    "suite": "graphical-coop-company-supply",
+    "passed": true,
+    "units": 8192,
+    "rendered_clients": 2,
+    "resolution": [
+      1280,
+      720
+    ],
+    "reports": [
+      [
+        0,
+        1,
+        19,
+        32,
+        0,
+        0,
+        3833,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        285,
+        32,
+        0,
+        0,
+        3832,
+        0,
+        0,
+        0
+      ]
+    ],
+    "actual_low_rounds_unknown_labels": true,
+    "actual_transport_timeout_unavailable_label": true,
+    "observer_memory_writes": false,
+    "player_rifle_reserve_and_timeout_framebuffer_labels": true,
+    "depot_inventory_and_timeout_labels": true,
+    "limits": [
+      "Real GL framebuffer text; solo low/empty/unknown fixtures remain separate.",
+      "No supply-aware routes; rendered ordinary ready stores, not exhaustive visual-state fixtures."
+    ]
+  }
+]

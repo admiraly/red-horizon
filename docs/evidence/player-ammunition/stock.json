@@ -1,0 +1,107 @@
+[
+  {
+    "suite": "finite-player-ammunition",
+    "passed": true,
+    "actual_depletion": {
+      "actual_shots": 120,
+      "spent": 120,
+      "empty_request_ticks": 180,
+      "magazine_samples": [
+        [
+          178,
+          30,
+          60,
+          30
+        ],
+        [
+          356,
+          30,
+          30,
+          60
+        ],
+        [
+          534,
+          30,
+          0,
+          90
+        ],
+        [
+          651,
+          0,
+          0,
+          120
+        ]
+      ]
+    },
+    "partial_reload": {
+      "unchanged_magazine_during_animation": 28,
+      "final_magazine": 30,
+      "final_reserve": 88,
+      "actual_spent": 2
+    },
+    "physical_depot_walk": {
+      "initial_distance_m": 80,
+      "actual_credit_tick": 150,
+      "final_position": [
+        1050.00732421875,
+        3900.0
+      ],
+      "received": 90,
+      "depot_remaining": 11910,
+      "magazine_unchanged": 30
+    },
+    "fresh_body_and_retired_receipts": {
+      "fresh_join_generation": 2,
+      "fresh_body_equipment": 120,
+      "retained_lifetime_receipts": 90,
+      "retained_depot_issued": 90,
+      "actual_death_tick": 160,
+      "actual_safe_deploy_tick": 190,
+      "dead_stock_frozen": true,
+      "failed_spawn_actual_ticks_without_equipment": 120
+    },
+    "actual_finite_store_exhaustion": {
+      "actual_rifle_shots": 12120,
+      "depot_received": 12000,
+      "remaining": 0,
+      "spent": 12120,
+      "ticks": 72031,
+      "empty_requests": 180,
+      "original_count": 2
+    },
+    "rejected_static_cases": [
+      "generation",
+      "reserve",
+      "spent",
+      "received",
+      "initial",
+      "reserved0",
+      "reserved1",
+      "player_ammo",
+      "player_reload",
+      "player_hp",
+      "player_hp",
+      "player_connected",
+      "player_front",
+      "player_generation",
+      "pose_x",
+      "pose_z",
+      "pose_x",
+      "pose_z",
+      "pose_y",
+      "pose_y",
+      "enemy",
+      "role",
+      "cut",
+      "destroyed",
+      "contested"
+    ],
+    "same_body_never_reequips": true,
+    "inactive_and_lifetime_state_hashed": true,
+    "library_sha256": "13981d223273cc68487e4938c247e66f13f7fdaed5a16df3bd847ad5c4dbd576",
+    "limits": [
+      "Sparse actual public rifle input/ticks; startup stock declarations are distinct from no-renewal depletion/exhaustion. Static API faults are separate.",
+      "Own authority only: no network/HUD/broader weapon or vehicle/air rearm acceptance."
+    ]
+  }
+]

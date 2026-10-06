@@ -140,6 +140,8 @@ try:
             sw,sh=(320,240) if '--supply-small' in sys.argv else (1280,720)
             for index in range(2):
                 focus(index)
+                until(lambda:text_visible(X,display,clients[index]['window'],0,'RIFLE 30/30 R90',width=sw,height=sh,origin=(16,sh-48)),5)
+                until(lambda:read_u32(clients[index]['memory'],client_symbols,'rifle_hud_available')==1,5)
                 until(lambda:read_u32(clients[index]['memory'],client_symbols,'supply_hud_available')==1,5)
                 until(lambda:text_visible(X,display,clients[index]['window'],0,'OWN LOW',width=sw,height=sh,origin=(16,sh-158)),5)
                 until(lambda:text_visible(X,display,clients[index]['window'],0,'RDS',width=sw,height=sh,origin=(16,sh-136)),5)
@@ -182,9 +184,11 @@ try:
                 until(lambda:read_u32(clients[index]['memory'],client_symbols,'net_connected')==0,8)
                 until(lambda:read_u32(clients[index]['memory'],client_symbols,'supply_hud_available')==0,5)
                 until(lambda:text_visible(X,display,clients[index]['window'],0,'OWN AMMO UNAVAILABLE',width=sw,height=sh,origin=(16,sh-158)),5)
+                until(lambda:read_u32(clients[index]['memory'],client_symbols,'rifle_hud_available')==0,5)
+                until(lambda:text_visible(X,display,clients[index]['window'],0,'RIFLE AMMO UNAVAILABLE',width=sw,height=sh,origin=(16,sh-48)),5)
                 if '--depots' in sys.argv:
                     until(lambda:text_visible(X,display,clients[index]['window'],0,'DEPOTS UNAVAILABLE',width=sw,height=sh,origin=(16,10)),5)
-            print(json.dumps({'suite':'graphical-coop-company-supply','passed':True,'units':8192,'rendered_clients':2,'resolution':[sw,sh],'reports':reports,'actual_low_rounds_unknown_labels':True,'actual_transport_timeout_unavailable_label':True,'observer_memory_writes':False,'depot_inventory_and_timeout_labels':('--depots' in sys.argv),'limits':['Real GL framebuffer text; solo low/empty/unknown fixtures remain separate.','No supply-aware routes; rendered ordinary ready stores, not exhaustive visual-state fixtures.']}))
+            print(json.dumps({'suite':'graphical-coop-company-supply','passed':True,'units':8192,'rendered_clients':2,'resolution':[sw,sh],'reports':reports,'actual_low_rounds_unknown_labels':True,'actual_transport_timeout_unavailable_label':True,'observer_memory_writes':False,'player_rifle_reserve_and_timeout_framebuffer_labels':True,'depot_inventory_and_timeout_labels':('--depots' in sys.argv),'limits':['Real GL framebuffer text; solo low/empty/unknown fixtures remain separate.','No supply-aware routes; rendered ordinary ready stores, not exhaustive visual-state fixtures.']}))
             raise SystemExit(0)
         remote_pixel_counts=[]
         for index in range(2):

@@ -1,6 +1,7 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
 default rel
 %include "schemas/player.inc"
+%include "schemas/player_ammunition.inc"
 %include "schemas/company_supply.inc"
 %include "schemas/depot_supply.inc"
 %include "schemas/combat.inc"
@@ -25,6 +26,7 @@ extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
 extern depot_supply_report,net_depot_report
+extern player_ammunition_report,net_player_ammunition_report
 extern company_supply_report,net_supply_report
 extern company_for_player,company_control_order,company_controls,company_home_goals,company_defend_anchor
 extern net_company_for_player,net_company_records,net_company_offer,net_company_transfers
@@ -67,6 +69,14 @@ depot_unavailable: db 'DEPOTS UNAVAILABLE',0
 supply_low_fmt: db 'OWN LOW %u EMPTY %u',0
 supply_rounds_fmt: db 'RDS %u UNKNOWN %u',0
 supply_unavailable: db 'OWN AMMO UNAVAILABLE',0
+rifle_hud_fmt: db 'RIFLE %u/30 R%u',0
+rifle_hud_reload: db 'RIFLE EMPTY R%u RELOAD',0
+rifle_hud_empty: db 'RIFLE EMPTY REARM DEPOT',0
+rifle_hud_unknown: db 'RIFLE RESERVE UNKNOWN',0
+rifle_hud_unavailable: db 'RIFLE AMMO UNAVAILABLE',0
+rifle_title_fmt: db '%s | R%u',0
+rifle_title_unknown: db '%s | RESERVE UNKNOWN',0
+rifle_title_unavailable: db '%s | RESERVE UNAVAILABLE',0
 command_panel_fmt: db 'COMPANY %d | FRONT %u | %s ADVANCE %s HOLD %s RETREAT %s FOLLOW %s DEFEND',0
 wheel_ready_text: db 'COMMAND WHEEL: RELEASE TO ORDER / RIGHT CLICK CANCEL',0
 wheel_cancel_text: db 'COMMAND CANCELLED',0
@@ -203,6 +213,11 @@ mouse_seed: dd 3
 server_port: dd 7777
 command_message: dq net_ready_text
 section .bss
+global rifle_hud_report,rifle_hud_available,rifle_hud_text
+rifle_hud_report: resb PLAYER_AMMUNITION_REPORT_BYTES
+rifle_hud_available: resd 1
+rifle_hud_text: resb 64
+rifle_title_text: resb 64
 global depot_hud_report,depot_hud_available,depot_hud_visible,depot_hud_text
 depot_hud_report: resb DEPOT_SUPPLY_BYTES
 depot_hud_available: resd 1
@@ -1666,6 +1681,22 @@ update_input:
  jne .alive_title
  lea r9,[dead_text]
 .alive_title:
+ sub rsp,48
+ mov [rsp],rdi
+ mov [rsp+8],rsi
+ mov [rsp+16],rdx
+ mov [rsp+24],rcx
+ mov [rsp+32],r8
+ mov [rsp+40],r9
+ mov rdi,r9
+ call player_ammunition_title
+ mov r9,rax
+ mov rdi,[rsp]
+ mov rsi,[rsp+8]
+ mov rdx,[rsp+16]
+ mov rcx,[rsp+24]
+ mov r8,[rsp+32]
+ add rsp,48
  xor eax,eax
  call snprintf
  add rsp,80
@@ -2148,6 +2179,7 @@ command_panel_draw:
  call command_hud_draw
  call supply_panel_draw
  call depot_panel_draw
+ call player_ammunition_panel_draw
  cmp dword [network_mode],0
  je .done
  lea rdi,[transfer_info]
@@ -3031,6 +3063,7 @@ sync_player:
  movss xmm0,[fone]
  movss [hit_flash],xmm0
 .done:
+ call player_ammunition_hud_update
  pop rbx
  ret
 
@@ -3190,3 +3223,81 @@ set_weather_title:
  pop r12
  pop rbx
  ret
+
+section .text
+; Read-only stock feedback. Co-op never falls back to private local authority.
+player_ammunition_hud_update:
+ push rbx
+ mov dword [rifle_hud_available],0
+ mov edi,[local_player]
+ lea rsi,[rifle_hud_report]
+ mov edx,PLAYER_AMMUNITION_REPORT_BYTES
+ cmp dword [network_mode],0
+ jne .remote
+ call player_ammunition_report
+ jmp .queried
+.remote:
+ cmp dword [net_connected],1
+ jne .unavailable
+ call net_player_ammunition_report
+.queried:
+ test eax,eax
+ jnz .unavailable
+ mov dword [rifle_hud_available],1
+ cmp dword [rifle_hud_report+32],PLAYER_AMMUNITION_KNOWN
+ jne .unknown
+ mov ecx,[rifle_hud_report+8]
+ mov r8d,[rifle_hud_report+12]
+ lea rdx,[rifle_hud_fmt]
+ test ecx,ecx
+ jnz .format
+ test r8d,r8d
+ jz .empty
+ mov ecx,r8d
+ lea rdx,[rifle_hud_reload]
+ jmp .format
+.empty:
+ lea rdx,[rifle_hud_empty]
+ jmp .format
+.unknown:
+ lea rdx,[rifle_hud_unknown]
+ jmp .format
+.unavailable:
+ lea rdx,[rifle_hud_unavailable]
+.format:
+ lea rdi,[rifle_hud_text]
+ mov esi,64
+ xor eax,eax
+ call snprintf
+ pop rbx
+ ret
+player_ammunition_panel_draw:
+ push rax
+ lea rdi,[rifle_hud_text]
+ mov esi,16
+ mov edx,[view_height]
+ sub edx,48
+ call command_hud_draw_at
+ pop rax
+ ret
+; RDI current mode/reload/deployment text ->RAX bounded combined title text.
+player_ammunition_title:
+ push rbx
+ mov rcx,rdi
+ lea rdx,[rifle_title_unavailable]
+ cmp dword [rifle_hud_available],1
+ jne .format
+ lea rdx,[rifle_title_unknown]
+ cmp dword [rifle_hud_report+32],PLAYER_AMMUNITION_KNOWN
+ jne .format
+ lea rdx,[rifle_title_fmt]
+ mov r8d,[rifle_hud_report+12]
+.format:
+ lea rdi,[rifle_title_text]
+ mov esi,64
+ xor eax,eax
+ call snprintf
+ lea rax,[rifle_title_text]
+ pop rbx
+ ret
+section .note.GNU-stack noalloc noexec nowrite progbits

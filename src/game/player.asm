@@ -1,7 +1,9 @@
 ; Authoritative fixed-tick FPS players. SysV AMD64; static storage only.
 %include "schemas/player.inc"
+%include "schemas/player_ammunition.inc"
 %include "schemas/entity.inc"
 default rel
+extern player_ammunition_init,player_ammunition_equip,player_ammunition_reserve,player_ammunition_reload_finish,player_ammunition_fire,player_ammunition_resupply,player_ammunition_hash
 extern company_assign,company_release,company_control_init,company_redeploy
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
 extern sim_entity_height
@@ -68,6 +70,9 @@ player_init:
  xor eax,eax
  mov ecx,(PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*64+8)/4
  rep stosd
+ push rax
+ call player_ammunition_init
+ pop rax
  jmp company_control_init
 player_join:
  cmp edi,PLAYER_CAPACITY
@@ -109,6 +114,8 @@ player_join:
  mov dword [rbx+PLAYER_HP],0
  mov dword [rbx+PLAYER_RESPAWN],30
 .joined:
+ mov edi,[rsp]
+ call player_ammunition_equip
  mov edi,[rsp]
  mov esi,[rbx+PLAYER_FRONT]
  call company_assign
@@ -252,6 +259,8 @@ player_tick:
  inc dword [player_respawns]
  inc dword [rbx+PLAYER_GENERATION]
  mov edi,r12d
+ call player_ammunition_equip
+ mov edi,r12d
  call company_redeploy
  jmp .next
 .alive:
@@ -267,7 +276,8 @@ player_tick:
  je .intent
  dec dword [rbx+PLAYER_RELOAD]
  jnz .intent
- mov dword [rbx+PLAYER_AMMO],30
+ mov edi,r12d
+ call player_ammunition_reload_finish
 .intent:
  mov eax,r12d
  shl eax,5
@@ -298,13 +308,26 @@ player_tick:
  movss [rbx+PLAYER_X],xmm0
  movss [rbx+PLAYER_Z],xmm1
  call motion_vertical
+ mov eax,[sim_tick_count]
+ xor edx,edx
+ mov ecx,PLAYER_AMMUNITION_SUPPLY_PERIOD
+ div ecx
+ cmp edx,r12d
+ jne .supply_done
+ mov edi,r12d
+ call player_ammunition_resupply
+.supply_done:
  cmp dword [rbx+PLAYER_RELOAD],0
  jne .enemy
  test dword [r13+16],INPUT_RELOAD
  jz .fire
  cmp dword [rbx+PLAYER_AMMO],30
  je .fire
- mov dword [rbx+PLAYER_RELOAD],60
+ mov edi,r12d
+ call player_ammunition_reserve
+ cmp eax,0
+ jle .fire
+ mov dword [rbx+PLAYER_RELOAD],PLAYER_AMMUNITION_RELOAD_TICKS
  jmp .enemy
 .fire:
  test dword [r13+16],INPUT_FIRE
@@ -313,7 +336,10 @@ player_tick:
  je .enemy
  cmp dword [rbx+PLAYER_COOLDOWN],0
  jne .enemy
- dec dword [rbx+PLAYER_AMMO]
+ mov edi,r12d
+ call player_ammunition_fire
+ cmp eax,1
+ jne .enemy
  inc dword [rbx+PLAYER_SHOTS]
  mov dword [rbx+PLAYER_COOLDOWN],4
  call fire_player
@@ -858,5 +884,5 @@ player_hash:
  inc rsi
  dec ecx
  jnz .loop
- ret
+ jmp player_ammunition_hash
 section .note.GNU-stack noalloc noexec nowrite progbits

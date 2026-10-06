@@ -1,0 +1,1 @@
+{"suite": "player-ammunition-ABI", "passed": true, "entry_points": 7, "calls": 21, "six_nonvolatile_registers_and_stack_preserved": true, "readonly_invalid_hash_and_output_guards": true, "core_sha256": "13981d223273cc68487e4938c247e66f13f7fdaed5a16df3bd847ad5c4dbd576", "limits": ["Development ABI wrapper; runtime input/tick, UDP and graphics outcomes are separate."]}

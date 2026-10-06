@@ -1,0 +1,16 @@
+[
+  {
+    "suite": "player-ammunition-real-udp-parser-faults",
+    "passed": true,
+    "rejected_actual_udp_packets": 21,
+    "atomic_failure_authority_checksum": true,
+    "wrong_endpoint_session_recipient_schema_content_length": true,
+    "stale_equal_and_old_body_rejected": true,
+    "explicit_unknown": true,
+    "close_reconnect_real_timeout_clear": true,
+    "adapter_sha256": "f2034cd88a7d1a394ef8c806b415e0e33de9d46998c585800e4e4e44b1ff357c",
+    "limits": [
+      "Synthetic server packets and a declared static corroborating body fixture; genuine server firing/deployment and GL are separate."
+    ]
+  }
+]

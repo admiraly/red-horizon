@@ -1,0 +1,31 @@
+[
+  {
+    "suite": "player-ammunition-producer-and-remote-cache",
+    "passed": true,
+    "readonly_guarded_reports": 25,
+    "malformed_cases": [
+      "foreign owner",
+      "generation",
+      "magazine",
+      "reserve",
+      "spent bound",
+      "conservation",
+      "receipt bound",
+      "receipt timestamp without credit",
+      "initial",
+      "flags",
+      "reserved"
+    ],
+    "whole_payload_atomic": true,
+    "actual_shot_magazine_corroboration": true,
+    "actual_new_body_generation_reordering": true,
+    "actual90tick_age_boundary": true,
+    "explicit_unknown_zero_quantities": true,
+    "reset_clears": true,
+    "library_sha256": "13981d223273cc68487e4938c247e66f13f7fdaed5a16df3bd847ad5c4dbd576",
+    "limits": [
+      "Actual CPU producer/cache and genuine shots/new body/age ticks; malformed field fixtures are separate.",
+      "No transport authentication, actual UDP delivery or GL feedback acceptance from these cache calls alone."
+    ]
+  }
+]

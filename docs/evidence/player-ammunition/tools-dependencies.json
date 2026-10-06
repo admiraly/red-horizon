@@ -1,0 +1,369 @@
+[
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "terrain_roads": 19,
+    "checked": true
+  },
+  {
+    "terrain_relief_fields": 1,
+    "checked": true
+  },
+  {
+    "terrain_grade_facets": 9,
+    "checked": true
+  },
+  {
+    "terrain_world_checked": true,
+    "patch": {
+      "x": [
+        5375,
+        5875
+      ],
+      "z": [
+        4750,
+        5625
+      ],
+      "spacing": 5,
+      "max_height_error": 0.027,
+      "route_margin": 6,
+      "node_limit": 27
+    },
+    "interior_height_bound": 0.025009375,
+    "seam_correction_bound": 0.0009765625,
+    "roundoff_allowance": 0.0001
+  },
+  {
+    "ground_content": "0xe4212358",
+    "canonical_sha256": "e421235846268fa9f1e7110dd7bd8fb4f350a082e2bec81cee9e05e6e0a248fb",
+    "checked": true
+  },
+  {
+    "suite": "tools-player-ammunition-dependencies",
+    "passed": true,
+    "exact_headless_consumers": [
+      "src/ai/company_control.asm",
+      "src/ai/company_supply.asm",
+      "src/ai/company_transfer.asm",
+      "src/ai/depot_supply.asm",
+      "src/ai/infantry_supply_route.asm",
+      "src/game/ground_motion.asm",
+      "src/game/player.asm",
+      "src/game/player_ammunition.asm",
+      "src/game/vehicles.asm",
+      "src/nav/crowd.asm",
+      "src/sim/company_remote.asm",
+      "src/sim/depot_supply_remote.asm",
+      "src/sim/player_ammunition_remote.asm",
+      "src/sim/scenarios.asm"
+    ],
+    "headless_consumer_count": 14,
+    "exact_client_consumers": [
+      "src/render/effects.asm",
+      "src/render/air_trails.asm",
+      "src/render/meshes.asm",
+      "src/render/hazard_warning.asm",
+      "src/audio/emitters.asm",
+      "src/audio/footsteps.asm",
+      "src/platform/linux/client.asm",
+      "src/net/client.asm"
+    ],
+    "limits": [
+      "Existing tools suite prefix through transitive dependency and source-preservation assertions; nested fast/background/failure tail remains full-checkpoint coverage."
+    ]
+  }
+]

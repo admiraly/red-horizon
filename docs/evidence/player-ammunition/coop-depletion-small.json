@@ -1,0 +1,51 @@
+[
+  {
+    "suite": "player-ammunition-real-coop-hud",
+    "passed": true,
+    "units": 8192,
+    "scenario": "original-army-one-authority-player-pose-fixture",
+    "resolution": [
+      320,
+      240
+    ],
+    "actual_same_body_shots": 120,
+    "stock_trace": [
+      [
+        30,
+        0,
+        90,
+        30
+      ],
+      [
+        60,
+        0,
+        60,
+        60
+      ],
+      [
+        90,
+        0,
+        30,
+        90
+      ],
+      [
+        120,
+        0,
+        0,
+        120
+      ]
+    ],
+    "actual_empty_fire_reload_blocked": true,
+    "framebuffer_reserve_reload_empty_text": true,
+    "initial_player_pose_fixture": [
+      2000,
+      17.8,
+      3900
+    ],
+    "live_pose_hp_stock_clock_renewal": false,
+    "limits": [
+      "Software GL, no hardware/frame-budget or human readability acceptance.",
+      "One rendered client; exact server correlation and multi-client timeout are separate."
+    ]
+  }
+]

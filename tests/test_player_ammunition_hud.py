@@ -38,7 +38,7 @@ XT.XTestFakeKeyEvent.argtypes = [D, C.c_uint, C.c_int, W]
 XT.XTestFakeButtonEvent.argtypes = [D, C.c_uint, C.c_int, W]
 XT.XTestFakeMotionEvent.argtypes = [D, C.c_int, C.c_int, C.c_int, W]
 
-server = process = display = memory = None
+server = process = display = memory = host = None
 window = 0
 read_fd, write_fd = os.pipe()
 try:
@@ -51,7 +51,11 @@ try:
         env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
         env.pop('WAYLAND_DISPLAY', None)
         display = X.XOpenDisplay(env['DISPLAY'].encode()); assert display
-        process = subprocess.Popen([str(EXE)], cwd=EXE.parent, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        connection=[]
+        if '--udp' in sys.argv:
+            host=subprocess.Popen([str(pathlib.Path(sys.argv[2]).resolve()),'--port','0','--ticks','0'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+            ready=json.loads(host.stdout.readline());connection=['--connect','127.0.0.1','--port',str(ready['port'])]
+        process = subprocess.Popen([str(EXE)]+connection+(['--width','320','--height','240'] if '--small' in sys.argv else []), cwd=EXE.parent, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         def title(win):
             name = C.c_char_p()
@@ -98,70 +102,63 @@ try:
         def button(down):
             XT.XTestFakeButtonEvent(display, 1, int(down), 0); X.XFlush(display)
 
-        spawn = player(); assert spawn['hp'] == 100 and spawn['connected'] == 1, spawn
-        key(ord('w'), .4)
-        moved = player(); distance = math.hypot(moved['x'] - spawn['x'], moved['z'] - spawn['z'])
-        assert .5 < distance < 4, (spawn, moved)
-        button(True); until(lambda: player()['ammo'] == 0, 8); button(False); time.sleep(.1)
-        depleted = player(); assert depleted['shots'] >= 30 and depleted['hp'] > 0, depleted
-        key(ord('r'), .06); until(lambda: player()['reload'] > 0, 2)
-        # Authority can advance before the same frame publishes its window title.
-        until(lambda: 'RELOADING' in title(window), 2)
-        before = player()['shots']; button(True); time.sleep(.35); button(False)
-        assert player()['shots'] == before and player()['ammo'] == 0, player()
-        until(lambda: player()['ammo'] == 30 and player()['reload'] == 0, 4)
-        button(True); time.sleep(.35); button(False); time.sleep(.1)
-        final = player(); assert 26 <= final['ammo'] <= 28 and 32 <= final['shots'] <= 34, final
-        until(lambda: str(final['ammo']) + '/30' in title(window), 2)
-        # Development fixture: isolated clear terrain, actual enemy actor and real
-        # server-side rifle/LOS. Python places records; assembly executes damage.
-        os.pwrite(memory, struct.pack('<fff', 2000., 17.8, 3900.), player_address)
-        enemy_address = symbols['sim_entities'] + 4096 * 32
-        enemy = struct.pack('<ff6I', 2000., 3940., 100, 1, 0, 1, 0xffffffff, 1)
-        os.pwrite(memory, enemy, enemy_address)
-        os.pwrite(memory, struct.pack('<I', 1), symbols['orders'] + 4 * 4)
-        os.pwrite(memory, struct.pack('<I', 1), symbols['ai_fronts'] + 4 * 64 + 24) # documented manual-front fixture override
-        hits_before = player()['hits']; button(True)
-        until(lambda: player()['hits'] > hits_before, 2)
-        button(False); time.sleep(.05)
-        assert struct.unpack('<f', os.pread(memory, 4, symbols['hit_flash']))[0] > 0, 'authoritative hit did not produce HUD feedback'
-        accepted_hits = player()['hits'] - hits_before
-        # A separate actor inflicts actual periodic enemy attack damage. Player HP
-        # is never written by the driver. Authority chooses death and safe spawn.
-        os.pwrite(memory, struct.pack('<ff6I', 2040., 3900., 400, 1, 1, 1, 0xffffffff, 1), enemy_address)
-        damaged = until(lambda: p if (p := player())['hp'] < 100 and p['suppression'] > 0 else None, 3)
-        assert damaged['suppression'] > 0, damaged
-        until(lambda: player()['hp'] == 0, 9)
-        dead = player(); assert 0 < dead['respawn'] <= 30, dead
-        until(lambda: 'DOWN: SAFE REDEPLOY' in title(window), 1)
-        # Pixel proof for the actual GL HUD's red redeployment bar.
-        image = X.XGetImage(display, window, 0, 0, 1280, 720, W(-1).value, 2); assert image
-        pixel = X.XGetPixel(image, 640, 79); X.XDestroyImage(image)
-        red, green, blue = (pixel >> 16) & 255, (pixel >> 8) & 255, pixel & 255
-        assert red > 100 and red > green * 2, ('redeploy HUD pixel', red, green, blue)
-        generation = dead['generation']
-        until(lambda: player()['hp'] == 100 and player()['generation'] > generation, 4)
-        redeployed = player(); assert math.hypot(redeployed['x'] - 2040, redeployed['z'] - 3900) > 160, redeployed
-        until(lambda: 'HP 100 ' in title(window), 2)
-        final = player()
-        key(0xff09); until(lambda: 'TACTICAL' in title(window))
-        button(True); time.sleep(.3); button(False)
-        assert player()['shots'] == final['shots'], 'tactical click fired the rifle'
-        # Freeze only the final observation boundary. Escape press/release is
-        # queued while stopped; the callback latch exits before another sim tick.
-        # Exit telemetry publishes the last rendered HUD HP. A stopped mid-frame
-        # authority may already be newer; compare the matching HUD epoch.
-        os.kill(process.pid,signal.SIGSTOP)
-        try:
+        from hud_pixels import text_visible
+        width,height=(320,240) if '--small' in sys.argv else (1280,720)
+        def stock():
+            if host is None:return struct.unpack('<8I',os.pread(memory,32,symbols['player_ammunition']))
+            until(lambda:struct.unpack('<I',os.pread(memory,4,symbols['rifle_hud_available']))[0]==1,3)
+            r=struct.unpack('<10I',os.pread(memory,40,symbols['rifle_hud_report']));assert r[0]==0 and r[8]==1
+            return (r[1],r[3],r[4],r[5],r[6],r[7],0,0)
+        def feedback(text):
+            until(lambda: os.pread(memory,64,symbols['rifle_hud_text']).split(b'\0')[0].decode()==text,3)
+            until(lambda:text_visible(X,display,window,0,text,width=width,height=height,origin=(16,height-48)),3)
+        if host is None:
+            # One declared startup pose fixture; no HP/ammo/clock writes or renewal.
+            os.kill(process.pid,signal.SIGSTOP)
             _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
-            final=player()
-            final_hud_hp=struct.unpack('<I',os.pread(memory,4,symbols['player_hp']))[0]
-            key(0xff1b)
-        finally:os.kill(process.pid,signal.SIGCONT)
-        stdout, stderr = process.communicate(timeout=5); assert process.returncode == 0, (stdout, stderr)
-        assert f"hp={final_hud_hp}" in stdout and 'player id=0' in stdout, stdout
-        print(json.dumps({'suite':'authoritative-client-gameplay','passed':True,'spawn':spawn,'moved_metres':distance,'final':final,'exit_hp_is_last_rendered_hud_value':final_hud_hp,'rendered_health_title':True,'accepted_hits':accepted_hits,'redeploy_pixel':[red,green,blue],'damaged':damaged,'dead':dead,'redeployed':redeployed,'stdout':stdout}))
+            try:os.pwrite(memory,struct.pack('<fff',2000.,17.8,3900.),player_address)
+            finally:os.kill(process.pid,signal.SIGCONT)
+        else:
+            addresses={}
+            for line in subprocess.check_output(['nm','-n',str(pathlib.Path(sys.argv[2]).resolve())],text=True).splitlines():
+                r=line.split()
+                if len(r)==3:addresses[r[2]]=int(r[0],16)
+            host_memory=os.open(f'/proc/{host.pid}/mem',os.O_RDWR)
+            os.kill(host.pid,signal.SIGSTOP);_,status=os.waitpid(host.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+            try:os.pwrite(host_memory,struct.pack('<fff',2000.,17.8,3900.),addresses['sim_players'])
+            finally:os.kill(host.pid,signal.SIGCONT);os.close(host_memory)
+            until(lambda:abs(player()['x']-2000.)<1,3)
+        spawn=player();generation=spawn['generation'];trace=[]
+        assert stock()[1]==90 and spawn['ammo']==30
+        feedback('RIFLE 30/30 R90')
+        for magazine in range(4):
+            button(True);until(lambda:player()['ammo']==0,8);button(False);time.sleep(.12)
+            p,s=player(),stock()
+            assert p['generation']==generation and p['hp']>0 and s[3]==0
+            assert p['ammo']+s[1]+s[2]==120
+            trace.append([p['shots'],p['ammo'],s[1],s[2]])
+            if magazine<3:
+                feedback('RIFLE EMPTY R'+str(s[1])+' RELOAD')
+                key(ord('r'),.06);until(lambda:player()['reload']>0,2)
+                until(lambda:player()['ammo']==30 and player()['reload']==0,4)
+                assert stock()[1]==90-(magazine+1)*30,(magazine,player(),stock(),trace,title(window))
+                until(lambda:'R'+str(stock()[1]) in title(window),2)
+            else:feedback('RIFLE EMPTY REARM DEPOT')
+        assert player()['shots']==120 and stock()[1:4]==(0,120,0)
+        before=player()['shots'];key(ord('r'),.06);button(True);time.sleep(.5);button(False)
+        assert player()['shots']==before and player()['reload']==0
+        feedback('RIFLE EMPTY REARM DEPOT')
+        from PIL import Image
+        image=X.XGetImage(display,window,0,0,width,height,W(-1).value,2);assert image
+        try:
+            pixels=[((v>>16)&255,(v>>8)&255,v&255)for y in range(height)for x in range(width)for v in [X.XGetPixel(image,x,y)]]
+            output=Image.new('RGB',(width,height));output.putdata(pixels);output.save('/tmp/player-ammunition-'+('coop-' if host else 'solo-')+str(width)+'x'+str(height)+'.png')
+        finally:X.XDestroyImage(image)
+        key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
+        print(json.dumps({'suite':'player-ammunition-real-coop-hud' if host else 'player-ammunition-real-solo-hud','passed':True,'units':8192,'scenario':'original-army-one-authority-player-pose-fixture','resolution':[width,height],'actual_same_body_shots':120,'stock_trace':trace,'actual_empty_fire_reload_blocked':True,'framebuffer_reserve_reload_empty_text':True,'initial_player_pose_fixture':[2000,17.8,3900],'live_pose_hp_stock_clock_renewal':False,'limits':['Software GL, no hardware/frame-budget or human readability acceptance.','One rendered client; exact server correlation and multi-client timeout are separate.']}))
 finally:
+    if host is not None and host.poll() is None:
+        host.terminate();host.communicate(timeout=5)
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:
         process.terminate()

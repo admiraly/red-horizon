@@ -42,7 +42,7 @@ with tempfile.TemporaryDirectory(prefix='red horizon tools test-') as temp:
     player_dependencies={'src/sim/scenarios.asm','src/sim/company_remote.asm','src/nav/crowd.asm','src/ai/company_control.asm','src/ai/company_transfer.asm','src/game/ground_motion.asm','src/game/player.asm','src/game/vehicles.asm'}
     # These report modules deliberately include player.inc. Preserve exact-set
     # invalidation checks across historical frozen and current source fixtures.
-    for name in ('src/ai/company_supply.asm','src/ai/depot_supply.asm','src/sim/depot_supply_remote.asm','src/ai/infantry_supply_route.asm'):
+    for name in ('src/ai/company_supply.asm','src/ai/depot_supply.asm','src/sim/depot_supply_remote.asm','src/ai/infantry_supply_route.asm','src/game/player_ammunition.asm','src/sim/player_ammunition_remote.asm'):
         if (root/name).is_file():player_dependencies.add(name)
     player_build=json.loads(dev('build'))
     assert set(player_build['assembled_sources'])==player_dependencies,player_build
