@@ -20,6 +20,7 @@ extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
 extern company_for_player,company_control_order,company_controls
+extern net_company_for_player,net_company_records
 extern sim_sites,sim_requisition,sim_supply,sim_operation_state
 extern player_join,player_input,sim_players
 extern sim_player_vehicle,sim_vehicles,sim_projectiles
@@ -62,7 +63,7 @@ help_text: db 'RED HORIZON: [--connect IPv4 --port 7777] [--weather clear|overca
 local_company_fmt: db '%s | COMPANY %u | %s',0
 local_ready_text: db 'COMPANY READY',0
 local_reject_text: db 'ORDER DENIED: INVALID POINT OR INSUFFICIENT REQUISITION',0
-net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | scoped region data',0
+net_fmt: db '%s | CO-OP P%u OWN FRONT %u TICK %u | %s | COMPANY %d | scoped region data',0
 joining_text: db 'JOINING / CONNECTION LOST',0
 net_ready_text: db 'CONNECTED',0
 net_denied_text: db 'ORDER DENIED: SELECT YOUR OWN FRONT',0
@@ -174,6 +175,7 @@ incoming_loc: resd 1
 vehicle_buf: resb 160
 local_player: resd 1
 connect_address: resq 1
+global network_mode
 network_mode: resd 1
 global census_requested
 census_requested: resd 1
@@ -987,8 +989,8 @@ main:
  call glDrawArrays
  cmp dword [tactical],0
  je .restoredepth
- mov edi,[goal_loc]
  call selected_goal
+ mov edi,[goal_loc]
  call glUniform2f
  mov edi,[terrain_loc]
  mov esi,4
@@ -1461,7 +1463,10 @@ update_input:
  add rsp,80
  cmp dword [network_mode],0
  je .localtitle
+ mov edi,[net_player_id]
+ call net_company_for_player
  sub rsp,32
+ mov [rsp+16],rax
  mov eax,[net_server_tick]
  mov [rsp],rax
  mov rax,[command_message]
@@ -1717,12 +1722,55 @@ selected_goal:
  pop rbx
  jmp .unknown
 .network:
- lea rdx,[net_goal_valid]
- cmp dword [rdx+rax*4],0
- je .unknown
- lea rdx,[net_goal]
- movss xmm0,[rdx+rax*8]
- movss xmm1,[rdx+rax*8+4]
+ ; Own selected front prefers own company; other fronts expose a validated
+ ; allied owner's actual accepted intent. No optimistic ACK cache authority.
+ push rbx
+ push r12
+ sub rsp,8
+ mov ebx,eax
+ mov r12d,[net_player_id]
+ cmp r12d,4
+ jae .remote_none
+ mov edi,r12d
+ call .remote_goal
+ test eax,eax
+ jz .remote_done
+ xor r12d,r12d
+.remote_scan:
+ mov edi,r12d
+ call .remote_goal
+ test eax,eax
+ jz .remote_done
+ inc r12d
+ cmp r12d,4
+ jb .remote_scan
+.remote_none:
+ movss xmm0,[offscreen]
+ movaps xmm1,xmm0
+.remote_done:
+ add rsp,8
+ pop r12
+ pop rbx
+ ret
+.remote_goal:
+ sub rsp,8
+ call net_company_for_player
+ add rsp,8
+ cmp eax,-1
+ je .remote_missing
+ shr eax,8
+ cmp eax,ebx
+ jne .remote_missing
+ imul eax,r12d,40
+ lea rdx,[net_company_records]
+ cmp dword [rdx+rax+20],1
+ jne .remote_missing
+ movss xmm0,[rdx+rax+24]
+ movss xmm1,[rdx+rax+28]
+ xor eax,eax
+ ret
+.remote_missing:
+ mov eax,-1
  ret
 .unknown:
  movss xmm0,[offscreen]

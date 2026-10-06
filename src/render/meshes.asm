@@ -15,6 +15,7 @@ extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
 extern sim_ground_motion,ground_visual
+extern company_for_player,net_company_for_player,network_mode
 extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
@@ -83,6 +84,7 @@ view_angle: resd 2
 view_dt: resd 1
 view_tactical: resd 1
 view_player: resd 1
+view_company: resd 1
 view_vehicle: resd 1
 mesh_clock: resd 1
 mesh_frame: resd 1
@@ -285,6 +287,17 @@ meshes_draw:
  lea rax,[sim_player_vehicle]
  mov eax,[rax+rsi*4]
  mov [view_vehicle],eax
+ mov dword [view_company],-1
+ mov edi,[view_player]
+ cmp dword [network_mode],0
+ jne .remote_company
+ call company_for_player
+ jmp .company_store
+.remote_company:
+ call net_company_for_player
+.company_store:
+ mov [view_company],eax
+.company_ready:
  mov dword [mesh_high_instances],0
  mov dword [mesh_low_instances],0
  mov dword [mesh_marker_instances],0
@@ -635,6 +648,7 @@ meshes_draw:
  mov dword [rdi+60],0
  call .ground_pose
  call .air_pose
+ call .owned_company
  inc r15d
 .armynext:
  add rbx,32
@@ -781,6 +795,35 @@ meshes_draw:
  movups xmm0,[rdi+48]
  movups [mesh_ground_pose+48],xmm0
 .ground_return:
+ ret
+; Derived ownership tint only. Actual company lease is validated once per
+; frame against either authoritative solo ownership or current remote body generation.
+.owned_company:
+ mov eax,[view_company]
+ cmp eax,-1
+ je .owned_return
+ cmp dword [rbx+ENTITY_SIDE],0
+ jne .owned_return
+ cmp dword [rbx+ENTITY_KIND],2
+ ja .owned_return
+ cmp dword [rbx+ENTITY_GENERATION],0
+ je .owned_return
+ mov ecx,[rbx+ENTITY_FRONT]
+ cmp ecx,2
+ ja .owned_return
+ shl ecx,8
+ mov edx,r14d
+ shr edx,7
+ add ecx,edx
+ cmp ecx,eax
+ jne .owned_return
+ cmp dword [rdi+60],0x3f800000
+ je .owned_absolute
+ mov dword [rdi+60],0x40000000 ; relative height plus ownership
+ ret
+.owned_absolute:
+ mov dword [rdi+60],0x40400000 ; absolute height plus ownership
+.owned_return:
  ret
 .animation:
  ; Preserve authored clip frames; mode chosen from actual observed motion.
@@ -1154,6 +1197,7 @@ meshes_draw:
  ret
 .marker_batch:
  push rbp
+ xor ebp,ebp ; unowned first, owned last for dense-map readability
  xor r15d,r15d
  xor r14d,r14d
  lea rbx,[sim_entities]
@@ -1192,12 +1236,33 @@ meshes_draw:
  movss [rdi+56],xmm0
  call .ground_pose
  call .air_pose
+ call .owned_company
+ cmp ebp,0
+ jne .owned_marker_pass
+ cmp dword [rdi+60],0x40000000
+ je .markernext
+ cmp dword [rdi+60],0x40400000
+ je .markernext
+ jmp .marker_include
+.owned_marker_pass:
+ cmp dword [rdi+60],0x40000000
+ je .marker_include
+ cmp dword [rdi+60],0x40400000
+ jne .markernext
+.marker_include:
  inc r15d
 .markernext:
  add rbx,32
  inc r14d
  jmp .markerloop
 .humanmarkers:
+ test ebp,ebp
+ jnz .marker_humans
+ inc ebp
+ xor r14d,r14d
+ lea rbx,[sim_entities]
+ jmp .markerloop
+.marker_humans:
  xor r14d,r14d
  lea rbx,[sim_players]
 .humanmarkerloop:

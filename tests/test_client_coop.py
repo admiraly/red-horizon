@@ -8,6 +8,7 @@ import json
 import math
 import os
 import pathlib
+import re
 import select
 import signal
 import struct
@@ -116,6 +117,9 @@ try:
             clients.append({'process':process,'memory':memory,'window':0})
             clients[index]['window']=until(lambda:window_for(index))
         until(lambda: all(client_player(c,p)['connected']==1 for c in range(2) for p in range(2)))
+        def remote_company(client,player):
+            return struct.unpack('<6I2f2I',os.pread(clients[client]['memory'],40,client_symbols['net_company_records']+player*40))
+        until(lambda:all(remote_company(c,p)[1]<768 and remote_company(c,p)[2]==client_player(c,p)['generation'] for c in range(2)for p in range(2)))
         starts=[server_player(i) for i in range(2)];assert starts[0]['front']==0 and starts[1]['front']==1,starts
         remote_pixel_counts=[]
         for index in range(2):
@@ -139,6 +143,50 @@ try:
                 pathlib.Path(f'/tmp/red-horizon-v2-coop-player-{index}.ppm').write_bytes(f'P6\n{header.width} {header.height}\n255\n'.encode()+rgb)
             X.XDestroyImage(image);assert count>0,('remote player not visible on map',index,remote,px,py)
             remote_pixel_counts.append(count)
+        # Ownership is visible through actual rendered map pixels on both clients.
+        def owned_members_arrived():
+            for c in range(2):
+                company=remote_company(c,c)[1]
+                data=os.pread(clients[c]['memory'],128*32,client_symbols['sim_entities']+(company%256)*128*32)
+                rows=[struct.unpack_from('<2f6I',data,i*32)for i in range(128)]
+                if not any(r[2] and r[3]==0 and r[4]<3 and r[5]==company//256 for r in rows):return False
+            return True
+        until(owned_members_arrived,5)
+        company_pixels=[]
+        for index in range(2):
+            focus(index);time.sleep(.15)
+            company=remote_company(index,index)[1]
+            assert f'COMPANY {company}' in title(clients[index]['window'])
+            entity_data=os.pread(clients[index]['memory'],32768*32,client_symbols['sim_entities'])
+            rows=[struct.unpack_from('<2f6I',entity_data,i*32)for i in range(32768)]
+            owned=[r for i,r in enumerate(rows)if r[2] and r[3]==0 and r[4]<3 and r[5]*256+(i>>7)==company]
+            foreign=[r for i,r in enumerate(rows)if r[2] and r[3]==0 and r[4]<3 and r[5]*256+(i>>7)!=company]
+            image=X.XGetImage(display,clients[index]['window'],0,0,1280,720,W(-1).value,2);assert image
+            def pixels(row,green):
+                px=round(((row[0]-4000)/4300+1)*640);py=round((1-(row[1]-4000)/4300)*360)
+                if not(5<=px<1275 and 5<=py<715):return 0
+                count=0
+                for dx in range(-3,4):
+                    for dy in range(-3,4):
+                        pixel=X.XGetPixel(image,px+dx,py+dy);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
+                        count+=(80<r<160 and g>200 and 40<b<120)if green else(r<85 and 110<g<180 and b>170)
+                return count
+            green=max([pixels(r,True)for r in owned],default=0)
+            blue=max([pixels(r,False)for r in foreign],default=0)
+            X.XDestroyImage(image);assert green>0 and blue>0,(index,company,green,blue,len(owned),read_u32(clients[index]['memory'],client_symbols,'view_company'),read_u32(clients[index]['memory'],client_symbols,'view_player'),remote_company(index,index),client_player(index,index))
+            company_pixels.append({'player':index,'company':company,'owned_green_pixels':green,'foreign_allied_blue_pixels':blue})
+        if '--timeout' in sys.argv:
+            host.terminate();host.communicate(timeout=5)
+            # until normally audits every live child: remove our retired host.
+            processes.remove(host)
+            until(lambda:all(read_u32(c['memory'],client_symbols,'net_connected')==0 for c in clients),5)
+            until(lambda:all(read_u32(c['memory'],client_symbols,'view_company')==0xffffffff for c in clients),2)
+            assert all(read_u32(c['memory'],client_symbols,'net_company_valid')==0 and read_u32(c['memory'],client_symbols,'local_sim_ticks')==0 for c in clients)
+            for index in (1,0):
+                key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
+                assert clients[index]['process'].returncode==0,(stdout,stderr)
+            print(json.dumps({'suite':'graphical-company-timeout','passed':True,'company_marker_pixels_before_timeout':company_pixels,'both_remote_leases_hidden':True,'remote_validity_reset':True,'no_solo_lease_fallback':True,'local_simulation_ticks':0}))
+            raise SystemExit(0)
         # Both graphical clients receive separate real player records and scopes.
         assert all(read_u32(c['memory'],client_symbols,'net_player_id')==i for i,c in enumerate(clients))
         assert all(read_u32(c['memory'],client_symbols,'net_front')==i for i,c in enumerate(clients))
@@ -360,14 +408,30 @@ try:
         until(lambda:all(client_player(i,0)['generation']==recovered['generation'] for i in range(2)),2)
         assert goal(0)==accepted_goal,'redeployment discarded company intent'
         final_owned_goal=goal(0)
+        until(lambda:all(remote_company(c,0)[2]==recovered['generation'] and remote_company(c,0)[6:8]==accepted_goal for c in range(2)))
+        # Second client inspects the first owner's front, without issuing an order.
+        if 'TACTICAL' not in title(clients[1]['window']):key(1,0xff09)
+        key(1,0xffbe)
+        until(lambda:read_u32(clients[1]['memory'],client_symbols,'frame_count')>0)
+        time.sleep(.12)
+        image=X.XGetImage(display,clients[1]['window'],0,0,1280,720,W(-1).value,2);assert image
+        gx=round(((accepted_goal[0]-4000)/4300+1)*640);gy=round((1-(accepted_goal[1]-4000)/4300)*360)
+        shared_goal_pixels=0
+        for dx in range(-11,12):
+            for dy in range(-11,12):
+                pixel=X.XGetPixel(image,gx+dx,gy+dy);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
+                shared_goal_pixels+=160<r<175 and g>245 and 105<b<125
+        X.XDestroyImage(image);assert shared_goal_pixels>0,('other owner goal cross not rendered',accepted_goal,gx,gy)
         final=[server_player(i) for i in range(2)]
         outputs=[]
-        for index in range(2):
+        for index in (1,0):
             key(index,0xff1b);stdout,stderr=clients[index]['process'].communicate(timeout=5)
             assert clients[index]['process'].returncode==0,(stdout,stderr)
             assert 'local_sim_ticks=0' in stdout and f'player={index} front={index}' in stdout,stdout
+            observed=re.search(r'selected_goal_x=([-0-9.]+) selected_goal_z=([-0-9.]+)',stdout)
+            assert observed and all(abs(float(v)-expected)<.01 for v,expected in zip(observed.groups(),accepted_goal)),stdout
             outputs.append(stdout)
-        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':final_owned_goal,'redeployment_preserved_company_intent':True,'dead':dead,'recovered':recovered,'client_stdout':outputs}))
+        print(json.dumps({'suite':'graphical-coop','passed':True,'port':port,'starts':starts,'remote_player_pixels':remote_pixel_counts,'company_marker_pixels':company_pixels,'other_owner_goal_displayed_without_local_order':True,'shared_goal_cross_pixels':shared_goal_pixels,'remote_company_generation_after_redeploy':True,'final':final,'cost':5,'rejected_ack_preserved_goal':True,'network_gui_board_drive_cannon_exit':True,'network_gui_crouch_jump':True,'network_camera_crouch_jump':True,'recorded_spatial_audio_live_routing':True,'recorded_footsteps_live_routing':True,'replicated_shell_changed_pixels':changed_shell_pixels,'replicated_shell_screen_position':[px,py],'replicated_shell_restored':True,'owned_shell_observer_yaw_shift_rad':.06,'owned_shell_actual_projection':projection,'owned_shell_recoil_settled':True,'replicated_shell_authority_unchanged':True,'replicated_shell_screenshot':network_shell_path,'owned_goal':final_owned_goal,'redeployment_preserved_company_intent':True,'dead':dead,'recovered':recovered,'client_stdout':outputs}))
 finally:
     if host is not None and host.poll() is None:
         try:os.kill(host.pid,signal.SIGCONT)

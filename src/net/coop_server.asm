@@ -7,6 +7,7 @@ default rel
 %include "schemas/projectile_remote.inc"
 %include "schemas/wreck.inc"
 %include "schemas/wreck_remote.inc"
+%include "schemas/company_remote.inc"
 extern sim_wrecks
 extern sim_projectiles
 %include "src/net/protocol.inc"
@@ -15,7 +16,7 @@ extern vehicle_entity_driver
 extern sim_ground_motion
 extern sim_aircraft
 extern strcmp, printf, fflush
-extern company_for_player,company_control_order
+extern company_for_player,company_control_order,company_controls,player_companies
 extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
@@ -680,6 +681,9 @@ snapshots:
  mov [rax+r12*4],edx
  lea rax,[unseen_counts]
  mov [rax+r12*4],r9d
+ mov edi,r12d
+ call company_for_player
+ mov [rsp+4],eax ; own allied cohort also remains visible outside local region
  mov dword [rsp],2 ; chunks
 .chunk:
  mov edi,NET_ENTITIES
@@ -713,7 +717,27 @@ snapshots:
  mulss xmm1,xmm1
  addss xmm0,xmm1
  ucomiss xmm0,[interest2]
+ jbe .include_entity
+ ; Bounded own-company exception only; no remote enemy ground truth.
+ cmp dword [rsp+4],768
+ jae .skip
+ cmp dword [rdx+ENTITY_SIDE],0
+ jne .skip
+ cmp dword [rdx+ENTITY_KIND],2
  ja .skip
+ cmp dword [rdx+ENTITY_GENERATION],0
+ je .skip
+ mov ecx,[rdx+ENTITY_FRONT]
+ cmp ecx,2
+ ja .skip
+ shl ecx,8
+ mov eax,[r13+SLOT_CURSOR]
+ dec eax
+ shr eax,7
+ add ecx,eax
+ cmp ecx,[rsp+4]
+ jne .skip
+.include_entity:
  mov eax,r14d
  imul eax,36
  lea rdi,[output+44]
@@ -766,6 +790,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_wrecks
+ mov edi,r12d
+ mov rsi,r13
+ call send_companies
 .nextslot:
  add r13,NET_RECORD
  inc r12d
@@ -1411,4 +1438,61 @@ send_wrecks:
  pop rbx
  pop rbp
  ret
+section .note.GNU-stack noalloc noexec nowrite progbits
+
+section .text
+; Complete bounded own-allied company assignments/intents, no enemy truth.
+send_companies:
+ push rbx
+ push r12
+ push r13
+ mov rbx,rsi
+ mov esi,edi
+ mov edi,NET_COMPANIES
+ mov edx,COMPANY_REMOTE_PAYLOAD
+ call header
+ mov dword [output+40],COMPANY_REMOTE_COUNT
+ xor r12d,r12d
+ lea r13,[output+44]
+.loop:
+ mov rdi,r13
+ xor eax,eax
+ mov ecx,5
+ rep stosq
+ mov [r13],r12d
+ mov dword [r13+4],-1
+ mov eax,r12d
+ shl eax,4
+ lea rdx,[player_companies]
+ mov eax,[rdx+rax+8]
+ mov [r13+12],eax
+ mov edi,r12d
+ call company_for_player
+ cmp eax,-1
+ je .next
+ mov [r13+4],eax
+ shl eax,5
+ lea rdx,[company_controls]
+ add rdx,rax
+ mov eax,[rdx+4]
+ mov [r13+8],eax
+ mov rax,[rdx+8]
+ mov [r13+16],rax
+ mov rax,[rdx+16]
+ mov [r13+24],rax
+ mov rax,[rdx+24]
+ mov [r13+32],rax
+.next:
+ add r13,COMPANY_REMOTE_STRIDE
+ inc r12d
+ cmp r12d,COMPANY_REMOTE_COUNT
+ jb .loop
+ mov rdi,rbx
+ mov esi,NET_HEADER+COMPANY_REMOTE_PAYLOAD
+ call send_packet
+ pop r13
+ pop r12
+ pop rbx
+ ret
+
 section .note.GNU-stack noalloc noexec nowrite progbits

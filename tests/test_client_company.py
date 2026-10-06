@@ -10,6 +10,7 @@ import os
 import pathlib
 import re
 import select
+import signal
 import struct
 import subprocess
 import sys
@@ -150,6 +151,28 @@ try:
         solo_company={'key':company,'held_safe_infantry':len(held_initial),'held_travel_m':held_travel,
                       'one_charge_per_key_press':True,'foreign_front_denied':True,
                       'autonomous_front_waypoints_preserved':True,'physical_advance':True,'tactical_click_one_charge':True,'tactical_point':[ordered[4],ordered[5]]}
+        # Actual tactical pixels distinguish owned formation from allies on
+        # another front within the same128-ID block. Observer never writes state.
+        start_frame=u32('frame_count');until(lambda:u32('frame_count')>=start_frame+3,3)
+        os.kill(process.pid,signal.SIGSTOP)
+        _,stopped=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(stopped)
+        try:
+            rows=actor_rows()
+            owned=next(r for i,r in enumerate(rows)if r[2] and r[3]==0 and r[4]==0 and r[5]==1 and i>>7==company%256)
+            unowned=next(r for i,r in enumerate(rows)if r[2] and r[3]==0 and r[4]==0 and r[5]==0 and i>>7==company%256)
+            image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
+            def count_pixels(row,owned_colour):
+                px=round(((row[0]-4000)/4300+1)*640);py=round((1-(row[1]-4000)/4300)*360);count=0
+                for dx in range(-4,5):
+                    for dy in range(-4,5):
+                        pixel=X.XGetPixel(image,px+dx,py+dy);r,g,b=(pixel>>16)&255,(pixel>>8)&255,pixel&255
+                        count+=(80<r<160 and g>200 and 40<b<120)if owned_colour else(r<85 and 110<g<180 and b>170)
+                return count
+            owned_pixels=count_pixels(owned,True);unowned_pixels=count_pixels(unowned,False);foreign_green=count_pixels(unowned,True)
+            X.XDestroyImage(image)
+            assert owned_pixels>0 and unowned_pixels>0 and foreign_green==0,(owned_pixels,unowned_pixels,foreign_green,owned,unowned)
+            solo_company.update(owned_marker_pixels=owned_pixels,same_ID_block_foreign_front_blue_pixels=unowned_pixels,foreign_front_owned_colour_pixels=foreign_green)
+        finally:os.kill(process.pid,signal.SIGCONT)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
         print(json.dumps({'suite':'actual-solo-company-command','passed':True,'company':solo_company,

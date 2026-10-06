@@ -2,7 +2,7 @@
 layout(location=0) in vec4 pose; // x,y,z,heading
 layout(location=1) in vec4 animation; // source frameA,frameB,blend,aircraft pitch
 layout(location=2) in vec4 scale; // instance scale xyz,aircraft bank
-layout(location=3) in vec4 identity; // actor ID,side(2 human),role,absolute-y flag
+layout(location=3) in vec4 identity; // actor ID,side(2 human),role,height/ownership flags:0 relative,1 absolute,2 relative-owned,3 absolute-owned
 layout(std430,binding=3) readonly buffer BakedSourceVertices { vec4 sourceVertex[]; };
 uniform vec3 camera;
 uniform vec4 weather;
@@ -29,6 +29,8 @@ void main(){
   actorCode=(uint(censusDetail)<<16)|(uint(identity.x)+1u);
  vec3 local=vec3(0),normal=vec3(0,1,0),material=vec3(.5);
  vec3 team=identity.y==3?vec3(.55,.57,.5):(identity.y==2?vec3(.2,.85,.8):(identity.y==0?vec3(.16,.55,.85):vec3(.9,.25,.12)));
+ bool owned=(identity.w==2.||identity.w==3.)&&identity.y==0.;
+ if(owned)team=vec3(.45,1.,.3);
  if(meshMode!=1){
   int a=meshGeometry.x+(int(animation.x)*meshGeometry.y+gl_VertexID)*3;
   int b=meshGeometry.x+(int(animation.y)*meshGeometry.y+gl_VertexID)*3;
@@ -46,7 +48,7 @@ void main(){
  float cy=cos(pose.w),sy=sin(pose.w);
  vec3 world=vec3(cy*local.x+sy*local.z,local.y,-sy*local.x+cy*local.z)+pose.xyz;
  normal=vec3(cy*normal.x+sy*normal.z,normal.y,-sy*normal.x+cy*normal.z);
- if(identity.w==0)world.y+=height(pose.xz);
+ if(identity.w==0.||identity.w==2.)world.y+=height(pose.xz);
  float light=mix(.35,.58,weather.y)+mix(.65,.22,weather.y)*max(0.,dot(normal,normalize(vec3(.35,.85,-.2))));
  colour=mix(material,team,.22)*light;
  if(identity.y==3. && (identity.z==1. || identity.z==2.))colour*=vec3(.35,.32,.29);

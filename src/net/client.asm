@@ -5,6 +5,8 @@ default rel
 %include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
 %include "schemas/wreck_remote.inc"
+%include "schemas/company_remote.inc"
+extern net_company_reset,net_company_receive
 extern wreck_receive,wreck_remote_reset,wreck_remote_expire
 %include "src/net/protocol.inc"
 extern sim_ground_motion
@@ -124,6 +126,7 @@ net_client_open:
  mov ecx,32768
  rep stosd
  call wreck_remote_reset
+ call net_company_reset
  call reset_ground
  lea rdi,[sim_aircraft]
  mov ecx,32768*AIR_STRIDE/8
@@ -296,6 +299,8 @@ net_client_poll:
  jne .next
  cmp dword [incoming+16],NET_STATE
  je .state
+ cmp dword [incoming+16],NET_COMPANIES
+ je .companies
  cmp dword [incoming+16],NET_ENTITIES
  je .entities
  cmp dword [incoming+16],NET_WRECKS
@@ -359,6 +364,18 @@ net_client_poll:
  mov eax,[incoming+40]
  mov [net_last_status],eax
  mov dword [pending_len],0
+ jmp .accepted
+.companies:
+ cmp dword [incoming+32],COMPANY_REMOTE_PAYLOAD
+ jne .next
+ cmp dword [incoming+40],COMPANY_REMOTE_COUNT
+ jne .next
+ lea rdi,[incoming+44]
+ mov esi,COMPANY_REMOTE_COUNT
+ mov edx,[incoming+28]
+ call net_company_receive
+ test eax,eax
+ jnz .next
  jmp .accepted
 .state:
  cmp dword [incoming+32],NET_STATE_SIZE-NET_HEADER
@@ -1173,6 +1190,7 @@ net_client_poll:
  mov dword [pending_len],0
  call reset_projectiles
  call wreck_remote_reset
+ call net_company_reset
  call reset_ground
 .retry:
  cmp dword [pending_len],0
@@ -1231,6 +1249,7 @@ net_client_poll:
  ret
 net_client_close:
  call wreck_remote_reset
+ call net_company_reset
  call reset_ground
  call reset_projectiles
  mov rdi,[fd]
