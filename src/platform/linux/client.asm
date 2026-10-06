@@ -816,6 +816,15 @@ main:
  xor esi,esi
  mov edx,98304
  call glDrawArrays
+ ; Bounded 5 m relief tile: 100 x 175 cells, six vertices each. The vertex
+ ; shader clips only the coarse cells this replaces and retains terrain material.
+ mov edi,[terrain_loc]
+ mov esi,11
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,105000
+ call glDrawArrays
  mov edi,[tactical]
  mov esi,[local_player]
  movss xmm0,[camera]

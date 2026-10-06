@@ -25,9 +25,22 @@ flat out int effectType;
 out float distanceFog;
 const vec3 corners[8]=vec3[8](vec3(-1,0,-1),vec3(1,0,-1),vec3(1,2,-1),vec3(-1,2,-1),vec3(-1,0,1),vec3(1,0,1),vec3(1,2,1),vec3(-1,2,1));
 const int faces[36]=int[36](0,2,1,0,3,2,4,5,6,4,6,7,0,1,5,0,5,4,3,7,6,3,6,2,0,4,7,0,7,3,1,2,6,1,6,5);
-float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.;}
+float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.+terrainRelief(p).x;}
+// The refined tile shares the exact coarse outer edges. Relief is zero there;
+// only the original bowl's sub-2 mm coarse interpolation needs matching.
+float terrainTileHeight(vec2 p){
+ float h=height(p);
+ if(p.x==5375. || p.x==5875.){
+  float z=floor(p.y/62.5)*62.5;
+  h=mix(height(vec2(p.x,z)),height(vec2(p.x,z+62.5)),(p.y-z)/62.5);
+ }else if(p.y==4750. || p.y==5625.){
+  float x=floor(p.x/62.5)*62.5;
+  h=mix(height(vec2(x,p.y)),height(vec2(x+62.5,p.y)),(p.x-x)/62.5);
+ }
+ return h;
+}
 void main(){
- effectAlpha=1.;effectUV=vec2(0);effectType=0;worldPosition=vec3(0);materialMode=terrain;
+ effectAlpha=1.;effectUV=vec2(0);effectType=0;worldPosition=vec3(0);materialMode=terrain==11?1:terrain;
  if(terrain==9){const vec2 sky[3]=vec2[3](vec2(-1,-1),vec2(3,-1),vec2(-1,3));effectUV=sky[gl_VertexID];gl_Position=vec4(effectUV,.99999,1);colour=vec3(1);distanceFog=0;return;}
  if(terrain==4){int v=gl_VertexID%6,bar=gl_VertexID/6;vec2 c=vec2((v==1||v==2||v==4)?1:-1,(v==2||v==4||v==5)?1:-1);vec2 size=bar==0?vec2(.015,.002):vec2(.0012,.026); gl_Position=vec4((selectedGoal-vec2(4000))/4300+c*size,0,1);colour=vec3(.65,1,.45);distanceFog=0;return;}
  if(terrain==2){
@@ -118,7 +131,24 @@ void main(){
   }
  }
  else if(terrain==3){int owner=floatBitsToInt(entity.z),role=floatBitsToInt(roles.x),connected=floatBitsToInt(roles.y),flags=floatBitsToInt(roles.w); int part=gl_VertexID/36; vec3 scale=part==0?vec3(18,12,18):vec3(3,30,3);if(tactical!=0)scale=part==0?vec3(70,12,70):vec3(8,50,8);vec3 offset=part==0?vec3(0):vec3(0,24,0);world=corners[faces[gl_VertexID%36]]*scale+offset+vec3(entity.x,height(entity.xy)+2,entity.y); colour=owner==0?vec3(.2,.75,1):(owner==1?vec3(1,.28,.16):vec3(.85,.8,.6));if(connected==0)colour*=.65;if((flags&4)!=0)colour=vec3(1,.85,.15);if(role==0&&part==1)colour=vec3(.9,.9,.82);}
- else if(terrain==1){int cell=gl_VertexID/6; int v=gl_VertexID%6; vec2 off=vec2((v==1||v==2||v==4)?1:0,(v==2||v==4||v==5)?1:0); vec2 p=(vec2(cell%128,cell/128)+off)*62.5; world=vec3(p.x,height(p),p.y); colour=mix(vec3(.13,.18,.11),vec3(.28,.29,.16),.5+.5*sin(p.x*.007+p.y*.005));}
+ else if(terrain==1 || terrain==11){
+  int cell=gl_VertexID/6,v=gl_VertexID%6;
+  vec2 off=vec2((v==1||v==2||v==4)?1:0,(v==2||v==4||v==5)?1:0);
+  vec2 p;
+  if(terrain==11){
+   p=vec2(5375.,4750.)+(vec2(cell%100,cell/100)+off)*5.;
+   world=vec3(p.x,terrainTileHeight(p),p.y);
+  }else{
+   ivec2 grid=ivec2(cell%128,cell/128);
+   // Clip only the 112 cells replaced by the 5 m tile. All vertices of each
+   // hidden triangle have identical out-of-clip positions.
+   if(grid.x>=86 && grid.x<94 && grid.y>=76 && grid.y<90){
+    gl_Position=vec4(0,0,2,1);distanceFog=0;colour=vec3(0);return;
+   }
+   p=(vec2(grid)+off)*62.5;world=vec3(p.x,height(p),p.y);
+  }
+  colour=mix(vec3(.13,.18,.11),vec3(.28,.29,.16),.5+.5*sin(p.x*.007+p.y*.005));
+ }
  else {world=vec3(0,-10000,0);colour=vec3(0);}
 
  worldPosition=world;

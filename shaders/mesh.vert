@@ -18,7 +18,7 @@ flat out uint actorCode;
 uniform vec2 weaponMotion; // cosmetic recoil, authoritative reload fraction
 out vec3 colour;
 out float distanceFog;
-float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.;}
+float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.+terrainRelief(p).x;}
 void main(){
  // IDs describe the same geometry/depth as colour, including real occluders.
  // Reject malformed identity data before float-to-integer conversion.
