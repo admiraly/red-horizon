@@ -1,0 +1,115 @@
+{
+  "feature_commit": "ca93f8965729e95128b69378f2bc17004dc80403",
+  "authored_files": 560,
+  "all_authored_sha256_match_frozen": true,
+  "frozen_revision": "f613784e58388f948bfdebc93a6814e49dded33b-d183d945056a4128",
+  "builds": {
+    "client": {
+      "target": "client",
+      "revision": "ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128",
+      "assembled": 13,
+      "assembled_sources": [
+        "src/sim/air_crash.asm",
+        "src/ai/air_speed.asm",
+        "src/ai/air_recovery.asm",
+        "src/ai/air_escort.asm",
+        "src/ai/air_fuel.asm",
+        "src/ai/air_bank.asm",
+        "src/ai/air_vertical.asm",
+        "src/ai/air_final_clear.asm",
+        "src/ai/air_world.asm",
+        "src/ai/aircraft.asm",
+        "src/ai/air_pursuit.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.6504844400042202,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128/red-horizon",
+      "executable_sha256": "7b6a432e335190931fa37b1950b76384fb9126eb8b40f62f24f2a98ef8f82fdb"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.4231247169955168,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128/red-horizon-coop-server",
+      "executable_sha256": "6fdf7d771417a88a3d3e079464e6092c811f7299ddffd41753517cb886ad4858"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.4270049610058777,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128/red-horizon-server",
+      "executable_sha256": "fabad8b5c6925d0866b14254e7e4a5f78a7ebbe8af2ca5ebe8574cd49bd473c7"
+    }
+  },
+  "native_checks": {
+    "bank": "PASS",
+    "public_load_and_holding": "PASS",
+    "original_strike": "PASS",
+    "actual_listen_host": "PASS"
+  },
+  "native_arc": {
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon/build/revisions/ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128/red-horizon",
+      "--listen",
+      "--scenario",
+      "air-battle",
+      "--hidden",
+      "--frames",
+      "120",
+      "--width",
+      "1280",
+      "--height",
+      "720",
+      "--frame-cap",
+      "60",
+      "--no-vsync",
+      "--census"
+    ],
+    "exit_code": 0,
+    "gpu": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 34176 MB, largest block: 34176 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 34176 MB, largest block: 34176 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 34176 MB, largest block: 34176 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+    "host": {
+      "listen_host": true,
+      "port": 48011,
+      "child_pid": 2838980,
+      "child_exited": 1,
+      "startup_failed": 0
+    },
+    "census": {
+      "visibility_census": true,
+      "visible_actors": 285,
+      "visible_high": 0,
+      "visible_low": 225,
+      "visible_markers": 60,
+      "individually_detailed_actors": 225,
+      "width": 1280,
+      "height": 720,
+      "source_tick": 63,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 7.223771,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "ef5273cb77c7dff6",
+      "authority_after": "ef5273cb77c7dff6"
+    },
+    "owned_authority_absent": true,
+    "scope": "Actual rebuilt main, Arc120-frame8192 listen smoke; no sustained/dense/four-front/frame-budget/art/audio-device acceptance."
+  },
+  "foreground_sessions": {
+    "92833": 0,
+    "86428": 0,
+    "27714": 0
+  },
+  "extended_job": {
+    "id": "2aa3a167ad07",
+    "pid": 2822258,
+    "state": "pending; independently live at 14:57; no terminal result"
+  },
+  "limitations": "No full extended pass, low-speed energy/stalls/landing/service, dense visibility/frame-budget/art/audio-device or whole-game acceptance."
+}
