@@ -1,0 +1,33 @@
+[
+  {
+    "target": "headless",
+    "revision": "894a53c06019a058d560549f5ba159e97c750417-eb448300d5e487c9",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.39073946900316514,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/894a53c06019a058d560549f5ba159e97c750417-eb448300d5e487c9/red-horizon-server",
+    "sha256": "9db71c092026cf720770348d51450a79e18c6c43955d5a4fadf9c3798b29668e"
+  },
+  {
+    "target": "client",
+    "revision": "894a53c06019a058d560549f5ba159e97c750417-eb448300d5e487c9",
+    "assembled": 3,
+    "assembled_sources": [
+      "src/render/mesh_shaders.asm",
+      "src/render/battle_metrics.asm",
+      "src/render/meshes.asm"
+    ],
+    "seconds": 0.4974585349991685,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/894a53c06019a058d560549f5ba159e97c750417-eb448300d5e487c9/red-horizon",
+    "sha256": "eb1c9ed6b095dd2fb8f4695262cc1d675a6d414cdf8e095d61dbf26173b2aa0c"
+  },
+  {
+    "target": "coop",
+    "revision": "894a53c06019a058d560549f5ba159e97c750417-eb448300d5e487c9",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.38411498999630567,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/894a53c06019a058d560549f5ba159e97c750417-eb448300d5e487c9/red-horizon-coop-server",
+    "sha256": "375477219b02fba4c9554c29a868dce6e7b7b2bee8744e2f3d28719845053843"
+  }
+]

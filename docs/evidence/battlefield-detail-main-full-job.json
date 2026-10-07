@@ -1,0 +1,22 @@
+{
+  "job_id": "7dc8436c715c",
+  "revision": "ce8d786974ac5d11cc623aceeb020b096adff036-04c0761baf181e10",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/7dc8436c715c/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/7dc8436c715c/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/7dc8436c715c/result.json",
+  "pid": 2952421,
+  "pid_verified_live": true,
+  "main_commit": "894a53c06019a058d560549f5ba159e97c750417",
+  "compared_input_file_count": 429,
+  "mismatched_inputs": [
+    "tests/test_client_coop.py"
+  ],
+  "scope": "Current corrected graphics inputs match exactly; earlier full runtime/content inputs match exactly, with only stable co-op observer correction excluded."
+}

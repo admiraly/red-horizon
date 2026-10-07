@@ -1,12 +1,8 @@
-NPC rifle presentation integrated in4c2026f; compatible main client/headless/
-co-op executables fully linked/rebuilt. All foreground and frozen fast/network
-checks terminal/collected; failed earlier fixtures remain recorded as failed.
-New immutable full20ea89c062f4 RUNNING,4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20,PID2481494.
-Metadata: evidence/infantry-presentation-full-pending.json. Separate earlier
-v37 full8a7e9b89d92e also confirmed live at its original snapshot; no full pass
-inferred for either. Entire game goal active, next ready work is generation-
-safe visible aim/weapon pose metadata and upper-body orientation for human
-and army targets. Exact contracts/required proofs recorded in task-board.md.
+Current main894a53c integrates projected actor model/marker thresholds (57bb6e6), shortest-path infantry torso aim across the heading seam (f4aecce), and verified fixture corrections. Headless/client/co-op executables rebuilt and linked; actual main embedded shader60cases, distant1200m fighter/bomber GL, infantry boundary/map and original8192 finite NPC aiming GL pass. Main proof/executable hashes: evidence/battlefield-detail-main-builds.json and battlefield-detail-main-GL.json.
+
+Earlier integrated aiming full extendedb26bbca67339 PASSED/collected1687.820317s. Current corrected graphics1664f219f098 is live atbdfbb57-eb448300d5e487c9, PID2975223, all429 current runtime/content/test/tool input files match its frozen snapshot. Current full extended7dc8436c715c is live atce8d786-04c0761baf181e10, PID2952421; runtime/content match exactly, with only tests/test_client_coop.py stable-income observer correction excluded and separately passed against its exact binaries. Both remain pending. Source provenance/live jobs: evidence/battlefield-detail-main-{graphics,full}-job.json. Collect immutable results without restarting or editing snapshots.
+
+Combined ArcA770 short1080p/180frame sample has1177 individually detailed pixel-visible actors, CPUframep9514.153489ms/GPUdrawp952.007552ms, exact authority unchanged; it does not establish sustained density/60FPS or final art quality. Prior1800frame sample ended645detailed/CPUframep9522.910473ms. Six failed graphics iterations remain failed and recorded; each diagnosed condition has focused corrected proof, including two rendered co-op clients and exact5spend. Full game goal remains active. Next ready work: anatomical body/torso limits and authored bone/socket review, muzzle alignment, richer coordinated AI/aircraft spectacle, sustained performance and complete operation/platform acceptance. Pinned original Blender source currently returns public quota-exceeded HTML; no original-bone/IK claim.
 
 Finite actual NPC rifle source presentation verified in b394c8d,UDPv38/schema0xe1d5f2bb/
 contentabc84d82. Successful infantry_weapon_shot emits one kind10 source event

@@ -1,0 +1,40 @@
+{
+  "main_integrated_commit": "894a53c06019a058d560549f5ba159e97c750417",
+  "main_batches": [
+    "57bb6e6",
+    "f4aecce",
+    "894a53c"
+  ],
+  "isolated_batches": [
+    "65cec84",
+    "ce8d786",
+    "bdfbb57"
+  ],
+  "goal": "Full docs/spec.txt remains active, not completed by renderer changes",
+  "prior_aiming_full": {
+    "job": "b26bbca67339",
+    "status": "passed",
+    "collected": true,
+    "seconds": 1687.8203174539958
+  },
+  "failed_graphics_retained": [
+    "57ef97dfe618",
+    "054c97403744",
+    "839a7df1fa7d",
+    "23a083501bad",
+    "ad40f14e739a",
+    "02d46fad6859"
+  ],
+  "live_jobs": [
+    "1664f219f098",
+    "7dc8436c715c"
+  ],
+  "current_main_GL_passes": [
+    "60 shader cases including48 seam cases",
+    "1200m aircraft sourced model pixels and exact threshold/map/boundary controls",
+    "8192 real finite NPC aim pixels with authority/locomotion unchanged"
+  ],
+  "hardware_scope": "Actual Arc A770 1080p180frame sample1177detailed; CPU p9514.153489ms/GPUdrawp952.007552ms. Earlier1800frames645detailed/CPU p9522.910473ms. No sustained60FPS/density/art acceptance.",
+  "no_authority_changes": true,
+  "publication": "No remote publication; code license owner approval pending"
+}
