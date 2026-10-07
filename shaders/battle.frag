@@ -81,6 +81,11 @@ const uvec2 commandFont[64]=uvec2[64](
  uvec2(4473390u,1u),
  uvec2(4473390u,1u),
  uvec2(4473390u,1u));
+uniform int hdrOutput;
+vec3 decodeDisplay(vec3 encoded){
+ encoded=max(encoded,vec3(0));
+ return mix(encoded/12.92,pow((encoded+.055)/1.055,vec3(2.4)),greaterThan(encoded,vec3(.04045)));
+}
 void main(){
  outputActorCode=0u;
  if(materialMode==13){
@@ -117,15 +122,18 @@ void main(){
   cloud=smoothstep(1.-weather.y*.78,1.-weather.y*.78+.16,cloud)*smoothstep(.12,.6,elevation);
   sky=mix(sky,mix(vec3(.92,.94,.94),vec3(.67,.70,.71),weather.y),cloud*.8);
   float sun=pow(max(0.,1.-length(uv-vec2(.45-angle.x*.6,.52-angle.y))),28.)*(1.-weather.y);
-  outputColour=vec4(sky+vec3(1.,.78,.46)*sun*.18,1);return;
+  vec3 skyColour=sky+vec3(1.,.78,.46)*sun*.18;
+  outputColour=vec4(hdrOutput!=0?decodeDisplay(skyColour):skyColour,1);return;
  }
- vec3 surface=colour;
+ vec3 surface=hdrOutput!=0?decodeDisplay(colour):colour;
+ if(hdrOutput!=0)fogColour=decodeDisplay(fogColour);
  if(materialMode==1){
   vec2 p=worldPosition.xz,uv=p/3.5;
   vec3 grass=texture(terrainTextures,vec3(uv,0)).rgb;
   vec3 mud=texture(terrainTextures,vec3(uv*.8,1)).rgb;
   vec3 gravel=texture(terrainTextures,vec3(uv*1.1,2)).rgb;
   vec3 rock=texture(terrainTextures,vec3(uv*.7,3)).rgb;
+  if(hdrOutput!=0){grass=decodeDisplay(grass);mud=decodeDisplay(mud);gravel=decodeDisplay(gravel);rock=decodeDisplay(rock);}
   // Canonical capsules match the authoritative road sampler. The 2 m blend
   // outside the physical road is a visual shoulder, not road traction.
   float roadEdge=1e20;
@@ -160,6 +168,13 @@ void main(){
   }
   else if(effectType==4){alpha*=1.-smoothstep(.45,.95,r);}
   else{alpha*=smoothstep(1.,.35,r);}
+ }
+ // Finite event-derived fire/flash radiance survives the floating scene target.
+ // Smoke/dust and trails do not acquire emissive energy from this policy.
+ if(hdrOutput!=0){
+  if(effectType==2||effectType==10)surface*=8.;
+  else if(effectType==1)surface*=3.;
+  else if(effectType==9)surface*=4.;
  }
  // Screen UI and map symbols remain readable; emission effects retain their hue.
  float fog=1.-exp(-distanceFog*(.00018+weather.w));

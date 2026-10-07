@@ -5,12 +5,14 @@ global texture_asset_load,texture_asset_blob,environment_init,environment_update
 extern fopen,fread,fclose,puts,strcmp
 extern glGenTextures,glBindTexture,glTexImage3D,glTexParameteri,glGenerateMipmap,glActiveTexture
 extern glGetUniformLocation,glUniform4f,glUniform1i
+extern hdr_world_linear
 %define PACK_BYTES 4194336
 section .rodata
 path: db 'content/textures/terrain.rhtx',0
 mode: db 'rb',0
 error: db 'Missing or invalid terrain texture pack: content/textures/terrain.rhtx',0
 weather_name: db 'weather',0
+hdr_name: db 'hdrOutput',0
 sampler_name: db 'terrainTextures',0
 names: dd clear-names,overcast-names,rain-names,fog-names
 clear: db 'clear',0
@@ -231,6 +233,12 @@ environment_apply:
  call glGetUniformLocation wrt ..plt
  mov edi,eax
  xor esi,esi
+ call glUniform1i wrt ..plt
+ mov edi,ebx
+ lea rsi,[hdr_name]
+ call glGetUniformLocation wrt ..plt
+ mov edi,eax
+ mov esi,[hdr_world_linear]
  call glUniform1i wrt ..plt
  pop rbx
  ret

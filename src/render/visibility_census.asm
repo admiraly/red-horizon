@@ -10,7 +10,7 @@ default rel
 %define MAX_PIXELS (3840*2160)
 extern view_width,view_height,sim_count,sim_tick_count,sim_entities
 extern glGenFramebuffers,glBindFramebuffer,glDeleteFramebuffers,glCheckFramebufferStatus
-extern glGenTextures,glBindTexture,glTexStorage2D,glDeleteTextures,glFramebufferTexture2D
+extern glGenTextures,glBindTexture,glTexStorage2D,glTexParameteri,glDeleteTextures,glFramebufferTexture2D
 extern glGenRenderbuffers,glBindRenderbuffer,glRenderbufferStorage,glFramebufferRenderbuffer,glDeleteRenderbuffers
 extern glDrawBuffers,glClearBufferfv,glClearBufferuiv,glClear,glColorMaski,glDepthMask
 extern glGetError
@@ -19,6 +19,7 @@ extern clock_gettime,printf,fopen,fwrite,fclose,sim_checksum
 section .rodata
 map_mode: db "wb",0
 buffers: dd 0x8ce0,0x8ce1
+clear_linear: dd 0.09463,0.14732,0.17887,1.0
 clear_color: dd 0.34,0.42,0.46,1.0
 zero: times 4 dd 0
 million: dq 1000000.0
@@ -27,10 +28,14 @@ global visibility_pixels,visibility_actor_flags,visibility_width,visibility_heig
 section .bss
 visibility_capture_count: resd 1
 fbo: resd 1
+global visibility_colour_texture
+visibility_colour_texture:
 textures: resd 2
 depth: resd 1
 ready: resd 1
 active: resd 1
+skip_blit: resd 1
+linear_clear: resd 1
 visibility_width: resd 1
 visibility_height: resd 1
 frame_tick: resd 1
@@ -180,7 +185,7 @@ visibility_init:
  call glBindTexture wrt ..plt
  mov edi,0x0de1
  mov esi,1
- mov edx,0x8058 ; RGBA8
+ mov edx,0x881a ; RGBA16F shared presentation/census radiance
  test ebx,ebx
  jz .storage
  mov edx,0x8236 ; R32UI
@@ -188,6 +193,14 @@ visibility_init:
  mov ecx,[visibility_width]
  mov r8d,[visibility_height]
  call glTexStorage2D wrt ..plt
+ mov edi,0xde1
+ mov esi,0x2801
+ mov edx,0x2600
+ call glTexParameteri wrt ..plt
+ mov edi,0xde1
+ mov esi,0x2800
+ mov edx,0x2600
+ call glTexParameteri wrt ..plt
  mov edi,0x8d40
  lea esi,[rbx+0x8ce0]
  mov edx,0x0de1
@@ -246,7 +259,13 @@ visibility_init:
  call glBindRenderbuffer wrt ..plt
  add rsp,8
  ret
+global visibility_begin_hdr,visibility_finish_hdr
 visibility_begin:
+ mov dword [linear_clear],0
+ jmp visibility_begin_common
+visibility_begin_hdr:
+ mov dword [linear_clear],1
+visibility_begin_common:
  sub rsp,8
  cmp dword [ready],1
  jne .done
@@ -263,6 +282,10 @@ visibility_begin:
  mov edi,0x1800
  xor esi,esi
  lea rdx,[clear_color]
+ cmp dword [linear_clear],0
+ je .clear
+ lea rdx,[clear_linear]
+.clear:
  call glClearBufferfv wrt ..plt
  mov edi,0x1800
  mov esi,1
@@ -300,9 +323,17 @@ visibility_world_end:
  add rsp,8
  ret
 visibility_finish:
+ mov dword [skip_blit],0
+ jmp visibility_finish_common
+visibility_finish_hdr:
+ mov dword [skip_blit],1
+visibility_finish_common:
  sub rsp,40
  cmp dword [active],1
  jne .badfinish
+ mov edi,0x8ca8 ; read framebuffer may have been changed by tone presentation
+ mov esi,[fbo]
+ call glBindFramebuffer wrt ..plt
  mov edi,1
  lea rsi,[started]
  call clock_gettime wrt ..plt
@@ -335,6 +366,8 @@ visibility_finish:
  cvtsi2sd xmm0,rax
  divsd xmm0,[million]
  movsd [elapsed],xmm0
+ cmp dword [skip_blit],0
+ jne .restore
  mov edi,0x8ce0
  call glReadBuffer wrt ..plt
  mov edi,0x8ca9 ; DRAW_FRAMEBUFFER
@@ -355,6 +388,7 @@ visibility_finish:
  mov qword [rsp+16],0x4000
  mov qword [rsp+24],0x2600
  call glBlitFramebuffer wrt ..plt
+.restore:
  mov edi,0x8d40
  xor esi,esi
  call glBindFramebuffer wrt ..plt

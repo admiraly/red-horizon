@@ -11,6 +11,8 @@ global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
 extern bindings_load,bindings_frame_down,bindings_frame_begin,bindings_event,bindings_label,bindings_report,binding_codes,bindings_error_line
 extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
+extern hdr_init,hdr_begin,hdr_present,hdr_shutdown,hdr_world_linear,hdr_frame_presented
+extern visibility_colour_texture,visibility_begin_hdr,visibility_finish_hdr
 extern visibility_init,visibility_begin,visibility_world_end,visibility_finish,visibility_report,visibility_shutdown,visibility_write_map
 extern hazard_warning_update,hazard_warning_uniform
 extern sim_scenario
@@ -774,6 +776,9 @@ main:
  call glfwGetCursorPos
  call glfwGetTime
  movsd [last_time],xmm0
+ call hdr_init
+ test eax,eax
+ jnz .destroyfail
  call environment_init
  test eax,eax
  jnz .destroyfail
@@ -870,8 +875,6 @@ main:
  call audio_footsteps_update
  movss xmm0,[frame_delta]
  call environment_step
- mov edi,[program]
- call environment_apply
  mov edi,[local_player]
  movss xmm0,[frame_delta]
  call effects_update
@@ -916,6 +919,8 @@ main:
  call glClearColor
  mov edi,0x4100
  call glClear
+ mov edi,[tactical]
+ call hdr_begin
  mov dword [census_frame],0
  cmp dword [census_requested],0
  je .nocensusbegin
@@ -923,9 +928,17 @@ main:
  inc eax
  cmp eax,[frame_limit]
  jne .nocensusbegin
+ cmp dword [hdr_world_linear],0
+ je .legacycensusbegin
+ call visibility_begin_hdr
+ jmp .censusbegun
+.legacycensusbegin:
  call visibility_begin
+.censusbegun:
  mov dword [census_frame],1
 .nocensusbegin:
+ mov edi,[program]
+ call environment_apply
  mov edi,[cam_loc]
  movss xmm0,[camera]
  movss xmm1,[camera+4]
@@ -1124,6 +1137,22 @@ main:
  call glDepthMask
  mov edi,0xbe2
  call glDisable
+ xor edi,edi
+ cmp dword [census_frame],0
+ je .hdrtexture
+ mov edi,[visibility_colour_texture]
+.hdrtexture:
+ mov esi,[tactical]
+ call hdr_present
+ mov edi,[program]
+ call glUseProgram
+ mov edi,[program]
+ call environment_apply
+ mov edi,[vao]
+ call glBindVertexArray
+ mov edi,0x8892
+ mov esi,[vbo]
+ call glBindBuffer
  mov edi,[operation_loc]
  cvtsi2ss xmm0,[sim_requisition]
  divss xmm0,[req_scale]
@@ -1200,7 +1229,13 @@ main:
  ; Ordinary frame timing ends before diagnostic synchronization/readback/blit.
  call metrics_frame_end
  mov dword [final_frame_ended],1
+ cmp dword [hdr_frame_presented],0
+ je .legacycensusfinish
+ call visibility_finish_hdr
+ jmp .censusfinished
+.legacycensusfinish:
  call visibility_finish
+.censusfinished:
  test eax,eax
  jnz .destroyfail
  mov rdi,[census_map_path]
@@ -1316,6 +1351,7 @@ main:
  add rsp,16
 .nonetreport:
  call visibility_shutdown
+ call hdr_shutdown
  mov rdi,[window]
  call glfwDestroyWindow
  call glfwTerminate
@@ -1331,6 +1367,7 @@ main:
  call puts
 .destroyfail:
  call visibility_shutdown
+ call hdr_shutdown
  mov rdi,[window]
  call glfwDestroyWindow
 .terminatefail:

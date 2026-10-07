@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/hdr-scene/tests/test_visibility_gl.py", line 217, in <module>
+    colour, report = run_fixture(env, folder, label, actors, obstacle)
+                     ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/hdr-scene/tests/test_visibility_gl.py", line 173, in run_fixture
+    assert process.returncode == 0, stdout + stderr
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: binding forward=W
+binding back=S
+binding left=A
+binding right=D
+binding sprint=LSHIFT
+binding crouch=LCTRL
+binding jump=SPACE
+binding reload=R
+binding enter_vehicle=E
+binding exit_vehicle=Q
+binding fire=LMB
+binding tactical_map=TAB
+binding command_wheel=MMB
+binding command_cancel=RMB
+binding quit=ESC
+binding advance=1
+binding hold=2
+binding retreat=3
+binding follow=4
+binding front_1=F1
+binding front_2=F2
+binding front_3=F3
+binding weather=F4
+binding exchange_0=F5
+binding exchange_1=F6
+binding exchange_2=F7
+binding exchange_3=F8
+binding exchange_accept=F9
+binding exchange_decline=F10
+binding exchange_cancel=F11
+binding defend=5
+4.6 (Core Profile) Mesa 26.2.3
+Client context/shader creation failed.
+

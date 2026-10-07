@@ -11,15 +11,21 @@ uniform int meshMode;
 layout(location=0) out vec4 outputColour;
 flat in uint actorCode;
 layout(location=1) out uint outputActorCode;
+uniform int hdrOutput;
+vec3 decodeDisplay(vec3 encoded){
+ encoded=max(encoded,vec3(0));
+ return mix(encoded/12.92,pow((encoded+.055)/1.055,vec3(2.4)),greaterThan(encoded,vec3(.04045)));
+}
 void main(){
  outputActorCode=actorCode;
- vec3 surface=colour;
+ vec3 surface=hdrOutput!=0?decodeDisplay(colour):colour;
  if(meshMode==0){
   vec3 n=normalize(surfaceNormal),sun=normalize(vec3(.35,.85,-.2));
   float clouds=clamp(weather.y,0.,1.),rain=clamp(weather.z,0.,1.);
   float direct=max(0.,dot(n,sun));
   vec3 ambient=mix(vec3(.55,.49,.42),vec3(.82,.91,1.),clamp(n.y*.5+.5,0.,1.));
-  surface=surfaceAlbedo*(ambient*mix(.35,.58,clouds)+vec3(1.,.94,.82)*mix(.65,.22,clouds)*direct);
+  vec3 albedo=hdrOutput!=0?decodeDisplay(surfaceAlbedo):surfaceAlbedo;
+  surface=albedo*(ambient*mix(.35,.58,clouds)+vec3(1.,.94,.82)*mix(.65,.22,clouds)*direct);
   // Cloth/wrecks retain their matte response; rain coats intact equipment.
   float coating=surfaceResponse.y>.03?rain:0.;
   float roughness=mix(surfaceResponse.x,.22,coating);
@@ -38,5 +44,6 @@ void main(){
  }
  float fog=(meshMode==1||meshMode==2)?0.:1.-exp(-distanceFog*(.00018+weather.w));
  vec3 fogColour=mix(vec3(.49,.61,.68),vec3(.49,.53,.55),weather.y);
+ if(hdrOutput!=0)fogColour=decodeDisplay(fogColour);
  outputColour=vec4(mix(surface,fogColour,fog),1);
 }
