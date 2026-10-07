@@ -1,0 +1,705 @@
+{
+  "head": "2b20eb6642f73d0afc298d465f418d951e13dc6a",
+  "authored_count": 514,
+  "exact_verified_worker_and_frozen_match": true,
+  "main_builds": {
+    "client": {
+      "target": "client",
+      "revision": "2b20eb6642f73d0afc298d465f418d951e13dc6a-9b8ee4856c2403e4",
+      "assembled": 2,
+      "assembled_sources": [
+        "src/render/hdr.asm",
+        "src/render/bloom.asm"
+      ],
+      "seconds": 0.7500092810078058,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/2b20eb6642f73d0afc298d465f418d951e13dc6a-9b8ee4856c2403e4/red-horizon",
+      "executable_sha256": "34b953999b99e5e49aadee0a5574ab0885c3b98fac146d6ebeaf981d26a2ced0"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "2b20eb6642f73d0afc298d465f418d951e13dc6a-9b8ee4856c2403e4",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.40447413999936543,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/2b20eb6642f73d0afc298d465f418d951e13dc6a-9b8ee4856c2403e4/red-horizon-server",
+      "executable_sha256": "4ef5d808158c556a0cbdb8cb9016dcb2ffe26ea407667188ba7854aca00d326f"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "2b20eb6642f73d0afc298d465f418d951e13dc6a-9b8ee4856c2403e4",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.3795166870113462,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/2b20eb6642f73d0afc298d465f418d951e13dc6a-9b8ee4856c2403e4/red-horizon-coop-server",
+      "executable_sha256": "1b19689f8799af4cd7fe055fa583d15808f8de3acade227eb75bb9fbcd67304d"
+    }
+  },
+  "main_checks": {
+    "native-pixels": {
+      "suite": "hdr-production-core-gl",
+      "passed": true,
+      "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+      "native_hidden_context": true,
+      "scene_format": "RGBA16F",
+      "dimensions": [
+        320,
+        240
+      ],
+      "radiance_cases": 14,
+      "display_max_error": 0.001968296323507479,
+      "emission_samples": [
+        {
+          "effect_kind": 2,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 2,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 1,
+          "scene_rgba": [
+            3.0,
+            0.51171875,
+            0.021575927734375,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 1,
+          "scene_rgba": [
+            4.0,
+            0.68212890625,
+            0.0287628173828125,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 0,
+          "scene_rgba": [
+            0.81591796875,
+            0.3671875,
+            0.06524658203125,
+            0.300048828125
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 1,
+          "scene_rgba": [
+            0.81591796875,
+            0.13916015625,
+            0.005870819091796875,
+            0.300048828125
+          ]
+        }
+      ],
+      "bloom": {
+        "passes_per_world_frame": 3,
+        "half_resolution": [
+          160,
+          120
+        ],
+        "dark_max_error": 0.0,
+        "halo_delta": 0.06666667759418488,
+        "halo_pixels_outside_source": 308,
+        "uniform_bright_display_error": 0.0007010469395706265,
+        "tactical_identical": true,
+        "texture_ids": [
+          2,
+          3
+        ],
+        "odd_clamped_edge": {
+          "scene_dimensions": [
+            321,
+            241
+          ],
+          "bloom_dimensions": [
+            161,
+            121
+          ],
+          "opposite_edge_rgb": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "near_edge_rgb": [
+            0.1882352977991104,
+            0.1882352977991104,
+            0.1882352977991104
+          ]
+        }
+      },
+      "additive_fire_scene_rgba": [
+        16.0,
+        2.728515625,
+        0.11505126953125,
+        1.0
+      ],
+      "tactical_passthrough": true,
+      "disabled_passthrough": true,
+      "census_integer_ids_preserved": true,
+      "census_readback_keeps_display_hud": true,
+      "legacy_census_blit": true,
+      "lifecycle_and_invalid_dimensions": true,
+      "present_count": 27,
+      "client_sha256": "34b953999b99e5e49aadee0a5574ab0885c3b98fac146d6ebeaf981d26a2ced0",
+      "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+      "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance."
+    },
+    "visibility": {
+      "suite": "visibility-actual-gl",
+      "passed": true,
+      "cases": {
+        "allied_site_no_army": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "2e9ecac65783acf9",
+          "authority_after": "2e9ecac65783acf9",
+          "normal_colour_changed_pixels": 0,
+          "normal_colour_max_channel_error": 0,
+          "scenery_pixels_changed_from_empty": 51
+        },
+        "enemy_site_no_army": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "c0d79c40be95c88c",
+          "authority_after": "c0d79c40be95c88c",
+          "normal_colour_changed_pixels": 0,
+          "normal_colour_max_channel_error": 0,
+          "scenery_pixels_changed_from_empty": 51
+        },
+        "three_classes": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "82f53282b92fcad2",
+          "authority_after": "82f53282b92fcad2",
+          "normal_colour_changed_pixels": 0,
+          "normal_colour_max_channel_error": 0
+        },
+        "offscreen": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "4d8455f791747a17",
+          "authority_after": "4d8455f791747a17"
+        },
+        "behind_camera": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "02c0f34f279c7352",
+          "authority_after": "02c0f34f279c7352"
+        },
+        "below_terrain": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "6b1623a62284153d",
+          "authority_after": "6b1623a62284153d"
+        },
+        "prop_occluded": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "8e92d96d98260e01",
+          "authority_after": "8e92d96d98260e01"
+        },
+        "actor_occluded": {
+          "expected": [
+            1,
+            0,
+            0
+          ],
+          "observed": [
+            1,
+            0,
+            0
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ]
+          },
+          "authority_before": "71e207a18112ba0d",
+          "authority_after": "71e207a18112ba0d"
+        },
+        "no_army": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "bbd8730d22cb922c",
+          "authority_after": "bbd8730d22cb922c"
+        },
+        "remote_human_no_army": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "b434166962002236",
+          "authority_after": "b434166962002236"
+        }
+      },
+      "render_authority_unchanged": true,
+      "context": "Private Xvfb software OpenGL; frozen development-only poses; actual production source meshes, terrain, bunker and pixel readback. No performance or combat claim."
+    },
+    "material": {
+      "suite": "mesh-material-production-gl",
+      "passed": true,
+      "cases": 196,
+      "draws": 392,
+      "source_sha256": {
+        "mesh_vertex_source": "cab988de66eb4ad457b5b0e5d1c1b41d22794f1d126ae46ad10b75f17d5d9b84",
+        "mesh_fragment_source": "3865f3a65a119ec7ed08440877d84e7d42839c131f8d5038c208a55cbccc70b4"
+      },
+      "software_context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Compatibility Profile) Mesa 26.2.3",
+      "role_side_responses": {
+        "0-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "0-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "0-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "0-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "1-0": {
+          "dry_view_delta": 0.07347457099999999,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "1-1": {
+          "dry_view_delta": 0.073474557,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "1-2": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593218
+        },
+        "1-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        },
+        "2-0": {
+          "dry_view_delta": 0.07347457099999999,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "2-1": {
+          "dry_view_delta": 0.073474557,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "2-2": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593218
+        },
+        "2-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        },
+        "3-0": {
+          "dry_view_delta": 0.13062144799999997,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "3-1": {
+          "dry_view_delta": 0.13062146400000002,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "3-2": {
+          "dry_view_delta": 0.130621463,
+          "wet_view_delta": 0.19593218
+        },
+        "3-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        },
+        "4-0": {
+          "dry_view_delta": 0.07347458599999995,
+          "wet_view_delta": 0.19593217899999998
+        },
+        "4-1": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593214999999997
+        },
+        "4-2": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593218
+        },
+        "4-3": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593214899999994
+        },
+        "5-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "5-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "5-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "5-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "6-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "6-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "6-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "6-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "7-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "7-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "7-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "7-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "8-0": {
+          "dry_view_delta": 0.13062144799999997,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "8-1": {
+          "dry_view_delta": 0.13062146400000002,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "8-2": {
+          "dry_view_delta": 0.130621463,
+          "wet_view_delta": 0.19593218
+        },
+        "8-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        }
+      },
+      "cloud_view_deltas": [
+        0.13062144799999997,
+        0.07837288099999998,
+        0.026124283999999998
+      ],
+      "rotated_normal_max_error": 4.500000000406956e-08,
+      "actor_ids_preserved": true,
+      "marker_weapon_unchanged": true,
+      "old_fragment_camera_negative_control": true,
+      "scope": "Actual embedded vertex/fragment raster with declared synthetic source triangles, float colour and integer actor attachments; no authority modification, HDR/shadows/target GPU/performance or artistic quality claim"
+    }
+  },
+  "full_checkpoint": {
+    "job_id": "25b26901562a",
+    "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/result.json",
+    "pid": 2132593
+  },
+  "broader_graphics": {
+    "exit_code": 0,
+    "log": "bloom-graphics-passed.log",
+    "scope": "Whole graphics suite on unchanged authored worker input; actual software GL gameplay/co-op regressions, not entire all-extended checkpoint."
+  },
+  "background_jobs": [
+    {
+      "job_id": "25b26901562a",
+      "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/result.json",
+      "pid": 2132593,
+      "revalidated_process_state": "S"
+    },
+    {
+      "job_id": "0a256c31584c",
+      "revision": "d3d7438c9209c288d46bd850852e6e2540488049-0addee14d2867a17",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/0a256c31584c/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/0a256c31584c/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/0a256c31584c/result.json",
+      "pid": 2009906,
+      "revalidated_process_state": "S"
+    }
+  ],
+  "publication": {
+    "exit_code": 0,
+    "pushed_head": "2b20eb6642f73d0afc298d465f418d951e13dc6a",
+    "independent_remote_head": "2b20eb6642f73d0afc298d465f418d951e13dc6a",
+    "force_push": false
+  },
+  "foreground_sessions": {
+    "45610": "exit0 software/native pixels and whole graphics",
+    "13014": "exit0 native listen front/hotspot",
+    "4612": "exit0 main three-target build/link",
+    "91882": "exit0 rebuilt main native HDR/visibility/material",
+    "92429": "exit0 normal push and remote check"
+  },
+  "recorded_utc": "2026-10-07T10:04:33.654926+00:00"
+}
