@@ -127,6 +127,22 @@ try:
             return {i:(r[0],r[1]) for i,r in enumerate(rows)
                     if r[2] and r[3]==0 and r[4]==0 and r[5]==1 and i>>7==company%256
                     and struct.unpack_from('<I',hazards,i*32+4)[0]==0}
+        paused_tap=None
+        if '--between-frame-tap' in sys.argv or '--legacy-tap-control' in sys.argv:
+            # Queue a genuine physical press AND release while the client is
+            # stopped; both are delivered together on the next event drain.
+            # Observer is read-only: no player/army/stock/clock/command writes.
+            assert u32('selected_front')==1
+            os.kill(process.pid,signal.SIGSTOP)
+            _,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
+            before=u32('frame_count');key(0xffbe,.04);os.kill(process.pid,signal.SIGCONT)
+            until(lambda:u32('frame_count')>=before+3,5)
+            selected=u32('selected_front');legacy='--legacy-tap-control' in sys.argv
+            assert selected==(1 if legacy else 0),('between-frame physical F1 tap',selected,legacy)
+            paused_tap={'physical_press_release_queued_between_frames':True,'selected_front':selected,'legacy_lost_tap':legacy,'observer_memory_writes':False}
+            if legacy or '--tap-only' in sys.argv:
+                key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
+                print(json.dumps({'suite':'input-between-frame-tap','passed':True,'report':paused_tap}));sys.exit(0)
         waypoint_before=os.pread(memory,24,symbols['sim_waypoints'])
         key(0xffbe) # F1 inspects a front this solo player does not own.
         sequence=company_record()[6];key(ord('2'),.4)
@@ -185,7 +201,7 @@ try:
                 return count
             owned_pixels=count_pixels(owned,True);unowned_pixels=count_pixels(unowned,False);foreign_green=count_pixels(unowned,True)
             X.XDestroyImage(image)
-            assert owned_pixels>0 and unowned_pixels>0 and foreign_green==0,(owned_pixels,unowned_pixels,foreign_green,owned,unowned)
+            assert owned_pixels>0 and unowned_pixels>0 and foreign_green==0,(owned_pixels,unowned_pixels,foreign_green,owned,unowned,player(),u32('player_companies'),u32('view_company'),u32('tactical'))
             solo_company.update(owned_marker_pixels=owned_pixels,same_ID_block_foreign_front_blue_pixels=unowned_pixels,foreign_front_owned_colour_pixels=foreign_green)
         finally:os.kill(process.pid,signal.SIGCONT)
         # Retreat renders the effective home, retaining the accepted waypoint.
@@ -211,7 +227,7 @@ try:
                             accepted_waypoint_preserved_after_retreat=True)
         key(0xff1b)
         stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'actual-solo-company-command','passed':True,'company':solo_company,
+        print(json.dumps({'suite':'actual-solo-company-command','between_frame_tap':paused_tap,'passed':True,'company':solo_company,
                           'executable_sha256':__import__('hashlib').sha256(EXE.read_bytes()).hexdigest(),
                           'limits':['Real solo GLFW/software GL/private Xvfb; no desktop or hardware GPU performance claim.',
                                     'Read-only authority observer; actual keyboard commands drive production company movement.']}))

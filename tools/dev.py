@@ -371,6 +371,7 @@ def main():
             execute([sys.executable,'tests/test_depot_supply.py',str(ROOT)])
             execute([sys.executable,'tests/test_command_wheel.py'])
             execute([sys.executable,'tests/test_input_bindings.py'])
+            execute([sys.executable,'tests/test_input_frames.py'])
         if suite in ('all','headless','fast','simulation','player','combat'):
             execute([sys.executable,'tests/test_player_ammunition.py',str(library)])
             execute([sys.executable,'tests/test_player_ammunition_report.py',str(library)])
@@ -597,6 +598,7 @@ def main():
             execute([sys.executable,'tests/test_client_player_blast.py',str(client)])
             execute([sys.executable,'tests/test_player_ammunition_hud.py',str(client)])
             execute([sys.executable,'tests/test_player_ammunition_hud.py',str(client),'--small'])
+            execute([sys.executable,'tests/test_client_company.py',str(client),'--between-frame-tap','--tap-only'])
             execute([sys.executable,'tests/test_client_company.py',str(client)])
             execute([sys.executable,'tests/test_quit_event.py',str(client)])
             execute([sys.executable,'tests/test_client_command_wheel.py',str(client)])

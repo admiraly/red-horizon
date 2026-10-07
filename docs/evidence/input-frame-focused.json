@@ -1,0 +1,254 @@
+{
+  "scope": "Isolated real client event capture, no authority/layout/network changes",
+  "source_base": "61d4b6a4a43f9bf0459cf18904c98615631b5d18",
+  "candidate_binary": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/build/revisions/61d4b6a4a43f9bf0459cf18904c98615631b5d18-25b69b721ec0eaf9/red-horizon",
+  "candidate_binary_sha256": "a5f3d0b6287351a54afc51f001e87b4aac616e04df435027b8dcc62f2ab765a7",
+  "reports": {
+    "parser": {
+      "log": "/tmp/rh-input-taps-parser.log",
+      "sha256": "3dd0d5b87c58f57eb7311ec7df4107945fac2163fce5eef9466599aa6e33bae0",
+      "reports": [
+        {
+          "suite": "input-bindings-file",
+          "passed": true,
+          "actions": 31,
+          "malformed_preserve_cases": 17,
+          "partial_CRLF_no_final_newline": true,
+          "regular_file_only": true,
+          "exact4096_boundary": true,
+          "published_atomic": true,
+          "nonvolatile_ABI": true,
+          "all_action_platform_dispatch": true,
+          "headless_no_graphics_library": true,
+          "default_labels": [
+            "W",
+            "S",
+            "A",
+            "D",
+            "LSHIFT",
+            "LCTRL",
+            "SPACE",
+            "R",
+            "E",
+            "Q",
+            "LMB",
+            "TAB",
+            "MMB",
+            "RMB",
+            "ESC",
+            "1",
+            "2",
+            "3",
+            "4",
+            "F1",
+            "F2",
+            "F3",
+            "F4",
+            "F5",
+            "F6",
+            "F7",
+            "F8",
+            "F9",
+            "F10",
+            "F11",
+            "5"
+          ],
+          "library_sha256": "d9528e23161c7c0e0313b080f02f15512544095347d7837a26bd4b5629ad1b4a",
+          "limits": [
+            "Startup-only Linux file parser; real input/GL and network behavior verified separately."
+          ]
+        }
+      ]
+    },
+    "native": {
+      "log": "/tmp/rh-input-taps-native.log",
+      "sha256": "723fbf32205cbf924a668f4fe0372d7ead8a19c57f96f81176aa651ba158089b",
+      "reports": [
+        {
+          "suite": "input-frame-events",
+          "passed": true,
+          "mapped_keyboard_mouse_actions": 31,
+          "short_taps_survive_once": 31,
+          "stable_repeated_reads": true,
+          "held_release_has_no_extra_frame": 31,
+          "repeat_has_no_new_edge": 31,
+          "simultaneous_and_coalesced_pulses": true,
+          "invalid_events_ignored": 4,
+          "library_sha256": "54f3fff850ddded72a8aec1af52933f76bc7f9e9b5489067e55cab344bde20d4",
+          "scope": "Actual NASM event/snapshot helpers, development platform stub; real GLFW/GUI/quit/authority behavior remains separate."
+        }
+      ]
+    },
+    "candidate-deterministic": {
+      "log": "/tmp/rh-input-taps-candidate-deterministic.log",
+      "sha256": "996f6437e9ff5792383a86cbf38098a04efc265a9e39981af38d5bac03789539",
+      "reports": [
+        {
+          "suite": "input-between-frame-tap",
+          "passed": true,
+          "report": {
+            "physical_press_release_queued_between_frames": true,
+            "selected_front": 0,
+            "legacy_lost_tap": false,
+            "observer_memory_writes": false
+          }
+        }
+      ]
+    },
+    "old-deterministic": {
+      "log": "/tmp/rh-input-taps-old-deterministic.log",
+      "sha256": "e385b1440b741dfe3299085fa86b83840eb84660c37ae2bd00f9fcc188fc39b2",
+      "reports": [
+        {
+          "suite": "input-between-frame-tap",
+          "passed": true,
+          "report": {
+            "physical_press_release_queued_between_frames": true,
+            "selected_front": 1,
+            "legacy_lost_tap": true,
+            "observer_memory_writes": false
+          }
+        }
+      ]
+    },
+    "company-diagnostic": {
+      "log": "/tmp/rh-input-taps-company-diagnostic.log",
+      "sha256": "a6510958250b971b61a2f39aba159b2c86516b17ca275862678337dbe8c6abe9",
+      "reports": [
+        {
+          "suite": "actual-solo-company-command",
+          "between_frame_tap": null,
+          "passed": true,
+          "company": {
+            "framebuffer_company_and_accepted_text": true,
+            "key": 285,
+            "held_safe_infantry": 29,
+            "held_travel_m": 0.0,
+            "completed_tick_economic_observation": true,
+            "one_charge_per_key_press": true,
+            "foreign_front_denied": true,
+            "autonomous_front_waypoints_preserved": true,
+            "physical_advance": true,
+            "tactical_click_one_charge": true,
+            "tactical_point": [
+              4994.375,
+              3904.444091796875
+            ],
+            "owned_marker_pixels": 1,
+            "same_ID_block_foreign_front_blue_pixels": 27,
+            "foreign_front_owned_colour_pixels": 0,
+            "retreat_home_pixels": 29,
+            "advance_restored_pixels": 56,
+            "accepted_waypoint_preserved_after_retreat": true
+          },
+          "executable_sha256": "a5f3d0b6287351a54afc51f001e87b4aac616e04df435027b8dcc62f2ab765a7",
+          "limits": [
+            "Real solo GLFW/software GL/private Xvfb; no desktop or hardware GPU performance claim.",
+            "Read-only authority observer; actual keyboard commands drive production company movement."
+          ]
+        }
+      ]
+    },
+    "bindings": {
+      "log": "/tmp/rh-input-taps-bindings.log",
+      "sha256": "43362fd16ba50bea149b8c813833fc8965866f57d34cc155df2364fb194848d2",
+      "reports": [
+        {
+          "suite": "actual-remapped-client-input",
+          "passed": true,
+          "actions_remapped": 31,
+          "physical_same_body_movement_m": 3.168212890625,
+          "default_keys_inactive": true,
+          "finite_fire_reload": true,
+          "crouch_routed": true,
+          "keyboard_wheel_cancel_and_follow": true,
+          "held_orders_one_charge": true,
+          "foreign_front_rejected": true,
+          "keyboard_tactical_point": [
+            4994.375,
+            3904.44444
+          ],
+          "remapped_defend_one_charge_and_ack": true,
+          "binding_hints_and_startup_report": true,
+          "mouse_quit_same_event_batch": true,
+          "executable_sha256": "a5f3d0b6287351a54afc51f001e87b4aac616e04df435027b8dcc62f2ab765a7",
+          "limits": [
+            "Real solo GLFW/OpenGL/XTest with read-only authority observers; not hardware or complete gameplay acceptance."
+          ]
+        }
+      ]
+    },
+    "wheel": {
+      "log": "/tmp/rh-input-taps-wheel.log",
+      "sha256": "cfca88361a034347eb84743b0d62bd0095672849b33cb0d2d8c056bde8ba5b77",
+      "reports": [
+        {
+          "suite": "actual-solo-command-wheel",
+          "passed": true,
+          "crosshair_point": [
+            3780.0,
+            3945.0634765625
+          ],
+          "committed_point": [
+            3780.0,
+            3945.0634765625
+          ],
+          "four_framebuffer_labels": true,
+          "selection_colour_rgb": [
+            31,
+            82,
+            64
+          ],
+          "release_one_charge": true,
+          "held_input_no_fire_or_order": true,
+          "direct_key_held_through_close_consumed": true,
+          "escape_same_event_batch_cancels": true,
+          "world_continues": true,
+          "aim_frozen_and_cursor_restored": true,
+          "center_right_escape_cancel": true,
+          "follow_hold_preserve_waypoint": true,
+          "release_uses_final_cursor": true,
+          "defend_framebuffer_sector_ack_and_crosshair_point": true,
+          "foreign_front_rejected": true,
+          "tactical_middle_suppressed": true,
+          "executable_sha256": "a5f3d0b6287351a54afc51f001e87b4aac616e04df435027b8dcc62f2ab765a7",
+          "limits": [
+            "Actual GLFW/GL/XTest on private software GL, not target hardware quality.",
+            "Five command modes; remaining contextual roster and human quality acceptance separate."
+          ]
+        }
+      ]
+    },
+    "earlier-paused-full-company-failure": {
+      "log": "/tmp/rh-input-taps-company.log",
+      "sha256": "8070339b220903a9fd5b145817cf14ccc0a7ad4d671a16c5267fea0e52e015b1",
+      "tail": "Traceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon-workers/input-taps/tests/test_client_company.py\", line 204, in <module>\n    assert owned_pixels>0 and unowned_pixels>0 and foreign_green==0,(owned_pixels,unowned_pixels,foreign_green,owned,unowned)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: (0, 26, 0, (3411.52294921875, 3312.035400390625, 100, 0, 0, 1, 4294967295, 1), (3893.65576171875, 1089.556884765625, 97, 0, 0, 0, 4294967295, 1))\n",
+      "status": "failed",
+      "limitation": "The paused F1 tap and preceding command gates passed, but an owned marker had zero visible pixels. Cause unproven. Subsequent normal company run passed with only one owned pixel; visibility oracle remains fragile."
+    },
+    "native-abi-post-freeze": {
+      "log": "/tmp/rh-input-taps-native-abi.log",
+      "sha256": "b349ee9187c168559ced9d25cbe8fdca5f6e4efc09453f4ab8ec5b15818488eb",
+      "report": {
+        "suite": "input-frame-events",
+        "passed": true,
+        "mapped_keyboard_mouse_actions": 31,
+        "short_taps_survive_once": 31,
+        "stable_repeated_reads": true,
+        "held_release_has_no_extra_frame": 31,
+        "repeat_has_no_new_edge": 31,
+        "simultaneous_and_coalesced_pulses": true,
+        "invalid_events_ignored": 4,
+        "nonvolatile_ABI_calls": 8,
+        "library_sha256": "b42297b10e8dc273c3b5ca6abc3c98ab5d5029e183b77568fce17c81964fbecb",
+        "scope": "Actual NASM event/snapshot helpers, development platform stub; real GLFW/GUI/quit/authority behavior remains separate."
+      },
+      "scope": "Added after fast/graphics freeze; runtime is identical, separately passed test-only extension."
+    }
+  },
+  "limits": [
+    "Same-action multiple presses between frames coalesce; existing action priority remains, no event FIFO.",
+    "No runtime remapping, chords, gamepads or focus-loss handling added.",
+    "Private X/software GL proofs do not establish hardware performance or complete game acceptance."
+  ]
+}

@@ -9,7 +9,7 @@ default rel
 %include "schemas/input_bindings.inc"
 global main
 extern environment_init,environment_apply,environment_step,environment_parse,environment_select,environment_cycle,environment_name,environment_preset,environment_weather
-extern bindings_load,bindings_down,bindings_label,bindings_report,binding_codes,bindings_error_line
+extern bindings_load,bindings_frame_down,bindings_frame_begin,bindings_event,bindings_label,bindings_report,binding_codes,bindings_error_line
 extern view_settings_parse,view_settings_apply,view_width,view_height,view_sensitivity,view_projection,view_half_size
 extern visibility_init,visibility_begin,visibility_world_end,visibility_finish,visibility_report,visibility_shutdown,visibility_write_map
 extern hazard_warning_update,hazard_warning_uniform
@@ -804,6 +804,7 @@ main:
  call metrics_frame_begin
  call audio_update
  call glfwPollEvents
+ call bindings_frame_begin
  cmp dword [network_mode],0
  je .input
  call poll_network
@@ -1348,9 +1349,16 @@ compile_shader:
  pop rbx
  ret
 
-; Continuous controls are polled. A delivered Escape press survives a slow
-; frame even when release is delivered in the same glfwPollEvents batch.
+; Capture mapped presses and held levels before making one stable frame snapshot.
+; Quit/cancel retain immediate priority when press and release share an event batch.
 quit_key_event:
+ sub rsp,24
+ mov [rsp],esi
+ mov [rsp+4],ecx
+ call bindings_event
+ mov esi,[rsp]
+ mov ecx,[rsp+4]
+ add rsp,24
  cmp ecx,1
  jne .done
  cmp esi,[binding_codes+BIND_COMMAND_CANCEL*4]
@@ -1381,7 +1389,7 @@ quit_mouse_event:
 %macro KEY 1
  mov rdi,[window]
  mov esi,%1
- call bindings_down
+ call bindings_frame_down
 %endmacro
 update_input:
  push rbx
@@ -1438,7 +1446,7 @@ update_input:
 .frontloop:
  mov rdi,[window]
  mov esi,ebx
- call bindings_down
+ call bindings_frame_down
  test eax,eax
  jz .nextfront
  mov eax,ebx
@@ -1458,7 +1466,7 @@ update_input:
  mov rdi,[window]
  lea rax,[order_actions]
  mov esi,[rax+rbx*4]
- call bindings_down
+ call bindings_frame_down
  mov ecx,ebx
  test eax,eax
  jz .suppressedup
@@ -1477,7 +1485,7 @@ update_input:
  mov rdi,[window]
  lea rax,[order_actions]
  mov esi,[rax+rbx*4]
- call bindings_down
+ call bindings_frame_down
  test eax,eax
  jz .keyreleased
 .networkorder:
@@ -1776,7 +1784,7 @@ wheel_update:
  mov dword [wheel_input_block],0
  mov rdi,[window]
  mov esi,BIND_COMMAND_WHEEL
- call bindings_down
+ call bindings_frame_down
  test eax,eax
  jz .released
  mov dword [wheel_input_block],1
@@ -1838,7 +1846,7 @@ wheel_update:
  je .done
  mov rdi,[window]
  mov esi,BIND_COMMAND_CANCEL
- call bindings_down
+ call bindings_frame_down
  test eax,eax
  jnz .cancel
  call wheel_select_cursor
@@ -1914,7 +1922,7 @@ tactical_click:
  push rbx
  mov rdi,[window]
  mov esi,BIND_FIRE
- call bindings_down
+ call bindings_frame_down
  test eax,eax
  jz .up
  cmp dword [map_down],0
@@ -2041,7 +2049,7 @@ collect_intent:
  jne .return
  mov rdi,[window]
  mov esi,BIND_FIRE
- call bindings_down
+ call bindings_frame_down
  test eax,eax
  jz .return
  or dword [intent_buttons],INPUT_FIRE
@@ -2634,7 +2642,7 @@ transfer_keys:
 .loop:
  mov rdi,[window]
  mov esi,ebx
- call bindings_down
+ call bindings_frame_down
  mov ecx,ebx
  sub ecx,BIND_EXCHANGE_0
  test eax,eax

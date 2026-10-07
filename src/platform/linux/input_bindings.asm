@@ -123,6 +123,9 @@ global binding_codes,binding_key_indices
 binding_codes: dd 87,83,65,68,340,341,32,82,69,81,65536,258,65538,65537,256,49,50,51,52,290,291,292,293,294,295,296,297,298,299,300,53
 binding_key_indices: dd 22,18,0,3,63,64,48,17,4,16,69,51,71,70,49,27,28,29,30,36,37,38,39,40,41,42,43,44,45,46,31
 section .bss align=16
+binding_levels: resd BINDING_COUNT
+binding_presses: resd BINDING_COUNT
+binding_frame: resd BINDING_COUNT
 buffer: resb 4097
 stage_codes: resd BINDING_COUNT
 stage_indices: resd BINDING_COUNT
@@ -157,6 +160,58 @@ bindings_down:
  jmp glfwGetMouseButton wrt ..plt
 .key:
  jmp glfwGetKey wrt ..plt
+.up:
+ xor eax,eax
+ ret
+global bindings_event,bindings_frame_begin,bindings_frame_down
+; GLFW key callback signature: RSI physical code, ECX action0release/1press.
+; Mouse callback maps button to bit16 code before this entry. Bounded31scan.
+; Capture only input state; no player, simulation, economics or network writes.
+bindings_event:
+ cmp ecx,1
+ ja .done ; repeat and malformed actions are not additional press edges
+ xor eax,eax
+ lea r8,[binding_codes]
+.find:
+ cmp esi,[r8+rax*4]
+ je .found
+ inc eax
+ cmp eax,BINDING_COUNT
+ jb .find
+.done:
+ ret
+.found:
+ lea r8,[binding_levels]
+ mov [r8+rax*4],ecx
+ test ecx,ecx
+ jz .done
+ lea r8,[binding_presses]
+ mov dword [r8+rax*4],1
+ ret
+; One immutable action snapshot per input frame. A completed short tap survives
+; once; a held-key release has no additional sticky held frame. Multiple presses
+; of the same action within one render frame coalesce into one logical pulse.
+bindings_frame_begin:
+ xor eax,eax
+ lea r8,[binding_levels]
+ lea r9,[binding_presses]
+ lea r10,[binding_frame]
+.loop:
+ mov edx,[r8+rax*4]
+ or edx,[r9+rax*4]
+ mov [r10+rax*4],edx
+ mov dword [r9+rax*4],0
+ inc eax
+ cmp eax,BINDING_COUNT
+ jb .loop
+ ret
+; RDI window unused, ESI logical action: stable cached0/1 for the current frame.
+bindings_frame_down:
+ cmp esi,BINDING_COUNT
+ jae .up
+ lea rax,[binding_frame]
+ mov eax,[rax+rsi*4]
+ ret
 .up:
  xor eax,eax
  ret

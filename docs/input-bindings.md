@@ -77,3 +77,20 @@ in company-defend.md and status.md.
 Compatibility note: infantry ammunition advances current peers to UDP29/schema
 0xc400bad2/content0x5964d91f. Earlier version numbers above describe the
 original verified batch, not current peer compatibility.
+
+Frame event capture
+
+The key and mouse callbacks capture all 31 mapped actions. After GLFW drains
+events, the client takes one stable action snapshot: held state OR an unconsumed
+press. A press and release delivered between frames therefore produces one
+logical pulse; a held-key release adds no sticky frame. Repeats do not add press
+edges. Multiple presses of one action before a frame coalesce. Existing action
+priority and immediate quit/cancel behavior remain in place.
+
+The three private NASM helpers use bounded 31-entry scans and fixed arrays, with
+no heap allocation or simulation, stock, economics, or network writes. The raw
+platform-poll API remains available for its existing parser/dispatch contract.
+Focused native and actual GLFW evidence, including the exact old binary losing
+a paused F1 tap and the candidate retaining it, is in input-frame-focused.json.
+The earlier paused full company run failed later on owned-marker visibility;
+that failure remains recorded independently of the input proof.
