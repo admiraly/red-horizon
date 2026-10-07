@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-engine-audio/tests/test_aircraft_audio_client.py", line 43, in <module>
+    assert off['left_energy']==off['right_energy']==0,off
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'frames': 12000, 'left_energy': 1934220, 'right_energy': 2423291, 'selected': 0, 'army_count': 8192, 'source_tick': 61}

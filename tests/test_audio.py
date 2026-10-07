@@ -171,6 +171,7 @@ def verify(lib, work):
     # Synthetic test data, not a claim of recorded sound quality.
     content = work / 'content/audio'
     content.mkdir(parents=True)
+    (content / 'aircraft-engine.pcm').write_bytes((ROOT / 'content/audio/aircraft-engine.pcm').read_bytes())
     (content / 'footstep.pcm').write_bytes((ROOT / 'content/audio/footstep.pcm').read_bytes())
     (content / 'explosion.pcm').write_bytes((ROOT / 'content/audio/explosion.pcm').read_bytes())
     (content / 'rifle.pcm').write_bytes(struct.pack('<1000h', *([200] * 1000)))

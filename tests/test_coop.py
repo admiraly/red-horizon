@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 40, 0x7e866d36, 0x0f2b459e
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 40, 0x7e866d36, 0xb2e14d6f
 HEADER = struct.Struct('<10I')
 
 

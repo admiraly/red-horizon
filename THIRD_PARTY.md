@@ -66,3 +66,7 @@ Licence: https://creativecommons.org/publicdomain/zero/1.0/
 Footsteps recording by GboxMikeFozzy (CC0-1.0), attenuated and faded for RED HORIZON. Credit provided voluntarily.
 Source: https://opengameart.org/content/footsteps-0
 Licence: https://creativecommons.org/publicdomain/zero/1.0/
+
+Planes Flying Above Park 13 by Phil / Signature Sounds (CC0-1.0), trimmed, resampled, crossfaded and gain-adjusted for RED HORIZON. Credit provided voluntarily.
+Source: https://signaturesounds.org/planes-flying-sample-pack-cc0-free-download
+Licence: https://creativecommons.org/publicdomain/zero/1.0/

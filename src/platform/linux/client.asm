@@ -24,6 +24,7 @@ extern mesh_asset_count
 extern battle_metrics_reset,battle_metrics_capture,battle_metrics_report
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_footsteps_update,audio_footsteps_reset
+extern audio_aircraft_update
 extern audio_init,audio_shot,audio_update,audio_shutdown,audio_scene_update
 extern glfwGetVersion
 extern sim_init,sim_tick,sim_count,sim_entities
@@ -858,6 +859,10 @@ main:
  subss xmm5,xmm4
  movaps xmm4,xmm5
  call audio_scene_update
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ call audio_aircraft_update
  mov edi,[local_player]
  movss xmm0,[frame_delta]
  call audio_footsteps_update

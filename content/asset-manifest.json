@@ -296,6 +296,26 @@
       "format": "signed16 little-endian mono 48000 Hz",
       "recorded": true,
       "limitation": "One recorded subway hard-surface footfall; all terrain shares it. No terrain-specific variations, footwear layers or army footstep aggregation."
+    },
+    {
+      "id": "aircraft-engine-recorded",
+      "source_url": "https://signaturesounds.org/planes-flying-sample-pack-cc0-free-download",
+      "download_url": "https://www.mediafire.com/file/g1hxqsng3y1h3s3/Planes_Flying_Above_Park_13.wav/file",
+      "title": "Planes Flying Above Park 13",
+      "author": "Phil / Signature Sounds",
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "license_evidence": "Author pack page explicitly grants CC0 and identifies authentic overhead aircraft recordings; MediaFire author folder identifies Signature Samples.co. Exact selected WAV hash and stored excerpt derivation in content/licenses/aircraft-audio-license-evidence.json.",
+      "required_attribution": "Planes Flying Above Park 13 by Phil / Signature Sounds (CC0-1.0), trimmed, resampled, crossfaded and gain-adjusted for RED HORIZON. Credit provided voluntarily.",
+      "original_sha256": "16f1f615da69b3f4d48063edd44c18445cc27721eaf1804524d845494b9a8bc3",
+      "source_file": "content/audio/sources/planes-park-13-excerpt.pcm",
+      "excerpt_sha256": "04103cac090452057ff71b0211ce29a34ee62bdc69e84f931a973fe27d254d09",
+      "derived_sha256": "a24331b5b9ac98fb746bff47f935400b3a8f3e57d474cf57c49429ef29cd3966",
+      "processing": "ffmpeg full WAV mono48000 signed16; select20.0..22.1s (100800samples); join final4800 to initial4800 via linear overlap endpoints i/4799, retain middle; gain4 with signed16 clamp ->96000frames/2s loop. tools/audio_assets.py verifies stored source excerpt and exact deterministic loop. Full9.5MB original retained in ignored offline cache, not required for installed gameplay or routine CI.",
+      "destination": "content/audio/aircraft-engine.pcm",
+      "format": "signed16 little-endian mono 48000 Hz",
+      "recorded": true,
+      "limitation": "Overhead aircraft field recording, not an isolated engine/throttle recording or distinct fighter/bomber model. Fixed-rate mono looping; recorded ambience remains. No Doppler, sound travel delay or occlusion yet."
     }
   ]
 }

@@ -11,6 +11,7 @@ section .rodata
 sample_path: db 'content/audio/rifle.pcm',0
 explosion_path: db 'content/audio/explosion.pcm',0
 footstep_path: db 'content/audio/footstep.pcm',0
+engine_path: db 'content/audio/aircraft-engine.pcm',0
 device_env: db 'RH_AUDIO_DEVICE',0
 default_device: db 'default',0
 zero: dd 0.0
@@ -18,6 +19,7 @@ one: dd 1.0
 half: dd 0.5
 q15: dd 32768.0
 reference: dd 25.0
+engine_reference: dd 150.0
 cutoff2: dd 2250000.0
 minimum_gain: dd 0.00390625
 world_max: dd 8000.0
@@ -29,8 +31,16 @@ section .data align=16
 listener: dd 0.0,0.0,0.0
 listener_right: dd 1.0,0.0
 section .bss align=16
-samples: resb BANK_BYTES*3
-sample_count: resq 3
+samples: resb BANK_BYTES*4
+sample_count: resq 4
+voice_loop: resd VOICES
+voice_loop_owner: resd VOICES
+voice_loop_generation: resd VOICES
+voice_loop_seen: resd VOICES
+global audio_loop_started,audio_loop_updated,audio_loop_stopped
+audio_loop_started: resq 1
+audio_loop_updated: resq 1
+audio_loop_stopped: resq 1
 voice_bank: resd VOICES
 positions: resd VOICES
 next_voice: resd 1
@@ -42,6 +52,8 @@ voice_gain: resd VOICES
 gain_left: resd VOICES
 gain_right: resd VOICES
 global audio_submitted, audio_culled, audio_replaced, audio_virtualized
+global audio_written_frames
+audio_written_frames: resq 1
 audio_submitted: resq 1
 audio_culled: resq 1
 audio_replaced: resq 1
@@ -61,7 +73,7 @@ audio_load:
     xor edi,edi
 ; audio_load_kind(EDI bank0/1/2,RSI path), preload resets voice pool.
 audio_load_kind:
-    cmp edi,2
+    cmp edi,3
     ja .bad
     mov r10d,edi
     mov rdi,rsi
@@ -109,7 +121,15 @@ audio_load_kind:
     mov eax,-1
     mov ecx,VOICES
     rep stosd
+    lea rdi,[voice_loop]
+    xor eax,eax
+    mov ecx,VOICES
+    rep stosd
+    mov qword [audio_loop_started],0
+    mov qword [audio_loop_updated],0
+    mov qword [audio_loop_stopped],0
     mov dword [next_voice],0
+    mov qword [audio_written_frames],0
     mov qword [audio_submitted],0
     mov qword [audio_culled],0
     mov qword [audio_replaced],0
@@ -141,6 +161,11 @@ audio_init:
     jnz .done
     mov edi,2
     lea rsi,[footstep_path]
+    call audio_load_kind
+    test eax,eax
+    jnz .done
+    mov edi,3
+    lea rsi,[engine_path]
     call audio_load_kind
     test eax,eax
     jnz .done
@@ -217,6 +242,8 @@ allocate_voice:
     lea rdx,[positions]
     inc qword [audio_submitted]
     mov dword [rdx+rax*4],0
+    lea rdx,[voice_loop]
+    mov dword [rdx+rax*4],0
     lea ecx,[rax+1]
     and ecx,VOICES-1
     mov [next_voice],ecx
@@ -284,7 +311,7 @@ audio_emit:
 audio_emit_kind:
     push rbp
     mov rbp,rsp
-    cmp edi,2
+    cmp edi,3
     ja .bad
     call valid_position
     test eax,eax
@@ -351,8 +378,14 @@ prepare_gains:
     lea rdx,[voice_bank]
     mov ecx,[rdx+r10*4]
     lea rdx,[sample_count]
+    cmp qword [rdx+rcx*8],0
+    je .next
     cmp rax,[rdx+rcx*8]
-    jae .next
+    jb .gain_ready
+    lea rdx,[voice_loop]
+    cmp dword [rdx+r10*4],0
+    je .next
+.gain_ready:
     cmp dword [r9+r10*4],0
     je .next ; legacy local shot remains full gain in both channels
     lea rdx,[voice_x]
@@ -376,7 +409,14 @@ prepare_gains:
     jae .virtual
     sqrtss xmm3,xmm3
     movaps xmm4,xmm3
+    lea rdx,[voice_loop]
+    cmp dword [rdx+r10*4],0
+    je .ordinary_reference
+    divss xmm4,[engine_reference]
+    jmp .reference_done
+.ordinary_reference:
     divss xmm4,[reference]
+.reference_done:
     addss xmm4,[one]
     lea rdx,[voice_gain]
     movss xmm5,[rdx+r10*4]
@@ -454,7 +494,15 @@ audio_mix_stereo:
     mov r9d,[r9+r10*4]
     lea rdx,[sample_count]
     cmp rax,[rdx+r9*8]
-    jae .retire
+    jb .sample_ready
+    cmp qword [rdx+r9*8],0
+    je .retire
+    lea rdx,[voice_loop]
+    cmp dword [rdx+r10*4],0
+    je .retire
+    xor eax,eax
+    mov dword [r8+r10*4],0
+.sample_ready:
     imul r9,r9,BANK_BYTES
     lea rdx,[samples]
     add r9,rdx
@@ -531,8 +579,17 @@ audio_mix:
     mov r9d,[r9+r10*4]
     lea r8,[sample_count]
     cmp rax,[r8+r9*8]
+    jb .sample_ready
+    cmp qword [r8+r9*8],0
+    je .retire_reset
+    lea r8,[voice_loop]
+    cmp dword [r8+r10*4],0
+    je .retire_reset
+    xor eax,eax
     lea r8,[positions]
-    jae .retire
+    mov dword [r8+r10*4],0
+.sample_ready:
+    lea r8,[positions]
     imul r9,r9,BANK_BYTES
     lea r8,[samples]
     add r9,r8
@@ -541,6 +598,8 @@ audio_mix:
     add edx,eax
     inc dword [r8+r10*4]
     jmp .next
+.retire_reset:
+    lea r8,[positions]
 .retire:
     mov dword [r8+r10*4],-1
 .next:
@@ -577,8 +636,14 @@ audio_active:
     lea r8,[voice_bank]
     mov r8d,[r8+rcx*4]
     lea r9,[sample_count]
+    cmp qword [r9+r8*8],0
+    je .next
     cmp rsi,[r9+r8*8]
-    jae .next
+    jb .active
+    lea r9,[voice_loop]
+    cmp dword [r9+rcx*4],0
+    je .next
+.active:
     inc eax
 .next:
     inc ecx
@@ -617,6 +682,7 @@ audio_update:
     call snd_pcm_writei wrt ..plt
     test rax,rax
     js .recover
+    add [audio_written_frames],rax
     sub [pending],rax
     add [pending_offset],rax
     jmp .done
@@ -644,7 +710,154 @@ audio_shutdown:
     mov qword [sample_count],0
     mov qword [sample_count+8],0
     mov qword [sample_count+16],0
+    mov qword [sample_count+24],0
     mov qword [pending],0
     pop rbp
     ret
+; Frame-thread persistent recorded source: begin, submit selected sources, end.
+; Bank3 shares the existing128 physical voices. No allocation/file/lock/device calls.
+global audio_loop_begin,audio_loop_submit,audio_loop_end
+audio_loop_begin:
+ lea rdi,[voice_loop_seen]
+ xor eax,eax
+ mov ecx,VOICES
+ rep stosd
+ ret
+; EDI physical owner,ESI generation,XMM0/1/2 position,XMM3 gain.
+; EAX0 accepted/1 distance-culled/-1 invalid. Same identity preserves sample cursor.
+audio_loop_submit:
+ push rbx
+ push r12
+ sub rsp,8
+ mov ebx,edi
+ mov r12d,esi
+ cmp edi,32768
+ jae .bad
+ test esi,esi
+ jz .bad
+ call valid_position
+ test eax,eax
+ jnz .bad
+ ucomiss xmm3,[zero]
+ jp .bad
+ jb .bad
+ ucomiss xmm3,[one]
+ ja .bad
+ cmp qword [sample_count+24],0
+ je .bad
+ movaps xmm4,xmm0
+ subss xmm4,[listener]
+ mulss xmm4,xmm4
+ movaps xmm5,xmm1
+ subss xmm5,[listener+4]
+ mulss xmm5,xmm5
+ addss xmm4,xmm5
+ movaps xmm5,xmm2
+ subss xmm5,[listener+8]
+ mulss xmm5,xmm5
+ addss xmm4,xmm5
+ ucomiss xmm4,[cutoff2]
+ jae .cull
+ ucomiss xmm3,[minimum_gain]
+ jb .cull
+ xor eax,eax
+.find:
+ lea rdx,[voice_loop]
+ cmp dword [rdx+rax*4],0
+ je .next
+ lea rdx,[voice_loop_owner]
+ cmp [rdx+rax*4],ebx
+ jne .next
+ lea rdx,[voice_loop_generation]
+ cmp [rdx+rax*4],r12d
+ je .existing
+ ; Same ID replaced: retire its old generation before allocating a new source.
+ lea rdx,[positions]
+ mov dword [rdx+rax*4],-1
+ lea rdx,[voice_loop]
+ mov dword [rdx+rax*4],0
+ inc qword [audio_loop_stopped]
+.next:
+ inc eax
+ cmp eax,VOICES
+ jb .find
+ ; Continuous beds do not evict already playing weapons/impacts.
+ xor eax,eax
+.free_search:
+ lea rdx,[voice_loop]
+ cmp dword [rdx+rax*4],0
+ jne .free_next
+ lea rdx,[positions]
+ mov ecx,[rdx+rax*4]
+ test ecx,ecx
+ js .free_slot
+ lea rdx,[voice_bank]
+ mov edx,[rdx+rax*4]
+ lea r11,[sample_count]
+ cmp rcx,[r11+rdx*8]
+ jae .free_slot
+.free_next:
+ inc eax
+ cmp eax,VOICES
+ jb .free_search
+ mov eax,1
+ jmp .done
+.free_slot:
+ mov [next_voice],eax
+ call allocate_voice
+ inc qword [audio_loop_started]
+ lea rdx,[voice_loop]
+ mov dword [rdx+rax*4],1
+ lea rdx,[voice_loop_owner]
+ mov [rdx+rax*4],ebx
+ lea rdx,[voice_loop_generation]
+ mov [rdx+rax*4],r12d
+ lea rdx,[voice_bank]
+ mov dword [rdx+rax*4],3
+ jmp .store
+.existing:
+ inc qword [audio_loop_updated]
+.store:
+ lea rdx,[voice_loop_seen]
+ mov dword [rdx+rax*4],1
+ lea rdx,[voice_spatial]
+ mov dword [rdx+rax*4],1
+ lea rdx,[voice_x]
+ movss [rdx+rax*4],xmm0
+ lea rdx,[voice_y]
+ movss [rdx+rax*4],xmm1
+ lea rdx,[voice_z]
+ movss [rdx+rax*4],xmm2
+ lea rdx,[voice_gain]
+ movss [rdx+rax*4],xmm3
+ xor eax,eax
+ jmp .done
+.cull:
+ mov eax,1
+ jmp .done
+.bad:
+ mov eax,-1
+.done:
+ add rsp,8
+ pop r12
+ pop rbx
+ ret
+audio_loop_end:
+ xor eax,eax
+.loop:
+ lea rdx,[voice_loop]
+ cmp dword [rdx+rax*4],0
+ je .next
+ lea rcx,[voice_loop_seen]
+ cmp dword [rcx+rax*4],0
+ jne .next
+ mov dword [rdx+rax*4],0
+ lea rdx,[positions]
+ mov dword [rdx+rax*4],-1
+ inc qword [audio_loop_stopped]
+.next:
+ inc eax
+ cmp eax,VOICES
+ jb .loop
+ ret
 section .note.GNU-stack noalloc noexec nowrite progbits

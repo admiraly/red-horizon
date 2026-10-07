@@ -1,0 +1,16 @@
+{
+  "verified_on": "2026-10-07",
+  "source_url": "https://signaturesounds.org/planes-flying-sample-pack-cc0-free-download",
+  "author": "Phil / Signature Sounds",
+  "license": "CC0-1.0",
+  "pack_claim": "Original & Royalty-Free (CC0), authentic airplane recordings passing overhead.",
+  "original_file": "Planes Flying Above Park 13.wav",
+  "original_sha256": "16f1f615da69b3f4d48063edd44c18445cc27721eaf1804524d845494b9a8bc3",
+  "original_bytes": 9510074,
+  "original_format": "96000Hz stereo WAV,24.765083seconds",
+  "excerpt_sha256": "04103cac090452057ff71b0211ce29a34ee62bdc69e84f931a973fe27d254d09",
+  "derived_sha256": "a24331b5b9ac98fb746bff47f935400b3a8f3e57d474cf57c49429ef29cd3966",
+  "page_sha256": "49c72ecf23ee56caa8b14024fd211bf82c62eb07799d5ce465138106ce1e7069",
+  "loop_seam_delta": 132,
+  "scope": "Overhead aircraft field recording, not an isolated engine/throttle recording or distinct fighter/bomber model. Fixed-rate mono looping; recorded ambience remains. No Doppler, sound travel delay or occlusion yet."
+}

@@ -1,0 +1,2 @@
+{"suite": "audio-assets", "passed": true, "source_sha256": "13a0bf75af94ec6d332bc71cba489b573466e05c4b17288158b3d683b41de39f", "derived_sha256": "975d72b65599e40a3d25cc43de012050b4568959f110b67c290ad5c00c7ed547"}
+{"suite": "aircraft-audio-assets", "passed": true, "original_sha256": "16f1f615da69b3f4d48063edd44c18445cc27721eaf1804524d845494b9a8bc3", "excerpt_sha256": "04103cac090452057ff71b0211ce29a34ee62bdc69e84f931a973fe27d254d09", "derived_sha256": "a24331b5b9ac98fb746bff47f935400b3a8f3e57d474cf57c49429ef29cd3966", "loop_frames": 96000, "seam_delta": 132}
