@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/tests/test_client_feedback.py", line 40, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/tests/test_client_feedback.py", line 32, in main
+    assert rows,(run.returncode,run.stdout,run.stderr,'no actual hit HUD uniform observed')
+           ^^^^
+AssertionError: (1, '', 'Traceback (most recent call last):\n  File "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/tests/test_client_gameplay.py", line 109, in <module>\n    button(True); until(lambda: player()[\'ammo\'] == 0, 8); button(False); time.sleep(.1)\n                  ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/tests/test_client_gameplay.py", line 68, in until\n    raise AssertionError(\'condition timed out: \' + (title(window) if window else \'startup\'))\nAssertionError: condition timed out: RED HORIZON | 8192 units | rifle 11/30 FIRST PERSON | R90 | front 1 order 0 | REQ 178 SUP 600 | OPERATION ACTIVE | HP 100 SUPPRESS 0 REDEPLOY 0 | ON FOOT | E BOARD Q EXIT | TACTICAL MAP / RELOAD | COMPANY 285 | COMPANY READY | WEATHER clear (F4 CYCLE)\n', 'no actual hit HUD uniform observed')

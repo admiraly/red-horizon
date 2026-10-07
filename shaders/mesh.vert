@@ -97,6 +97,13 @@ void main(){
  if(meshMode==2){
   vec3 q=local*.8+vec3(.24,-.42,.95);
   q.z-=min(.08,weaponMotion.x*.4);q.y+=min(.03,weaponMotion.x*.08)-weaponMotion.y*.12;
+  // Place the visible weapon surface back into world space for event lights.
+  float caView=cos(angle.x),saView=sin(angle.x),cpView=cos(angle.y),spView=sin(angle.y);
+  mat3 inversePitch=mat3(1,0,0,0,cpView,-spView,0,spView,cpView);
+  mat3 inverseYaw=mat3(caView,0,-saView,0,1,0,saView,0,caView);
+  surfacePosition=camera+inverseYaw*inversePitch*q;
+  surfaceNormal=normalize(inverseYaw*inversePitch*normal);
+  surfaceAlbedo=material;
   gl_Position=vec4(q.x*projection.x,q.y*projection.y,q.z*1.00002-.2,q.z);
   colour=material*(.45+.55*max(0.,normal.y));distanceFog=0;return;
  }

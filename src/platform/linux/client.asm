@@ -21,6 +21,7 @@ extern net_projectiles,net_projectiles_update
 extern air_trails_update,air_trails_records,air_trails_active
 extern sim_tick_count
 extern air_crash_plumes_update,air_crash_plume_records,air_crash_plume_count
+extern event_lights_update,event_lights_apply
 extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
@@ -1007,6 +1008,10 @@ main:
  mov edi,[local_player]
  movss xmm0,[frame_delta]
  call effects_update
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ call event_lights_update
  cmp dword [network_mode],0
  je .localcosmetics
  movss xmm0,[frame_delta]
@@ -1068,6 +1073,8 @@ main:
 .nocensusbegin:
  mov edi,[program]
  call environment_apply
+ mov edi,[program]
+ call event_lights_apply
  mov edi,[cam_loc]
  movss xmm0,[camera]
  movss xmm1,[camera+4]

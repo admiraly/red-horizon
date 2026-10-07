@@ -16,6 +16,23 @@ vec3 decodeDisplay(vec3 encoded){
  encoded=max(encoded,vec3(0));
  return mix(encoded/12.92,pow((encoded+.055)/1.055,vec3(2.4)),greaterThan(encoded,vec3(.04045)));
 }
+uniform int eventLightCount;
+uniform vec4 eventLightPositions[8]; // XYZ and bounded influence radius
+uniform vec4 eventLightColours[8]; // finite linear RGB energy
+vec3 eventIrradiance(vec3 p,vec3 n){
+ vec3 energy=vec3(0);
+ for(int i=0;i<clamp(eventLightCount,0,8);++i){
+  vec3 delta=eventLightPositions[i].xyz-p;
+  float d2=dot(delta,delta),radius=max(eventLightPositions[i].w,.001);
+  // Reject out-of-range/back-facing samples before square root and division.
+  float facing=dot(n,delta);
+  if(d2>=radius*radius||facing<=0.)continue;
+  float edge=1.-d2/(radius*radius);
+  float diffuse=facing*inversesqrt(max(d2,.0001));
+  energy+=eventLightColours[i].rgb*(edge*edge*diffuse/(1.+d2*.05));
+ }
+ return energy;
+}
 void main(){
  outputActorCode=actorCode;
  vec3 surface=hdrOutput!=0?decodeDisplay(colour):colour;
@@ -26,6 +43,7 @@ void main(){
   vec3 ambient=mix(vec3(.55,.49,.42),vec3(.82,.91,1.),clamp(n.y*.5+.5,0.,1.));
   vec3 albedo=hdrOutput!=0?decodeDisplay(surfaceAlbedo):surfaceAlbedo;
   surface=albedo*(ambient*mix(.35,.58,clouds)+vec3(1.,.94,.82)*mix(.65,.22,clouds)*direct);
+  if(hdrOutput!=0)surface+=albedo*eventIrradiance(surfacePosition,n);
   // Cloth/wrecks retain their matte response; rain coats intact equipment.
   float coating=surfaceResponse.y>.03?rain:0.;
   float roughness=mix(surfaceResponse.x,.22,coating);
@@ -42,6 +60,7 @@ void main(){
    }
   }
  }
+ if(meshMode==2&&hdrOutput!=0)surface+=decodeDisplay(surfaceAlbedo)*eventIrradiance(surfacePosition,normalize(surfaceNormal));
  float fog=(meshMode==1||meshMode==2)?0.:1.-exp(-distanceFog*(.00018+weather.w));
  vec3 fogColour=mix(vec3(.49,.61,.68),vec3(.49,.53,.55),weather.y);
  if(hdrOutput!=0)fogColour=decodeDisplay(fogColour);

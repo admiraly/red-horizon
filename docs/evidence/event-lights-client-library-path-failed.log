@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/docs/evidence/event-lights-client-observer.py", line 16, in <module>
+    world=C.CDLL(str(LIB));world.effects_update.argtypes=[C.c_uint,C.c_float]
+  File "/usr/lib64/python3.14/ctypes/__init__.py", line 433, in __init__
+    self._handle = self._load_library(name, mode, handle, winmode)
+                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/ctypes/__init__.py", line 475, in _load_library
+    return _dlopen(name, mode)
+OSError: /mnt/titan_nv3/projects/red-horizon-workers/event-lights/build/revisions/d24fa57d380a9e0e881af8a3d7581c077d2c5148-b399a177871ff325/libeventlights.so: cannot open shared object file: No such file or directory

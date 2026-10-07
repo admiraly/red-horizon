@@ -23,6 +23,7 @@ extern company_for_player,net_company_for_player,network_mode
 extern sim_tick_count,sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
+extern event_lights_apply
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glUseProgram
 extern glGenVertexArrays,glBindVertexArray,glGenBuffers,glBindBuffer,glBufferData,glBindBufferBase
 extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
@@ -336,6 +337,8 @@ meshes_draw:
  call glUseProgram wrt ..plt
  mov edi,[mesh_program]
  call environment_apply
+ mov edi,[mesh_program]
+ call event_lights_apply
  mov edi,[mesh_vao]
  call glBindVertexArray wrt ..plt
  mov edi,0x8892

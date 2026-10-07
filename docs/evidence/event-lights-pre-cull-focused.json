@@ -1,0 +1,133 @@
+{
+  "reports": {
+    "native": {
+      "suite": "event-lights-native",
+      "passed": true,
+      "cases": 50,
+      "cap": 8,
+      "producer": "production combat_event and effects_update",
+      "expiry_late_receipt": true,
+      "nearest_stable": true,
+      "invalid_records_and_controls": true,
+      "authority_and_source_unchanged": true,
+      "register_stack_abi": true,
+      "scope": "NASM selection and lifecycle; synthetic pool fixtures declared separately from real event producer. No GPU or artistic acceptance."
+    },
+    "software_gl": {
+      "suite": "event-lights-production-gl",
+      "passed": true,
+      "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Core Profile) Mesa 26.2.3",
+      "hardware": false,
+      "draws": 36,
+      "outcomes": {
+        "mesh-0": {
+          "near_delta": 0.49070990085601807,
+          "half_life_ratio": 0.2499999392669226,
+          "far_delta": 0.0
+        },
+        "mesh-2": {
+          "near_delta": 0.49070990085601807,
+          "half_life_ratio": 0.25,
+          "far_delta": 0.0
+        },
+        "battle-1": {
+          "near_delta": 0.4907098561525345,
+          "half_life_ratio": 0.24999999240836462,
+          "far_delta": 0.0
+        }
+      },
+      "actual_mesh_marker_weapon_deltas": [
+        0.16596802700000002,
+        0.0,
+        0.1959369182
+      ],
+      "actual_weapon_camera_angle": [
+        0.7,
+        0.3
+      ],
+      "source_sha256": {
+        "mesh_fragment_source": "17db2bc595e5bf5a86bdcaac1919042b393af6e29eecfa4657a685995b2836e2",
+        "battle_fragment_source": "f07129ad2badebf8a731cbdf5858a32110d996ba8265f84062bc4d386252cbd3",
+        "mesh_vertex_source": "a085397dfe6e4c735254c91434c0166caaea8a22c707b54b8b673ec280437659",
+        "battle_vertex_source": "282787806cfbe027e060df39300fb44c75ad87dcbfe2a9bd62e1cfbc9050c3d3"
+      },
+      "production_nasm_upload": true,
+      "bindings_and_integer_ids_preserved": true,
+      "register_stack_abi": true,
+      "scope": "Production embedded fragments and NASM upload; synthetic surface positions/albedo/terrain texture fixture. Additional paired actual production mesh vertex/fragment draws cover models, map markers and rotated-camera weapon. No shadows/occlusion/artistic/full-frame performance acceptance."
+    },
+    "hardware_gl": {
+      "suite": "event-lights-production-gl",
+      "passed": true,
+      "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+      "hardware": true,
+      "draws": 36,
+      "outcomes": {
+        "mesh-0": {
+          "near_delta": 0.4907098412513733,
+          "half_life_ratio": 0.2499999696334576,
+          "far_delta": 0.0
+        },
+        "mesh-2": {
+          "near_delta": 0.49070990085601807,
+          "half_life_ratio": 0.25,
+          "far_delta": 0.0
+        },
+        "battle-1": {
+          "near_delta": 0.4907098636031151,
+          "half_life_ratio": 0.2500000037958176,
+          "far_delta": 0.0
+        }
+      },
+      "actual_mesh_marker_weapon_deltas": [
+        0.1659678104,
+        0.0,
+        0.1959356072
+      ],
+      "actual_weapon_camera_angle": [
+        0.7,
+        0.3
+      ],
+      "source_sha256": {
+        "mesh_fragment_source": "17db2bc595e5bf5a86bdcaac1919042b393af6e29eecfa4657a685995b2836e2",
+        "battle_fragment_source": "f07129ad2badebf8a731cbdf5858a32110d996ba8265f84062bc4d386252cbd3",
+        "mesh_vertex_source": "a085397dfe6e4c735254c91434c0166caaea8a22c707b54b8b673ec280437659",
+        "battle_vertex_source": "282787806cfbe027e060df39300fb44c75ad87dcbfe2a9bd62e1cfbc9050c3d3"
+      },
+      "production_nasm_upload": true,
+      "bindings_and_integer_ids_preserved": true,
+      "register_stack_abi": true,
+      "scope": "Production embedded fragments and NASM upload; synthetic surface positions/albedo/terrain texture fixture. Additional paired actual production mesh vertex/fragment draws cover models, map markers and rotated-camera weapon. No shadows/occlusion/artistic/full-frame performance acceptance."
+    },
+    "client": {
+      "suite": "event-lights-whole-client",
+      "passed": true,
+      "changed_surface_pixels": 3147,
+      "repeat_delta_pixels": 0,
+      "tactical_delta_pixels": 0,
+      "original_army_count": 8192,
+      "authority_sha256": "d3a06100759f5904c79b73c8db12f2dcbf8a22d11ed40ef6cdd945b97c686837",
+      "authority_and_effect_records_unchanged": true,
+      "actual_flash": [
+        3696.00048828125,
+        27.273237228393555,
+        2000.0,
+        0.28333330154418945,
+        12.0,
+        0,
+        0,
+        2
+      ],
+      "client_sha256": "41077f3a6ec56d0a8a558371186c93965fd00261a6cb5e45e78a5a764d3c6b92",
+      "screenshot": "/tmp/rh-event-lights-client.ppm",
+      "scope": "Actual full-client terrain/model/effect/HDR/bloom/HUD pipeline. Frozen development clock and camera fixture; genuine separate real cannon-impact effects copied unchanged. Paired only event_lights_enabled. No live synchronisation/shadow/target-GPU performance or artistic acceptance."
+    }
+  },
+  "authored_count": 521,
+  "failures_retained": {
+    "benchmark_initial": "seed1 refused: client fixed seed42; corrected seed42 passed",
+    "client_observer_initial": "incorrect revision-library path; build/libeventlights.so corrected, observer passed"
+  },
+  "screenshots_visually_inspected": true,
+  "whole_spec_complete": false
+}

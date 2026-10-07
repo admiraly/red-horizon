@@ -531,6 +531,11 @@ def main():
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(effects_library),*objects,str(probe),str(effects),'-lm'])
             execute([sys.executable,'tests/test_effects.py',str(effects_library)])
             execute([sys.executable,'tests/test_air_burst.py',str(effects_library)])
+            lights=BUILD/'event_lights_test.o'; lights_library=BUILD/'libeventlights.so'; lights_probe=BUILD/'event_lights_probe.o'
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/event_lights.asm'),'-o',str(lights)])
+            execute([nasm(),'-f','elf64',str(ROOT/'tests/probe_event_lights.asm'),'-o',str(lights_probe)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(lights_library),*objects,str(probe),str(effects),str(lights),str(lights_probe),'-lm','-lGL'])
+            execute([sys.executable,'tests/test_event_lights.py',str(lights_library)])
             trails=BUILD/'trails_test.o';trails_library=BUILD/'libtrails.so'
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/air_trails.asm'),'-o',str(trails)])
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(trails_library),*objects,str(probe),str(trails),str(effects),'-lm'])
@@ -624,6 +629,7 @@ def main():
             execute([sys.executable,'tests/test_listen_host.py',str(client)])
             execute([sys.executable,'tests/test_mesh_material_gl.py',str(client)])
             execute([sys.executable,'tests/test_hdr_gl.py',str(client)])
+            execute([sys.executable,'tests/test_event_lights_gl.py',str(client)])
             execute([sys.executable,'tests/test_wreck_instance.py'])
             execute([sys.executable,'tests/test_air_crash_instance.py'])
             execute([sys.executable,'tests/test_air_crash_plume.py'])

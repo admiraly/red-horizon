@@ -1,0 +1,138 @@
+{
+  "scenario": "local-solo-air-battle",
+  "revision": "d24fa57d380a9e0e881af8a3d7581c077d2c5148-c6cd254747c551c8",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "context": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 32548 MB, largest block: 32548 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 32548 MB, largest block: 32548 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 32548 MB, largest block: 32548 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "seed": 42,
+  "vertical_fov_degrees": 70.0,
+  "mouse_sensitivity": 0.002,
+  "units_at_start": 8192,
+  "view": "first-person",
+  "weather": "clear",
+  "requested_frames": 600,
+  "phase_metrics": [
+    {
+      "client_phase_metrics": true,
+      "phase": "simulation",
+      "samples": 600,
+      "mean_ms": 6.9065,
+      "p95_ms": 15.182266,
+      "p99_ms": 16.364448,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "render_routes",
+      "samples": 600,
+      "mean_ms": 0.913204,
+      "p95_ms": 1.020766,
+      "p99_ms": 1.368707,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "audio_pump",
+      "samples": 600,
+      "mean_ms": 0.204945,
+      "p95_ms": 0.236587,
+      "p99_ms": 0.257212,
+      "clock_errors": 0
+    }
+  ],
+  "presentation": {
+    "client_presentation": true,
+    "hidden": 1,
+    "swap_interval_requested": 0,
+    "viewport_width": 1920,
+    "viewport_height": 1080,
+    "framebuffer_width": 1920,
+    "framebuffer_height": 1080
+  },
+  "frame_pacing": {
+    "client_pacing": true,
+    "frame_cap_requested": 60,
+    "waits": 566,
+    "late_rebases": 1,
+    "clock_errors": 0,
+    "work_metrics_exclude_cap_wait": true
+  },
+  "client_renderer": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2)",
+  "wall_seconds": 10.259457000996917,
+  "metrics": {
+    "client_metrics": true,
+    "cpu_samples": 600,
+    "gpu_samples": 592,
+    "cpu_frame_mean_ms": 8.297259,
+    "cpu_frame_p95_ms": 16.547017,
+    "cpu_frame_p99_ms": 17.752963,
+    "gpu_draw_mean_ms": 1.154059,
+    "gpu_draw_p95_ms": 1.382135,
+    "gpu_draw_p99_ms": 1.40625
+  },
+  "screenshot": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/gpu-bench-571bf8a3c8/final.ppm",
+  "screenshot_sha256": "dde984657f4076daeb44daa81c0c80184d36b7469cfb072f83d3233f0836ba96",
+  "telemetry": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_presentation\":true,\"hidden\":1,\"swap_interval_requested\":0,\"viewport_width\":1920,\"viewport_height\":1080,\"framebuffer_width\":1920,\"framebuffer_height\":1080}\nclient_render_device=Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\n{\"client_metrics\":true,\"cpu_samples\":600,\"gpu_samples\":592,\"cpu_frame_mean_ms\":8.297259,\"cpu_frame_p95_ms\":16.547017,\"cpu_frame_p99_ms\":17.752963,\"gpu_draw_mean_ms\":1.154059,\"gpu_draw_p95_ms\":1.382135,\"gpu_draw_p99_ms\":1.406250}\n{\"client_phase_metrics\":true,\"phase\":\"simulation\",\"samples\":600,\"mean_ms\":6.906500,\"p95_ms\":15.182266,\"p99_ms\":16.364448,\"clock_errors\":0}\n{\"client_phase_metrics\":true,\"phase\":\"render_routes\",\"samples\":600,\"mean_ms\":0.913204,\"p95_ms\":1.020766,\"p99_ms\":1.368707,\"clock_errors\":0}\n{\"client_phase_metrics\":true,\"phase\":\"audio_pump\",\"samples\":600,\"mean_ms\":0.204945,\"p95_ms\":0.236587,\"p99_ms\":0.257212,\"clock_errors\":0}\n{\"client_pacing\":true,\"frame_cap_requested\":60,\"waits\":566,\"late_rebases\":1,\"clock_errors\":0,\"work_metrics_exclude_cap_wait\":true}\n{\"visibility_census\":true,\"visible_actors\":852,\"visible_high\":0,\"visible_low\":413,\"visible_markers\":439,\"individually_detailed_actors\":413,\"width\":1920,\"height\":1080,\"source_tick\":301,\"invalid_codes\":0,\"readback_reduce_ms\":7.343075,\"scope\":\"opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included\",\"authority_readonly\":true,\"authority_before\":\"328d3c80478d585f\",\"authority_after\":\"328d3c80478d585f\"}\n{\"battle_metrics\":true,\"samples\":600,\"simultaneous_projectiles_effects_audio_frames\":599,\"peak_living\":8192,\"peak_engaged\":1231,\"peak_projectiles\":467,\"peak_submitted_high\":14,\"peak_submitted_low\":3123,\"peak_submitted_markers\":5074,\"peak_effect_records\":52,\"peak_trail_records\":128,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=3 low=2886 markers=4563 source_triangles=328952 animation_frame=26\nclient frames=600 submitted_entities=8192 screenshot=/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/gpu-bench-571bf8a3c8/final.ppm\ncamera_x=3500.00 camera_z=2000.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=490 supply=600 waypoint_orders=0\nselected_goal_x=-20000.000 selected_goal_z=-20000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3500.000 start_player_z=2000.000\n",
+  "coverage": {
+    "replicated": 0,
+    "audio_device": "ALSA null",
+    "audio_playback": "physical output and listening unverified",
+    "visible_individual_count": 852,
+    "detailed_counts": {
+      "high": 0,
+      "low": 413,
+      "markers": 439
+    },
+    "simulation_threads": 1,
+    "graphics_driver_threads": "unmeasured",
+    "work_timing_scope": "events/simulation/render/swap; explicit cap waits excluded",
+    "vsync_requested": false,
+    "window_hidden": true,
+    "swap_pacing_enforced": "unmeasured; requested interval is reported",
+    "warmup_excluded": false,
+    "resolution_limit": "Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance",
+    "gpu_timing_scope": "draws; excludes presentation; last8 pending queries may be omitted",
+    "camera": "player-following camera, initially authored air-battle view; combat/redeployment can change view and density",
+    "individually_detailed_actors": 413,
+    "visibility_scope": "unique actor IDs with surviving final-frame pixels in opaque world depth including weapon occlusion before translucent effects/HUD; high/low models individually detailed; markers separate; one frame, not peak",
+    "census_timing_scope": "allocation at startup; final MRT drawing and pre-draw checksum included in final CPU frame; readback/reduction/blit/file/report excluded; separate cost measures readback/reduction only; last8 pending GPU queries may be omitted"
+  },
+  "battle_metrics": {
+    "battle_metrics": true,
+    "samples": 600,
+    "simultaneous_projectiles_effects_audio_frames": 599,
+    "peak_living": 8192,
+    "peak_engaged": 1231,
+    "peak_projectiles": 467,
+    "peak_submitted_high": 14,
+    "peak_submitted_low": 3123,
+    "peak_submitted_markers": 5074,
+    "peak_effect_records": 52,
+    "peak_trail_records": 128,
+    "peak_audio_voices": 128,
+    "initial_living": 8192,
+    "visible_individual_count": "unmeasured",
+    "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+  },
+  "visibility_census": {
+    "visibility_census": true,
+    "visible_actors": 852,
+    "visible_high": 0,
+    "visible_low": 413,
+    "visible_markers": 439,
+    "individually_detailed_actors": 413,
+    "width": 1920,
+    "height": 1080,
+    "source_tick": 301,
+    "invalid_codes": 0,
+    "readback_reduce_ms": 7.343075,
+    "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+    "authority_readonly": true,
+    "authority_before": "328d3c80478d585f",
+    "authority_after": "328d3c80478d585f"
+  }
+}

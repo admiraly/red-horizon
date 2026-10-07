@@ -86,6 +86,23 @@ vec3 decodeDisplay(vec3 encoded){
  encoded=max(encoded,vec3(0));
  return mix(encoded/12.92,pow((encoded+.055)/1.055,vec3(2.4)),greaterThan(encoded,vec3(.04045)));
 }
+uniform int eventLightCount;
+uniform vec4 eventLightPositions[8]; // XYZ and bounded influence radius
+uniform vec4 eventLightColours[8]; // finite linear RGB energy
+vec3 eventIrradiance(vec3 p,vec3 n){
+ vec3 energy=vec3(0);
+ for(int i=0;i<clamp(eventLightCount,0,8);++i){
+  vec3 delta=eventLightPositions[i].xyz-p;
+  float d2=dot(delta,delta),radius=max(eventLightPositions[i].w,.001);
+  // Reject out-of-range/back-facing samples before square root and division.
+  float facing=dot(n,delta);
+  if(d2>=radius*radius||facing<=0.)continue;
+  float edge=1.-d2/(radius*radius);
+  float diffuse=facing*inversesqrt(max(d2,.0001));
+  energy+=eventLightColours[i].rgb*(edge*edge*diffuse/(1.+d2*.05));
+ }
+ return energy;
+}
 void main(){
  outputActorCode=0u;
  if(materialMode==13){
@@ -151,7 +168,9 @@ void main(){
   // Albedo-derived micro variation, not an authored normal map or PBR material.
   float grain=dot(surface,vec3(.333));n=normalize(n+vec3(dFdx(grain)*.4,0.,dFdy(grain)*.4));
   float light=mix(.35,.58,weather.y)+mix(.65,.22,weather.y)*max(0.,dot(n,normalize(vec3(.35,.85,-.2))));
+  vec3 diffuseAlbedo=surface*mix(1.,.67,weather.z);
   surface*=light*mix(1.,.67,weather.z);
+  if(hdrOutput!=0)surface+=diffuseAlbedo*eventIrradiance(worldPosition,n);
   vec3 view=normalize(camera-worldPosition),halfway=normalize(view+normalize(vec3(.35,.85,-.2)));
   surface+=vec3(.16,.18,.19)*pow(max(0.,dot(n,halfway)),14.)*weather.z;
  }
