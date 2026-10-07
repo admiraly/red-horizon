@@ -1,0 +1,122 @@
+{
+  "observed_UTC": "2026-10-07T18:12:18.707412+00:00",
+  "feature_commit": "3fc7e06cbd6c079d45a2bcd96112f8345c3fe337",
+  "source_files": 576,
+  "all_main_and_frozen_source_sha256_match_worker_inventory": true,
+  "builds": {
+    "client": {
+      "target": "client",
+      "revision": "3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3",
+      "assembled": 5,
+      "assembled_sources": [
+        "src/ai/air_ground_speed.asm",
+        "src/ai/air_final_clear.asm",
+        "src/ai/air_rollout.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.5433027530089021,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3/red-horizon",
+      "binary_sha256": "85b8149732551a3a06a4ce73388434e0e07760ff9ccb5c962f47b50830ac264b"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 1.3849197139788885,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3/red-horizon-coop-server",
+      "binary_sha256": "6b60387d76aeafe25a107d8fe733b4ee0d520fc2d59452d75e9543c4a8362dfa"
+    }
+  },
+  "native": {
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon/build/revisions/3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3/red-horizon",
+      "--listen",
+      "--scenario",
+      "air-battle",
+      "--hidden",
+      "--frames",
+      "120",
+      "--width",
+      "1280",
+      "--height",
+      "720",
+      "--frame-cap",
+      "60",
+      "--no-vsync",
+      "--census"
+    ],
+    "revision": "3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3",
+    "gpu": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 31459 MB, largest block: 31459 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 31459 MB, largest block: 31459 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 31459 MB, largest block: 31459 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+    "binary_sha256": "85b8149732551a3a06a4ce73388434e0e07760ff9ccb5c962f47b50830ac264b",
+    "exit_code": 0,
+    "host": {
+      "listen_host": true,
+      "port": 55679,
+      "child_pid": 3175973,
+      "child_exited": 1,
+      "startup_failed": 0
+    },
+    "census": {
+      "visibility_census": true,
+      "visible_actors": 286,
+      "visible_high": 0,
+      "visible_low": 226,
+      "visible_markers": 60,
+      "individually_detailed_actors": 226,
+      "width": 1280,
+      "height": 720,
+      "source_tick": 63,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 4.080772,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "75b1347fecbfd9de",
+      "authority_after": "75b1347fecbfd9de"
+    },
+    "owned_authority_absent": true,
+    "scope": "Native Arc1280x720120frames/ALSA null actual8192 listen authority; not1080p/dense1024/four-front/sustained budget/audio/art acceptance"
+  },
+  "focused": {
+    "passed": true,
+    "guard_cases": 42,
+    "library_sha256": "81b4335f0b083238b528202c9473fb9edfe0cc1e29a3c521364223ef07418fa9"
+  },
+  "jobs": {
+    "d8bba71393ed": {
+      "job_id": "d8bba71393ed",
+      "revision": "0f2685b85d8e876274731e5cc024b7a46b414556-bd6db1ed275df105",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d8bba71393ed/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d8bba71393ed/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d8bba71393ed/result.json",
+      "pid": 3049346,
+      "observed_live_process": "3049346 Ss         25:25"
+    },
+    "09a1bbf3d908": {
+      "job_id": "09a1bbf3d908",
+      "revision": "3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/09a1bbf3d908/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/09a1bbf3d908/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/09a1bbf3d908/result.json",
+      "pid": 3174703,
+      "observed_live_process": "3174703 Ss         00:57"
+    }
+  }
+}

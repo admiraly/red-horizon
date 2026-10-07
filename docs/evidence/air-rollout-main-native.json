@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/mnt/titan_nv3/projects/red-horizon/build/revisions/3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3/red-horizon",
+    "--listen",
+    "--scenario",
+    "air-battle",
+    "--hidden",
+    "--frames",
+    "120",
+    "--width",
+    "1280",
+    "--height",
+    "720",
+    "--frame-cap",
+    "60",
+    "--no-vsync",
+    "--census"
+  ],
+  "revision": "3fc7e06cbd6c079d45a2bcd96112f8345c3fe337-ef1879166ff42cd3",
+  "gpu": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 31459 MB, largest block: 31459 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 31459 MB, largest block: 31459 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 31459 MB, largest block: 31459 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "binary_sha256": "85b8149732551a3a06a4ce73388434e0e07760ff9ccb5c962f47b50830ac264b",
+  "exit_code": 0,
+  "host": {
+    "listen_host": true,
+    "port": 55679,
+    "child_pid": 3175973,
+    "child_exited": 1,
+    "startup_failed": 0
+  },
+  "census": {
+    "visibility_census": true,
+    "visible_actors": 286,
+    "visible_high": 0,
+    "visible_low": 226,
+    "visible_markers": 60,
+    "individually_detailed_actors": 226,
+    "width": 1280,
+    "height": 720,
+    "source_tick": 63,
+    "invalid_codes": 0,
+    "readback_reduce_ms": 4.080772,
+    "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+    "authority_readonly": true,
+    "authority_before": "75b1347fecbfd9de",
+    "authority_after": "75b1347fecbfd9de"
+  },
+  "owned_authority_absent": true,
+  "scope": "Native Arc1280x720120frames/ALSA null actual8192 listen authority; not1080p/dense1024/four-front/sustained budget/audio/art acceptance"
+}
