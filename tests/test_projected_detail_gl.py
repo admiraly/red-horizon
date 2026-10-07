@@ -118,6 +118,7 @@ try:
 
         # Isolate one real sourced aircraft; fixture poses are development-only.
         def u32(name):return struct.unpack('<I',os.pread(memory,4,symbols[name]))[0]
+        captured_counts=None
         def fixture(y=100.,heading=0.,pitch=0.,bank=0.,role=0,generation=1,distance=28.,tactical=0,visible=True):
             stop()
             os.pwrite(memory,struct.pack('<I',int(visible)),symbols['sim_count'])
@@ -130,8 +131,17 @@ try:
             os.kill(process.pid,signal.SIGCONT)
 
         def capture(label):
+            global captured_counts
             start=u32('frame_count');until(lambda:u32('frame_count')>=start+4,3)
-            stop()
+            deadline=time.monotonic()+3
+            while True:
+                stop()
+                if u32('mesh_counts_complete')==1:
+                    captured_counts=tuple(u32(n)for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'))
+                    break
+                assert time.monotonic()<deadline,'incomplete projected-detail census'
+                start=u32('frame_count');os.kill(process.pid,signal.SIGCONT)
+                until(lambda:u32('frame_count')>start,3)
             image=X.XGetImage(display,window,0,0,1280,720,W(-1).value,2);assert image
             rgb=bytearray()
             for y in range(720):
@@ -161,7 +171,9 @@ try:
             role=row[0]
             expected[role]=max(expected[role],min(8000.,max(row[10:13])*row[8]*focal/1.5)**2)
         reports=[]
-        def counts():return tuple(u32(n)for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'))
+        def counts():
+            assert captured_counts is not None
+            return captured_counts
         fixture(visible=False);background,_,_=capture('projected-detail-background')
         for role in (0,1):
             fixture(role=role,bank=.7,distance=1200.)
