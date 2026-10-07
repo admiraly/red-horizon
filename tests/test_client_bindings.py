@@ -154,7 +154,7 @@ try:
         # Remapped held fire/reload, with actual finite player magazine.
         mouse(1,True);time.sleep(.2);mouse(1,False);shots=player()['shots'];assert shots==0
         key(ord('l'),.45);until(lambda:player()['shots']>shots,2);ammo=player()['ammo'];assert ammo<30
-        key(ord('t'));until(lambda:player()['reload']>0,2)
+        key(ord('t'),observed=lambda:player()['reload']>0)
         # Remapped wheel opens on C, cancels on X; old middle is now QUIT,
         # so cancellation is tested through the actual keyboard event callback.
         code=X.XKeysymToKeycode(display,ord('c'));XT.XTestFakeKeyEvent(display,code,1,0);X.XFlush(display)

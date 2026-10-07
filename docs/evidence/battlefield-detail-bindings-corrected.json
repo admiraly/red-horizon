@@ -1,0 +1,24 @@
+{
+  "suite": "actual-remapped-client-input",
+  "passed": true,
+  "actions_remapped": 31,
+  "physical_same_body_movement_m": 3.00146484375,
+  "default_keys_inactive": true,
+  "finite_fire_reload": true,
+  "crouch_routed": true,
+  "keyboard_wheel_cancel_and_follow": true,
+  "held_orders_one_charge": true,
+  "foreign_front_rejected": true,
+  "keyboard_tactical_point": [
+    4994.375,
+    3904.44444
+  ],
+  "remapped_defend_one_charge_and_ack": true,
+  "binding_hints_and_startup_report": true,
+  "mouse_quit_same_event_batch": true,
+  "executable_sha256": "c3374e5870db618e6a90f5d8ce2ea9ca9dcef5938daaf45eae077a8853f4032f",
+  "limits": [
+    "Real solo GLFW/OpenGL/XTest with read-only authority observers; not hardware or complete gameplay acceptance."
+  ],
+  "failed_frozen_job": "1664f219f098"
+}
