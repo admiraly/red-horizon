@@ -1,6 +1,7 @@
 # Task graph and ready queue — current integration
 | Task | Owner | Dependency | State / acceptance evidence |
 |---|---|---|---|
+| Aircraft critical-damage/empty recovery | integrator | physical flight/own condition | integratedef3be5c; real projectile-triggered withdrawal and four empty-store flights, native policy/core/aircraft/8k16k bounds/network/actual GL pass; full checkpoint pending, landing/rearm/safe-base tactics open |
 | Confidence-weighted fighter pursuit | integrator | visible enemy memory/own mission | integrated85d1e31;10k native cases, causal public flight, original8k/16k bounds, complete aircraft/network/actual GL pass; full checkpoint pending; flight/tactics/art acceptance open |
 | Fighter visible enemy memory | integrator | aircraft perception/LOS | integrated c135e6e; native view/occlusion/expiry/hidden-body controls, original scale aircraft, ordinary network and actual GL pass; full checkpoint pending; broader tactics open |
 | Canonical spec, ABI, isolated worktrees | integrator | repository | committed |
