@@ -4,6 +4,7 @@ Current approach evidence establishes airborne circuit, final alignment, control
 
 | Consumer | Current authoritative rule | Required landing integration |
 | --- | --- | --- |
+| `air_speed_step` |Role-bounded acceleration/braking within5..7; admitted finals request5, fighter go-around requests7; forecast agrees and failed movement restores speed | Role/mode-aware landing speeds, throttle/drag/energy budget and stall-safe bank/climb; grounded braking/contact/rollout remain separate |
 | `air_bank_step`, `air_vertical_step` | Speed5..7m/tick; conserve XYZ total speed; bounded bank/vertical acceleration | Separate air approach and ground roll policy, validated speed/energy envelope and bounded longitudinal acceleration; preserve existing cruise math/negative controls |
 | `air_fuel_step` | Rejects speed outside5..7; finite generation-scoped units and fixed-tick burn | Explicit grounded/engine state, no duplicate-tick burn or reset; finite depot-backed transfer only |
 | `air_final_clear` |120 uninterrupted final ticks with production bank/vertical actuation and per-fragment terrain/solid hull sweeps; unsafe final releases airborne lease and rejoins circuit | Extend to variable-speed/energy envelope and ground-safe contact/rollout; retain malformed-source abort and actual hazardous-approach controls |

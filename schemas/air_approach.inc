@@ -1,7 +1,7 @@
 ; Generation-scoped recovery approach; not a touchdown/service mode.
 %ifndef AIR_APPROACH_INC
 %define AIR_APPROACH_INC
-%define AIR_APPROACH_VERSION 3
+%define AIR_APPROACH_VERSION 4
 %define AIR_APPROACH_STRIDE 16
 %define AIR_APPROACH_ENTRY 1600.0
 %define AIR_APPROACH_CROSSWIND 800.0

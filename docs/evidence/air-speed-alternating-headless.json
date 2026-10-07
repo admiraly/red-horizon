@@ -1,0 +1,70 @@
+[
+  {
+    "label": "previous",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon/build/revisions/81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "d31b4a6156cafcd447e6ef2c5641461b27ddb82f86e0731d276120847d4fad58",
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2992,2766],\"engaged\":525,\"checksum\":\"c479d388c79ee272\",\"tick_mean_ms\":15.987240,\"tick_p95_ms\":22.034446,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":408,\"projectile_peak\":452,\"projectile_dropped\":104041,\"navigation\":{\"pending\":31,\"completed\":2392,\"overflow\":446363,\"cache_hits\":176794,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":20,\"bomb_impacts\":19,\"gun_bursts\":201,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13011},\"hazards\":{\"predictions\":53506,\"tile_overflow\":48981,\"acquired\":10479,\"dispersions\":10479,\"shelters\":0,\"los_calls\":28098,\"budget_skipped\":0,\"active_goals\":863},\"ordnance_admission\":[{\"submitted\":56814,\"admitted\":1095,\"capacity_denied\":55719,\"invalidated\":0},{\"submitted\":5925,\"admitted\":651,\"capacity_denied\":5274,\"invalidated\":0},{\"submitted\":41191,\"admitted\":1060,\"capacity_denied\":40131,\"invalidated\":0},{\"submitted\":3386,\"admitted\":469,\"capacity_denied\":2917,\"invalidated\":0}],\"air_admission\":[{\"submitted\":12,\"admitted\":12,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":146,\"admitted\":146,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":55,\"admitted\":55,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1892156,\"move_queries\":2165639,\"inspected_neighbors\":20335262,\"corrected_endpoints\":199769,\"yielded_moves\":54839,\"overlap_recoveries\":8136,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "scope": "Alternating headless diagnostic, uncontrolled concurrent jobs; no isolated regression or full acceptance claim."
+  },
+  {
+    "label": "candidate",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon-workers/air-speed/build/revisions/dbf02261cad93a0f19be8c589ca9a5e0f004d8bd-9c92be76d906b4d1/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "0860160968e7a318749451a05b3ec7099558ea67793d72fc4cec6fd0b86c7bd1",
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2992,2766],\"engaged\":525,\"checksum\":\"c479d388c79ee272\",\"tick_mean_ms\":15.949828,\"tick_p95_ms\":21.993392,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":408,\"projectile_peak\":452,\"projectile_dropped\":104041,\"navigation\":{\"pending\":31,\"completed\":2392,\"overflow\":446363,\"cache_hits\":176794,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":20,\"bomb_impacts\":19,\"gun_bursts\":201,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13011},\"hazards\":{\"predictions\":53506,\"tile_overflow\":48981,\"acquired\":10479,\"dispersions\":10479,\"shelters\":0,\"los_calls\":28098,\"budget_skipped\":0,\"active_goals\":863},\"ordnance_admission\":[{\"submitted\":56814,\"admitted\":1095,\"capacity_denied\":55719,\"invalidated\":0},{\"submitted\":5925,\"admitted\":651,\"capacity_denied\":5274,\"invalidated\":0},{\"submitted\":41191,\"admitted\":1060,\"capacity_denied\":40131,\"invalidated\":0},{\"submitted\":3386,\"admitted\":469,\"capacity_denied\":2917,\"invalidated\":0}],\"air_admission\":[{\"submitted\":12,\"admitted\":12,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":146,\"admitted\":146,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":55,\"admitted\":55,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1892156,\"move_queries\":2165639,\"inspected_neighbors\":20335262,\"corrected_endpoints\":199769,\"yielded_moves\":54839,\"overlap_recoveries\":8136,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "scope": "Alternating headless diagnostic, uncontrolled concurrent jobs; no isolated regression or full acceptance claim."
+  },
+  {
+    "label": "previous",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon/build/revisions/81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "d31b4a6156cafcd447e6ef2c5641461b27ddb82f86e0731d276120847d4fad58",
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2992,2766],\"engaged\":525,\"checksum\":\"c479d388c79ee272\",\"tick_mean_ms\":16.163983,\"tick_p95_ms\":22.158505,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":408,\"projectile_peak\":452,\"projectile_dropped\":104041,\"navigation\":{\"pending\":31,\"completed\":2392,\"overflow\":446363,\"cache_hits\":176794,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":20,\"bomb_impacts\":19,\"gun_bursts\":201,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13011},\"hazards\":{\"predictions\":53506,\"tile_overflow\":48981,\"acquired\":10479,\"dispersions\":10479,\"shelters\":0,\"los_calls\":28098,\"budget_skipped\":0,\"active_goals\":863},\"ordnance_admission\":[{\"submitted\":56814,\"admitted\":1095,\"capacity_denied\":55719,\"invalidated\":0},{\"submitted\":5925,\"admitted\":651,\"capacity_denied\":5274,\"invalidated\":0},{\"submitted\":41191,\"admitted\":1060,\"capacity_denied\":40131,\"invalidated\":0},{\"submitted\":3386,\"admitted\":469,\"capacity_denied\":2917,\"invalidated\":0}],\"air_admission\":[{\"submitted\":12,\"admitted\":12,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":146,\"admitted\":146,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":55,\"admitted\":55,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1892156,\"move_queries\":2165639,\"inspected_neighbors\":20335262,\"corrected_endpoints\":199769,\"yielded_moves\":54839,\"overlap_recoveries\":8136,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "scope": "Alternating headless diagnostic, uncontrolled concurrent jobs; no isolated regression or full acceptance claim."
+  },
+  {
+    "label": "candidate",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon-workers/air-speed/build/revisions/dbf02261cad93a0f19be8c589ca9a5e0f004d8bd-9c92be76d906b4d1/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "0860160968e7a318749451a05b3ec7099558ea67793d72fc4cec6fd0b86c7bd1",
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2992,2766],\"engaged\":525,\"checksum\":\"c479d388c79ee272\",\"tick_mean_ms\":16.010969,\"tick_p95_ms\":21.729584,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":408,\"projectile_peak\":452,\"projectile_dropped\":104041,\"navigation\":{\"pending\":31,\"completed\":2392,\"overflow\":446363,\"cache_hits\":176794,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":20,\"bomb_impacts\":19,\"gun_bursts\":201,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13011},\"hazards\":{\"predictions\":53506,\"tile_overflow\":48981,\"acquired\":10479,\"dispersions\":10479,\"shelters\":0,\"los_calls\":28098,\"budget_skipped\":0,\"active_goals\":863},\"ordnance_admission\":[{\"submitted\":56814,\"admitted\":1095,\"capacity_denied\":55719,\"invalidated\":0},{\"submitted\":5925,\"admitted\":651,\"capacity_denied\":5274,\"invalidated\":0},{\"submitted\":41191,\"admitted\":1060,\"capacity_denied\":40131,\"invalidated\":0},{\"submitted\":3386,\"admitted\":469,\"capacity_denied\":2917,\"invalidated\":0}],\"air_admission\":[{\"submitted\":12,\"admitted\":12,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":146,\"admitted\":146,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":55,\"admitted\":55,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1892156,\"move_queries\":2165639,\"inspected_neighbors\":20335262,\"corrected_endpoints\":199769,\"yielded_moves\":54839,\"overlap_recoveries\":8136,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "scope": "Alternating headless diagnostic, uncontrolled concurrent jobs; no isolated regression or full acceptance claim."
+  }
+]

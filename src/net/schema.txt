@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v45
-little-endian u32 header[10]: magic=0x52484332 version=45 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v46
+little-endian u32 header[10]: magic=0x52484332 version=46 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -107,3 +107,5 @@ Protocol43: private generation/base/circuit-final recovery guidance and bounded7
 Protocol44: private6x16 generation-aware exclusive final approach leases, sixty-tick absence expiry and explicit release/go-around. Approach policy2, public/wire records unchanged; no landing/service mode.
 
 Protocol45: approach policy3 previews120 uninterrupted descending final ticks with production bank/vertical actuators and4m terrain/solid hull sweeps; contact/source error releases admission for go-around. Public/wire layouts unchanged; no landing/service mode.
+
+Protocol46: role-bounded longitudinal airborne acceleration/braking, admitted powered finals request5m/tick and go-arounds regain role cruise speed. Pure trajectory preview uses the same speed actuator. Flight6/approach4, record layouts/modes unchanged; no touchdown/service or low-speed flight domain.

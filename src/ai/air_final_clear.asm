@@ -3,9 +3,10 @@
 %include "schemas/aircraft.inc"
 %include "schemas/air_approach.inc"
 %include "schemas/air_flight.inc"
+%include "schemas/air_speed.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count
-extern air_base_goal,terrain_height,air_bank_step,air_vertical_step,air_world_sweep
+extern air_base_goal,terrain_height,air_speed_step,air_bank_step,air_vertical_step,air_world_sweep
 extern atan2f,sinf,cosf
 section .rodata
 one: dd 1.0
@@ -21,6 +22,7 @@ exit_distance: dd AIR_APPROACH_FINAL_EXIT
 climb: dd AIR_FLIGHT_VERTICAL_LIMIT
 minus_climb: dd -AIR_FLIGHT_VERTICAL_LIMIT
 cruise: dd 110.0,140.0
+final_speed: dd AIR_SPEED_FINAL_TARGET
 section .text
 global air_final_clear
 ; EDI physical own ID, ESI selected base -> 1clear,0contact,-1invalid/source.
@@ -137,6 +139,15 @@ air_final_clear:
  jae .heading
  addss xmm0,[tau]
 .heading:
+ movss [rsp+68],xmm0
+ mov edi,[rsp+32]
+ movss xmm0,[final_speed]
+ movss xmm1,[rsp+12]
+ call air_speed_step
+ test eax,eax
+ jnz .invalid
+ movss [rsp+12],xmm0
+ movss xmm0,[rsp+68]
  mov edi,[rsp+32]
  xor esi,esi
  movss xmm1,[rsp+12]

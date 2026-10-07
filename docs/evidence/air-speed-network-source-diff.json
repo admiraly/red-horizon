@@ -1,0 +1,8 @@
+{
+  "job": "288bb1076f5c",
+  "final_source_diff": [
+    "tests/test_air_bases.py",
+    "tests/test_air_world_bounds.py"
+  ],
+  "scope": "Only later recovery/extended world observer updates to physical accelerated speed; all runtime, schemas, wire oracles and network-consumed inputs identical."
+}

@@ -1,0 +1,145 @@
+{"terrain_roads": 19, "checked": true}
+{"airbases": 6, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xc3d7f7f7", "canonical_sha256": "c3d7f7f726be21391e431deab926b4023188b78f0a4b9cbfa4c43232790220c5", "checked": true}
+{"target": "headless", "revision": "dbf02261cad93a0f19be8c589ca9a5e0f004d8bd-b243f5e08233a821", "assembled": 0, "assembled_sources": [], "seconds": 1.220519508002326, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-speed/build/revisions/dbf02261cad93a0f19be8c589ca9a5e0f004d8bd-b243f5e08233a821/red-horizon-server"}
+{
+  "scenario": "scale-hotspot",
+  "revision": "dbf02261cad93a0f19be8c589ca9a5e0f004d8bd-b243f5e08233a821",
+  "seed": 1,
+  "wall_seconds": 9.008832318999339,
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "realtime": false,
+  "runtime": {
+    "units": 8192,
+    "ticks": 300,
+    "seed": 1,
+    "alive": [
+      2992,
+      2766
+    ],
+    "engaged": 525,
+    "checksum": "c479d388c79ee272",
+    "tick_mean_ms": 29.860999,
+    "tick_p95_ms": 40.750495,
+    "operation_state": 0,
+    "requisition": [
+      490,
+      280
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 408,
+    "projectile_peak": 452,
+    "projectile_dropped": 104041,
+    "navigation": {
+      "pending": 31,
+      "completed": 2392,
+      "overflow": 446363,
+      "cache_hits": 176794,
+      "stuck_replans": 1,
+      "cover_choices": 0,
+      "processed_last_tick": 8,
+      "processed_max": 8
+    },
+    "air_events": {
+      "bomb_launches": 20,
+      "bomb_impacts": 19,
+      "gun_bursts": 201,
+      "aircraft_destroyed": 0,
+      "overwritten_unobserved": 13011
+    },
+    "hazards": {
+      "predictions": 53506,
+      "tile_overflow": 48981,
+      "acquired": 10479,
+      "dispersions": 10479,
+      "shelters": 0,
+      "los_calls": 28098,
+      "budget_skipped": 0,
+      "active_goals": 863
+    },
+    "ordnance_admission": [
+      {
+        "submitted": 56814,
+        "admitted": 1095,
+        "capacity_denied": 55719,
+        "invalidated": 0
+      },
+      {
+        "submitted": 5925,
+        "admitted": 651,
+        "capacity_denied": 5274,
+        "invalidated": 0
+      },
+      {
+        "submitted": 41191,
+        "admitted": 1060,
+        "capacity_denied": 40131,
+        "invalidated": 0
+      },
+      {
+        "submitted": 3386,
+        "admitted": 469,
+        "capacity_denied": 2917,
+        "invalidated": 0
+      }
+    ],
+    "air_admission": [
+      {
+        "submitted": 12,
+        "admitted": 12,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 146,
+        "admitted": 146,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 8,
+        "admitted": 8,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 55,
+        "admitted": 55,
+        "capacity_denied": 0,
+        "invalidated": 0
+      }
+    ],
+    "crowd": {
+      "snapshot_actors": 1892156,
+      "move_queries": 2165639,
+      "inspected_neighbors": 20335262,
+      "corrected_endpoints": 199769,
+      "yielded_moves": 54839,
+      "overlap_recoveries": 8136,
+      "truncated_queries": 0,
+      "maximum_inspected_per_query": 52
+    }
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 38496,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": 31,
+    "network_bandwidth": "unmeasured in CPU-only headless benchmark"
+  }
+}
+Report: /mnt/titan_nv3/projects/red-horizon-workers/air-speed/runs/bench-53c9bcd0e9.json

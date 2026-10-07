@@ -76,9 +76,10 @@ with tempfile.TemporaryDirectory(prefix='rh-approach-')as d:
    for path,label in ((candidate,'candidate'),(control,'omitted-guidance')):
     b=bind(path);reset(b,side,role);l,es,ars,st,ss=b;records=[];goaround=False
     for tick in range(900):
-     l.sim_tick();own=es[31];air=ars[31];ground=l.terrain_height(own.x,own.z)
+     previous_speed=ars[31].speed; l.sim_tick();own=es[31];air=ars[31];ground=l.terrain_height(own.x,own.z)
      assert own.hp==50 and air.ammo==(8,180)[role]
-     speed=math.sqrt(air.vx**2+air.vy**2+air.vz**2);assert abs(speed-(5.,7.)[role])<2e-5
+     speed=math.sqrt(air.vx**2+air.vy**2+air.vz**2);assert abs(speed-air.speed)<2e-5 and 5<=air.speed<=7
+     assert -(.009,.012)[role]-.000002<=air.speed-previous_speed<=(.006,.010)[role]+.000002
      if label=='candidate' and st[31][2]==0 and tick>100:goaround=True
      if abs(own.x-(2000.,6000.)[side])<500 and abs(own.z-4000.)<40:
       records.append(dict(tick=tick,x=own.x,z=own.z,clearance=air.y-ground,bank=air.bank,vy=air.vy))

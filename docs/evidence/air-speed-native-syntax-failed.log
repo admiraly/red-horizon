@@ -1,0 +1,4 @@
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-speed/tests/test_air_speed.py", line 49
+    wanted=5. if i<260 else7.;old=speed;rc,(speed,delta)=sample(l,role,wanted,speed);assert rc==0
+           ^^^^^^^^^^^
+SyntaxError: expected 'else' after 'if' expression

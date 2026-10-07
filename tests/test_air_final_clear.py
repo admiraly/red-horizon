@@ -85,9 +85,10 @@ with tempfile.TemporaryDirectory(prefix='rh-final-clear-')as d:
       assert bool(any(bytes(tr)))==(label!='candidate')
       rows=[]
       for tick in range(120):
-       old=(en[31].x,air[31].y,en[31].z);oldvy=air[31].vy;oldbank=air[31].bank;q.sim_tick()
+       old=(en[31].x,air[31].y,en[31].z);oldvy=air[31].vy;oldbank=air[31].bank;old_speed=air[31].speed;q.sim_tick()
        assert en[31].hp==50 and air[31].ammo==(8,180)[role],(side,role,label,tick,en[31].hp)
-       assert abs(math.dist(old,(en[31].x,air[31].y,en[31].z))-(5.,7.)[role])<.001
+       assert abs(math.dist(old,(en[31].x,air[31].y,en[31].z))-air[31].speed)<.001
+       assert 5<=air[31].speed<=7 and -(.009,.012)[role]-.000002<=air[31].speed-old_speed<=(.006,.010)[role]+.000002
        assert abs(air[31].vy-oldvy)<=(.012,.024)[role]+.000002
        assert abs(air[31].bank-oldbank)<=(.06,.1)[role]+.000002
        rows.append((en[31].x,air[31].y,en[31].z,air[31].bank,air[31].vy,st[31][2]))

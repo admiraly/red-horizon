@@ -1,5 +1,5 @@
 ; Coordinated level-turn approximation; fixed30Hz, speed in metres per tick.
-%define AIR_FLIGHT_VERSION 5
+%define AIR_FLIGHT_VERSION 6
 %define AIR_FLIGHT_GRAVITY 0.0109
 %define AIR_FLIGHT_MIN_SPEED 5.0
 %define AIR_FLIGHT_MAX_SPEED 7.0

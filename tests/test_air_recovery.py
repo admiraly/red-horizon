@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
   for side in (0,1):
    reset(l,e,a);plane(e,a,31,4000,side,200,0,role);closest=2000.;travel=0.
    for tick in range(1200):
-    old=(e[31].x,a[31].y,e[31].z);l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-(5,7)[role])<.001;travel+=step
+    old=(e[31].x,a[31].y,e[31].z);l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-a[31].speed)<.001;travel+=step
     assert a[31].ammo==0 and e[31].hp==200 and a[31].target==-1 and a[31].mode==3
     assert 0<=e[31].x<=8000 and 0<=e[31].z<=8000
     closest=min(closest,math.dist((e[31].x,e[31].z),((2000,6000)[side],4000)))
@@ -79,7 +79,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
    for tick in range(1,1201):
     old={i:(ee[i].x,aa[i].y,ee[i].z)for i in ammo};ll.sim_tick()
     for i in ammo:
-     if ee[i].hp:max_step_error=max(max_step_error,abs(math.dist(old[i],(ee[i].x,aa[i].y,ee[i].z))-7))
+     if ee[i].hp:max_step_error=max(max_step_error,abs(math.dist(old[i],(ee[i].x,aa[i].y,ee[i].z))-aa[i].speed))
      assert aa[i].ammo<=ammo[i];ammo[i]=aa[i].ammo
     if ee[31].hp<=60 and critical_tick is None:critical_tick=tick
     if aa[31].mode==3 and return_tick is None:return_tick=tick;initial_return_gap=math.dist((ee[31].x,ee[31].z),(2000,4000))

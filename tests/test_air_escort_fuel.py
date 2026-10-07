@@ -193,7 +193,7 @@ with tempfile.TemporaryDirectory(prefix='rh-escort-fuel-') as folder:
                     lib.sim_tick()
                     for ident, previous, speed in zip((15, 31), old, (5., 7.)):
                         assert abs(math.dist(previous, (entities[ident].x, air[ident].y,
-                                                        entities[ident].z)) - speed) < .002
+                                                        entities[ident].z)) - air[ident].speed) < .002
                         assert entities[ident].hp == 200 and air[ident].ammo == (8, 180)[ident == 31]
                     if crossing is None and fuel[depleted].units <= 3600:
                         crossing = tick

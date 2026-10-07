@@ -4,14 +4,15 @@
 %include "schemas/air_escort.inc"
 %include "schemas/air_flight.inc"
 %include "schemas/air_approach.inc"
+%include "schemas/air_speed.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_fuel_init,air_fuel_step,air_fuel_status,air_fuel_hash
 extern air_holding_init,air_holding_goal,air_holding_hash
-extern air_approach_init,air_approach_goal,air_approach_hash
+extern air_approach_init,air_approach_goal,air_approach_hash,sim_air_approaches
 extern air_traffic_init,air_traffic_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
-extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
+extern air_speed_step,air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_separation_init,air_separation_build,air_separation_step,air_separation_hash,sim_air_separation
 extern air_threats_reset,air_threats_build,air_threat_query
@@ -41,6 +42,7 @@ eye: dd 2.0
 fallback: dd 92.0
 altitude: dd 110.0,140.0
 speeds: dd 5.0,7.0
+final_speed: dd AIR_SPEED_FINAL_TARGET
 turns: dd 0.025,0.04
 pi: dd 3.14159265
 tau: dd 6.2831853
@@ -195,7 +197,7 @@ air_tick:
  push rbx
  push rbp
  push r12
- sub rsp,128
+ sub rsp,144
  call air_separation_build
  call air_threats_build
  xor r12d,r12d
@@ -300,6 +302,8 @@ air_tick:
  movss [rsp+112],xmm0
  movss xmm0,[rbp+AIR_BANK]
  movss [rsp+116],xmm0
+ movss xmm0,[rbp+AIR_SPEED]
+ movss [rsp+128],xmm0
  mov edi,r12d
  call air_world_warning
  test eax,eax
@@ -601,6 +605,37 @@ air_tick:
  je .turn_limit
  movss xmm0,[one] ; same local right-turn rule for converging friendly pilots
 .turn_limit:
+ movss [rsp+132],xmm0 ; preserve heading error across longitudinal policy
+ mov edi,r12d
+ call air_fuel_status
+ cmp eax,2
+ je .powerless_speed
+ mov eax,[rbp+AIR_ROLE]
+ lea rcx,[speeds]
+ movss xmm0,[rcx+rax*4]
+ cmp dword [rsp+48],0
+ jne .speed_ready
+ cmp dword [rsp+120],1
+ jne .speed_ready
+ mov eax,r12d
+ shl eax,4
+ lea rcx,[sim_air_approaches]
+ cmp dword [rcx+rax+8],2
+ jne .speed_ready
+ movss xmm0,[final_speed]
+ jmp .speed_ready
+.powerless_speed:
+ ; Empty-fuel flight retains existing powerless-glide energy approximation;
+ ; it must not gain speed through a synthetic powered go-around throttle.
+ movss xmm0,[rbp+AIR_SPEED]
+.speed_ready:
+ mov edi,[rbp+AIR_ROLE]
+ movss xmm1,[rbp+AIR_SPEED]
+ call air_speed_step
+ test eax,eax
+ jnz .contact_error
+ movss [rbp+AIR_SPEED],xmm0
+ movss xmm0,[rsp+132]
  mov edi,[rbp+AIR_ROLE]
  mov esi,[rsp+48]
  movss xmm1,[rbp+AIR_SPEED]
@@ -796,13 +831,15 @@ air_tick:
  movss [rbp+AIR_HEADING],xmm0
  movss xmm0,[rsp+116]
  movss [rbp+AIR_BANK],xmm0
+ movss xmm0,[rsp+128]
+ movss [rbp+AIR_SPEED],xmm0
 .next:
  add rbx,ENTITY_STRIDE
  add rbp,AIR_STRIDE
  inc r12d
  cmp r12d,[sim_count]
  jb .loop
- add rsp,128
+ add rsp,144
  pop r12
  pop rbp
  pop rbx
