@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/tmp/rh-crash-client-diagnostic.py", line 116, in <module>
+    background,_,_=capture(f'{role}-{label}-background');before_counts=tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'))
+                   ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/rh-crash-client-diagnostic.py", line 79, in capture
+    assert time.monotonic()<deadline,dict(label=label,expected=instances,actual=u32('mesh_air_crash_instances'),complete=u32('mesh_counts_complete'),frame=u32('frame_count'),ticks=u32('local_sim_ticks'),simtick=u32('sim_tick_count'),count=u32('sim_count'),network=u32('network_mode'),connected=u32('net_connected'),record=get('sim_air_crashes',96).hex())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'label': '0-falling-background', 'expected': 0, 'actual': 1, 'complete': 1, 'frame': 1066, 'ticks': 4, 'simtick': 4, 'count': 0, 'network': 0, 'connected': 0, 'record': 'fc8f7b45ecd147435f007a45f8fc9f4090c275bd0bb2233c5fcec83fdc9c44bc9999993e00000000000000001f000000010000000500000001000000010000000000000000000000000000000000000000000000000000000000000000000000'}

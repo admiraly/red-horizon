@@ -112,7 +112,8 @@ try:
     f=struct.unpack('<9f7I8I',record)
     source='net_air_crashes' if network else 'sim_air_crashes'
     put('sim_players',struct.pack('<5f',f[0],f[1]+10,f[2]-100,0,-.05));put('yaw',struct.pack('<f',0));put('pitch',struct.pack('<f',-.05));put('tactical',struct.pack('<I',0));put('sim_count',struct.pack('<I',1 if network else 0))
-    if network:os.pwrite(memory,struct.pack('<I',0),symbols['sim_entities']+8);put(source,bytes(128*96))
+    if network:os.pwrite(memory,struct.pack('<I',0),symbols['sim_entities']+8)
+    put(source,bytes(128*96))
     background,_,_=capture(f'{role}-{label}-background');before_counts=tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'))
     if network:send(struct.pack('<I',0)+record,tick)
     else:put(source,record)
