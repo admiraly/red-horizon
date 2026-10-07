@@ -1,0 +1,237 @@
+{
+  "GPU": {
+    "suite": "air-burst-embedded-GL",
+    "passed": true,
+    "cases": 43,
+    "vertices": 4128,
+    "finite_positions_and_alpha": true,
+    "legacy_extra_quads_hidden": true,
+    "expired_and_map_hidden": true,
+    "event_seed_slot_independent": true,
+    "particle_motion": true,
+    "maximum_independent_ejection_centre_error_m": 7.242489141390251e-05,
+    "maximum_smoke_alpha_per_puff": 0.095,
+    "worst_eight_puff_combined_opacity": 0.550024743037695,
+    "shader_sha256": "467dce9e7d5aaeb911162fbce18d7b1bfd75568890d2ff06b090a791bae1e8b1",
+    "limits": [
+      "Actual embedded vertex shader under software GL, bounded geometry/alpha and state controls; no human quality or target GPU frame-budget claim."
+    ]
+  },
+  "combat_GL": {
+    "suite": "rendered-aircraft",
+    "passed": true,
+    "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+    "bomber_pixels": 8908,
+    "normalized_silhouette_iou": 0.6224,
+    "bank_changed_pixels": 12052,
+    "trail_changed_pixels": 23,
+    "trail_authority_unchanged": true,
+    "bomb_pixels": 2196,
+    "air_round_pixels": 1196,
+    "actual_bomb_launch": [
+      2175.0,
+      127.33111572265625,
+      1999.7552490234375,
+      6,
+      0,
+      35,
+      36.0,
+      1
+    ],
+    "actual_bomb_impact": [
+      2886.19384765625,
+      15.2479887008667,
+      1997.2896728515625,
+      7,
+      0,
+      177,
+      36.0,
+      2
+    ],
+    "actual_air_gun": [
+      2443.0,
+      155.54925537109375,
+      2499.9990234375,
+      8,
+      1,
+      1,
+      0.0,
+      1
+    ],
+    "actual_air_destroyed": [
+      2359.034912109375,
+      157.682373046875,
+      2500.36083984375,
+      9,
+      1,
+      13,
+      2.0,
+      3
+    ],
+    "actual_impact_effect_pixels": 2775,
+    "actual_destroy_effect_pixels": 721,
+    "destruction_motion_pixels": 1942,
+    "active_particle_quads": 24,
+    "mid_distant_map_absolute_y": true,
+    "stale_generation_fallback": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction-aged.ppm"
+    ]
+  },
+  "legacy_GL": {
+    "suite": "rendered-tracer",
+    "passed": true,
+    "shots": 3,
+    "tracers": 1,
+    "yellow_pixels": 202,
+    "screenshot": "/tmp/red-horizon-tracer.ppm",
+    "shell_source": 12,
+    "impact_pixels": 159,
+    "impact_events": 15,
+    "event_sequence": 729,
+    "actual_launch": [
+      2000.0,
+      19.00979995727539,
+      3860.0,
+      1,
+      0,
+      48,
+      18.0,
+      691
+    ],
+    "actual_impact": [
+      2000.0,
+      18.033851623535156,
+      3976.000244140625,
+      3,
+      0,
+      59,
+      18.0,
+      723
+    ],
+    "drive_metres": 0.574180653664243,
+    "cannon_launch": [
+      2000.4632568359375,
+      19.00788116455078,
+      3860.47265625,
+      1,
+      0,
+      86,
+      18.0,
+      793
+    ],
+    "cannon_hud_pixel": [
+      255,
+      168,
+      51
+    ],
+    "fixture": "development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL",
+    "observer_enemy_metres": 200,
+    "pool_before_encounter": 396,
+    "control_terrain_orange_pixels": 168963,
+    "paired_changed_pixels": 343,
+    "paired_render_authority_unchanged": true,
+    "paired_acquired_effects_restored": true
+  },
+  "native_effects": [
+    {
+      "suite": "effects-frame-independence",
+      "passed": true,
+      "actual_impacts": 1,
+      "repeated_render_updates": 360,
+      "authority_unchanged": true
+    },
+    {
+      "suite": "air-burst-event-consumer",
+      "passed": true,
+      "initial_layers": [
+        [
+          2,
+          0.44999998807907104,
+          2.0,
+          0
+        ],
+        [
+          8,
+          6.0,
+          8.0,
+          1
+        ],
+        [
+          9,
+          3.0,
+          8.0,
+          1
+        ]
+      ],
+      "three_second_late_layers": [
+        [
+          8,
+          3.0,
+          8.0,
+          2
+        ]
+      ],
+      "frame_updates": 2520,
+      "saturation_events": 100,
+      "bounded_records": 64,
+      "saturated_particle_quads": 541,
+      "absolute_quads_cap": 1024,
+      "authority_unchanged": true,
+      "duplicate_invalid_delta_expiry_and_stream_reset": true,
+      "scope": "Production event-emitter kernel fixtures; real physical cannon death is separately verified in client aircraft GL. No network or artistic acceptance from this test."
+    },
+    {
+      "suite": "air-trails",
+      "passed": true,
+      "samples_at_30_60_120Hz": [
+        10,
+        10,
+        10
+      ],
+      "authority_bytes_unchanged": true,
+      "invalid_time_generation_death_disconnect_expiry": true,
+      "event_layers": [
+        2,
+        3,
+        3,
+        5,
+        4,
+        4,
+        4,
+        4,
+        2,
+        8,
+        9
+      ]
+    }
+  ],
+  "sources": {
+    "src/render/effects.asm": "64e8f80f6aeb5cfaadab0128d8086b819ed5e91fe3d02d13f432447d4fdcf1fd",
+    "src/platform/linux/client.asm": "d159fdb4e36783b67621590ada4ca56f1e51cb61396c487e4a1fb2f3770f4b64",
+    "shaders/battle.vert": "58d24379c596c02bce2b9e489597f45c7e38e6fb663f29ab4b81d537bc14d52c",
+    "shaders/battle.frag": "15d2ed7b989928ba3b10e86af0270d02e1c42c333a7cee9691a1626546fea406",
+    "tests/test_air_burst.py": "4632d04846c603ac59b3dd8739f1416372bf71f474655fa6f287f64a86c2c358",
+    "tests/test_air_burst_gl.py": "4b8d1acaae7ac43d338f881b3516705a0e439ee62c137bd97619a30b80424d5e"
+  },
+  "images": {
+    "/mnt/titan_nv3/projects/red-horizon-workers/air-burst/runs/air-burst-actual-aircraft-destruction.png": "39b77decbc798bc508ce2d671e76f56bcd2f5474ed7b3cedc2369f421ea36523",
+    "/mnt/titan_nv3/projects/red-horizon-workers/air-burst/runs/air-burst-actual-aircraft-destruction-aged.png": "9d68cc8743c1d50434a8b8e27f75b9cfd516a4354453ea376bee3e7d5c2ea492"
+  },
+  "limitations": [
+    "Prototype procedural particles; no whole-game spectacle or target GPU frame-budget acceptance.",
+    "Gameplay and network layouts/content unchanged; physical falling wreck and remote death-specific pixel proof absent.",
+    "A preliminary .38-alpha plume passed its early tests but was refined to .095 maximum alpha before integration to preserve translucency. Final GPU and actual combat evidence use .095."
+  ]
+}

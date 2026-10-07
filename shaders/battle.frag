@@ -150,11 +150,15 @@ void main(){
  float alpha=effectAlpha;
  if(effectType>=2){
   vec2 uv=effectUV;float r=length(uv);if(r>1.)discard;
-  if(effectType==3||effectType==5||effectType==7){
+  if(effectType==3||effectType==5||effectType==7||effectType==8){
    float billow=smoothNoise(uv*5.+vec2(worldPosition.y*.09));
    alpha*=smoothstep(1.,.2,r)*mix(.5,1.,billow);
    surface*=mix(.72,1.2,billow);
-  }else if(effectType==4){alpha*=1.-smoothstep(.45,.95,r);}
+  }else if(effectType==9){
+   if(abs(uv.x)>.8||abs(uv.y)>.3||abs(uv.x*.4+uv.y)>.5)discard;
+   alpha*=1.-smoothstep(.2,.95,r);
+  }
+  else if(effectType==4){alpha*=1.-smoothstep(.45,.95,r);}
   else{alpha*=smoothstep(1.,.35,r);}
  }
  // Screen UI and map symbols remain readable; emission effects retain their hue.

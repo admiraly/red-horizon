@@ -102,9 +102,9 @@ lib.combat_event(9, 0, player[0], 150., player[2], 9.)
 before = snapshot(); lib.effects_update(0, .01)
 assert snapshot() == before
 kinds = [r.kind for r in fx if r.ttl > 0]
-assert 5 in kinds and kinds.count(4) == 8 and kinds.count(3) == 4, kinds
+assert 5 in kinds and kinds.count(4) == 4 and kinds.count(3) == 2 and kinds.count(8)==1 and kinds.count(9)==1, kinds
 n = C.c_uint.in_dll(lib, 'effects_impacts').value
-for _ in range(360): lib.effects_update(0, 1/120)
+for _ in range(840): lib.effects_update(0, 1/120)
 assert all(r.ttl == 0 for r in fx)
 assert C.c_uint.in_dll(lib, 'effects_impacts').value == n
 lib.combat_event(7, 0, player[0], 20., player[2], 9.)

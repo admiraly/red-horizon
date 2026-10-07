@@ -23,3 +23,44 @@ The GUI test uses the real vehicle module and player/world hooks. It positions t
 This worker's vehicle GUI evidence is local authority. The renderer submits the same intent bits in co-op, but actual graphical co-op boarding requires the integrator's v3 UDP adapter/state848 build and separate integration validation. No network vehicle GUI result is inferred from local testing.
 
 Saved worker visual evidence: [actual vehicle HUD](evidence/vehicle-hud.png) and [actual shell impact](evidence/shell-impact.png). These are private-Xvfb/llvmpipe captures of the verified worker slices, not target-GPU frame-budget evidence or production art.
+
+## Aircraft break-up particles
+
+Real aircraft destruction events now emit one six-second translucent plume and
+one three-second fragment/fire envelope, plus the existing short initial flash.
+The64record allocation-free CPU pool expands each plume into eight GPU smoke
+puffs and each debris envelope into twelve tumbling angular sheets and four
+fading fire motes. Their ejection and gravity trajectory are analytic cosmetic
+motion. Ground height clamps fragment centres; there is no rigid-body collision,
+physical falling aircraft wreck or new gameplay cover. Cosmetic event sequence
+seeds are independent of rotating pool slots. No new authored bitmap assets or
+third-party licence entries are introduced.
+
+The client submits96 vertices per record, with unused legacy quads hidden by the
+shader. At most1024 logical live quads fit in the pool; effects_particle_quads
+reports logical active quads, not pixel visibility. Expired particles and both
+new envelopes on the tactical map are hidden. Existing tracers, muzzle flashes,
+bomb impacts and engine trails retain their original six-vertex silhouettes.
+Per-puff alpha is capped at.095: even eight fully overlapping puffs have at most
+.550025combined opacity before radial/noise attenuation. This is translucent
+cosmetic smoke, not concealment that the AI ignores. Fire fades without repeated
+pulsing. Existing user flash controls and broader gameplay smoke requirements are
+not established by this batch.
+
+Lifetime is aged from the actual event tick, including delayed receipt up to
+180ticks for aircraft destruction. Three-second delayed receipt produces only
+three seconds of remaining smoke; no flash or debris restarts. Stream reset
+clears old cosmetics. Events do not acquire shooter velocity or physical source
+identity in this presentation-only path; no inherited wreck momentum is claimed.
+
+Focused evidence includes100genuine event-emitter calls saturating64records
+(541logical quads), invalid render deltas, duplicate receipt, expiry and stream
+reset, with unchanged authority. Actual embedded GPU feedback checks43cases/
+4128vertices, independent analytic ejection error0.000072425m, event seed and
+slot independence, motion, finite positions/alpha and legacy/expired/map hiding.
+Real cannon combat produces the death used in the GL capture;721paired pixels
+show the initial destruction effect,1942pixels change as smoke/debris age, with
+unchanged authority. Actual rifle/cannon GL regression also passes. Those counts
+are scoped software-rendered observations; no whole-game spectacle, sustained
+GPU frame budget, remote aircraft death pixels, dynamic lights, HDR bloom,
+physical wreck, authored volumetric textures or completed art claim.

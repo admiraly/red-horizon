@@ -1054,7 +1054,7 @@ main:
  call glUniform1i
  mov edi,4
  xor esi,esi
- mov edx,6
+ mov edx,96 ; sixteen bounded analytic particle quads per effect record
  mov ecx,64
  call glDrawArraysInstanced
  cmp dword [air_trails_visible],0

@@ -314,7 +314,7 @@ try:
         until(lambda:u32('effects_event_cursor')>=actual_destroy[7],2)
         stop()
         records=[struct.unpack_from('<7fI',os.pread(memory,2048,symbols['effects_records']),i*32)for i in range(64)]
-        assert any(r[7]==4 and r[3]>0 and all(abs(r[c]-actual_destroy[c])<.001 for c in range(3))for r in records),('real aircraft destruction produced no debris',actual_destroy)
+        assert any(r[7]==9 and r[3]>0 and all(abs(r[c]-actual_destroy[c])<.001 for c in range(3))for r in records),('real aircraft destruction produced no debris',actual_destroy)
         view=(actual_destroy[0],actual_destroy[1],actual_destroy[2]-80.,0.,0.)
         os.pwrite(memory,struct.pack('<5f',*view),player_address)
         os.pwrite(memory,struct.pack('<f',0.),symbols['yaw']);os.pwrite(memory,struct.pack('<f',0.),symbols['pitch'])
@@ -332,15 +332,29 @@ try:
         stop()
         assert acquired_authority==tuple(os.pread(memory,size,symbols[name])for name,size in authority_names),'paired cosmetic control changed authority'
         os.pwrite(memory,acquired_effects,symbols['effects_records']);os.kill(process.pid,signal.SIGCONT)
+        # Observe real render-time particle motion from the preserved actual death.
+        # Authority stays frozen; no cosmetic age or world pose is renewed.
+        def burst_age_ready():
+            pool=os.pread(memory,2048,symbols['effects_records'])
+            return any(struct.unpack_from('<I',pool,i*32+28)[0]==8
+                       and struct.unpack_from('<I',pool,i*32+20)[0]==actual_destroy[7]
+                       and 0<struct.unpack_from('<f',pool,i*32+12)[0]<5 for i in range(64))
+        until(burst_age_ready,8)
+        latergb,laterpath,_=capture('actual-aircraft-destruction-aged')
+        destruction_motion_pixels=len(changed(destroyrgb,latergb,10));assert destruction_motion_pixels>8,destruction_motion_pixels
+        stop()
+        assert acquired_authority==tuple(os.pread(memory,size,symbols[name])for name,size in authority_names),'particle aging changed authority'
+        particle_quads=u32('effects_particle_quads');assert 0<particle_quads<=1024
+        os.kill(process.pid,signal.SIGCONT)
         print(json.dumps({'suite':'rendered-aircraft','passed':True,
                           'fixture':'development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority',
                           'bomber_pixels':len(levelmask),'normalized_silhouette_iou':silhouette_iou,'bank_changed_pixels':len(bankmask),
                           'trail_changed_pixels':trail_changed,'trail_authority_unchanged':True,'bomb_pixels':len(bombmask),'air_round_pixels':len(roundmask),
                           'actual_bomb_launch':actual_launch,'actual_bomb_impact':actual_impact,
                           'actual_air_gun':actual_gun,'actual_air_destroyed':actual_destroy,
-                          'actual_impact_effect_pixels':impact_changed,'actual_destroy_effect_pixels':destroy_changed,
+                          'actual_impact_effect_pixels':impact_changed,'actual_destroy_effect_pixels':destroy_changed,'destruction_motion_pixels':destruction_motion_pixels,'active_particle_quads':particle_quads,
                           'mid_distant_map_absolute_y':True,'stale_generation_fallback':True,
-                          'screenshots':[trailpath,bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath,impactpath,destroypath]}))
+                          'screenshots':[trailpath,bgpath,levelpath,bankpath,pitchpath,fighterpath,raisedpath,bombpath,roundpath,impactpath,destroypath,laterpath]}))
 
 finally:
     if memory is not None: os.close(memory)

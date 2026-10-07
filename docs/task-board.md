@@ -555,3 +555,5 @@ separate birth lanes; genuine airborne bomb interception is retained as its own
 replayed proof. Frozen fast and full checkpoint remain tracked in status.md. Next
 flight/AI work: energy-aware/steeper manoeuvres, observed incoming-fire evasion,
 air separation and coordinated escort/strike decisions; full game remains open.
+
+Visible incoming cannon warning integrateda37e3f8; isolated fast passed and ordinary complete network after independent content oracle correction passed. Bounded actual traces/LOS and committed defence are proven; general flight tactics/realism remain open. Aircraft break-up GPU presentation verified in isolated air-burst with authority-free actual cannon-death pixels/motion, delayed events, fixed pool and embedded shader oracle. Full spec spectacle, physical crash wrecks, dynamics, authored materials/lights/HDR, performance and operation/platform acceptance remain open; exact checkpoint state in status.md.

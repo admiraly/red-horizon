@@ -116,7 +116,41 @@ void main(){
   float side=(v==2||v==4||v==5)?1.:-1.;
   vec3 a=entity.xyz,b=roles.xyz;int kind=floatBitsToInt(roles.w);
   effectType=kind;effectUV=vec2(t*2.-1.,side);
-  if(kind!=1){
+  if(kind==8||kind==9){
+   int particle=gl_VertexID/6;
+   float life=kind==8?6.:3.,age=clamp(life-entity.w,0.,life),progress=age/life;
+   uint identity=floatBitsToUint(roles.y);
+   uint h=identity*1664525u+uint(particle)*1013904223u+1013904223u;
+   h^=h>>16;h*=2246822519u;h^=h>>13;
+   float seed=float(h&65535u)/65535.,phase=float(particle)*2.399963+seed*1.8;
+   vec3 radial=vec3(cos(phase),0,sin(phase));
+   vec3 horizontal=vec3(cos(angle.x),0,-sin(angle.x));
+   vec3 vertical=vec3(-sin(angle.x)*sin(angle.y),cos(angle.y),-cos(angle.x)*sin(angle.y));
+   vec3 centre=a;float radius;
+   if(kind==8){
+    float spread=.3+seed*.7;
+    centre+=radial*roles.x*spread*(.15+age*.35);
+    centre.y+=float(particle%4)*1.2+age*(2.+seed*1.5);
+    radius=roles.x*(.16+age*.12)*(1.+seed*.35);
+    colour=mix(vec3(.12,.135,.14),vec3(.29,.30,.30),progress);
+    effectAlpha=.095*pow(1.-progress,1.3)*smoothstep(0.,.16,age);
+   }else{
+    vec3 velocity=radial*(6.+seed*10.)+vec3(0,3.+seed*12.,0);
+    centre+=velocity*age+vec3(0,-4.905*age*age,0);
+    float ground=height(centre.xz)+.25;
+    centre.y=max(centre.y,ground);
+    bool fire=particle>=12;
+    radius=fire?(.65+seed*.65)*(1.-progress):(.25+seed*.5);
+    // Twisting sheet-like fragments, independent of camera and pool slot seed.
+    float roll=age*(3.+seed*8.)+phase,c=cos(roll),s=sin(roll);
+    vec3 oldHorizontal=horizontal;horizontal=oldHorizontal*c+vertical*s;vertical=vertical*c-oldHorizontal*s;
+    if(fire)effectType=10;
+    colour=fire?vec3(1.,.32+seed*.3,.045):mix(vec3(.85,.36,.08),vec3(.16,.18,.20),smoothstep(0.,.5,age));
+    effectAlpha=fire?.68*pow(1.-progress,2.):.9*(1.-progress*.65);
+   }
+   world=centre+horizontal*effectUV.x*radius+vertical*effectUV.y*radius;
+   if(entity.w<=0||tactical!=0||(kind==8&&particle>=8))world.y=-10000;
+  }else if(kind!=1){
    bool rifleFlash=kind==2&&roles.x<.5;
    float ttl=entity.w,life=rifleFlash?.065:(kind==2?.45:(kind==6?.8:2.5));
    float progress=clamp(1.-ttl/life,0.,1.);
@@ -142,13 +176,13 @@ void main(){
     (kind==2?vec3(1.,.45+.4*(1.-progress),.08):
      (kind==5?vec3(.45,.38,.28):(kind==6?vec3(.61,.66,.69):vec3(.19,.21,.21))));
    effectAlpha=(1.-progress)*(rifleFlash?.95:(kind==2?.85:(kind==6?.13:(kind==7?.36:(kind==4?.9:.42)))));
-   if(ttl<=0||(tactical!=0&&(kind>=6||rifleFlash)))world.y=-10000;
+   if(ttl<=0||gl_VertexID>=6||(tactical!=0&&(kind>=6||rifleFlash)))world.y=-10000;
   }else{
    vec3 axis=normalize(b-a);vec3 view=normalize(camera-mix(a,b,t));
    vec3 wing=cross(axis,view);float n=length(wing);wing=n>.001?wing/n:vec3(1,0,0);
    world=mix(a,b,t)+wing*side*.008;
    colour=vec3(1,.78,.28)*(.7+.3*clamp(entity.w/.14,0,1));
-   effectAlpha=clamp(entity.w/.14,0,1);if(entity.w<=0||tactical!=0)world.y=-10000;
+   effectAlpha=clamp(entity.w/.14,0,1);if(entity.w<=0||tactical!=0||gl_VertexID>=6)world.y=-10000;
   }
  }
  else if(terrain==3){int owner=floatBitsToInt(entity.z),role=floatBitsToInt(roles.x),connected=floatBitsToInt(roles.y),flags=floatBitsToInt(roles.w); int part=gl_VertexID/36; vec3 scale=part==0?vec3(18,12,18):vec3(3,30,3);if(tactical!=0)scale=part==0?vec3(70,12,70):vec3(8,50,8);vec3 offset=part==0?vec3(0):vec3(0,24,0);world=corners[faces[gl_VertexID%36]]*scale+offset+vec3(entity.x,height(entity.xy)+2,entity.y); colour=owner==0?vec3(.2,.75,1):(owner==1?vec3(1,.28,.16):vec3(.85,.8,.6));if(connected==0)colour*=.65;if((flags&4)!=0)colour=vec3(1,.85,.15);if(role==0&&part==1)colour=vec3(.9,.9,.82);}

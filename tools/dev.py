@@ -491,6 +491,7 @@ def main():
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/effects.asm'),'-o',str(effects)])
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(effects_library),*objects,str(probe),str(effects),'-lm'])
             execute([sys.executable,'tests/test_effects.py',str(effects_library)])
+            execute([sys.executable,'tests/test_air_burst.py',str(effects_library)])
             trails=BUILD/'trails_test.o';trails_library=BUILD/'libtrails.so'
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/air_trails.asm'),'-o',str(trails)])
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(trails_library),*objects,str(probe),str(trails),str(effects),'-lm'])
@@ -579,6 +580,7 @@ def main():
             execute([sys.executable,'tests/test_dense_client.py',str(client)])
             if (ROOT/'tests/test_visibility_gl.py').exists():execute([sys.executable,'tests/test_visibility_gl.py',str(client)])
             if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
+            execute([sys.executable,'tests/test_air_burst_gl.py',str(client)])
             execute([sys.executable,'tests/test_projected_detail_gl.py',str(client)])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
             execute([sys.executable,'tests/test_road_gl.py',str(client)])

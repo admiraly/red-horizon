@@ -3,7 +3,7 @@ default rel
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
 %include "schemas/aircraft.inc"
-global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor,effects_rifle_flashes
+global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor,effects_rifle_flashes,effects_particle_quads
 extern sim_players,sinf,cosf
 extern sim_player_vehicle
 extern sim_events,sim_event_sequence,sim_tick_count
@@ -18,6 +18,9 @@ rifle_life: dd 0.065
 rifle_radius: dd 0.25
 flash_life: dd 0.45
 smoke_life: dd 2.5
+air_smoke_life: dd 6.0
+air_debris_life: dd 3.0
+air_burst_radius: dd 8.0
 min_radius: dd 1.5
 max_radius: dd 12.0
 view_range2: dd 490000.0
@@ -34,6 +37,7 @@ effects_active: resd 1
 effects_impacts: resd 1
 effects_event_cursor: resd 1
 effects_rifle_flashes: resd 1
+effects_particle_quads: resd 1
 view_x: resd 1
 view_z: resd 1
 dt: resd 1
@@ -130,15 +134,28 @@ effects_update:
  lea rbx,[effects_records]
  mov ecx,64
  xor edx,edx
+ xor esi,esi
 .recount:
  movss xmm0,[rbx+12]
  ucomiss xmm0,[zero]
  jbe .recount_next
  inc edx
+ cmp dword [rbx+28],8
+ je .smoke_quads
+ cmp dword [rbx+28],9
+ je .debris_quads
+ inc esi
+ jmp .recount_next
+.smoke_quads:
+ add esi,8
+ jmp .recount_next
+.debris_quads:
+ add esi,16
 .recount_next:
  add rbx,32
  loop .recount
  mov [effects_active],edx
+ mov [effects_particle_quads],esi
  pop r13
  pop r12
  pop rbx
@@ -236,8 +253,15 @@ effects_update:
  ja .eventloop
  mov eax,[sim_tick_count]
  sub eax,[rbx+EVENT_TICK]
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_DESTROYED
+ jne .normal_age
+ cmp eax,180
+ ja .eventloop
+ jmp .age_ready
+.normal_age:
  cmp eax,60
  ja .eventloop
+.age_ready:
  mov eax,[rbx+EVENT_KIND]
  cmp eax,EVENT_INFANTRY_RIFLE
  je .rifle
@@ -257,6 +281,8 @@ effects_update:
  mov edx,2
  call .impact
 .smoke:
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_DESTROYED
+ je .air_burst
  cmp dword [rbx+EVENT_KIND],EVENT_AIR_GUN
  je .countimpact
  movss xmm0,[smoke_life]
@@ -287,6 +313,21 @@ effects_update:
  call .impact
  call .impact
  call .impact
+.air_burst:
+ cmp dword [rbx+EVENT_KIND],EVENT_AIR_DESTROYED
+ jne .countimpact
+ ; Two records expand into eight smoke puffs and sixteen GPU debris/fire pieces.
+ ; Actual event age drives both; no old packet can restart the hot flash.
+ movss xmm0,[air_smoke_life]
+ subss xmm0,xmm2
+ mov edx,8
+ call .impact
+ movss xmm0,[air_debris_life]
+ subss xmm0,xmm2
+ ucomiss xmm0,[zero]
+ jbe .countimpact
+ mov edx,9
+ call .impact
 .countimpact:
  inc dword [effects_impacts]
  jmp .eventloop
@@ -304,7 +345,13 @@ effects_update:
  inc dword [effects_rifle_flashes]
  jmp .eventloop
 .reset:
- ; Scenario/ring reset baselines and never manufactures old impacts.
+ ; Scenario/ring reset clears old cosmetics before baselining the new stream.
+ lea rdi,[effects_records]
+ mov ecx,64
+.clear_old:
+ mov dword [rdi+12],0
+ add rdi,32
+ loop .clear_old
  mov r13d,r12d
 .eventdone:
  mov [effects_event_cursor],r12d
@@ -338,8 +385,17 @@ effects_update:
 .launch_radius:
  movss xmm1,[min_radius] ; release/muzzle smoke cannot resemble a ground impact
 .radius_ready:
+ cmp edx,8
+ jb .radius_store
+ movss xmm1,[air_burst_radius]
+.radius_store:
  movss [rdi+16],xmm1
  mov dword [rdi+20],0
+ cmp edx,8
+ jb .seed_ready
+ mov eax,[rbx+EVENT_SEQUENCE]
+ mov [rdi+20],eax
+.seed_ready:
  mov dword [rdi+24],0
  mov [rdi+28],edx
  ret
