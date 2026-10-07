@@ -462,3 +462,7 @@ airspeed, XMM2 previous vertical speed. EAX0 success returns XMM0 new vertical
 speed, XMM1 horizontal speed, XMM2 physical pitch. EAX−1 invalid returns three
 zero floats. No pointers or state writes; SysV nonvolatile GPRs preserved.
 Canonical bounds/accelerations are in air_flight.inc; see air-vertical-motion.md.
+
+## Incoming cannon warning contract
+
+Private NASM air_threats_build/air_threat_query observes actual current opposing cannon records and world LOS, with512fixed index slots and49cells/64candidates/2LOS per eligible actor. Query returns poolslot/-1 in EAX and committed lateral sign/0 in XMM0; gameplay read-only, diagnostics excluded from checksum. air_break_direction is private stable-ID gameplay state and is hashed. Public entity32/aircraft64/player64/UDP39 layouts unchanged; content fingerprint0x2a371472 requires compatible peers. Details and bounded selection limitations: docs/air-incoming-fire.md.
