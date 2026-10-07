@@ -1,0 +1,42 @@
+{
+  "jobs": [
+    {
+      "job_id": "9b146e52e046",
+      "revision": "b6af72be6a2d591bf572888989fd06ce223002e7-1ec3835d3bd1aa40",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/9b146e52e046/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "failed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/9b146e52e046/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/9b146e52e046/result.json",
+      "pid": 3669456,
+      "exit_code": 1,
+      "seconds": 1573.607476478006
+    },
+    {
+      "job_id": "f3d0407807a2",
+      "revision": "44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/f3d0407807a2/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "failed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/f3d0407807a2/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/f3d0407807a2/result.json",
+      "pid": 3820545,
+      "exit_code": 1,
+      "seconds": 428.2794091810065
+    }
+  ],
+  "failures": {
+    "9b146e52e046": "test_client_meshes.py expected walk clip frames20..31; screenshot captured run frame34. Diagnosis pending.",
+    "f3d0407807a2": "test_terrain_height.py horizontal-only speed assumption fails after total XYZ airspeed integration. Unchanged runtime passes corrected XYZ observer in isolated frame-motion worktree; clearance>40 preserved."
+  }
+}
