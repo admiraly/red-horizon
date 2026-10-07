@@ -1,0 +1,870 @@
+{
+  "head": "829509e9abc0e4d7009ae431d7934762e2b4b81e",
+  "authored_count": 517,
+  "exact_verified_worker_and_final_frozen_match": true,
+  "builds": {
+    "client-build": {
+      "target": "client",
+      "revision": "829509e9abc0e4d7009ae431d7934762e2b4b81e-2af0cb2550555e23",
+      "assembled": 8,
+      "assembled_sources": [
+        "src/sim/air_crash.asm",
+        "src/ai/air_bank.asm",
+        "src/ai/air_vertical.asm",
+        "src/ai/air_world.asm",
+        "src/ai/aircraft.asm",
+        "src/ai/air_pursuit.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.7180412769957911,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/829509e9abc0e4d7009ae431d7934762e2b4b81e-2af0cb2550555e23/red-horizon",
+      "executable_sha256": "79393d1dd2f9452aedf6fa32d5a72a0c9747533108011633f20d503e7f44410b"
+    },
+    "headless-build": {
+      "target": "headless",
+      "revision": "829509e9abc0e4d7009ae431d7934762e2b4b81e-2af0cb2550555e23",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.5843629669980146,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/829509e9abc0e4d7009ae431d7934762e2b4b81e-2af0cb2550555e23/red-horizon-server",
+      "executable_sha256": "c9f64c0254dae3cd4f1de886dd42a4eb57a0f0e9f5154bedf263c9ab96482911"
+    },
+    "coop-build": {
+      "target": "coop",
+      "revision": "829509e9abc0e4d7009ae431d7934762e2b4b81e-2af0cb2550555e23",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.6820129890111275,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/829509e9abc0e4d7009ae431d7934762e2b4b81e-2af0cb2550555e23/red-horizon-coop-server",
+      "executable_sha256": "95de2f89b36120e63f258f5ca68e21fb18aeab62123d4c89efc1df506a6b05df"
+    }
+  },
+  "checks": {
+    "contact": {
+      "suite": "air-world-contact-flight",
+      "passed": true,
+      "contact_cases": 56,
+      "six_register_stack_ABI": true,
+      "wall": {
+        "death_tick": 1,
+        "last_xyz": [
+          3984.0,
+          46.01371383666992,
+          1299.9993896484375
+        ],
+        "travel": 4.000023555161299,
+        "maximum_y": 46.01371383666992,
+        "hp": 0,
+        "ammo": 180,
+        "alive": 0,
+        "crashes": 1,
+        "events": 1
+      },
+      "omitted_contact_control": {
+        "death_tick": null,
+        "last_xyz": [
+          3987.0,
+          46.02399826049805,
+          1299.9989013671875
+        ],
+        "travel": 7.000041222985833,
+        "maximum_y": 46.02399826049805,
+        "hp": 200,
+        "ammo": 180,
+        "alive": 1,
+        "crashes": 0,
+        "events": 0
+      },
+      "ridge": {
+        "death_tick": null,
+        "last_xyz": [
+          5408.81396484375,
+          105.03999328613281,
+          4540.3017578125
+        ],
+        "travel": 1049.999397577903,
+        "maximum_y": 105.03999328613281,
+        "hp": 200,
+        "ammo": 180,
+        "alive": 1,
+        "crashes": 0,
+        "events": 0
+      },
+      "late_unavoidable_ridge": {
+        "death_tick": 54,
+        "last_xyz": [
+          5460.64501953125,
+          71.90626525878906,
+          5119.630859375
+        ],
+        "travel": 376.12862803970427,
+        "maximum_y": 71.90626525878906,
+        "hp": 0,
+        "ammo": 180,
+        "alive": 0,
+        "crashes": 1,
+        "events": 1
+      },
+      "late_omitted_warning_control": {
+        "death_tick": 52,
+        "last_xyz": [
+          5459.07275390625,
+          70.7369155883789,
+          5200.0
+        ],
+        "travel": 359.75225616182155,
+        "maximum_y": 70.7369155883789,
+        "hp": 0,
+        "ammo": 180,
+        "alive": 0,
+        "crashes": 1,
+        "events": 1
+      },
+      "omitted_warning_control": {
+        "death_tick": 96,
+        "last_xyz": [
+          5467.93896484375,
+          77.85588073730469,
+          5200.0
+        ],
+        "travel": 669.4094615973303,
+        "maximum_y": 77.85588073730469,
+        "hp": 0,
+        "ammo": 180,
+        "alive": 0,
+        "crashes": 1,
+        "events": 1
+      },
+      "library_sha256": "547737091ee11fa5fd5da0e1e1c3bcbc394ce143f9b013187aa27a791914cb2a",
+      "limits": [
+        "Conservative4m axis-aligned hull; ground slope bound can contact before precise mesh intersection.",
+        "Own-velocity120tick forward prediction and bounded right-turn/climb, not full route planning, aerodynamic energy or universal avoidance.",
+        "Initial births only during causal public traces; no in-flight pose/HP/ammo/generation/clock writes.",
+        "No aircraft-to-aircraft physical contact, dynamic wreck contact, crashed-body solid response, GPU/UDP/performance/whole-game acceptance."
+      ]
+    },
+    "hazards": {
+      "suite": "hazard_outcomes",
+      "production_artillery": {
+        "negative_control": {
+          "enabled": false,
+          "initial_distances": [
+            33.0,
+            33.0,
+            33.0
+          ],
+          "final_distances": [
+            33.0,
+            33.0,
+            33.0
+          ],
+          "final_hp": [
+            0,
+            0,
+            0
+          ],
+          "first_movement_ticks": [
+            null,
+            null,
+            null
+          ],
+          "peak_displacements": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "impact_events": [
+            [
+              1239.95849609375,
+              21.619829177856445,
+              2000.0,
+              4,
+              41
+            ]
+          ],
+          "source_hp": 100,
+          "source_remaining_rounds": 0,
+          "decisions": {
+            "acquired": 0,
+            "dispersion": 0,
+            "shelter": 0
+          },
+          "checksum": "4c81195bcf62b6eb"
+        },
+        "observed_dispersion": {
+          "enabled": true,
+          "initial_distances": [
+            33.0,
+            33.0,
+            33.0
+          ],
+          "final_distances": [
+            37.7998046875,
+            37.7998046875,
+            37.7998046875
+          ],
+          "final_hp": [
+            100,
+            100,
+            100
+          ],
+          "first_movement_ticks": [
+            7,
+            6,
+            5
+          ],
+          "peak_displacements": [
+            4.7998046875,
+            4.7998046875,
+            4.7998046875
+          ],
+          "impact_events": [
+            [
+              1239.95849609375,
+              21.619829177856445,
+              2000.0,
+              4,
+              41
+            ]
+          ],
+          "source_hp": 100,
+          "source_remaining_rounds": 0,
+          "decisions": {
+            "acquired": 3,
+            "dispersion": 3,
+            "shelter": 0
+          },
+          "checksum": "cd00e2cad634095a"
+        },
+        "deterministic_repeat": true
+      },
+      "production_bomb": {
+        "negative_control": {
+          "enabled": false,
+          "initial_distances": [
+            33.0,
+            33.0,
+            33.0
+          ],
+          "final_distances": [
+            33.0,
+            33.0,
+            33.0
+          ],
+          "final_hp": [
+            0,
+            0,
+            0
+          ],
+          "first_movement_ticks": [
+            null,
+            null,
+            null
+          ],
+          "peak_displacements": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "impact_events": [
+            [
+              1239.974853515625,
+              21.619739532470703,
+              2000.0,
+              7,
+              41
+            ]
+          ],
+          "source_hp": 100,
+          "source_remaining_rounds": 1,
+          "decisions": {
+            "acquired": 0,
+            "dispersion": 0,
+            "shelter": 0
+          },
+          "checksum": "f98ba5672c4c78d1"
+        },
+        "observed_dispersion": {
+          "enabled": true,
+          "initial_distances": [
+            33.0,
+            33.0,
+            33.0
+          ],
+          "final_distances": [
+            37.7998046875,
+            37.752917663292855,
+            37.752917663292855
+          ],
+          "final_hp": [
+            100,
+            100,
+            100
+          ],
+          "first_movement_ticks": [
+            7,
+            6,
+            5
+          ],
+          "peak_displacements": [
+            4.7998046875,
+            4.800062977854523,
+            4.800062977854523
+          ],
+          "impact_events": [
+            [
+              1239.974853515625,
+              21.619739532470703,
+              2000.0,
+              7,
+              41
+            ]
+          ],
+          "source_hp": 100,
+          "source_remaining_rounds": 1,
+          "decisions": {
+            "acquired": 3,
+            "dispersion": 3,
+            "shelter": 0
+          },
+          "checksum": "02b5dcacd794ea9c"
+        },
+        "deterministic_repeat": true
+      },
+      "observed_shelter": {
+        "initial_pose": [
+          3980.0,
+          1090.0
+        ],
+        "selected_goal": [
+          3988.0,
+          1098.0
+        ],
+        "final_pose": [
+          3983.39501953125,
+          1093.3935546875
+        ],
+        "hp": 100,
+        "reason": "reachable physical terrain shelter",
+        "survival_advantage_claimed": false
+      },
+      "perception_exclusions": [
+        "friendly",
+        "out-of-range",
+        "opaque-wall",
+        "nonexplosive"
+      ],
+      "state_rejections": [
+        "generation-reuse",
+        "boarded"
+      ],
+      "scope": "Controlled initial poses, production artillery/bomb launch primitives and real world movement/collision/damage; not full air FSM, commander or dense-storm acceptance"
+    },
+    "local-gl": {
+      "suite": "air-world-contact-client-draw",
+      "passed": true,
+      "network_transport": false,
+      "client_sha256": "79393d1dd2f9452aedf6fa32d5a72a0c9747533108011633f20d503e7f44410b",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 1,
+          "changed_pixels": 613,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-death.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 31,
+          "changed_pixels": 1062,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-falling.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 62,
+          "changed_pixels": 722,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-landed.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1801,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-expired.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 1,
+          "changed_pixels": 507,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-death.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 31,
+          "changed_pixels": 793,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-falling.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 68,
+          "changed_pixels": 558,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-landed.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 1801,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-expired.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Actual client GL draw of genuine separate public-static-contact authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    "udp-gl": {
+      "suite": "air-world-contact-client-draw",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "79393d1dd2f9452aedf6fa32d5a72a0c9747533108011633f20d503e7f44410b",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 1,
+          "changed_pixels": 625,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-death.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 31,
+          "changed_pixels": 1073,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-falling.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 62,
+          "changed_pixels": 775,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-landed.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1801,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-expired.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 2001,
+          "changed_pixels": 529,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-death.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 2031,
+          "changed_pixels": 855,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-falling.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 2068,
+          "changed_pixels": 648,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-landed.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 3801,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-expired.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Actual client GL draw of genuine separate public-static-contact authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    "native-hdr": {
+      "suite": "hdr-production-core-gl",
+      "passed": true,
+      "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+      "native_hidden_context": true,
+      "scene_format": "RGBA16F",
+      "dimensions": [
+        320,
+        240
+      ],
+      "radiance_cases": 14,
+      "display_max_error": 0.001968296323507479,
+      "emission_samples": [
+        {
+          "effect_kind": 2,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 2,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 1,
+          "scene_rgba": [
+            3.0,
+            0.51171875,
+            0.021575927734375,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 1,
+          "scene_rgba": [
+            4.0,
+            0.68212890625,
+            0.0287628173828125,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 0,
+          "scene_rgba": [
+            0.81591796875,
+            0.3671875,
+            0.06524658203125,
+            0.300048828125
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 1,
+          "scene_rgba": [
+            0.81591796875,
+            0.13916015625,
+            0.005870819091796875,
+            0.300048828125
+          ]
+        }
+      ],
+      "bloom": {
+        "passes_per_world_frame": 3,
+        "half_resolution": [
+          160,
+          120
+        ],
+        "dark_max_error": 0.0,
+        "halo_delta": 0.06666667759418488,
+        "halo_pixels_outside_source": 308,
+        "uniform_bright_display_error": 0.0007010469395706265,
+        "tactical_identical": true,
+        "texture_ids": [
+          2,
+          3
+        ],
+        "odd_clamped_edge": {
+          "scene_dimensions": [
+            321,
+            241
+          ],
+          "bloom_dimensions": [
+            161,
+            121
+          ],
+          "opposite_edge_rgb": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "near_edge_rgb": [
+            0.1882352977991104,
+            0.1882352977991104,
+            0.1882352977991104
+          ]
+        }
+      },
+      "additive_fire_scene_rgba": [
+        16.0,
+        2.728515625,
+        0.11505126953125,
+        1.0
+      ],
+      "tactical_passthrough": true,
+      "disabled_passthrough": true,
+      "census_integer_ids_preserved": true,
+      "census_readback_keeps_display_hud": true,
+      "legacy_census_blit": true,
+      "lifecycle_and_invalid_dimensions": true,
+      "present_count": 27,
+      "client_sha256": "79393d1dd2f9452aedf6fa32d5a72a0c9747533108011633f20d503e7f44410b",
+      "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+      "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance."
+    },
+    "listen": {
+      "suite": "actual-listen-host",
+      "passed": true,
+      "cases": [
+        {
+          "case": "actual host plus independent peer",
+          "host": {
+            "listen_host": true,
+            "port": 48026,
+            "child_pid": 2208278,
+            "child_exited": 1,
+            "startup_failed": 0
+          },
+          "peer_player": 1,
+          "authority_initial": 8192,
+          "host_and_peer_local_sim_ticks": 0,
+          "owned_child_reaped": true
+        },
+        {
+          "case": "actual listen authored air-battle",
+          "scenario": 1,
+          "host": {
+            "listen_host": true,
+            "port": 42112,
+            "child_pid": 2208439,
+            "child_exited": 1,
+            "startup_failed": 0
+          },
+          "source_clock_from_real_server": true
+        },
+        {
+          "case": "actual listen authored scale-front",
+          "scenario": 2,
+          "host": {
+            "listen_host": true,
+            "port": 36624,
+            "child_pid": 2208488,
+            "child_exited": 1,
+            "startup_failed": 0
+          },
+          "source_clock_from_real_server": true
+        },
+        {
+          "case": "actual listen authored scale-hotspot",
+          "scenario": 3,
+          "host": {
+            "listen_host": true,
+            "port": 43626,
+            "child_pid": 2208539,
+            "child_exited": 1,
+            "startup_failed": 0
+          },
+          "source_clock_from_real_server": true
+        },
+        {
+          "case": "GL failure cleanup",
+          "host": {
+            "listen_host": true,
+            "port": 37104,
+            "child_pid": 2208592,
+            "child_exited": 1,
+            "startup_failed": 0
+          }
+        },
+        {
+          "case": "server death propagated",
+          "child_reaped": true
+        },
+        {
+          "case": "abrupt parent death",
+          "server_state": "Z",
+          "scope": "Kernel terminates child; init owns orphan reaping after parent SIGKILL."
+        },
+        {
+          "case": "missing sibling exec",
+          "host": {
+            "listen_host": true,
+            "port": 0,
+            "child_pid": 2208645,
+            "child_exited": 1,
+            "startup_failed": 1
+          }
+        },
+        {
+          "case": "invalid development readiness protocol",
+          "reaped": true,
+          "wall_seconds": 0.023647270019864663
+        },
+        {
+          "case": "invalid development readiness units",
+          "reaped": true,
+          "wall_seconds": 0.02293043298413977
+        },
+        {
+          "case": "invalid development readiness port",
+          "reaped": true,
+          "wall_seconds": 0.021452418994158506
+        },
+        {
+          "case": "invalid development readiness scenario",
+          "reaped": true,
+          "wall_seconds": 0.021526977012399584
+        },
+        {
+          "case": "invalid development readiness timeout",
+          "reaped": true,
+          "wall_seconds": 5.010580703004962
+        }
+      ],
+      "invalid_combinations": 6,
+      "scope": "Linux NASM host and real8192 UDP authority/graphical peer, private llvmpipe; no dense/four-client/frame-quality or Windows acceptance."
+    }
+  },
+  "publication": {
+    "exit_code": 0,
+    "pushed_head": "829509e9abc0e4d7009ae431d7934762e2b4b81e",
+    "independent_remote_head": "829509e9abc0e4d7009ae431d7934762e2b4b81e",
+    "force_push": false
+  },
+  "background_jobs": [
+    {
+      "job_id": "1d32f6e3d625",
+      "revision": "17c95e037a56df65b0c9176eebe96d7e63b4d886-2af0cb2550555e23",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/1d32f6e3d625/source",
+      "command": [
+        "test",
+        "--suite",
+        "fast"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/1d32f6e3d625/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/1d32f6e3d625/result.json",
+      "pid": 2182755,
+      "exit_code": 0,
+      "seconds": 525.4108763340046
+    },
+    {
+      "job_id": "25b26901562a",
+      "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/result.json",
+      "pid": 2132593,
+      "exit_code": 0,
+      "seconds": 2306.848824677989
+    },
+    {
+      "job_id": "293e282b3ad1",
+      "revision": "17c95e037a56df65b0c9176eebe96d7e63b4d886-2af0cb2550555e23",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/293e282b3ad1/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/293e282b3ad1/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/293e282b3ad1/result.json",
+      "pid": 2182932,
+      "revalidated_process_state": "S"
+    }
+  ],
+  "recorded_utc": "2026-10-07T10:43:33.008131+00:00",
+  "foreground_sessions": {
+    "33304": "exit1 initial mutable iteration, retained",
+    "10670": "exit0 intermediate native oracle",
+    "90030": "exit0 intermediate builds/CPU bench",
+    "95042": "exit1 stale UDP fixture, retained",
+    "50697": "exit1 inherited birth fixture, retained",
+    "57084": "exit0 corrected intermediate UDP pixels",
+    "10371": "exit0 intermediate native/listen",
+    "24264": "exit0 localized native and hazard correction",
+    "67138": "exit0 corrected native oracle and frozen launches",
+    "24334": "exit0 final builds/CPU bench",
+    "86727": "exit0 final GL/native/listen",
+    "89857": "exit0 main builds/contact/hazards",
+    "11714": "exit0 actual main local/UDP pixels/native HDR/listen",
+    "34493": "exit0 normal push and exact remote check"
+  }
+}

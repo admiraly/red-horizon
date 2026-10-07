@@ -1,0 +1,15 @@
+{
+  "job_id": "293e282b3ad1",
+  "revision": "17c95e037a56df65b0c9176eebe96d7e63b4d886-2af0cb2550555e23",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/293e282b3ad1/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/293e282b3ad1/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/293e282b3ad1/result.json",
+  "pid": 2182932
+}

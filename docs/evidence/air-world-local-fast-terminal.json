@@ -1,0 +1,16 @@
+{
+  "job_id": "1d32f6e3d625",
+  "revision": "17c95e037a56df65b0c9176eebe96d7e63b4d886-2af0cb2550555e23",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/1d32f6e3d625/source",
+  "command": [
+    "test",
+    "--suite",
+    "fast"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/1d32f6e3d625/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-world/runs/jobs/1d32f6e3d625/result.json",
+  "pid": 2182755,
+  "exit_code": 0,
+  "seconds": 525.4108763340046
+}
