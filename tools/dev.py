@@ -397,6 +397,7 @@ def main():
             execute([sys.executable,'tests/test_air_separation.py'])
             execute([sys.executable,'tests/test_air_crash.py'])
             execute([sys.executable,'tests/test_air_crash_remote.py'])
+            execute([sys.executable,'tests/test_air_world.py',str(library)])
             execute([sys.executable,'tests/test_air_flight_trace.py',str(library)])
             if suite in ('all','headless') and getattr(args,'extended',False):execute([sys.executable,'tests/test_air_world_bounds.py',str(library)])
             execute([sys.executable,'tests/test_air_strike.py',str(library)])

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-world/tests/test_air_world.py", line 88, in <module>
+    assert ridge['hp']==200 and ridge_control['hp']==0,(ridge,ridge_control)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ({'death_tick': 54, 'last_xyz': (5460.64501953125, 71.90626525878906, 5119.630859375), 'travel': 376.12862803970427, 'maximum_y': 71.90626525878906, 'hp': 0, 'ammo': 180, 'alive': 0, 'crashes': 1, 'events': 1}, {'death_tick': 52, 'last_xyz': (5459.07275390625, 70.7369155883789, 5200.0), 'travel': 359.75225616182155, 'maximum_y': 70.7369155883789, 'hp': 0, 'ammo': 180, 'alive': 0, 'crashes': 1, 'events': 1})

@@ -6,6 +6,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_holding_init,air_holding_goal,air_holding_hash
+extern air_world_sweep,air_world_warning,sim_air_damage
 extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_separation_init,air_separation_build,air_separation_step,air_separation_hash,sim_air_separation
@@ -22,6 +23,8 @@ sim_aircraft: resb ENTITY_CAPACITY*AIR_STRIDE
 air_defense: resd ENTITY_CAPACITY*2
 air_break_direction: resd ENTITY_CAPACITY
 air_boundary: resd ENTITY_CAPACITY
+; Bounded environmental avoidance commitment, cleared on every aircraft generation.
+air_world_hold: resd ENTITY_CAPACITY
 ; Last physically observed strike position; no enemy reads during recall.
 global sim_air_strikes
 sim_air_strikes: resb ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE
@@ -114,6 +117,9 @@ air_init:
  lea rdi,[air_boundary]
  mov ecx,ENTITY_CAPACITY
  rep stosd
+ lea rdi,[air_world_hold]
+ mov ecx,ENTITY_CAPACITY
+ rep stosd
  lea rdi,[sim_air_strikes]
  mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
  rep stosd
@@ -181,7 +187,7 @@ air_tick:
  push rbx
  push rbp
  push r12
- sub rsp,64
+ sub rsp,128
  call air_separation_build
  call air_threats_build
  xor r12d,r12d
@@ -223,6 +229,8 @@ air_tick:
  mov dword [rcx+r12*4],0
  lea rcx,[air_boundary]
  mov dword [rcx+r12*4],0
+ lea rcx,[air_world_hold]
+ mov dword [rcx+r12*4],0
  imul edx,r12d,AIR_FLIGHT_STRIKE_STRIDE
  lea rcx,[sim_air_strikes]
  mov qword [rcx+rdx],0
@@ -262,6 +270,39 @@ air_tick:
  addss xmm0,[rcx+rax*4]
  movss [rbp+AIR_Y],xmm0
 .ready:
+ movss xmm0,[rbx+ENTITY_X]
+ movss [rsp+64],xmm0
+ movss xmm0,[rbp+AIR_Y]
+ movss [rsp+68],xmm0
+ movss xmm0,[rbx+ENTITY_Z]
+ movss [rsp+72],xmm0
+ movss xmm0,[rbp+AIR_VX]
+ movss [rsp+96],xmm0
+ movss xmm0,[rbp+AIR_VY]
+ movss [rsp+100],xmm0
+ movss xmm0,[rbp+AIR_VZ]
+ movss [rsp+104],xmm0
+ movss xmm0,[rbp+AIR_PITCH]
+ movss [rsp+108],xmm0
+ movss xmm0,[rbp+AIR_HEADING]
+ movss [rsp+112],xmm0
+ movss xmm0,[rbp+AIR_BANK]
+ movss [rsp+116],xmm0
+ mov edi,r12d
+ call air_world_warning
+ test eax,eax
+ js .next
+ lea rcx,[air_world_hold]
+ cmp dword [rcx+r12*4],0
+ jne .world_hold
+ cmp eax,1
+ jne .world_clear
+ mov dword [rcx+r12*4],AIR_FLIGHT_WORLD_COMMIT
+.world_hold:
+ dec dword [rcx+r12*4]
+ mov eax,1
+.world_clear:
+ mov [rsp+44],eax
  mov dword [rsp+52],0 ; no vertical emergency override
  mov dword [rsp+56],0 ; no current-frame fighter intercept point yet
  lea rcx,[air_defense]
@@ -292,6 +333,8 @@ air_tick:
  je .goal
  dec dword [rbp+AIR_COOLDOWN]
 .goal:
+ cmp dword [rsp+44],1
+ je .defense_goal
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8],0
  jne .defense_goal
@@ -504,6 +547,8 @@ air_tick:
  ; Boundary steering always wins over the damage-driven break.
  cmp dword [rsp+48],0
  jne .turn_limit
+ cmp dword [rsp+44],1
+ je .world_turn
  lea rcx,[air_defense]
  mov eax,[rcx+r12*8]
  test eax,eax
@@ -522,6 +567,9 @@ air_tick:
  cmp eax,45
  ja .turn_limit
  xorps xmm0,xmm0 ; sustain the new egress heading after the initial break
+ jmp .turn_limit
+.world_turn:
+ movss xmm0,[one]
  jmp .turn_limit
 .separation_turn:
  mov eax,r12d
@@ -604,6 +652,11 @@ air_tick:
  jne .height_delta
  mov dword [rbp+AIR_MODE],AIR_RETURN
 .height_delta:
+ cmp dword [rsp+44],1
+ jne .ordinary_height
+ movss xmm0,[climb]
+ jmp .vertical_ready
+.ordinary_height:
  subss xmm0,[rbp+AIR_Y]
  minss xmm0,[climb]
  maxss xmm0,[minus_climb]
@@ -643,13 +696,67 @@ air_tick:
  movss [rbp+AIR_VZ],xmm0
  addss xmm0,[rbx+ENTITY_Z]
  movss [rbx+ENTITY_Z],xmm0
+ ; Physical swept contact: never let published living aircraft tunnel through cover.
+ movss xmm0,[rsp+64]
+ movss xmm1,[rsp+68]
+ movss xmm2,[rsp+72]
+ movss xmm3,[rbx+ENTITY_X]
+ movss xmm4,[rbp+AIR_Y]
+ movss xmm5,[rbx+ENTITY_Z]
+ lea rdi,[rsp+80]
+ mov esi,16
+ call air_world_sweep
+ test eax,eax
+ js .contact_error
+ cmp eax,1
+ jne .next
+ movss xmm3,[rsp+80]
+ movss xmm0,[rbx+ENTITY_X]
+ subss xmm0,[rsp+64]
+ mulss xmm0,xmm3
+ addss xmm0,[rsp+64]
+ movss [rbx+ENTITY_X],xmm0
+ movss xmm0,[rbp+AIR_Y]
+ subss xmm0,[rsp+68]
+ mulss xmm0,xmm3
+ addss xmm0,[rsp+68]
+ movss [rbp+AIR_Y],xmm0
+ movss xmm0,[rbx+ENTITY_Z]
+ subss xmm0,[rsp+72]
+ mulss xmm0,xmm3
+ addss xmm0,[rsp+72]
+ movss [rbx+ENTITY_Z],xmm0
+ mov edi,r12d
+ mov esi,[rbx+ENTITY_HP]
+ call sim_air_damage
+ jmp .next
+.contact_error:
+ ; Invalid geometry/flight cannot publish a new translation or actuator pose.
+ movss xmm0,[rsp+64]
+ movss [rbx+ENTITY_X],xmm0
+ movss xmm0,[rsp+68]
+ movss [rbp+AIR_Y],xmm0
+ movss xmm0,[rsp+72]
+ movss [rbx+ENTITY_Z],xmm0
+ movss xmm0,[rsp+96]
+ movss [rbp+AIR_VX],xmm0
+ movss xmm0,[rsp+100]
+ movss [rbp+AIR_VY],xmm0
+ movss xmm0,[rsp+104]
+ movss [rbp+AIR_VZ],xmm0
+ movss xmm0,[rsp+108]
+ movss [rbp+AIR_PITCH],xmm0
+ movss xmm0,[rsp+112]
+ movss [rbp+AIR_HEADING],xmm0
+ movss xmm0,[rsp+116]
+ movss [rbp+AIR_BANK],xmm0
 .next:
  add rbx,ENTITY_STRIDE
  add rbp,AIR_STRIDE
  inc r12d
  cmp r12d,[sim_count]
  jb .loop
- add rsp,64
+ add rsp,128
  pop r12
  pop rbp
  pop rbx
@@ -1179,6 +1286,19 @@ air_hash:
  dec ecx
  jnz .strike_bytes
 .missions:
+ lea rsi,[air_world_hold]
+ mov ecx,[sim_count]
+ shl ecx,2
+ test ecx,ecx
+ jz .world_hashed
+.world_bytes:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .world_bytes
+.world_hashed:
  sub rsp,8
  call air_holding_hash
  call air_separation_hash

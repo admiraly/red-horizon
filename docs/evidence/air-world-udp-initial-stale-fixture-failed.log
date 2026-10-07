@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/rh-air-world-contact-client.py", line 121, in <module>
+    pixels,path,pose=capture(f'{role}-{label}',source_record=record if network else None,instances=active,instance_bytes=expected if active else None)
+                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/rh-air-world-contact-client.py", line 74, in capture
+    until(lambda:get('net_air_crashes',96)==source_record)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/rh-air-world-contact-client.py", line 52, in until
+    raise AssertionError('client frame timeout')
+AssertionError: client frame timeout
