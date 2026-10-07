@@ -18,6 +18,7 @@ lib.sim_init.argtypes=[C.c_uint,C.c_uint];lib.sim_waypoint.argtypes=[C.c_uint,C.
 lib.sim_order.argtypes=[C.c_uint]*3;lib.player_input.argtypes=[C.c_uint,C.c_uint]+[C.c_float]*4
 lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.sim_checksum.restype=C.c_uint64
 roads=json.loads((Path(__file__).resolve().parents[1]/'content/terrain/roads.json').read_text())['roads']
+runways=json.loads((Path(__file__).resolve().parents[1]/'content/terrain/airbases.json').read_text())['runways']
 TOL=.002
 
 def road(x,z,radius=0):
@@ -25,7 +26,7 @@ def road(x,z,radius=0):
   ax,az=r['from'];bx,bz=r['to'];dx,dz=bx-ax,bz-az
   t=max(0,min(1,((x-ax)*dx+(z-az)*dz)/(dx*dx+dz*dz)))
   if math.hypot(x-ax-t*dx,z-az-t*dz)<=r['half_width']-radius:return True
- return False
+ return any(r['half_length']-abs(x-r['x'])>=radius and r['half_width']-abs(z-r['z'])>=radius for r in runways)
 
 def pos():return E[12].x,E[12].z
 def reset(kind=1,xy=(2000.,1300.),direction=(1.,0.),driver=False):
@@ -94,6 +95,14 @@ def paired(kind,driver):
  return dict(name='paired_'+('driver_tank' if driver else 'ai_tank' if kind==1 else 'ai_artillery'),factor=factor,road=on,offroad=off)
 
 for kind,driver in ((1,False),(2,False),(1,True)):cases.append(paired(kind,driver))
+for kind,driver in ((1,False),(2,False),(1,True)):
+ runway=run(kind,driver,(2000.,4000.));outside=run(kind,driver,(2000.,4100.))
+ factor=.8 if kind==1 else .7;acc=.02 if kind==1 else .01;cap=(.6 if driver else .5) if kind==1 else .2
+ assert all(r['body_road'] for r in runway['trace']) and not any(r['body_road'] for r in outside['trace'])
+ check(abs(runway['first_step']-acc)<TOL and abs(outside['first_step']-acc*factor)<TOL,'runway actual traction acceleration')
+ check(abs(runway['last_step']-cap)<TOL and abs(outside['last_step']-cap*factor)<TOL,'runway actual traction cap')
+ check(runway['distance']>outside['distance']*1.1,'runway useful public motion advantage')
+ cases.append(dict(name='runway_'+('driver_tank' if driver else 'ai_tank' if kind==1 else 'ai_artillery'),runway=runway,outside=outside))
 for kind in (1,2):
  centre=run(kind,False,(2000.,1300.));edge=run(kind,False,(2000.,1308.))
  assert all(r['centre_road'] and not r['body_road'] for r in edge['trace'])

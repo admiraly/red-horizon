@@ -46,6 +46,7 @@ def build(target,objects_only=False):
 def build_locked(target,objects_only=False):
     start=time.perf_counter(); tool=nasm(); execute([sys.executable,'tools/schema.py'])
     execute([sys.executable,'tools/terrain_surfaces.py','--check'], stdout=sys.stderr)
+    execute([sys.executable,'tools/airbases.py','--check'], stdout=sys.stderr)
     execute([sys.executable,'tools/terrain_relief.py','--check'], stdout=sys.stderr)
     execute([sys.executable,'tools/terrain_grade.py','--check'], stdout=sys.stderr)
     execute([sys.executable,'tools/terrain_world.py','--check'], stdout=sys.stderr)
@@ -394,6 +395,7 @@ def main():
             execute([sys.executable,'tests/test_air_pursuit_flight.py'])
             execute([sys.executable,'tests/test_air_fuel.py'])
             execute([sys.executable,'tests/test_air_recovery.py'])
+            execute([sys.executable,'tests/test_air_bases.py'])
             execute([sys.executable,'tests/test_air_holding.py'])
             execute([sys.executable,'tests/test_air_separation.py'])
             execute([sys.executable,'tests/test_air_crash.py'])
@@ -655,6 +657,7 @@ def main():
             execute([sys.executable,'tests/test_projected_detail_gl.py',str(client)])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
             execute([sys.executable,'tests/test_road_gl.py',str(client)])
+            execute([sys.executable,'tests/test_airbases_gl.py',str(client)])
             execute([sys.executable,'tests/test_relief_gl.py',str(client)])
             execute([sys.executable,'tests/test_support_gl.py',str(client),str(library)])
             execute([sys.executable,'tests/test_infantry_aim_gl.py',str(client)])

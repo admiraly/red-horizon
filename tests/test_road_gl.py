@@ -112,7 +112,7 @@ def distance(point, segment):
 def main():
     template = (ROOT/'shaders/battle.frag').read_bytes()
     assert template[:18] == b'#version 450 core\n', 'assembly prefix length changed'
-    fragment = template[:18]+(ROOT/'shaders/terrain_roads.glsl').read_bytes()+template[18:]
+    fragment = template[:18]+(ROOT/'shaders/terrain_roads.glsl').read_bytes()+(ROOT/'shaders/airbases.glsl').read_bytes()+template[18:]
     if len(sys.argv)>1:
         assert embedded_fragment(pathlib.Path(sys.argv[1]).resolve()) == fragment, 'client fragment differs from tested NASM source'
     roads = json.loads((ROOT/'content/terrain/roads.json').read_text())['roads']

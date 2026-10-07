@@ -22,6 +22,7 @@ payload = {'infantry_aim': {name: resolve(name) for name in ('INFANTRY_AIM_VERSI
            'air_escort': {name: resolve(name) for name in ('AIR_ESCORT_VERSION', 'AIR_ACQUIRE_VERSION', 'AIR_ACQUIRE_CELLS', 'AIR_ESCORT_REVIEW', 'AIR_ESCORT_COMMITMENT', 'AIR_ESCORT_RANGE_SQUARED', 'AIR_ESCORT_BREAK_SQUARED', 'AIR_ESCORT_THREAT_SQUARED', 'AIR_ESCORT_TRAIL_TICKS', 'AIR_ESCORT_LATERAL', 'AIR_ESCORT_THREAT_WEIGHT')},
            'acquisition': {name: resolve(name) for name in ('ACQUIRE_VERSION','ACQUIRE_INF_CELLS','ACQUIRE_TANK_CELLS','ACQUIRE_ARTY_CELLS')}, 'company_assault': {name: resolve(name) for name in ('COMPANY_ASSAULT_VERSION', 'COMPANY_SLOTS', 'COMPANY_STRIDE', 'COMPANY_MIN_GROUND', 'COMPANY_NEAR_SQ', 'COMPANY_STAGE_DISTANCE', 'COMPANY_ARTY_BACK', 'COMPANY_ARMOUR_FORWARD', 'COMPANY_READY_SQ', 'COMPANY_STAGE_TIMEOUT', 'COMPANY_PREP_TIMEOUT', 'COMPANY_LOSS_PERCENT', 'COMPANY_INF_SPACING', 'COMPANY_INF_ROW', 'COMPANY_HULL_ROW', 'COMPANY_INF_LANE', 'COMPANY_ARMOUR_LANE', 'COMPANY_ARTY_LANE', 'COMPANY_WITHDRAW_DISTANCE')}, 'previous_content': asset_fingerprint, 'terrain_surface_abi': 1,
            'roads': json.loads((ROOT/'content/terrain/roads.json').read_text()),
+           'air_bases': json.loads((ROOT/'content/terrain/airbases.json').read_text()),
            'tracked_policy': policy,
            'relief_abi': 1, 'grade_abi': 1,
            'relief': json.loads((ROOT/'content/terrain/relief.json').read_text()),

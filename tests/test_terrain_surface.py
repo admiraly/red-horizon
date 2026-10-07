@@ -46,8 +46,11 @@ def point_segment(point,a,b):
     t=max(0,min(1,((point[0]-a[0])*dx+(point[1]-a[1])*dz)/(dx*dx+dz*dz)))
     return math.hypot(point[0]-a[0]-t*dx,point[1]-a[1]-t*dz)
 
+runways=json.loads((ROOT/'content/terrain/airbases.json').read_text())['runways']
+def on_runway(point,radius=0):
+    return any(row['half_length']-abs(point[0]-row['x'])>=radius and row['half_width']-abs(point[1]-row['z'])>=radius for row in runways)
 def reference_class(point):
-    return int(any(point_segment(point,row[:2],row[2:4])<=row[4] for row in records))
+    return int(any(point_segment(point,row[:2],row[2:4])<=row[4] for row in records) or on_runway(point))
 
 def reference_surface(point):
     x,z=point[0]-4000,point[1]-4000
@@ -70,7 +73,7 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
     directory=Path(directory)
     nasm=os.environ.get('RED_HORIZON_NASM') or shutil.which('nasm') or str(ROOT/'.tools/nasm/nasm')
     objects=[]
-    for source in ('src/nav/terrain_surface.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','tests/probe_terrain_surface.asm'):
+    for source in ('src/nav/terrain_surface.asm','src/nav/air_runways.asm','src/nav/terrain.asm','src/nav/terrain_relief.asm','src/nav/terrain_grade.asm','tests/probe_terrain_surface.asm'):
         output=directory/(Path(source).stem+'.o')
         subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(output)],check=True)
         objects.append(str(output))
@@ -155,7 +158,7 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-surface-') as directory:
         before=bytes(data)
         q=tuple(data[:2]);r=data[2]
         if expected is None:
-            expected=int(any(row[4]>=r and point_segment(q,row[:2],row[2:4])<=row[4]-r for row in records))
+            expected=int(any(row[4]>=r and point_segment(q,row[:2],row[2:4])<=row[4]-r for row in records) or on_runway(q,r))
         result=lib.test_road_body(data)
         assert result==expected,('body classification or ABI',category,q,r,result,expected)
         assert bytes(data)==before and bytes(road_blob)==initial_roads and road_count.value==19,'body sampler wrote input/roads'

@@ -3,7 +3,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/air_recovery.inc"
 default rel
-extern air_fuel_status
+extern air_fuel_status,air_base_goal
 extern sim_entities,sim_aircraft,sim_count
 section .bss align=64
 global sim_air_holding
@@ -64,6 +64,12 @@ air_recovery_goal:
  cmp eax,2
  jne .none
 .goal:
+ ; Query only an owned supplied facility; unavailable bases retain safe holding.
+ sub rsp,8
+ call air_base_goal
+ add rsp,8
+ cmp eax,-1
+ jne .base_goal
  movss xmm0,[home]
  cmp dword [r8+ENTITY_SIDE],0
  je .front
@@ -74,6 +80,7 @@ air_recovery_goal:
  inc eax
  cvtsi2ss xmm1,eax
  mulss xmm1,[front_spacing]
+ .base_goal:
  mov eax,1
  ret
 .none:

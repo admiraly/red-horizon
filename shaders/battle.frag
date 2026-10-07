@@ -192,6 +192,8 @@ void main(){
   surface=mix(grass,mud,smoothstep(.45,.85,patchiness)*.45+weather.z*.16);
   surface=mix(surface,gravel,max(corridor*.72,objective*.8));
   surface=mix(surface,rock,clamp(slope*5.+smoothstep(.80,.98,patchiness)*.25,0.,1.));
+  vec3 runwayAlbedo;
+  if(airbaseSurface(p,runwayAlbedo))surface=hdrOutput!=0?decodeDisplay(runwayAlbedo):runwayAlbedo;
   // Albedo-derived micro variation, not an authored normal map or PBR material.
   float grain=dot(surface,vec3(.333));n=normalize(n+vec3(dFdx(grain)*.4,0.,dFdy(grain)*.4));
   float shadow=hdrOutput!=0?sunVisibility(worldPosition,n):1.;

@@ -26,7 +26,7 @@ with tempfile.TemporaryDirectory(prefix='rh-terrain-height-') as td:
     td=pathlib.Path(td)
     def assemble(source,suffix=''):
         obj=td/(source.replace('/','_')+suffix+'.o');subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(obj)],check=True);return str(obj)
-    sources=['src/nav/terrain.asm','src/nav/terrain_surface.asm','src/nav/terrain_relief.asm','tests/probe_terrain_height.asm']
+    sources=['src/nav/terrain.asm','src/nav/terrain_surface.asm','src/nav/air_runways.asm','src/nav/terrain_relief.asm','tests/probe_terrain_height.asm']
     objs=[assemble(s) for s in sources];so=td/'height.so';subprocess.run(['cc','-shared','-Wl,-Bsymbolic',*objs,'-o',str(so)],check=True)
     lib=C.CDLL(str(so));lib.test_terrain_height.argtypes=[C.c_float,C.c_float,C.c_void_p];lib.test_terrain_surface.argtypes=[C.c_float,C.c_float,C.c_void_p]
     def height(x,z):

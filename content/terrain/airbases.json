@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "runways": [
+    {"id": 0, "side": 0, "front": 0, "site": 0, "x": 2000.0, "z": 2000.0, "half_length": 600.0, "half_width": 40.0},
+    {"id": 1, "side": 0, "front": 1, "site": 4, "x": 2000.0, "z": 4000.0, "half_length": 600.0, "half_width": 40.0},
+    {"id": 2, "side": 0, "front": 2, "site": 8, "x": 2000.0, "z": 6000.0, "half_length": 600.0, "half_width": 40.0},
+    {"id": 3, "side": 1, "front": 0, "site": 3, "x": 6000.0, "z": 2000.0, "half_length": 600.0, "half_width": 40.0},
+    {"id": 4, "side": 1, "front": 1, "site": 7, "x": 6000.0, "z": 4000.0, "half_length": 600.0, "half_width": 40.0},
+    {"id": 5, "side": 1, "front": 2, "site": 11, "x": 6000.0, "z": 6000.0, "half_length": 600.0, "half_width": 40.0}
+  ]
+}

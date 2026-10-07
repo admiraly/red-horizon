@@ -1,7 +1,7 @@
 ; Stateless analytic height/gradient and bounded center-road sampler, SSE2/SysV.
 %include "schemas/terrain_surface.inc"
 default rel
-extern terrain_height,terrain_relief
+extern terrain_height,terrain_relief,air_runway_body
 section .rodata align=16
 %include "schemas/terrain_roads.inc"
 %if TERRAIN_ROAD_COUNT < 1 || TERRAIN_ROAD_COUNT > TERRAIN_ROAD_LIMIT
@@ -117,7 +117,10 @@ terrain_surface:
  inc ecx
  jmp .road
 .offroad:
- xor eax,eax
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ pxor xmm2,xmm2
+ call air_runway_body
  jmp .result
 .onroad:
  mov eax,TERRAIN_ROAD
@@ -225,8 +228,10 @@ terrain_road_body:
  inc ecx
  jmp .road
 .offroad:
- xor eax,eax
- ret
+ cvtsd2ss xmm0,xmm8
+ cvtsd2ss xmm1,xmm9
+ cvtsd2ss xmm2,xmm10
+ jmp air_runway_body
 .onroad:
  mov eax,TERRAIN_ROAD
  ret

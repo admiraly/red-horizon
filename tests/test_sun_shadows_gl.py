@@ -12,7 +12,7 @@ def main():
  sources={n:h.embedded(exe,n)for n in('mesh_vertex_source','mesh_fragment_source','battle_fragment_source')}
  assert sources['mesh_vertex_source']==h.compose(ROOT/'shaders/mesh.vert')
  assert sources['mesh_fragment_source']==(ROOT/'shaders/mesh.frag').read_bytes()
- battle=(ROOT/'shaders/battle.frag').read_bytes();assert sources['battle_fragment_source']==battle[:18]+(ROOT/'shaders/terrain_roads.glsl').read_bytes()+battle[18:]
+ battle=(ROOT/'shaders/battle.frag').read_bytes();assert sources['battle_fragment_source']==battle[:18]+(ROOT/'shaders/terrain_roads.glsl').read_bytes()+(ROOT/'shaders/airbases.glsl').read_bytes()+battle[18:]
  read,write=os.pipe();server=fw=win=None
  try:
   with tempfile.TemporaryDirectory(prefix='rh-sun-shadows-')as tmp:

@@ -14,6 +14,7 @@ db 0
 battle_fragment_source:
 incbin "shaders/battle.frag",0,18
 incbin "shaders/terrain_roads.glsl"
+incbin "shaders/airbases.glsl"
 incbin "shaders/battle.frag",18
 db 0
 section .note.GNU-stack noalloc noexec nowrite progbits

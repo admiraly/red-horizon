@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 41, 0xe411ae75, 0x397df36d
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 42, 0x192a9d67, 0x9037b3f4
 HEADER = struct.Struct('<10I')
 
 
@@ -558,6 +558,7 @@ def main():
             (root / 'content/asset-manifest.json').read_bytes()).hexdigest()[:8],
         'terrain_surface_abi': 1,
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
+        'air_bases': json.loads((root / 'content/terrain/airbases.json').read_text()),
         'tracked_policy': policy,
     }
     payload.update(air_separation={name:definitions[name] for name in ('AIR_SEPARATION_VERSION', 'AIR_SEPARATION_RANGE_SQ', 'AIR_SEPARATION_MISS_SQ', 'AIR_SEPARATION_PREDICT_TICKS', 'AIR_SEPARATION_CANDIDATES', 'AIR_SEPARATION_CELL_RADIUS', 'AIR_SEPARATION_FIGHTER_TICKS', 'AIR_SEPARATION_BOMBER_TICKS', 'AIR_SEPARATION_FIGHTER_REFRACTORY', 'AIR_SEPARATION_BOMBER_REFRACTORY')})

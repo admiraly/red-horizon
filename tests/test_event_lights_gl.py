@@ -18,7 +18,7 @@ def main():
  assert sources['mesh_fragment_source']==(ROOT/'shaders/mesh.frag').read_bytes()
  assert sources['mesh_vertex_source']==h.compose(ROOT/'shaders/mesh.vert')
  battle=(ROOT/'shaders/battle.frag').read_bytes()
- assert sources['battle_fragment_source']==battle[:18]+(ROOT/'shaders/terrain_roads.glsl').read_bytes()+battle[18:]
+ assert sources['battle_fragment_source']==battle[:18]+(ROOT/'shaders/terrain_roads.glsl').read_bytes()+(ROOT/'shaders/airbases.glsl').read_bytes()+battle[18:]
  read,write=os.pipe();server=fw=win=None
  try:
   with tempfile.TemporaryDirectory(prefix='rh-event-light-gl-')as tmp:

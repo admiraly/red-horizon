@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/airbases/tests/test_listen_host.py", line 65, in <module>
+    p=subprocess.Popen([str(exe),'--listen','--frames','240',*base],cwd=exe.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True);processes.append(p);pid=child(p);port=port_of(pid);await_host_join(p)
+                                                                                                                                                                            ~~~~~^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/airbases/tests/test_listen_host.py", line 33, in child
+    assert parent.poll() is None,'client exited before host readiness'
+           ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: client exited before host readiness
