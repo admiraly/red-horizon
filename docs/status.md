@@ -1,3 +1,10 @@
+Frozen full4c0ad8c85882 FAILED/collected,exit1,665.702721s.
+The extended UDP death fixture still chose a tank as a rifle attacker. Actual
+physical tank weapons no longer manufacture rifle hits on humans, so the body
+remained healthy. Failure retained in evidence/cadence-lifecycle-full-failed.json.
+A finite actual infantry fixture correction is being verified in the isolated
+target-selection candidate. No full checkpoint pass inferred.
+
 Frozen cadence full6c0e578a78f7 FAILED/collected at
 86a8573-1c87bd9c49b149b5,exit1,486.779624s. Its immutable source predates
 ba9e027 and hit the same legacy genuine birth-as-movement oracle error already
