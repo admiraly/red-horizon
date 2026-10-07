@@ -168,7 +168,15 @@ try:
         until(lambda:math.hypot(actor()[0]-before[0],actor()[1]-before[1])>.15,3)
         moving=actor();walks=[c for c in clips if c[3]==1]
         until(lambda:any(c[0]<=selected()<c[0]+c[1] for c in walks),2)
-        image_walk,frame_walk,blend_walk=capture('/tmp/red-horizon-soldier-walk.ppm')
+        # The actor can change locomotion clips while capture waits for
+        # presentation. Require the frozen screenshot itself to be a walk.
+        deadline=time.monotonic()+3
+        walk_capture_attempts=0
+        while True:
+            image_walk,frame_walk,blend_walk=capture('/tmp/red-horizon-soldier-walk.ppm')
+            walk_capture_attempts+=1
+            if any(c[0]<=frame_walk<c[0]+c[1] for c in walks):break
+            assert time.monotonic()<deadline, ('no presented walk within deadline',frame_walk,walks)
         assert any(c[0]<=frame_walk<c[0]+c[1] for c in walks),(frame_walk,walks)
         # The converter's tank has only a movement clip: hold must freeze tracks.
         tank_id=12
@@ -179,7 +187,7 @@ try:
         assert tank_frame==0 and tank_blend==0,(tank_frame,tank_blend)
         key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
         assert 'meshes loaded=18' in stdout
-        print(json.dumps({'suite':'animated-source-meshes','passed':True,'idle_frames':[frame_a,frame_b],'idle_changed_pixels':changed,'walk_frame':frame_walk,'walk_blend':blend_walk,'actual_actor_moved_metres':math.hypot(moving[0]-before[0],moving[1]-before[1]),'stationary_tracks_frozen':True,'source_meshes':18,'observed_owned_actor_id':actor_id,'owned_company_key':company,'initial_lod_counts':initial_lod,'stdout':stdout}))
+        print(json.dumps({'suite':'animated-source-meshes','passed':True,'idle_frames':[frame_a,frame_b],'idle_changed_pixels':changed,'walk_frame':frame_walk,'walk_capture_attempts':walk_capture_attempts,'walk_blend':blend_walk,'actual_actor_moved_metres':math.hypot(moving[0]-before[0],moving[1]-before[1]),'stationary_tracks_frozen':True,'source_meshes':18,'observed_owned_actor_id':actor_id,'owned_company_key':company,'initial_lod_counts':initial_lod,'stdout':stdout}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

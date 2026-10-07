@@ -131,8 +131,11 @@ section .note.GNU-stack noalloc noexec nowrite progbits
     reset();e=entities[15];e.x,e.z,e.hp,e.kind,e.side,e.front,e.target=5360,5200,200,3,0,0,0xffffffff;world.air_init()
     minimum=math.inf;raised_samples=0;previous_y=None;flight=[]
     for tick in range(110):
-        old=(e.x,e.z);world.air_tick();ground=world.terrain_height(e.x,e.z);clearance=air[15].y-ground;minimum=min(minimum,clearance)
-        assert clearance>40 and abs(math.dist(old,(e.x,e.z))-5)<.001
+        old=(e.x,air[15].y,e.z);world.air_tick();ground=world.terrain_height(e.x,e.z);clearance=air[15].y-ground;minimum=min(minimum,clearance)
+        assert clearance>40, (tick,clearance)
+        # First update establishes altitude from the initial ground pose.
+        # Cruise speed thereafter is the magnitude of XYZ displacement.
+        if tick:assert abs(math.dist(old,(e.x,air[15].y,e.z))-5)<.001, (tick,old,e.x,air[15].y,e.z)
         if previous_y is not None:assert abs(air[15].y-previous_y)<=.5001
         if extra(e.x,e.z)[0]>50:raised_samples+=1
         previous_y=air[15].y

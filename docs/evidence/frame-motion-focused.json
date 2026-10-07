@@ -1,0 +1,173 @@
+{
+  "terrain": {
+    "flight_samples": [
+      [
+        5365.0,
+        5199.99951171875,
+        124.58160400390625,
+        14.583224296569824,
+        109.99837970733643
+      ],
+      [
+        5464.96533203125,
+        5198.52197265625,
+        125.95320892333984,
+        66.83661651611328,
+        59.11659240722656
+      ],
+      [
+        5563.54443359375,
+        5183.89892578125,
+        131.8721466064453,
+        79.14547729492188,
+        52.72666931152344
+      ],
+      [
+        5657.17529296875,
+        5150.615234375,
+        141.57777404785156,
+        67.51209259033203,
+        74.06568145751953
+      ],
+      [
+        5742.59619140625,
+        5099.89501953125,
+        151.56578063964844,
+        40.410743713378906,
+        111.15503692626953
+      ],
+      [
+        5816.78662109375,
+        5033.48388671875,
+        158.8057861328125,
+        16.863040924072266,
+        141.94274520874023
+      ]
+    ],
+    "height_library_sha256": "7e9fc3de26fd90af251c7e20e2e096225e91c6bb57024c7bdd74db1b64b082b6",
+    "legacy_bitwise_controls": 11,
+    "maximum_absolute_errors": [
+      5.818114757971671e-06,
+      7.651519773332893e-08,
+      3.227996825394541e-08
+    ],
+    "minimum_bomber_clearance": 47.68992614746094,
+    "passed": true,
+    "player_eye": 80.77000427246094,
+    "player_feet": 78.97000122070312,
+    "projectile_impact": [
+      5436.2041015625,
+      43.74799728393555,
+      5200.0
+    ],
+    "projectile_muzzle_height": 41.76490020751953,
+    "protected_GPRs": 15,
+    "protected_XMM_registers": [
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "raised_air_samples": 42,
+    "scope": "actual authoritative height/gradient/LOS/projectile/player/aircraft paths; no grade traversal/nav bypass/render/net/scale acceptance",
+    "source_sha256": {
+      "src/nav/terrain.asm": "f0d700ab865136dacf38fd0193de53b04f2e217862b6cd9e4ebec335b4975e58",
+      "src/nav/terrain_relief.asm": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+      "src/nav/terrain_surface.asm": "2f4da01bc8f7c451df16268820fd5b276c9231856ba8bbabb503dd4b956b476a",
+      "tests/probe_terrain_height.asm": "a6462ca4389c236f238e83409ae2fd8dbb62b1df07bcfcf41cae4efa726b20cd"
+    },
+    "suite": "terrain-height-integration",
+    "valid_samples": 3055,
+    "world_library_sha256": "1430584bf1f65a58acf00415a6a2308eaba5eccaad121ca621318ca925233b09"
+  },
+  "mesh_diagnostic": [
+    {
+      "capture": "/tmp/red-horizon-soldier-idle-a.ppm",
+      "frame": 19,
+      "observed_speed": 7375.60546875,
+      "clock": 0.9067757725715637,
+      "actor": [
+        2000.0,
+        3912.0
+      ]
+    },
+    {
+      "capture": "/tmp/red-horizon-soldier-idle-b.ppm",
+      "frame": 3,
+      "observed_speed": 7375.60546875,
+      "clock": 1.2232598066329956,
+      "actor": [
+        2000.0,
+        3912.0
+      ]
+    },
+    {
+      "capture": "/tmp/red-horizon-soldier-walk.ppm",
+      "frame": 25,
+      "observed_speed": 3.8429174423217773,
+      "clock": 2.0469958782196045,
+      "actor": [
+        1999.9619140625,
+        3913.558349609375
+      ]
+    },
+    {
+      "suite": "animated-source-meshes",
+      "passed": true,
+      "idle_frames": [
+        19,
+        3
+      ],
+      "idle_changed_pixels": 1884,
+      "walk_frame": 25,
+      "walk_blend": 0.10791015625,
+      "actual_actor_moved_metres": 1.1990884219249056,
+      "stationary_tracks_frozen": true,
+      "source_meshes": 18,
+      "observed_owned_actor_id": 3712,
+      "owned_company_key": 285,
+      "initial_lod_counts": [
+        71,
+        3725,
+        4396
+      ],
+      "stdout": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":61,\"gpu_samples\":52,\"cpu_frame_mean_ms\":58.854961,\"cpu_frame_p95_ms\":74.893917,\"cpu_frame_p99_ms\":526.483645,\"gpu_draw_mean_ms\":13.368569,\"gpu_draw_p95_ms\":5.702561,\"gpu_draw_p99_ms\":496.458304}\n{\"battle_metrics\":true,\"samples\":60,\"simultaneous_projectiles_effects_audio_frames\":14,\"peak_living\":8192,\"peak_engaged\":1117,\"peak_projectiles\":456,\"peak_submitted_high\":71,\"peak_submitted_low\":3729,\"peak_submitted_markers\":8120,\"peak_effect_records\":56,\"peak_trail_records\":96,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=2 low=1175 markers=6805 source_triangles=142849 animation_frame=29\nclient frames=60 submitted_entities=8192 screenshot=(none)\ncamera_x=2000.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=168 supply=600 waypoint_orders=2\nselected_goal_x=1997.812 selected_goal_z=4000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n"
+    }
+  ],
+  "corrected_mesh": {
+    "suite": "animated-source-meshes",
+    "passed": true,
+    "idle_frames": [
+      19,
+      3
+    ],
+    "idle_changed_pixels": 1717,
+    "walk_frame": 25,
+    "walk_capture_attempts": 1,
+    "walk_blend": 0.4920654296875,
+    "actual_actor_moved_metres": 1.1990884219249056,
+    "stationary_tracks_frozen": true,
+    "source_meshes": 18,
+    "observed_owned_actor_id": 3712,
+    "owned_company_key": 285,
+    "initial_lod_counts": [
+      71,
+      3725,
+      4396
+    ],
+    "stdout": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":61,\"gpu_samples\":52,\"cpu_frame_mean_ms\":59.771804,\"cpu_frame_p95_ms\":68.985888,\"cpu_frame_p99_ms\":524.420237,\"gpu_draw_mean_ms\":12.414754,\"gpu_draw_p95_ms\":4.897264,\"gpu_draw_p99_ms\":459.350758}\n{\"battle_metrics\":true,\"samples\":60,\"simultaneous_projectiles_effects_audio_frames\":14,\"peak_living\":8192,\"peak_engaged\":1122,\"peak_projectiles\":456,\"peak_submitted_high\":71,\"peak_submitted_low\":3729,\"peak_submitted_markers\":8117,\"peak_effect_records\":56,\"peak_trail_records\":96,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=2 low=1175 markers=6794 source_triangles=142849 animation_frame=29\nclient frames=60 submitted_entities=8192 screenshot=(none)\ncamera_x=2000.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=168 supply=600 waypoint_orders=2\nselected_goal_x=1997.812 selected_goal_z=4000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n"
+  },
+  "binary": "9b146e52e046 exact failed frozen executable",
+  "limitations": [
+    "Focused run did not reproduce screenshot frame34; clip bounds prove it is run. Motion estimator is presentation-based and can vary with fixed-tick batching; no locomotion timing fix or stable-speed acceptance claimed.",
+    "Corrected observer retains strict walking clip screenshot, bounded retry3seconds; no acceptance of run frame as walk."
+  ]
+}
