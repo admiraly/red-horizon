@@ -8,8 +8,13 @@
     "all",
     "--extended"
   ],
-  "status": "running",
+  "status": "failed",
   "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/20ea89c062f4/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/20ea89c062f4/result.json",
-  "pid": 2481494
+  "pid": 2481494,
+  "exit_code": 1,
+  "seconds": 1468.404305322998,
+  "collected": true,
+  "failure": "tests/test_player_ammunition_hud.py line142: fixed60ms reload tap missed by slow software GL frame; rifle0/30 R60 remained unreloaded. Frozen full remains failed.",
+  "correction_state": "Exact failed v38 executable now passes all120 real player shots/reloads/empty HUD pixels using physical reload-key acknowledgment; /tmp/infantry-aim-v38-HUD-fixed.log. Full frozen checkpoint remains failed."
 }

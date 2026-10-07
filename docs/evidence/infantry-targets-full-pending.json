@@ -8,10 +8,15 @@
     "all",
     "--extended"
   ],
-  "status": "running",
+  "status": "failed",
   "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/result.json",
   "pid": 2343898,
   "runtime_inputs_match_verified_candidate": true,
-  "goal": "active; full specification incomplete"
+  "goal": "active; full specification incomplete",
+  "exit_code": 1,
+  "seconds": 1475.6113129290025,
+  "collected": true,
+  "failure": "Graphical co-op obsolete death fixture rewrote a tank (HP400/kind1/generation1) and expected removed universal rifle damage; actual HP reduction timed out.",
+  "correction_state": "Exact failed v37 executables now pass graphical co-op with surviving finite rifleman fixture; /tmp/infantry-aim-old-epoch-coop-fixture-revision.log. Full frozen checkpoint remains failed."
 }

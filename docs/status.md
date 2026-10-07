@@ -2639,3 +2639,7 @@ focused graphics suite exits0 with27 reports; geometry/height/census/input/
 co-op gates remain. Candidate is not integrated. Co-op membership replication
 is absent in v23, so network clients remain unmarked. Small pixel evidence does
 not establish human readability or a shared formation/plan interface.
+
+Checkpoint 8a7e9b89d92e (frozen d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e) failed after 1475.611313 s and was collected: tests/test_client_coop.py line679 timed out waiting for human damage from an obsolete tank-as-rifle fixture. This remains failed; a correction using an actual living rifleman and existing finite magazine is under verification in the isolated infantry-aim worktree. Full specification goal remains active. See docs/evidence/infantry-targets-full-pending.json.
+
+Checkpoint20ea89c062f4 (frozen4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20) failed after1468.404305s and was collected: player-ammunition graphical HUD fixture line142 missed a fixed60ms reload tap amid slow software GL frames (empty magazine with60 reserve rounds). A real physical-key acknowledgment correction is under verification in the isolated infantry-aim worktree; this full checkpoint remains failed. See docs/evidence/infantry-presentation-full-pending.json.
