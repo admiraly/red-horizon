@@ -1,0 +1,7 @@
+{"terrain_roads": 19, "checked": true}
+{"airbases": 6, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xd01a1822", "canonical_sha256": "d01a1822cd7e1c4d38ac2c2f9a9b58f0883a173052ade51e644b8489aab72a65", "checked": true}
+{"target": "headless", "revision": "81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb", "assembled": 0, "assembled_sources": [], "seconds": 0.6535020269802772, "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb/red-horizon-server"}

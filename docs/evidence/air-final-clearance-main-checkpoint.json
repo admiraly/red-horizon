@@ -1,0 +1,63 @@
+{
+  "main_commit": "81e41dc7c7831a1befccbbe5fd545630985e81e5",
+  "authored_files": 553,
+  "exact_final_snapshot_matches": true,
+  "frozen_revision": "2cbb4a9c42d362473e93d711f55d03c2ddc5c32a-562ee9dcb015aafb",
+  "builds": [
+    {
+      "target": "client",
+      "revision": "81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb",
+      "assembled": 5,
+      "assembled_sources": [
+        "src/ai/air_approach.asm",
+        "src/ai/air_final_clear.asm",
+        "src/ai/aircraft.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.8360144689795561,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb/red-horizon",
+      "sha256": "90d1024f62a145d385c2ace7d1e288fa39d1c1d0ba940c837e05c832c2977a9f"
+    },
+    {
+      "target": "coop",
+      "revision": "81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.6090227020031307,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb/red-horizon-coop-server",
+      "sha256": "b6bf4a8177e51130aed709bd865b5371c453a5146695300c7fffb11b278acbbb"
+    },
+    {
+      "target": "headless",
+      "revision": "81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.6535020269802772,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/81e41dc7c7831a1befccbbe5fd545630985e81e5-562ee9dcb015aafb/red-horizon-server",
+      "sha256": "d31b4a6156cafcd447e6ef2c5641461b27ddb82f86e0731d276120847d4fad58"
+    }
+  ],
+  "main_native_clearance_pass": true,
+  "main_native_arc_listen_8192_authority_120_frame_smoke_pass": true,
+  "foreground_sessions_terminal": [
+    14039,
+    6516,
+    98851,
+    10032,
+    84431,
+    38305,
+    82274,
+    65934,
+    35740
+  ],
+  "pending": {
+    "62962d6314e9": "traffic extended, excludes clearance",
+    "d666ee472987": "exact clearance fast",
+    "6778cf25a62a": "exact clearance extended"
+  },
+  "process_observation": "    PID S     ELAPSED COMMAND\n2681074 S       06:24 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-final-clearance/tools/dev.py _worker d666ee472987 test --suite fast\n2681097 S       06:24 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-final-clearance/tools/dev.py _worker 6778cf25a62a test --suite all --extended\n",
+  "scope": "Descending-final terrain/solid preview and physical abort only, no landing/service/full-game completion."
+}
