@@ -580,8 +580,10 @@ def main():
             execute([sys.executable,'tests/test_mesh_assets.py',str(mesh_library),str(ROOT/'content/models/battle.rham')])
         if suite in ('all','headless','fast') and (ROOT/'tests/test_texture_assets.py').exists():
             environment_object=BUILD/'environment_asset_test.o'; environment_library=BUILD/'libenvironment.so'
+            environment_probe=BUILD/'environment_asset_probe.o'
             execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'src/render/environment.asm'),'-o',str(environment_object)])
-            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(environment_library),str(environment_object),'-lGL'])
+            execute([nasm(),'-f','elf64','-I',str(ROOT)+'/',str(ROOT/'tests/probe_environment_asset.asm'),'-o',str(environment_probe)])
+            execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(environment_library),str(environment_object),str(environment_probe),'-lGL'])
             execute([sys.executable,'tests/test_texture_assets.py',str(environment_library),str(ROOT/'content/textures/terrain.rhtx')])
         if suite == 'ground-support':
             client=build('client')

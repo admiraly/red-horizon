@@ -1,0 +1,4 @@
+/usr/bin/ld.bfd: build/environment_asset_test.o: warning: relocation against `hdr_world_linear' in read-only section `.text'
+/usr/bin/ld.bfd: build/environment_asset_test.o: relocation R_X86_64_PC32 against undefined symbol `hdr_world_linear' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld.bfd: final link failed: bad value
+collect2: error: ld returned 1 exit status
