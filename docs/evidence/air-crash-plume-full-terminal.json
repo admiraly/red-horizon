@@ -1,0 +1,8 @@
+{
+  "job_id": "443028e6200e",
+  "exit_code": 1,
+  "revision": "c48422034b104a3738f477dd5a388d924f05b230-cd13b0c055f5fdb9",
+  "seconds": 1810.181104459014,
+  "status": "failed",
+  "failure": "Original local crash paired-background observer timeout; same observer as 40b03f364420, corrected separately without changing runtime or assertions."
+}
