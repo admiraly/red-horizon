@@ -3,6 +3,7 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/air_escort.inc"
+%include "schemas/air_recovery.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count
 section .bss align=64
@@ -23,8 +24,8 @@ negative: dd -1.0
 section .text
 global air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
 %macro VALID_AIR 3
- cmp dword [%1+ENTITY_HP],0
- je %3
+ cmp dword [%1+ENTITY_HP],AIR_RECOVERY_CRITICAL_HP
+ jbe %3
  cmp dword [%1+ENTITY_KIND],3
  jne %3
  cmp dword [%1+ENTITY_SIDE],1

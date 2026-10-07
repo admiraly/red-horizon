@@ -56,7 +56,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
  A[15].vx,A[15].vy,A[15].vz,A[15].pitch=saved_velocity
  # Corrupt/stale fixture guards are separate from the physical flight trace.
  guards=[]
- for owner,field,bad in [(E[15],'hp',0),(E[15],'side',1),(E[15],'front',1),(E[15],'generation',2),(A[15],'generation',2),(A[15],'ammo',0),(A[15],'role',1),(A[15],'speed',0),(A[15],'speed',math.inf),(E[31],'generation',2),(A[31],'ammo',0)]:
+ for owner,field,bad in [(E[15],'hp',0),(E[15],'hp',60),(E[31],'hp',60),(E[15],'side',1),(E[15],'front',1),(E[15],'generation',2),(A[15],'generation',2),(A[15],'ammo',0),(A[15],'role',1),(A[15],'speed',0),(A[15],'speed',math.inf),(E[31],'generation',2),(A[31],'ammo',0)]:
   old=getattr(owner,field);setattr(owner,field,bad);assert goal(31)[0]==0;setattr(owner,field,old);guards.append(field)
  for i in (96,32768,0xffffffff):assert goal(i)[0]==0
  # Valid mission scores a farther threat near its bomber over a nearer decoy.

@@ -5,7 +5,7 @@
 %include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
-extern air_bank_step,air_vertical_step,air_pursuit_blend
+extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_threats_reset,air_threats_build,air_threat_query
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
@@ -46,7 +46,6 @@ scale: dd 0.004
 margin: dd AIR_FLIGHT_CORNER_MARGIN
 edge: dd 6800.0
 centre: dd 4000.0
-homes: dd 1000.0,7000.0
 range2: dd 562500.0
 bomber_range2: dd 1440000.0
 cone: dd 0.985
@@ -287,11 +286,15 @@ air_tick:
  lea rcx,[sim_waypoints]
  movss xmm0,[rcx+rax*8]
  movss xmm1,[rcx+rax*8+4]
- cmp dword [rbp+AIR_AMMO],0
- jne .egress_goal
- mov eax,[rbx+ENTITY_SIDE]
- lea rcx,[homes]
- movss xmm0,[rcx+rax*4]
+ mov edi,r12d
+ call air_recovery_goal
+ test eax,eax
+ jz .egress_goal
+ mov dword [rbp+AIR_MODE],AIR_RETURN
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbp+AIR_PASS_TICKS],0
+ jmp .boundary
 .egress_goal:
  cmp dword [rbp+AIR_PASS_TICKS],0
  jne .egress
@@ -673,6 +676,16 @@ air_combat_tick:
  mov dword [rbp+AIR_MODE],AIR_EGRESS
  jmp .next
 .combat_ready:
+ mov edi,r12d
+ call air_recovery_goal
+ test eax,eax
+ jz .combat_engage
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbp+AIR_PASS_TICKS],0
+ mov dword [rbp+AIR_MODE],AIR_RETURN
+ jmp .next
+.combat_engage:
  mov eax,[rbp+AIR_TARGET]
  mov [rsp+36],eax
  mov dword [rbp+AIR_TARGET],-1
