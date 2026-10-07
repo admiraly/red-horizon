@@ -545,3 +545,13 @@ approach decision, finite-store efficiency/control and actual GL action proofs.
 ABI/oracle, original8k/16k flight and ground-label health checks pass; full
 checkpoint state remains in status. Future manoeuvre prediction, coordinated
 air tactics, richer vertical flight and spectacle remain open.
+
+Aircraft vertical flight: integrated44a85ba after complete focused aircraft, native
+2036-case/17-invalid ABI, original8k/16k900tick physical bounds and actual main GL
+proofs. Total XYZ cruise is conserved, VY slews at role-specific acceleration,
+pitch matches actual motion, bomber ingress/release and escort lateral spacing
+normalize horizontal motion separately. Ground admission contacts have declared
+separate birth lanes; genuine airborne bomb interception is retained as its own
+replayed proof. Frozen fast and full checkpoint remain tracked in status.md. Next
+flight/AI work: energy-aware/steeper manoeuvres, observed incoming-fire evasion,
+air separation and coordinated escort/strike decisions; full game remains open.

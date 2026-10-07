@@ -1,0 +1,354 @@
+{
+  "integrated_commit": "44a85ba",
+  "main_builds": [
+    {
+      "target": "headless",
+      "revision": "44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/platform/linux/headless.asm"
+      ],
+      "seconds": 0.36653718700108584,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77/red-horizon-server",
+      "sha256": "e811f4f707ddfff3bb7788d70afdea8ab529c08db736a06babeb7837b101f31c"
+    },
+    {
+      "target": "client",
+      "revision": "44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77",
+      "assembled": 13,
+      "assembled_sources": [
+        "src/sim/scenarios.asm",
+        "src/sim/world.asm",
+        "src/sim/air_admission.asm",
+        "src/sim/projectiles.asm",
+        "src/ai/air_escort.asm",
+        "src/ai/air_bank.asm",
+        "src/ai/air_vertical.asm",
+        "src/ai/air_gunnery.asm",
+        "src/ai/aircraft.asm",
+        "src/render/effects.asm",
+        "src/render/air_trails.asm",
+        "src/render/meshes.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.5465250499983085,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77/red-horizon",
+      "sha256": "c1b50efbe42d5b2c69bbf21fb9770a2c8e0b83016ecb63c4fb00b9f2f9bd74ea"
+    },
+    {
+      "target": "coop",
+      "revision": "44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.3544206170045072,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/44a85ba45e2a8e352e3c1a31e3a5cc0327f2e799-88e1c89615c17b77/red-horizon-coop-server",
+      "sha256": "b4b4f1d10f373e2fcc0a3eb9117e2ef501563b3ae1f2c7190fb547e758fa57d7"
+    }
+  ],
+  "input_files_checked": 440,
+  "differences_from_frozen_full": [],
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/f3d0407807a2/source",
+  "original8192_30tick_authority_matches": true,
+  "authority_records": [
+    {
+      "units": 8192,
+      "ticks": 30,
+      "seed": 42,
+      "alive": [
+        4087,
+        4064
+      ],
+      "engaged": 659,
+      "checksum": "783f4916f85d3fa4",
+      "operation_state": 0,
+      "requisition": [
+        139,
+        118
+      ],
+      "supply": [
+        600,
+        600
+      ],
+      "projectiles": 433,
+      "projectile_peak": 463,
+      "projectile_dropped": 999,
+      "navigation": {
+        "pending": 512,
+        "completed": 232,
+        "overflow": 149458,
+        "cache_hits": 4205,
+        "stuck_replans": 0,
+        "cover_choices": 0,
+        "processed_last_tick": 8,
+        "processed_max": 8
+      },
+      "air_events": {
+        "bomb_launches": 15,
+        "bomb_impacts": 0,
+        "gun_bursts": 99,
+        "aircraft_destroyed": 1,
+        "overwritten_unobserved": 89
+      },
+      "hazards": {
+        "predictions": 4436,
+        "tile_overflow": 2443,
+        "acquired": 531,
+        "dispersions": 531,
+        "shelters": 0,
+        "los_calls": 1271,
+        "budget_skipped": 0,
+        "active_goals": 525
+      },
+      "ordnance_admission": [
+        {
+          "submitted": 674,
+          "admitted": 220,
+          "capacity_denied": 454,
+          "invalidated": 0
+        },
+        {
+          "submitted": 565,
+          "admitted": 138,
+          "capacity_denied": 427,
+          "invalidated": 0
+        },
+        {
+          "submitted": 127,
+          "admitted": 28,
+          "capacity_denied": 99,
+          "invalidated": 0
+        },
+        {
+          "submitted": 36,
+          "admitted": 17,
+          "capacity_denied": 19,
+          "invalidated": 0
+        }
+      ],
+      "air_admission": [
+        {
+          "submitted": 9,
+          "admitted": 9,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 32,
+          "admitted": 32,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 6,
+          "admitted": 6,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 67,
+          "admitted": 67,
+          "capacity_denied": 0,
+          "invalidated": 0
+        }
+      ],
+      "crowd": {
+        "snapshot_actors": 230155,
+        "move_queries": 269568,
+        "inspected_neighbors": 1627991,
+        "corrected_endpoints": 12737,
+        "yielded_moves": 1072,
+        "overlap_recoveries": 9704,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 18
+      }
+    },
+    {
+      "units": 8192,
+      "ticks": 30,
+      "seed": 42,
+      "alive": [
+        4087,
+        4064
+      ],
+      "engaged": 659,
+      "checksum": "783f4916f85d3fa4",
+      "operation_state": 0,
+      "requisition": [
+        139,
+        118
+      ],
+      "supply": [
+        600,
+        600
+      ],
+      "projectiles": 433,
+      "projectile_peak": 463,
+      "projectile_dropped": 999,
+      "navigation": {
+        "pending": 512,
+        "completed": 232,
+        "overflow": 149458,
+        "cache_hits": 4205,
+        "stuck_replans": 0,
+        "cover_choices": 0,
+        "processed_last_tick": 8,
+        "processed_max": 8
+      },
+      "air_events": {
+        "bomb_launches": 15,
+        "bomb_impacts": 0,
+        "gun_bursts": 99,
+        "aircraft_destroyed": 1,
+        "overwritten_unobserved": 89
+      },
+      "hazards": {
+        "predictions": 4436,
+        "tile_overflow": 2443,
+        "acquired": 531,
+        "dispersions": 531,
+        "shelters": 0,
+        "los_calls": 1271,
+        "budget_skipped": 0,
+        "active_goals": 525
+      },
+      "ordnance_admission": [
+        {
+          "submitted": 674,
+          "admitted": 220,
+          "capacity_denied": 454,
+          "invalidated": 0
+        },
+        {
+          "submitted": 565,
+          "admitted": 138,
+          "capacity_denied": 427,
+          "invalidated": 0
+        },
+        {
+          "submitted": 127,
+          "admitted": 28,
+          "capacity_denied": 99,
+          "invalidated": 0
+        },
+        {
+          "submitted": 36,
+          "admitted": 17,
+          "capacity_denied": 19,
+          "invalidated": 0
+        }
+      ],
+      "air_admission": [
+        {
+          "submitted": 9,
+          "admitted": 9,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 32,
+          "admitted": 32,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 6,
+          "admitted": 6,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 67,
+          "admitted": 67,
+          "capacity_denied": 0,
+          "invalidated": 0
+        }
+      ],
+      "crowd": {
+        "snapshot_actors": 230155,
+        "move_queries": 269568,
+        "inspected_neighbors": 1627991,
+        "corrected_endpoints": 12737,
+        "yielded_moves": 1072,
+        "overlap_recoveries": 9704,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 18
+      }
+    }
+  ],
+  "actual_main_GL": {
+    "suite": "rendered-aircraft",
+    "passed": true,
+    "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+    "bomber_pixels": 8908,
+    "normalized_silhouette_iou": 0.6224,
+    "bank_changed_pixels": 12052,
+    "trail_changed_pixels": 26,
+    "trail_authority_unchanged": true,
+    "bomb_pixels": 2196,
+    "air_round_pixels": 1196,
+    "actual_bomb_launch": [
+      2175.0,
+      127.33111572265625,
+      1999.7552490234375,
+      6,
+      0,
+      35,
+      36.0,
+      1
+    ],
+    "actual_bomb_impact": [
+      2886.19384765625,
+      15.2479887008667,
+      1997.2896728515625,
+      7,
+      0,
+      177,
+      36.0,
+      2
+    ],
+    "actual_air_gun": [
+      2443.0,
+      155.54925537109375,
+      2499.9990234375,
+      8,
+      1,
+      1,
+      0.0,
+      1
+    ],
+    "actual_air_destroyed": [
+      2359.0,
+      155.84786987304688,
+      2499.989501953125,
+      9,
+      1,
+      13,
+      2.0,
+      11
+    ],
+    "actual_impact_effect_pixels": 4295,
+    "actual_destroy_effect_pixels": 667,
+    "mid_distant_map_absolute_y": true,
+    "stale_generation_fallback": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm"
+    ]
+  },
+  "limitations": [
+    "GL paired-pixel counts vary with cosmetic timing; physical events and authority gates remain enforced.",
+    "Full extendedf3d0407807a2 remains pending; older9b146 input full excludes new flight dynamics.",
+    "Existing0.5m/tick vertical envelope and fixed cruise, no aerodynamic/energy/fuel/separation/landing/rearm/human spectacle acceptance."
+  ]
+}
