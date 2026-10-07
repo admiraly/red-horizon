@@ -1,0 +1,29 @@
+{
+  "worktree": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash",
+  "branch": "feature/air-crash",
+  "core_commit": "26485ed",
+  "scope_note_commit": "bbb0bb6",
+  "fast_job": {
+    "job_id": "3f3fc6313036",
+    "revision": "dc57d6a1ecb7b2b64f20e6e7a89cdb6cfef83481-8176f2218290f268",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/3f3fc6313036/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/3f3fc6313036/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/3f3fc6313036/result.json",
+    "pid": 506708
+  },
+  "fast_terminal": null,
+  "fast_process_state": "State:\tS (sleeping)",
+  "native_evidence": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/docs/evidence/air-crash-core-focused.json",
+  "pending": [
+    "Render role3bomber/role8fighter falling/landed mesh instances, exclude dead bodies from living census.",
+    "Bounded crash replication and warmup/generation/retirement/expiry/fault controls.",
+    "Original scale, actual death-motion GL, ordinary network and coherent full integration."
+  ],
+  "goal": "active/incomplete"
+}
