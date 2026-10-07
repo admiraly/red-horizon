@@ -9,6 +9,9 @@ default rel
 %include "schemas/projectile_remote.inc"
 %include "schemas/wreck.inc"
 %include "schemas/wreck_remote.inc"
+%include "schemas/air_crash.inc"
+%include "schemas/air_crash_remote.inc"
+extern sim_air_crashes
 %include "schemas/company_remote.inc"
 %include "schemas/company_supply.inc"
 %include "schemas/depot_supply.inc"
@@ -66,6 +69,7 @@ air_cursors: resd 4
 ground_cursors: resd 4
 projectile_cursors: resd 4
 wreck_cursors: resd 4
+air_crash_cursors: resd 4
 replicated: resb 4*32768
 distinct_pairs: resq 1
 interest_counts: resd 4
@@ -818,6 +822,9 @@ snapshots:
  call send_wrecks
  mov edi,r12d
  mov rsi,r13
+ call send_air_crashes
+ mov edi,r12d
+ mov rsi,r13
  call send_companies
  mov edi,r12d
  mov rsi,r13
@@ -1460,6 +1467,65 @@ send_wrecks:
  test r14d,r14d
  jz .done
  imul esi,r14d,WRECK_WIRE_STRIDE
+ mov [output+32],esi
+ add esi,NET_HEADER
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,8
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret
+send_air_crashes:
+ push rbp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,8
+ mov r12d,edi
+ mov r13,rsi
+ mov edi,NET_AIR_CRASHES
+ mov esi,r12d
+ xor edx,edx
+ call header
+ xor r14d,r14d
+ xor r15d,r15d
+.scan:
+ lea r8,[air_crash_cursors]
+ mov ebx,[r8+r12*4]
+ and ebx,AIR_CRASH_CAPACITY-1
+ lea eax,[rbx+1]
+ mov [r8+r12*4],eax
+ inc r15d
+ mov eax,ebx
+ imul eax,AIR_CRASH_STRIDE
+ lea rsi,[sim_air_crashes]
+ add rsi,rax
+ cmp dword [rsi+AIR_CRASH_SEQUENCE],0
+ je .next
+ imul eax,r14d,AIR_CRASH_WIRE_STRIDE
+ lea rdi,[output+NET_HEADER]
+ add rdi,rax
+ mov [rdi],ebx
+ add rdi,4
+ mov ecx,12
+ rep movsq
+ inc r14d
+.next:
+ cmp r14d,AIR_CRASH_WIRE_MAX
+ jae .send
+ cmp r15d,AIR_CRASH_CAPACITY
+ jb .scan
+.send:
+ test r14d,r14d
+ jz .done
+ imul esi,r14d,AIR_CRASH_WIRE_STRIDE
  mov [output+32],esi
  add esi,NET_HEADER
  mov rdi,r13

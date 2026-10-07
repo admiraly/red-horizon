@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/tests/test_air_crash_client.py", line 113, in <module>
+    background,_,_=capture(f'{role}-{label}-background');before_counts=tuple(u32(n) for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances'))
+                   ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/tests/test_air_crash_client.py", line 73, in capture
+    frame=u32('frame_count');until(lambda:u32('frame_count')>=frame+5);stop()
+                             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/tests/test_air_crash_client.py", line 49, in until
+    assert process.poll() is None,'client exited';time.sleep(.02)
+           ^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: client exited

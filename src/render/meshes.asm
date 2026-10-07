@@ -9,6 +9,8 @@ default rel
 %include "schemas/ground_visual.inc"
 %include "schemas/wreck.inc"
 %include "schemas/wreck_instance.inc"
+%include "schemas/air_crash.inc"
+extern sim_air_crashes,net_air_crashes,air_crash_instance
 extern sim_wrecks,net_wrecks,net_connected,wreck_instance
 extern view_projection,view_half_size
 extern environment_apply
@@ -28,6 +30,7 @@ extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUn
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
  global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame,mesh_infantry_pose
+ global mesh_air_crash_instances,mesh_air_crash_pose
  global mesh_wreck_instances,mesh_wreck_pose,mesh_counts_complete,mesh_actor_detail_ranges2
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
@@ -63,6 +66,8 @@ tree_positions: dd 1900.,3720.,2100.,3740.,1800.,4150.,2250.,4100.,3450.,3500.,3
 section .bss
 mesh_actor_detail_ranges2: resd 9 ; projected authored span per visual role
 mesh_counts_complete: resd 1 ; derived completed-pass telemetry, outside authority
+mesh_air_crash_instances: resd 1
+mesh_air_crash_pose: resd 16
 mesh_wreck_instances: resd 1
 mesh_wreck_pose: resd 16
 mesh_ground_pose: resd 16 ; last actual ground instance, development diagnostics
@@ -311,6 +316,11 @@ meshes_draw:
  mov dword [mesh_high_instances],0
  mov dword [mesh_low_instances],0
  mov dword [mesh_marker_instances],0
+ mov dword [mesh_air_crash_instances],0
+ lea rdi,[mesh_air_crash_pose]
+ xor eax,eax
+ mov ecx,8
+ rep stosq
  mov dword [mesh_wreck_instances],0
  lea rdi,[mesh_wreck_pose]
  xor eax,eax
@@ -482,6 +492,89 @@ meshes_draw:
  inc r13d
  jmp .wreck_descriptor
 .wreck_done:
+ xor r13d,r13d
+.crash_descriptor:
+ cmp r13d,[mesh_asset_count]
+ jae .crash_done
+ mov eax,r13d
+ shl eax,6
+ mov r12,[mesh_asset_descriptors]
+ add r12,rax
+ cmp dword [r12+4],0
+ jne .crash_next_descriptor
+ mov eax,[r12]
+ cmp eax,3
+ je .crash_role_ok
+ cmp eax,8
+ jne .crash_next_descriptor
+.crash_role_ok:
+ mov [current_descriptor],r12
+ xor r15d,r15d
+ xor r14d,r14d
+ lea rbx,[sim_air_crashes]
+ cmp dword [net_connected],0
+ je .crash_record
+ lea rbx,[net_air_crashes]
+.crash_record:
+ test dword [rbx+AIR_CRASH_STATE],3
+ jz .crash_next_record
+ mov eax,3
+ cmp dword [rbx+AIR_CRASH_ROLE],0
+ je .crash_record_role
+ mov eax,8
+.crash_record_role:
+ cmp eax,[r12]
+ jne .crash_next_record
+ cmp dword [view_tactical],0
+ jne .crash_append
+ movss xmm0,[rbx+AIR_CRASH_X]
+ subss xmm0,[view_camera]
+ mulss xmm0,xmm0
+ movss xmm1,[rbx+AIR_CRASH_Z]
+ subss xmm1,[view_camera+8]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ mov eax,[r12]
+ lea rdx,[mesh_actor_detail_ranges2]
+ ucomiss xmm0,[rdx+rax*4]
+ ja .crash_next_record
+.crash_append:
+ mov eax,r15d
+ shl eax,6
+ lea rdi,[instances]
+ add rdi,rax
+ mov esi,64
+ mov rdx,rbx
+ mov ecx,AIR_CRASH_STRIDE
+ call air_crash_instance
+ test eax,eax
+ jnz .crash_next_record
+ mov eax,r15d
+ shl eax,6
+ lea rdi,[instances]
+ add rdi,rax
+ movups xmm0,[rdi]
+ movups [mesh_air_crash_pose],xmm0
+ movups xmm0,[rdi+16]
+ movups [mesh_air_crash_pose+16],xmm0
+ movups xmm0,[rdi+32]
+ movups [mesh_air_crash_pose+32],xmm0
+ movups xmm0,[rdi+48]
+ movups [mesh_air_crash_pose+48],xmm0
+ inc r15d
+ inc dword [mesh_air_crash_instances]
+.crash_next_record:
+ add rbx,AIR_CRASH_STRIDE
+ inc r14d
+ cmp r14d,AIR_CRASH_CAPACITY
+ jb .crash_record
+ mov dword [current_mode],0
+ mov dword [draw_lod],0
+ call .upload_draw
+.crash_next_descriptor:
+ inc r13d
+ jmp .crash_descriptor
+.crash_done:
  pop rbp
  ret
 

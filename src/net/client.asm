@@ -15,6 +15,7 @@ extern net_depot_reset,net_depot_receive
 extern net_supply_reset,net_supply_receive
 extern net_company_reset,net_company_receive
 extern wreck_receive,wreck_remote_reset,wreck_remote_expire
+extern air_crash_receive,air_crash_remote_reset,air_crash_remote_expire
 %include "src/net/protocol.inc"
 extern infantry_aims
 extern sim_ground_motion
@@ -140,6 +141,7 @@ net_client_open:
  mov ecx,32768
  rep stosd
  call wreck_remote_reset
+ call air_crash_remote_reset
  call net_company_reset
  call net_supply_reset
  call net_depot_reset
@@ -353,6 +355,8 @@ net_client_poll:
  je .companies
  cmp dword [incoming+16],NET_ENTITIES
  je .entities
+ cmp dword [incoming+16],NET_AIR_CRASHES
+ je .air_crashes
  cmp dword [incoming+16],NET_WRECKS
  je .wrecks
  cmp dword [incoming+16],NET_INFANTRY_AIM
@@ -779,6 +783,14 @@ net_client_poll:
  jmp .publishaim
 
 ; Self-contained ground64: validate the complete batch before any mutation.
+.air_crashes:
+ lea rdi,[incoming+NET_HEADER]
+ mov esi,[incoming+32]
+ mov edx,[incoming+28]
+ call air_crash_receive
+ test eax,eax
+ js .next
+ jmp .accepted
 .wrecks:
  lea rdi,[incoming+NET_HEADER]
  mov esi,[incoming+32]
@@ -1372,6 +1384,7 @@ net_client_poll:
  mov dword [pending_len],0
  call reset_projectiles
  call wreck_remote_reset
+ call air_crash_remote_reset
  call net_company_reset
  call net_supply_reset
  call net_depot_reset
@@ -1389,6 +1402,8 @@ net_client_poll:
 .expire:
  mov edi,[net_server_tick]
  call wreck_remote_expire
+ mov edi,[net_server_tick]
+ call air_crash_remote_expire
  ; Old unrefreshed entities cannot remain authoritative ghosts indefinitely.
  mov ecx,[sim_count]
  imul r9d,ecx,3
@@ -1435,6 +1450,7 @@ net_client_poll:
  ret
 net_client_close:
  call wreck_remote_reset
+ call air_crash_remote_reset
  call net_company_reset
  call net_supply_reset
  call net_depot_reset

@@ -1,0 +1,77 @@
+{
+  "phase": "isolated renderer/replication candidate; integration gates pending",
+  "core_fast": {
+    "job_id": "3f3fc6313036",
+    "exit_code": 0,
+    "revision": "dc57d6a1ecb7b2b64f20e6e7a89cdb6cfef83481-8176f2218290f268",
+    "seconds": 481.9378954040003,
+    "status": "passed"
+  },
+  "jobs": {
+    "aircraft": {
+      "job_id": "a54268b3f1e9",
+      "revision": "bbb0bb6a358e041fd29ed9756fd56b2d70af3152-e888cc963b7c49ef",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/a54268b3f1e9/source",
+      "command": [
+        "test",
+        "--suite",
+        "aircraft"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/a54268b3f1e9/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/a54268b3f1e9/result.json",
+      "pid": 648598
+    },
+    "network": {
+      "job_id": "e2a1d684fcc0",
+      "revision": "bbb0bb6a358e041fd29ed9756fd56b2d70af3152-e888cc963b7c49ef",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/e2a1d684fcc0/source",
+      "command": [
+        "test",
+        "--suite",
+        "network"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/e2a1d684fcc0/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/e2a1d684fcc0/result.json",
+      "pid": 648572
+    },
+    "full": {
+      "job_id": "40b03f364420",
+      "revision": "bbb0bb6a358e041fd29ed9756fd56b2d70af3152-e888cc963b7c49ef",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/40b03f364420/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/40b03f364420/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/40b03f364420/result.json",
+      "pid": 659721
+    }
+  },
+  "logs": {
+    "rh-crash-instance.log": "a69c11e482d93e89278aa5b08785fbe2ade4d4335e6a8ef7f302f3a7087e2eeb",
+    "rh-crash-remote.log": "b2f5637bfb3c227e9914846f907477c062ea0b2d5d741b67134e1bae2120556e",
+    "rh-crash-stream.log": "3a9d05e65cede7e97e2e4c23a6a7bd86b3d7fefad1d6bd5a8b2828a3b7b2f6de",
+    "rh-crash-client-gl.log": "536eea262c3e82d2fdbfca40e015131bf8c0baa9e7b8b2d1b2cbe0fe6fd36613",
+    "rh-crash-client-gl-retry.log": "97c87562c95fb690b66a34f18b8b01c8a2dd90b8b2032271efa90198ca7badf7",
+    "rh-crash-client-udp-gl.log": "53bc775955e2aa71f34ac11098ebca11424ff3751134200a754180da1ed0b331",
+    "rh-crash-client-udp-gl-retry.log": "34bf8c620e2c7f1e836794ad9a24f39658672d4c9ebb741e888e536b7cbcf0d2",
+    "rh-crash-client-udp-gl-count.log": "f5bd9301c3e533b1654231c3f639f65ea8c2391e8a7d397847a4035257715803",
+    "rh-crash-network.log": "39871aaacfbf3d2a67e8c6ec150310905dc1754a3ac90247b7e88a13dccdb3d3"
+  },
+  "inputs": {
+    "src/sim/air_crash.asm": "448bea354a60feb8ae3b338581b524aad6f69690e73edeef198debb98792bcfe",
+    "src/sim/air_crash_remote.asm": "0466f898d7b0fdd39ca4dfc182ce678fe614b0757529e64493b42a930f61cd40",
+    "src/render/air_crash_instance.asm": "a587697e943dfa1aa209caba2f2f8d79588dcf31e35d8f27c0177353363e0b04",
+    "src/render/meshes.asm": "e4649e158e90b42e5510733bf92651a81ecef351d295ce60544994032858a294",
+    "src/net/coop_server.asm": "bc04e3e96f50ce38a3c9f9896f9f190cc1923fe99e4010f9a1c51951b1e1d8e9",
+    "src/net/client.asm": "f3c8fc887e4324217f749456e8100872c0b4994408bb63ac5d9445090d4676b5",
+    "src/net/protocol.inc": "bc13c13467c21217636f24973861a560da57adcb91cf842dfe9d03368ea74cc7",
+    "src/net/schema.txt": "7e866d36c57f0781d273ce30bc24f146d1e96984ab2a7489f96f97240555cd18"
+  },
+  "limits": "Ballistic centre-contact/flat settling; no cover/collision/blast/drag, packet snapshot stepping, existing source meshes. GL frozen samples/paired cosmetics, not live sync or spectacle. Genuine real-time expiry and world-bounds foreground results pending."
+}
