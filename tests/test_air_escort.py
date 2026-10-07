@@ -31,7 +31,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
    old=[(E[i].x,A[i].y,E[i].z,A[i].heading,A[i].speed) for i in (15,31)];lib.sim_tick()
    for j,i in enumerate((15,31)):
     moved=math.dist(old[j][:3],(E[i].x,A[i].y,E[i].z));assert abs(moved-A[i].speed)<.001
-    assert 5<=A[i].speed<=7 and -(.009002,.012002)[j]<=A[i].speed-old[j][4]<=(.006002,.010002)[j]
+    assert 1<=A[i].speed<=7 and -(.009002,.012002)[j]<=A[i].speed-old[j][4]<=(.006002,.010002)[j]
     yaw=(A[i].heading-old[j][3]+math.pi)%(2*math.pi)-math.pi;assert abs(yaw)<=(.02501,.04001)[j]
     assert A[i].ammo==(8,180)[j] and E[i].hp==200
     travel+=moved

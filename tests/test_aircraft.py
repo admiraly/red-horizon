@@ -33,7 +33,7 @@ for _ in range(500):
  old=(e[15].x,a[15].y,e[15].z);was_active=a[15].flags;old_speed=a[15].speed;lib.sim_tick()
  if was_active:assert abs(math.dist(old,(e[15].x,a[15].y,e[15].z))-a[15].speed)<.001
  assert abs(math.sqrt(a[15].vx**2+a[15].vy**2+a[15].vz**2)-a[15].speed)<1e-5
- assert 5<=a[15].speed<=7
+ assert 1<=a[15].speed<=7
  if was_active:assert -.009002<=a[15].speed-old_speed<=.006002
  assert a[15].flags==1 and a[15].ammo==8
  assert all(math.isfinite(v)for v in(a[15].y,a[15].heading,a[15].pitch,a[15].bank))

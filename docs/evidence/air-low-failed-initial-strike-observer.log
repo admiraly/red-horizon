@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-low-speed/tests/test_air_strike.py", line 44, in <module>
+    assert abs(travel-450)<.01 and E[15].hp==176 and A[15].ammo==8
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

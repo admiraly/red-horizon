@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-low-speed/tests/test_air_bases.py", line 131, in <module>
+    assert pair[0]['closest_diversion_gap_m']<150 and pair[1]['closest_diversion_gap_m']>800,pair
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'policy': 'candidate', 'closest_diversion_gap_m': 933.6180661385208, 'hp': 50, 'ammo': 180, 'mode': 3, 'hashes': ['3fe55aaa24d34a14', 'd1be685b3c98ff03', '97c7dd3078538a8f', '4b898a7f9d1f2443', '7dc8f2d765a74f88', '5cf7b3355fe86429']}, {'policy': 'omitted-facility-policy', 'closest_diversion_gap_m': 1176.807363365562, 'hp': 50, 'ammo': 180, 'mode': 3, 'hashes': ['1453013db876308a', '3170bf063881da1b', 'a6c80a84f5e30e17', 'ef0078efd57f5b41', 'daf0ae836f6bd4b3', 'ffb89d5c43312ae4']}]

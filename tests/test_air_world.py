@@ -86,7 +86,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-world-control-') as folder:
    assert air[31].ammo==180 and en[31].gen==1
    if en[31].hp==0:death=t+1;break
    assert abs(step-air[31].speed)<.001
-   assert 5<=air[31].speed<=7 and -.012002<=air[31].speed-oldspeed<=.010002
+   assert 1<=air[31].speed<=7 and -.012002<=air[31].speed-oldspeed<=.010002
   return {'death_tick':death,'last_xyz':last,'travel':travel,'maximum_y':maximum_y,'hp':en[31].hp,'ammo':air[31].ammo,'alive':(C.c_uint*2).in_dll(q,'sim_alive')[0],'crashes':C.c_uint.in_dll(q,'sim_air_crash_count').value,'events':C.c_uint.in_dll(q,'sim_event_sequence').value}
  # Late unavoidable wall entry creates one actual casualty/event/wreck, at first hull contact.
  wall=flight((l,e,a),3980,46,1300,ticks=1);wall_control=flight(controls['no_contact'],3980,46,1300,ticks=1)

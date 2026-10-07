@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
   for side in (0,1):
    reset(l,e,a);plane(e,a,31,4000,side,200,0,role);closest=2000.;travel=0.
    for tick in range(1200):
-    old=(e[31].x,a[31].y,e[31].z);oldspeed=a[31].speed;l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-a[31].speed)<.001;assert 5<=a[31].speed<=7 and -(.009002,.012002)[role]<=a[31].speed-oldspeed<=(.006002,.010002)[role];travel+=step
+    old=(e[31].x,a[31].y,e[31].z);oldspeed=a[31].speed;l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-a[31].speed)<.001;assert 1<=a[31].speed<=7 and -(.009002,.012002)[role]<=a[31].speed-oldspeed<=(.006002,.010002)[role];travel+=step
     assert a[31].ammo==0 and e[31].hp==200 and a[31].target==-1 and a[31].mode==3
     assert 0<=e[31].x<=8000 and 0<=e[31].z<=8000
     closest=min(closest,math.dist((e[31].x,e[31].z),((2800,5200)[side],4000)))

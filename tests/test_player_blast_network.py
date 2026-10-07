@@ -64,7 +64,9 @@ with tempfile.TemporaryDirectory(prefix='rh-blast-udp-')as directory:
     if event[3]==3 and event[4]==1 and abs(event[0]-2005.)<18 and abs(event[2]-3900.)<18:impacts.append(event)
    sequence=now
    if not samples or body[5:10]!=tuple(samples[-1][1:6])or body[15]!=samples[-1][-1]:samples.append([tick,body[5],body[6],body[7],body[8],body[9],stock[1],body[15]])
-   if native_dead and wire_dead and unknown_dead and wire_new_body:
+   # Retain the original five exact same-tick comparisons before stopping.
+   # Early completed lifecycle observation alone is not the full acceptance gate.
+   if native_dead and wire_dead and unknown_dead and wire_new_body and comparisons>=5:
     assert body[5]==100 and body[15]==generation+1 and body[6]==30 and stock[1]==90
     break
    assert host.poll()is None,'server ended before physical blast/deployment observation'

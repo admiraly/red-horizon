@@ -1,5 +1,5 @@
 ; Fixed30Hz specific-energy approximation, speed/height in metres per tick/metres.
-%define AIR_ENERGY_VERSION 1
+%define AIR_ENERGY_VERSION 2
 %define AIR_ENERGY_BOMBER_INDUCED 0.00035
 %define AIR_ENERGY_FIGHTER_INDUCED 0.00025
 %define AIR_ENERGY_BOMBER_COAST 0.0006

@@ -45,7 +45,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-fuel-')as folder:
   f[31].units=1;t.value+=1;a[31].bank=1;a[31].vy=.2;assert probe()==2 and f[31].units==0;t.value+=1;assert probe()==2 and f[31].units==0;cases+=2
   e[31].gen+=1;a[31].gen+=1;assert probe()==0 and f[31].units==capacity;cases+=1
  reset(l,e,a,f);probe()
- for obj,field,value in((e[31],'hp',0),(e[31],'kind',0),(e[31],'side',2),(e[31],'front',3),(e[31],'gen',0),(a[31],'gen',99),(a[31],'flags',0),(a[31],'role',2),(a[31],'speed',math.nan),(a[31],'speed',4.99),(a[31],'speed',7.01),(a[31],'bank',math.inf),(a[31],'vy',math.nan),(f[31],'units',21601),(f[31],'role',1)):
+ for obj,field,value in((e[31],'hp',0),(e[31],'kind',0),(e[31],'side',2),(e[31],'front',3),(e[31],'gen',0),(a[31],'gen',99),(a[31],'flags',0),(a[31],'role',2),(a[31],'speed',math.nan),(a[31],'speed',0.99),(a[31],'speed',7.01),(a[31],'bank',math.inf),(a[31],'vy',math.nan),(f[31],'units',21601),(f[31],'role',1)):
   old=getattr(obj,field);setattr(obj,field,value);before=bytes(f);assert probe()==-1 and bytes(f)==before,(field,value);setattr(obj,field,old);cases+=1
  for i in(64,32768,0xffffffff):
   before=bytes(f);assert probe(ident=i)==-1 and bytes(f)==before;cases+=1

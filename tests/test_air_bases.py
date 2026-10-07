@@ -123,7 +123,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-bases-') as folder:
             for tick in range(1,1801):
                 old=(entities[31].x,air[31].y,entities[31].z);old_speed=air[31].speed;lib.sim_tick()
                 assert abs(math.dist(old,(entities[31].x,air[31].y,entities[31].z))-air[31].speed)<.002
-                assert 5<=air[31].speed<=7 and -.012002<=air[31].speed-old_speed<=.010002
+                assert 1<=air[31].speed<=7 and -.012002<=air[31].speed-old_speed<=.010002
                 assert entities[31].hp==50 and air[31].ammo==180
                 closest=min(closest,math.dist((entities[31].x,entities[31].z),destination))
                 if tick%300==0:hashes.append(f'{lib.sim_checksum():016x}')

@@ -1,3 +1,5 @@
+Current flight8/energy2 expands the numerical domain to1..7 and adds a separate lift-deficit consumer; see [air-low-speed.md](air-low-speed.md). The following records the earlier energy1 cruise-floor integration and its original evidence.
+
 # Aircraft cruise energy
 
 `air_energy_step` is an authored NASM/SSE2 pure SysV actuator. Inputs are role0/1, engine-powered0/1, desired/current total speed, last completed bank and vertical displacement. It preserves nonvolatile registers and stack, rejects malformed scalars and returns a new total speed and its actual signed change. No pointers, allocations, private pools or authority writes are involved.

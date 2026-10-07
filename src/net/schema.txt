@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v48
-little-endian u32 header[10]: magic=0x52484332 version=48 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v49
+little-endian u32 header[10]: magic=0x52484332 version=49 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -120,3 +120,5 @@ Finite real defensive commitments and physically acquired fighter intercepts may
 Retained strike axis components must be finite within+/-1, squared length0.999..1.001; malformed memory rejects the pure mission query before guiding an aircraft.
 
 air-energy1: powered net throttle/brake work, previous-bank induced drag proportional tan(bank)^2, previous vertical gravity work and unpowered coast loss; same authoritative and final-preview actuator, current5..7 cruise/delta safeguards retained. Public E32/A64/modes unchanged; incompatible policy peers rebuild/restart.
+
+Aircraft low-speed lift policy: flight8/speed2/load2/energy2/lift1. Airborne total speed1..7; recovery circuit target5/admitted final target3; below level-lift support bank demand zero; actual and read-only final forecast constrain vertical response by (speed/stall_reference)^2*cos(bank), with downward gravity deficit and existing role acceleration/terminal sink limits. Remembered bombing-axis ingress retains1800m staging/600m lookahead and aligns toward its own remembered aim point inside positive1200m upstream distance; actual release still requires fresh LOS and unchanged physical ballistic tolerances. No wire record or mode layout changes. All peers rebuild/restart; no live migration.

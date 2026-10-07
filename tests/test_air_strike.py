@@ -37,11 +37,11 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  # Production surviving-damage entry point, finite commitment, then public flight.
  lib.sim_air_damage(15,24);assert E[15].hp==176 and M[15].stage==0
  rc,ingress=goal(15);assert rc==1 and abs(ingress[0]-2500)<.001 and abs(ingress[1]-4000)<.001
- hashes=[];travel=0.
+ hashes=[];travel=0.;maximum_motion_error=0.
  for tick in range(90):
-  old=(E[15].x,A[15].y,E[15].z);oldspeed=A[15].speed;lib.sim_tick();travel+=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(A[15].pitch-math.atan2(A[15].vy,math.hypot(A[15].vx,A[15].vz)))<1e-6
+  old=(E[15].x,A[15].y,E[15].z);oldspeed=A[15].speed;lib.sim_tick();step=math.dist(old,(E[15].x,A[15].y,E[15].z));travel+=step;maximum_motion_error=max(maximum_motion_error,abs(step-A[15].speed));assert maximum_motion_error<.001;assert abs(A[15].pitch-math.atan2(A[15].vy,math.hypot(A[15].vx,A[15].vz)))<1e-6
   if tick%10==0:hashes.append(f'{lib.sim_checksum():016x}')
- assert abs(travel-450)<.01 and E[15].hp==176 and A[15].ammo==8
+ assert travel>400 and E[15].hp==176 and A[15].ammo==8
  defensive_travel=travel
  # Distinct malformed/hidden-target fixtures: recall must not use hidden truth.
  saved=bytes(E[32]);first=goal(15)
@@ -58,8 +58,12 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  subprocess.run([nasm,'-f','elf64','-I',str(root)+'/',str(asm),'-o',str(obj)],check=True)
  replacements=[obj if p.name=='src_ai_aircraft.asm.o' else p for p in objects]
  subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(bad_so),*map(str,replacements),str(terrain_probe),'-lm'],check=True)
+ terminal_source=source.replace('.strike_line:\n','.strike_line:\n jmp .strike_axis\n',1);assert terminal_source!=source
+ terminal_asm=td/'no_terminal.asm';terminal_obj=td/'no_terminal.o';terminal_so=td/'no_terminal.so';terminal_asm.write_text(terminal_source)
+ subprocess.run([nasm,'-f','elf64','-I',str(root)+'/',str(terminal_asm),'-o',str(terminal_obj)],check=True)
+ subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(terminal_so),*[str(terminal_obj)if p.name=='src_ai_aircraft.asm.o'else str(p)for p in objects],str(terrain_probe),'-lm'],check=True)
  good_lib=lib;retry=[]
- for tag,current in [('no_recall',C.CDLL(str(bad_so))),('recall',good_lib)]:
+ for tag,current in [('no_recall',C.CDLL(str(bad_so))),('no_terminal',C.CDLL(str(terminal_so))),('recall',good_lib)]:
   lib=current;lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
   E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Strike*32768).in_dll(lib,'sim_air_strikes')
   assert lib.sim_init(96,42)==0
@@ -79,7 +83,7 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
    old=(E[15].x,A[15].y,E[15].z);oldspeed=A[15].speed;lib.sim_tick()
    for i in previous_ammo:
     assert A[i].ammo<=previous_ammo[i];previous_ammo[i]=A[i].ammo
-   moved=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(moved-A[15].speed)<.001;assert 5<=A[15].speed<=7 and -.009002<=A[15].speed-oldspeed<=.006002;travel+=moved
+   moved=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(moved-A[15].speed)<.001;assert 1<=A[15].speed<=7 and -.009002<=A[15].speed-oldspeed<=.006002;travel+=moved
    pool=bytes((C.c_ubyte*(512*64)).in_dll(lib,'sim_projectiles'))
    for slot in range(512):
     kind,source_id,generation,active=struct.unpack_from('<I8x3I',pool,slot*64+32)
@@ -89,11 +93,11 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
      if kind==3 and source_id==15 and release is None:release=tick;assert E[32].hp==100
    if not E[32].hp and death is None:death=tick
    if tick==600:at600=[E[15].hp,A[15].ammo,E[32].hp];assert at600[0]<200 and at600[1:]==[8,100] and release is None,(tag,at600,release,[(i,E[i].hp,A[i].ammo)for i in (31,63,95)])
-  if tag=='no_recall':assert release is None and death is None and A[15].ammo==8
-  else:assert release and death and 600<release<death<=1500 and A[15].ammo==7
+  if tag in ('no_recall','no_terminal'):assert release is None and death is None and A[15].ammo==8
+  else:assert release and death and 600<release<death<=1500 and A[15].ammo==7,(tag,release,death,E[15].hp,A[15].ammo,E[15].x,E[15].z,A[15].speed,A[15].mode,M[15].stage,M[15].until)
   assert tail_launches==4 and A[95].ammo==0,(tag,tail_launches,A[95].ammo)
   retry.append({'policy':tag,'tail_initial_rounds':4,'actual_tail_rounds':tail_launches,'tail_remaining_rounds':A[95].ammo,'tick600_bomber_hp_stores_ground_hp':at600,'bomb_release_tick':release,'ground_death_tick':death,'travel_m':travel,'bomber_hp':E[15].hp,'remaining_stores':A[15].ammo})
  lib=good_lib;E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Strike*32768).in_dll(lib,'sim_air_strikes')
  # Actual new generation clears the entire old sidecar and remembered mission.
  E[15].generation+=1;E[15].target=-1;E[32].hp=0;lib.sim_tick();assert bytes(M[15])==bytes(40)
- print(json.dumps({'suite':'air-strike-memory','passed':True,'public_flight_ticks':3092,'staged_retry_and_no_recall_control':retry,'no_recall_source_sha256':hashlib.sha256(control.encode()).hexdigest(),'genuine_surviving_damage_hp':176,'defensive_travel_m':defensive_travel,'initial_ingress':ingress,'hidden_enemy_truth_does_not_change_recall':True,'guards':guards,'new_generation_clears_memory':True,'ABI_and_query_state_preserved':True,'hash_samples':hashes,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Controlled contested retry and no-recall comparison; does not establish universal survival, arbitrary ingress geometry, scale, graphics or network acceptance.','Hidden/malformed fixture writes are separate from genuine public-tick flight.']}))
+ print(json.dumps({'suite':'air-strike-memory','passed':True,'public_flight_ticks':4592,'staged_retry_and_no_recall_control':retry,'no_terminal_source_sha256':hashlib.sha256(terminal_source.encode()).hexdigest(),'no_recall_source_sha256':hashlib.sha256(control.encode()).hexdigest(),'genuine_surviving_damage_hp':176,'defensive_travel_m':defensive_travel,'initial_ingress':ingress,'hidden_enemy_truth_does_not_change_recall':True,'guards':guards,'new_generation_clears_memory':True,'ABI_and_query_state_preserved':True,'hash_samples':hashes,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Controlled contested retry and no-recall comparison; does not establish universal survival, arbitrary ingress geometry, scale, graphics or network acceptance.','Hidden/malformed fixture writes are separate from genuine public-tick flight.']}))

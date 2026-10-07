@@ -9,7 +9,7 @@ def expected(role,emergency,error,speed,bank):
  yaw=max(-(.025,.04)[role],min((.025,.04)[role],error*.08))
  limit=((1.35,1.45),(1.4,1.45))[emergency][role]
  load=min(((3.,6.),(4.5,8.))[emergency][role],.9*(speed/(2.2,2.3)[role])**2)
- lift_bank=math.atan(math.sqrt(load*load-1)*.999999)
+ lift_bank=math.atan(math.sqrt(max(1.,load)**2-1)*.999999)
  limit=min(limit,lift_bank)
  desired=max(-limit,min(limit,-math.atan2(speed*yaw,.0109)))
  roll=(.06,.1)[role]
@@ -38,14 +38,14 @@ with tempfile.TemporaryDirectory(prefix='rh-bank-oracle-') as temporary:
  fn=compile_variant('production',source);rng=random.Random(72931);cases=[]
  for role in (0,1):
   for emergency in (0,1):
-   for error,speed,bank in [(0,5,0),(1,7,0),(-1,5,0),(0,6,1.4),(0,6,-1.4)]+[(rng.uniform(-math.pi,math.pi),rng.uniform(5,7),rng.uniform(-1.45,1.45)) for _ in range(500)]:
+   for error,speed,bank in [(0,5,0),(1,7,0),(-1,5,0),(0,6,1.4),(0,6,-1.4)]+[(error,speed,bank)for error in (-1,0,1)for speed in (1,1.6,2.2,2.3,3,4.99)for bank in (-1.4,0,1.4)]+[(rng.uniform(-math.pi,math.pi),rng.uniform(5,7),rng.uniform(-1.45,1.45)) for _ in range(500)]:
     args=(role,emergency,*map(f32,(error,speed,bank)));rc,out=observe(fn,args);assert rc==0
     oracle=expected(*args)
     assert abs(out[0]-oracle[0])<2e-7 and abs(out[1]-oracle[1])<5e-7,(args,out,oracle)
     assert abs(out[1]-args[4])<=(.060001,.100001)[role]
     cases.append(args)
  invalid=[(2,0,0,6,0),(0,2,0,6,0)]
- for field,values in [(2,[math.nan,math.inf,-math.inf,3.2,-3.2]),(3,[math.nan,math.inf,-math.inf,4.99,7.01]),(4,[math.nan,math.inf,-math.inf,1.46,-1.46])]:
+ for field,values in [(2,[math.nan,math.inf,-math.inf,3.2,-3.2]),(3,[math.nan,math.inf,-math.inf,0.99,7.01]),(4,[math.nan,math.inf,-math.inf,1.46,-1.46])]:
   for value in values:
    args=[0,0,0,6,0];args[field]=value;invalid.append(tuple(args))
  for args in invalid:

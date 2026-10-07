@@ -1,0 +1,47 @@
+{
+  "command": [
+    "/mnt/titan_nv3/projects/red-horizon-workers/air-low-speed/build/revisions/e2cf40244d539346f7410c0de30e9681a6cdf76f-9822a3c46c7abba0/red-horizon",
+    "--listen",
+    "--scenario",
+    "air-battle",
+    "--hidden",
+    "--frames",
+    "120",
+    "--width",
+    "1280",
+    "--height",
+    "720",
+    "--frame-cap",
+    "60",
+    "--no-vsync",
+    "--census"
+  ],
+  "exit_code": 0,
+  "audio": "ALSA null",
+  "scope": "Native Arc1280x720120frame natural listen view; not1080p/dense1024/four-front/sustained frame/audio/art acceptance",
+  "census": {
+    "visibility_census": true,
+    "visible_actors": 286,
+    "visible_high": 0,
+    "visible_low": 226,
+    "visible_markers": 60,
+    "individually_detailed_actors": 226,
+    "width": 1280,
+    "height": 720,
+    "source_tick": 63,
+    "invalid_codes": 0,
+    "readback_reduce_ms": 4.971728,
+    "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+    "authority_readonly": true,
+    "authority_before": "da38b741bec64b04",
+    "authority_after": "da38b741bec64b04"
+  },
+  "host": {
+    "listen_host": true,
+    "port": 33464,
+    "child_pid": 2971794,
+    "child_exited": 1,
+    "startup_failed": 0
+  },
+  "owned_authority_absent": true
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-low-speed/tests/test_air_strike.py", line 93, in <module>
+    else:assert release and death and 600<release<death<=1500 and A[15].ammo==7,(tag,release,death,E[15].hp,A[15].ammo,E[15].x,E[15].z,A[15].speed,A[15].mode,M[15].stage,M[15].until)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('recall', None, None, 80, 8, 2144.87158203125, 3985.3564453125, 4.998089790344238, 0, 1, 2785)

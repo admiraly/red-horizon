@@ -12,7 +12,7 @@ extern air_holding_init,air_holding_goal,air_holding_hash,sim_air_holding
 extern air_approach_init,air_approach_goal,air_approach_hash,sim_air_approaches
 extern air_traffic_init,air_traffic_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
-extern air_energy_step,air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
+extern air_energy_step,air_bank_step,air_lift_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_separation_init,air_separation_build,air_separation_step,air_separation_hash,sim_air_separation
 extern air_threats_reset,air_threats_build,air_threat_query
@@ -42,6 +42,7 @@ eye: dd 2.0
 fallback: dd 92.0
 altitude: dd 110.0,140.0
 speeds: dd 5.0,7.0
+circuit_speed: dd AIR_SPEED_CIRCUIT_TARGET
 final_speed: dd AIR_SPEED_FINAL_TARGET
 turns: dd 0.025,0.04
 pi: dd 3.14159265
@@ -69,6 +70,7 @@ two: dd 2.0
 round_speed2: dd 784.0
 world_edge: dd 8000.0
 strike_approach: dd AIR_FLIGHT_STRIKE_APPROACH
+strike_terminal: dd AIR_FLIGHT_STRIKE_TERMINAL
 strike_lookahead: dd AIR_FLIGHT_STRIKE_LOOKAHEAD
 strike_axis_min: dd AIR_FLIGHT_STRIKE_AXIS_MIN_SQ
 strike_axis_max: dd AIR_FLIGHT_STRIKE_AXIS_MAX_SQ
@@ -459,6 +461,20 @@ air_tick:
  call air_strike_goal
  jmp .boundary
 .strike_line:
+ ; Terminal run aligns toward the remembered aim point before release.
+ ; Positive upstream distance only: overflight keeps the forward axis.
+ movaps xmm2,xmm0
+ subss xmm2,[rbx+ENTITY_X]
+ mulss xmm2,[rcx+24]
+ movaps xmm3,xmm1
+ subss xmm3,[rbx+ENTITY_Z]
+ mulss xmm3,[rcx+28]
+ addss xmm2,xmm3
+ ucomiss xmm2,[zero]
+ jbe .strike_axis
+ ucomiss xmm2,[strike_terminal]
+ jbe .boundary
+.strike_axis:
  ; Follow the remembered physical strike axis, rather than orbiting a point.
  ; Cross-track correction is bounded to one lookahead: at most45deg intercept.
  movss xmm2,[rbx+ENTITY_X]
@@ -647,6 +663,8 @@ air_tick:
  jne .speed_ready
  cmp dword [rsp+120],1
  jne .speed_ready
+ ; Retain lift/turn headroom in the circuit; slow further on admitted final.
+ movss xmm0,[circuit_speed]
  mov eax,r12d
  shl eax,4
  lea rcx,[sim_air_approaches]
@@ -850,7 +868,8 @@ air_tick:
  mov edi,[rbp+AIR_ROLE]
  movss xmm1,[rbp+AIR_SPEED]
  movss xmm2,[rbp+AIR_VY]
- call air_vertical_step
+ movss xmm3,[rbp+AIR_BANK]
+ call air_lift_step
  test eax,eax
  jnz .next ; Invalid flight inputs publish no position or vertical-state writes.
  movss [rbp+AIR_VY],xmm0

@@ -40,7 +40,7 @@ try:
    samples.append(dict(x=body[0],z=body[1],y=pose[0],speed=pose[4],mode=pose[6],hp=body[2],generation=body[7]))
    if len(samples)>=4 and samples[-1]['speed']<samples[0]['speed']-.1:break
   time.sleep(.01)
- assert len(samples)>=4 and samples[-1]['speed']<samples[0]['speed']-.1 and all(5<=v['speed']<=7 and v['generation']==before['generation']for v in samples),samples
+ assert len(samples)>=4 and samples[-1]['speed']<samples[0]['speed']-.1 and all(1<=v['speed']<=7 and v['generation']==before['generation']for v in samples),samples
  assert all(v['speed']<u['speed'] for u,v in zip(samples,samples[1:])),samples
  actual=struct.unpack('<5f11I',os.pread(memory,64,symbols['sim_aircraft']+ident*64));assert actual[9]==before['ammo'] and actual[10]==before['generation']
  remaining=struct.unpack('<I',os.pread(memory,4,symbols['sim_air_fuel']+ident*16+4))[0];assert 0<remaining<3600

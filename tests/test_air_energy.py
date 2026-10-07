@@ -30,22 +30,23 @@ with tempfile.TemporaryDirectory(prefix='rh-air-energy-')as d:
  l=bind(candidate);controls={n:bind(p)for n,p in variants.items()};rng=random.Random(831745)
  cases=[(role,power,6.,6.,bank,climb)for role in (0,1)for power in (0,1)for bank in (0.,.8,1.3)for climb in (-.5,0.,.5)]
  cases += [(rng.randrange(2),rng.randrange(2),rng.uniform(5,7),rng.uniform(5,7),rng.uniform(-1.6,1.6),rng.uniform(-.5,.5))for _ in range(3000)]
+ cases += [(role,power,wanted,current,bank,climb)for role in (0,1)for power in (0,1)for wanted in (1,3,7)for current in (1,1.6,2.2,3,4.99)for bank in (0.,.8,1.3)for climb in (-.5,0,.5)]
  mismatch={n:0 for n in controls};max_error=0.;unsaturated=0;max_work_residual=0.
  for role,power,wanted,current,bank,climb in cases:
   wanted,current,bank,climb=map(f32,(wanted,current,bank,climb));acc=(.006,.010)[role];brake=(.009,.012)[role]
   throttle=max(-brake,min(acc,wanted-current))if power else 0
   base=current+throttle;drag=(.00035,.00025)[role]*math.tan(bank)**2+(0 if power else (.0006,.0005)[role])
-  energy=base**2-2*current*drag-2*.0109*climb;raw=math.sqrt(max(0,energy));expected=max(5,min(7,current+max(-brake,min(acc,raw-current))))
+  energy=base**2-2*current*drag-2*.0109*climb;raw=math.sqrt(max(0,energy));expected=max(1,min(7,current+max(-brake,min(acc,raw-current))))
   rc,speed,delta=sample(l,role,power,wanted,current,bank,climb);assert rc==0
   max_error=max(max_error,abs(speed-expected));assert abs(speed-expected)<1.5e-6,(role,power,wanted,current,bank,climb,speed,expected)
   assert abs(delta-(speed-current))<1e-7 and -brake-1e-6<=delta<=acc+1e-6
-  if 5<raw<7 and -brake<raw-current<acc:
+  if 1<raw<7 and -brake<raw-current<acc:
    unsaturated+=1;res=abs(speed**2+2*.0109*climb+2*current*drag-base**2);max_work_residual=max(max_work_residual,res);assert res<2e-5
   for n,q in controls.items():
    rr,ss,dd=sample(q,role,power,wanted,current,bank,climb);mismatch[n]+=rr!=0 or abs(ss-expected)>1.5e-6
  assert all(v>500 for v in mismatch.values()),mismatch
  invalid=[(2,1,6,6,0,0),(0,2,6,6,0,0)]
- for index,values in [(2,[4.99,7.01,math.nan,math.inf]),(3,[4.99,7.01,math.nan,math.inf]),(4,[-1.601,1.601,math.nan,math.inf]),(5,[-.501,.501,math.nan,math.inf])]:
+ for index,values in [(2,[0.99,7.01,math.nan,math.inf]),(3,[0.99,7.01,math.nan,math.inf]),(4,[-1.601,1.601,math.nan,math.inf]),(5,[-.501,.501,math.nan,math.inf])]:
   for value in values:
    args=[0,1,6,6,0,0];args[index]=value;invalid.append(tuple(args))
  for args in invalid:assert sample(l,*args)==(-1,0.,0.)
@@ -61,8 +62,8 @@ with tempfile.TemporaryDirectory(prefix='rh-air-energy-')as d:
    rc,speed,delta=sample(l,role,1,7,speed,bank,0);assert rc==0;history.append(speed)
   assert history[-1]<history[0]<6.8
   sustained.append(dict(role=role,ticks=60,initial_speed=6.8,final_speed=speed,maximum_load=(4.5,8)[role],full_commanded_throttle=True))
- # The current minimum remains an explicit cruise safeguard, not a stall model.
- assert sample(l,0,0,7,5,0,.5)==(0,5.,0.)
+ # The lower numerical speed floor remains an explicit energy safeguard.
+ assert sample(l,0,0,7,1,0,.5)==(0,1.,0.)
  flights=[]
  for side in (0,1):
   for role in (0,1):
@@ -114,4 +115,4 @@ with tempfile.TemporaryDirectory(prefix='rh-air-energy-')as d:
    assert rc==(0 if label=='energy'else 1),(label,rc)
    preview.append(dict(policy=label,result=rc,wall_x=[2743.,2744.5],source_unchanged=True))
   finally:C.memmove(addr,saved,len(saved));assert libc.mprotect(start,span,1)==0
- print(json.dumps(dict(suite='air-energy',passed=True,cases=len(cases),invalid=len(invalid),maximum_error=max_error,unsaturated_energy_cases=unsaturated,maximum_work_residual=max_work_residual,assembled_negative_mismatches=mismatch,ABI_stack_output_canaries=True,qualitative=qualitative,sustained_high_load=sustained,minimum_cruise_saturation_explicit=True,public_flights=flights,final_preview_energy_control=preview,actual_unobstructed_final_endpoint=physical_endpoint,library_sha256=hashlib.sha256(candidate.read_bytes()).hexdigest(),scope='Real kinetic/potential and induced-drag coupling within existing5..7 cruise/acceleration safeguards; no low-speed stalls, landing, total aerodynamic model, timing, graphics or UDP acceptance. Public initial births only, no later pose/health/stores/fuel/time renewal.')))
+ print(json.dumps(dict(suite='air-energy',passed=True,cases=len(cases),invalid=len(invalid),maximum_error=max_error,unsaturated_energy_cases=unsaturated,maximum_work_residual=max_work_residual,assembled_negative_mismatches=mismatch,ABI_stack_output_canaries=True,qualitative=qualitative,sustained_high_load=sustained,minimum_speed_saturation_explicit=True,public_flights=flights,final_preview_energy_control=preview,actual_unobstructed_final_endpoint=physical_endpoint,library_sha256=hashlib.sha256(candidate.read_bytes()).hexdigest(),scope='Real kinetic/potential and induced-drag coupling within existing1..7 speed/acceleration safeguards; isolated energy kernel does not establish low-speed lift, landing, total aerodynamic model, timing, graphics or UDP acceptance. Public initial births only, no later pose/health/stores/fuel/time renewal.')))

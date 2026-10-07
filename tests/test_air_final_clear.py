@@ -43,7 +43,7 @@ with tempfile.TemporaryDirectory(prefix='rh-final-clear-')as d:
    for role in (0,1):reset(bound,side,role,front);assert query(bound,base=side*3+front)==1;cases+=1
  for ident,base in [(64,1),(32768,1),(0xffffffff,1),(31,6),(31,0xffffffff),(31,0)]:
   reset(bound);assert query(bound,ident,base)==-1;cases+=1
- for field,value in [('y',math.nan),('y',math.inf),('heading',math.nan),('heading',6.4),('bank',1.61),('vy',.51),('speed',4.99),('speed',7.01),('speed',math.nan),('gen',2),('role',2),('flags',0)]:
+ for field,value in [('y',math.nan),('y',math.inf),('heading',math.nan),('heading',6.4),('bank',1.61),('vy',.51),('speed',0.99),('speed',7.01),('speed',math.nan),('gen',2),('role',2),('flags',0)]:
   reset(bound);setattr(a[31],field,value);assert query(bound)==-1;cases+=1
  for field,value in [('x',-1),('z',8001),('x',math.nan),('hp',0),('kind',1),('side',2),('gen',0)]:
   reset(bound);setattr(e[31],field,value);assert query(bound)==-1;cases+=1
@@ -88,7 +88,7 @@ with tempfile.TemporaryDirectory(prefix='rh-final-clear-')as d:
        old=(en[31].x,air[31].y,en[31].z);oldvy=air[31].vy;oldbank=air[31].bank;old_speed=air[31].speed;q.sim_tick()
        assert en[31].hp==50 and air[31].ammo==(8,180)[role],(side,role,label,tick,en[31].hp)
        assert abs(math.dist(old,(en[31].x,air[31].y,en[31].z))-air[31].speed)<.001
-       assert 5<=air[31].speed<=7 and -(.009,.012)[role]-.000002<=air[31].speed-old_speed<=(.006,.010)[role]+.000002
+       assert 1<=air[31].speed<=7 and -(.009,.012)[role]-.000002<=air[31].speed-old_speed<=(.006,.010)[role]+.000002
        assert abs(air[31].vy-oldvy)<=(.012,.024)[role]+.000002
        assert abs(air[31].bank-oldbank)<=(.06,.1)[role]+.000002
        rows.append((en[31].x,air[31].y,en[31].z,air[31].bank,air[31].vy,st[31][2]))

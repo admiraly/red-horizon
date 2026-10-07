@@ -87,7 +87,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-traffic-')as d:
       previous_speeds={i:ar[i].speed for i in (31,63)}; q.sim_tick();active=[]
       for ident in (31,63):
        assert en[ident].hp==50 and ar[ident].ammo==(8,180)[role]
-       speed=math.sqrt(ar[ident].vx**2+ar[ident].vy**2+ar[ident].vz**2);assert abs(speed-ar[ident].speed)<2e-5 and 5<=ar[ident].speed<=7
+       speed=math.sqrt(ar[ident].vx**2+ar[ident].vy**2+ar[ident].vz**2);assert abs(speed-ar[ident].speed)<2e-5 and 1<=ar[ident].speed<=7
        assert -(.009,.012)[role]-.000002<=ar[ident].speed-previous_speeds[ident]<=(.006,.010)[role]+.000002
        if ap[ident][2]==2 and ar[ident].mode==3:active.append(ident);admitted.add(ident)
       active_peak=max(active_peak,len(active));both_descending+=len(active)==2 and all(ar[i].vy<-.05 for i in active)

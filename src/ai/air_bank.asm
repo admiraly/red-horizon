@@ -75,6 +75,7 @@ air_bank_step:
  lea rcx,[emergency_load]
 .load_limit:
  minss xmm2,[rcx+rdi*4]
+ maxss xmm2,[one] ; no coordinated bank is supported below level lift
  mulss xmm2,xmm2
  subss xmm2,[one]
  sqrtss xmm2,xmm2

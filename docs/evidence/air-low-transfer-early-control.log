@@ -1,0 +1,6 @@
+{"diagnostic_order_ack": [7, 90, 20], "original_order_tick": 7, "elapsed_server_ticks": 13}
+Traceback (most recent call last):
+  File "/tmp/rh-transfer-early-debug.py", line 64, in <module>
+    response=peers[0].command(4,struct.pack('<IIff',1,1,2200.,3900.));print(json.dumps({'diagnostic_order_ack':response,'original_order_tick':original[0][7],'elapsed_server_ticks':response[2]-original[0][7]}),flush=True);assert response[0]==0
+                                                                                                                                                                                                                                    ^^^^^^^^^^^^^^
+AssertionError

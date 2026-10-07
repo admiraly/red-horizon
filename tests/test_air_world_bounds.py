@@ -22,7 +22,7 @@ for count,scenario in [(8192,3),(16384,0)]:
     assert abs(math.dist((old[0],old[4],old[1]),(E[i].x,A[i].y,E[i].z))-A[i].speed)<.001
     assert abs(A[i].vy-old[5])<=(.012002,.024002)[A[i].role]
     assert abs(math.sqrt(A[i].vx**2+A[i].vy**2+A[i].vz**2)-A[i].speed)<1e-5
-    assert 5<=A[i].speed<=7 and -(.009,.012)[A[i].role]-.000002<=A[i].speed-old[6]<=(.006,.010)[A[i].role]+.000002
+    assert 1<=A[i].speed<=7 and -(.009,.012)[A[i].role]-.000002<=A[i].speed-old[6]<=(.006,.010)[A[i].role]+.000002
     assert A[i].ammo<=old[3],(count,scenario,tick,i,A[i].ammo,old[3])
    minimum_clearance=min(minimum_clearance,E[i].x,E[i].z,8000-E[i].x,8000-E[i].z);checks+=1
   if tick%100==0:hashes.append(f'{lib.sim_checksum():016x}')

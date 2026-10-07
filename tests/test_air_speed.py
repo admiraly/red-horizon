@@ -35,17 +35,18 @@ with tempfile.TemporaryDirectory(prefix='rh-air-speed-')as d:
   return rc,tuple(out)[1:3]
  rng=random.Random(487231);cases=[(role,wanted,current)for role in (0,1)for wanted in (5,5.001,6,6.999,7)for current in (5,5.001,6,6.999,7)]
  cases += [(rng.randrange(2),rng.uniform(5,7),rng.uniform(5,7))for _ in range(2000)]
+ cases += [(role,wanted,current)for role in (0,1)for wanted in (1,1.6,2.2,3,5,7)for current in (1,1.6,2.3,3,5,7)]
  negatives={name:0 for name in ('no_actuator','instant_speed')};control_libs={name:bind(variants[name])[0]for name in negatives};error=0.
  for role,wanted,current in cases:
   wanted,current=f32(wanted),f32(current);rc,(speed,delta)=sample(l,role,wanted,current);assert rc==0
   change=max(-(.009,.012)[role],min((.006,.010)[role],wanted-current));expected=current+change
   error=max(error,abs(speed-expected));assert abs(speed-expected)<5e-7
-  assert abs(delta-(speed-current))<1e-7 and 5<=speed<=7
+  assert abs(delta-(speed-current))<1e-7 and 1<=speed<=7
   assert min(wanted,current)-1e-7<=speed<=max(wanted,current)+1e-7
   for name,lib in control_libs.items():
    rr,(ss,dd)=sample(lib,role,wanted,current);negatives[name]+=rr!=0 or abs(ss-expected)>=5e-7
  assert all(v>100 for v in negatives.values()),negatives
- invalid=[(2,5,5),(0xffffffff,5,5)]+[(0,x,6)for x in (4.99,7.01,math.nan,math.inf,-math.inf)]+[(1,6,x)for x in (4.99,7.01,math.nan,math.inf,-math.inf)]
+ invalid=[(2,5,5),(0xffffffff,5,5)]+[(0,x,6)for x in (0.99,7.01,math.nan,math.inf,-math.inf)]+[(1,6,x)for x in (0.99,7.01,math.nan,math.inf,-math.inf)]
  for args in invalid:assert sample(l,*args)==(-1,(0.,0.))
  reversals=[]
  for role in (0,1):
@@ -75,12 +76,12 @@ with tempfile.TemporaryDirectory(prefix='rh-air-speed-')as d:
       assert en[31].hp==50 and air.ammo==(8,180)[role]and air.gen==1
       displacement=math.dist(old,(en[31].x,air.y,en[31].z));norm=math.sqrt(air.vx**2+air.vy**2+air.vz**2)
       max_error=max(max_error,abs(displacement-air.speed),abs(norm-air.speed));assert max_error<.001
-      assert 5<=air.speed<=7 and -(.009,.012)[role]-.000002<=air.speed-old_speed<=(.006,.010)[role]+.000002
+      assert 1<=air.speed<=7 and -(.009,.012)[role]-.000002<=air.speed-old_speed<=(.006,.010)[role]+.000002
       if st[31][2]==2:seenfinal=True;final_min=min(final_min,air.speed)
       if seenfinal and st[31][2]==0 and air.speed>old_speed:reaccelerated=True
       rows.append((tick,en[31].x,air.y,en[31].z,air.speed,air.bank,air.vy,st[31][2]))
      assert seenfinal
-     if label=='candidate':assert final_min==5 and (role==0 or reaccelerated)
+     if label=='candidate':assert final_min<4.99 and (role==0 or reaccelerated),(side,role,final_min,reaccelerated)
      else:assert final_min==7 and not reaccelerated
      repeats.append(dict(final_minimum_speed=final_min,goaround_reaccelerated=reaccelerated,maximum_motion_speed_error=max_error,trace_sha256=hashlib.sha256(json.dumps(rows).encode()).hexdigest()))
     assert repeats[0]==repeats[1];pair.append(dict(policy=label,**repeats[0]))
@@ -105,4 +106,4 @@ with tempfile.TemporaryDirectory(prefix='rh-air-speed-')as d:
    physical=(bytes(en),bytes(ar));rc=q.air_final_clear(31,1);assert physical==(bytes(en),bytes(ar));assert rc==(1 if label=='candidate'else 0),(label,rc)
    preview.append(dict(policy=label,result=rc,wall_x=(2695,2700),actual_clear_tick120_x=endpoint))
   finally:C.memmove(addr,saved,len(saved));assert libc.mprotect(start,span,1)==0
- print(json.dumps(dict(suite='air-speed',passed=True,independent_cases=len(cases),invalid_cases=len(invalid),maximum_math_error=error,assembled_negative_mismatches=negatives,ABI_stack_guarded_outputs=True,reversal_traces=reversals,public_paired_flights=flights,predictor_speed_control=preview,library_sha256=hashlib.sha256(candidate.read_bytes()).hexdigest(),scope='Bounded longitudinal airborne5..7 actuator and physical final braking/go-around acceleration. Both-role/side initial7m/tick staged flights, no live body/HP/ammo/fuel/clock renewal; bomber default cruise remains5. Not low-speed landing, lift/drag/stall/ground contact or finite service acceptance.')))
+ print(json.dumps(dict(suite='air-speed',passed=True,independent_cases=len(cases),invalid_cases=len(invalid),maximum_math_error=error,assembled_negative_mismatches=negatives,ABI_stack_guarded_outputs=True,reversal_traces=reversals,public_paired_flights=flights,predictor_speed_control=preview,library_sha256=hashlib.sha256(candidate.read_bytes()).hexdigest(),scope='Bounded longitudinal airborne1..7 actuator and physical final braking/go-around acceleration. Both-role/side initial7m/tick staged flights, no live body/HP/ammo/fuel/clock renewal; bomber default cruise remains5. Isolated actuator scope; not touchdown, complete lift/drag/stall/ground contact or finite service acceptance.')))

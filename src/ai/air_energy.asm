@@ -26,7 +26,7 @@ global air_energy_step
 ; EAX0/XMM0 new speed/XMM1 actual delta; invalid -1/zeros.
 ; No authority writes/pointers/allocations. SysV nonvolatile registers preserved.
 ; Uses last completed physical bank/climb; same lag in authoritative preview.
-; Cruise5..7 and existing total acceleration/braking caps remain safeguards;
+; Airborne1..7 and existing total acceleration/braking caps remain safeguards;
 ; saturation does not represent a stall/ground-contact/whole-aerodynamics model.
 air_energy_step:
  cmp edi,1

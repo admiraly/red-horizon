@@ -6,7 +6,7 @@
 %include "schemas/air_speed.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count
-extern air_base_goal,terrain_height,air_energy_step,air_bank_step,air_vertical_step,air_world_sweep
+extern air_base_goal,terrain_height,air_energy_step,air_bank_step,air_lift_step,air_world_sweep
 extern atan2f,sinf,cosf
 section .rodata
 one: dd 1.0
@@ -175,7 +175,8 @@ air_final_clear:
  movss xmm0,[rsp+28]
  movss xmm1,[rsp+12]
  movss xmm2,[rsp+24]
- call air_vertical_step
+ movss xmm3,[rsp+20]
+ call air_lift_step
  test eax,eax
  jnz .invalid
  movss [rsp+24],xmm0

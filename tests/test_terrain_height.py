@@ -131,11 +131,14 @@ section .note.GNU-stack noalloc noexec nowrite progbits
     reset();e=entities[15];e.x,e.z,e.hp,e.kind,e.side,e.front,e.target=5360,5200,200,3,0,0,0xffffffff;world.air_init()
     minimum=math.inf;raised_samples=0;previous_y=None;flight=[]
     for tick in range(110):
-        old=(e.x,air[15].y,e.z);world.air_tick();ground=world.terrain_height(e.x,e.z);clearance=air[15].y-ground;minimum=min(minimum,clearance)
+        old=(e.x,air[15].y,e.z);old_speed=air[15].speed;world.air_tick();ground=world.terrain_height(e.x,e.z);clearance=air[15].y-ground;minimum=min(minimum,clearance)
         assert clearance>40, (tick,clearance)
         # First update establishes altitude from the initial ground pose.
-        # Cruise speed thereafter is the magnitude of XYZ displacement.
-        if tick:assert abs(math.dist(old,(e.x,air[15].y,e.z))-5)<.001, (tick,old,e.x,air[15].y,e.z)
+        # Published physical airspeed thereafter is the magnitude of XYZ displacement.
+        if tick:
+            assert abs(math.dist(old,(e.x,air[15].y,e.z))-air[15].speed)<.001, (tick,old,e.x,air[15].y,e.z,air[15].speed)
+            assert 1<=air[15].speed<=7 and -.009002<=air[15].speed-old_speed<=.006002
+            assert abs(math.sqrt(air[15].vx**2+air[15].vy**2+air[15].vz**2)-air[15].speed)<1e-5
         if previous_y is not None:assert abs(air[15].y-previous_y)<=.5001
         if extra(e.x,e.z)[0]>50:raised_samples+=1
         previous_y=air[15].y

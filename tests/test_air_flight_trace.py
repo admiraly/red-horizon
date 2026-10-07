@@ -20,7 +20,7 @@ def run():
   previous={15+j*8:(E[15+j*8].x,E[15+j*8].z,A[15+j*8].heading,A[15+j*8].bank,A[15+j*8].y,A[15+j*8].vy,A[15+j*8].speed) for j in range(8)};lib.sim_tick()
   for j in range(8):
    i=15+j*8;old=previous[i];role=j%2;speed=A[i].speed
-   assert 5<=speed<=7 and -(.009002,.012002)[role]<=speed-old[6]<=(.006002,.010002)[role]
+   assert 1<=speed<=7 and -(.009002,.012002)[role]<=speed-old[6]<=(.006002,.010002)[role]
    assert E[i].hp==200 and A[i].ammo==(8,180)[role]
    assert 0<=E[i].x<=8000 and 0<=E[i].z<=8000,(tick,i,E[i].x,E[i].z)
    assert abs(math.dist((old[0],old[4],old[1]),(E[i].x,A[i].y,E[i].z))-speed)<.001

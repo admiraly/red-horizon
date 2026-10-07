@@ -61,7 +61,11 @@ with tempfile.TemporaryDirectory(prefix='rh-transfer-udp-')as temporary:
   until(lambda:peers[0].front==1 and peers[1].front==0)
   # Old front denied; new owner's command accepted and confined to their cohort.
   assert peers[0].command(4,struct.pack('<IIff',0,0,2600.,1300.))[0]==5
-  assert peers[0].command(4,struct.pack('<IIff',1,1,2200.,3900.))[0]==0
+  # Consent exchange does not reset the original15-tick order rate gate.
+  # Wait on real authoritative ticks; no clock writes or deadline changes.
+  until(lambda:struct.unpack('<I',read('sim_tick_count',4))[0]-original[0][7]>=15)
+  new_order=peers[0].command(4,struct.pack('<IIff',1,1,2200.,3900.))
+  assert new_order[0]==0,('new-owner order ACK',new_order,original[0][7],leases())
   assert controls(keys)[0][2:]==transferred[0][2:]
   assert request(peers[1],1,0,sequence)[0]==5,'old consent revived an accepted proposal'
   # Production NASM adapter exercises proposal and cancel over the same endpoint.
@@ -74,7 +78,7 @@ with tempfile.TemporaryDirectory(prefix='rh-transfer-udp-')as temporary:
   until(lambda:remote[36]==0 and C.c_uint.in_dll(l,'net_pending').value==0)
   for p in peers:p.command(5);p.socket.close()
   peers=[];l.net_client_close();stdout,stderr=host.communicate(timeout=20);assert host.returncode==0,(stdout,stderr)
-  print(json.dumps({'suite':'company-transfer-actual-udp','passed':True,'units':8192,'before_keys':keys,'after_keys':[a[0]for a in after],'explicit_recipient_consent':True,'lost_propose_and_accept_ACK_no_duplicate_swap':True,'source_generations_and_leases_bound':True,'preserved_company_intents':True,'body_positions_preserved':True,'authoritative_fronts_updated':True,'old_front_and_old_consent_rejected':True,'production_adapter_propose_cancel':True,'observer_writes':False,'server_sha256':hashlib.sha256(server.read_bytes()).hexdigest(),'library_sha256':hashlib.sha256(copied.read_bytes()).hexdigest(),'server':json.loads(stdout.strip().splitlines()[-1]),'limits':['Rendered keyboard/feedback and broader fault/full acceptance are separate; exchange is not squad splitting or assistance.']}))
+  print(json.dumps({'suite':'company-transfer-actual-udp','passed':True,'units':8192,'before_keys':keys,'after_keys':[a[0]for a in after],'explicit_recipient_consent':True,'lost_propose_and_accept_ACK_no_duplicate_swap':True,'source_generations_and_leases_bound':True,'preserved_company_intents':True,'body_positions_preserved':True,'authoritative_fronts_updated':True,'post_transfer_order_elapsed_server_ticks':new_order[2]-original[0][7],'old_front_and_old_consent_rejected':True,'production_adapter_propose_cancel':True,'observer_writes':False,'server_sha256':hashlib.sha256(server.read_bytes()).hexdigest(),'library_sha256':hashlib.sha256(copied.read_bytes()).hexdigest(),'server':json.loads(stdout.strip().splitlines()[-1]),'limits':['Rendered keyboard/feedback and broader fault/full acceptance are separate; exchange is not squad splitting or assistance.']}))
  finally:
   l.net_client_close()
   if memory is not None:os.close(memory)

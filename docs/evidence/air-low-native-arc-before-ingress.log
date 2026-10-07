@@ -1,0 +1,52 @@
+binding forward=W
+binding back=S
+binding left=A
+binding right=D
+binding sprint=LSHIFT
+binding crouch=LCTRL
+binding jump=SPACE
+binding reload=R
+binding enter_vehicle=E
+binding exit_vehicle=Q
+binding fire=LMB
+binding tactical_map=TAB
+binding command_wheel=MMB
+binding command_cancel=RMB
+binding quit=ESC
+binding advance=1
+binding hold=2
+binding retreat=3
+binding follow=4
+binding front_1=F1
+binding front_2=F2
+binding front_3=F3
+binding weather=F4
+binding exchange_0=F5
+binding exchange_1=F6
+binding exchange_2=F7
+binding exchange_3=F8
+binding exchange_accept=F9
+binding exchange_decline=F10
+binding exchange_cancel=F11
+binding defend=5
+{"listen_ready":true,"port":33464,"child_pid":2971794,"units":8192,"scenario":1}
+4.6 (Core Profile) Mesa 26.2.3
+{"client_presentation":true,"hidden":1,"swap_interval_requested":0,"viewport_width":1280,"viewport_height":720,"framebuffer_width":1280,"framebuffer_height":720}
+client_render_device=Mesa Intel(R) Arc(tm) A770 Graphics (DG2)
+{"client_metrics":true,"cpu_samples":120,"gpu_samples":112,"cpu_frame_mean_ms":1.007508,"cpu_frame_p95_ms":1.075133,"cpu_frame_p99_ms":8.100092,"gpu_draw_mean_ms":0.936753,"gpu_draw_p95_ms":1.418333,"gpu_draw_p99_ms":1.547760}
+{"client_phase_metrics":true,"phase":"simulation","samples":120,"mean_ms":0.008666,"p95_ms":0.021337,"p99_ms":0.027248,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"render_routes","samples":120,"mean_ms":0.559059,"p95_ms":0.594074,"p99_ms":6.064439,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"audio_pump","samples":120,"mean_ms":0.189768,"p95_ms":0.230125,"p99_ms":0.255719,"clock_errors":0}
+{"client_pacing":true,"frame_cap_requested":60,"waits":119,"late_rebases":0,"clock_errors":0,"work_metrics_exclude_cap_wait":true}
+{"visibility_census":true,"visible_actors":286,"visible_high":0,"visible_low":226,"visible_markers":60,"individually_detailed_actors":226,"width":1280,"height":720,"source_tick":63,"invalid_codes":0,"readback_reduce_ms":4.971728,"scope":"opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included","authority_readonly":true,"authority_before":"da38b741bec64b04","authority_after":"da38b741bec64b04"}
+{"battle_metrics":true,"samples":120,"simultaneous_projectiles_effects_audio_frames":0,"peak_living":8192,"peak_engaged":0,"peak_projectiles":0,"peak_submitted_high":10,"peak_submitted_low":1022,"peak_submitted_markers":368,"peak_effect_records":44,"peak_trail_records":0,"peak_audio_voices":128,"initial_living":8192,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}
+meshes loaded=18 high=4 low=1022 markers=368 source_triangles=142615 animation_frame=6
+client frames=120 submitted_entities=8192 screenshot=(none)
+camera_x=3350.00 camera_z=2300.00 shots=0 hits=0 last_order=0
+weapon ammo=30 reloads=0 front=0
+operation state=0 req=178 supply=600 waypoint_orders=0
+selected_goal_x=-20000.000 selected_goal_z=-20000.000
+player id=0 hp=100 suppression=0 respawn=0 generation=1
+start_player_x=3350.000 start_player_z=2300.000
+network connected=1 player=0 front=0 server_tick=63 known_living=1394 local_sim_ticks=0
+{"listen_host":true,"port":33464,"child_pid":2971794,"child_exited":1,"startup_failed":0}

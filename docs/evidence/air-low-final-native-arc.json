@@ -1,0 +1,49 @@
+{
+  "command": [
+    "/mnt/titan_nv3/projects/red-horizon-workers/air-low-speed/build/revisions/e2cf40244d539346f7410c0de30e9681a6cdf76f-9fec52824f139f63/red-horizon",
+    "--listen",
+    "--scenario",
+    "air-battle",
+    "--hidden",
+    "--frames",
+    "120",
+    "--width",
+    "1280",
+    "--height",
+    "720",
+    "--frame-cap",
+    "60",
+    "--no-vsync",
+    "--census"
+  ],
+  "exit_code": 0,
+  "gpu": "name of display: :0\ndisplay: :0  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Intel (0x8086)\n    Device: Mesa Intel(R) Arc(tm) A770 Graphics (DG2) (0x56a0)\n    Version: 26.2.3\n    Accelerated: yes\n    Video memory: 16288MB\n    Unified memory: no\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 16288 MB, largest block: 16288 MB\n    VBO free aux. memory - total: 29667 MB, largest block: 29667 MB\n    Texture free memory - total: 16288 MB, largest block: 16288 MB\n    Texture free aux. memory - total: 29667 MB, largest block: 29667 MB\n    Renderbuffer free memory - total: 16288 MB, largest block: 16288 MB\n    Renderbuffer free aux. memory - total: 29667 MB, largest block: 29667 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 16288 MB\n    Total available memory: 64197 MB\n    Currently available dedicated video memory: 16288 MB\nOpenGL vendor string: Intel\nOpenGL renderer string: Mesa Intel(R) Arc(tm) A770 Graphics (DG2)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "binary_sha256": "95efd7c1e79c31dba1c3ca40f65f997b2bbff5e3caa8aeee17ce0d122bc1ac05",
+  "audio": "ALSA null",
+  "scope": "Native Arc1280x720120frame natural listen view; not1080p/dense1024/four-front/sustained frame/audio/art acceptance",
+  "host": {
+    "listen_host": true,
+    "port": 47871,
+    "child_pid": 2995832,
+    "child_exited": 1,
+    "startup_failed": 0
+  },
+  "census": {
+    "visibility_census": true,
+    "visible_actors": 292,
+    "visible_high": 0,
+    "visible_low": 224,
+    "visible_markers": 68,
+    "individually_detailed_actors": 224,
+    "width": 1280,
+    "height": 720,
+    "source_tick": 58,
+    "invalid_codes": 0,
+    "readback_reduce_ms": 17.998842,
+    "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+    "authority_readonly": true,
+    "authority_before": "2628cd78a7a1cdbf",
+    "authority_after": "2628cd78a7a1cdbf"
+  },
+  "owned_authority_absent": true
+}

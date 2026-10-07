@@ -13,7 +13,7 @@ global air_speed_step
 ; EDI role0/1, XMM0 desired total airspeed, XMM1 previous total airspeed.
 ; ->EAX0, XMM0 new total speed, XMM1 signed change. Invalid ->-1/zeros.
 ; Preserves SysV nonvolatile registers/stack. No pointers/writes/allocations.
-; Existing airborne5..7 envelope only; ground/stall/lift/drag remain separate.
+; Airborne1..7 envelope only; ground/stall/lift/drag remain separate.
 air_speed_step:
  cmp edi,1
  ja .invalid

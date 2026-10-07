@@ -49,7 +49,7 @@ with tempfile.TemporaryDirectory(prefix='rh-approach-')as d:
  for row in sites:row[5]=0
  assert query()[0]==0 and bytes(state[31])==bytes(16)
  for ident in (64,32768,0xffffffff):assert query(ident)[0]==0
- for field,bad in [('y',math.nan),('vx',math.inf),('speed',4.9)]:
+ for field,bad in [('y',math.nan),('vx',math.inf),('speed',.9)]:
   reset(bound);setattr(a[31],field,bad);private=bytes(state);assert query()[0]==0 and bytes(state)==private
  reset(bound);query();a[31].gen=2;assert query()[0]==0
  reset(bound);query();e[31].hp=200;a[31].ammo=180;assert query()[0]==0 and bytes(state[31])==bytes(16)
@@ -78,7 +78,7 @@ with tempfile.TemporaryDirectory(prefix='rh-approach-')as d:
     for tick in range(900):
      previous_speed=ars[31].speed; l.sim_tick();own=es[31];air=ars[31];ground=l.terrain_height(own.x,own.z)
      assert own.hp==50 and air.ammo==(8,180)[role]
-     speed=math.sqrt(air.vx**2+air.vy**2+air.vz**2);assert abs(speed-air.speed)<2e-5 and 5<=air.speed<=7
+     speed=math.sqrt(air.vx**2+air.vy**2+air.vz**2);assert abs(speed-air.speed)<2e-5 and 1<=air.speed<=7
      assert -(.009,.012)[role]-.000002<=air.speed-previous_speed<=(.006,.010)[role]+.000002
      if label=='candidate' and st[31][2]==0 and tick>100:goaround=True
      if abs(own.x-(2000.,6000.)[side])<500 and abs(own.z-4000.)<40:
