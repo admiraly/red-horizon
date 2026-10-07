@@ -1,0 +1,44 @@
+{
+  "main_commit": "17ad2b1d56f43aee320b1ac9182809750a496c6f",
+  "authored_files": 546,
+  "exact_final_snapshot_matches": true,
+  "builds": [
+    {
+      "target": "client",
+      "revision": "17ad2b1d56f43aee320b1ac9182809750a496c6f-91d99af3af860613",
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/17ad2b1d56f43aee320b1ac9182809750a496c6f-91d99af3af860613/red-horizon",
+      "sha256": "c76c8a3339a96b45ba8ca0a7f9a21f573930008b091a1dc18196fa4f3a799122"
+    },
+    {
+      "target": "coop",
+      "revision": "17ad2b1d56f43aee320b1ac9182809750a496c6f-91d99af3af860613",
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/17ad2b1d56f43aee320b1ac9182809750a496c6f-91d99af3af860613/red-horizon-coop-server",
+      "sha256": "4b6e5f3a8633b68e843ad0fffb6019350e8dd20abb24a13218374031fcf1e045"
+    },
+    {
+      "target": "headless",
+      "revision": "17ad2b1d56f43aee320b1ac9182809750a496c6f-91d99af3af860613",
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/17ad2b1d56f43aee320b1ac9182809750a496c6f-91d99af3af860613/red-horizon-server",
+      "sha256": "1ca67ff0ac2aff3866d1aa5fee01549e1c92167434343378d15091d438224ce9"
+    }
+  ],
+  "native_approach_and_hardware_shadow_runway_oracles_pass": true,
+  "actual_native_listen_120_frames_8192_authority_reaped": true,
+  "foreground_sessions_terminal": [
+    26327,
+    70967,
+    64733,
+    68536,
+    31386,
+    74288,
+    75202,
+    17445,
+    96062
+  ],
+  "pending_extended": {
+    "897cfcdeb7a7": "pre-shadow observer, same runtime",
+    "7e8f134879eb": "exact final authored source"
+  },
+  "process_observation": "    PID STAT     ELAPSED COMMAND\n2617008 Ss         09:00 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-approach/tools/dev.py _worker 897cfcdeb7a7 test --suite all --extended\n2626480 Ss         03:33 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-approach/tools/dev.py _worker 7e8f134879eb test --suite all --extended\n",
+  "scope": "Verified approach/circuit/descent/go-around only; no touchdown/service/traffic/full-specification claim."
+}
