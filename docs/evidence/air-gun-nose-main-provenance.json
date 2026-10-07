@@ -1,0 +1,182 @@
+{
+  "integrated_commit": "d634c8e",
+  "full_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/source",
+  "input_comparison": {
+    "src": {
+      "files": 88,
+      "different": []
+    },
+    "schemas": {
+      "files": 54,
+      "different": []
+    },
+    "content": {
+      "files": 24,
+      "different": []
+    },
+    "shaders": {
+      "files": 6,
+      "different": []
+    },
+    "tools": {
+      "files": 28,
+      "different": []
+    },
+    "tests": {
+      "files": 232,
+      "different": [
+        "tests/test_air_gun_nose.py",
+        "tests/test_client_infantry.py"
+      ]
+    }
+  },
+  "post_freeze_focused_tests": [
+    "tests/test_air_gun_nose.py",
+    "tests/test_client_infantry.py"
+  ],
+  "main_builds": [
+    {
+      "target": "headless",
+      "revision": "d634c8ead838c6d348aa8e7dab6a0a2d37b46d6b-ec12b3ceb54718d9",
+      "assembled": 2,
+      "assembled_sources": [
+        "src/sim/projectiles.asm",
+        "src/ai/aircraft.asm"
+      ],
+      "seconds": 0.4017156019981485,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/d634c8ead838c6d348aa8e7dab6a0a2d37b46d6b-ec12b3ceb54718d9/red-horizon-server",
+      "sha256": "6b52e0608c17b7e63f900dcae600636c6cbe50ec4832e10a0dc7cef377ad7f27"
+    },
+    {
+      "target": "client",
+      "revision": "d634c8ead838c6d348aa8e7dab6a0a2d37b46d6b-ec12b3ceb54718d9",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.4377738730108831,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/d634c8ead838c6d348aa8e7dab6a0a2d37b46d6b-ec12b3ceb54718d9/red-horizon",
+      "sha256": "ebd5aaee79b0f8b472f88ddac3ab3c77355206d736b88e742be1dd6db98a9d48"
+    },
+    {
+      "target": "coop",
+      "revision": "d634c8ead838c6d348aa8e7dab6a0a2d37b46d6b-ec12b3ceb54718d9",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.42646913400676567,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/d634c8ead838c6d348aa8e7dab6a0a2d37b46d6b-ec12b3ceb54718d9/red-horizon-coop-server",
+      "sha256": "2cc7ed4ae0f5631aa68d591072725a8703984af336f5e41377418f74192a4969"
+    }
+  ],
+  "matched_main_and_frozen30tick_full8192_authority": {
+    "units": 8192,
+    "ticks": 30,
+    "seed": 42,
+    "alive": [
+      4088,
+      4067
+    ],
+    "engaged": 679,
+    "checksum": "b241e72a1cd3e322",
+    "operation_state": 0,
+    "requisition": [
+      139,
+      118
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 473,
+    "projectile_peak": 480,
+    "projectile_dropped": 3670,
+    "navigation": {
+      "pending": 512,
+      "completed": 232,
+      "overflow": 149820,
+      "cache_hits": 4205,
+      "stuck_replans": 0,
+      "cover_choices": 0,
+      "processed_last_tick": 8,
+      "processed_max": 8
+    },
+    "air_events": {
+      "bomb_launches": 6,
+      "bomb_impacts": 0,
+      "gun_bursts": 230,
+      "aircraft_destroyed": 0,
+      "overwritten_unobserved": 192
+    },
+    "hazards": {
+      "predictions": 3410,
+      "tile_overflow": 1470,
+      "acquired": 484,
+      "dispersions": 484,
+      "shelters": 0,
+      "los_calls": 1156,
+      "budget_skipped": 0,
+      "active_goals": 477
+    },
+    "ordnance_admission": [
+      {
+        "submitted": 1514,
+        "admitted": 160,
+        "capacity_denied": 1354,
+        "invalidated": 0
+      },
+      {
+        "submitted": 1007,
+        "admitted": 101,
+        "capacity_denied": 906,
+        "invalidated": 0
+      },
+      {
+        "submitted": 122,
+        "admitted": 28,
+        "capacity_denied": 94,
+        "invalidated": 0
+      },
+      {
+        "submitted": 36,
+        "admitted": 17,
+        "capacity_denied": 19,
+        "invalidated": 0
+      }
+    ],
+    "air_admission": [
+      {
+        "submitted": 5,
+        "admitted": 5,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 659,
+        "admitted": 105,
+        "capacity_denied": 554,
+        "invalidated": 0
+      },
+      {
+        "submitted": 1,
+        "admitted": 1,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 868,
+        "admitted": 125,
+        "capacity_denied": 743,
+        "invalidated": 0
+      }
+    ],
+    "crowd": {
+      "snapshot_actors": 230160,
+      "move_queries": 269592,
+      "inspected_neighbors": 1628128,
+      "corrected_endpoints": 12690,
+      "yielded_moves": 1079,
+      "overlap_recoveries": 9699,
+      "truncated_queries": 0,
+      "maximum_inspected_per_query": 18
+    }
+  },
+  "scope": "Exact game runtime/content/tool bytes match full snapshot; two observer additions separately passed. Matched short headless trace and main builds do not establish a terminal full pass."
+}

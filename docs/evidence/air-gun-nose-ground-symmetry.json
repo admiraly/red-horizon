@@ -1,0 +1,28 @@
+{
+  "suite": "air-gun-nose-ground-label-symmetry",
+  "passed": true,
+  "reports": [
+    {
+      "units": 8192,
+      "ticks": 400,
+      "every_actor_health_equal_after_side_label_flip": true,
+      "alive": [
+        3950,
+        3696
+      ],
+      "per_actor_hp_sha256": "767e900408bc59d841f1f4156ae3d332ccec5698a47f2d66072ff045c3cdb35f"
+    },
+    {
+      "units": 16384,
+      "ticks": 400,
+      "every_actor_health_equal_after_side_label_flip": true,
+      "alive": [
+        7827,
+        7463
+      ],
+      "per_actor_hp_sha256": "676e070583209446df4a7e9ada69ae07b8a5d06b20aeb6b31b0e8a589d4e40ff"
+    }
+  ],
+  "library_sha256": "b77b1e6db247b06884af911fd43af1fab40987d3a661c70ac22d34468c361f08",
+  "scope": "Original8192/16384 actor initial kind3 converted to infantry to isolate ground hold combat from side-dependent aircraft mission goals; initial labels/orders only, no live pose/HP/stock/clock writes."
+}
