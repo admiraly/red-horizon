@@ -117,13 +117,15 @@ void main(){
   vec3 a=entity.xyz,b=roles.xyz;int kind=floatBitsToInt(roles.w);
   effectType=kind;effectUV=vec2(t*2.-1.,side);
   if(kind!=1){
-   float ttl=entity.w,life=kind==2?.45:(kind==6?.8:2.5);
+   bool rifleFlash=kind==2&&roles.x<.5;
+   float ttl=entity.w,life=rifleFlash?.065:(kind==2?.45:(kind==6?.8:2.5));
    float progress=clamp(1.-ttl/life,0.,1.);
    float seed=float(gl_InstanceID),phase=seed*2.399963;
    vec3 drift=vec3(cos(phase),0,sin(phase));
    vec3 horizontal=vec3(cos(angle.x),0,-sin(angle.x));
    vec3 vertical=vec3(-sin(angle.x)*sin(angle.y),cos(angle.y),-cos(angle.x)*sin(angle.y));
    float radius=roles.x*(kind==2?(.15+1.1*progress):(.4+1.5*progress));
+   if(rifleFlash)radius=roles.x*(1.-progress*.25);
    vec3 centre=a;
    if(kind==3||kind==7){centre+=drift*progress*roles.x*.55;centre.y+=progress*roles.x*1.4;}
    if(kind==5){radius=roles.x*(.3+2.3*progress);centre.y+=progress*roles.x*.12;vertical*=.28;}
@@ -139,8 +141,8 @@ void main(){
    colour=kind==4?mix(vec3(1.,.57,.15),vec3(.24,.19,.14),smoothstep(.0,.25,progress)):
     (kind==2?vec3(1.,.45+.4*(1.-progress),.08):
      (kind==5?vec3(.45,.38,.28):(kind==6?vec3(.61,.66,.69):vec3(.19,.21,.21))));
-   effectAlpha=(1.-progress)*(kind==2?.85:(kind==6?.13:(kind==7?.36:(kind==4?.9:.42))));
-   if(ttl<=0||(tactical!=0&&kind>=6))world.y=-10000;
+   effectAlpha=(1.-progress)*(rifleFlash?.95:(kind==2?.85:(kind==6?.13:(kind==7?.36:(kind==4?.9:.42)))));
+   if(ttl<=0||(tactical!=0&&(kind>=6||rifleFlash)))world.y=-10000;
   }else{
    vec3 axis=normalize(b-a);vec3 view=normalize(camera-mix(a,b,t));
    vec3 wing=cross(axis,view);float n=length(wing);wing=n>.001?wing/n:vec3(1,0,0);

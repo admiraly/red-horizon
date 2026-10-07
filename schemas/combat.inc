@@ -43,3 +43,5 @@
 %define VEHICLE_FLAGS 28
 %define INPUT_ENTER 8
 %define INPUT_EXIT 16
+
+%define EVENT_INFANTRY_RIFLE 10

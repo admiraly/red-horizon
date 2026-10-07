@@ -403,3 +403,9 @@ fields are introduced. Received counters reset only with declared genuine birth.
 There is no separate per-human enemy scan or extra firing budget. Humans are not encoded as army entity IDs: public `ENTITY_TARGET` remains an army ID or-1. Human aim orientation, target presentation and strategic observed-knowledge records remain pending. Safe deployment rejects physically visible hostile infantry within the same240m range; other role threat gates retain their previous conservative radius.
 
 Policy5 changes semantic compatibility to UDPv37/schema0xf7443ce4/content0xabc84d82. Public entity32/player64/stock32/state848 layouts are unchanged. Incompatible sessions restart; no saved-state migration claim.
+
+## NPC rifle cosmetic source events
+
+`infantry_weapon_shot` publishes one `EVENT_INFANTRY_RIFLE10` only after actual successful conserved debit and cooldown start. Stock-only `infantry_weapon_fire` publishes no event. `infantry_rifle_event(EDI=sourceID)` bounds-checks current living infantry and finite source XYZ, then emits at body eye with0.25m radius; its rejection cannot revoke an already committed shot. No authority hash contribution or new persistent gameplay state. Event32 remains cosmetic XYZ/kind/side/tick/radius/sequence, no source identity/target/trajectory claim.
+
+The renderer consumes matching current source events into the64-record cosmetic pool, produces a0.065s/0.25m flash with no smoke/debris, ages against actual tick, deduplicates frames and suppresses rifle flashes on the tactical map. Recorded bank0 routes spatially through the shared128voice mixer, deduplicated and at most15ticks old. NPC rifle diagnostics `audio_infantry_events`/`effects_rifle_flashes` are cosmetic. UDPv38 expands validated event kind range to1..10, packet layouts and authority content are unchanged; schema hash follows canonical src/net/schema.txt.

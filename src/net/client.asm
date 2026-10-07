@@ -1176,7 +1176,7 @@ net_client_poll:
  ja .next
  mov eax,[r15+12]
  dec eax
- cmp eax,8
+ cmp eax,9
  ja .next
  cmp dword [r15+16],1
  ja .next

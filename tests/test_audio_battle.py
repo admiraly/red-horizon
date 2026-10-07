@@ -75,7 +75,7 @@ with tempfile.TemporaryDirectory(prefix='rh-audio-battle-') as directory:
   before=bytes(ring),bytes(players),seq.value,ticks.value
   lib.audio_scene_update(0,4000,20,4000,1,0)
   assert (bytes(ring),bytes(players),seq.value,ticks.value)==before,'audio wrote authority'
- for kind in range(1,11):event(kind)
+ for kind in (*range(1,10),11):event(kind)
  update();assert counter('audio_battle_events')==5 and counter('audio_airgun_events')==1
  assert counter('audio_submitted')==6,'launch/unknown kinds must not make impact sounds'
  for _ in range(360):update()
@@ -91,8 +91,10 @@ with tempfile.TemporaryDirectory(prefix='rh-audio-battle-') as directory:
  assert C.c_uint.in_dll(lib,'audio_event_cursor').value==seq.value
  lib.reset_event_ring();update();assert counter('audio_submitted')==262,'scenario reset replayed events'
  event(9);update();assert counter('audio_submitted')==263,'new events after reset lost'
+ event(10);update();assert counter('audio_submitted')==264 and counter('audio_infantry_events')==1,'actual NPC rifle routing lost'
+ update();assert counter('audio_submitted')==264,'NPC rifle replayed'
  manifest=json.loads((root/'content/asset-manifest.json').read_text())
  asset=next(a for a in manifest['assets'] if a['id']=='explosion-surrogate')
  assert asset['recorded'] and hashlib.sha256((root/asset['source_file']).read_bytes()).hexdigest()==asset['original_sha256']
  assert hashlib.sha256((root/asset['destination']).read_bytes()).hexdigest()==asset['derived_sha256']
- print(json.dumps({'suite':'audio-battle','passed':True,'checks':['mono/stereo bank overlap and retirement','shared128 pool/replacement by bank length','malformed/missing bank','exact rifle/explosion recorded waveforms','actual combat_event routing kinds3/4/5/7/8/9','360 frame dedup and authority immutability','stale/future/overwritten rejection','distance cull','300-event backlog bounded256','scenario reset'],'recording_limitation':asset['limitation']}))
+ print(json.dumps({'suite':'audio-battle','passed':True,'checks':['mono/stereo bank overlap and retirement','shared128 pool/replacement by bank length','malformed/missing bank','exact rifle/explosion recorded waveforms','actual combat_event routing kinds3/4/5/7/8/9','360 frame dedup and authority immutability','stale/future/overwritten rejection','distance cull','300-event backlog bounded256','scenario reset','NPC rifle bank0 and unknown11 rejection'],'recording_limitation':asset['limitation']}))

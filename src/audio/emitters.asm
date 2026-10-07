@@ -14,10 +14,11 @@ seen_shots: resd PLAYER_CAPACITY
 local_id: resd 1
 global audio_remote_shots
 audio_remote_shots: resq 1
-global audio_event_cursor,audio_battle_events,audio_airgun_events
+global audio_event_cursor,audio_battle_events,audio_airgun_events,audio_infantry_events
 audio_event_cursor: resd 1
 audio_battle_events: resq 1
 audio_airgun_events: resq 1
+audio_infantry_events: resq 1
 section .text
 global audio_scene_update
 ; EDI local player id; XMM0..4 listener xyz,rightxz. No simulation writes.
@@ -107,6 +108,8 @@ audio_scene_update:
  ja .eventloop ; stale and future ticks both rejected
  mov eax,[rbx+EVENT_KIND]
  mov edi,1
+ cmp eax,EVENT_INFANTRY_RIFLE
+ je .rifle
  cmp eax,3
  jb .eventloop
  cmp eax,5
@@ -117,6 +120,7 @@ audio_scene_update:
  je .emit_event
  cmp eax,8
  jne .eventloop
+ .rifle:
  xor edi,edi
 .emit_event:
  movss xmm0,[rbx+EVENT_X]
@@ -126,9 +130,14 @@ audio_scene_update:
  call audio_emit_kind
  test eax,eax
  jnz .eventloop
+ cmp dword [rbx+EVENT_KIND],EVENT_INFANTRY_RIFLE
+ je .infantry
  cmp dword [rbx+EVENT_KIND],8
  je .airgun
  inc qword [audio_battle_events]
+ jmp .eventloop
+.infantry:
+ inc qword [audio_infantry_events]
  jmp .eventloop
 .airgun:
  inc qword [audio_airgun_events]

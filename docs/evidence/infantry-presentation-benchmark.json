@@ -1,0 +1,469 @@
+{
+  "pairs": [
+    {
+      "baseline": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.904143,
+        "tick_p95_ms": 16.362788,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 224
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      },
+      "candidate": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.753528,
+        "tick_p95_ms": 16.240875,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 5943
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      }
+    },
+    {
+      "baseline": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.867606,
+        "tick_p95_ms": 16.385008,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 224
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      },
+      "candidate": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.502486,
+        "tick_p95_ms": 15.83253,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 5943
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      }
+    }
+  ],
+  "executable_sha256": {
+    "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/source/build/revisions/d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e/red-horizon-server": "ba77e35e4acad324572ca623e249760c177c73d3757061d214b73a90323be516",
+    "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/e9b9f200d636/source/build/revisions/b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-39197b08c872d3fe/red-horizon-server": "c3dc979918d842fa904e9a142c1711b97cc09fa88014e4a04294166a0914609d"
+  },
+  "scope": "Two paired original8192/400tick scale-front CPU runs amid frozen jobs; exact authority hashes match. No GPU/full hotspot/per-actor faction/hardware-budget acceptance."
+}

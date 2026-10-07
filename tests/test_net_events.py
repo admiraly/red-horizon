@@ -26,7 +26,7 @@ try:
     def packet(*records):return struct.pack('<I',len(records))+b''.join(records)
     initial=bytes(ring)
     bad=[packet(event(1,x=float('nan'))),packet(event(1,y=float('inf'))),
-         packet(event(1,z=-1)),packet(event(1,kind=10)),packet(event(1,side=2)),
+         packet(event(1,z=-1)),packet(event(1,kind=11)),packet(event(1,side=2)),
          packet(event(1,tick=11)),packet(event(1,radius=-1)),packet(event(0)),
          packet(event(2),event(1)),packet(event(1),event(2,radius=float('nan'))),
          struct.pack('<I',33)+event(1)*33,struct.pack('<I',1)]
@@ -111,6 +111,11 @@ try:
     send(102,packet(event(259,kind=6,tick=14),event(260,kind=7,tick=14),
                     event(261,kind=8,tick=14),event(262,kind=9,tick=14)),16)
     assert seq.value==262
+    rifle=event(263,kind=10,tick=14,radius=.25)
+    send(102,packet(rifle),16)
+    assert seq.value==263 and bytes(ring[224:256])==rifle
+    before=bytes(ring);send(102,packet(rifle),16)
+    assert bytes(ring)==before and seq.value==263,'NPC rifle packet replayed'
     # A malformed high-tick vehicle snapshot cannot suppress a later valid one.
     players=bytes((C.c_ubyte*256).in_dll(lib,'sim_players'))
     sites=bytes((C.c_ubyte*384).in_dll(lib,'sim_sites'))

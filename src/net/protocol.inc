@@ -1,7 +1,7 @@
-; Actual gameplay UDP v37. Change both version/fingerprints on incompatible edits.
+; Actual gameplay UDP v38. Change both version/fingerprints on incompatible edits.
 %define NET_MAGIC 0x52484332
-%define NET_VERSION 37
-%define NET_SCHEMA 0xf7443ce4
+%define NET_VERSION 38
+%define NET_SCHEMA 0xe1d5f2bb
 %define NET_CONTENT 0xabc84d82
 %define NET_HEADER 40
 %define NET_MTU 1200

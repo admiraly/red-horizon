@@ -3,7 +3,7 @@ default rel
 %include "schemas/player.inc"
 %include "schemas/combat.inc"
 %include "schemas/aircraft.inc"
-global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor
+global effects_update,effects_records,effects_tracers,effects_active,effects_impacts,effects_event_cursor,effects_rifle_flashes
 extern sim_players,sinf,cosf
 extern sim_player_vehicle
 extern sim_events,sim_event_sequence,sim_tick_count
@@ -14,6 +14,8 @@ reach: dd 100.0
 forward: dd 3.0
 right: dd 0.22
 down: dd 0.25
+rifle_life: dd 0.065
+rifle_radius: dd 0.25
 flash_life: dd 0.45
 smoke_life: dd 2.5
 min_radius: dd 1.5
@@ -31,6 +33,7 @@ effects_tracers: resd 1
 effects_active: resd 1
 effects_impacts: resd 1
 effects_event_cursor: resd 1
+effects_rifle_flashes: resd 1
 view_x: resd 1
 view_z: resd 1
 dt: resd 1
@@ -236,6 +239,8 @@ effects_update:
  cmp eax,60
  ja .eventloop
  mov eax,[rbx+EVENT_KIND]
+ cmp eax,EVENT_INFANTRY_RIFLE
+ je .rifle
  cmp eax,EVENT_TANK_IMPACT
  jb .eventloop
  cmp eax,EVENT_AIR_DESTROYED
@@ -285,6 +290,19 @@ effects_update:
 .countimpact:
  inc dword [effects_impacts]
  jmp .eventloop
+.rifle:
+ mov eax,[sim_tick_count]
+ sub eax,[rbx+EVENT_TICK]
+ cvtsi2ss xmm2,eax
+ divss xmm2,[ticks_per_second]
+ movss xmm0,[rifle_life]
+ subss xmm0,xmm2
+ ucomiss xmm0,[zero]
+ jbe .eventloop
+ mov edx,2
+ call .impact
+ inc dword [effects_rifle_flashes]
+ jmp .eventloop
 .reset:
  ; Scenario/ring reset baselines and never manufactures old impacts.
  mov r13d,r12d
@@ -305,6 +323,11 @@ effects_update:
  mov eax,[rbx+8]
  mov [rdi+8],eax
  movss [rdi+12],xmm0
+ cmp dword [rbx+EVENT_KIND],EVENT_INFANTRY_RIFLE
+ jne .blast_radius
+ movss xmm1,[rifle_radius]
+ jmp .radius_ready
+.blast_radius:
  movss xmm1,[rbx+EVENT_RADIUS]
  maxss xmm1,[min_radius]
  minss xmm1,[max_radius]

@@ -41,5 +41,14 @@ with tempfile.TemporaryDirectory(prefix='rh-audio-routing-') as directory:
     player(1,12,generation=2);v[1]=12;update();assert submitted.value==1,'cannon generated rifle sound'
     v[1]=-1;player(1,13,generation=2,x=7000);update();assert submitted.value==1 and culled.value==1
     player(1,30,generation=2);update();assert submitted.value==2,'skipped snapshots should collapse to one latest rifle event'
+    ring=(C.c_ubyte*8192).in_dll(lib,'sim_events');seq=C.c_uint.in_dll(lib,'sim_event_sequence');tick=C.c_uint.in_dll(lib,'sim_tick_count')
+    infantry=C.c_uint64.in_dll(lib,'audio_infantry_events')
+    prior=submitted.value;tick.value=100;seq.value=1
+    struct.pack_into('<3f3IfI',ring,32,4025.,20.,4000.,10,1,100,.25,1)
+    update();assert submitted.value==prior+1 and infantry.value==1
+    for _ in range(8):update()
+    assert infantry.value==1,'same NPC event replayed across frames'
+    seq.value=2;struct.pack_into('<3f3IfI',ring,64,4025.,20.,4000.,10,1,84,.25,2)
+    update();assert infantry.value==1,'stale NPC muzzle replayed'
     lib.audio_shutdown()
-    print(json.dumps({'suite':'audio-emitters','passed':True,'checks':['actual recorded spatial waveform','local exclusion','generation and frame dedup','disconnected baseline','vehicle exclusion','distance cull','snapshot collapse']}))
+    print(json.dumps({'suite':'audio-emitters','passed':True,'checks':['actual recorded spatial waveform','local exclusion','generation and frame dedup','disconnected baseline','vehicle exclusion','distance cull','snapshot collapse','NPC rifle source event bank0/frame dedup/stale rejection']}))

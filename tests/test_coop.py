@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 37, 0xf7443ce4, 0xabc84d82
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 38, 0xe1d5f2bb, 0xabc84d82
 HEADER = struct.Struct('<10I')
 
 
@@ -78,7 +78,7 @@ class Peer:
             assert count<=32 and len(raw)==44+count*32
             for offset in range(44,len(raw),32):
                 event=struct.unpack_from('<3f3IfI',raw,offset)
-                assert 1<=event[3]<=9 and event[4]<=1 and event[5]<=header[7]
+                assert 1<=event[3]<=10 and event[4]<=1 and event[5]<=header[7]
                 self.events[event[7]]=event
         elif header[4] == 103:
             count=struct.unpack_from('<I',raw,40)[0]

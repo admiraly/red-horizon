@@ -1,0 +1,653 @@
+{
+  "stage": "Verified focused candidate; frozen core/network reconciliation pending",
+  "base_commit": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb",
+  "source_inputs": {
+    "src/ai/air_bank.asm": "f3eb09e73b07e1a34dc7c8098a7a99f82d5d28da9e5703b026753bb163599f72",
+    "src/ai/air_escort.asm": "e73f86a40da8e3e66b3e7734caee1f7360ea76d6df0a88a7dc951736c7eda6f1",
+    "src/ai/aircraft.asm": "98d019548b9ba3ac521b7acf5d0cec774f65df6dcea3cc02d98be545da814d95",
+    "src/ai/bomb_fall.asm": "e9bb1cde64ca9ea08b9be6830c390c758002eb6fabb2e1a6a6f1400e63b8d004",
+    "src/ai/company_assault.asm": "21ac458fa902cd60f4151f83ef6f2083daab22554da76ce6d33785a90341d402",
+    "src/ai/company_control.asm": "0f49512262be2233b65ad1aff1ffea7babc08501667b9a22faa6482ad9606a76",
+    "src/ai/company_defend.asm": "6ff040d4f2bdb68ea4d52281166d95b954ca2e5ba1976ba87a394dc7097aa29a",
+    "src/ai/company_follow.asm": "4375ea376e50a7bff55bb7c5fc4fa9576965f858ea785aa84870bf48218dfefe",
+    "src/ai/company_supply.asm": "1fa8e66ab3bf88f75be50edd8dc844717f67c2f8a59c44478cf0f563196eb7e4",
+    "src/ai/company_transfer.asm": "8147e50d89de48e4876dab045f278daedfb441081fb0ecf88666ff4f4436d2f2",
+    "src/ai/depot_supply.asm": "7dbe2c2372170c80ceb7c55a56a8b87d9597ed8ffacd38ee20a2f152a59c6698",
+    "src/ai/hazard_steering.asm": "d27a3b03f79b500c25da797c43195bbd8d2efe74e878f6e50edb93045e14dfe1",
+    "src/ai/hazards.asm": "ff17308349a1ddd5de4469e1c563f258022093d17186949950633f1edc911112",
+    "src/ai/infantry_human.asm": "96b25ace68c0547f0e8b628be45311ffbdf0a7cf52b6b0cd37c764c4be9851a1",
+    "src/ai/infantry_supply_route.asm": "20852a3e1dab47cedfa8712470d8591a14d589f565642ff8d081710a04e872dd",
+    "src/ai/tactics.asm": "f1aef0d63d0e513a92c2c62c00d4c5533f89e7b926fc32abf68ed034e0a9ddc6",
+    "src/audio/audio.asm": "b31339b4bbb51d3be2be397a9d58ffadb736ee973b4d7ba1e8c3a3080c6a18e6",
+    "src/audio/emitters.asm": "7d3a89a79c64582b105a379438db010635f89b5be099ec2e02fa0b8008d9e7dc",
+    "src/audio/footsteps.asm": "59a74d18c280ccf26a2ce385a46bfa97973144d5986eeb29b8ebfd53470033ab",
+    "src/game/command_wheel.asm": "14b9172a5dfe610740797e98d0e803e4866c3db6e28eda737d635ec4cf5356eb",
+    "src/game/ground_motion.asm": "12136bd8768ff83d6a531989b734587a2eaf9f4647df0dcba3991c72b5e81485",
+    "src/game/player.asm": "847bf880b731e2acd43f8e3e9b2910254f1fb5df000de9dd3b7bd0b90680fc27",
+    "src/game/player_ammunition.asm": "bf9015953a7d469da7bb66075bc0e70f128b95b7367f605d4abb358c9f790cd2",
+    "src/game/player_blast.asm": "2815d1b55a665152e91f5588d9a0e7fd5d124a3bbff875aa2d62bea74e2c9c71",
+    "src/game/vehicles.asm": "0ba97f7b1f2ca5b36e95fcb098c92e6d2dd66f09d881c9d3e30b9bb2b1f89f37",
+    "src/nav/crowd.asm": "b4a5cf13344c4375e8d9b93c9859423a788a80c272a5aba12240b7d765c97857",
+    "src/nav/ground_contact.asm": "46c3f632099fa0957bc7d3e0d072c7e4a080e631d896457cb0bb5ba40b799ed6",
+    "src/nav/ground_eye.asm": "e276a00e08d989e8c62f8bf57288444a8dfcf2370781454efda011b27aa235ec",
+    "src/nav/ground_support.asm": "bb6dbe014a499c309c3f9991aebe21e595e9cdfe6fe993f6649f7c06fd0d9651",
+    "src/nav/segment_box.asm": "17c77f6ac2838eb17237bd4f29e40f2c539e4dfbd8944613a513d539bb495a99",
+    "src/nav/segment_sphere.asm": "6bc0c73f7d5de611c4a26c08d0e559acbe862055151bae4c80298dd3e7674901",
+    "src/nav/squads.asm": "6ccc403a2477ca4156baf1c9751f8c32e9d2fdb79abfddab64fd63e75291e8a8",
+    "src/nav/terrain.asm": "f0d700ab865136dacf38fd0193de53b04f2e217862b6cd9e4ebec335b4975e58",
+    "src/nav/terrain_body.asm": "7560ab2ddca3d24070e49341bab36a02eb1100a50f74d87d9d941fa34f413f41",
+    "src/nav/terrain_grade.asm": "6b0054c2196a2fe96c303df9d9df002e560fa22ccd8d854c0c24d3340f3ac072",
+    "src/nav/terrain_ground_query.asm": "c6cb57ec98b9cbf6888a3fe161d85c15034d9e92dda1b5d9b24520906048f7c7",
+    "src/nav/terrain_relief.asm": "d565359b13a2bbad4bfd3dfe5146f09ba827216b644a28a768185a8174d5f83f",
+    "src/nav/terrain_solid_query.asm": "3d77d62dafff05a8dacaf36a9f937a5c11af9955fe5882ed743ca0568680b1e2",
+    "src/nav/terrain_surface.asm": "2f4da01bc8f7c451df16268820fd5b276c9231856ba8bbabb503dd4b956b476a",
+    "src/nav/world_body.asm": "3c3a85feaa6e35639dceb285e1e86ffb081eec7e394419b72ba08da8943e6c6b",
+    "src/nav/world_los.asm": "49f0df73fdf2444f2c50f26b5deb8deae06676d523d4b3aa112009aa01f0b520",
+    "src/nav/wreck_nav.asm": "bc78e8e521246e2dcafe4b6b5775b877ce4250c157d1f64669acd18db7d66a28",
+    "src/nav/wreck_query.asm": "1a39ca1b370b42c70fc68c806bbc3ab38fbfe36ad875ff2b828bd3fc38695174",
+    "src/net/client.asm": "6bdd1817ce3607b840c04ef54275a9a39b211e0b0e5a5e00acb66c4f3aaf050e",
+    "src/net/coop_server.asm": "81a18a9312e380a7c85b73a0508c51efcf762583f54016699e8a9095c0b4e4ee",
+    "src/net/protocol.inc": "34c2715398502190c5649c6d134489f954e361db86f3a18e56dbcd852b6d7e69",
+    "src/net/schema.txt": "e1d5f2bbf1830c8c72f6cb47fc0a587dbef11858b42cc4ba0bec5b5c35106b4c",
+    "src/net/server.asm": "86c93f689cae06899be52db01663dc425915d14943eac58d47d7c516af2028e5",
+    "src/platform/linux/client.asm": "1e0a16bf5d01a68cb125159c59ea49a992aa41c37e75a72cae0cd86511d1c148",
+    "src/platform/linux/headless.asm": "ea3288db4ab6bc75a72c0fa877fde08f9d7ebcffcad9733e4d4728d1b86e6531",
+    "src/platform/linux/input_bindings.asm": "dfdf4c0c6e2c33e84eef103decbe381c45dd61d23d9bfaf71eadca1528d2d7ab",
+    "src/reload/abi.inc": "5f40a98a616e028c397da3a67797a829cb8b561993de84de7e3711b36a91e301",
+    "src/reload/host.asm": "50fcfa20ec97db65f981305e0987ffecc50b2259183b353e932fdbc1025b0fc4",
+    "src/reload/module.asm": "e68e11e66104d86936e92dfdcd74921aa664a0c701dac0b051246b61af36449e",
+    "src/render/air_trails.asm": "0e52116dd9daa8c8313e4bd414caf7c138d881c13095d81688b34c5a0963becc",
+    "src/render/battle_metrics.asm": "65da4422ac866216873ff467cff9f45e402873d1e660e45052fd7f95ac756eaf",
+    "src/render/command_hud.asm": "97d1784455c0bce8dbf97ce9a1cf45706b996a3e07f2f15afca423d6566da63e",
+    "src/render/command_wheel.asm": "6e81e3b10ab37d4db4edb00c621d8684d00cd3d2b5c3292752f7a42a081dd5ee",
+    "src/render/effects.asm": "307c6bd2cd0cbba99d7f76ef892da70232fff34ec6c8bd6800b96d674b8afdad",
+    "src/render/environment.asm": "b28a909e541c580df22fecb9ad1d8e44e999b46330da01d124d80f19ff66627c",
+    "src/render/ground_visual.asm": "580908a6981515ca3138e132048e998260050e04be3031791649d845eacd8496",
+    "src/render/hazard_warning.asm": "97d94d7c44119ddb0a0f21ab62663f645a66d1084ff9959f798a1d930af86ef6",
+    "src/render/mesh_assets.asm": "99abf465193b92972ff4c8847a2c5220d9a7246e2cf48b9ff2dd6d32b496b09e",
+    "src/render/mesh_shaders.asm": "2a61df8f5e2866685482c25dd7ce5c38bf2188d414b9683c0d6faf9bcb5c34f6",
+    "src/render/meshes.asm": "d72b754cbc0f73dc6e11f8577d36868435734a87cb35fb4adc13a372c63dafe0",
+    "src/render/metrics.asm": "e37989512b5d40b6c7cc0db430ef8bf66f326de4f9a8e1d94235fbaac339cdd3",
+    "src/render/shaders.asm": "6ee6850a7511ca68052ed20b4f0e84bbe574d833cf7d3eb07a6af67b738ce7b3",
+    "src/render/suspension.asm": "3e5fb2c016ef2a9651319b012774994d39167e9c2a200487e464984b248663df",
+    "src/render/view_settings.asm": "2ce27fe9d0ec66044cc374232d4b8535dd86dddf2326428f9d5acd0323dbcd44",
+    "src/render/visibility_census.asm": "15693977b0693a229ef74004b487e0684114dd2da8bd0dc2e0534c2713ac8986",
+    "src/render/wreck_instance.asm": "4f1e75365d55ced4a4139549e13b699838336e6f74bbd4d86ed66946c1421c32",
+    "src/sim/air_admission.asm": "f899b5f13f21f36d9522b67a1de277582bf39a2db8dfeb2c4cd0a1708a12caa9",
+    "src/sim/company_remote.asm": "2b98c5a2b9835b2649f110f2d9ff57348a2d9b6c451b3f6b35ef36e6d421303c",
+    "src/sim/company_supply_remote.asm": "f315869657573391fa26e13a9cae4b1e53dfc1aea23774e723015c87db64a759",
+    "src/sim/depot_ammunition.asm": "0bb02f00f3bdbb1ec9bbbd44180d03f6d90d45638957b480c522952b138ccb45",
+    "src/sim/depot_supply_remote.asm": "dd1b64c1f2b0f7cb3b3d85ff3ef8c44335dd52b9c9f39e3c89d84d01bd40e369",
+    "src/sim/infantry_event.asm": "3bbd6a85eaa1be55ee2c42bc3dd70668c46fb32df1efc782344817ff102fb563",
+    "src/sim/infantry_weapon.asm": "c6e37370c673b1baa50439d803c369c437d9282ac52a5d6506599fa81e91105f",
+    "src/sim/operation.asm": "a6e0ef492353b260474e35eb498c1e7727fd416c04e1c041611342aa9b1c6d7f",
+    "src/sim/ordnance_admission.asm": "0287fba4de2583dbeae4ceac5eef59626dd5a5648e0204d0baaac848a2453507",
+    "src/sim/player_ammunition_remote.asm": "296898548d47f3ab59622e1257653d83925d21e8f0cfeed5f56496827d668ea9",
+    "src/sim/projectiles.asm": "1f6e3ddb00e8d0e1f06601dff44bb9b7fa8a7538e2637c3232e5534c821bba00",
+    "src/sim/scenarios.asm": "82fd7646724f99a5309143cd2ee11757b19b87076a6375368fc2dada41557b97",
+    "src/sim/world.asm": "82b5d9a92c2061ae354ba4c51092e96c53ced06153322a25ecf579c6cd62169d",
+    "src/sim/world_contact.asm": "df98603b9dd35c19064601629a9cd400d8e21b419d51f5838498f39bf82f30a4",
+    "src/sim/wreck_remote.asm": "9878e8c138d337908bcd96a970b6561b6766789296133056a9bf062bc66db02e",
+    "src/sim/wrecks.asm": "2c6a4cabd1969519c4aa095653445e2dd4e8b06e934d63d8fafd225c1a668365",
+    "schemas/acquisition.inc": "9af33984df8b084e486a96f7d58cf22e63d33a3a212999441b4391306b234f17",
+    "schemas/air_admission.inc": "0c5df3884d3e3bbddb6a32fff975089b694c376798f8ce17271ab244f54e1e58",
+    "schemas/air_escort.inc": "fa58b296882549686749b708347e143f598ca374432974783a904620001ce74c",
+    "schemas/air_flight.inc": "bc33581124b471cee00a32dee6c81fbe768a628a2376f8b7e0b212b2265d2de4",
+    "schemas/aircraft.inc": "ec3ccbae7ba8b50c3e8b8c932cfc33973536748b8a28c3f36a3b7b1efd41a7a2",
+    "schemas/combat.inc": "45ddd026fc5a65df9bdb4021d405e949f78326e7384e7c5578fa369284d3ae08",
+    "schemas/company_assault.inc": "13cd6ca7b389fc8b289b8496b10e6bb125f976673491220a312b414d1895300f",
+    "schemas/company_control.inc": "9c6f6c2ce14e0cfa90ea1d267b8ea385b3180b77841e9573cbb3549a0b2e19e0",
+    "schemas/company_remote.inc": "5df37162a08403b3f982b191f3ef53a53829b59eb126f39a9a01f72d6d07e79e",
+    "schemas/company_supply.inc": "0bae4334b05db31f1b8eb0393e2de5711d5b20b4af0c84264f24439611d0c6f5",
+    "schemas/company_transfer.inc": "d0e7d26bba7a29f36785fc16258c64960ca7c2f0a30edadda8d6632543266b5d",
+    "schemas/crowd.inc": "7166b180b0f83e588d0bbbd4381d42b49af7baeacac2edc0e32cba7d13d2fdee",
+    "schemas/depot_ammunition.inc": "e95e141d398d7c5fa700d81b7984eca0dbfabad3223961fdd3229262582b4f9d",
+    "schemas/depot_supply.inc": "e07847ba1e4c906115c4008448f5a3efef01a477dac817ab74a85f8f180422bf",
+    "schemas/entity.inc": "a5ff3f51a85ab92bf1921f42b74d0b83e2ac46b9dd432460fa1a1cd32c12e965",
+    "schemas/entity.json": "be6ac9c5e0d62d1b786f7d076a231acd7de48bd269b8cf381840fc63bf328795",
+    "schemas/ground_contact.inc": "2d7bbf07cd8071f6b0e676c0cf738d7806cfdcd85071ca233243c7437146386b",
+    "schemas/ground_eye.inc": "451f94f225d0c24d90abf794cbb9ddfc976b31da6204a6608ee4b0b407fc361c",
+    "schemas/ground_motion.inc": "cd802200a2c1b4e4dddfa943df52381a38d191f0003abcfcea5a9d255d2787fc",
+    "schemas/ground_support.inc": "dfb0f427054f217e8013587972974ae20342144429b27569ee999e68f46177c8",
+    "schemas/ground_surfaces.inc": "3d2adbb71889f407264a80d0a5a36e0d3bf585d7600cbbc171a739de535a0483",
+    "schemas/ground_visual.inc": "d9697192881a7bb062a6415d6530b0743ff14803b8df04a0fbc852bcd0b73cff",
+    "schemas/hazard.inc": "4216ad85a530b593573f56196f5250f4b4a325925c2741dc46938e3b402deb3f",
+    "schemas/infantry_supply_route.inc": "9e8901e890ee45064a3a33f7c7c0e2bd444fb3b319c0ef3e0e77af6e3b359847",
+    "schemas/infantry_weapon.inc": "e85a48c82a7d81b78da22e588031cdbdec20ab9dc3ffc2870f5e7b33d553bfaf",
+    "schemas/input_bindings.inc": "5f5b49cae0ddb5d8514724f9f92f1d96794ac52d9cb498c14f1df55d894e23e3",
+    "schemas/ordnance.inc": "e7c30623c797406f884ee84a540cbbdc7ff287a944036eaabe3ef890aa1a0623",
+    "schemas/player.inc": "b43ce136f90abc95ba04fbfc87e75b6ed0cd54f3adfefa8e6cb7e8fc9e39d1c3",
+    "schemas/player_ammunition.inc": "6b2a835997bd067db4cc79f53ff205c7d7cc701821ceb1320a951bf2002c0c5b",
+    "schemas/player_blast.inc": "bdcac61f8b578b888c533cc97d88aa4c1a06c39160dece31bab7869bd67b8aa1",
+    "schemas/projectile_remote.inc": "72c91954b331788db2057fd91d379b19c36f0bd91daa088a21ff7c109d655245",
+    "schemas/segment_box.inc": "0e17b41f83a397de311e387d8bcf07db16bcc1a8855deb6ac1c9bdaea6846e4c",
+    "schemas/segment_sphere.inc": "88aceb91a7d39f660b720ebce6645b8e5d71848d0c920ca22df30beac500a779",
+    "schemas/shell_contact.inc": "9b1cb28ded5fa8afbaa35d3be7dfdedf3965312e5db0f6f86fd8f2b152c4c74a",
+    "schemas/suspension.inc": "910c1cae3b7296bad1867f513aafad2d3adf716cd3da104dbf0c11b20dca5695",
+    "schemas/terrain_body.inc": "d93faa9c64814c67eeefae976f4d9b16c82053461267fb053c8a0f7db553457a",
+    "schemas/terrain_grade.inc": "9d9e998359170f0b8dc68fdf4a9a9e79281347dcfeb14e9e4c82d5d05bfe2e1c",
+    "schemas/terrain_grade_data.inc": "83b27c6515c2774af01aea59a57663be68920a20f0f7d86bc133e96e4681b36f",
+    "schemas/terrain_ground_query.inc": "2f31bb973f0ca86426b1bcfe22bac8f04433850a44de903144bbec7d75fe4daf",
+    "schemas/terrain_height.inc": "78c4e26aebb6d0a26d9b0ca119c35049c6946bfe52557a49ccb6a7c74e21ac70",
+    "schemas/terrain_relief.inc": "c3585bed69037527019589502c44ef5cbe83cad34bebfaad3468f9d66017d0a1",
+    "schemas/terrain_relief_data.inc": "089963c299029d632a5705740325477e6368f6d93c3debfc7af68d8492edc691",
+    "schemas/terrain_roads.inc": "120050de2ccf56efb0b84688de56f1debf50611c4d7d5c38e64787c97aa2e734",
+    "schemas/terrain_solid_query.inc": "e27c2dabdde91e515a02bfc42027162fcd1ee6a18644ccc592071a65bb43de25",
+    "schemas/terrain_surface.inc": "a700c6f4b74226d2bd64261547dcaf8974441678c21fd2ec3701c9a43405e080",
+    "schemas/world_body.inc": "904c2a334f066a325e0aca5e0a8bcc3b31dea0cffe1f56d9c74fec0eaf8f6385",
+    "schemas/world_contact.inc": "fa8d150d60969bb584e58ca5ee655d8318b214153d14c214a78945ca846a6a0c",
+    "schemas/world_los.inc": "b7243909d4dd7962b5e2de43a84b0ea6aa8099e71487167c21a92488614324cb",
+    "schemas/wreck.inc": "9049d28476e558ac5d097900b42175a2819feee94fdf79794d475a77c879ef0c",
+    "schemas/wreck_instance.inc": "77fcd56a0bbfad8d93c6cbcb2d2a1e7d144d791ccf850f073ab424c47544b035",
+    "schemas/wreck_nav.inc": "d75576a8333e91beca18c760937db342d3caeb7558fbd9d2f7fce60ebab23202",
+    "schemas/wreck_query.inc": "722a2099f0bd75e91a7cdcdaa92c1d75480dd98222e268c98103e1d32109bf65",
+    "schemas/wreck_remote.inc": "1aa9afa8e67bc47bab7ec6957f3e7577bf52e66836648e0f39ad5a67213a68e3",
+    "shaders/battle.frag": "b9215e859f6b15e47cf34f023d85cf5eed25204b101b790439853ff9394deac0",
+    "shaders/battle.vert": "53b261bd2bfd2be7fa27e186dccb5504f8ca9345a5703e972c2f158a7b29ff3b",
+    "shaders/mesh.frag": "d5e777a19bbb6c050cad6fb08f1f39da96eb82d2c9b40a892ad07a8791c86b21",
+    "shaders/mesh.vert": "9fa7d1c5c5c589fcb75d85ba3d27ea46f9d5a3455411e7da7684d859a34f2846",
+    "shaders/terrain_relief.glsl": "32666c2c204e6af2322ddc6a0306eed696979f73ca40020830005869473fed09",
+    "shaders/terrain_roads.glsl": "917e5c1b9fade3040bc990cc8d6aa54538a162b1a57d3e2d4e19b7a334d2a882"
+  },
+  "core_sha256": "869e8dd2b8a7744c310cb8fd425580d6f5e5f3e8a002d7330bac8d6fd56887e2",
+  "native_presentation": {
+    "suite": "actual-infantry-presentation",
+    "passed": true,
+    "actual_shots": 10,
+    "recorded_pcm_nonzero_shots": 10,
+    "brief_flashes": [
+      {
+        "tick": 7,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 15,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 23,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 31,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 39,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 47,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 55,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 63,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 71,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      },
+      {
+        "tick": 79,
+        "flash_xyz": [
+          2050.0,
+          17.807498931884766,
+          3900.0
+        ],
+        "life_s": 0.06499999761581421,
+        "radius_m": 0.25
+      }
+    ],
+    "authority_unchanged_by_consumers": true,
+    "same_frame_no_duplicates": true,
+    "no_explosive_layers": true,
+    "library_sha256": "4e5276bbbeb978e02d48a5df567527b4f4e6cc156936b5dd928c63791ef24fb0",
+    "limits": [
+      "Native production effects/audio routing with actual sim_tick, not GPU pixels or physical sound quality.",
+      "Source body eye approximates muzzle; aiming and bullet trajectories remain separate."
+    ]
+  },
+  "physical_authority_control": {
+    "passed": true,
+    "baseline_library": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/source/build/libsim.so",
+    "candidate_library": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/build/libsim.so",
+    "exact_physical_and_authority_hash_match": [
+      {
+        "name": "human",
+        "shots": [
+          [
+            7,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            15,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            23,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            31,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            39,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            47,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            55,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            63,
+            0,
+            10,
+            0,
+            0,
+            0
+          ]
+        ],
+        "army_hp": 100,
+        "human_hp": [
+          20,
+          0,
+          0,
+          0
+        ],
+        "actual_spent": 8,
+        "checksum": "deea922aacb69905"
+      },
+      {
+        "name": "four",
+        "shots": [
+          [
+            7,
+            0,
+            0,
+            10,
+            0,
+            0
+          ],
+          [
+            15,
+            0,
+            0,
+            0,
+            10,
+            0
+          ],
+          [
+            23,
+            0,
+            0,
+            0,
+            0,
+            10
+          ],
+          [
+            31,
+            0,
+            10,
+            0,
+            0,
+            0
+          ],
+          [
+            39,
+            0,
+            0,
+            10,
+            0,
+            0
+          ],
+          [
+            47,
+            0,
+            0,
+            0,
+            10,
+            0
+          ],
+          [
+            55,
+            0,
+            0,
+            0,
+            0,
+            10
+          ],
+          [
+            63,
+            0,
+            10,
+            0,
+            0,
+            0
+          ]
+        ],
+        "army_hp": 100,
+        "human_hp": [
+          80,
+          80,
+          80,
+          80
+        ],
+        "actual_spent": 8,
+        "checksum": "1dea8aa0409709e4"
+      }
+    ]
+  },
+  "GL": {
+    "suite": "actual-NPC-rifle-GL",
+    "passed": true,
+    "army": 8192,
+    "source": 4096,
+    "source_flash_slots": [
+      6
+    ],
+    "paired_changed_pixels": 6,
+    "paired_authority_unchanged": true,
+    "no_HP_kind_generation_stock_event_writes": true,
+    "screenshot": "/tmp/red-horizon-NPC-rifle.ppm",
+    "limits": [
+      "One initial position/order fixture, actual finite AI firing; paired control freezes only development clock and hides/restores actual acquired cosmetics.",
+      "Software GL visibility proof, not target GPU performance or audiovisual quality acceptance."
+    ]
+  },
+  "existing_GL_effects": {
+    "suite": "rendered-tracer",
+    "passed": true,
+    "shots": 3,
+    "tracers": 1,
+    "yellow_pixels": 141,
+    "screenshot": "/tmp/red-horizon-tracer.ppm",
+    "shell_source": 12,
+    "impact_pixels": 149,
+    "impact_events": 62,
+    "event_sequence": 936,
+    "actual_launch": [
+      2000.0,
+      19.00979995727539,
+      3860.0,
+      1,
+      0,
+      50,
+      18.0,
+      908
+    ],
+    "actual_impact": [
+      2000.0,
+      18.033851623535156,
+      3976.000244140625,
+      3,
+      0,
+      61,
+      18.0,
+      934
+    ],
+    "drive_metres": 0.5739838126031694,
+    "cannon_launch": [
+      2000.44384765625,
+      19.00795555114746,
+      3860.49072265625,
+      1,
+      0,
+      89,
+      18.0,
+      990
+    ],
+    "cannon_hud_pixel": [
+      255,
+      168,
+      51
+    ],
+    "fixture": "development-only remote held cohorts and encounter poses; HP/ammo/pool/events preserved; real AI/input/GL",
+    "observer_enemy_metres": 200,
+    "pool_before_encounter": 280,
+    "control_terrain_orange_pixels": 168973,
+    "paired_changed_pixels": 333,
+    "paired_render_authority_unchanged": true,
+    "paired_acquired_effects_restored": true
+  },
+  "UDP_actual_events": {
+    "suite": "actual-NPC-rifle-production-udp",
+    "passed": true,
+    "units": 8192,
+    "endpoints": 4,
+    "source": 4096,
+    "initial_stock": [
+      1,
+      30,
+      90,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "observed_stock": [
+      1,
+      27,
+      90,
+      0,
+      3,
+      0,
+      0,
+      0
+    ],
+    "adapter_events": [
+      [
+        2000.0,
+        18.0,
+        4000.0,
+        10,
+        1,
+        8,
+        0.25,
+        645
+      ],
+      [
+        2000.0,
+        18.0,
+        4000.0,
+        10,
+        1,
+        16,
+        0.25,
+        647
+      ],
+      [
+        2000.0,
+        18.0,
+        4000.0,
+        10,
+        1,
+        24,
+        0.25,
+        649
+      ]
+    ],
+    "no_HP_kind_generation_stores_event_writes": true,
+    "startup_positions_orders_only": true,
+    "server_sha256": "8b04daaed07758a5464568fcd02cf40459fb9d6128ceb1047a5057f929bdd78c",
+    "adapter_sha256": "a802af3c602d4831639842227df315e3a2d8173129c4d6e42de6b0a3788b8d9a",
+    "limits": [
+      "Interest-filtered source events reach production adapter; no remote GL/audio-quality or bandwidth acceptance claim."
+    ]
+  },
+  "network_failed": {
+    "job_id": "b5617b1c80af",
+    "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-39197b08c872d3fe",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/b5617b1c80af/source",
+    "command": [
+      "test",
+      "--suite",
+      "network"
+    ],
+    "status": "failed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/b5617b1c80af/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/b5617b1c80af/result.json",
+    "pid": 2385471,
+    "exit_code": 1,
+    "seconds": 197.50592943100492
+  },
+  "network_failure_diagnosis": "Existing malformed-kind fixture used10, now the valid rifle kind; moved out-of-range control to11, added kind10 publication/dedup, preserved all47 malformed/whole-packet/reorder gates. Focused exact failed adapter recheck exit0; corrected complete network rerun pending.",
+  "native_shot_event_proof": {
+    "six_cases": [
+      "human",
+      "army",
+      "empty",
+      "reload",
+      "corrupt",
+      "hidden"
+    ],
+    "80ticks_per_case": true,
+    "successful_shot_one_event": true,
+    "source_event_eye_radius_valid": true,
+    "no_live_renewal": true
+  },
+  "limits": [
+    "Actual source-body eye approximates rifle muzzle; weapon pose/aim direction/target metadata and trajectories remain pending.",
+    "256-event ring,64effect slots,128audio voices retain bounded recycling; saturation can discard cosmetics.",
+    "Software GL paired4pixel visibility and PCM routing do not establish art quality, target hardware frame rate or physical audio quality.",
+    "Whole specification remains active/incomplete; frozen full checkpoints separate."
+  ],
+  "fast_failed": {
+    "job_id": "e9b9f200d636",
+    "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-39197b08c872d3fe",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/e9b9f200d636/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "failed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/e9b9f200d636/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/e9b9f200d636/result.json",
+    "pid": 2385439,
+    "exit_code": 1,
+    "seconds": 300.5065565499972
+  },
+  "fast_failure_diagnosis": "Prior audio battle fixture treated kind10 as unknown. Preserved original explosion/air6/256backlog/128voice/stale/future/frame/reset assertions; unknown moved to11 and separate valid rifle routing/dedup asserted. Focused exact modules pass; frozen corrected fast pending.",
+  "benchmark": "infantry-presentation-benchmark.json",
+  "pending_fast": {
+    "job_id": "f3ac32c23e10",
+    "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-92900027ce3a8b20",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/result.json",
+    "pid": 2438266
+  },
+  "pending_network": {
+    "job_id": "086e1dcc50b7",
+    "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-41a7fd4d31809f9a",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/086e1dcc50b7/source",
+    "command": [
+      "test",
+      "--suite",
+      "network"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/086e1dcc50b7/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/086e1dcc50b7/result.json",
+    "pid": 2411385
+  }
+}
