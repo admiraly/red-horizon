@@ -4,6 +4,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/acquisition.inc"
 default rel
+extern infantry_human_fire
 extern company_transfer_tick
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, world_los, terrain_blocked
@@ -475,6 +476,7 @@ sim_tick:
  xor r12d,r12d
  lea rbx,[sim_entities]
 .attack:
+ mov dword [rsp+84],0
  mov dword [rbx+ENTITY_TARGET],-1
  cmp dword [rbx+ENTITY_HP],0
  je .attack_next
@@ -695,6 +697,14 @@ sim_tick:
  cmp eax,2
  je .launch_shell
  mov edi,r12d
+ mov esi,r15d
+ sub rsp,8
+ call infantry_human_fire
+ add rsp,8
+ mov dword [rsp+84],1
+ test eax,eax
+ jnz .attack_next
+ mov edi,r12d
  sub rsp,8
  call infantry_weapon_shot
  add rsp,8
@@ -720,6 +730,23 @@ sim_tick:
  call projectile_spawn
  add rsp,8
 .attack_next:
+ cmp dword [rsp+84],0
+ jne .advance_actor
+ cmp dword [rbx+ENTITY_KIND],0
+ jne .advance_actor
+ cmp dword [rbx+ENTITY_SIDE],1
+ jne .advance_actor
+ mov edi,r12d
+ mov esi,[rbx+ENTITY_TARGET]
+ sub rsp,8
+ call infantry_human_fire
+ add rsp,8
+ cmp eax,1
+ jne .advance_actor
+ cmp dword [rbx+ENTITY_TARGET],-1
+ jne .advance_actor
+ inc dword [sim_engaged]
+.advance_actor:
  add rbx,ENTITY_STRIDE
  inc r12d
  cmp r12d,[sim_count]

@@ -31,8 +31,8 @@ blocked=run(0,30,90,0,blocked=True);noninf=run(1,0,0,120)
 assert blocked['final_hp']==100 and blocked['final_stock']==blocked['initial_stock'],blocked
 assert noninf['final_hp']==100 and noninf['final_stock']==noninf['initial_stock'],noninf
 assert run(0,30,90,0)==armed,'active same-build replay'
-assert armed['final_hp']==50 and armed['final_stock'][4]==5,armed
+assert armed['final_hp']==0 and armed['final_stock'][4]==10,armed
 assert empty['final_hp']==100 and empty['final_stock']==empty['initial_stock'],empty
-assert reloading['trace'][2][1]==100 and reloading['final_hp']==80 and reloading['final_stock'][4]==32,reloading
+assert reloading['trace'][2][1]==100 and reloading['final_hp']==70 and reloading['final_stock'][4]==33,reloading
 assert corrupt['final_hp']==100 and corrupt['final_stock']==corrupt['initial_stock'],corrupt
-print(json.dumps({'suite':'player-threat-finite-infantry-ammunition','passed':True,'physical_ticks_per_case':80,'armed':armed,'exhausted':empty,'real_reload':reloading,'corrupt_gate':corrupt,'actual_wall_no_debit':blocked,'noninfantry_no_synthetic_rifle_control':noninf,'active_same_build_replay':True,'library_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'limits':['Declared sparse startup poses/prior expenditure/reload or malformed stock; actual damage/movement/weapon countdown thereafter, no live renewal.','Physical noninfantry weapon blasts are separate tests; shared NPC rifle cadence remains separate work.','Not full-scale/UDP/graphics/performance acceptance.']}))
+print(json.dumps({'suite':'player-threat-finite-infantry-ammunition','passed':True,'physical_ticks_per_case':80,'armed':armed,'exhausted':empty,'real_reload':reloading,'corrupt_gate':corrupt,'actual_wall_no_debit':blocked,'noninfantry_no_synthetic_rifle_control':noninf,'active_same_build_replay':True,'library_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'limits':['Declared sparse startup poses/prior expenditure/reload or malformed stock; actual damage/movement/weapon countdown thereafter, no live renewal.','Physical noninfantry weapon blasts are separate tests; Single actor8tick rifle arbitration owns human/army cadence.','Not full-scale/UDP/graphics/performance acceptance.']}))

@@ -515,3 +515,5 @@ Derived completed-tick marker fixes the physical route observer without changing
 gameplay/hash or its speed bound. Subsequent task: physical tank/artillery/bomb
 blasts against humans; eliminate noninfantry synthetic rifle damage, preserve
 co-op friendly protection, real LOS/death/crew recovery and finite source shots.
+
+Joint infantry army/human target arbitration: integrator, isolated feature/infantry-targets. Actor8tick selection, nearest physical visible target, rotating human ties, finite shots, boarded protection and240m safe deployment implemented. Focused native/player/ABI and original8192 GL checks pass; frozen fast/UDP plus original8192/16384 and400tick label symmetry are being reconciled before integration. Human aim/tracer metadata and broader tactical knowledge remain separate ready work.

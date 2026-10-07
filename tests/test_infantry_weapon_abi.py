@@ -13,12 +13,21 @@ with tempfile.TemporaryDirectory(prefix='rh-infantry-abi-')as directory:
   assert tuple(output)==tuple(0x123401+j for j in range(6))+(0,),tuple(output)
   return rc
  assert l.sim_init(32,3)==0
- assert probe_call(0,0)==0 and probe_call(1,0)==0 and probe_call(2,0)==0 and probe_call(3,0)==0 and probe_call(4,0)==0 and probe_call(5,0)==0
+ assert probe_call(0,0)==0 and probe_call(1,0)==0 and probe_call(2,0)==0 and probe_call(3,0)==0 and probe_call(4,0)==0 and probe_call(5,0)==0 and probe_call(6,0)==0
  count=C.c_uint.in_dll(l,'sim_count');count.value=32769
- for which in (0,1,2,3,4,5):
+ for which in (0,1,2,3,4,5,6):
   before=l.sim_checksum();assert probe_call(which,0)==-1 and l.sim_checksum()==before
  count.value=32
  for which in (2,5):
   for actor in (12,14,15,32,32768,0xffffffff):
    before=l.sim_checksum();assert probe_call(which,actor)==-1 and l.sim_checksum()==before
- print(json.dumps({'suite':'infantry-weapon-ABI','passed':True,'entry_points':6,'invalid_atomic_calls':18,'six_nonvolatile_registers_preserved':True,'aligned_call_frames':True,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Isolated CPU ABI and public gate proof; physical reload/combat verified separately.']}))
+ for actor in (32,32768,0xffffffff):
+  before=l.sim_checksum();assert probe_call(6,actor)==-1 and l.sim_checksum()==before
+ # Positive helper call includes actual LOS, shared finite debit and damage.
+ assert l.sim_init(32,3)==0 and l.player_join(0,1)==0
+ entity=(C.c_float*(32768*8)).in_dll(l,'sim_entities');players=(C.c_float*64).in_dll(l,'sim_players')
+ entity[17*8],entity[17*8+1]=2050.,3900.;players[0],players[2]=2000.,3900.
+ l.terrain_height.argtypes=[C.c_float]*2;l.terrain_height.restype=C.c_float
+ players[1]=l.terrain_height(2000.,3900.)+1.8;C.c_uint.in_dll(l,'sim_tick_count').value=7
+ assert probe_call(6,17)==1 and(C.c_uint*64).in_dll(l,'sim_players')[5]==90
+ print(json.dumps({'suite':'infantry-weapon-ABI','passed':True,'entry_points':7,'invalid_atomic_calls':21,'six_nonvolatile_registers_preserved':True,'aligned_call_frames':True,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Isolated CPU ABI and public gate proof; physical reload/combat verified separately.']}))

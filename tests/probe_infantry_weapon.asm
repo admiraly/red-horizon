@@ -1,5 +1,5 @@
 default rel
-extern infantry_weapon_shot,infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_resupply,infantry_weapon_resupply_tick
+extern infantry_human_fire,infantry_weapon_shot,infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_resupply,infantry_weapon_resupply_tick
 section .text
 global probe_infantry_weapon
 ; EDI selector0init/1tick/2fire/3resupply/4resupplytick,ESI actorID,RDX7qword register output.
@@ -30,8 +30,15 @@ probe_infantry_weapon:
  je .resupplytick
  cmp dword [rsp],5
  je .shot
+ cmp dword [rsp],6
+ je .human
  mov edi,[rsp+4]
  call infantry_weapon_fire
+ jmp .output
+.human:
+ mov edi,[rsp+4]
+ mov esi,-1
+ call infantry_human_fire
  jmp .output
 .shot:
  mov edi,[rsp+4]

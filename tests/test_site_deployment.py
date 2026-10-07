@@ -11,7 +11,7 @@ def fixture():
  C.c_uint.from_buffer(sites,20).value=1
  assert struct.unpack_from('<2f',sites)==(1000,1300)
 def pos(i):return struct.unpack_from('<3f',players,i*64)
-fixture();poses=[]
+fixture();poses=[];range_case=None
 for i in range(4):
  assert lib.player_join(i,1)==0
  assert C.c_uint.from_buffer(players,i*64+20).value==100
@@ -25,4 +25,12 @@ if not negative:
  fixture();C.memmove(C.addressof(entities),struct.pack('<2f6I',900,1300,100,1,0,0,0xffffffff,1),32);alive[1]=1
  assert lib.player_join(0,1)==0
  assert C.c_uint.from_buffer(players,20).value==0 and C.c_uint.from_buffer(players,36).value==30,'unsafe fallback published'
-print(json.dumps({'suite':'exterior-site-deployment','passed':True,'negative_centre':negative,'clear_four_player_poses':poses,'unsafe_exterior_candidates_rejected':not negative,'initial_fixture_only':True,'limits':['Authored site-model centres; no full physical building/nav/destruction integration claim.']}))
+if not negative:
+ fixture()
+ C.memmove(C.addressof(entities),struct.pack('<2f6I',1110,1300,100,1,0,0,0xffffffff,1),32);alive[1]=1
+ assert lib.player_join(0,1)==0
+ assert C.c_uint.from_buffer(players,20).value==100,'clear alternative not deployed'
+ x,y,z=pos(0);gap=math.hypot(x-1110,z-1300)
+ assert gap>240,('published inside actual infantry rifle range',pos(0),gap)
+ range_case={'enemy_xz':[1110,1300],'deployed_xyz':pos(0),'gap_m':gap,'old_first_candidate_gap_m':190,'required_clear_range_m':240}
+print(json.dumps({'suite':'exterior-site-deployment','passed':True,'negative_centre':negative,'clear_four_player_poses':poses,'unsafe_exterior_candidates_rejected':not negative,'initial_fixture_only':True,'infantry_range_deployment':range_case,'limits':['Authored site-model centres; no full physical building/nav/destruction integration claim.']}))

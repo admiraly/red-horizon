@@ -395,3 +395,11 @@ only depot-role physical sites with12000 rounds, current map four sites/48000.
 Store remaining+issued=declaredInitial; world checksum includes all stores.
 No movement order, enemy knowledge, player/vehicle/air rearm or network stock
 fields are introduced. Received counters reset only with declared genuine birth.
+
+## Infantry policy5 joint visible targets
+
+`infantry_human_fire(EDI=sourceID,ESI=already-visible living opposed ground army ID or0xffffffff)` returns1 when a human is selected (including a blocked finite weapon),0 to retain the army decision/no human,-1 invalid. Caller supplies the already acquired physical army LOS result. Eligible hostile infantry compares at most4 current connected living on-foot human bodies, with physical LOS and finite public XYZ, on its existing8tick actor phase. The closest visible target wins; exact army/human ties keep the army target, exact human ties rotate by actor and firing phase. Rifle range is240m horizontal and human damage10. All actual fire uses the existing conserved stock/shared cooldown gate.
+
+There is no separate per-human enemy scan or extra firing budget. Humans are not encoded as army entity IDs: public `ENTITY_TARGET` remains an army ID or-1. Human aim orientation, target presentation and strategic observed-knowledge records remain pending. Safe deployment rejects physically visible hostile infantry within the same240m range; other role threat gates retain their previous conservative radius.
+
+Policy5 changes semantic compatibility to UDPv37/schema0xf7443ce4/content0xabc84d82. Public entity32/player64/stock32/state848 layouts are unchanged. Incompatible sessions restart; no saved-state migration claim.

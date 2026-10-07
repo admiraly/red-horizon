@@ -80,7 +80,18 @@ def fixture(mode,obstacle,diagonal=False,overlap=False,outward=False,moving=Fals
  elif obstacle=='human':other=human(1,(3500,2000))
  else:other=actor(13,k,(3500,2000),int(mirror))
  v=(-1,0) if outward else (1,1) if diagonal else (1,0)
- if mode=='ai':assert lib.sim_waypoint(int(mirror),0,3540,2000)==0;assert lib.sim_order(int(mirror),0,0)==0
+ if mode=='ai':
+  # This mirrored case isolates collision/navigation against a living human.
+  # Genuine earlier human acquisition can otherwise kill that fixed-side human
+  # only in the enemy-labelled fixture, changing the obstacle population.
+  # Declare finite prior exhaustion once for both labels; retain identical
+  # movement and human health, with no later pose/HP/stock/clock renewal.
+  if hasattr(lib,'infantry_weapons'):
+   weapon=(C.c_uint*(32768*8)).in_dll(lib,'infantry_weapons')
+   ident=(C.addressof(source)-C.addressof(E))//C.sizeof(Entity)
+   weapon[ident*8:(ident+1)*8]=[source.generation,0,0,0,120,0,0,0]
+  assert lib.sim_waypoint(int(mirror),0,3540,2000)==0
+  assert lib.sim_order(int(mirror),0,0)==0
  else:input_(0,v)
  if moving:input_(1,(-1,0))
  speed=.6 if mode=='driver' else .12 if mode=='ai' else .3
@@ -258,6 +269,6 @@ def census(n):
  hp1=sum(e.hp for e in E[:n]);assert hp1<hp0,('real combat absent',n,hp0,hp1)
  return dict(units=n,ticks=a.dense_ticks,genuine_new_body_placements=births,near_relative_sweep_checks=checks,controller_pair_sweep_checks=controller_pair_checks,controller_pair_new_overlap_ticks=controller_pair_faults,new_overlap_ticks=faults,initial_overlap_ticks=initial,controller_moving_ticks=moves,army_hp_before=hp0,army_hp_after=hp1,dead_before=dead0,dead_after=sum(e.hp==0 for e in E[:n]),trace_sha256=trace.hexdigest(),checksum=f'{lib.sim_checksum():016x}')
 dense=[census(n) for n in (8192,16384)]
-report=dict(suite='controller-crowd-outcomes',status='PASS',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,four_controllers=four,slot_physical_trace_invariance=slot_trace_invariance,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Human input component/sign/amplitude gates remain; driven hulls use real stamped hull-axis/speed/velocity whole-segment coherence.','Legacy causal control disables crowd and shared ground policy together when available; original frozen baseline has no ground module.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
+report=dict(suite='controller-crowd-outcomes',status='PASS',passed=True,legacy=a.legacy,library_sha256=hashlib.sha256(Path(a.library).read_bytes()).hexdigest(),observer_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=rows,four_controllers=four,slot_physical_trace_invariance=slot_trace_invariance,placements=placement_rows,dense=dense,limits=['Planar nominal body circles; full limbs/oriented mesh/vertical separation excluded.','Dense checks controller-to-army only, not every army mutual pair.','Dense uses three humans plus one legitimately boarded tank; nearest-army relative sweeps preserve real combat.','Mirrored AI/human collision case uses declared initial finite exhaustion for both labels to preserve the same living obstacle; combat arbitration verified separately.','Human input component/sign/amplitude gates remain; driven hulls use real stamped hull-axis/speed/velocity whole-segment coherence.','Legacy causal control disables crowd and shared ground policy together when available; original frozen baseline has no ground module.','Deployment uses current authored site/near-field candidate set; no streamed-map claim.'])
 if a.report:Path(a.report).write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report))

@@ -1,9 +1,9 @@
 ; Authoritative fixed-tick FPS players. SysV AMD64; static storage only.
 %include "schemas/player.inc"
 %include "schemas/player_ammunition.inc"
+%include "schemas/infantry_weapon.inc"
 %include "schemas/entity.inc"
 default rel
-extern infantry_weapon_shot
 extern player_ammunition_init,player_ammunition_equip,player_ammunition_reserve,player_ammunition_reload_finish,player_ammunition_fire,player_ammunition_resupply,player_ammunition_hash
 extern company_assign,company_release,company_control_init,company_redeploy
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
@@ -61,6 +61,7 @@ fire_range: dd 450.0
 cone: dd 0.998
 suppressed_cone: dd 0.9995
 threat_range2: dd 25600.0
+infantry_threat_range2: dd INFANTRY_HUMAN_RANGE_SQ
 friend_range2: dd 62500.0
 nearfield_x: dd 3780.0
 spawn_offsets: dd 0.0,0.0,-80.0,0.0,0.0,80.0,0.0,-80.0,-150.0,0.0,-150.0,80.0,-150.0,-80.0,-250.0,0.0
@@ -345,11 +346,6 @@ player_tick:
  mov dword [rbx+PLAYER_COOLDOWN],4
  call fire_player
 .enemy:
- mov eax,[sim_tick_count]
- add eax,r12d
- test eax,15
- jnz .next
- call enemy_attack
 .next:
  add rbx,PLAYER_STRIDE
  inc r12d
@@ -691,7 +687,13 @@ safe_candidate:
  subss xmm1,[candidate_z]
  mulss xmm1,xmm1
  addss xmm0,xmm1
+ cmp dword [r14+ENTITY_KIND],0
+ jne .other_threat_range
+ comiss xmm0,[infantry_threat_range2]
+ jmp .threat_distance_ready
+.other_threat_range:
  comiss xmm0,[threat_range2]
+.threat_distance_ready:
  ja .next
  mov edi,r12d
  call sim_entity_height
@@ -815,81 +817,6 @@ fire_player:
  test eax,eax
  jnz .return
  inc dword [rbx+PLAYER_HITS]
-.return:
- pop r14
- pop r13
- pop r12
- ret
-enemy_attack:
- push r12
- push r13
- push r14
- lea r14,[sim_entities]
- xor r12d,r12d
-.scan:
- cmp r12d,[sim_count]
- jae .return
- cmp dword [r14+ENTITY_HP],0
- je .next
- cmp dword [r14+ENTITY_SIDE],1
- jne .next
- ; Vehicles/aircraft hurt humans through their physical weapons, not a rifle ray.
- cmp dword [r14+ENTITY_KIND],0
- jne .next
- movss xmm0,[r14+ENTITY_X]
- subss xmm0,[rbx+PLAYER_X]
- mulss xmm0,xmm0
- movss xmm1,[r14+ENTITY_Z]
- subss xmm1,[rbx+PLAYER_Z]
- mulss xmm1,xmm1
- addss xmm0,xmm1
- comiss xmm0,[threat_range2]
- ja .next
- mov edi,r12d
- call sim_entity_height
- movss xmm1,xmm0
- movss xmm0,[r14+ENTITY_X]
- movss xmm2,[r14+ENTITY_Z]
- movss xmm3,[rbx+PLAYER_X]
- movss xmm4,[rbx+PLAYER_Y]
- movss xmm5,[rbx+PLAYER_Z]
- call world_los
- test eax,eax
- jz .next
- ; Infantry threats use the same finite current-body magazine as army shots.
- mov edi,r12d
- call infantry_weapon_shot
- test eax,eax
- jnz .next
- add dword [rbx+PLAYER_SUPPRESSION],25
- cmp dword [rbx+PLAYER_SUPPRESSION],100
- jbe .damage
- mov dword [rbx+PLAYER_SUPPRESSION],100
-.damage:
- cmp dword [rbx+PLAYER_HP],10
- jbe .dead
- sub dword [rbx+PLAYER_HP],10
- jmp .return
-.dead:
- mov dword [rbx+PLAYER_HP],0
- mov dword [rbx+PLAYER_RESPAWN],30
- mov dword [rbx+PLAYER_RELOAD],0
- inc dword [player_deaths]
- mov rdi,rbx
- lea rdx,[sim_players]
- sub rdi,rdx
- shr edi,6
- sub rsp,16
- mov [rsp],rdi
- call vehicle_detach
- mov rdi,[rsp]
- call motion_clear
- add rsp,16
- jmp .return
-.next:
- add r14,ENTITY_STRIDE
- inc r12d
- jmp .scan
 .return:
  pop r14
  pop r13
