@@ -6,6 +6,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_bank_step,air_vertical_step
+extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_threats_reset,air_threats_build,air_threat_query
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
 extern air_gun_solution_ready,air_gun_intercept
@@ -116,6 +117,7 @@ air_init:
  mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
  rep stosd
  sub rsp,8
+ call air_observation_init
  call air_threats_reset
  call air_escort_init
  add rsp,8
@@ -198,6 +200,14 @@ air_tick:
  movups [rbp+16],xmm0
  movups [rbp+32],xmm0
  movups [rbp+48],xmm0
+ mov edi,r12d
+ shl edi,6
+ lea rcx,[sim_air_observations]
+ add rcx,rdi
+ movups [rcx],xmm0
+ movups [rcx+16],xmm0
+ movups [rcx+32],xmm0
+ movups [rcx+48],xmm0
  lea rcx,[air_defense]
  mov qword [rcx+r12*8],0
  lea rcx,[air_break_direction]
@@ -305,11 +315,8 @@ air_tick:
  addss xmm1,[rbp+AIR_VZ]
  jmp .boundary
 .target:
- mov eax,[rbp+AIR_TARGET]
- cmp eax,[sim_count]
- jb .enemy_goal
  cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
- je .escort_goal
+ je .fighter_goal
 .strike_goal:
  mov edi,r12d
  call air_strike_goal
@@ -350,28 +357,20 @@ air_tick:
  mov edi,r12d
  call air_escort_goal
  jmp .boundary
-.enemy_goal:
- shl eax,5
- lea rcx,[sim_entities]
- add rcx,rax
- movss xmm0,[rcx+ENTITY_X]
- movss xmm1,[rcx+ENTITY_Z]
- cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
- jne .strike_goal
- mov eax,[rbp+AIR_TARGET]
- shl eax,6
- lea rcx,[sim_aircraft]
- ; Share the full3D round intercept with the firing predicate.
+ .fighter_goal:
+ ; Enemy guidance uses only our last fresh visual snapshot, not its live body.
+ movss [rsp+32],xmm0
+ movss [rsp+36],xmm1
+ mov edi,r12d
+ call air_observation_goal
+ test eax,eax
+ jz .no_observation
  movss [rsp],xmm0
- movss [rsp+4],xmm1
- movaps xmm2,xmm1
+ movss [rsp+8],xmm1
+ movss [rsp+4],xmm2
  subss xmm0,[rbx+ENTITY_X]
- subss xmm2,[rbx+ENTITY_Z]
- movss xmm1,[rcx+rax+AIR_Y]
  subss xmm1,[rbp+AIR_Y]
- movss xmm3,[rcx+rax+AIR_VX]
- movss xmm4,[rcx+rax+AIR_VY]
- movss xmm5,[rcx+rax+AIR_VZ]
+ subss xmm2,[rbx+ENTITY_Z]
  call air_gun_intercept
  test eax,eax
  jnz .intercept_fallback
@@ -381,12 +380,15 @@ air_tick:
  movss [rsp],xmm0
  movss [rsp+8],xmm1
  movss [rsp+4],xmm2
- movaps xmm1,xmm2
- mov dword [rsp+56],1
- jmp .boundary
 .intercept_fallback:
+ mov dword [rsp+56],1 ; observed or estimated lead is also the pitch goal
  movss xmm0,[rsp]
  movss xmm1,[rsp+4]
+ jmp .boundary
+.no_observation:
+ movss xmm0,[rsp+32]
+ movss xmm1,[rsp+36]
+ jmp .escort_goal
 .boundary:
  mov dword [rsp+48],0
  lea rcx,[air_boundary]
@@ -507,11 +509,8 @@ air_tick:
  ; Fighters climb toward physically acquired opposing aircraft.
  cmp eax,AIR_FIGHTER
  jne .height
- mov edi,[rbp+AIR_TARGET]
- cmp edi,[sim_count]
- jae .height
  cmp dword [rsp+56],0
- je .target_height
+ je .height
  ; Pitch the flight nose toward the same lead point used by horizontal
  ; steering, including the target's current vertical motion. A fixed climb
  ; to its present altitude cannot aim a physically forward-firing cannon.
@@ -530,8 +529,6 @@ air_tick:
  divss xmm0,xmm1
  addss xmm0,[rbp+AIR_Y]
  jmp .height
-.target_height:
- call sim_entity_height
 .height:
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8],0
@@ -769,18 +766,9 @@ air_combat_tick:
  comiss xmm0,[rsp+8]
  ja .sn
  movss [rsp+28],xmm0
- movss xmm4,[rsp+40]
- mov edi,[rsp+24]
- mov eax,edi
- shl eax,5
- lea rdx,[sim_entities]
- add rdx,rax
- movss xmm0,[rbx+ENTITY_X]
- movss xmm1,[rbp+AIR_Y]
- movss xmm2,[rbx+ENTITY_Z]
- movss xmm3,[rdx+ENTITY_X]
- movss xmm5,[rdx+ENTITY_Z]
- call world_los
+ mov edi,r12d
+ mov esi,[rsp+24]
+ call air_observation_capture
  test eax,eax
  jz .sn
  mov r13d,[rsp+24]
@@ -1098,6 +1086,7 @@ air_hash:
  jnz .strike_bytes
 .missions:
  sub rsp,8
+ call air_observation_hash
  call air_escort_hash
  add rsp,8
  jmp air_admission_hash

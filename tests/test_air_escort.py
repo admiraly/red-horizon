@@ -62,12 +62,12 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
  # Valid mission scores a farther threat near its bomber over a nearer decoy.
  targets=[]
  for flip in (0,1):
-  reset();plane(15,3400,4000,0^flip,0);plane(31,3000,4000,0^flip,1);plane(63,3500,4000,1^flip,1,0);plane(95,2600,4000,1^flip,1,0)
+  reset();plane(15,3400,4000,0^flip,0);plane(31,2900,4000,0^flip,1);plane(63,3500,4000,1^flip,1,0);plane(95,2700,4400,1^flip,1,0)
   lib.sim_tick();assert M[31].leader==15 and A[31].target==63,(flip,M[31].leader,A[31].target);targets.append(A[31].target)
  # Range recovery:650m spans more than the old adjacent-cell envelope.
  range_targets=[]
  for direction in ((1,0),(-1,0),(0,1),(0,-1)):
-  reset();plane(31,3000,4000,0,1,0);plane(63,3000+direction[0]*650,4000+direction[1]*650,1,1,0);lib.sim_tick();assert A[31].target==63;range_targets.append(A[31].target)
+  reset();plane(31,3000,4000,0,1,math.atan2(direction[0],direction[1]));plane(63,3000+direction[0]*650,4000+direction[1]*650,1,1,0);lib.sim_tick();assert A[31].target==63;range_targets.append(A[31].target)
  # Source/target separation beyond the original750m cannot be made visible.
  reset();plane(31,3000,4000,0,1,0);plane(63,3800,4000,1,1,0);lib.sim_tick();assert A[31].target==-1
  # Causal spatial control: only restore the old adjacent-cell bounds.
@@ -79,9 +79,12 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
  lib=C.CDLL(str(narrow_so));lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
  E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Mission*32768).in_dll(lib,'sim_air_escorts')
  for direction in ((1,0),(-1,0),(0,1),(0,-1)):
-  reset();plane(31,3000,4000,0,1,0);plane(63,3000+direction[0]*650,4000+direction[1]*650,1,1,0);lib.sim_tick();assert A[31].target==-1
+  reset();plane(31,3000,4000,0,1,math.atan2(direction[0],direction[1]));plane(63,3000+direction[0]*650,4000+direction[1]*650,1,1,0);lib.sim_tick();assert A[31].target==-1
  lib=good_lib;E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Mission*32768).in_dll(lib,'sim_air_escorts')
  # Actual contested bomber run; only declared births precede public ticks.
+ # Both candidates start inside the pilot view: decoy447m at116.6degrees
+ # is nearer than threat600m, but806m from the bomber, outside its750m
+ # protected-threat radius. The old directly rear decoy is now unseen.
  # Fixed forward cannon removes the old incidental vertical auto-aim damage.
  # Keep these original full-180-round births and causal priority/damage gates;
  # damaged-bomber abort/retry is separately exercised by test_air_strike.
@@ -93,7 +96,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
  for tag,current in [('no_priority',C.CDLL(str(bad_so))),('escort',good_lib)]:
   lib=current;lib.sim_checksum.restype=C.c_uint64;lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
   E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Mission*32768).in_dll(lib,'sim_air_escorts')
-  reset();plane(15,3400,4000,0,0);plane(31,3000,4000,0,1);plane(63,3500,4000,1,1,-math.pi/2);plane(95,2600,4000,1,1);E[32]=Entity(4300,4000,100,1,0,0,-1,1)
+  reset();plane(15,3400,4000,0,0);plane(31,2900,4000,0,1);plane(63,3500,4000,1,1,-math.pi/2);plane(95,2700,4400,1,1);E[32]=Entity(4300,4000,100,1,0,0,-1,1)
   tick600=None;first_target=None;bomb_release=None;ground_death=None;gun_sources=set();shell_generations=set()
   for tick in range(1,combat_limit+1):
    lib.sim_tick()
@@ -112,6 +115,6 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
 
   assert bomb_release and ground_death and ground_death>bomb_release and gun_sources,(tag,E[15].hp,A[15].ammo,bomb_release,ground_death,sorted(gun_sources))
   combat.append({'policy':tag,'tick600':tick600,'first_fighter_target':first_target,'bomber_hp':E[15].hp,'bomber_ammo':A[15].ammo,'escort_hp':E[31].hp,'escort_ammo':A[31].ammo,'protected_threat_hp':E[63].hp,'bomb_release_tick':bomb_release,'ground_death_tick':ground_death,'actual_gun_sources':sorted(gun_sources)})
- assert combat[0]['first_fighter_target']==95 and combat[1]['first_fighter_target']==63
- assert combat[1]['protected_threat_hp']<combat[0]['protected_threat_hp']
+ assert combat[0]['first_fighter_target']==95 and combat[1]['first_fighter_target']==63,combat
+ assert combat[1]['protected_threat_hp']<combat[0]['protected_threat_hp'],combat
  print(json.dumps({'suite':'air-escort','passed':True,'physical_public_ticks':600+2*combat_limit,'contested_tick_limit':combat_limit,'first_pass_abort_required':False,'contested_bombing_and_priority_control':combat,'negative_control_source_sha256':hashlib.sha256(bad_source.encode()).hexdigest(),'follow':first,'climbing_lane_width_m':climbing_lane_width,'side_label_priority_targets':targets,'full_range_targets':range_targets,'old_adjacent_cell_control_misses':4,'narrow_control_source_sha256':hashlib.sha256(narrow.encode()).hexdigest(),'original_out_of_range_rejected':True,'generation_role_side_front_ammo_guards':guards,'query_ABI_and_authority_unchanged':True,'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'escort_source_sha256':hashlib.sha256((root/'src/ai/air_escort.asm').read_bytes()).hexdigest(),'limits':['Controlled following and contested one-bomber/two-enemy-fighter run; priority control proves threat selection and damage, not universal bomber survival or timed company support.','Initial births only during physical traces; stale/corrupt getter fixtures are distinct.','No graphics/UDP/performance/full-game acceptance.']}))

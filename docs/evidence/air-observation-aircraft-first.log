@@ -1,0 +1,13 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xd98a95bc", "canonical_sha256": "d98a95bca88390a351e8ee47beb46e58fd4988aced4e3340fbfe3069b9de83c3", "checked": true}
+{"suite": "bomb-inherited-velocity-release", "passed": true, "numeric_cases": 1004, "invalid_cases": 7, "maximum_float_root_error": 0.0, "actual_flight_cases": [{"side": 0, "initial_height": 90, "inherited_vy": 0.5, "impact_tick": 184, "impact_error_m": 3.9991253636206507, "victim_hp": 0, "remaining_stores": 0}, {"side": 0, "initial_height": 120, "inherited_vy": -0.5, "impact_tick": 110, "impact_error_m": 3.9894091033848578, "victim_hp": 0, "remaining_stores": 0}, {"side": 1, "initial_height": 90, "inherited_vy": 0.5, "impact_tick": 184, "impact_error_m": 3.9991253636206507, "victim_hp": 0, "remaining_stores": 0}, {"side": 1, "initial_height": 120, "inherited_vy": -0.5, "impact_tick": 110, "impact_error_m": 3.9894091033848578, "victim_hp": 0, "remaining_stores": 0}], "no_inflight_renewal": true, "library_sha256": "e6cfeaac2385b86629c4b393ad63bdafbb7866bf463463d0777d3e34320d7fea", "limits": ["target-height prediction does not establish arbitrary terrain interception or moving-target lead", "controlled initial fixtures; no graphics or artistic-quality acceptance"]}
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-perception/tests/test_aircraft.py", line 153, in <module>
+    assert a[31].target==63 and a[31].mode==1
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError
+ERROR: Command '['/usr/bin/python3', 'tests/test_aircraft.py', '/mnt/titan_nv3/projects/red-horizon-workers/air-perception/build/libsim.so']' returned non-zero exit status 1.
+{"target": "headless", "revision": "2e13d4bbb19a7bef2ae9f34d67aa1ac38609287f-7f661ecc0c3721c8", "assembled": 0, "assembled_sources": [], "seconds": 0.4497869499900844, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-perception/build/revisions/2e13d4bbb19a7bef2ae9f34d67aa1ac38609287f-7f661ecc0c3721c8/red-horizon-server"}

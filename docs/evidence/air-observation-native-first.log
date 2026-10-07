@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-perception/tests/test_air_observation.py", line 58, in <module>
+    error=max(abs(x-y)for x,y in zip(out,expected));maximum=max(maximum,error);assert rc==1 and error<.0003,(age,out,expected,error)
+                                                                                      ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (1, (4006.982177734375, 200.5, 4400.0, 6.982120037078857, 0.5, 0.0, -inf), (4006.982120037079, 200.5, 4400.0, 6.982120037078857, 0.5, 0.0, 0.9888888888888889), inf)

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-perception/tests/test_air_escort.py", line 116, in <module>
+    assert combat[1]['protected_threat_hp']<combat[0]['protected_threat_hp'],combat
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'policy': 'no_priority', 'tick600': {'bomber_hp': 200, 'bomber_ammo': 7, 'bomb_release_tick': 31, 'ground_death_tick': 177}, 'first_fighter_target': 95, 'bomber_hp': 200, 'bomber_ammo': 7, 'escort_hp': 0, 'escort_ammo': 174, 'protected_threat_hp': 104, 'bomb_release_tick': 31, 'ground_death_tick': 177, 'actual_gun_sources': [31, 95]}, {'policy': 'escort', 'tick600': {'bomber_hp': 200, 'bomber_ammo': 7, 'bomb_release_tick': 31, 'ground_death_tick': 177}, 'first_fighter_target': 63, 'bomber_hp': 176, 'bomber_ammo': 7, 'escort_hp': 152, 'escort_ammo': 174, 'protected_threat_hp': 104, 'bomb_release_tick': 31, 'ground_death_tick': 177, 'actual_gun_sources': [31, 63, 95]}]

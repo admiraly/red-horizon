@@ -148,9 +148,17 @@ for index in (15,31):
   assert 0<=e[index].x<=8000 and 0<=e[index].z<=8000
   assert abs(math.dist(old,(e[index].x,a[index].y,e[index].z))-a[index].speed)<.001
 # Following the finite break, fighters reacquire an independently observed enemy.
-reset();actor(31,3000,3000,0);actor(63,3300,3000,1);lib.air_tick();lib.air_hit(31)
+reset();actor(31,3000,3000,0);actor(63,3300,3000,1);lib.air_tick()
+# Declared initial target heading keeps this reacquisition fixture inside the
+# pilot view after the finite break; a passed rear target is separately blind.
+a[63].heading=math.pi/2;a[63].vx=7;a[63].vy=0;a[63].vz=0
+lib.air_hit(31)
 for t in range(48):lib.air_tick();lib.air_combat_tick()
 assert a[31].target==63 and a[31].mode==1
+r=(e[63].x-e[31].x,a[63].y-a[31].y,e[63].z-e[31].z)
+v=(a[31].vx,a[31].vy,a[31].vz)
+assert sum(x*y for x,y in zip(r,v))/math.sqrt(sum(x*x for x in r)*sum(x*x for x in v))>=-.5
+assert math.sqrt(sum(x*x for x in r))<=750
 # Same explicit hit schedule produces identical private-state checksums.
 hits=[]
 for _ in range(2):

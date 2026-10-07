@@ -14,12 +14,14 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  subprocess.run([nasm,'-f','elf64',str(root/'tests/probe_air_strike.asm'),'-o',str(probe)],check=True)
  objects=[root/'build'/(str(p.relative_to(root)).replace('/','_')+'.o') for folder in ('sim','nav','ai','game') for p in sorted((root/'src'/folder).glob('*.asm'))]
  so=td/'strike.so';subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(so),*map(str,objects),str(root/'build/terrain_probe.o'),str(probe),'-lm'],check=True)
- lib=C.CDLL(str(so));lib.sim_checksum.restype=C.c_uint64;lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.probe_air_strike_goal.argtypes=[C.c_uint,C.c_void_p,C.c_void_p]
+ lib=C.CDLL(str(so));lib.sim_checksum.restype=C.c_uint64;lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float];lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.probe_air_strike_goal.argtypes=[C.c_uint,C.c_void_p,C.c_void_p]
  E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Strike*32768).in_dll(lib,'sim_air_strikes');clock=C.c_uint.in_dll(lib,'sim_tick_count')
  assert lib.sim_init(64,42)==0
  for e in E[:64]:e.hp=0
  for side in (0,1):
   for front in range(3):lib.sim_order(side,front,1)
+ # Declared own mission matches the initial straight heading before first sight.
+ assert lib.sim_waypoint(0,0,7000.,4000.)==0
  E[15]=Entity(3400,4000,200,0,3,0,32,1);E[32]=Entity(4300,4000,100,1,0,0,-1,1)
  A[15]=Air(lib.terrain_height(3400,4000)+110,math.pi/2,0,0,5,0,0,32,0,8,1,5,0,0,0,1)
  def goal(i):
