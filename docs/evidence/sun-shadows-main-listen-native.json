@@ -1,0 +1,144 @@
+{
+  "observed_utc": "2026-10-07T12:17:41.939019+00:00",
+  "client_commit": "62bc780c02b0319c9863c87f389900ef17bba3ab",
+  "client_sha256": "b572cd38ef6253a874acee5c8c0988bbfdde9981f39380d657a09243458d0d3e",
+  "command": "RH_AUDIO_DEVICE=null red-horizon --listen --scenario scale-hotspot --frames 600 --hidden --no-vsync --frame-cap 60 --census --width 1920 --height 1080 --fov 70 --screenshot /tmp/rh-sun-shadows-main-listen.ppm",
+  "exit_code": 0,
+  "cpu": "Intel i7-14700K",
+  "renderer": "Mesa Intel Arc A770 DG2, OpenGL4.6 Mesa26.2.3",
+  "metrics": {
+    "client_metrics": true,
+    "cpu_samples": 600,
+    "gpu_samples": 592,
+    "cpu_frame_mean_ms": 1.97589,
+    "cpu_frame_p95_ms": 3.479649,
+    "cpu_frame_p99_ms": 5.122507,
+    "gpu_draw_mean_ms": 1.746156,
+    "gpu_draw_p95_ms": 2.248593,
+    "gpu_draw_p99_ms": 2.667812
+  },
+  "visibility": {
+    "visibility_census": true,
+    "visible_actors": 602,
+    "visible_high": 66,
+    "visible_low": 535,
+    "visible_markers": 1,
+    "individually_detailed_actors": 601,
+    "width": 1920,
+    "height": 1080,
+    "source_tick": 303,
+    "invalid_codes": 0,
+    "readback_reduce_ms": 15.630696,
+    "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+    "authority_readonly": true,
+    "authority_before": "54444a8754f4ec59",
+    "authority_after": "54444a8754f4ec59"
+  },
+  "rows": [
+    {
+      "listen_ready": true,
+      "port": 60477,
+      "child_pid": 2371652,
+      "units": 8192,
+      "scenario": 3
+    },
+    {
+      "client_presentation": true,
+      "hidden": 1,
+      "swap_interval_requested": 0,
+      "viewport_width": 1920,
+      "viewport_height": 1080,
+      "framebuffer_width": 1920,
+      "framebuffer_height": 1080
+    },
+    {
+      "client_metrics": true,
+      "cpu_samples": 600,
+      "gpu_samples": 592,
+      "cpu_frame_mean_ms": 1.97589,
+      "cpu_frame_p95_ms": 3.479649,
+      "cpu_frame_p99_ms": 5.122507,
+      "gpu_draw_mean_ms": 1.746156,
+      "gpu_draw_p95_ms": 2.248593,
+      "gpu_draw_p99_ms": 2.667812
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "simulation",
+      "samples": 600,
+      "mean_ms": 0.019995,
+      "p95_ms": 0.061836,
+      "p99_ms": 0.072978,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "render_routes",
+      "samples": 600,
+      "mean_ms": 1.197603,
+      "p95_ms": 1.852745,
+      "p99_ms": 3.047815,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "audio_pump",
+      "samples": 600,
+      "mean_ms": 0.21481,
+      "p95_ms": 0.238567,
+      "p99_ms": 0.257707,
+      "clock_errors": 0
+    },
+    {
+      "client_pacing": true,
+      "frame_cap_requested": 60,
+      "waits": 598,
+      "late_rebases": 0,
+      "clock_errors": 0,
+      "work_metrics_exclude_cap_wait": true
+    },
+    {
+      "visibility_census": true,
+      "visible_actors": 602,
+      "visible_high": 66,
+      "visible_low": 535,
+      "visible_markers": 1,
+      "individually_detailed_actors": 601,
+      "width": 1920,
+      "height": 1080,
+      "source_tick": 303,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 15.630696,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "54444a8754f4ec59",
+      "authority_after": "54444a8754f4ec59"
+    },
+    {
+      "battle_metrics": true,
+      "samples": 600,
+      "simultaneous_projectiles_effects_audio_frames": 0,
+      "peak_living": 8192,
+      "peak_engaged": 0,
+      "peak_projectiles": 0,
+      "peak_submitted_high": 88,
+      "peak_submitted_low": 3573,
+      "peak_submitted_markers": 39,
+      "peak_effect_records": 64,
+      "peak_trail_records": 0,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    },
+    {
+      "listen_host": true,
+      "port": 60477,
+      "child_pid": 2371652,
+      "child_exited": 1,
+      "startup_failed": 0
+    }
+  ],
+  "owned_child_gone": true,
+  "scope": "Genuine separate8192 authority, loopback replicated scenario3, no local sim ticks, actual mixed models and final pixel census; player-following camera/no HP/pose/clock renewal. Client battle engaged/projectile metrics are not a remote server census. Not sustained1024-visible, four graphical fronts, full-frame/audio/whole-operation/art acceptance. Uncontrolled concurrent load, no matched baseline speedup. Readback cost excluded from draw/work; full presentation timing unmeasured. Benchmark CLI refuses listen before launch, retained; corrected direct runtime invocation succeeds."
+}
