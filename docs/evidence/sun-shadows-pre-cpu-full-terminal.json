@@ -1,0 +1,17 @@
+{
+  "job_id": "daf700cd9e12",
+  "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-8bc63a0ca18eb8bc",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/result.json",
+  "pid": 2347273,
+  "exit_code": 1,
+  "seconds": 2022.7224123009946
+}

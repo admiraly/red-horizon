@@ -1055,7 +1055,7 @@ net_client_poll:
  ja .next
  cmp dword [r15+56],AIR_FIGHTER
  ja .next
- cmp dword [r15+60],AIR_RETURN
+ cmp dword [r15+60],AIR_GLIDE
  ja .next
  add r15,64
  dec r14d

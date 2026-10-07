@@ -392,6 +392,7 @@ def main():
             execute([sys.executable,'tests/test_air_observation.py'])
             execute([sys.executable,'tests/test_air_pursuit.py'])
             execute([sys.executable,'tests/test_air_pursuit_flight.py'])
+            execute([sys.executable,'tests/test_air_fuel.py'])
             execute([sys.executable,'tests/test_air_recovery.py'])
             execute([sys.executable,'tests/test_air_holding.py'])
             execute([sys.executable,'tests/test_air_separation.py'])
@@ -557,6 +558,7 @@ def main():
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
             execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
+            execute([sys.executable,'tests/test_air_fuel_network.py',str(library),str(server)])
             execute([sys.executable,'tests/test_coop_scenarios.py',str(server),str(library)])
             execute([sys.executable,'tests/test_company_control_network.py',str(server)])
             execute([sys.executable,'tests/test_company_remote.py',str(library),str(server)])

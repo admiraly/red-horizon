@@ -3,6 +3,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/air_recovery.inc"
 default rel
+extern air_fuel_status
 extern sim_entities,sim_aircraft,sim_count
 section .bss align=64
 global sim_air_holding
@@ -54,6 +55,13 @@ air_recovery_goal:
  cmp dword [r8+ENTITY_HP],AIR_RECOVERY_CRITICAL_HP
  jbe .goal
  cmp dword [r9+AIR_AMMO],0
+ je .goal
+ sub rsp,8
+ call air_fuel_status
+ add rsp,8
+ cmp eax,1
+ je .goal
+ cmp eax,2
  jne .none
 .goal:
  movss xmm0,[home]

@@ -1,0 +1,12 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x397df36d", "canonical_sha256": "397df36d783694bc6b84a974e9dec9a5d7baf850dea1042e3fbf33d82e4d41c5", "checked": true}
+{"target": "client", "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed", "assembled": 3, "assembled_sources": ["src/ai/air_fuel.asm", "src/platform/linux/listen_host.asm", "src/net/client.asm"], "seconds": 0.4255753210163675, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/build/revisions/9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed/red-horizon"}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x397df36d", "canonical_sha256": "397df36d783694bc6b84a974e9dec9a5d7baf850dea1042e3fbf33d82e4d41c5", "checked": true}
+{"target": "coop", "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed", "assembled": 1, "assembled_sources": ["src/net/coop_server.asm"], "seconds": 0.37197778301197104, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/build/revisions/9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed/red-horizon-coop-server"}

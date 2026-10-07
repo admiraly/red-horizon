@@ -1,0 +1,52 @@
+binding forward=W
+binding back=S
+binding left=A
+binding right=D
+binding sprint=LSHIFT
+binding crouch=LCTRL
+binding jump=SPACE
+binding reload=R
+binding enter_vehicle=E
+binding exit_vehicle=Q
+binding fire=LMB
+binding tactical_map=TAB
+binding command_wheel=MMB
+binding command_cancel=RMB
+binding quit=ESC
+binding advance=1
+binding hold=2
+binding retreat=3
+binding follow=4
+binding front_1=F1
+binding front_2=F2
+binding front_3=F3
+binding weather=F4
+binding exchange_0=F5
+binding exchange_1=F6
+binding exchange_2=F7
+binding exchange_3=F8
+binding exchange_accept=F9
+binding exchange_decline=F10
+binding exchange_cancel=F11
+binding defend=5
+{"listen_ready":true,"port":35070,"child_pid":2411130,"units":8192,"scenario":1}
+4.6 (Core Profile) Mesa 26.2.3
+{"client_presentation":true,"hidden":1,"swap_interval_requested":0,"viewport_width":1920,"viewport_height":1080,"framebuffer_width":1920,"framebuffer_height":1080}
+client_render_device=Mesa Intel(R) Arc(tm) A770 Graphics (DG2)
+{"client_metrics":true,"cpu_samples":600,"gpu_samples":592,"cpu_frame_mean_ms":0.969302,"cpu_frame_p95_ms":1.216501,"cpu_frame_p99_ms":1.371599,"gpu_draw_mean_ms":1.326893,"gpu_draw_p95_ms":1.417656,"gpu_draw_p99_ms":1.642968}
+{"client_phase_metrics":true,"phase":"simulation","samples":600,"mean_ms":0.009407,"p95_ms":0.024303,"p99_ms":0.036569,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"render_routes","samples":600,"mean_ms":0.556066,"p95_ms":0.753346,"p99_ms":0.853922,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"audio_pump","samples":600,"mean_ms":0.202598,"p95_ms":0.232562,"p99_ms":0.250162,"clock_errors":0}
+{"client_pacing":true,"frame_cap_requested":60,"waits":599,"late_rebases":0,"clock_errors":0,"work_metrics_exclude_cap_wait":true}
+{"visibility_census":true,"visible_actors":246,"visible_high":2,"visible_low":221,"visible_markers":23,"individually_detailed_actors":223,"width":1920,"height":1080,"source_tick":302,"invalid_codes":0,"readback_reduce_ms":6.835075,"scope":"opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included","authority_readonly":true,"authority_before":"090f3b67bd4a59a8","authority_after":"090f3b67bd4a59a8"}
+{"battle_metrics":true,"samples":600,"simultaneous_projectiles_effects_audio_frames":0,"peak_living":8192,"peak_engaged":0,"peak_projectiles":0,"peak_submitted_high":11,"peak_submitted_low":1411,"peak_submitted_markers":110,"peak_effect_records":55,"peak_trail_records":0,"peak_audio_voices":128,"initial_living":8192,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}
+meshes loaded=18 high=9 low=1359 markers=110 source_triangles=198836 animation_frame=1
+client frames=600 submitted_entities=8192 screenshot=/tmp/rh-air-fuel-native-listen.ppm
+camera_x=3350.00 camera_z=2300.00 shots=0 hits=0 last_order=0
+weapon ammo=30 reloads=0 front=0
+operation state=0 req=490 supply=600 waypoint_orders=0
+selected_goal_x=-20000.000 selected_goal_z=-20000.000
+player id=0 hp=100 suppression=0 respawn=0 generation=1
+start_player_x=3350.000 start_player_z=2300.000
+network connected=1 player=0 front=0 server_tick=302 known_living=1478 local_sim_ticks=0
+{"listen_host":true,"port":35070,"child_pid":2411130,"child_exited":1,"startup_failed":0}

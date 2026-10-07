@@ -68,6 +68,8 @@ audio_aircraft_update:
  jz .next
  cmp eax,[r13+AIR_GENERATION]
  jne .next
+ cmp dword [r13+AIR_MODE],AIR_GLIDE
+ je .next
  test dword [r13+AIR_FLAGS],AIR_ACTIVE
  jz .next
  cmp dword [r13+AIR_ROLE],1

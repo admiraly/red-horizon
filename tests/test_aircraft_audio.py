@@ -57,6 +57,11 @@ with tempfile.TemporaryDirectory(prefix='rh-air-audio-') as folder:
  for e in E[:128]:e.hp=0
  for i in range(16):plane(i,4000+i*20)
  route();assert C.c_uint.in_dll(l,'audio_aircraft_selected').value==8 and C.c_uint.in_dll(l,'audio_aircraft_candidates').value==16 and l.audio_active()==8
+ # Local or replicated powerless glide retires every engine loop, not impacts.
+ for i in range(16):A[i].mode=4
+ route();assert l.audio_active()==0 and C.c_uint.in_dll(l,'audio_aircraft_selected').value==0 and not any(stereo(256))
+ for i in range(16):A[i].mode=0
+ route();assert l.audio_active()==8
  # Selection cap and lifecycle: known nearest dies, stale generation is rejected.
  E[0].hp=0;A[1].gen=2;A[2].flags=0;E[3].kind=0;A[4].y=math.nan;route();assert l.audio_active()==8
  mode.value=1;connected.value=0;route();assert l.audio_active()==0
@@ -72,4 +77,4 @@ with tempfile.TemporaryDirectory(prefix='rh-air-audio-') as folder:
   l.sim_tick();route();wave=stereo(800);blocks.append([sum(abs(v)for v in wave[::2]),sum(abs(v)for v in wave[1::2])]);starts.append(counter('audio_loop_started'))
  assert starts==[1]*60 and E[31].hp==200 and A[31].ammo==0 and all(sum(x)>0 for x in blocks)
  assert len({tuple(x)for x in blocks})>50 and l.audio_active()==1
- print(json.dumps(dict(suite='aircraft-recorded-audio',passed=True,recorded_frames_verified=121*800,invalid_source_cases=len(bad),pool_limit=128,nearest_source_limit=8,public_flight_ticks=60,public_loop_starts=starts[-1],public_channel_energy=blocks,source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),library_sha256=hashlib.sha256(so.read_bytes()).hexdigest(),scope='Actual native looping/moving panning and distance gain; initial live aircraft only, authority readonly. Fixed-rate recorded field excerpt; no Doppler/delay/occlusion or audible hardware quality acceptance.')))
+ print(json.dumps(dict(suite='aircraft-recorded-audio',passed=True,recorded_frames_verified=121*800,invalid_source_cases=len(bad),pool_limit=128,nearest_source_limit=8,public_flight_ticks=60,public_loop_starts=starts[-1],powerless_glide_engine_silence=True,public_channel_energy=blocks,source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),library_sha256=hashlib.sha256(so.read_bytes()).hexdigest(),scope='Actual native looping/moving panning and distance gain; initial live aircraft only, authority readonly. Fixed-rate recorded field excerpt; no Doppler/delay/occlusion or audible hardware quality acceptance.')))

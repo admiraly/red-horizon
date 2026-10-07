@@ -5,6 +5,7 @@
 %include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
+extern air_fuel_init,air_fuel_step,air_fuel_status,air_fuel_hash
 extern air_holding_init,air_holding_goal,air_holding_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
 extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
@@ -124,6 +125,7 @@ air_init:
  mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
  rep stosd
  sub rsp,8
+ call air_fuel_init
  call air_holding_init
  call air_separation_init
  call air_observation_init
@@ -270,6 +272,10 @@ air_tick:
  addss xmm0,[rcx+rax*4]
  movss [rbp+AIR_Y],xmm0
 .ready:
+ mov edi,r12d
+ call air_fuel_step
+ test eax,eax
+ js .next
  movss xmm0,[rbx+ENTITY_X]
  movss [rsp+64],xmm0
  movss xmm0,[rbp+AIR_Y]
@@ -673,6 +679,16 @@ air_tick:
  mov edi,1
  call air_pursuit_blend
 .vertical_ready:
+ mov edi,r12d
+ call air_fuel_status
+ cmp eax,2
+ jne .powered_vertical
+ movss xmm0,[minus_climb]
+ mov dword [rbp+AIR_MODE],AIR_GLIDE
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbp+AIR_PASS_TICKS],0
+.powered_vertical:
  mov edi,[rbp+AIR_ROLE]
  movss xmm1,[rbp+AIR_SPEED]
  movss xmm2,[rbp+AIR_VY]
@@ -813,6 +829,16 @@ air_combat_tick:
  je .next
  cmp dword [rbx+ENTITY_KIND],3
  jne .next
+ mov edi,r12d
+ call air_fuel_status
+ cmp eax,2
+ jne .powered_combat
+ mov dword [rbp+AIR_MODE],AIR_GLIDE
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbp+AIR_PASS_TICKS],0
+ jmp .next
+.powered_combat:
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8],0
  je .combat_ready
@@ -1300,6 +1326,7 @@ air_hash:
  jnz .world_bytes
 .world_hashed:
  sub rsp,8
+ call air_fuel_hash
  call air_holding_hash
  call air_separation_hash
  call air_observation_hash

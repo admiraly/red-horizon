@@ -59,13 +59,16 @@ try:
              packet(air(target=128)),packet(air(index=128)),packet(air(generation=0)),
              packet(air(y=-101)),packet(air(y=1201)),packet(air(heading=6.5)),
              packet(air(pitch=1.7)),packet(air(bank=-1.7)),packet(air(speed=-1)),
-             packet(air(speed=11)),packet(air(role=2)),packet(air(mode=4)),
+             packet(air(speed=11)),packet(air(role=2)),packet(air(mode=5)),
              struct.pack('<I',19)+air()*19,struct.pack('<I',1),
              packet(air(),air(index=13,role=2)),packet(air(),air(index=128)),
              packet(air(),air(index=13,x=float('nan'))),packet(air(),air(index=13,hp=201))]
     for data in bad_air:
         send(103,data,13)
         assert bytes(aircraft)==air_before and bytes(entities)==entity_before, 'malformed air64 packet partially applied'
+    # Powerless glide is a real replicated mode; malformed successor stays rejected.
+    send(103,packet(air(index=15,mode=4)),14)
+    assert struct.unpack_from('<I',aircraft,15*64+24)[0]==4
     # Unknown aircraft warm up solely from type103; no entity101 chunk needed.
     send(103,packet(*([air()]*18)),14)
     assert bytes(entities[12*32:13*32])==air()[4:36]

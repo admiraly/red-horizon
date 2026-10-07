@@ -1,5 +1,5 @@
 ; Coordinated level-turn approximation; fixed30Hz, speed in metres per tick.
-%define AIR_FLIGHT_VERSION 4
+%define AIR_FLIGHT_VERSION 5
 %define AIR_FLIGHT_GRAVITY 0.0109
 %define AIR_FLIGHT_MIN_SPEED 5.0
 %define AIR_FLIGHT_MAX_SPEED 7.0
@@ -26,3 +26,10 @@
 %define AIR_FLIGHT_WORLD_LOOKAHEAD 120.0
 %define AIR_FLIGHT_WORLD_COMMIT 180
 %define AIR_FLIGHT_WORLD_LOCAL_RELIEF 1
+
+; Cruise-tick units; bank/climb each adds one unit/tick, no in-flight refill.
+%define AIR_FUEL_BOMBER_UNITS 36000
+%define AIR_FUEL_FIGHTER_UNITS 21600
+%define AIR_FUEL_RESERVE_UNITS 3600
+%define AIR_FUEL_BANK_THRESHOLD 1.0
+%define AIR_FUEL_CLIMB_THRESHOLD 0.1

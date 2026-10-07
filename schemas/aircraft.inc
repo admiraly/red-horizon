@@ -27,6 +27,7 @@
 %define AIR_ATTACK 1
 %define AIR_EGRESS 2
 %define AIR_RETURN 3
+%define AIR_GLIDE 4
 %define PROJECTILE_BOMB 3
 %define PROJECTILE_AIR_GUN 4
 %define EVENT_BOMB_LAUNCH 6
