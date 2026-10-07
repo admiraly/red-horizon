@@ -1,0 +1,161 @@
+{
+  "integrated_commit": "9af6323",
+  "frozen_full_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/source",
+  "input_file_counts": {
+    "src": 89,
+    "schemas": 54,
+    "content": 24,
+    "shaders": 6,
+    "tools": 28,
+    "tests": 234
+  },
+  "only_input_difference": [
+    "tests/test_simulation.py"
+  ],
+  "post_freeze_change": "Permanent16384ground-label extension is separately focused passed; game runtime/content/schema/shaders/tools bytes exactly match.",
+  "main_builds": [
+    {
+      "target": "headless",
+      "revision": "9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05",
+      "assembled": 2,
+      "assembled_sources": [
+        "src/ai/air_gunnery.asm",
+        "src/ai/aircraft.asm"
+      ],
+      "seconds": 0.6723818710015621,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05/red-horizon-server",
+      "sha256": "288d9536ced9da10de000fd19ad8ed009ac4aedbf77220313841102b386f5678"
+    },
+    {
+      "target": "client",
+      "revision": "9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.7203137629985576,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05/red-horizon",
+      "sha256": "c4b07bfd19028b726b3180bad354ef3177b7ac3f044755df4487dbe6c55f9215"
+    },
+    {
+      "target": "coop",
+      "revision": "9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.6035346440039575,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05/red-horizon-coop-server",
+      "sha256": "85af0b349513bd5d301193aa9fefb13bf11058396ea15bd4d87e3ca652a216b2"
+    }
+  ],
+  "matched_main_frozen30tick_8192_authority": {
+    "units": 8192,
+    "ticks": 30,
+    "seed": 42,
+    "alive": [
+      4088,
+      4064
+    ],
+    "engaged": 682,
+    "checksum": "f0af60819a95001d",
+    "operation_state": 0,
+    "requisition": [
+      139,
+      118
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 426,
+    "projectile_peak": 456,
+    "projectile_dropped": 979,
+    "navigation": {
+      "pending": 512,
+      "completed": 232,
+      "overflow": 149733,
+      "cache_hits": 4205,
+      "stuck_replans": 0,
+      "cover_choices": 0,
+      "processed_last_tick": 8,
+      "processed_max": 8
+    },
+    "air_events": {
+      "bomb_launches": 6,
+      "bomb_impacts": 0,
+      "gun_bursts": 99,
+      "aircraft_destroyed": 0,
+      "overwritten_unobserved": 92
+    },
+    "hazards": {
+      "predictions": 4439,
+      "tile_overflow": 2461,
+      "acquired": 526,
+      "dispersions": 526,
+      "shelters": 0,
+      "los_calls": 1244,
+      "budget_skipped": 0,
+      "active_goals": 519
+    },
+    "ordnance_admission": [
+      {
+        "submitted": 672,
+        "admitted": 220,
+        "capacity_denied": 452,
+        "invalidated": 0
+      },
+      {
+        "submitted": 553,
+        "admitted": 139,
+        "capacity_denied": 414,
+        "invalidated": 0
+      },
+      {
+        "submitted": 122,
+        "admitted": 28,
+        "capacity_denied": 94,
+        "invalidated": 0
+      },
+      {
+        "submitted": 36,
+        "admitted": 17,
+        "capacity_denied": 19,
+        "invalidated": 0
+      }
+    ],
+    "air_admission": [
+      {
+        "submitted": 5,
+        "admitted": 5,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 33,
+        "admitted": 33,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 1,
+        "admitted": 1,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 66,
+        "admitted": 66,
+        "capacity_denied": 0,
+        "invalidated": 0
+      }
+    ],
+    "crowd": {
+      "snapshot_actors": 230155,
+      "move_queries": 269531,
+      "inspected_neighbors": 1628205,
+      "corrected_endpoints": 12698,
+      "yielded_moves": 1073,
+      "overlap_recoveries": 9731,
+      "truncated_queries": 0,
+      "maximum_inspected_per_query": 18
+    }
+  },
+  "scope": "Main link and exact short authority match; no terminal full/UDP/performance acceptance claim."
+}

@@ -8,7 +8,7 @@
     "all",
     "--extended"
   ],
-  "status": "running",
+  "status": "failed",
   "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/result.json",
   "pid": 3191267,
@@ -20,5 +20,10 @@
   "post_freeze_focused_test_changes": [
     "tests/test_air_gun_nose.py adds separately passed120tick real dogfight birth vector observer",
     "tests/test_client_infantry.py clear fixed initial lateral observer, separately passed against exact old failed and new candidate binaries"
-  ]
+  ],
+  "exit_code": 1,
+  "seconds": 1581.7591070589988,
+  "collected": true,
+  "failure": "tests/test_client_company.py:133 front-change short key tap was not observed; subsequent hold order was accepted on own front instead of receiving cross-front denial. Runtime still polls non-quit key states after GLFW drains events; explicit press/release-between-frames regression and event capture are next.",
+  "scope": "Prior physical-nose/3D-intercept source; excludes newer fire-discipline module and later observer extensions. Failed run preserved."
 }
