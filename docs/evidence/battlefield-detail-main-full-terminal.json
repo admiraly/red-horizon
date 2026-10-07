@@ -1,0 +1,12 @@
+{
+  "job_id": "7dc8436c715c",
+  "exit_code": 1,
+  "revision": "ce8d786974ac5d11cc623aceeb020b096adff036-04c0761baf181e10",
+  "seconds": 1444.9142227179982,
+  "status": "failed",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/7dc8436c715c/source",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/7dc8436c715c/job.log",
+  "collected": true,
+  "failure": "tests/test_client_infantry.py:130 actual rifle flash has no visible paired pixels, slots [20]",
+  "scope": "Older renderer runtime; predates corrected co-op income and remapped-reload observers; no air-gunnery changes."
+}

@@ -1,0 +1,11 @@
+{
+  "job_id": "d4be43325f1d",
+  "exit_code": 0,
+  "revision": "c0caf6bf61afd3bf0370e4dcb2f8cf10afc2ecc1-a06ebe2353411606",
+  "seconds": 388.59243518199946,
+  "status": "passed",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d4be43325f1d/source",
+  "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/d4be43325f1d/job.log",
+  "collected": true,
+  "scope": "Exact c0caf6b main corrected complete graphics suite; no air-gunnery changes."
+}
