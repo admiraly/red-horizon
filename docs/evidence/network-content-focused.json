@@ -1,0 +1,129 @@
+{
+  "exit_code": 0,
+  "log_sha256": "7ef8b77cd7200f4586dc7ec87e69978f0df8e9ce84d84c403af16bf1a32b703d",
+  "suites": [
+    {
+      "suite": "owned-projectile-priority",
+      "passed": true
+    },
+    {
+      "suite": "network",
+      "passed": true
+    },
+    {
+      "suite": "fourth-player-company-adapter",
+      "passed": true
+    },
+    {
+      "suite": "cooperative-world",
+      "passed": true
+    },
+    {
+      "suite": "company-exclusive-actual-udp",
+      "passed": true
+    },
+    {
+      "suite": "company-remote-parser",
+      "passed": true
+    },
+    {
+      "suite": "company-remote-actual-four-player",
+      "passed": true
+    },
+    {
+      "suite": "company-supply-udp-parser",
+      "passed": true
+    },
+    {
+      "suite": "company-supply-production-udp",
+      "passed": true
+    },
+    {
+      "suite": "company-transfer-actual-udp",
+      "passed": true
+    },
+    {
+      "suite": "company-follow-actual-udp",
+      "passed": true
+    },
+    {
+      "suite": "company-defend-actual-udp",
+      "passed": true
+    },
+    {
+      "suite": "infantry-ammunition-original-four-endpoint-udp",
+      "passed": true
+    },
+    {
+      "suite": "infantry-resupply-staged-four-endpoint-udp",
+      "passed": true
+    },
+    {
+      "suite": "physical-supply-route-four-peer-udp",
+      "passed": true
+    },
+    {
+      "suite": "player-ammunition-original-four-endpoint-udp",
+      "passed": true
+    },
+    {
+      "suite": "physical-human-blast-four-endpoint-UDP",
+      "passed": true
+    },
+    {
+      "suite": "actual-NPC-rifle-production-udp",
+      "passed": true
+    },
+    {
+      "suite": "infantry-aim-production-parser",
+      "passed": true
+    },
+    {
+      "suite": "actual-infantry-aim-production-udp",
+      "passed": true
+    },
+    {
+      "suite": "player-ammunition-real-udp-parser-faults",
+      "passed": true
+    },
+    {
+      "suite": "co-op-player-movement",
+      "passed": true
+    },
+    {
+      "suite": "network-projectiles",
+      "passed": true
+    },
+    {
+      "suite": "network-events",
+      "passed": true
+    },
+    {
+      "suite": "co-op-combat",
+      "passed": true
+    },
+    {
+      "suite": "ground-network-parser",
+      "passed": true
+    },
+    {
+      "suite": "ground-network-server",
+      "passed": true
+    },
+    {
+      "suite": "wreck-network-parser",
+      "passed": true
+    },
+    {
+      "suite": "wreck-network-server",
+      "passed": true
+    }
+  ],
+  "changed_test_sha256": "dc36e00259d1b440821bb58c41bdf6743ea47cb1df4e350caf06daf0f01bb38c",
+  "runtime_changed": false,
+  "content": "0x2a371472",
+  "limits": [
+    "Complete ordinary network suite; extended UDP delay/death/wreck-expiry controls are separate full-checkpoint scope.",
+    "First focused correction updated policy lists but retained hardcoded old fingerprint and failed before UDP; final updates both and passes."
+  ]
+}
