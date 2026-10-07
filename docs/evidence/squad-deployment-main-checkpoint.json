@@ -1,0 +1,18 @@
+{
+  "integrated_feature_commit": "3ec05fff89dfe0bda79e92fba8993188f9a4a7c3",
+  "authored_files": 508,
+  "main_worker_final_full_inputs_identical": true,
+  "main_player_and_listen_tests_passed": true,
+  "network_job": "8bb977bf0ebf",
+  "network_status": "passed",
+  "fast_job": "b833ce19aa83",
+  "final_full_job": "023ea46c931f",
+  "prior_full_job": "1da72fd3a018",
+  "pending_checks_verified_process_states": {
+    "1892125": "S",
+    "1925387": "S",
+    "1932657": "S"
+  },
+  "timestamp_utc": "2026-10-07T09:06:22.769728+00:00",
+  "foreground_sessions_terminal": true
+}
