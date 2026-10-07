@@ -1,0 +1,8 @@
+{
+  "job_id": "88b8c32016cf",
+  "exit_code": 1,
+  "revision": "8a2eda2d5ecb5cd40a5a3caca115b2180e2e1dc1-4dfa3dedb1bbf9c6",
+  "seconds": 1880.397572878981,
+  "status": "failed",
+  "scope": "Original local crash observer retained in immutable source; same diagnosed pool-cleanup timeout. Failed and collected, not relabelled."
+}
