@@ -1,0 +1,11 @@
+{
+  "job_id": "b26bbca67339",
+  "status": "passed",
+  "seconds": 1687.8203174539958,
+  "collected": true,
+  "main_commit": "c937b752040727a67ada31aaf3cfba4a81dbef34",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b26bbca67339/source",
+  "exact_runtime_content_test_tool_file_count": 428,
+  "mismatches": [],
+  "scope": "Full all --extended frozen checkpoint matches current main runtime/content/tests/tools inputs. Excludes later isolated projected-detail and heading-seam changes."
+}

@@ -8,8 +8,11 @@
     "all",
     "--extended"
   ],
-  "status": "running",
+  "status": "passed",
   "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b26bbca67339/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b26bbca67339/result.json",
-  "pid": 2706330
+  "pid": 2706330,
+  "exit_code": 0,
+  "seconds": 1687.8203174539958,
+  "collected": true
 }
