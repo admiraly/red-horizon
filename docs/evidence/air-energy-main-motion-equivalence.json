@@ -1,0 +1,184 @@
+{
+  "passed": true,
+  "baseline_commit": "27522d3",
+  "current_commit": "378ccc0c1e3708848bc8360851d7bdac173c74ca",
+  "modules": [
+    {
+      "source": "src/ai/air_fuel.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 509,
+          "extracted_sha256": "35868c92deb15ec25e291c401b6577ff2f89d6815ab6b99dd3a0088c50e472de"
+        },
+        ".rodata": {
+          "section_size_bytes": 8,
+          "extracted_sha256": "b114413b9e08491a5efd6f2ea9fcc46269cb9f66f5a996c0bceebf8e1fe9fca9"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 524288,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_approach.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 1407,
+          "extracted_sha256": "529eb4f3ad1a5724bfec96bd26f6164053330b13b40b9f1ece6839de8858e6d4"
+        },
+        ".rodata": {
+          "section_size_bytes": 96,
+          "extracted_sha256": "34a4d98cb7e5597c7253bb9243855c99092ab4b02afb8b5a7c50d15b5fbabdb9"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 524288,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_recovery.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 910,
+          "extracted_sha256": "b5911a0c7cbd3f553b4f7d955be94e48d6237819aab79df282ae8bb7c4b8eb16"
+        },
+        ".rodata": {
+          "section_size_bytes": 40,
+          "extracted_sha256": "113cc5305159a79b7ef4598c3f881700c8b409ba621f78ef64ff9f4baf289deb"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 262144,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_observation.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 1242,
+          "extracted_sha256": "d7e161e4cc9345711f8c2ebf7275f0e100055613e3a319b3b7b45e5b79582e3b"
+        },
+        ".rodata": {
+          "section_size_bytes": 64,
+          "extracted_sha256": "33d7d1ccc1ed25f044b7cf2adde83bb482273dab5a8c0ef9a8a5ed09e75f40c8"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 2097152,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_threats.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 2030,
+          "extracted_sha256": "ec93d70888124902c9102269bcd9fe3d62b044f5ef031bbce5b0c488c8db31ad"
+        },
+        ".rodata": {
+          "section_size_bytes": 96,
+          "extracted_sha256": "8d983cd46947df0b4e94a8150fa2cbbc8c5e981f527528b00c294248553e1f87"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 6216,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_separation.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 1579,
+          "extracted_sha256": "5eb3d4d92c926e77c2b59594cf0fb3ae01b8ae49ed82780179f5bac0d40659ab"
+        },
+        ".rodata": {
+          "section_size_bytes": 32,
+          "extracted_sha256": "c39bed2f829b4d1d5a082f39f37a50e0e94d6146676a7f191e8204acb835792b"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 1712176,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_escort.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 1963,
+          "extracted_sha256": "4e2dbc5825e5a0e551b7c58bb1ae4d3583b982c62107fb244ce3882ec87d7e55"
+        },
+        ".rodata": {
+          "section_size_bytes": 36,
+          "extracted_sha256": "c2fddd6fcf24f35ccaf71921a93c974db1d15e50001e06803e782e9a14b98746"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 659456,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    },
+    {
+      "source": "src/ai/air_world.asm",
+      "sections": {
+        ".text": {
+          "section_size_bytes": 1267,
+          "extracted_sha256": "8cfeb18df29fdeda9690cb1cc4153f262b0bbdfba720e3cfa7768b5e6b3ae9f0"
+        },
+        ".rodata": {
+          "section_size_bytes": 32,
+          "extracted_sha256": "60f9d73c36ef1feea2b59b8ebc2c70554cb4480890339feb1ff38789fa37fb81"
+        },
+        ".data": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        ".bss": {
+          "section_size_bytes": 0,
+          "extracted_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "relocations_identical": true
+    }
+  ],
+  "scope": "Actual main before/after eight consumers: CPU/data bytes, BSS allocation sizes and relocations identical; current5..7 velocity guard centralization only."
+}
