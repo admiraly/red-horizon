@@ -443,3 +443,14 @@ Require0<t<=40 and length(r-w*t)<=SHELL_CONTACT_RADIUS. Caller owns current
 actual target/LOS observation. This bounded read-only firing decision leaves
 producer trajectories and admission/store ownership intact. No persistent
 state, entity/player stride or UDPv39/schema0x212cb081/content0x7abe6425 change.
+
+Client frame input helpers (private Linux NASM interface)
+
+`bindings_event` receives GLFW key-callback arguments: RSI physical code,
+ECX action (0 release, 1 press); mouse callbacks encode bit16 in the code.
+Unknown codes and other actions are ignored. `bindings_frame_begin` snapshots
+all31 mapped actions after event polling and consumes pending presses.
+`bindings_frame_down` receives ESI logical action and returns EAX0/1, stable
+throughout that input frame; out-of-range IDs return0. RDI window is unused.
+All three preserve SysV nonvolatile GPRs and use fixed private input storage.
+They change no public entity/player/UDP layouts or authoritative simulation.

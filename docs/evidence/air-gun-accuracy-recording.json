@@ -1,0 +1,38 @@
+{
+  "suite": "air-battle-recording",
+  "passed": true,
+  "scenario": "air-battle",
+  "army": 8192,
+  "revision": "9af63234f4267cf7a04c51ddf931f8b45c6d0ab3-6816ac611c35ea05",
+  "software_rendered": true,
+  "audio": "ALSA null; silent capture",
+  "fixture": "authored initial320actor encounter; remaining full army retained; no recording-time state writes",
+  "context": "name of display: :2\ndisplay: :2  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Mesa (0xffffffff)\n    Device: llvmpipe (LLVM 22.1.8, 256 bits) (0xffffffff)\n    Version: 26.2.3\n    Accelerated: no\n    Video memory: 47909MB\n    Unified memory: yes\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 0 MB, largest block: 0 MB\n    VBO free aux. memory - total: 30566 MB, largest block: 30566 MB\n    Texture free memory - total: 0 MB, largest block: 0 MB\n    Texture free aux. memory - total: 30566 MB, largest block: 30566 MB\n    Renderbuffer free memory - total: 0 MB, largest block: 0 MB\n    Renderbuffer free aux. memory - total: 30566 MB, largest block: 30566 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 0 MB\n    Total available memory: 47909 MB\n    Currently available dedicated video memory: 0 MB\nOpenGL vendor string: Mesa\nOpenGL renderer string: llvmpipe (LLVM 22.1.8, 256 bits)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "telemetry": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":125,\"gpu_samples\":116,\"cpu_frame_mean_ms\":100.678438,\"cpu_frame_p95_ms\":177.141999,\"cpu_frame_p99_ms\":204.415177,\"gpu_draw_mean_ms\":13.508775,\"gpu_draw_p95_ms\":24.104996,\"gpu_draw_p99_ms\":33.388776}\n{\"battle_metrics\":true,\"samples\":124,\"simultaneous_projectiles_effects_audio_frames\":124,\"peak_living\":8192,\"peak_engaged\":1180,\"peak_projectiles\":478,\"peak_submitted_high\":8,\"peak_submitted_low\":2769,\"peak_submitted_markers\":5423,\"peak_effect_records\":53,\"peak_trail_records\":128,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=6 low=2529 markers=4877 source_triangles=295621 animation_frame=24\nclient frames=124 submitted_entities=8192 screenshot=(none)\ncamera_x=3500.00 camera_z=2000.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=490 supply=600 waypoint_orders=0\nselected_goal_x=-20000.000 selected_goal_z=-20000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3500.000 start_player_z=2000.000\n",
+  "video": "/mnt/titan_nv3/projects/red-horizon/runs/air-gun-accuracy-battle.mp4",
+  "sha256": "d98b8adf36ea141619bca5729146b46fdb2452f64fbc8a3daa80fb477254ec3f",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1280,
+        "height": 720,
+        "nb_frames": "360"
+      }
+    ],
+    "format": {
+      "duration": "12.000000"
+    }
+  },
+  "visual_review": {
+    "sample_seconds": [
+      1,
+      6,
+      10
+    ],
+    "observed": "Air silhouettes visibly change bank/position across samples; small yellow ground flashes and sparse smoke. Current fixed-camera scene remains sparse and prototype in materials/terrain/effects.",
+    "acceptance": "No human spectacle, aerodynamic realism, sustained 60FPS or audio-quality acceptance."
+  }
+}
