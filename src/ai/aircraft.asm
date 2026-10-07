@@ -7,7 +7,7 @@ default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_bank_step
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
-extern projectile_air_gun_ready,air_gun_intercept
+extern air_gun_solution_ready,air_gun_intercept
 extern air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
 extern air_admission_init,air_admission_begin,air_admission_request
 extern air_admission_flush,air_admission_hash,air_admission_enabled
@@ -846,7 +846,7 @@ air_combat_tick:
  ; Common producer predicate compares the full current flight nose against
  ; the physically acquired target. Never aim the round vertically for it.
  mov edi,r12d
- call projectile_air_gun_ready
+ call air_gun_solution_ready
  test eax,eax
  jnz .next
  mov esi,PROJECTILE_AIR_GUN

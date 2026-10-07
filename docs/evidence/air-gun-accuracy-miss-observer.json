@@ -1,0 +1,25 @@
+{
+  "baseline": {
+    "births": 3651,
+    "matched_target_births": 3648,
+    "unmatched": 3,
+    "predicted_miss_p50_m": 17.583303670211038,
+    "predicted_miss_p90_m": 56.19893105079354,
+    "predicted_within_4m": 407,
+    "remaining_rounds": 42393
+  },
+  "candidate": {
+    "births": 850,
+    "matched_target_births": 848,
+    "unmatched": 2,
+    "predicted_miss_p50_m": 2.2027784595760482,
+    "predicted_miss_p90_m": 3.751158586037761,
+    "predicted_within_4m": 848,
+    "remaining_rounds": 45194
+  },
+  "observer_source": "import ctypes as C,json,math,sys,collections\nlib=C.CDLL(sys.argv[1])\nclass E(C.Structure):_fields_=[('x',C.c_float),('z',C.c_float),('hp',C.c_uint),('side',C.c_uint),('kind',C.c_uint),('front',C.c_uint),('target',C.c_int),('generation',C.c_uint)]\nclass A(C.Structure):_fields_=[(n,C.c_float)for n in('y','heading','pitch','bank','speed')]+[(n,C.c_uint)for n in('role','mode')]+[('target',C.c_int)]+[(n,C.c_uint)for n in('cooldown','ammo','generation')]+[(n,C.c_float)for n in('vx','vy','vz')]+[(n,C.c_uint)for n in('pass_ticks','flags')]\nclass P(C.Structure):_fields_=[(n,C.c_float)for n in('x','y','z','vx','vy','vz')]+[(n,C.c_uint)for n in('ttl','side','kind','damage')]+[('radius',C.c_float)]+[(n,C.c_uint)for n in('source','generation','active','source_generation','reserved')]\ne=(E*32768).in_dll(lib,'sim_entities');a=(A*32768).in_dll(lib,'sim_aircraft');p=(P*512).in_dll(lib,'sim_projectiles');seen=set();miss=[];unmatched=0\nassert lib.sim_init(8192,42)==0\nfor tick in range(1,901):\n lib.sim_tick()\n for slot,s in enumerate(p):\n  if not s.active or s.kind!=4 or (slot,s.generation)in seen:continue\n  seen.add((slot,s.generation));target=a[s.source].target\n  if not 0<=target<8192:unmatched+=1;continue\n  # Recover launch origin from one physical tick of projectile travel.\n  r=(e[target].x-(s.x-s.vx),a[target].y-(s.y-s.vy),e[target].z-(s.z-s.vz));w=(s.vx-a[target].vx,s.vy-a[target].vy,s.vz-a[target].vz)\n  time=sum(x*y for x,y in zip(r,w))/sum(x*x for x in w)\n  miss.append(math.sqrt(sum((x-y*time)**2 for x,y in zip(r,w))))\nmiss.sort();print(json.dumps({'births':len(seen),'matched_target_births':len(miss),'unmatched':unmatched,'predicted_miss_p50_m':miss[len(miss)//2],'predicted_miss_p90_m':miss[int(len(miss)*.9)],'predicted_within_4m':sum(m<=4 for m in miss),'remaining_rounds':sum(a[i].ammo for i in range(8192)if e[i].kind==3 and a[i].role==1)}))\n",
+  "observer_sha256": "fc13e1ef9bdefaf333d6dbc862370ee44ba157bfef703786448f5ad448c4571e",
+  "baseline_library": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/source/build/libsim.so",
+  "candidate_library_initial_hash": "1c198d989e35f08614792c2f5a51949a51e54193b0e3df814688dd93d3551cbc",
+  "scope": "Original8192seed42,900public ticks. Observe retained unique actual round births and recover origin from one physical projectile tick; compare target constant observed motion closest approach. Births with target cleared after actual contact are separately unmatched. Not every launch is retained, target future manoeuvres not predicted, no injected live poses/stocks/damage."
+}

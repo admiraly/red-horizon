@@ -1,0 +1,46 @@
+{
+  "suite": "air-world-bounds",
+  "passed": true,
+  "reports": [
+    {
+      "units": 8192,
+      "scenario": 3,
+      "ticks": 900,
+      "every_living_aircraft_steps": 459089,
+      "minimum_map_clearance_m": 167.374755859375,
+      "hash_samples": [
+        "78f74575e014f45d",
+        "5afe7c499352d38d",
+        "c56e9765fc62f3a4",
+        "11904055c118c51a",
+        "0ce6c7af7aeca851",
+        "f2ebbbbe65111500",
+        "dbbefdc88b0fecd6",
+        "da987d699a35bd50",
+        "69baa2efb78bd920"
+      ]
+    },
+    {
+      "units": 16384,
+      "scenario": 0,
+      "ticks": 900,
+      "every_living_aircraft_steps": 918677,
+      "minimum_map_clearance_m": 259.13525390625,
+      "hash_samples": [
+        "5e2c7c342acd22da",
+        "c2f826d0cedacb4a",
+        "54af5ea6ffa8d6ce",
+        "ca0e2af39dc9902d",
+        "afbdc22acb656faf",
+        "c899a29135f10b25",
+        "7593efa86f1d9180",
+        "59e812fe0de28c1c",
+        "b64ba7b5ab7a9eb4"
+      ]
+    }
+  ],
+  "library_sha256": "c46000e140827ab61ad9d765500f2a80b82a9428d8e2b03bbc3b1d1130b7576c",
+  "limits": [
+    "Actual full army and finite air stores/physical motion; CPU timing, GL/network, separation and unsafe artificial births not established."
+  ]
+}

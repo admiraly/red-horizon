@@ -355,6 +355,7 @@ def main():
         if suite in ('all','headless','fast','simulation','aircraft'):
             execute([sys.executable,'tests/test_air_gun_nose.py',str(library)])
             execute([sys.executable,'tests/test_air_gun_intercept.py'])
+            execute([sys.executable,'tests/test_air_gunnery.py'])
             execute([sys.executable,'tests/test_air_bank.py'])
             execute([sys.executable,'tests/test_air_flight_trace.py',str(library)])
             if suite in ('all','headless') and getattr(args,'extended',False):execute([sys.executable,'tests/test_air_world_bounds.py',str(library)])

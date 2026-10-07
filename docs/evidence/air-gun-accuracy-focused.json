@@ -1,0 +1,650 @@
+{
+  "reports": [
+    {
+      "suite": "air-gun-physical-nose",
+      "passed": true,
+      "public_tick_dogfight": {
+        "ticks": 120,
+        "retained_actual_births": 9,
+        "maximum_velocity_error": 1.1102120502926027e-06,
+        "final_hp": {
+          "31": 80,
+          "63": 104
+        },
+        "remaining_rounds": {
+          "31": 176,
+          "63": 175
+        },
+        "no_live_pose_hp_ammo_clock_writes": true
+      },
+      "velocity_cases": [
+        {
+          "heading": 0,
+          "vertical_flight_m_per_tick": -0.5,
+          "round_xyz": [
+            0.0,
+            -1.994917392730713,
+            27.928844451904297
+          ],
+          "maximum_velocity_error": 8.566437159629459e-07
+        },
+        {
+          "heading": 0,
+          "vertical_flight_m_per_tick": 0,
+          "round_xyz": [
+            0.0,
+            0.0,
+            28.0
+          ],
+          "maximum_velocity_error": 0.0
+        },
+        {
+          "heading": 0,
+          "vertical_flight_m_per_tick": 0.5,
+          "round_xyz": [
+            0.0,
+            1.994917392730713,
+            27.928844451904297
+          ],
+          "maximum_velocity_error": 8.566437159629459e-07
+        },
+        {
+          "heading": 0.7,
+          "vertical_flight_m_per_tick": -0.5,
+          "round_xyz": [
+            17.99225616455078,
+            -1.994917392730713,
+            21.36115837097168
+          ],
+          "maximum_velocity_error": 8.666370909793386e-07
+        },
+        {
+          "heading": 0.7,
+          "vertical_flight_m_per_tick": 0,
+          "round_xyz": [
+            18.038095474243164,
+            0.0,
+            21.41558074951172
+          ],
+          "maximum_velocity_error": 1.7513836425564477e-07
+        },
+        {
+          "heading": 0.7,
+          "vertical_flight_m_per_tick": 0.5,
+          "round_xyz": [
+            17.99225616455078,
+            1.994917392730713,
+            21.36115837097168
+          ],
+          "maximum_velocity_error": 8.666370909793386e-07
+        },
+        {
+          "heading": -1.2,
+          "vertical_flight_m_per_tick": -0.5,
+          "round_xyz": [
+            -26.03077507019043,
+            -1.994917392730713,
+            10.120233535766602
+          ],
+          "maximum_velocity_error": 1.3081975112072541e-06
+        },
+        {
+          "heading": -1.2,
+          "vertical_flight_m_per_tick": 0,
+          "round_xyz": [
+            -26.097095489501953,
+            0.0,
+            10.146017074584961
+          ],
+          "maximum_velocity_error": 1.1735914924315693e-06
+        },
+        {
+          "heading": -1.2,
+          "vertical_flight_m_per_tick": 0.5,
+          "round_xyz": [
+            -26.03077507019043,
+            1.994917392730713,
+            10.120233535766602
+          ],
+          "maximum_velocity_error": 1.3081975112072541e-06
+        },
+        {
+          "heading": 3.1315926535897933,
+          "vertical_flight_m_per_tick": -0.5,
+          "round_xyz": [
+            0.2792837917804718,
+            -1.994917392730713,
+            -27.927448272705078
+          ],
+          "maximum_velocity_error": 1.1079055646234792e-06
+        },
+        {
+          "heading": 3.1315926535897933,
+          "vertical_flight_m_per_tick": 0,
+          "round_xyz": [
+            0.279995322227478,
+            0.0,
+            -27.998600006103516
+          ],
+          "maximum_velocity_error": 5.673840064446267e-09
+        },
+        {
+          "heading": 3.1315926535897933,
+          "vertical_flight_m_per_tick": 0.5,
+          "round_xyz": [
+            0.2792837917804718,
+            1.994917392730713,
+            -27.927448272705078
+          ],
+          "maximum_velocity_error": 1.1079055646234792e-06
+        },
+        {
+          "heading": -3.1315926535897933,
+          "vertical_flight_m_per_tick": -0.5,
+          "round_xyz": [
+            -0.2792837917804718,
+            -1.994917392730713,
+            -27.927448272705078
+          ],
+          "maximum_velocity_error": 1.1079055646234792e-06
+        },
+        {
+          "heading": -3.1315926535897933,
+          "vertical_flight_m_per_tick": 0,
+          "round_xyz": [
+            -0.279995322227478,
+            0.0,
+            -27.998600006103516
+          ],
+          "maximum_velocity_error": 5.673840064446267e-09
+        },
+        {
+          "heading": -3.1315926535897933,
+          "vertical_flight_m_per_tick": 0.5,
+          "round_xyz": [
+            -0.2792837917804718,
+            1.994917392730713,
+            -27.927448272705078
+          ],
+          "maximum_velocity_error": 1.1079055646234792e-06
+        }
+      ],
+      "target_altitude_invariance_cases": 3,
+      "cone_accepted_cases": 4,
+      "cone_rejected_cases": 6,
+      "crossing_intercepts": [
+        {
+          "target_velocity_xyz": [
+            7,
+            0,
+            0
+          ],
+          "expected_intercept_ticks": 8.928571428571429
+        },
+        {
+          "target_velocity_xyz": [
+            -7,
+            0,
+            0
+          ],
+          "expected_intercept_ticks": 8.928571428571429
+        },
+        {
+          "target_velocity_xyz": [
+            0,
+            0.5,
+            7
+          ],
+          "expected_intercept_ticks": 8.928571428571429
+        },
+        {
+          "target_velocity_xyz": [
+            0,
+            -0.5,
+            -7
+          ],
+          "expected_intercept_ticks": 8.928571428571429
+        }
+      ],
+      "atomic_invalid_cases": 44,
+      "library_sha256": "16a6caa0c7c83fa333ee5e4ff40efdb68c792ac3be1fbdaed22e8d42da7369da",
+      "scope": "Native predicate/launcher fixtures plus sparse public-tick finite dogfight births and real damage; no graphics or whole-game flight realism claim."
+    },
+    {
+      "suite": "air-gunnery",
+      "passed": true,
+      "boundary_cases": [
+        {
+          "axis": 0,
+          "miss_m": 4.010009765625,
+          "ready": false
+        },
+        {
+          "axis": 0,
+          "miss_m": 3.989990234375,
+          "ready": true
+        },
+        {
+          "axis": 0,
+          "miss_m": 3.989990234375,
+          "ready": true
+        },
+        {
+          "axis": 0,
+          "miss_m": 4.010009765625,
+          "ready": false
+        },
+        {
+          "axis": 1,
+          "miss_m": 4.0099945068359375,
+          "ready": false
+        },
+        {
+          "axis": 1,
+          "miss_m": 3.9900054931640625,
+          "ready": true
+        },
+        {
+          "axis": 1,
+          "miss_m": 3.9900054931640625,
+          "ready": true
+        },
+        {
+          "axis": 1,
+          "miss_m": 4.0099945068359375,
+          "ready": false
+        }
+      ],
+      "independent_random_oracle_cases": 600,
+      "random_accepted": 0,
+      "random_rejected": 600,
+      "constructed_random_cases": 300,
+      "constructed_random_accepted": 150,
+      "constructed_random_rejected": 150,
+      "crossing_lead": true,
+      "invalid_atomic_ABI_cases": 11,
+      "query_state_and_nonvolatile_registers_preserved": true,
+      "natural_full_army": {
+        "broad_cone_control": {
+          "units": 8192,
+          "ticks": 900,
+          "rounds_spent": 3687,
+          "total_air_hp_lost": 9800,
+          "aircraft_destroyed": 4,
+          "checksum": "dc8c0aaf42bfaac7"
+        },
+        "physical_window_candidate": {
+          "units": 8192,
+          "ticks": 900,
+          "rounds_spent": 886,
+          "total_air_hp_lost": 9176,
+          "aircraft_destroyed": 4,
+          "checksum": "c27da07b13312e84"
+        },
+        "candidate_replay_equal": true
+      },
+      "control_source_sha256": "968cc294820f420dddeb22f1a615fb035dd6482b6bd42d437f5ef00f5d8ea0bf",
+      "source_sha256": "9e40b90de8f0bc681a76117d2d46153469097dac8fe51aabadeb4b667038791d",
+      "library_sha256": "34fda1521f8b9eec1eaaeaf4ba64cda5cc7a7859adb44c9a255c82a5eac60a71",
+      "limits": [
+        "Constant observed target velocity and retained4m actor sphere; target manoeuvres can still evade a predicted shot.",
+        "No new flight dynamics, perception/FOV, aircraft hitbox, aiming trajectory, stores or live fixture renewal.",
+        "Original8192natural battle compares resource efficiency; not universal damage/survival superiority, GL/UDP/performance or spectacle acceptance."
+      ]
+    },
+    {
+      "suite": "air-flight-trace",
+      "passed": true,
+      "public_ticks": 4000,
+      "coupled_actor_steps": 32000,
+      "maximum_yaw_equation_error": 2.7843280620519495e-07,
+      "minimum_edge_clearance_m": 77.57249450683594,
+      "replay_hashes": [
+        "7756bbaf2030571c",
+        "590a2170b213ad34",
+        "ff9afff789639d69",
+        "832c9209e62a6821",
+        "3e69ed6811454214",
+        "514271af29ea2727",
+        "598da2337d558ffa",
+        "491eacdd17500080",
+        "3c3e4b3eac1820c1",
+        "accc22e6f6424007",
+        "de3925278a9608af",
+        "d38ad201659b019e",
+        "5661d048474a7141",
+        "587c4e6c50bfa3a8",
+        "456a1b9c90cbb9f1",
+        "65e074e546bef942",
+        "1e9cec8b50b155c2",
+        "301e3d6e77c83398",
+        "d9779fb0a8b06356",
+        "cbbb5e06f9cd1eb4"
+      ],
+      "initial_edge_and_corner_births": [
+        [
+          6800,
+          6800,
+          0.7853981633974483
+        ],
+        [
+          1200,
+          1200,
+          -2.356194490192345
+        ],
+        [
+          6800,
+          1200,
+          2.356194490192345
+        ],
+        [
+          1200,
+          6800,
+          -0.7853981633974483
+        ],
+        [
+          7300,
+          4000,
+          1.5707963267948966
+        ],
+        [
+          700,
+          4000,
+          -1.5707963267948966
+        ],
+        [
+          4000,
+          7300,
+          0
+        ],
+        [
+          4000,
+          700,
+          3.141592653589793
+        ]
+      ],
+      "no_inflight_pose_hp_ammo_clock_writes": true,
+      "library_sha256": "16a6caa0c7c83fa333ee5e4ff40efdb68c792ac3be1fbdaed22e8d42da7369da",
+      "limits": [
+        "Controlled eight-aircraft empty-opposition boundary/hold flight; no collision, stall/fuel, graphics or dense performance acceptance."
+      ]
+    },
+    {
+      "suite": "air-strike-memory",
+      "passed": true,
+      "public_flight_ticks": 3092,
+      "staged_retry_and_no_recall_control": [
+        {
+          "policy": "no_recall",
+          "tail_initial_rounds": 4,
+          "actual_tail_rounds": 4,
+          "tail_remaining_rounds": 0,
+          "tick600_bomber_hp_stores_ground_hp": [
+            104,
+            8,
+            100
+          ],
+          "bomb_release_tick": null,
+          "ground_death_tick": null,
+          "travel_m": 7499.987802690709,
+          "bomber_hp": 104,
+          "remaining_stores": 8
+        },
+        {
+          "policy": "recall",
+          "tail_initial_rounds": 4,
+          "actual_tail_rounds": 4,
+          "tail_remaining_rounds": 0,
+          "tick600_bomber_hp_stores_ground_hp": [
+            104,
+            8,
+            100
+          ],
+          "bomb_release_tick": 1140,
+          "ground_death_tick": 1290,
+          "travel_m": 7500.023236773986,
+          "bomber_hp": 104,
+          "remaining_stores": 7
+        }
+      ],
+      "no_recall_source_sha256": "26440668bdb019aab0a1b82a47a9f7975c46b914d1ea112e9a9203bcceec5e9e",
+      "genuine_surviving_damage_hp": 176,
+      "defensive_travel_m": 450.0018938925487,
+      "initial_ingress": [
+        2500.0,
+        4000.0
+      ],
+      "hidden_enemy_truth_does_not_change_recall": true,
+      "guards": [
+        "hp",
+        "kind",
+        "generation",
+        "generation",
+        "role",
+        "ammo",
+        "flags",
+        "owner_generation",
+        "until",
+        "until",
+        "x",
+        "z",
+        "x",
+        "z"
+      ],
+      "new_generation_clears_memory": true,
+      "ABI_and_query_state_preserved": true,
+      "hash_samples": [
+        "75bdbb4daca79d56",
+        "a484682a9af7ba98",
+        "76d00fba5d832e96",
+        "247cb966d90cb653",
+        "903421f994f286c1",
+        "8e87973c600bb56d",
+        "7791c659e9861401",
+        "1247d0afd0421e18",
+        "ecb738cac6513984"
+      ],
+      "library_sha256": "4c91bbf9f4d632764dd65420e6ac56134d7152c1eb69e938a1fae3700ff34c59",
+      "limits": [
+        "Controlled contested retry and no-recall comparison; does not establish universal survival, arbitrary ingress geometry, scale, graphics or network acceptance.",
+        "Hidden/malformed fixture writes are separate from genuine public-tick flight."
+      ]
+    },
+    {
+      "suite": "air-escort",
+      "passed": true,
+      "physical_public_ticks": 3600,
+      "contested_tick_limit": 1500,
+      "first_pass_abort_required": false,
+      "contested_bombing_and_priority_control": [
+        {
+          "policy": "no_priority",
+          "tick600": {
+            "bomber_hp": 200,
+            "bomber_ammo": 7,
+            "bomb_release_tick": 26,
+            "ground_death_tick": 176
+          },
+          "first_fighter_target": 95,
+          "bomber_hp": 200,
+          "bomber_ammo": 7,
+          "escort_hp": 32,
+          "escort_ammo": 176,
+          "protected_threat_hp": 152,
+          "bomb_release_tick": 26,
+          "ground_death_tick": 176,
+          "actual_gun_sources": [
+            31,
+            95
+          ]
+        },
+        {
+          "policy": "escort",
+          "tick600": {
+            "bomber_hp": 200,
+            "bomber_ammo": 7,
+            "bomb_release_tick": 26,
+            "ground_death_tick": 176
+          },
+          "first_fighter_target": 63,
+          "bomber_hp": 200,
+          "bomber_ammo": 7,
+          "escort_hp": 56,
+          "escort_ammo": 174,
+          "protected_threat_hp": 104,
+          "bomb_release_tick": 26,
+          "ground_death_tick": 176,
+          "actual_gun_sources": [
+            31,
+            95
+          ]
+        }
+      ],
+      "negative_control_source_sha256": "04adef79d578eae19eb628cb1d279bc588ca688477a8965ac0e4c8eb460060a5",
+      "follow": {
+        "initial_gap_m": 700.0,
+        "minimum_gap_m": 130.50704711511509,
+        "travel_m": 3600.003228102199,
+        "banked_ticks": 282,
+        "hashes": [
+          "3f646b72c2959d59",
+          "29ad5fb77ed77eee",
+          "4d29834129040651",
+          "5d2d131b67545d8e",
+          "d3e84f155a093ddb",
+          "442a1ff2bc748dfa",
+          "fed7144dfa1bc42e",
+          "d0a2d4af8a73c7c9",
+          "9cadca4b4b7d8400",
+          "e36d7ea208f8b375"
+        ]
+      },
+      "side_label_priority_targets": [
+        63,
+        63
+      ],
+      "full_range_targets": [
+        63,
+        63,
+        63,
+        63
+      ],
+      "old_adjacent_cell_control_misses": 4,
+      "narrow_control_source_sha256": "68adafb477ea05439c16834f79fc38ad93b5df43dad4fc048b1992b327095b9b",
+      "original_out_of_range_rejected": true,
+      "generation_role_side_front_ammo_guards": [
+        "hp",
+        "side",
+        "front",
+        "generation",
+        "generation",
+        "ammo",
+        "role",
+        "speed",
+        "speed",
+        "generation",
+        "ammo"
+      ],
+      "query_ABI_and_authority_unchanged": true,
+      "library_sha256": "7ff747fcbaed7d66082f926afffe5baf16c87a7c52fb3970ebac33b8757a6c7f",
+      "escort_source_sha256": "e73f86a40da8e3e66b3e7734caee1f7360ea76d6df0a88a7dc951736c7eda6f1",
+      "limits": [
+        "Controlled following and contested one-bomber/two-enemy-fighter run; priority control proves threat selection and damage, not universal bomber survival or timed company support.",
+        "Initial births only during physical traces; stale/corrupt getter fixtures are distinct.",
+        "No graphics/UDP/performance/full-game acceptance."
+      ]
+    },
+    {
+      "suite": "rendered-aircraft",
+      "passed": true,
+      "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+      "bomber_pixels": 8908,
+      "normalized_silhouette_iou": 0.6224,
+      "bank_changed_pixels": 12052,
+      "trail_changed_pixels": 24,
+      "trail_authority_unchanged": true,
+      "bomb_pixels": 2196,
+      "air_round_pixels": 1196,
+      "actual_bomb_launch": [
+        2175.0,
+        127.33111572265625,
+        1999.7552490234375,
+        6,
+        0,
+        35,
+        36.0,
+        1
+      ],
+      "actual_bomb_impact": [
+        2886.19384765625,
+        15.2479887008667,
+        1997.2896728515625,
+        7,
+        0,
+        177,
+        36.0,
+        2
+      ],
+      "actual_air_gun": [
+        2443.0,
+        155.54925537109375,
+        2499.9990234375,
+        8,
+        1,
+        1,
+        0.0,
+        1
+      ],
+      "actual_air_destroyed": [
+        2359.0,
+        155.85189819335938,
+        2499.989501953125,
+        9,
+        1,
+        13,
+        2.0,
+        11
+      ],
+      "actual_impact_effect_pixels": 3399,
+      "actual_destroy_effect_pixels": 729,
+      "mid_distant_map_absolute_y": true,
+      "stale_generation_fallback": true,
+      "screenshots": [
+        "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm"
+      ]
+    },
+    {
+      "suite": "air-admission",
+      "passed": true,
+      "maximum_requests": 32768,
+      "mixed_requests": 32764,
+      "controlled_capacity": 480,
+      "equal_group_admissions": [
+        120,
+        120,
+        120,
+        120
+      ],
+      "pressure_rounds": 128,
+      "unique_pressure_winners": 128,
+      "side_label_attempt_symmetry": true,
+      "production_trajectories": false
+    }
+  ],
+  "limits": [
+    "Focused actual passes are separate from frozen fast/full checkpoints.",
+    "Firing discipline conserves rounds but does not increase observed destruction count; total air damage is slightly lower.",
+    "No new aiming trajectory, contact radius, stores, flight dynamics, perception/FOV, player/wire records or clock renewal.",
+    "Full specification and human spectacle acceptance remain incomplete."
+  ]
+}

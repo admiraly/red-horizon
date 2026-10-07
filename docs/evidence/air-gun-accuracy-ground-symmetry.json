@@ -1,0 +1,33 @@
+{
+  "reports": [
+    {
+      "suite": "ground-hold-faction-label-symmetry",
+      "passed": true,
+      "units": 8192,
+      "ticks": 400,
+      "every_actor_hp_equal": true,
+      "alive": [
+        3950,
+        3696
+      ],
+      "casualty_totals_exchanged": true,
+      "fixture": "initial aircraft-kind converted to infantry to isolate ground hold from side-dependent air goals; initial labels/orders only"
+    },
+    {
+      "suite": "ground-hold-faction-label-symmetry",
+      "passed": true,
+      "units": 16384,
+      "ticks": 400,
+      "every_actor_hp_equal": true,
+      "alive": [
+        7827,
+        7463
+      ],
+      "casualty_totals_exchanged": true,
+      "fixture": "initial aircraft-kind converted to infantry to isolate ground hold from side-dependent air goals; initial labels/orders only"
+    }
+  ],
+  "test_source_sha256": "9c917e85fe98a0512902830de328faa18f1dfbfb69354d1575b435d0e44c68d6",
+  "library": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/source/build/libsim.so",
+  "scope": "Focused permanent faction-label section of tests/test_simulation.py runs against immutable new-runtime library. Post-freeze test addition extends original8192to16384; full snapshot covers original8192section only. All other simulation gates unchanged, no full-suite pass claim."
+}

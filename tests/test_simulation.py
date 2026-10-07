@@ -92,25 +92,29 @@ print(json.dumps({'suite':'tracked-retreat-orders','passed':True,'ticks':180,
                   'replay':True,'runtime':'actual sim_tick; four sparse development births'}))
 # Side-label swap at identical defensive positions must preserve every actor's
 # health and exchange casualty totals. This catches side/index targeting bias.
-fixture_count = 8192
-outcomes = []
-for swapped in (False, True):
-    assert lib.sim_init(fixture_count, 19) == 0
-    # Ground hold symmetry is isolated from side-dependent aircraft approach goals.
-    for entity in entities[:fixture_count]:
-        if entity.kind==3:entity.kind=0
-    if swapped:
+for fixture_count in (8192, 16384):
+    outcomes = []
+    for swapped in (False, True):
+        assert lib.sim_init(fixture_count, 19) == 0
+        # Ground hold symmetry is isolated from side-dependent aircraft approach goals.
         for entity in entities[:fixture_count]:
-            entity.side ^= 1
-    for side in (0, 1):
-        for front in range(3):
-            assert lib.sim_order(side, front, 1) == 0
-    for _ in range(400):
-        lib.sim_tick()
-    outcomes.append(([e.hp for e in entities[:fixture_count]], list(alive)))
-assert outcomes[0][0] == outcomes[1][0]
-assert outcomes[0][1] == outcomes[1][1][::-1]
-assert sum(outcomes[0][1]) < fixture_count
+            if entity.kind==3:entity.kind=0
+        if swapped:
+            for entity in entities[:fixture_count]:
+                entity.side ^= 1
+        for side in (0, 1):
+            for front in range(3):
+                assert lib.sim_order(side, front, 1) == 0
+        for _ in range(400):
+            lib.sim_tick()
+        outcomes.append(([e.hp for e in entities[:fixture_count]], list(alive)))
+    assert outcomes[0][0] == outcomes[1][0]
+    assert outcomes[0][1] == outcomes[1][1][::-1]
+    assert sum(outcomes[0][1]) < fixture_count
+    print(json.dumps({'suite':'ground-hold-faction-label-symmetry','passed':True,
+                      'units':fixture_count,'ticks':400,'every_actor_hp_equal':True,
+                      'alive':outcomes[0][1],'casualty_totals_exchanged':True,
+                      'fixture':'initial aircraft-kind converted to infantry to isolate ground hold from side-dependent air goals; initial labels/orders only'}))
 assert lib.sim_init(32, 1) == 0
 previous = lib.sim_checksum()
 for invalid in (0, 1, 3, 32769, 0xffffffff):

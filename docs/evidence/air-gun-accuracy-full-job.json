@@ -1,0 +1,20 @@
+{
+  "job_id": "ffefa501153e",
+  "revision": "b4955c764c70a6ecca3e97458380af3c6563340d-33f1b5853b1e66d2",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/result.json",
+  "pid": 3359210,
+  "runtime_sources_match": {
+    "src/ai/air_gunnery.asm": true,
+    "src/ai/aircraft.asm": true
+  },
+  "post_freeze_observer_addition": "tests/test_simulation.py permanent16384ground-hold health symmetry extension, focused passed separately"
+}

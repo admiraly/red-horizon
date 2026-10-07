@@ -435,3 +435,11 @@ predicate before slot/event/cursor/drop changes, emits28*nose, and leaves
 finite store debit to the air FSM. Bomb velocity/gravity path is unchanged.
 SysV preserved registers/alignment and authority are independently checked.
 Public entity32/player64 and existing UDPv39/schema/content remain unchanged.
+
+`air_gun_solution_ready(EDI=livingFighterID)` returns EAX0useful-shot/-1wait
+or invalid. It first applies the producer physical-nose/metadata cone predicate,
+then computes w=28*nose-observedTargetVelocity and t=dot(r,w)/dot(w,w).
+Require0<t<=40 and length(r-w*t)<=SHELL_CONTACT_RADIUS. Caller owns current
+actual target/LOS observation. This bounded read-only firing decision leaves
+producer trajectories and admission/store ownership intact. No persistent
+state, entity/player stride or UDPv39/schema0x212cb081/content0x7abe6425 change.

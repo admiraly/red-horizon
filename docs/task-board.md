@@ -538,3 +538,10 @@ fast pass. Original8k/16k finite continuous flight checks pass. Broader percepti
 cache/FOV, cannon aim effectiveness, squad/wingman coordination, air collision,
 aerodynamics/fuel/landing/rearm, visual spectacle and full game acceptance remain
 open. Evidence and checkpoint state: docs/status.md and air-gun-nose-*.json.
+
+Fighter physical firing window: integrated bounded relative-motion closest
+approach decision, finite-store efficiency/control and actual GL action proofs.
+4same observed kills from886vs3687rounds; total damage slightly lower. Native
+ABI/oracle, original8k/16k flight and ground-label health checks pass; full
+checkpoint state remains in status. Future manoeuvre prediction, coordinated
+air tactics, richer vertical flight and spectacle remain open.
