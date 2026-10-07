@@ -27,6 +27,7 @@ extern air_hit,air_init,air_tick,air_combat_tick,air_hash,sim_entity_height
 extern vehicle_init,vehicle_entity_driver,vehicle_hash
 extern ground_init,ground_step,ground_hash
 extern wreck_init,wreck_register,wreck_tick,wreck_hash
+extern air_crash_init,air_crash_register,air_crash_tick,air_crash_hash
 extern segment_sphere
 section .bss align=64
 global sim_count, sim_tick_count, sim_alive, sim_engaged, sim_entities
@@ -159,6 +160,7 @@ sim_init:
  call vehicle_init
  call ground_init
  call wreck_init
+ call air_crash_init
  call crowd_init
  call air_init
  call hazard_init
@@ -256,6 +258,7 @@ sim_tick:
  sub rsp,8
  call infantry_weapon_tick
  call wreck_tick
+ call air_crash_tick
  call ai_tick
  call nav_tick
  call air_tick
@@ -881,6 +884,7 @@ sim_checksum:
  call vehicle_hash
  call ground_hash
  call wreck_hash
+ call air_crash_hash
  call air_hash
  call nav_hash
  call crowd_hash
@@ -1316,7 +1320,13 @@ sim_air_damage:
  sub rdi,rax
  shr edi,5
  sub rsp,8
+ cmp dword [rdx+ENTITY_KIND],3
+ jne .ground_wreck
+ call air_crash_register
+ jmp .registered
+.ground_wreck:
  call wreck_register
+.registered:
  add rsp,8
  jmp .done
 .hit:

@@ -1,0 +1,26 @@
+; Dead airframes are separate from living army entities.
+%define AIR_CRASH_VERSION 1
+%define AIR_CRASH_CAPACITY 128
+%define AIR_CRASH_STRIDE 96
+%define AIR_CRASH_LIFETIME 1800
+%define AIR_CRASH_X 0
+%define AIR_CRASH_Y 4
+%define AIR_CRASH_Z 8
+%define AIR_CRASH_VX 12
+%define AIR_CRASH_VY 16
+%define AIR_CRASH_VZ 20
+%define AIR_CRASH_HEADING 24
+%define AIR_CRASH_PITCH 28
+%define AIR_CRASH_BANK 32
+%define AIR_CRASH_ROLE 36
+%define AIR_CRASH_SIDE 40
+%define AIR_CRASH_ENTITY 44
+%define AIR_CRASH_GENERATION 48
+%define AIR_CRASH_BIRTH 52
+%define AIR_CRASH_SEQUENCE 56
+%define AIR_CRASH_STATE 60
+%define AIR_CRASH_FALLING 1
+%define AIR_CRASH_LANDED 2
+%define AIR_CRASH_PITCH_RATE 0.006
+%define AIR_CRASH_BANK_RATE 0.02
+%define AIR_CRASH_PITCH_FLOOR -1.3
