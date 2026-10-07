@@ -1,0 +1,27 @@
+{
+  "job": {
+    "job_id": "5e414454524c",
+    "revision": "dd0670ebaae61c5e3a23eebeb8d699c79baf9af8-f7f45b393e9129ec",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/5e414454524c/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/5e414454524c/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/5e414454524c/result.json",
+    "pid": 4075078
+  },
+  "result": {
+    "job_id": "5e414454524c",
+    "exit_code": 1,
+    "revision": "dd0670ebaae61c5e3a23eebeb8d699c79baf9af8-f7f45b393e9129ec",
+    "seconds": 1776.7722552199994,
+    "status": "failed"
+  },
+  "failure": "Private Xvfb exited during XOpenDisplay startup, before game host/client processes are spawned. Original harness discarded detailed Xvfb stderr; cause unknown.",
+  "exact_binary_focused_timeout": "passed; improved diagnostic only, no retries or runtime change",
+  "observer_sha256": "6e7208ad2efeaafe210934c5063495928003788bad154145f8085016bf8fe73b"
+}
