@@ -22,7 +22,7 @@ spec.loader.exec_module(dev)
 def arguments(scenario, **overrides):
     values = dict(scenario=scenario, units=None, ticks=3, seed=42, realtime=False,
                   connect=None, frames=30, screenshot=None, tactical=False, weather=None,
-                  width=None, height=None, fov=None, sensitivity=None, port=7777, census=False, census_map=None)
+                  width=None, height=None, fov=None, sensitivity=None, port=7777, census=False, census_map=None,listen=False,hidden=False,no_vsync=False,frame_cap=None)
     values.update(overrides)
     return SimpleNamespace(**values)
 
@@ -38,6 +38,7 @@ class DriverChecks(unittest.TestCase):
         self.reports = []
         self.battle_rows = []
         self.census_output = None
+        self.client_output_mutator = lambda output: output
         for handle in (patch.object(dev, 'build', return_value=self.exe),
                        patch.object(dev, 'RUNS', self.folder/'runs'),
                        patch.object(dev, 'atomic', side_effect=lambda path, data: self.reports.append((path, data))),
@@ -54,17 +55,49 @@ class DriverChecks(unittest.TestCase):
             return subprocess.CompletedProcess(cmd, 0, 'Accelerated: yes\nOpenGL renderer string: mocked hardware\n', '')
         if '--screenshot' in cmd:
             pathlib.Path(cmd[cmd.index('--screenshot')+1]).write_bytes(b'P6\n1 1\n255\n\x01\x02\x03')
-            output = json.dumps({'client_metrics': True, 'gpu_samples': 12})+'\n'
+            frames=int(cmd[cmd.index('--frames')+1]);width=int(cmd[cmd.index('--width')+1]) if '--width' in cmd else 1280
+            height=int(cmd[cmd.index('--height')+1]) if '--height' in cmd else 720
+            cap=int(cmd[cmd.index('--frame-cap')+1]) if '--frame-cap' in cmd else 0
+            telemetry=[{'client_metrics':True,'gpu_samples':12},
+                *({'client_phase_metrics':True,'phase':phase,'samples':frames,'clock_errors':0} for phase in ('simulation','render_routes','audio_pump')),
+                {'client_presentation':True,'hidden':int('--hidden' in cmd),'swap_interval_requested':int('--no-vsync' not in cmd),'viewport_width':width,'viewport_height':height,'framebuffer_width':width,'framebuffer_height':height},
+                {'client_pacing':True,'frame_cap_requested':cap,'clock_errors':0}]
+            output='client_render_device=mocked hardware\n'+''.join(json.dumps(row)+'\n' for row in telemetry)
             output += ''.join(json.dumps(row)+'\n' for row in self.battle_rows)
         else:
             output = json.dumps({'submitted_entities': 8192, 'navigation': {'pending': 7}})
         if self.census_output is not None: output += '\n'+self.census_output+'\n'
-        return subprocess.CompletedProcess(cmd, 0, output, '')
+        return subprocess.CompletedProcess(cmd, 0, self.client_output_mutator(output), '')
+
+
+    def test_gpu_required_telemetry_rejected_when_invalid(self):
+        controls=[
+            lambda output:'\n'.join(line for line in output.splitlines() if 'client_phase_metrics' not in line),
+            lambda output:output.replace('client_render_device=mocked hardware','client_render_device=llvmpipe'),
+            lambda output:output.replace('"framebuffer_width": 1280','"framebuffer_width": 1279'),
+            lambda output:output.replace('"clock_errors": 0','"clock_errors": 1'),
+            lambda output:output.replace('"samples": 30','"samples": 29')]
+        for control in controls:
+            with self.subTest(control=control):
+                self.client_output_mutator=control
+                with self.assertRaises(RuntimeError):dev.gpu_benchmark(arguments('scale-front'))
+        self.assertEqual(self.reports,[])
+
+    def test_listen_authored_cli_forwarding(self):
+        for scenario in ('scale-front','scale-hotspot','air-battle'):
+            with patch.object(sys,'argv',['dev.py','run','--client','--listen','--scenario',scenario]):
+                self.assertEqual(dev.main(),0)
+            cmd=next(call[0] for call in reversed(self.calls) if str(self.exe) in call[0])
+            self.assertIn('--listen',cmd)
+            self.assertEqual(cmd[cmd.index('--scenario')+1],scenario)
+        with patch.object(sys,'argv',['dev.py','coop','--scenario','scale-hotspot','--port','0','--ticks','30']):
+            self.assertEqual(dev.main(),0)
+        self.assertEqual(self.calls[-1][0][-2:],['--scenario','scale-hotspot'])
 
     def test_headless_dense_names_units_and_seed_forward(self):
         for scenario in ('scale-front', 'scale-hotspot'):
             dev.run_headless(arguments(scenario, units=16384, seed=19, realtime=True), True)
-            cmd = self.calls[-1][0]
+            cmd = next(call[0] for call in reversed(self.calls) if str(self.exe) in call[0])
             self.assertEqual(cmd[cmd.index('--scenario')+1], scenario)
             self.assertEqual(cmd[cmd.index('--units')+1], '16384')
             self.assertEqual(cmd[cmd.index('--seed')+1], '19')
@@ -86,7 +119,7 @@ class DriverChecks(unittest.TestCase):
     def test_headless_original_and_stretch_no_named_relabel(self):
         for scenario, expected in (('scale-open', 8192), ('scale-stretch', 16384)):
             dev.run_headless(arguments(scenario))
-            cmd = self.calls[-1][0]
+            cmd = next(call[0] for call in reversed(self.calls) if str(self.exe) in call[0])
             self.assertNotIn('--scenario', cmd)
             self.assertEqual(cmd[cmd.index('--units')+1], str(expected))
             self.assertEqual(self.reports[-1][1]['scenario'], scenario)
@@ -98,7 +131,7 @@ class DriverChecks(unittest.TestCase):
             with patch.object(sys, 'argv', ['dev.py','run','--client','--scenario',scenario,
                                             '--width','1920','--height','1080','--weather','rain']):
                 self.assertEqual(dev.main(), 0)
-            cmd = self.calls[-1][0]
+            cmd = next(call[0] for call in reversed(self.calls) if str(self.exe) in call[0])
             self.assertEqual(cmd[cmd.index('--scenario')+1], scenario)
             self.assertEqual(cmd[cmd.index('--width')+1], '1920')
             self.assertEqual(cmd[cmd.index('--height')+1], '1080')
@@ -121,7 +154,7 @@ class DriverChecks(unittest.TestCase):
     def test_scale_open_network_path_preserved(self):
         with patch.object(sys, 'argv', ['dev.py','run','--client','--connect','127.0.0.1','--port','7788']):
             self.assertEqual(dev.main(), 0)
-        cmd = self.calls[-1][0]
+        cmd = next(call[0] for call in reversed(self.calls) if str(self.exe) in call[0])
         self.assertNotIn('--scenario', cmd)
         self.assertEqual(cmd[-4:], ['--connect','127.0.0.1','--port','7788'])
 
@@ -136,7 +169,7 @@ class DriverChecks(unittest.TestCase):
             self.assertEqual(report['resolution'], [1920,1080])
             self.assertEqual(report['coverage']['visible_individual_count'], 'unmeasured')
             self.assertEqual(report['coverage']['detailed_counts'], 'final mesh telemetry only')
-            self.assertIn('initial authored '+scenario, report['coverage']['camera'])
+            self.assertIn('player-following', report['coverage']['camera'])
             self.assertIn('unverified', report['coverage']['audio_playback'])
 
     def test_gpu_battle_metrics_optional_single_row(self):

@@ -1180,11 +1180,21 @@ meshes_draw:
  xor esi,esi
  cmp dword [current_mode],2
  je .censusdetail
- mov esi,3
  cmp dword [current_mode],1
- je .censusdetail
+ je .censusmarker
+ ; Scenery can carry an allied/enemy ownership tint but is not an army actor.
+ ; Its static instance ID defaults to zero; never publish that as actor0.
+ mov rax,[current_descriptor]
+ cmp dword [rax],3
+ jbe .censusarmy
+ cmp dword [rax],8
+ jne .censusdetail
+.censusarmy:
  mov esi,[draw_lod]
  inc esi
+ jmp .censusdetail
+.censusmarker:
+ mov esi,3
 .censusdetail:
  call glUniform1i wrt ..plt
  ; Validated authored shooting clip supplies upper-body geometry only.

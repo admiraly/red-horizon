@@ -694,12 +694,15 @@ main:
  mov [command_message],rax
  jmp .platforminit
 .networkinit:
+ cmp dword [listen_mode],0
+ jne .hostscenario
  cmp dword [scenario_mode],0
  jne .fail
- cmp dword [listen_mode],0
- je .openremote
+ jmp .openremote
+.hostscenario:
  cmp dword [port_option_seen],0
  jne .fail
+ mov edi,[scenario_mode]
  call listen_host_start
  test eax,eax
  jz .listenstarted

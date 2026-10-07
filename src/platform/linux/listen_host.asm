@@ -11,10 +11,16 @@ server_name_len equ $-server_name
 arg_port: db '--port',0
 arg_zero: db '0',0
 arg_ticks: db '--ticks',0
+arg_scenario: db '--scenario',0
+scenario_names: dd scenario_open-scenario_names,scenario_air-scenario_names,scenario_front-scenario_names,scenario_hotspot-scenario_names
+scenario_open: db 'scale-open',0
+scenario_air: db 'air-battle',0
+scenario_front: db 'scale-front',0
+scenario_hotspot: db 'scale-hotspot',0
 arg_units: db '--units',0
 arg_army: db '8192',0
-ready_format: db '{"port":%u,"protocol":%u,"units":%u}%n',0
-listen_ready_format: db '{"listen_ready":true,"port":%u,"child_pid":%u,"units":8192}',10,0
+ready_format: db '{"port":%u,"protocol":%u,"units":%u,"scenario":%u}%n',0
+listen_ready_format: db '{"listen_ready":true,"port":%u,"child_pid":%u,"units":8192,"scenario":%u}',10,0
 report_format: db '{"listen_host":true,"port":%u,"child_pid":%u,"child_exited":%u,"startup_failed":%u}',10,0
 section .data
 pipe_fds: dd -1,-1
@@ -31,11 +37,13 @@ poll_return: resw 1
 ready_port: resd 1
 ready_protocol: resd 1
 ready_units: resd 1
+ready_scenario: resd 1
+requested_scenario: resd 1
 ready_length: resd 1
 ready_bytes: resd 1
 exe_path: resb 4096
 ready_buffer: resb 256
-server_argv: resq 8
+server_argv: resq 10
 section .text
 global listen_host_start,listen_host_check,listen_host_stop,listen_host_report
 listen_host_start:
@@ -44,6 +52,9 @@ listen_host_start:
  sub rsp,8
  cmp dword [owned_pid],0
  jne .busy
+ cmp edi,3
+ ja .busy
+ mov [requested_scenario],edi
  mov dword [pipe_fds],-1
  mov dword [pipe_fds+4],-1
  mov eax,89 ; readlink bounded, reserve room for sibling filename
@@ -80,7 +91,14 @@ listen_host_start:
  mov [server_argv+40],rax
  lea rax,[arg_army]
  mov [server_argv+48],rax
- mov qword [server_argv+56],0
+ lea rax,[arg_scenario]
+ mov [server_argv+56],rax
+ mov ecx,[requested_scenario]
+ lea rax,[scenario_names]
+ movsxd rdx,dword [rax+rcx*4]
+ add rax,rdx
+ mov [server_argv+64],rax
+ mov qword [server_argv+72],0
  mov eax,293 ; pipe2: nonblocking and exec-clean descriptors
  lea rdi,[pipe_fds]
  mov esi,0x80800
@@ -154,16 +172,23 @@ listen_host_start:
  lea rdx,[ready_port]
  lea rcx,[ready_protocol]
  lea r8,[ready_units]
- lea r9,[ready_length]
+ lea r9,[ready_scenario]
+ sub rsp,16
+ lea rax,[ready_length]
+ mov [rsp],rax
  xor eax,eax
  call sscanf wrt ..plt
- cmp eax,3
+ add rsp,16
+ cmp eax,4
  jne .failed
  cmp [ready_length],ebx
  jne .failed
  cmp dword [ready_protocol],NET_VERSION
  jne .failed
  cmp dword [ready_units],8192
+ jne .failed
+ mov eax,[ready_scenario]
+ cmp eax,[requested_scenario]
  jne .failed
  mov eax,[ready_port]
  dec eax
@@ -174,6 +199,7 @@ listen_host_start:
  lea rdi,[listen_ready_format]
  mov esi,eax
  mov edx,[listen_host_pid]
+ mov ecx,[requested_scenario]
  xor eax,eax
  call printf wrt ..plt
  xor edi,edi

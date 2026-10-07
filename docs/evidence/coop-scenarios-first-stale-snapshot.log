@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/tests/test_coop_scenarios.py", line 32, in <module>
+    assert all(all(s['players'][i][15]>0 for i in range(4)) for s in snapshots)
+           ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

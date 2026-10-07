@@ -323,7 +323,7 @@ def main():
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
         q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--hidden',action='store_true'); q.add_argument('--no-vsync',action='store_true'); q.add_argument('--frame-cap',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--bindings'); q.add_argument('--listen',action='store_true'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
-    q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
+    q=sub.add_parser('coop'); q.add_argument('--scenario',choices=CLIENT_SCENARIOS,default='scale-open'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','ground-surfaces','terrain-body','terrain-grade','ground-support','wrecks','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
     args=p.parse_args()
@@ -339,7 +339,7 @@ def main():
             scenario_args=client_scenario_args(args)
             exe=build('client');
             if args.listen:
-                if args.connect or args.scenario!='scale-open': raise RuntimeError('--listen requires scale-open and no --connect')
+                if args.connect: raise RuntimeError('--listen cannot combine with --connect')
                 build('coop')
             cmd=[str(exe),*client_view_args(args),*(['--listen'] if args.listen else [])];
             if args.frames: cmd+=['--frames',str(args.frames)]
@@ -357,7 +357,7 @@ def main():
             else: subprocess.run(cmd,cwd=exe.parent,check=True)
         else: run_headless(args,args.command=='bench')
     elif args.command=='coop':
-        exe=build('coop'); execute([str(exe),'--port',str(args.port),'--ticks',str(args.ticks),'--units',str(args.units)],capture_output=False)
+        exe=build('coop'); execute([str(exe),'--port',str(args.port),'--ticks',str(args.ticks),'--units',str(args.units),'--scenario',args.scenario],capture_output=False)
     elif args.command=='package': package()
     elif args.command=='jobs': jobs()
     elif args.command=='collect': jobs(args.job_id)
@@ -547,6 +547,7 @@ def main():
             objects=[str(BUILD/(str(p.relative_to(ROOT)).replace('/','_')+'.o')) for folder in ('sim','nav','ai','game') for p in (ROOT/'src'/folder).glob('*.asm')]
             execute(['gcc','-shared','-Wl,-Bsymbolic','-o',str(library),*objects,str(adapter),'-lm'])
             execute([sys.executable,'tests/test_coop.py','--server',str(server),'--client-lib',str(library),*(['--extended'] if getattr(args,'extended',False) else [])])
+            execute([sys.executable,'tests/test_coop_scenarios.py',str(server),str(library)])
             execute([sys.executable,'tests/test_company_control_network.py',str(server)])
             execute([sys.executable,'tests/test_company_remote.py',str(library),str(server)])
             execute([sys.executable,'tests/test_company_supply_network.py',str(library),str(server)])

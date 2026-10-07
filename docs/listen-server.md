@@ -26,9 +26,12 @@ a dead zombie, not successful normal-parent reaping. Shutdown assumes the shippe
 authority retains its normal SIGTERM policy; arbitrary replacements which ignore
 SIGTERM are outside this contract.
 
-`--listen` cannot combine with `--connect`, an explicit `--port`, another
-`--listen`, or a nondefault scenario. The server currently lacks the authored
-front/hotspot scenario selection. No player/camera/state renewal is introduced.
+`--listen` cannot combine with `--connect`, an explicit `--port`, or another
+`--listen`. The client and owned server accept `--scenario scale-open|air-battle|
+scale-front|scale-hotspot`; readiness includes and validates the selected mode.
+Birth layouts run once before the server binds; later joins/redeployment retain
+the ordinary current-body/threat/site deployment policy. They do not move an
+existing camera or renew army health/ammunition to maintain density. No player/camera/state renewal is introduced.
 The sibling executable is required; running a copied client alone fails clearly
 and reaps the failed exec child. Packaging of a standalone listen pair, reconnect
 continuation, saved authority state, interpolation/local prediction, Windows

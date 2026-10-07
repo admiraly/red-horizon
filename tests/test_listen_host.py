@@ -56,7 +56,7 @@ try:
  x=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(write,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(write);write=-1
  assert select.select([read],[],[],10)[0];display=os.read(read,32).decode().strip();os.close(read);read=-1
  env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
- for args in (['--listen','--listen'],['--listen','--connect','127.0.0.1'],['--connect','127.0.0.1','--listen'],['--listen','--scenario','scale-hotspot'],['--listen','--port','7777'],['--port','7777','--listen']):
+ for args in (['--listen','--listen'],['--listen','--connect','127.0.0.1'],['--connect','127.0.0.1','--listen'],['--connect','127.0.0.1','--scenario','scale-hotspot'],['--listen','--port','7777'],['--port','7777','--listen']):
   r=run(args,env,expected=1);assert not rows(r.stdout) or rows(r.stdout)[0]['child_pid']==0,'invalid args spawned authority'
  base=['--hidden','--no-vsync','--frame-cap','60','--width','320','--height','240']
  # Owned host plus an independent actual graphical peer; no authority fixtures.
@@ -69,6 +69,12 @@ try:
  assert state(pid) is None,'normal exit did not reap owned child'
  assert 'network connected=1 player=0 ' in out and 'local_sim_ticks=0' in out and '"initial_living":8192' in out
  evidence.append({'case':'actual host plus independent peer','host':record,'peer_player':1,'authority_initial':8192,'host_and_peer_local_sim_ticks':0,'owned_child_reaped':True})
+ for mode,name in enumerate(('air-battle','scale-front','scale-hotspot'),1):
+  r=run(['--listen','--scenario',name,'--frames','60',*base],env)
+  advertised=[json.loads(l) for l in r.stdout.splitlines() if l.startswith('{"listen_ready"')]
+  record=rows(r.stdout)[0];assert len(advertised)==1 and advertised[0]['scenario']==mode and advertised[0]['units']==8192
+  assert 'network connected=1' in r.stdout and 'local_sim_ticks=0' in r.stdout and state(record['child_pid']) is None
+  evidence.append({'case':'actual listen authored '+name,'scenario':mode,'host':record,'source_clock_from_real_server':True})
  # Post-launch GL initialization failure must also stop and reap the army.
  failed_env=dict(env,DISPLAY=':65432');r=run(['--listen','--frames','1','--hidden'],failed_env,expected=1)
  record=rows(r.stdout)[0];assert record['child_pid']>0 and record['child_exited']==1 and record['startup_failed']==0 and state(record['child_pid']) is None
@@ -91,7 +97,7 @@ try:
   evidence.append({'case':'missing sibling exec','host':record})
   companion=pathlib.Path(temp)/'red-horizon-coop-server'
   # Deliberately invalid development startup producers; not gameplay evidence.
-  for name,line in [('protocol', '{"port":7777,"protocol":0,"units":8192}'),('units','{"port":7777,"protocol":40,"units":2}'),('port','{"port":0,"protocol":40,"units":8192}'),('timeout',None)]:
+  for name,line in [('protocol', '{"port":7777,"protocol":0,"units":8192,"scenario":0}'),('units','{"port":7777,"protocol":40,"units":2,"scenario":0}'),('port','{"port":0,"protocol":40,"units":8192,"scenario":0}'),('scenario','{"port":7777,"protocol":40,"units":8192,"scenario":1}'),('timeout',None)]:
    body='import time\n'+('print('+repr(line)+',flush=True)\n' if line else '')+'time.sleep(20)\n'
    companion.write_text('#!'+sys.executable+'\n'+body);companion.chmod(0o755)
    start=time.monotonic();r=subprocess.run([str(copied),'--listen','--frames','1','--hidden'],cwd=temp,env=env,capture_output=True,text=True,timeout=8);elapsed=time.monotonic()-start

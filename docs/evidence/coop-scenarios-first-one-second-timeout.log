@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/tests/test_coop_scenarios.py", line 34, in <module>
+    for p in peers:p.snapshot(max(s['tick'] for s in snapshots)+30)
+                   ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/tests/test_coop.py", line 143, in snapshot
+    raise AssertionError('snapshot timeout')
+AssertionError: snapshot timeout

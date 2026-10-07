@@ -28,7 +28,8 @@ extern sim_aircraft
 extern strcmp, printf, fflush
 extern company_transfer,company_transfers
 extern company_for_player,company_control_order,company_controls,player_companies
-extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend
+extern sim_init, sim_tick, sim_order, sim_waypoint, sim_spend,sim_scenario,sim_checksum
+extern sim_alive,sim_engaged
 extern sim_count, sim_tick_count, sim_entities, sim_players, sim_sites
 extern sim_requisition, sim_supply, sim_operation_state
 extern sim_vehicles, sim_player_vehicle, sim_events, sim_event_sequence, sim_event_count
@@ -37,9 +38,15 @@ extern terrain_blocked
 section .rodata
 f_port: db '--port',0
 f_ticks: db '--ticks',0
+f_scenario: db '--scenario',0
+scenario_names: dd scenario_open-scenario_names,scenario_air-scenario_names,scenario_front-scenario_names,scenario_hotspot-scenario_names
+scenario_open: db 'scale-open',0
+scenario_air: db 'air-battle',0
+scenario_front: db 'scale-front',0
+scenario_hotspot: db 'scale-hotspot',0
 f_units: db '--units',0
-ready_fmt: db '{"port":%u,"protocol":%u,"units":%u}',10,0
-report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u,"aircraft_records":%lu}',10,0
+ready_fmt: db '{"port":%u,"protocol":%u,"units":%u,"scenario":%u}',10,0
+report_fmt: db '{"ticks":%u,"simulated":%u,"bytes_in":%lu,"bytes_out":%lu,"entity_records":%lu,"rejected":%u,"disconnects":%u,"distinct_client_entity_pairs":%lu,"nearby_interest":%u,"unseen_interest":%u,"aircraft_records":%lu,"checksum":"0x%016lx","scenario":%u,"alive":[%u,%u],"engaged":%u,"event_sequence":%u}',10,0
 interest2: dd 1440000.0
 maximum: dd 8000.0
 zero: dd 0.0
@@ -47,10 +54,13 @@ section .data
 port: dd 7777
 ticks: dd 0
 units: dd 8192
+scenario: dd 0
+scenario_seen: dd 0
 sockaddr: dw 2,0
  dd 0
  dq 0
 section .bss align=16
+final_checksum: resq 1
 sock: resq 1
 peer: resb 16
 peerlen: resd 1
@@ -94,6 +104,11 @@ main:
  cmp eax,r13d
  jae .bad
  mov rdi,[r12+r14*8]
+ lea rsi,[f_scenario]
+ call strcmp wrt ..plt
+ test eax,eax
+ jz .scenarioarg
+ mov rdi,[r12+r14*8]
  lea rsi,[f_port]
  call strcmp wrt ..plt
  test eax,eax
@@ -110,6 +125,27 @@ main:
  jnz .bad
  lea r15,[units]
  jmp .value
+.scenarioarg:
+ cmp dword [scenario_seen],0
+ jne .bad
+ mov dword [scenario_seen],1
+ xor r15d,r15d
+.scenarioname:
+ mov rdi,[r12+r14*8+8]
+ lea rsi,[scenario_names]
+ movsxd rax,dword [rsi+r15*4]
+ add rsi,rax
+ call strcmp wrt ..plt
+ test eax,eax
+ jz .scenarioselected
+ inc r15d
+ cmp r15d,4
+ jb .scenarioname
+ jmp .bad
+.scenarioselected:
+ mov [scenario],r15d
+ add r14d,2
+ jmp .args
 .port:
  lea r15,[port]
  jmp .value
@@ -133,6 +169,10 @@ main:
  test eax,eax
  jnz .bad
  call player_init
+ mov edi,[scenario]
+ call sim_scenario
+ test eax,eax
+ jnz .bad
  mov eax,41
  mov edi,2
  mov esi,2050
@@ -160,6 +200,7 @@ main:
  movzx esi,word [sockaddr+2]
  rol si,8
  mov ecx,[units]
+ mov r8d,[scenario]
  mov edx,NET_VERSION
  lea rdi,[ready_fmt]
  xor eax,eax
@@ -236,13 +277,27 @@ main:
  je .loop
  cmp eax,[ticks]
  jb .loop
+ call sim_checksum
+ mov [final_checksum],rax
  lea rdi,[report_fmt]
  mov esi,[sim_tick_count]
  mov edx,[sim_count]
  mov rcx,[bytes_in]
  mov r8,[bytes_out]
  mov r9,[entity_records]
- sub rsp,48
+ sub rsp,96
+ mov rax,[final_checksum]
+ mov [rsp+48],rax
+ mov eax,[scenario]
+ mov [rsp+56],rax
+ mov eax,[sim_alive]
+ mov [rsp+64],rax
+ mov eax,[sim_alive+4]
+ mov [rsp+72],rax
+ mov eax,[sim_engaged]
+ mov [rsp+80],rax
+ mov eax,[sim_event_sequence]
+ mov [rsp+88],rax
  mov rax,[distinct_pairs]
  mov [rsp+16],rax
  mov eax,[interest_counts]
@@ -263,7 +318,7 @@ main:
  mov [rsp+8],rax
  xor eax,eax
  call printf wrt ..plt
- add rsp,48
+ add rsp,96
  mov rdi,[sock]
  mov eax,3
  syscall

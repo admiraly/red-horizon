@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/tests/test_visibility_gl.py", line 252, in <module>
+    assert changed > 25, ('site fixture must actually render', label, changed)
+           ^^^^^^^^^^^^
+AssertionError: ('site fixture must actually render', 'allied_site_no_army', 0)

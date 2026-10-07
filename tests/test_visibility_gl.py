@@ -59,6 +59,8 @@ def stopped(process):
 # a fixed distance cutoff for large aircraft.
 VISIBLE = [(-15., 60., 100.), (70., 350., 100.), (-350., 1700., 100.)]
 CASES = {
+    'allied_site_no_army': ([], None, (0,0,0)),
+    'enemy_site_no_army': ([], None, (0,0,0)),
     'three_classes': (VISIBLE, None, (1, 1, 1)),
     'offscreen': (VISIBLE + [(2000., 60., 100.)], None, (1, 1, 1)),
     'behind_camera': (VISIBLE + [(0., -60., 100.)], None, (1, 1, 1)),
@@ -137,6 +139,9 @@ def run_fixture(env, folder, label, actors, obstacle, census=True):
         sites = bytearray(read('sim_sites', 12 * 32))
         for index in range(12):
             struct.pack_into('<2f', sites, index * 32, 7000., 7000.)
+        if label in ('allied_site_no_army','enemy_site_no_army'):
+            struct.pack_into('<2f',sites,0,2000.,4400.)
+            struct.pack_into('<I',sites,8,int(label=='enemy_site_no_army'))
         write('sim_sites', sites)
         write('tree_positions', struct.pack('<32f', *([7000., 7000.] * 16)))
         player = bytearray(256)
@@ -211,10 +216,12 @@ try:
     env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
     env.pop('WAYLAND_DISPLAY', None)
     results = {}
+    colours = {}
     with tempfile.TemporaryDirectory(prefix='rh-visibility-') as directory:
         folder = pathlib.Path(directory)
         for label, (actors, obstacle, expected) in CASES.items():
             colour, report = run_fixture(env, folder, label, actors, obstacle)
+            colours[label] = colour
             # Stable report field contract is owned by the production module.
             observed = tuple(report[name] for name in ('visible_high', 'visible_low', 'visible_markers'))
             assert observed == expected, (label, observed, expected, report)
@@ -229,7 +236,7 @@ try:
                               'observed_actor_classes': report['decoded_actor_classes'],
                               'authority_before': report['authority_before'],
                               'authority_after': report['authority_after']}
-            if label == 'three_classes':
+            if label in ('three_classes', 'allied_site_no_army', 'enemy_site_no_army'):
                 normal, _ = run_fixture(env, folder, label, actors, obstacle, census=False)
                 changed = sum(colour[i:i+3] != normal[i:i+3] for i in range(0, len(colour), 3))
                 maximum = max(abs(a - b) for a, b in zip(colour, normal))
@@ -237,8 +244,13 @@ try:
                 # differently from the default framebuffer. Bound the error to
                 # two 8-bit steps; any changed silhouette fails this oracle.
                 assert maximum <= 2, ('census changed presented colour', changed, maximum)
-                results['normal_colour_changed_pixels'] = changed
-                results['normal_colour_max_channel_error'] = maximum
+                results[label]['normal_colour_changed_pixels'] = changed
+                results[label]['normal_colour_max_channel_error'] = maximum
+    for label in ('allied_site_no_army', 'enemy_site_no_army'):
+        changed = sum(colours[label][i:i+3] != colours['no_army'][i:i+3]
+                      for i in range(0, len(colours[label]), 3))
+        assert changed > 25, ('site fixture must actually render', label, changed)
+        results[label]['scenery_pixels_changed_from_empty'] = changed
     print(json.dumps({'suite': 'visibility-actual-gl', 'passed': True, 'cases': results,
                       'render_authority_unchanged': True,
                       'context': 'Private Xvfb software OpenGL; frozen development-only poses; actual production source meshes, terrain, bunker and pixel readback. No performance or combat claim.'}))

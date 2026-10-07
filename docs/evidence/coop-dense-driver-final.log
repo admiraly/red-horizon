@@ -1,0 +1,6 @@
+..................
+----------------------------------------------------------------------
+Ran 18 tests in 0.054s
+
+OK
+{"suite": "dense_driver", "passed": true, "cases": 18, "scope": "mocked development forwarding and negative paths; no assembly runtime, GPU density, or physical audio proof"}
