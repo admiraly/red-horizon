@@ -1,0 +1,65 @@
+{
+  "main_commit": "3d7d701733cfe9eefd272de67621aa9e1caab3a4",
+  "authored_files": 550,
+  "exact_frozen_source_matches": true,
+  "frozen_revision": "370919c5b6b42238e9dc326388d28e029d2d48e6-e55a11ba3961afb8",
+  "builds": [
+    {
+      "target": "client",
+      "revision": "3d7d701733cfe9eefd272de67621aa9e1caab3a4-e55a11ba3961afb8",
+      "assembled": 5,
+      "assembled_sources": [
+        "src/ai/air_approach.asm",
+        "src/ai/air_traffic.asm",
+        "src/ai/aircraft.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.5097211899992544,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/3d7d701733cfe9eefd272de67621aa9e1caab3a4-e55a11ba3961afb8/red-horizon",
+      "sha256": "06c7798ec3e02a9efd2694886f0d1559d81e268dc82e3bceab86df25a6bd1f0c"
+    },
+    {
+      "target": "coop",
+      "revision": "3d7d701733cfe9eefd272de67621aa9e1caab3a4-e55a11ba3961afb8",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.4468578799860552,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/3d7d701733cfe9eefd272de67621aa9e1caab3a4-e55a11ba3961afb8/red-horizon-coop-server",
+      "sha256": "59a74aaaa4d941cda48f04d48e2e1cc181e0eb0d7d85750e41807cd239a34076"
+    },
+    {
+      "target": "headless",
+      "revision": "3d7d701733cfe9eefd272de67621aa9e1caab3a4-e55a11ba3961afb8",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.401309292006772,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/3d7d701733cfe9eefd272de67621aa9e1caab3a4-e55a11ba3961afb8/red-horizon-server",
+      "sha256": "0889c9115705d0941b5e08e0e591ec393a32d0f9e9e8a21c0d446760904574b3"
+    }
+  ],
+  "passed": [
+    "native traffic admission/lifecycle/ABI/paired public flight controls",
+    "aircraft c7d9ad53c9f2",
+    "network a609bbfbcad9",
+    "fast 3e24a49b6cc6",
+    "worker original graphical listen-host/independent peer",
+    "rebuilt main native traffic",
+    "rebuilt main Intel Arc runway pixel oracle"
+  ],
+  "foreground_sessions_terminal": [
+    26141,
+    64149,
+    86246,
+    86837,
+    17600
+  ],
+  "pending_extended": {
+    "62962d6314e9": "exact final traffic source",
+    "7e8f134879eb": "final approach source, excludes traffic"
+  },
+  "process_observation": "    PID S     ELAPSED COMMAND\n2641444 S       15:35 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-traffic/tools/dev.py _worker 62962d6314e9 test --suite all --extended\n2626480 S       29:15 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-approach/tools/dev.py _worker 7e8f134879eb test --suite all --extended\n",
+  "scope": "Exclusive airborne final approaches only; no touchdown, ground runway occupancy, finite service or full-specification completion."
+}
