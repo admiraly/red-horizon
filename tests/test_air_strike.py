@@ -36,7 +36,7 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  rc,ingress=goal(15);assert rc==1 and abs(ingress[0]-2500)<.001 and abs(ingress[1]-4000)<.001
  hashes=[];travel=0.
  for tick in range(90):
-  old=(E[15].x,E[15].z);lib.sim_tick();travel+=math.dist(old,(E[15].x,E[15].z));assert abs(A[15].pitch-math.atan2(A[15].vy,A[15].speed))<1e-6
+  old=(E[15].x,A[15].y,E[15].z);lib.sim_tick();travel+=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(A[15].pitch-math.atan2(A[15].vy,math.hypot(A[15].vx,A[15].vz)))<1e-6
   if tick%10==0:hashes.append(f'{lib.sim_checksum():016x}')
  assert abs(travel-450)<.01 and E[15].hp==176 and A[15].ammo==8
  defensive_travel=travel
@@ -73,10 +73,10 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
    E[i]=Entity(x,z,200,side,3,0,-1,1);speed=(5,7)[role];A[i]=Air(lib.terrain_height(x,z)+born_altitude,heading,0,0,speed,role,0,-1,0,4 if i==95 else (8,180)[role],1,speed*math.sin(heading),0,speed*math.cos(heading),0,1)
   E[32]=Entity(4300,4000,100,1,0,0,-1,1);release=None;death=None;seen=set();travel=0.;at600=None;tail_launches=0;previous_ammo={i:A[i].ammo for i in (15,31,63,95)}
   for tick in range(1,1501):
-   old=(E[15].x,E[15].z);lib.sim_tick()
+   old=(E[15].x,A[15].y,E[15].z);lib.sim_tick()
    for i in previous_ammo:
     assert A[i].ammo<=previous_ammo[i];previous_ammo[i]=A[i].ammo
-   moved=math.dist(old,(E[15].x,E[15].z));assert abs(moved-5)<.001;travel+=moved
+   moved=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(moved-5)<.001;travel+=moved
    pool=bytes((C.c_ubyte*(512*64)).in_dll(lib,'sim_projectiles'))
    for slot in range(512):
     kind,source_id,generation,active=struct.unpack_from('<I8x3I',pool,slot*64+32)

@@ -12,14 +12,16 @@ for count,scenario in [(8192,3),(16384,0)]:
  if scenario:assert lib.sim_scenario(scenario)==0
  ids=[i for i in range(count)if E[i].kind==3];checks=0;minimum_clearance=8000.;hashes=[]
  for tick in range(1,901):
-  previous={i:(E[i].x,E[i].z,E[i].generation,A[i].ammo)for i in ids};lib.sim_tick()
+  previous={i:(E[i].x,E[i].z,E[i].generation,A[i].ammo,A[i].y,A[i].vy)for i in ids};lib.sim_tick()
   for i in ids:
    if not E[i].hp:continue
    assert 0<=E[i].x<=8000 and 0<=E[i].z<=8000,(count,scenario,tick,i,E[i].x,E[i].z)
    assert all(math.isfinite(v)for v in(A[i].y,A[i].heading,A[i].bank,A[i].pitch))
    old=previous[i]
    if tick>1 and E[i].generation==old[2]:
-    assert abs(math.dist(old[:2],(E[i].x,E[i].z))-(5,7)[A[i].role])<.001
+    assert abs(math.dist((old[0],old[4],old[1]),(E[i].x,A[i].y,E[i].z))-(5,7)[A[i].role])<.001
+    assert abs(A[i].vy-old[5])<=(.012002,.024002)[A[i].role]
+    assert abs(math.sqrt(A[i].vx**2+A[i].vy**2+A[i].vz**2)-(5,7)[A[i].role])<1e-5
     assert A[i].ammo<=old[3],(count,scenario,tick,i,A[i].ammo,old[3])
    minimum_clearance=min(minimum_clearance,E[i].x,E[i].z,8000-E[i].x,8000-E[i].z);checks+=1
   if tick%100==0:hashes.append(f'{lib.sim_checksum():016x}')

@@ -329,7 +329,17 @@ air_escort_goal:
  jz .lane
  mulss xmm2,[negative]
 .lane:
- divss xmm2,[rcx+AIR_SPEED]
+ ; Lateral spacing is metres in the ground plane, even during a climb.
+ movss xmm3,[rcx+AIR_VX]
+ mulss xmm3,xmm3
+ movss xmm4,[rcx+AIR_VZ]
+ mulss xmm4,xmm4
+ addss xmm3,xmm4
+ sqrtss xmm3,xmm3
+ ucomiss xmm3,[zero]
+ jp .none
+ jbe .none
+ divss xmm2,xmm3
  movss xmm0,[rcx+AIR_VX]
  mulss xmm0,[trail]
  movss xmm1,[r11+ENTITY_X]

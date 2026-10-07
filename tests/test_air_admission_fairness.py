@@ -140,11 +140,33 @@ for mirror in(False,True):
  reserves.append({'side_labels_mirrored':bool(mirror),'air_count':480,'actual_direct_weapon_launches':32,'physical_pool_count':count.value,'513th_launch_rejected':True})
 # Sparse real flight fixtures continue with the production world; no fabricated
 # projectile retirement, event, damage or hit callbacks are used.
+# Preserve the formerly incidental airborne bomb collision as its own physical
+# contact proof. Crossing births are deliberate; no live pose/damage/event writes.
+airborne=[]
+for replay in range(2):
+ ids=setup(64,0);lib.air_combat_tick();born_rounds={i:a[i].ammo for i in ids}
+ for tick in range(1,241):
+  lib.sim_tick()
+  if any(e[i].hp<200 for i in ids):break
+ assert [e[i].hp for i in ids]==[60,60] and [e[0].hp,e[32].hp]==[100,100]
+ assert all(a[i].ammo==born_rounds[i] for i in ids) and count.value==0
+ assert all(s.kind==3 and s.ttl>0 for s in p if s.generation)
+ airborne.append({'tick':tick,'actor_ids':ids,'real_bomb_contact_air_hp':[e[i].hp for i in ids],'ground_hp':[e[0].hp,e[32].hp],'remaining_bomb_stores':[a[i].ammo for i in ids],'checksum':f'{lib.sim_checksum():016x}'})
+assert airborne[0]==airborne[1]
 physical=[]
 for role in(0,1):
  traces=[]
  for replay in range(2):
-  ids=setup(64,role);initial_hp=[e[i].hp for i in range(64)]
+  ids=setup(64,role)
+  if role==0:
+   # Distinct declared initial lanes isolate ground-contact admission from
+   # opposing bombers physically intercepting each other's bombs mid-air.
+   # The full-army admission/fairness deployments above remain unchanged.
+   for i in ids:
+    lane=(1800.,2200.)[e[i].side];target=(32,0)[e[i].side]
+    e[i].z=lane;e[target].z=lane
+    a[i].y=lib.terrain_height(e[target].x,lane)+110
+  initial_hp=[e[i].hp for i in range(64)]
   lib.air_combat_tick();launch_tick=0
   assert count.value and all(e[i].hp==initial_hp[i]for i in range(64))
   damaged=None
@@ -179,6 +201,6 @@ for mode,name in((2,'scale-front'),(3,'scale-hotspot')):
   assert all(spent[key]>=value for key,value in counts.items())
   traces.append({'scenario':name,'seed':42,'ticks':args.dense_ticks,'initialized_entities':8192,'initial_living_army':[4096,4096],'retained_new_generations':[counts[(s,k)]for s in(0,1)for k in(3,4)],'distinct_retained_sources':[len(sources[(s,k)])for s in(0,1)for k in(3,4)],'all_actual_launches_from_finite_ammo':[spent[(s,k)]for s in(0,1)for k in(3,4)],'pool_peak':peak,'dropped':dropped.value,'checksum':f'{lib.sim_checksum():016x}'})
  assert traces[0]==traces[1];dense.append(traces[0])
-output={'suite':'air-admission-fairness','passed':True,'mode':'legacy-fixed-index'if args.legacy else'fair-acceptance','library_sha256':hashlib.sha256(pathlib.Path(args.library).read_bytes()).hexdigest(),'production_volley_controls':reports,'physical_delayed_contacts':physical,'physical_reservation_controls':reserves,'dense_world_samples':dense,'limits':['allocation fixture deliberately overlaps same-side sources; no crowd/navigation acceptance','direct air_combat_tick isolates readiness from movement and uses production acquisition/alignment/LOS','ground preload uses actual production tank launches with original tank sources','dense samples omit same-tick launch and retirement','no graphics/audio/network/whole-operation acceptance']}
+output={'suite':'air-admission-fairness','passed':True,'mode':'legacy-fixed-index'if args.legacy else'fair-acceptance','library_sha256':hashlib.sha256(pathlib.Path(args.library).read_bytes()).hexdigest(),'production_volley_controls':reports,'physical_delayed_contacts':physical,'physical_airborne_bomb_contact':airborne[0],'physical_reservation_controls':reserves,'dense_world_samples':dense,'limits':['allocation fixture deliberately overlaps same-side sources; no crowd/navigation acceptance','direct air_combat_tick isolates readiness from movement and uses production acquisition/alignment/LOS','ground preload uses actual production tank launches with original tank sources','dense samples omit same-tick launch and retirement','no graphics/audio/network/whole-operation acceptance']}
 if args.report:pathlib.Path(args.report).write_text(json.dumps(output,indent=2)+'\n')
 print(json.dumps(output));print('PASS: production air release, finite stores, labels-only mirrors, negative controls and delayed contacts')

@@ -30,8 +30,9 @@ for source,kind in ((31,3),(31,4),(64,4),(31,0),(0,3)):
 reset();actor(15,2000,2000,0)
 last=None
 for _ in range(500):
- old=(e[15].x,e[15].z);lib.sim_tick()
- assert abs(math.dist(old,(e[15].x,e[15].z))-5)<.001
+ old=(e[15].x,a[15].y,e[15].z);was_active=a[15].flags;lib.sim_tick()
+ if was_active:assert abs(math.dist(old,(e[15].x,a[15].y,e[15].z))-5)<.001
+ assert abs(math.sqrt(a[15].vx**2+a[15].vy**2+a[15].vz**2)-5)<1e-5
  assert a[15].flags==1 and a[15].ammo==8
  assert all(math.isfinite(v)for v in(a[15].y,a[15].heading,a[15].pitch,a[15].bank))
  if last is not None:
@@ -91,6 +92,7 @@ def defense_run(index,hit):
  reset();actor(index,3000,3000,0);lib.air_tick()
  a[index].heading=0;a[index].vx=0;a[index].vz=a[index].speed
  start=(e[index].x,e[index].z,a[index].y)
+ initial_vy=a[index].vy
  before=lib.sim_checksum()
  if hit:
   lib.air_hit(index)
@@ -104,7 +106,7 @@ def defense_run(index,hit):
   delta=(a[index].heading-old+math.pi)%(2*math.pi)-math.pi
   assert abs(delta)<=(.04001 if a[index].role else .02501)
   assert abs(a[index].y-oldy)<=.5001
-  assert abs(math.dist(oldxz,(e[index].x,e[index].z))-a[index].speed)<.001
+  assert abs(math.dist((oldxz[0],oldy,oldxz[1]),(e[index].x,a[index].y,e[index].z))-a[index].speed)<.001
   assert a[index].ammo==(180 if a[index].role else 8)
   assert 0<=e[index].x<=8000 and 0<=e[index].z<=8000
   if hit and t<length-1:assert a[index].target==-1 and a[index].mode==2
@@ -112,7 +114,9 @@ def defense_run(index,hit):
  result=(e[index].x,e[index].z,a[index].y,peak_bank,turn,a[index].heading)
  if hit:
   assert a[index].mode!=2,'repeated hits extended maneuver indefinitely'
-  assert result[2]-start[2]>=length*.5-.001
+  accel=.024 if a[index].role else .012
+  expected_climb=sum(min(.5,initial_vy+(t+1)*accel) for t in range(length))
+  assert abs(result[2]-start[2]-expected_climb)<.01,(result[2]-start[2],expected_climb)
  return result
 metrics={}
 for index,name in ((31,'fighter'),(15,'bomber')):
@@ -120,7 +124,7 @@ for index,name in ((31,'fighter'),(15,'bomber')):
  separation=math.dist(control[:2],defended[:2])
  assert separation>40,(name,separation)
  assert defended[3]>.4
- metrics[name]={'xz_separation_m':round(separation,3),'climb_m':24 if index==31 else 45,
+ metrics[name]={'xz_separation_m':round(separation,3),'climb_m':round(defended[2]-control[2],3),
                 'absolute_turn_rad':round(defended[4],3),'peak_bank_rad':round(defended[3],3)}
 # Invalid, dead, nonair and mismatched generations cannot create a commitment.
 reset();actor(31,3000,3000,0);lib.air_tick()
@@ -140,9 +144,9 @@ for index in (15,31):
  a[index].heading=math.pi/2
  for t in range(400):
   if t%150==0:lib.air_hit(index)
-  old=(e[index].x,e[index].z);lib.air_tick();lib.air_combat_tick()
+  old=(e[index].x,a[index].y,e[index].z);lib.air_tick();lib.air_combat_tick()
   assert 0<=e[index].x<=8000 and 0<=e[index].z<=8000
-  assert abs(math.dist(old,(e[index].x,e[index].z))-a[index].speed)<.001
+  assert abs(math.dist(old,(e[index].x,a[index].y,e[index].z))-a[index].speed)<.001
 # Following the finite break, fighters reacquire an independently observed enemy.
 reset();actor(31,3000,3000,0);actor(63,3300,3000,1);lib.air_tick();lib.air_hit(31)
 for t in range(48):lib.air_tick();lib.air_combat_tick()
@@ -165,8 +169,10 @@ for index in (15,31):
  assert lib.sim_checksum()==before and e[index].hp==200
  lib.sim_air_damage(index,1)
  assert e[index].hp==199 and a[index].mode==2
- old_y=a[index].y;old_bank=a[index].bank;lib.sim_tick()
- assert a[index].y>=old_y+.499
+ old_y=a[index].y;old_vy=a[index].vy;old_bank=a[index].bank;lib.sim_tick()
+ expected_vy=min(.5,old_vy+(.012 if index==15 else .024))
+ assert abs(a[index].vy-expected_vy)<1e-6
+ assert abs(a[index].y-old_y-expected_vy)<.0001
  if hasattr(lib,'air_bank_step'):
   # Coupled flight begins a bounded roll, rather than snapping the visible bank.
   assert 0<abs(a[index].bank-old_bank)<=(.06001 if index==15 else .10001)

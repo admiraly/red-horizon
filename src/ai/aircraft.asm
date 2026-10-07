@@ -5,7 +5,7 @@
 %include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
-extern air_bank_step
+extern air_bank_step,air_vertical_step
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
 extern air_gun_solution_ready,air_gun_intercept
 extern air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
@@ -33,8 +33,8 @@ turns: dd 0.025,0.04
 pi: dd 3.14159265
 tau: dd 6.2831853
 negative: dd -1.0
-climb: dd 0.5
-minus_climb: dd -0.5
+climb: dd AIR_FLIGHT_VERTICAL_LIMIT
+minus_climb: dd -AIR_FLIGHT_VERTICAL_LIMIT
 corner_margin: dd AIR_FLIGHT_CORNER_MARGIN
 corner_edge: dd 6800.0 ; fixed8000m map minus policy1200m corner margin
 pitch_scale: dd 0.15
@@ -468,10 +468,9 @@ air_tick:
  movss [rbp+AIR_VZ],xmm0
  movss xmm0,[rbx+ENTITY_X]
  addss xmm0,[rbp+AIR_VX]
- movss [rbx+ENTITY_X],xmm0
+ ; Preview one horizontal step for terrain clearance, without moving yet.
  movss xmm1,[rbx+ENTITY_Z]
  addss xmm1,[rbp+AIR_VZ]
- movss [rbx+ENTITY_Z],xmm1
  call terrain_height
  mov eax,[rbp+AIR_ROLE]
  lea rcx,[altitude]
@@ -521,13 +520,29 @@ air_tick:
  subss xmm0,[rbp+AIR_Y]
  minss xmm0,[climb]
  maxss xmm0,[minus_climb]
+ mov edi,[rbp+AIR_ROLE]
+ movss xmm1,[rbp+AIR_SPEED]
+ movss xmm2,[rbp+AIR_VY]
+ call air_vertical_step
+ test eax,eax
+ jnz .next ; Invalid flight inputs publish no position or vertical-state writes.
  movss [rbp+AIR_VY],xmm0
  addss xmm0,[rbp+AIR_Y]
  movss [rbp+AIR_Y],xmm0
- movss xmm0,[rbp+AIR_VY]
- movss xmm1,[rbp+AIR_SPEED]
- call atan2f wrt ..plt
- movss [rbp+AIR_PITCH],xmm0
+ movss [rbp+AIR_PITCH],xmm2
+ ; Climbing uses part of total airspeed; heading-aligned horizontal travel
+ ; is reduced accordingly rather than adding vertical speed for free.
+ divss xmm1,[rbp+AIR_SPEED]
+ movss xmm0,[rbp+AIR_VX]
+ mulss xmm0,xmm1
+ movss [rbp+AIR_VX],xmm0
+ addss xmm0,[rbx+ENTITY_X]
+ movss [rbx+ENTITY_X],xmm0
+ movss xmm0,[rbp+AIR_VZ]
+ mulss xmm0,xmm1
+ movss [rbp+AIR_VZ],xmm0
+ addss xmm0,[rbx+ENTITY_Z]
+ movss [rbx+ENTITY_Z],xmm0
 .next:
  add rbx,ENTITY_STRIDE
  add rbp,AIR_STRIDE
@@ -769,11 +784,21 @@ air_combat_tick:
  mov eax,[rbx+ENTITY_GENERATION]
  cmp eax,[rcx+16]
  je .strike_direction_saved
+ ; Strike ingress is a unit XZ direction, independent of climb speed.
+ movss xmm2,[rbp+AIR_VX]
+ mulss xmm2,xmm2
+ movss xmm3,[rbp+AIR_VZ]
+ mulss xmm3,xmm3
+ addss xmm2,xmm3
+ sqrtss xmm2,xmm2
+ ucomiss xmm2,[zero]
+ jp .next
+ jbe .next
  movss xmm0,[rbp+AIR_VX]
- divss xmm0,[rbp+AIR_SPEED]
+ divss xmm0,xmm2
  movss [rcx+24],xmm0
  movss xmm0,[rbp+AIR_VZ]
- divss xmm0,[rbp+AIR_SPEED]
+ divss xmm0,xmm2
  movss [rcx+28],xmm0
  mov dword [rcx+32],1
 .strike_direction_saved:
@@ -808,14 +833,25 @@ air_combat_tick:
  movaps xmm3,xmm1
  mulss xmm3,[rbp+AIR_VZ]
  addss xmm2,xmm3
- divss xmm2,[rbp+AIR_SPEED] ; ahead distance along current heading
+ ; Project ground distances on the actual unit XZ direction.
+ movss xmm4,[rbp+AIR_VX]
+ mulss xmm4,xmm4
+ movss xmm5,[rbp+AIR_VZ]
+ mulss xmm5,xmm5
+ addss xmm4,xmm5
+ sqrtss xmm4,xmm4
+ ucomiss xmm4,[zero]
+ jp .next
+ jbe .next
+ movss [rsp+44],xmm4
+ divss xmm2,xmm4 ; ahead distance along current horizontal heading
  cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
  je .gun
  movaps xmm3,xmm0
  mulss xmm3,[rbp+AIR_VZ]
  mulss xmm1,[rbp+AIR_VX]
  subss xmm3,xmm1
- divss xmm3,[rbp+AIR_SPEED]
+ divss xmm3,xmm4
  andps xmm3,[abs_mask]
  comiss xmm3,[bomb_cross]
  ja .next
@@ -835,7 +871,7 @@ air_combat_tick:
  jbe .next
  comiss xmm1,[bomb_max_fall]
  ja .next
- mulss xmm1,[rbp+AIR_SPEED]
+ mulss xmm1,[rsp+44] ; bomb inherits actual horizontal displacement
  subss xmm1,[rsp+32]
  andps xmm1,[abs_mask]
  comiss xmm1,[release_margin]

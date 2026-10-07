@@ -1,0 +1,14 @@
+{
+  "job_id": "7e42c610ef6a",
+  "revision": "1b9c911100ff5f9da84d1af63765f22a640356f3-88e1c89615c17b77",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-pitch/runs/jobs/7e42c610ef6a/source",
+  "command": [
+    "test",
+    "--suite",
+    "fast"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-pitch/runs/jobs/7e42c610ef6a/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-pitch/runs/jobs/7e42c610ef6a/result.json",
+  "pid": 3795359
+}

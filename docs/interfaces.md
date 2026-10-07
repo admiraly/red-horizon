@@ -454,3 +454,11 @@ all31 mapped actions after event polling and consumes pending presses.
 throughout that input frame; out-of-range IDs return0. RDI window is unused.
 All three preserve SysV nonvolatile GPRs and use fixed private input storage.
 They change no public entity/player/UDP layouts or authoritative simulation.
+
+Aircraft vertical actuator (private SysV/SSE2)
+
+`air_vertical_step`: EDI role0/1, XMM0 requested vertical speed, XMM1 total
+airspeed, XMM2 previous vertical speed. EAX0 success returns XMM0 new vertical
+speed, XMM1 horizontal speed, XMM2 physical pitch. EAX−1 invalid returns three
+zero floats. No pointers or state writes; SysV nonvolatile GPRs preserved.
+Canonical bounds/accelerations are in air_flight.inc; see air-vertical-motion.md.

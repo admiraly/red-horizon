@@ -17,17 +17,19 @@ def run():
   i=15+j*8;role=j%2;speed=(5,7)[role];E[i]=Entity(x,z,200,0,3,0,-1,1);A[i]=Air(lib.terrain_height(x,z)+(110,140)[role],heading,0,0,speed,role,0,-1,0,(8,180)[role],1,speed*math.sin(heading),0,speed*math.cos(heading),0,1)
  checks=0;maximum_error=0;minimum_edge=8000;hashes=[]
  for tick in range(1,2001):
-  previous={15+j*8:(E[15+j*8].x,E[15+j*8].z,A[15+j*8].heading,A[15+j*8].bank) for j in range(8)};lib.sim_tick()
+  previous={15+j*8:(E[15+j*8].x,E[15+j*8].z,A[15+j*8].heading,A[15+j*8].bank,A[15+j*8].y,A[15+j*8].vy) for j in range(8)};lib.sim_tick()
   for j in range(8):
    i=15+j*8;old=previous[i];role=j%2;speed=(5,7)[role]
    assert E[i].hp==200 and A[i].ammo==(8,180)[role]
    assert 0<=E[i].x<=8000 and 0<=E[i].z<=8000,(tick,i,E[i].x,E[i].z)
-   assert abs(math.dist(old[:2],(E[i].x,E[i].z))-speed)<.001
+   assert abs(math.dist((old[0],old[4],old[1]),(E[i].x,A[i].y,E[i].z))-speed)<.001
+   assert abs(A[i].vy-old[5])<=(.012002,.024002)[role]
+   assert abs(math.sqrt(A[i].vx**2+A[i].vy**2+A[i].vz**2)-speed)<1e-5
    assert abs(A[i].bank-old[3])<=(.060002,.100002)[role]
    yaw=(A[i].heading-old[2]+math.pi)%(2*math.pi)-math.pi;oracle=-.0109*math.tan(A[i].bank)/speed;error=abs(yaw-oracle);maximum_error=max(maximum_error,error)
    assert error<1e-6,(tick,i,yaw,oracle)
    assert abs(yaw)<=(.02501,.04001)[role]
-   assert abs(A[i].pitch-math.atan2(A[i].vy,speed))<1e-6
+   assert abs(A[i].pitch-math.atan2(A[i].vy,math.hypot(A[i].vx,A[i].vz)))<1e-6
    minimum_edge=min(minimum_edge,E[i].x,E[i].z,8000-E[i].x,8000-E[i].z);checks+=1
   if tick%100==0:hashes.append(f'{lib.sim_checksum():016x}')
  return checks,maximum_error,minimum_edge,hashes
