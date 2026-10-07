@@ -1,0 +1,66 @@
+{
+  "suite": "actual-infantry-aim-production-udp",
+  "passed": true,
+  "units": 8192,
+  "endpoints": 4,
+  "source": 4096,
+  "initial_stock": [
+    1,
+    30,
+    90,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "observed_stock": [
+    1,
+    27,
+    90,
+    0,
+    3,
+    0,
+    0,
+    0
+  ],
+  "adapter_poses": [
+    [
+      1,
+      8,
+      -1.5707963705062866,
+      4.997253563487902e-05,
+      0,
+      0,
+      0,
+      7
+    ],
+    [
+      1,
+      16,
+      -1.5707963705062866,
+      4.997253563487902e-05,
+      0,
+      0,
+      0,
+      7
+    ],
+    [
+      1,
+      24,
+      -1.5707963705062866,
+      4.997253563487902e-05,
+      0,
+      0,
+      0,
+      7
+    ]
+  ],
+  "no_HP_kind_generation_stores_event_writes": true,
+  "startup_positions_orders_only": true,
+  "server_sha256": "375477219b02fba4c9554c29a868dce6e7b7b2bee8744e2f3d28719845053843",
+  "adapter_sha256": "6bb8a36163eabc5222de4ea6a56554926e78577a6d5a7186e3c01f3e244e9ebf",
+  "limits": [
+    "Actual selected closer human determines heading, not the farther army entity target. No target coordinates travel on the wire; no full latency/bandwidth or remote pixel claim."
+  ]
+}

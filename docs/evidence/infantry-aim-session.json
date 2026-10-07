@@ -99,5 +99,7 @@
     "60ms reload tap missed in frozen v38 software GL; real key acknowledgment preserves full120 shots/finite reserves and both exact failed/current executable HUD passes.",
     "Zero-mask-weight upper branch changed lower GPU output; bypass fixed before strict bit-identical lower shader proof.",
     "First hardware sample missingrequired seed42 failed, collected, corrected real samples passed."
-  ]
+  ],
+  "integrated_commit": "3116007",
+  "integration_state": "Main full executables rebuilt; actual main embedded GL and main original8192/four-endpoint production UDP pass; full checkpoint pending with all inputs matching."
 }

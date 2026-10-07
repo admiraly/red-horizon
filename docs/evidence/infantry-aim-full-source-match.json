@@ -3,5 +3,9 @@
   "revision": "69a33334bd957d9ece984874261563e41b321c10-77efe574aaecbbd2",
   "checked_inputs": 428,
   "different_runtime_content_tools_tests_inputs": [],
-  "state": "Full extended job pending; runtime/content/runner/test inputs exactly frozen."
+  "state": "Full extended job pending; runtime/content/runner/test inputs exactly frozen.",
+  "integrated_commit": "31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c",
+  "main_checkout_matched_inputs": 428,
+  "main_checkout_different_inputs": [],
+  "pending_pid_confirmed_alive": true
 }

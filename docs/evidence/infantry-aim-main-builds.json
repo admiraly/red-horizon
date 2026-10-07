@@ -1,0 +1,40 @@
+{
+  "headless": {
+    "target": "headless",
+    "revision": "31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c-77efe574aaecbbd2",
+    "assembled": 4,
+    "assembled_sources": [
+      "src/sim/infantry_aim.asm",
+      "src/sim/infantry_weapon.asm",
+      "src/sim/world.asm",
+      "src/ai/infantry_human.asm"
+    ],
+    "seconds": 0.4037902819982264,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c-77efe574aaecbbd2/red-horizon-server",
+    "executable_sha256": "9db71c092026cf720770348d51450a79e18c6c43955d5a4fadf9c3798b29668e"
+  },
+  "client": {
+    "target": "client",
+    "revision": "31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c-77efe574aaecbbd2",
+    "assembled": 3,
+    "assembled_sources": [
+      "src/render/mesh_shaders.asm",
+      "src/render/meshes.asm",
+      "src/net/client.asm"
+    ],
+    "seconds": 0.48032360601064283,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c-77efe574aaecbbd2/red-horizon",
+    "executable_sha256": "a47062e853dccf3efd87ab9762e9dd84088c02af204a469d12f1d1e6dbff0e1c"
+  },
+  "coop": {
+    "target": "coop",
+    "revision": "31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c-77efe574aaecbbd2",
+    "assembled": 1,
+    "assembled_sources": [
+      "src/net/coop_server.asm"
+    ],
+    "seconds": 0.35716898199461866,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/31160072bb6f9fc58a1fa6fb473fe41a3d96bb8c-77efe574aaecbbd2/red-horizon-coop-server",
+    "executable_sha256": "375477219b02fba4c9554c29a868dce6e7b7b2bee8744e2f3d28719845053843"
+  }
+}
