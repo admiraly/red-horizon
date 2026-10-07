@@ -126,9 +126,15 @@ try:
         os.pwrite(memory, struct.pack('<I', 1), symbols['orders'] + 4 * 4)
         os.pwrite(memory, struct.pack('<I', 1), symbols['ai_fronts'] + 4 * 64 + 24) # documented manual-front fixture override
         hits_before = player()['hits']; button(True)
-        until(lambda: player()['hits'] > hits_before, 2)
-        button(False); time.sleep(.05)
-        assert struct.unpack('<f', os.pread(memory, 4, symbols['hit_flash']))[0] > 0, 'authoritative hit did not produce HUD feedback'
+        def published_hit():
+            hits=player()['hits']
+            published=struct.unpack('<I',os.pread(memory,4,symbols['last_hits']))[0]
+            flash=struct.unpack('<f',os.pread(memory,4,symbols['hit_flash']))[0]
+            return (hits,published,flash) if hits>hits_before and published>hits_before and flash>0 else None
+        observed_hit_feedback=until(published_hit,2)
+        button(False)
+        # The cue is finite: observe its actual publication rather than waiting
+        # an arbitrary 50ms and demanding that the cue has not yet expired.
         accepted_hits = player()['hits'] - hits_before
         # Stage a different living infantry body with its genuine finite stock.
         # The old fixture changed an infantry body into a tank without equipping
@@ -181,7 +187,7 @@ try:
         finally:os.kill(process.pid,signal.SIGCONT)
         stdout, stderr = process.communicate(timeout=5); assert process.returncode == 0, (stdout, stderr)
         assert f"hp={final_hud_hp}" in stdout and 'player id=0' in stdout, stdout
-        print(json.dumps({'suite':'authoritative-client-gameplay','passed':True,'spawn':spawn,'moved_metres':distance,'final':final,'exit_hp_is_last_rendered_hud_value':final_hud_hp,'rendered_health_title':True,'accepted_hits':accepted_hits,'redeploy_pixel':[red,green,blue],'damage_source_actual_infantry_id':ident,'initial_attacker_weapon':weapon,'attacker_hp_generation_preserved':True,'damaged':damaged,'dead':dead,'redeployed':redeployed,'stdout':stdout}))
+        print(json.dumps({'suite':'authoritative-client-gameplay','passed':True,'spawn':spawn,'moved_metres':distance,'final':final,'exit_hp_is_last_rendered_hud_value':final_hud_hp,'rendered_health_title':True,'accepted_hits':accepted_hits,'observed_hit_feedback':observed_hit_feedback,'redeploy_pixel':[red,green,blue],'damage_source_actual_infantry_id':ident,'initial_attacker_weapon':weapon,'attacker_hp_generation_preserved':True,'damaged':damaged,'dead':dead,'redeployed':redeployed,'stdout':stdout}))
 finally:
     if memory is not None: os.close(memory)
     if process is not None and process.poll() is None:

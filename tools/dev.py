@@ -623,6 +623,7 @@ def main():
             execute([sys.executable,'tests/test_client_infantry_aim.py',str(client)])
             execute([sys.executable,'tests/test_infantry_presentation.py'])
             if (ROOT/'tests/test_client_gameplay.py').exists(): execute([sys.executable,'tests/test_client_gameplay.py',str(client)])
+            execute([sys.executable,'tests/test_client_feedback.py',str(client)])
             execute([sys.executable,'tests/test_client_player_blast.py',str(client)])
             execute([sys.executable,'tests/test_player_ammunition_hud.py',str(client)])
             execute([sys.executable,'tests/test_player_ammunition_hud.py',str(client),'--small'])

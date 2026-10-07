@@ -841,6 +841,8 @@ main:
  call network_tick
  jmp .tick
 .render:
+ ; Decay the preceding frame before admitting fresh authoritative feedback.
+ call update_visual
  call sync_player
  mov edi,[local_player]
  movss xmm0,[camera]
@@ -870,7 +872,6 @@ main:
  call environment_step
  mov edi,[program]
  call environment_apply
- call update_visual
  mov edi,[local_player]
  movss xmm0,[frame_delta]
  call effects_update

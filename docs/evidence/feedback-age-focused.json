@@ -1,0 +1,49 @@
+{
+  "positive": {
+    "suite": "actual-client-fresh-feedback",
+    "passed": true,
+    "legacy_negative_control": false,
+    "client_sha256": "3ac1ef8166cb0d6703c6610d2af0cc831682f55c2112ec71b7946407d2bb4970",
+    "hitch_wall_clock_ms_per_glfw_time_query": 100,
+    "actual_HUD_uniform_samples": [
+      {
+        "hit_sequence": 1,
+        "hit_flash_sent_to_HUD": 1,
+        "shot_flash_sent_to_HUD": 1
+      }
+    ],
+    "underlying_gameplay_test_exit": 0,
+    "shim_authority_writes": false,
+    "scope": "Actual8192 assembled client, genuine finite rifle damage and HUD uniform; delayed real wall clock, development-only initial gameplay staging. Fresh-hit amplitude proof, not perceptual quality, rendered-pixel persistence or physical-device timing."
+  },
+  "legacy_negative": {
+    "suite": "actual-client-fresh-feedback",
+    "passed": true,
+    "legacy_negative_control": true,
+    "client_sha256": "87d720c9c5ac8a9d62e0836c5cbb78acff6c95d9e41de3a1e3a4becb8a20d612",
+    "hitch_wall_clock_ms_per_glfw_time_query": 100,
+    "actual_HUD_uniform_samples": [
+      {
+        "hit_sequence": 1,
+        "hit_flash_sent_to_HUD": 0.199999988,
+        "shot_flash_sent_to_HUD": 0.199999988
+      }
+    ],
+    "underlying_gameplay_test_exit": 0,
+    "shim_authority_writes": false,
+    "scope": "Actual8192 assembled client, genuine finite rifle damage and HUD uniform; delayed real wall clock, development-only initial gameplay staging. Fresh-hit amplitude proof, not perceptual quality, rendered-pixel persistence or physical-device timing."
+  },
+  "sources": {
+    "src/platform/linux/client.asm": "f5214400bd67dc1e441660a556455f7f7f9c0912734bf98889fa7c7681c496c2",
+    "tests/test_client_gameplay.py": "f8d990b6a06ea21ddfde1a9c182264026ea8343532a31f264961944360f71d1a",
+    "tests/test_client_feedback.py": "632f8aa22d0529ad7e5f86b886c80d016329d8a60950f0aa74f31d5d5204cbf4",
+    "tools/dev.py": "de7e2b99787d67fcbd20173da7b283f80311fdc55b8acab9ccdd00d744dee2cb"
+  },
+  "failed_full": "62f4725ea974 exit1 after1908.8836548629915s, hit_flash0 sampled50ms after accepted authority hit. Unchanged frozen rerun passes.",
+  "causality_scope": "Controlled100ms wall-clock delay establishes old fresh-hit HUD amplitude0.199999988 versus corrected1.0. Original failed run did not capture draw-time amplitudes, so this does not retroactively prove its exact interleaving.",
+  "limits": [
+    "GL uniform publication proof, not fresh cue pixel persistence/perceptual acceptance.",
+    "Development-only LD_PRELOAD shim delays real glfw clock calls, reads cosmetic sequence and captures HUD uniforms; does not write authority/clock/body.",
+    "Existing gameplay test still stages declared initial encounters; finite physical fire, damage, death/redeployment run without renewal."
+  ]
+}
