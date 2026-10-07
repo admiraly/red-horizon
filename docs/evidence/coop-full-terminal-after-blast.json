@@ -1,0 +1,17 @@
+{
+  "job_id": "1da72fd3a018",
+  "revision": "94376be136dc47af50b08ee9a5b27e598f9fa3c9-f70cd9de5fe67300",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/runs/jobs/1da72fd3a018/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/runs/jobs/1da72fd3a018/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/coop-scenarios/runs/jobs/1da72fd3a018/result.json",
+  "pid": 1892125,
+  "exit_code": 1,
+  "seconds": 1758.530680656986
+}

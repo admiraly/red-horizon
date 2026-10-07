@@ -7,6 +7,7 @@ default rel
 extern player_ammunition_init,player_ammunition_equip,player_ammunition_reserve,player_ammunition_reload_finish,player_ammunition_fire,player_ammunition_resupply,player_ammunition_hash
 extern company_assign,company_release,company_control_init,company_redeploy
 extern sim_entities,sim_count,sim_tick_count,sim_sites,sim_fire
+extern deployment_blast_clear
 extern sim_entity_height
 extern terrain_height,world_body_blocked,world_los,sinf,cosf
 extern vehicle_detach,vehicle_tick_player
@@ -697,6 +698,12 @@ safe_candidate:
  call terrain_height
  addss xmm0,[eye]
  movss [candidate_y],xmm0
+ movaps xmm1,xmm0
+ movss xmm0,[candidate_x]
+ movss xmm2,[candidate_z]
+ call deployment_blast_clear
+ test eax,eax
+ jnz .bad
  lea r14,[sim_entities]
  xor r12d,r12d
 .enemy:

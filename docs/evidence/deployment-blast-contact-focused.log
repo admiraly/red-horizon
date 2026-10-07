@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/tests/test_deployment_blast.py", line 35, in <module>
+    shot();check('straight_hostile_shell',(1200,200,1000),1);check('off_corridor',(1200,200,1100),0);check('behind_shell',(900,200,1000),0);check('high_overflight',(1200,280,1000),0)
+                                                             ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/tests/test_deployment_blast.py", line 27, in check
+    assert got==wanted,(label,got,wanted,xyz)
+           ^^^^^^^^^^^
+AssertionError: ('off_corridor', 1, 0, (1200, 200, 1100))

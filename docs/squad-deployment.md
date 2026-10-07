@@ -31,5 +31,6 @@ actors and CPU work p951.534343/1.423918ms are separate observations, not sustai
 context, concurrent verification load uncontrolled; physical audio, full latency,
 four graphical players, spectacle and whole-operation acceptance remain open.
 
-Active projectile/blast-zone exclusion, player-selected alternative deployment
-sites, revive opportunity and deployment-screen commands remain unfinished.
+Bounded incoming/recent blast exclusion is implemented and scoped in
+[deployment-blast.md](deployment-blast.md). Player-selected alternative sites,
+revive opportunity and deployment-screen commands remain unfinished.

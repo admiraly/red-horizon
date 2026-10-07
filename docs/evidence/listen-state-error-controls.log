@@ -1,0 +1,1 @@
+{"suite": "listen-process-state-error-controls", "passed": true, "missing_file_and_process_lookup_are_absence": true, "permission_errors_propagate": true, "actual_current_process_visible": true, "scope": "Actual authored helper extracted by AST, development syscall-error mocks plus own real procfs read; actual lifecycle verified separately."}

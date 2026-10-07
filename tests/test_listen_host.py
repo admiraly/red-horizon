@@ -23,7 +23,7 @@ def run(args,env,cwd=None,expected=0,timeout=20):
 def rows(out):return [json.loads(l) for l in out.splitlines() if l.startswith('{"listen_host"')]
 def state(pid):
  try:return pathlib.Path(f'/proc/{pid}/stat').read_text().rsplit(')',1)[1].split()[0]
- except FileNotFoundError:return None
+ except (FileNotFoundError,ProcessLookupError):return None
 
 def child(parent,timeout=10):
  deadline=time.monotonic()+timeout

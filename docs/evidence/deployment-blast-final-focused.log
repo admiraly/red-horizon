@@ -1,0 +1,13 @@
+/usr/bin/ld.bfd: warning: type and size of dynamic symbol `deployment_blast_clear' are not defined
+/usr/bin/ld.bfd: /home/levy/optane-tmp/rh-deployment-abi-1u2ffmae/probe.o: warning: relocation against `deployment_blast_clear' in read-only section `.text'
+/usr/bin/ld.bfd: /home/levy/optane-tmp/rh-deployment-abi-1u2ffmae/probe.o: relocation R_X86_64_PC32 against symbol `deployment_blast_clear' can not be used when making a shared object; recompile with -fPIC
+/usr/bin/ld.bfd: final link failed: bad value
+collect2: error: ld returned 1 exit status
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/tests/test_deployment_blast.py", line 17, in <module>
+    subprocess.run(['gcc','-shared','-o',str(wrapped),str(obj),str(pathlib.Path(sys.argv[1]).resolve()),'-Wl,-rpath,'+str(pathlib.Path(sys.argv[1]).resolve().parent)],check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['gcc', '-shared', '-o', '/home/levy/optane-tmp/rh-deployment-abi-1u2ffmae/probe.so', '/home/levy/optane-tmp/rh-deployment-abi-1u2ffmae/probe.o', '/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/build/libsim.so', '-Wl,-rpath,/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/build']' returned non-zero exit status 1.

@@ -1,0 +1,16 @@
+{
+  "job_id": "df4408e570a1",
+  "revision": "d3d7438c9209c288d46bd850852e6e2540488049-970ff80d3d594d42",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/df4408e570a1/source",
+  "command": [
+    "test",
+    "--suite",
+    "fast"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/df4408e570a1/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/df4408e570a1/result.json",
+  "pid": 1978874,
+  "exit_code": 0,
+  "seconds": 480.9925905370037
+}

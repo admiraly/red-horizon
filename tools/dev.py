@@ -375,6 +375,9 @@ def main():
             if suite in ('all','headless','fast','simulation') and (ROOT/'tests/test_scenarios.py').exists():execute([sys.executable,'tests/test_scenarios.py',str(library)])
             if suite in ('all','headless','fast','simulation') and (ROOT/'tests/test_dense_scenarios.py').exists():execute([sys.executable,'tests/test_dense_scenarios.py',str(library)])
             if suite in ('all','headless','fast','simulation','player'):execute([sys.executable,'tests/test_squad_deployment.py',str(library)])
+            if suite in ('all','headless','fast','simulation','player'):
+                execute([sys.executable,'tests/test_deployment_blast.py',str(library)])
+                execute([sys.executable,'tests/test_deployment_blast_control.py'])
             if suite in ('all','headless','simulation'): execute([sys.executable,'tests/test_simulation.py',str(exe),str(library)])
             if suite in ('all','headless','fast','simulation','aircraft'): execute([sys.executable,'tests/test_bomb_release.py',str(library)])
             for test in ('operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles'):
