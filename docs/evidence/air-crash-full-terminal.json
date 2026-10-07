@@ -1,0 +1,25 @@
+{
+  "job.json": {
+    "job_id": "40b03f364420",
+    "revision": "bbb0bb6a358e041fd29ed9756fd56b2d70af3152-e888cc963b7c49ef",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/40b03f364420/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/40b03f364420/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash/runs/jobs/40b03f364420/result.json",
+    "pid": 659721
+  },
+  "result.json": {
+    "job_id": "40b03f364420",
+    "exit_code": 1,
+    "revision": "bbb0bb6a358e041fd29ed9756fd56b2d70af3152-e888cc963b7c49ef",
+    "seconds": 1837.0766082319897,
+    "status": "failed"
+  },
+  "failure": "Actual local crash client draw observer timed out waiting for completed telemetry at first paired background. No full pass. Unchanged frozen client/library focused rerun underway; cause not yet established."
+}
