@@ -1,6 +1,7 @@
 # Task graph and ready queue — current integration
 | Task | Owner | Dependency | State / acceptance evidence |
 |---|---|---|---|
+| Fighter visible enemy memory | integrator | aircraft perception/LOS | integrated c135e6e; native view/occlusion/expiry/hidden-body controls, original scale aircraft, ordinary network and actual GL pass; full checkpoint pending; broader tactics open |
 | Canonical spec, ABI, isolated worktrees | integrator | repository | committed |
 | Pinned incremental toolchain / frozen async jobs | integrator | ABI | tested cold/no-op/one-file invalidation, frozen job survives invalid source edit |
 | Dense moving/targeting combat | simulation worker | ABI | baseline/stretch replay/count/order/damage/bounds/symmetry suites pass |
