@@ -647,12 +647,19 @@ try:
         until(lambda:'ORDER DENIED: SELECT YOUR OWN FRONT' in title(clients[0]['window']))
         assert goal(2)==forbidden
         key(0,0xffbe) # F1 is its assigned front
-        tick_before=read_u32(host_memory,server_symbols,'sim_tick_count')
-        req_before=read_u32(host_memory,server_symbols,'sim_requisition')
+        def economy_snapshot():
+            def sample():
+                first=read_u32(host_memory,server_symbols,'sim_tick_count')
+                requisition=read_u32(host_memory,server_symbols,'sim_requisition')
+                last=read_u32(host_memory,server_symbols,'sim_tick_count')
+                # The tick counter increments before periodic income runs.
+                # Read a stable non-income tick, never the middle of its update.
+                return (last,requisition) if first==last and last%30 else None
+            return until(sample,3)
+        tick_before,req_before=economy_snapshot()
         click(0,788,368)
         until(lambda:abs(goal(0)[0]-4994.375)<.01 and abs(goal(0)[1]-3904.44444)<.01)
-        tick_after=read_u32(host_memory,server_symbols,'sim_tick_count')
-        req_after=read_u32(host_memory,server_symbols,'sim_requisition')
+        tick_after,req_after=economy_snapshot()
         income=39*((tick_after//30)-(tick_before//30))
         assert req_after==req_before+income-5,(req_before,req_after,tick_before,tick_after)
         until(lambda:read_u32(clients[0]['memory'],client_symbols,'waypoint_orders')==1)

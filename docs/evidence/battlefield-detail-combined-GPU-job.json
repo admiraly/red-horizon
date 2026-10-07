@@ -1,0 +1,29 @@
+{
+  "job_id": "56c90f842ce8",
+  "revision": "ce8d786974ac5d11cc623aceeb020b096adff036-04c0761baf181e10",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/56c90f842ce8/source",
+  "command": [
+    "bench",
+    "--scenario",
+    "scale-hotspot",
+    "--seed",
+    "42",
+    "--client",
+    "--frames",
+    "180",
+    "--width",
+    "1920",
+    "--height",
+    "1080",
+    "--census",
+    "--screenshot",
+    "/tmp/red-horizon-detail-seam-A770.ppm"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/56c90f842ce8/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/56c90f842ce8/result.json",
+  "pid": 2941437,
+  "exit_code": 0,
+  "seconds": 2.1606319019920193,
+  "collected": true
+}

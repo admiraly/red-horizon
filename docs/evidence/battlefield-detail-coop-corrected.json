@@ -1,0 +1,170 @@
+{
+  "suite": "graphical-coop",
+  "passed": true,
+  "port": 36385,
+  "starts": [
+    {
+      "x": 3780.0,
+      "y": 30.543399810791016,
+      "z": 1300.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 0,
+      "connected": 1,
+      "shots": 0,
+      "hits": 0,
+      "suppression": 0,
+      "generation": 1
+    },
+    {
+      "x": 3780.0,
+      "y": 26.903400421142578,
+      "z": 3900.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 1,
+      "connected": 1,
+      "shots": 0,
+      "hits": 0,
+      "suppression": 0,
+      "generation": 1
+    }
+  ],
+  "remote_player_pixels": [
+    33,
+    35
+  ],
+  "company_marker_pixels": [
+    {
+      "player": 0,
+      "company": 19,
+      "owned_green_pixels": 8,
+      "foreign_allied_blue_pixels": 44
+    },
+    {
+      "player": 1,
+      "company": 285,
+      "owned_green_pixels": 7,
+      "foreign_allied_blue_pixels": 45
+    }
+  ],
+  "other_owner_goal_displayed_without_local_order": true,
+  "shared_goal_cross_pixels": 72,
+  "remote_company_generation_after_redeploy": true,
+  "final": [
+    {
+      "x": 920.0,
+      "y": 26.931398391723633,
+      "z": 1300.0,
+      "yaw": 0.0,
+      "pitch": -0.03999999910593033,
+      "hp": 100,
+      "ammo": 30,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 0,
+      "connected": 1,
+      "shots": 4,
+      "hits": 0,
+      "suppression": 0,
+      "generation": 2
+    },
+    {
+      "x": 3500.6025390625,
+      "y": 22.809972763061523,
+      "z": 2001.4915771484375,
+      "yaw": 0.5960000157356262,
+      "pitch": -0.00599999725818634,
+      "hp": 100,
+      "ammo": 26,
+      "reload": 0,
+      "cooldown": 0,
+      "respawn": 0,
+      "front": 1,
+      "connected": 1,
+      "shots": 4,
+      "hits": 0,
+      "suppression": 0,
+      "generation": 1
+    }
+  ],
+  "cost": 5,
+  "rejected_ack_preserved_goal": true,
+  "network_gui_board_drive_cannon_exit": true,
+  "network_gui_crouch_jump": true,
+  "network_camera_crouch_jump": true,
+  "recorded_spatial_audio_live_routing": true,
+  "recorded_footsteps_live_routing": true,
+  "replicated_shell_changed_pixels": 16,
+  "replicated_shell_screen_position": [
+    600,
+    360
+  ],
+  "replicated_shell_restored": true,
+  "owned_shell_observer_yaw_shift_rad": 0.06,
+  "owned_shell_actual_projection": [
+    1.0499999523162842,
+    1.8700000047683716
+  ],
+  "owned_shell_recoil_settled": true,
+  "replicated_shell_authority_unchanged": true,
+  "replicated_shell_screenshot": "/tmp/red-horizon-network-projectile-visible.ppm",
+  "owned_goal": [
+    4994.375,
+    3904.444091796875
+  ],
+  "redeployment_preserved_company_intent": true,
+  "dead": {
+    "x": 2000.0,
+    "y": 17.80500030517578,
+    "z": 3900.0,
+    "yaw": 0.0,
+    "pitch": -0.03999999910593033,
+    "hp": 0,
+    "ammo": 26,
+    "reload": 0,
+    "cooldown": 0,
+    "respawn": 30,
+    "front": 0,
+    "connected": 1,
+    "shots": 4,
+    "hits": 0,
+    "suppression": 100,
+    "generation": 1
+  },
+  "recovered": {
+    "x": 920.0,
+    "y": 26.931398391723633,
+    "z": 1300.0,
+    "yaw": 0.0,
+    "pitch": -0.03999999910593033,
+    "hp": 100,
+    "ammo": 30,
+    "reload": 0,
+    "cooldown": 0,
+    "respawn": 0,
+    "front": 0,
+    "connected": 1,
+    "shots": 4,
+    "hits": 0,
+    "suppression": 0,
+    "generation": 2
+  },
+  "client_stdout": [
+    "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":599,\"gpu_samples\":590,\"cpu_frame_mean_ms\":30.661730,\"cpu_frame_p95_ms\":43.081796,\"cpu_frame_p99_ms\":55.120590,\"gpu_draw_mean_ms\":6.668683,\"gpu_draw_p95_ms\":12.489481,\"gpu_draw_p99_ms\":19.341248}\n{\"battle_metrics\":true,\"samples\":598,\"simultaneous_projectiles_effects_audio_frames\":0,\"peak_living\":8192,\"peak_engaged\":0,\"peak_projectiles\":0,\"peak_submitted_high\":79,\"peak_submitted_low\":2599,\"peak_submitted_markers\":2462,\"peak_effect_records\":56,\"peak_trail_records\":0,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=0 low=0 markers=2003 source_triangles=210876 animation_frame=13\nclient frames=598 submitted_entities=8192 screenshot=(none)\ncamera_x=3500.60 camera_z=2001.49 shots=4 hits=0 last_order=0\nweapon ammo=26 reloads=0 front=0\noperation state=0 req=792 supply=600 waypoint_orders=1\nselected_goal_x=4994.375 selected_goal_z=3904.444\nplayer id=1 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\nnetwork connected=1 player=1 front=1 server_tick=558 known_living=2001 local_sim_ticks=0\n",
+    "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_metrics\":true,\"cpu_samples\":525,\"gpu_samples\":516,\"cpu_frame_mean_ms\":35.868887,\"cpu_frame_p95_ms\":47.667830,\"cpu_frame_p99_ms\":51.854103,\"gpu_draw_mean_ms\":9.549032,\"gpu_draw_p95_ms\":16.865958,\"gpu_draw_p99_ms\":22.891742}\n{\"battle_metrics\":true,\"samples\":524,\"simultaneous_projectiles_effects_audio_frames\":0,\"peak_living\":8192,\"peak_engaged\":0,\"peak_projectiles\":0,\"peak_submitted_high\":103,\"peak_submitted_low\":2573,\"peak_submitted_markers\":2566,\"peak_effect_records\":54,\"peak_trail_records\":0,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=0 low=0 markers=3 source_triangles=228142 animation_frame=14\nclient frames=524 submitted_entities=8192 screenshot=(none)\ncamera_x=920.00 camera_z=1300.00 shots=4 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=0\noperation state=0 req=792 supply=600 waypoint_orders=1\nselected_goal_x=4994.375 selected_goal_z=3904.444\nplayer id=0 hp=100 suppression=0 respawn=0 generation=2\nstart_player_x=3780.000 start_player_z=1300.000\nnetwork connected=1 player=0 front=0 server_tick=568 known_living=2 local_sim_ticks=0\n"
+  ],
+  "corrected_observer_sha256": "9d894aa2908e2b4463e4b03b0fd165682d714359349755a27d1880383aeedc5f",
+  "tested_failed_frozen_job": "02d46fad6859"
+}

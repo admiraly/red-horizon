@@ -1,0 +1,18 @@
+{
+  "job_id": "02d46fad6859",
+  "revision": "ce8d786974ac5d11cc623aceeb020b096adff036-04c0761baf181e10",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/02d46fad6859/source",
+  "command": [
+    "test",
+    "--suite",
+    "graphics"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/02d46fad6859/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/02d46fad6859/result.json",
+  "pid": 2937119,
+  "exit_code": 1,
+  "seconds": 243.36138739800663,
+  "collected": true,
+  "failure": "co-op spending observer sampled tick420 after sim counter increment but before periodic income; stable same-tick snapshots exclude divisible-by30 update phase, retaining exact income and5spend assertion"
+}
