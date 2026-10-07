@@ -1,0 +1,17 @@
+{
+  "job_id": "62f4725ea974",
+  "revision": "02b400841b594cc129464cc3c72608f093417f14-505c02b28bb37c61",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-engine-audio/runs/jobs/62f4725ea974/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-engine-audio/runs/jobs/62f4725ea974/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-engine-audio/runs/jobs/62f4725ea974/result.json",
+  "pid": 1205054,
+  "exit_code": 1,
+  "seconds": 1908.8836548629915
+}
