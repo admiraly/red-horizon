@@ -1,0 +1,1427 @@
+{
+  "base": "413bb75 (collected engine full plus feedbacke851aa9)",
+  "coupled_candidate": "e0a6462",
+  "source_sha256": {
+    "src/render/hdr.asm": "a5252fe85ce318948f14b5d41ab9d88511828570353de151659d3fe1067a19a1",
+    "src/render/visibility_census.asm": "368889d6198e631fc4a142af54686b16a27d3241bb8f8b169846a6842976816d",
+    "src/render/environment.asm": "1cdade77325232f4551215e68ed37dbfa0f2207c75e0ba3fa3889c9ded1cfd4d",
+    "src/platform/linux/client.asm": "bf031dcc58ada0d5c30eae27342ed7e52135662a91e6dee7d8f62eeb530a0e5f",
+    "shaders/present.vert": "51768db2b8b11c2d9db74e1470da6c8f2f8195a03c8517d338b3eab4f5d2100d",
+    "shaders/present.frag": "7abcc41891a530591a724e8918792a43168eff0ff173f7b1521d6fd7867b000f",
+    "shaders/mesh.frag": "3865f3a65a119ec7ed08440877d84e7d42839c131f8d5038c208a55cbccc70b4",
+    "shaders/battle.frag": "6a16f48f9dabc565e6abf2c94e298bbda45b5ee2f1612a1309160e105044129b",
+    "tests/test_hdr_gl.py": "dcba1ac07567a6b2d3f3ef57e5790f46db2083b457063c43456c7753825863ed",
+    "tests/test_client_feedback.py": "632f8aa22d0529ad7e5f86b886c80d016329d8a60950f0aa74f31d5d5204cbf4",
+    "tests/test_client_gameplay.py": "f8d990b6a06ea21ddfde1a9c182264026ea8343532a31f264961944360f71d1a",
+    "tools/dev.py": "3311dde93c04f3804dc8f7efa6627e9f32e5921a9cdd87eac7268ef72a8d481f"
+  },
+  "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+  "client_reports": [
+    {
+      "suite": "hdr-production-core-gl",
+      "passed": true,
+      "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Core Profile) Mesa 26.2.3",
+      "scene_format": "RGBA16F",
+      "dimensions": [
+        320,
+        240
+      ],
+      "radiance_cases": 14,
+      "display_max_error": 0.0019533316748445717,
+      "emission_samples": [
+        {
+          "effect_kind": 2,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 2,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 1,
+          "scene_rgba": [
+            3.0,
+            0.51171875,
+            0.021575927734375,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 1,
+          "scene_rgba": [
+            4.0,
+            0.68212890625,
+            0.0287628173828125,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 0,
+          "scene_rgba": [
+            0.81591796875,
+            0.3671875,
+            0.06524658203125,
+            0.300048828125
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 1,
+          "scene_rgba": [
+            0.81591796875,
+            0.13916015625,
+            0.005870819091796875,
+            0.300048828125
+          ]
+        }
+      ],
+      "additive_fire_scene_rgba": [
+        16.0,
+        2.728515625,
+        0.11505126953125,
+        1.0
+      ],
+      "tactical_passthrough": true,
+      "disabled_passthrough": true,
+      "census_integer_ids_preserved": true,
+      "census_readback_keeps_display_hud": true,
+      "legacy_census_blit": true,
+      "lifecycle_and_invalid_dimensions": true,
+      "present_count": 19,
+      "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+      "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub, not authoritative gameplay/target GPU/performance/art acceptance."
+    },
+    {
+      "suite": "mesh-material-production-gl",
+      "passed": true,
+      "cases": 196,
+      "draws": 392,
+      "source_sha256": {
+        "mesh_vertex_source": "cab988de66eb4ad457b5b0e5d1c1b41d22794f1d126ae46ad10b75f17d5d9b84",
+        "mesh_fragment_source": "3865f3a65a119ec7ed08440877d84e7d42839c131f8d5038c208a55cbccc70b4"
+      },
+      "software_context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Compatibility Profile) Mesa 26.2.3",
+      "role_side_responses": {
+        "0-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "0-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "0-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "0-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "1-0": {
+          "dry_view_delta": 0.07347457099999999,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "1-1": {
+          "dry_view_delta": 0.073474557,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "1-2": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593218
+        },
+        "1-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        },
+        "2-0": {
+          "dry_view_delta": 0.07347457099999999,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "2-1": {
+          "dry_view_delta": 0.073474557,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "2-2": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593218
+        },
+        "2-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        },
+        "3-0": {
+          "dry_view_delta": 0.13062144799999997,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "3-1": {
+          "dry_view_delta": 0.13062146400000002,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "3-2": {
+          "dry_view_delta": 0.130621463,
+          "wet_view_delta": 0.19593218
+        },
+        "3-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        },
+        "4-0": {
+          "dry_view_delta": 0.07347458599999995,
+          "wet_view_delta": 0.19593217899999998
+        },
+        "4-1": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593214999999997
+        },
+        "4-2": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593218
+        },
+        "4-3": {
+          "dry_view_delta": 0.07347458600000001,
+          "wet_view_delta": 0.19593214899999994
+        },
+        "5-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "5-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "5-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "5-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "6-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "6-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "6-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "6-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "7-0": {
+          "dry_view_delta": 0.020409599,
+          "wet_view_delta": 0.020409599
+        },
+        "7-1": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "7-2": {
+          "dry_view_delta": 0.02040961400000002,
+          "wet_view_delta": 0.02040961400000002
+        },
+        "7-3": {
+          "dry_view_delta": 0.020409613999999965,
+          "wet_view_delta": 0.020409613999999965
+        },
+        "8-0": {
+          "dry_view_delta": 0.13062144799999997,
+          "wet_view_delta": 0.19593216399999996
+        },
+        "8-1": {
+          "dry_view_delta": 0.13062146400000002,
+          "wet_view_delta": 0.19593217999999996
+        },
+        "8-2": {
+          "dry_view_delta": 0.130621463,
+          "wet_view_delta": 0.19593218
+        },
+        "8-3": {
+          "dry_view_delta": 0.0,
+          "wet_view_delta": 0.0
+        }
+      },
+      "cloud_view_deltas": [
+        0.13062144799999997,
+        0.07837288099999998,
+        0.026124283999999998
+      ],
+      "rotated_normal_max_error": 4.500000000406956e-08,
+      "actor_ids_preserved": true,
+      "marker_weapon_unchanged": true,
+      "old_fragment_camera_negative_control": true,
+      "scope": "Actual embedded vertex/fragment raster with declared synthetic source triangles, float colour and integer actor attachments; no authority modification, HDR/shadows/target GPU/performance or artistic quality claim"
+    },
+    {
+      "suite": "graphics",
+      "passed": true,
+      "renderer": "software",
+      "modes": 2,
+      "entities_submitted": 8192,
+      "report": "/mnt/titan_nv3/projects/red-horizon-workers/hdr-scene/runs/headless-graphics-868b887f9a/result.json"
+    },
+    {
+      "suite": "visibility-actual-gl",
+      "passed": true,
+      "cases": {
+        "three_classes": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "92fed8a77595f86d",
+          "authority_after": "92fed8a77595f86d"
+        },
+        "normal_colour_changed_pixels": 0,
+        "normal_colour_max_channel_error": 0,
+        "offscreen": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "fe0d1dce46e129e5",
+          "authority_after": "fe0d1dce46e129e5"
+        },
+        "behind_camera": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "8d7492eaaf0b950d",
+          "authority_after": "8d7492eaaf0b950d"
+        },
+        "below_terrain": {
+          "expected": [
+            1,
+            1,
+            1
+          ],
+          "observed": [
+            1,
+            1,
+            1
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ],
+            "1": [
+              2
+            ],
+            "2": [
+              3
+            ]
+          },
+          "authority_before": "f494dbfd2749c09e",
+          "authority_after": "f494dbfd2749c09e"
+        },
+        "prop_occluded": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "73768d1f58740e72",
+          "authority_after": "73768d1f58740e72"
+        },
+        "actor_occluded": {
+          "expected": [
+            1,
+            0,
+            0
+          ],
+          "observed": [
+            1,
+            0,
+            0
+          ],
+          "expected_actor_classes": {
+            "0": [
+              1
+            ]
+          },
+          "observed_actor_classes": {
+            "0": [
+              1
+            ]
+          },
+          "authority_before": "98ded179d0e6b9be",
+          "authority_after": "98ded179d0e6b9be"
+        },
+        "no_army": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "153b2b86e63759da",
+          "authority_after": "153b2b86e63759da"
+        },
+        "remote_human_no_army": {
+          "expected": [
+            0,
+            0,
+            0
+          ],
+          "observed": [
+            0,
+            0,
+            0
+          ],
+          "expected_actor_classes": {},
+          "observed_actor_classes": {},
+          "authority_before": "3aa3c512566c380c",
+          "authority_after": "3aa3c512566c380c"
+        }
+      },
+      "render_authority_unchanged": true,
+      "context": "Private Xvfb software OpenGL; frozen development-only poses; actual production source meshes, terrain, bunker and pixel readback. No performance or combat claim."
+    },
+    {
+      "suite": "actual-client-fresh-feedback",
+      "passed": true,
+      "legacy_negative_control": false,
+      "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "hitch_wall_clock_ms_per_glfw_time_query": 100,
+      "actual_HUD_uniform_samples": [
+        {
+          "hit_sequence": 1,
+          "hit_flash_sent_to_HUD": 1,
+          "shot_flash_sent_to_HUD": 1
+        }
+      ],
+      "underlying_gameplay_test_exit": 0,
+      "shim_authority_writes": false,
+      "scope": "Actual8192 assembled client, genuine finite rifle damage and HUD uniform; delayed real wall clock, development-only initial gameplay staging. Fresh-hit amplitude proof, not perceptual quality, rendered-pixel persistence or physical-device timing."
+    },
+    {
+      "suite": "rendered-aircraft",
+      "passed": true,
+      "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+      "bomber_pixels": 8908,
+      "normalized_silhouette_iou": 0.6224,
+      "bank_changed_pixels": 12055,
+      "trail_changed_pixels": 12,
+      "trail_authority_unchanged": true,
+      "bomb_pixels": 2196,
+      "air_round_pixels": 1196,
+      "actual_bomb_launch": [
+        2175.0,
+        127.33111572265625,
+        1999.7552490234375,
+        6,
+        0,
+        35,
+        36.0,
+        1
+      ],
+      "actual_bomb_impact": [
+        2886.19384765625,
+        15.2479887008667,
+        1997.2896728515625,
+        7,
+        0,
+        177,
+        36.0,
+        2
+      ],
+      "actual_air_gun": [
+        2007.0,
+        157.1009979248047,
+        2499.9990234375,
+        8,
+        0,
+        1,
+        0.0,
+        1
+      ],
+      "actual_air_destroyed": [
+        2359.034912109375,
+        157.682373046875,
+        2500.36083984375,
+        9,
+        1,
+        13,
+        2.0,
+        6
+      ],
+      "actual_impact_effect_pixels": 3831,
+      "actual_destroy_effect_pixels": 353,
+      "destruction_motion_pixels": 877,
+      "active_particle_quads": 24,
+      "mid_distant_map_absolute_y": true,
+      "stale_generation_fallback": true,
+      "screenshots": [
+        "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm",
+        "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction-aged.ppm"
+      ]
+    },
+    {
+      "suite": "client-environment",
+      "passed": true,
+      "preset_sky_rgb": {
+        "clear": [
+          63.71097777777778,
+          106.1571111111111,
+          144.33644444444445
+        ],
+        "overcast": [
+          88.92502222222222,
+          107.0298,
+          121.30035555555556
+        ],
+        "rain": [
+          109.25791111111111,
+          120.98515555555555,
+          128.7360888888889
+        ],
+        "fog": [
+          79.2148,
+          102.6316,
+          122.17606666666667
+        ]
+      },
+      "preset_ground_rgb": {
+        "clear": [
+          112.5098,
+          103.5533,
+          83.70153333333333
+        ],
+        "overcast": [
+          107.76033333333334,
+          99.24886666666667,
+          80.26283333333333
+        ],
+        "rain": [
+          91.46533333333333,
+          85.16073333333334,
+          70.4735
+        ],
+        "fog": [
+          108.35966666666667,
+          100.92743333333334,
+          83.68103333333333
+        ]
+      },
+      "source_ground_range": [
+        115,
+        137
+      ],
+      "actual_F4_all_presets": true,
+      "player_authority_unchanged": true,
+      "frozen_fixture_rain_motion": [
+        {
+          "view": "forward",
+          "visible_pixels": [
+            500,
+            488
+          ],
+          "moved_pixels": 968
+        },
+        {
+          "view": "side",
+          "visible_pixels": [
+            449,
+            701
+          ],
+          "moved_pixels": 1150
+        }
+      ],
+      "off_corridor_grass": "/tmp/rh-weather-off-corridor-grass.ppm",
+      "screenshots": [
+        "/tmp/rh-weather-clear.ppm",
+        "/tmp/rh-weather-overcast.ppm",
+        "/tmp/rh-weather-rain.ppm",
+        "/tmp/rh-weather-fog.ppm"
+      ]
+    },
+    {
+      "suite": "projected-role-detail-actual-GL",
+      "passed": true,
+      "cases": [
+        {
+          "role": "bomber",
+          "distance_metres": 1200,
+          "model_counts": [
+            0,
+            1,
+            0
+          ],
+          "visible_changed_pixels": 3,
+          "actual_instance_role": 3.0
+        },
+        {
+          "role": "fighter",
+          "distance_metres": 1200,
+          "model_counts": [
+            0,
+            1,
+            0
+          ],
+          "visible_changed_pixels": 3,
+          "actual_instance_role": 8.0
+        },
+        {
+          "role": "infantry",
+          "distance_metres": 1017.5712348233474,
+          "model_counts": [
+            0,
+            1,
+            0
+          ]
+        },
+        {
+          "role": "infantry",
+          "distance_metres": 1021.5712348233474,
+          "model_counts": [
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "authoritative_ticks_unchanged": true,
+      "map_marker_retained": true,
+      "ranges2": [
+        1039525.5028792054,
+        7368275.914467627,
+        10108927.630154079,
+        64000000.0,
+        640000.0,
+        7251171.876979981,
+        9869650.610333862,
+        12890972.225742187,
+        51563888.90296875
+      ],
+      "executable_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "limits": [
+        "Static isolated GL pose/content fixture, not actual combat; original army hardware hotspot verified separately.",
+        "800m retained floor, projected authored max span threshold1.5pixels, cap8000m; projected bound is not a guaranteed visible pixel area."
+      ]
+    }
+  ],
+  "local_udp_reports": [
+    {
+      "suite": "air-crash-client-draw",
+      "passed": true,
+      "network_transport": false,
+      "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 743,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-death.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 826,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-falling.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 725,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-landed.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-expired.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 656,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-death.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 590,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-falling.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 180,
+          "changed_pixels": 563,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-landed.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-expired.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Actual client GL draw of genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    {
+      "suite": "air-crash-client-draw",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 756,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-death.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 844,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-falling.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 746,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-landed.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-expired.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 2005,
+          "changed_pixels": 658,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-death.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 2035,
+          "changed_pixels": 643,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-falling.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 2180,
+          "changed_pixels": 593,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-landed.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 3805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-expired.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Actual client GL draw of genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    {
+      "suite": "air-crash-attached-plume-client",
+      "passed": true,
+      "network_transport": false,
+      "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 183,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-death-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 220,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-falling-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 235,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-landed-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-expired-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 222,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-death-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 233,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-falling-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 180,
+          "changed_pixels": 269,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-landed-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-expired-plume.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Paired actual client GL effect toggle at identical genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic source-clock fixture and effect-only paired toggle; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    {
+      "suite": "air-crash-attached-plume-client",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 183,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-0-death-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 220,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-0-falling-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 235,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-0-landed-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-0-expired-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 2005,
+          "changed_pixels": 230,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-1-death-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 2035,
+          "changed_pixels": 287,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-1-falling-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 2180,
+          "changed_pixels": 247,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-1-landed-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 3805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-udp-1-expired-plume.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Paired actual client GL effect toggle at identical genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic source-clock fixture and effect-only paired toggle; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    {
+      "suite": "aircraft-engine-actual-client",
+      "passed": true,
+      "cases": [
+        {
+          "network": false,
+          "on": {
+            "frames": 13280,
+            "left_energy": 20661462,
+            "right_energy": 16605355,
+            "selected": 8,
+            "army_count": 8192,
+            "source_tick": 39,
+            "accepted_start_frame": 4800,
+            "capture_end_frame": 18080
+          },
+          "off": {
+            "frames": 13280,
+            "left_energy": 0,
+            "right_energy": 0,
+            "selected": 0,
+            "army_count": 8192,
+            "source_tick": 71,
+            "accepted_start_frame": 20800,
+            "capture_end_frame": 34080
+          },
+          "again": {
+            "frames": 13280,
+            "left_energy": 35552891,
+            "right_energy": 30763763,
+            "selected": 8,
+            "army_count": 8192,
+            "source_tick": 105,
+            "accepted_start_frame": 36800,
+            "capture_end_frame": 50080
+          },
+          "capture": "/home/levy/optane-tmp/red-horizon-aircraft-engine-local.wav",
+          "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d"
+        },
+        {
+          "network": true,
+          "on": {
+            "frames": 13280,
+            "left_energy": 29083236,
+            "right_energy": 21855208,
+            "selected": 8,
+            "army_count": 8192,
+            "source_tick": 15,
+            "accepted_start_frame": 4800,
+            "capture_end_frame": 18080
+          },
+          "off": {
+            "frames": 12480,
+            "left_energy": 0,
+            "right_energy": 0,
+            "selected": 0,
+            "army_count": 8192,
+            "source_tick": 30,
+            "accepted_start_frame": 21600,
+            "capture_end_frame": 34880
+          },
+          "again": {
+            "frames": 13280,
+            "left_energy": 34931654,
+            "right_energy": 44371275,
+            "selected": 8,
+            "army_count": 8192,
+            "source_tick": 45,
+            "accepted_start_frame": 37600,
+            "capture_end_frame": 50880
+          },
+          "capture": "/home/levy/optane-tmp/red-horizon-aircraft-engine-udp.wav",
+          "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d"
+        }
+      ],
+      "scope": "Actual client ALSA file backend captures, engine-only paired toggle. Local8192army and actual8192UDP server; no army/pose/HP/ammo/gen/clock writes. Playback audio-only bank isolation and enable toggle are declared cosmetic controls. Software GL/null file backend, not physical speaker quality/latency/spectacle acceptance."
+    }
+  ],
+  "native_software": {
+    "suite": "hdr-production-core-gl",
+    "passed": true,
+    "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Core Profile) Mesa 26.2.3",
+    "native_hidden_context": false,
+    "scene_format": "RGBA16F",
+    "dimensions": [
+      320,
+      240
+    ],
+    "radiance_cases": 14,
+    "display_max_error": 0.0019533316748445717,
+    "emission_samples": [
+      {
+        "effect_kind": 2,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 2,
+        "hdr_output": 1,
+        "scene_rgba": [
+          8.0,
+          1.3642578125,
+          0.057525634765625,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 10,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 10,
+        "hdr_output": 1,
+        "scene_rgba": [
+          8.0,
+          1.3642578125,
+          0.057525634765625,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 1,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 1,
+        "hdr_output": 1,
+        "scene_rgba": [
+          3.0,
+          0.51171875,
+          0.021575927734375,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 9,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 9,
+        "hdr_output": 1,
+        "scene_rgba": [
+          4.0,
+          0.68212890625,
+          0.0287628173828125,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 3,
+        "hdr_output": 0,
+        "scene_rgba": [
+          0.81591796875,
+          0.3671875,
+          0.06524658203125,
+          0.300048828125
+        ]
+      },
+      {
+        "effect_kind": 3,
+        "hdr_output": 1,
+        "scene_rgba": [
+          0.81591796875,
+          0.13916015625,
+          0.005870819091796875,
+          0.300048828125
+        ]
+      }
+    ],
+    "additive_fire_scene_rgba": [
+      16.0,
+      2.728515625,
+      0.11505126953125,
+      1.0
+    ],
+    "tactical_passthrough": true,
+    "disabled_passthrough": true,
+    "census_integer_ids_preserved": true,
+    "census_readback_keeps_display_hud": true,
+    "legacy_census_blit": true,
+    "lifecycle_and_invalid_dimensions": true,
+    "present_count": 19,
+    "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+    "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+    "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance."
+  },
+  "native_a770": {
+    "suite": "hdr-production-core-gl",
+    "passed": true,
+    "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+    "native_hidden_context": true,
+    "scene_format": "RGBA16F",
+    "dimensions": [
+      320,
+      240
+    ],
+    "radiance_cases": 14,
+    "display_max_error": 0.001968296323507479,
+    "emission_samples": [
+      {
+        "effect_kind": 2,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 2,
+        "hdr_output": 1,
+        "scene_rgba": [
+          8.0,
+          1.3642578125,
+          0.057525634765625,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 10,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 10,
+        "hdr_output": 1,
+        "scene_rgba": [
+          8.0,
+          1.3642578125,
+          0.057525634765625,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 1,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 1,
+        "hdr_output": 1,
+        "scene_rgba": [
+          3.0,
+          0.51171875,
+          0.021575927734375,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 9,
+        "hdr_output": 0,
+        "scene_rgba": [
+          1.0,
+          0.449951171875,
+          0.0799560546875,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 9,
+        "hdr_output": 1,
+        "scene_rgba": [
+          4.0,
+          0.68212890625,
+          0.0287628173828125,
+          0.5
+        ]
+      },
+      {
+        "effect_kind": 3,
+        "hdr_output": 0,
+        "scene_rgba": [
+          0.81591796875,
+          0.3671875,
+          0.06524658203125,
+          0.300048828125
+        ]
+      },
+      {
+        "effect_kind": 3,
+        "hdr_output": 1,
+        "scene_rgba": [
+          0.81591796875,
+          0.13916015625,
+          0.005870819091796875,
+          0.300048828125
+        ]
+      }
+    ],
+    "additive_fire_scene_rgba": [
+      16.0,
+      2.728515625,
+      0.11505126953125,
+      1.0
+    ],
+    "tactical_passthrough": true,
+    "disabled_passthrough": true,
+    "census_integer_ids_preserved": true,
+    "census_readback_keeps_display_hud": true,
+    "legacy_census_blit": true,
+    "lifecycle_and_invalid_dimensions": true,
+    "present_count": 19,
+    "client_sha256": "2f81fa10bad42a8df32c7b627fa8348fcbb9704fec98241452ef246374e3df3d",
+    "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+    "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance."
+  },
+  "foreground_sessions": "All build/native/eight client-regression/four local-UDP crash-plume/audio-capture sessions terminal exit0.",
+  "scope": "Coupled verified HDR and fresh-feedback timing. Hardware context14-radiance/fragment/lifecycle/census diagnostics passed on Arc A770; army rendering/UDP client regressions use software GL. No target-GPU full army frame, art, bloom/shadows/dynamic lighting/Windows acceptance."
+}

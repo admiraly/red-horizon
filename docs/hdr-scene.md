@@ -50,3 +50,10 @@ argument after a GL call; the explicit SysV reload fixes it, with unchanged gate
 Failures, exact source hashes, actual-client scope and logs are retained in
 `docs/evidence/hdr-scene-focused.json`. Initial literal-format assembly failure is
 also recorded. Full integration and checkpoint scopes are recorded in status.md.
+
+The final coupled HDR/feedback candidate also passes the same core diagnostic in a
+hidden native Arc A770 context (Mesa26.2.3/OpenGL4.6), selected with `--hardware`.
+No visible desktop window is created. Default CI remains private software GL.
+This proves the concrete hardware shader/target/lifecycle path, not the reference
+1920x1080 army frame-time target. Exact coupled tests and both renderer outputs
+are in `docs/evidence/hdr-scene-coupled-focused.json`.

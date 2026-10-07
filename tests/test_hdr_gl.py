@@ -8,15 +8,19 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief_gl',ROOT/'tests/test_relief_gl.py');helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
 
 def main():
- exe=pathlib.Path(sys.argv[1]).resolve()
+ exe=pathlib.Path(sys.argv[1]).resolve();hardware='--hardware' in sys.argv
  for name,file in [('hdr_vertex_source','present.vert'),('hdr_fragment_source','present.frag')]:assert helper.embedded(exe,name)==(ROOT/'shaders'/file).read_bytes()
  read,write=os.pipe();server=None;fw=None;win=None
  try:
   with tempfile.TemporaryDirectory(prefix='rh-hdr-gl-') as temp:
    folder=pathlib.Path(temp)
-   with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-   os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
-   os.environ['DISPLAY']=':'+number;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
+   if hardware:
+    assert os.environ.get('DISPLAY'),'Native hidden-context check requires DISPLAY'
+    os.environ.pop('LIBGL_ALWAYS_SOFTWARE',None)
+   else:
+    with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
+    os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+    os.environ['DISPLAY']=':'+number;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
    nasm=os.environ['RED_HORIZON_NASM'];objects=[]
    for name,source in [('hdr','src/render/hdr.asm'),('census','src/render/visibility_census.asm'),('probe','tests/probe_visibility_reduce.asm')]:
     obj=folder/(name+'.o');subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(obj)],cwd=ROOT,check=True,capture_output=True);objects.append(str(obj))
@@ -29,7 +33,8 @@ def main():
    assert fw.glfwInit()==1
    for a,b in [(0x22002,4),(0x22003,5),(0x22008,0x32001),(0x20004,0)]:fw.glfwWindowHint(a,b)
    win=fw.glfwCreateWindow(320,240,b'HDR private core proof',None,None);assert win;fw.glfwMakeContextCurrent(win)
-   getString=bind('glGetString',[U],C.c_char_p);context=getString(0x1f01).decode()+' / '+getString(0x1f02).decode()
+   getString=bind('glGetString',[U],C.c_char_p);renderer=getString(0x1f01).decode();context=renderer+' / '+getString(0x1f02).decode()
+   if hardware:assert not any(name in renderer.lower() for name in ('llvmpipe','softpipe','swrast','swiftshader')),renderer
    clear=bind('glClearBufferfv',[U,I,C.POINTER(F)]);clearID=bind('glClearBufferuiv',[U,I,C.POINTER(U)])
    readPixels=bind('glReadPixels',[I,I,I,I,U,U,P]);readBuffer=bind('glReadBuffer',[U]);getError=bind('glGetError',[],U)
    getState=bind('glGetIntegerv',[U,C.POINTER(I)]);bindTexture=bind('glBindTexture',[U,U]);getLevel=bind('glGetTexLevelParameteriv',[U,I,U,C.POINTER(I)])
@@ -104,7 +109,7 @@ void main(){const vec2 p[3]=vec2[3](vec2(-1,-1),vec2(3,-1),vec2(-1,3));gl_Positi
    width.value=320
    for bad in (0,239,2161,0xffffffff):height.value=bad;assert lib.hdr_init()==-1
    height.value=240;assert lib.hdr_init()==0;lib.hdr_begin(0);lib.hdr_present(0,0);lib.hdr_shutdown();assert getError()==0
-   print(json.dumps({'suite':'hdr-production-core-gl','passed':True,'context':context,'scene_format':'RGBA16F','dimensions':[320,240],'radiance_cases':len(radiance_cases),'display_max_error':maximum,'emission_samples':emission,'additive_fire_scene_rgba':summed,'tactical_passthrough':True,'disabled_passthrough':True,'census_integer_ids_preserved':True,'census_readback_keeps_display_hud':True,'legacy_census_blit':True,'lifecycle_and_invalid_dimensions':True,'present_count':count.value,'client_sha256':hashlib.sha256(exe.read_bytes()).hexdigest(),'fragment_sha256':hashlib.sha256(fs).hexdigest(),'scope':'Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub, not authoritative gameplay/target GPU/performance/art acceptance.'}))
+   print(json.dumps({'suite':'hdr-production-core-gl','passed':True,'context':context,'native_hidden_context':hardware,'scene_format':'RGBA16F','dimensions':[320,240],'radiance_cases':len(radiance_cases),'display_max_error':maximum,'emission_samples':emission,'additive_fire_scene_rgba':summed,'tactical_passthrough':True,'disabled_passthrough':True,'census_integer_ids_preserved':True,'census_readback_keeps_display_hud':True,'legacy_census_blit':True,'lifecycle_and_invalid_dimensions':True,'present_count':count.value,'client_sha256':hashlib.sha256(exe.read_bytes()).hexdigest(),'fragment_sha256':hashlib.sha256(fs).hexdigest(),'scope':'Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance.'}))
  finally:
   if win:fw.glfwDestroyWindow(win)
   if fw:fw.glfwTerminate()
