@@ -19,6 +19,12 @@ flat out uint actorCode;
 uniform vec2 weaponMotion; // cosmetic recoil, authoritative reload fraction
 out vec3 colour;
 out float distanceFog;
+// Keep colour available for geometry/pose diagnostics; surface lighting is
+// evaluated after interpolation in the production fragment stage.
+out vec3 surfaceAlbedo;
+out vec3 surfaceNormal;
+out vec3 surfacePosition;
+flat out vec2 surfaceResponse; // roughness, bounded dielectric highlight gain
 float height(vec2 p){vec2 q=p-vec2(4000);return 12+q.x*q.x*.000001+q.y*q.y*.0000005+max(0.,1.-abs(q.x)/800.)*18.+terrainRelief(p).x;}
 void main(){
  // IDs describe the same geometry/depth as colour, including real occluders.
@@ -80,6 +86,13 @@ void main(){
  colour=mix(material,team,.22)*light;
  if(identity.y==3. && (identity.z==1. || identity.z==2. || identity.z==3. || identity.z==8.))colour*=vec3(.35,.32,.29);
  if(identity.y==2)colour=mix(material,team,.35)*light;
+ surfaceAlbedo=mix(material,team,identity.y==2?.35:.22);
+ surfaceNormal=normal;surfacePosition=world;
+ // Painted equipment, cloth and charred wrecks have distinct responses.
+ // These are role defaults, not authored metal/roughness texture maps.
+ surfaceResponse=(identity.z==0. || (identity.z>=5. && identity.z<=7.))?vec2(.88,.025):vec2(.58,.09);
+ if(identity.z==3. || identity.z==8.)surfaceResponse=vec2(.38,.16);
+ if(identity.y==3. && (identity.z==1. || identity.z==2. || identity.z==3. || identity.z==8.)){surfaceAlbedo*=vec3(.35,.32,.29);surfaceResponse=vec2(.96,0.);}
  if(meshMode==1)colour=team;
  if(meshMode==2){
   vec3 q=local*.8+vec3(.24,-.42,.95);

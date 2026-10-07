@@ -584,6 +584,7 @@ def main():
             execute([sys.executable,'tests/test_visibility_framebuffer.py',str(census_library)])
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            execute([sys.executable,'tests/test_mesh_material_gl.py',str(client)])
             execute([sys.executable,'tests/test_wreck_instance.py'])
             execute([sys.executable,'tests/test_air_crash_instance.py'])
             execute([sys.executable,'tests/test_air_crash_plume.py'])
