@@ -1,0 +1,133 @@
+{
+  "suite": "policy4-to5-target-causal-control",
+  "baseline_core_sha256": "1f5a46cd7213459eda69dd56608f6f5409e2b8ccd118617020a0a04201fd94d8",
+  "baseline_closer_human": {
+    "name": "closer-human",
+    "shots": [
+      [
+        7,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        15,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        23,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        31,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        39,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        47,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        55,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        63,
+        3,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "army_hp": 76,
+    "human_hp": [
+      100,
+      0,
+      0,
+      0
+    ],
+    "actual_spent": 8,
+    "checksum": "a0d37c1d49b0e9ef"
+  },
+  "baseline_equal_humans": {
+    "name": "fair-human-distance-ties",
+    "shots": [
+      [
+        13,
+        0,
+        0,
+        0,
+        0,
+        10
+      ],
+      [
+        29,
+        0,
+        0,
+        0,
+        0,
+        10
+      ],
+      [
+        45,
+        0,
+        0,
+        0,
+        0,
+        10
+      ],
+      [
+        61,
+        0,
+        0,
+        0,
+        0,
+        10
+      ]
+    ],
+    "army_hp": 100,
+    "human_hp": [
+      100,
+      100,
+      100,
+      60
+    ],
+    "actual_spent": 4,
+    "checksum": "b943c9e28c264c64"
+  },
+  "candidate_evidence": "infantry-targets-focused.json",
+  "same_initial_physical_fixtures": true,
+  "no_live_renewal": true,
+  "diagnostic_correction": "Initial baseline assertion assumed slot0 preference; actual staggered player scan gives slot3 first eligible phase13 and all four shots. Final assertion matches observed original actor phase, without runtime changes.",
+  "scope": "Same sparse actual64tick fixtures, actual finite conserved stock, physical LOS; not a scale/performance or gameplay-quality acceptance."
+}

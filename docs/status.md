@@ -1,3 +1,38 @@
+Joint visible infantry army/human arbitration verified in feature/infantry-targets
+(runtime dc73e28), policy5,UDPv37/schemaf7443ce4/contentabc84d82.
+One actor8tick decision compares its already acquired visible army target with
+at most4 actual on-foot current human bodies using physical LOS and the same
+240m rifle range; closer visible targets win, human exact-distance ties rotate,
+army wins exact army/human tie. One conserved round/shared cooldown owns one
+damage event. The separate per-human16tick enemy attack scan is removed.
+Safe deployment rejects the same visible240m infantry threat band.
+
+Actual matched64tick causal control: old army-first policy damages farther army
+100→76 and leaves nearer human100; candidate leaves army100 and human100→20,
+spending8 rounds in both. Equal-distance4human old phase bias damages only
+slot3 to60 with4 rounds; candidate shares8 rounds, each human100→80.
+Physical wall, exact240m/outside241m, army-nearer/tie, genuine boarding, invalid
+atomic gates, reload/empty/corrupt stores and replay checks pass. Genuine join
+rejects old190m threat placement and uses clear260m alternative. NASM7-entry
+21-invalid-call ABI preserves nonvolatile registers and aligned frames.
+
+Frozen fastff021dbdd961 PASSED/collected300.818463s; frozen UDP357a8aa3ffc3
+PASSED/collected212.554284s. Both runtime snapshots exactly match145 final
+src/schema/shader inputs. Original8192/16384 replay and original8192 ground
+400tick per-actor health/faction-label symmetry pass. Actual GL8192 gameplay
+movement/hit/reload/damage/death/redeployment and source-mesh gates pass.
+Extended co-op0/50/100/150ms delay,jitter,5%loss/reordering and physical death
+recovery pass. Exact failed v36 full binary also passes corrected infantry
+death fixture; original4c0ad8c85882 remains failed. Fixture retains actual
+HP/kind/generation/stores and writes only startup positions.
+
+Exact reports/scopes/failed setup attempts: evidence/infantry-targets-session.json,
+infantry-targets-focused.json and infantry-targets-causal.json. No hardware
+performance/full-operation/whole-spec completion claim. Public army target IDs
+still exclude humans; NPC human aim/tracer/target presentation and strategic
+knowledge remain pending. Incremental tooling test is still running; full
+extended integration checkpoint will be frozen after integration. Goal active.
+
 Frozen full4c0ad8c85882 FAILED/collected,exit1,665.702721s.
 The extended UDP death fixture still chose a tank as a rifle attacker. Actual
 physical tank weapons no longer manufacture rifle hits on humans, so the body

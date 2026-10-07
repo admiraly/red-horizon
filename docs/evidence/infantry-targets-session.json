@@ -1,5 +1,5 @@
 {
-  "stage": "candidate focused verification",
+  "stage": "Verified coherent target-selection batch; extended integration checkpoint next",
   "goal": "full specification remains active/incomplete",
   "source_epoch": "565ac4bbebe2395eedaef424bd0404b908e0cb5d-4fd7a3b8c4e8611e",
   "runtime_inputs": {
@@ -353,9 +353,10 @@
     }
   ],
   "limits": [
-    "No full specification/hardware-performance acceptance.",
-    "No human NPC aim/tracer/target metadata or broader strategic knowledge claim.",
-    "Frozen fast/network and independent scale checks remain pending at this evidence stage."
+    "Full specification and hardware-performance acceptance remain incomplete.",
+    "Human NPC aim/tracer/target metadata, shaped body contacts and broader strategic observed knowledge remain pending.",
+    "Frozen full extended integration checkpoint is separate; earlier full failures remain failed.",
+    "Independent incremental tooling test still running at this evidence stage."
   ],
   "focused_evidence": "infantry-targets-focused.json",
   "failures_retained": [
@@ -403,5 +404,98 @@
     ],
     "ground_faction_label_comparison_ticks": 400,
     "scope": "Existing ground hold label control initially maps aircraft to infantry; full role defaults separately replayed. Not a hardware-performance acceptance."
+  },
+  "candidate_commit": "dc73e28",
+  "post_rebase_runtime_inputs_match_frozen": true,
+  "extended_coop": {
+    "exit_code": 0,
+    "report": {
+      "suite": "cooperative-world",
+      "passed": true,
+      "server": {
+        "ticks": 180,
+        "simulated": 8192,
+        "bytes_in": 69284,
+        "bytes_out": 1643456,
+        "entity_records": 12352,
+        "rejected": 13,
+        "disconnects": 2,
+        "distinct_client_entity_pairs": 10710,
+        "nearby_interest": 5439,
+        "unseen_interest": 0,
+        "aircraft_records": 3240,
+        "air_xz_refreshes_verified": 1197
+      },
+      "combat": {
+        "death": true,
+        "safe_redeployment": true,
+        "fixture_writes": "entity positions only",
+        "actual_infantry_id": 4096,
+        "initial_finite_weapon": [
+          1,
+          30,
+          90,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "HP_kind_generation_stores_preserved": true
+      },
+      "faults": [
+        {
+          "received": 642,
+          "dropped": 32,
+          "reordered": 87,
+          "accepted_inputs": 20,
+          "one_way_delay_ms": 0,
+          "jitter_ms": 10
+        },
+        {
+          "received": 637,
+          "dropped": 31,
+          "reordered": 87,
+          "accepted_inputs": 11,
+          "one_way_delay_ms": 50,
+          "jitter_ms": 10
+        },
+        {
+          "received": 623,
+          "dropped": 31,
+          "reordered": 85,
+          "accepted_inputs": 8,
+          "one_way_delay_ms": 100,
+          "jitter_ms": 10
+        },
+        {
+          "received": 627,
+          "dropped": 31,
+          "reordered": 85,
+          "accepted_inputs": 6,
+          "one_way_delay_ms": 150,
+          "jitter_ms": 10
+        }
+      ]
+    },
+    "observer": "Current corrected test_coop.py with final v37 frozen server and adapter"
+  },
+  "causal_evidence": "infantry-targets-causal.json",
+  "fast": {
+    "job_id": "ff021dbdd961",
+    "revision": "565ac4bbebe2395eedaef424bd0404b908e0cb5d-4fd7a3b8c4e8611e",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-targets/runs/jobs/ff021dbdd961/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "passed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-targets/runs/jobs/ff021dbdd961/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-targets/runs/jobs/ff021dbdd961/result.json",
+    "pid": 2260176,
+    "exit_code": 0,
+    "seconds": 300.81846337899333,
+    "explicit_pass_reports": 86
   }
 }
