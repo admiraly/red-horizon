@@ -567,6 +567,8 @@ def main():
             execute([sys.executable,'tests/test_wreck_client.py',str(client),str(library),'--udp'])
             execute([sys.executable,'tests/test_air_crash_client.py',str(client),str(library)])
             execute([sys.executable,'tests/test_air_crash_client.py',str(client),str(library),'--udp'])
+            execute([sys.executable,'tests/test_air_crash_plume_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_air_crash_plume_client.py',str(client),str(library),'--udp'])
             execute([sys.executable,'tests/test_ground_eye_client.py',str(client),str(build('coop'))])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
         if suite in ('all','graphics'):
@@ -581,6 +583,8 @@ def main():
             execute([sys.executable,'tests/test_graphics.py',str(client)])
             execute([sys.executable,'tests/test_wreck_instance.py'])
             execute([sys.executable,'tests/test_air_crash_instance.py'])
+            execute([sys.executable,'tests/test_air_crash_plume.py'])
+            execute([sys.executable,'tests/test_air_crash_plume_gl.py',str(client)])
             execute([sys.executable,'tests/test_hazard_warning_gl.py',str(client)])
             execute([sys.executable,'tests/test_census_cli.py',str(client)])
             view_library=BUILD/'libviewsettings.so'
@@ -603,6 +607,8 @@ def main():
             execute([sys.executable,'tests/test_wreck_client.py',str(client),str(library),'--udp'])
             execute([sys.executable,'tests/test_air_crash_client.py',str(client),str(library)])
             execute([sys.executable,'tests/test_air_crash_client.py',str(client),str(library),'--udp'])
+            execute([sys.executable,'tests/test_air_crash_plume_client.py',str(client),str(library)])
+            execute([sys.executable,'tests/test_air_crash_plume_client.py',str(client),str(library),'--udp'])
             execute([sys.executable,'tests/test_ground_eye_client.py',str(client),str(build('coop'))])
             if (ROOT/'tests/test_client_environment.py').exists(): execute([sys.executable,'tests/test_client_environment.py',str(client)])
             if (ROOT/'tests/test_client_meshes.py').exists(): execute([sys.executable,'tests/test_client_meshes.py',str(client)])

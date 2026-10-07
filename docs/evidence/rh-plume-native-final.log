@@ -1,0 +1,1 @@
+{"suite": "air-crash-plume-native", "passed": true, "calls": 766, "alias_cases": 159, "capacity": 32, "source_readonly": true, "source_selection": true, "same_tick_no_restart": true, "cosmetic_cutoff_ticks": 600, "scope": "Native kernel/updater only; initial registry fixture, actual GL/public casualty separate."}

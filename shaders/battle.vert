@@ -111,7 +111,34 @@ void main(){
   colour=kind==3?vec3(.24,.27,.29):(kind==4?vec3(1.,.54,.13):vec3(1.,.8,.3));
   if(floatBitsToInt(lifecycle.y)==0||distance(entity.xyz,camera)<4.)world.y=-10000;
  }
- else if(terrain==7){
+ else if(terrain==15){
+  // Attached combustion: current authority pose and source-clock age only.
+  int particle=gl_VertexID/6,v=gl_VertexID%6;
+  effectUV=vec2((v==1||v==2||v==4)?1.:-1.,(v==2||v==4||v==5)?1.:-1.);
+  uint h=floatBitsToUint(roles.w)*1664525u+uint(particle)*1013904223u;
+  h^=h>>16;h*=2246822519u;h^=h>>13;
+  float seed=float(h&65535u)/65535.,age=entity.w;
+  bool fire=particle>=16;
+  float lag=fire?0.:min(age,float(particle)/15.*.6);
+  float steps=lag*30.;vec3 centre=entity.xyz;
+  if(floatBitsToInt(metadata.x)==1){
+   centre-=roles.xyz*steps;
+   centre.y-=.0109*steps*(steps+1.)*.5;
+  }
+  centre+=vec3(lag*(1.+seed),lag*(2.+seed*2.),0.);
+  centre.y=max(centre.y,height(centre.xz)+.4);
+  float fade=1.-smoothstep(18.,20.,age);
+  float phase=age*(7.+seed*4.)+seed*6.2831853;
+  float radius=fire?(1.8+seed*1.2)*(1.+sin(phase)*.12):1.4+lag*8.;
+  if(fire)centre+=vec3(cos(phase)*.9,3.+seed*1.5,sin(phase)*.9);
+  vec3 horizontal=vec3(cos(angle.x),0,-sin(angle.x));
+  vec3 vertical=vec3(-sin(angle.x)*sin(angle.y),cos(angle.y),-cos(angle.x)*sin(angle.y));
+  world=centre+(horizontal*effectUV.x+vertical*effectUV.y)*radius;
+  effectType=fire?10:8;
+  colour=fire?vec3(1.,.25+seed*.25,.025):vec3(.105,.115,.12);
+  effectAlpha=fade*(fire?.72:.06);
+  if(age<0.||age>=20.||tactical!=0||particle>=20)world.y=-10000;
+ }else if(terrain==7){
   int v=gl_VertexID%6;float t=(v==1||v==2||v==4)?1.:0.;
   float side=(v==2||v==4||v==5)?1.:-1.;
   vec3 a=entity.xyz,b=roles.xyz;int kind=floatBitsToInt(roles.w);

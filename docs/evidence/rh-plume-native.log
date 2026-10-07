@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/tests/test_air_crash_plume.py", line 26, in <module>
+    b=bytearray(record());struct.pack_into('<f',b,offset,value);check(b,35,-1)
+                                                                ~~~~~^^^^^^^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/tests/test_air_crash_plume.py", line 16, in check
+    buf=C.create_string_buffer(256);C.memmove(C.addressof(buf)+64,src,96);out=C.addressof(buf)+(0 if alias is None else 64+alias);before=C.string_at(out,64);regs=(C.c_uint64*7)();rc=l.probe_air_crash_plume(out,64,C.addressof(buf)+64,96,tick,regs);assert rc==expected and tuple(regs[:6])==tuple(0x123401+i for i in range(6))
+                                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ctypes.ArgumentError: argument 2: TypeError: 'bytearray' object cannot be interpreted as ctypes.c_void_p

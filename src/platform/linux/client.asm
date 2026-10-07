@@ -16,6 +16,8 @@ extern hazard_warning_update,hazard_warning_uniform
 extern sim_scenario
 extern net_projectiles,net_projectiles_update
 extern air_trails_update,air_trails_records,air_trails_active
+extern sim_tick_count
+extern air_crash_plumes_update,air_crash_plume_records,air_crash_plume_count
 extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
@@ -202,6 +204,8 @@ absolute_mask: dd 0x7fffffff,0x7fffffff,0x7fffffff,0x7fffffff
 section .data
 camera: dd 4000.0,5.0,3200.0
 global air_trails_visible,net_projectiles_visible,net_projectiles_clock_frozen
+global air_crash_plumes_visible
+air_crash_plumes_visible: dd 1
 air_trails_visible: dd 1
 net_projectiles_visible: dd 1
 net_projectiles_clock_frozen: dd 0
@@ -877,6 +881,16 @@ main:
  mov edi,[local_player]
  movss xmm0,[frame_delta]
  call air_trails_update
+ mov edi,[network_mode]
+ mov esi,[sim_tick_count]
+ test edi,edi
+ jz .plume_clock
+ mov esi,[net_server_tick]
+.plume_clock:
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ call air_crash_plumes_update
  call metrics_gpu_begin
  mov edi,32
  call set_instance_layout
@@ -1070,6 +1084,26 @@ main:
  mov ecx,128
  call glDrawArraysInstanced
 .trailsskip:
+ cmp dword [air_crash_plumes_visible],0
+ je .plumes_skip
+ mov edi,64
+ call set_instance_layout
+ mov edi,0x8892
+ mov esi,2048
+ lea rdx,[air_crash_plume_records]
+ mov ecx,0x88e0
+ call glBufferData
+ mov edi,[terrain_loc]
+ mov esi,15
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,120
+ mov ecx,[air_crash_plume_count]
+ call glDrawArraysInstanced
+ mov edi,32
+ call set_instance_layout
+.plumes_skip:
  cmp dword [tactical],0
  jne .rainskip
  mov edi,[terrain_loc]

@@ -1,0 +1,44 @@
+{
+  "phase": "verified isolated cosmetic batch",
+  "frozen_full": {
+    "job_id": "443028e6200e",
+    "revision": "c48422034b104a3738f477dd5a388d924f05b230-cd13b0c055f5fdb9",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/runs/jobs/443028e6200e/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/runs/jobs/443028e6200e/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/runs/jobs/443028e6200e/result.json",
+    "pid": 732087
+  },
+  "logs": {
+    "rh-plume-native.log": "562b609b8988cef979db2cdb494db7e97f4918a428732bd723754b0febca227e",
+    "rh-plume-native-final.log": "b52dc33f5ee3041197640a55eb4c1aaf253eea5e96c96b054f18385a08d23514",
+    "rh-plume-gl-final.log": "ea56aa41532a9b891798d5c682d4ae8a51f832ac727e9292178e612e261e064a",
+    "rh-plume-client-local.log": "1fc51fc7ac2b28b82391327242969cd29bd0ecb6a18cf73b57c84a0bb66c81b1",
+    "rh-plume-local-final.log": "9ee6e182ca428d10fc84a7f72e41ba51fbba0b661b0e12ba25bc12e65a27cc17",
+    "rh-plume-udp-final.log": "c2a2308e7536fd4de8e783d33f4eec106ae307547b95eff38dfe8c156f5b3562",
+    "rh-plume-regression-aircraft.log": "a55ad16aa2053303eb1fecee968b433adbd01aa00072291887c83e761d51f589",
+    "rh-plume-regression-burst.log": "2f9a6dccf14e5366b382b2524d4f82c5e656705f9b34a35d6a7e224b2608f2ad"
+  },
+  "build": {
+    "target": "client",
+    "revision": "c48422034b104a3738f477dd5a388d924f05b230-cd13b0c055f5fdb9",
+    "assembled": 1,
+    "assembled_sources": [
+      "src/render/shaders.asm"
+    ],
+    "seconds": 0.4410973960184492,
+    "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/build/revisions/c48422034b104a3738f477dd5a388d924f05b230-cd13b0c055f5fdb9/red-horizon"
+  },
+  "runtime_sha256": {
+    "src/render/air_crash_plume.asm": "2df30a6a2a4af0ccf2d9acf902cd4943b3982f1822d09db1fbe6264836650aea",
+    "src/platform/linux/client.asm": "6330e96c541bbacde8e9e5b53bfc9c33171dc0b259ccafd662f3b367b9792936",
+    "shaders/battle.vert": "d3b69550f5fa751d2dcac5b5fd07fe1311d82833220de1c2e8046b6b400407ad"
+  },
+  "limits": "32 slot-order emitters/1500m horizontal selection,20 cosmetic seconds, reconstructed .6s ballistic smoke, billboard fire; no persistent landed history interpolation, HDR/lights, sound additions, collision/cover/crash blast, hardware budget or spectacle acceptance. Client pixels use frozen cosmetic source clocks/samples; independent authority replays have only initial producer fixtures."
+}

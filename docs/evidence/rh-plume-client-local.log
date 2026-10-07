@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-crash-plume/tests/test_air_crash_plume_client.py", line 134, in <module>
+    assert changed>25 if active else changed==0,(role,label,changed)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (0, 'falling', 23)
