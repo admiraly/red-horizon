@@ -1,0 +1,25 @@
+{
+  "job.json": {
+    "job_id": "17efd869fb1b",
+    "revision": "85d1e3175067529a20fe8ff51a72ae6960dce402-d75cfcb3208bf742",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/17efd869fb1b/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/17efd869fb1b/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/17efd869fb1b/result.json",
+    "pid": 344526
+  },
+  "result.json": {
+    "job_id": "17efd869fb1b",
+    "exit_code": 0,
+    "revision": "85d1e3175067529a20fe8ff51a72ae6960dce402-d75cfcb3208bf742",
+    "seconds": 1911.9057675030053,
+    "status": "passed"
+  },
+  "scope": "Full extended confidence pursuit checkpoint. Excludes recovery and isolated crash work."
+}
