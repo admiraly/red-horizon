@@ -1,4 +1,4 @@
-# Falling airframes — authority, rendering and replication candidate
+# Falling airframes — authority, rendering and replication
 
 The authoritative aircraft casualty path now captures a dead body into a
 separate128record pool before its flight state can be reused. Each96byte record
@@ -30,8 +30,9 @@ pose/HP/ammo/generation/clock fixture writes occur.
 Core evidence is air-crash-core-focused.json/.log. Frozen core-only fast
 3f3fc6313036 PASSED exit0 in481.937895s and was collected. Content0x9118562d
 includes seven crash policy fields; public entity/aircraft/player layouts stay
-unchanged. The complete candidate remains isolated until its integration gates
-are collected; main checkpoints before this batch exclude it.
+unchanged. The coherent batch is integrated on main0a1eb12 after aircraft and ordinary
+network suites pass. Prior main checkpoints exclude it. All473authored inputs
+match immutable full extended40b03f364420, which remains running, not passed.
 
 The renderer builds readonly64byte instances from validated96byte snapshots.
 It uses high source geometry at frame0: role3 bomber and role8 fighter, saved
