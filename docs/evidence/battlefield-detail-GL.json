@@ -1,0 +1,64 @@
+{
+  "suite": "projected-role-detail-actual-GL",
+  "passed": true,
+  "cases": [
+    {
+      "role": "bomber",
+      "distance_metres": 1200,
+      "model_counts": [
+        0,
+        1,
+        0
+      ],
+      "visible_changed_pixels": 3,
+      "actual_instance_role": 3.0
+    },
+    {
+      "role": "fighter",
+      "distance_metres": 1200,
+      "model_counts": [
+        0,
+        1,
+        0
+      ],
+      "visible_changed_pixels": 3,
+      "actual_instance_role": 8.0
+    },
+    {
+      "role": "infantry",
+      "distance_metres": 1017.5712348233474,
+      "model_counts": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "role": "infantry",
+      "distance_metres": 1021.5712348233474,
+      "model_counts": [
+        0,
+        0,
+        1
+      ]
+    }
+  ],
+  "authoritative_ticks_unchanged": true,
+  "map_marker_retained": true,
+  "ranges2": [
+    1039525.5028792054,
+    7368275.914467627,
+    10108927.630154079,
+    64000000.0,
+    640000.0,
+    7251171.876979981,
+    9869650.610333862,
+    12890972.225742187,
+    51563888.90296875
+  ],
+  "executable_sha256": "8f1e19cd43abf601ca2e8258bb379faa9cda0f4a5c7ad4f24860748de82eef92",
+  "limits": [
+    "Static isolated GL pose/content fixture, not actual combat; original army hardware hotspot verified separately.",
+    "800m retained floor, projected authored max span threshold1.5pixels, cap8000m; projected bound is not a guaranteed visible pixel area."
+  ]
+}

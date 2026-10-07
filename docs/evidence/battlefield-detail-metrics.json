@@ -1,0 +1,9 @@
+{
+  "suite": "battle-metrics",
+  "passed": true,
+  "multi_frame_reduction": true,
+  "independent_peaks_distinguished": true,
+  "simultaneous_positive_negative_frames": true,
+  "reset": true,
+  "authority_unchanged": true
+}

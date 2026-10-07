@@ -54,16 +54,21 @@ try:
    X.XDestroyImage(image);path=pathlib.Path(tempfile.gettempdir())/('red-horizon-support-'+label+'.ppm');path.write_bytes(b'P6\n640 360\n255\n'+pixels);return pixels,str(path),struct.unpack('<16f',get('mesh_ground_pose',64))
   rows=[]
   for role in (1,2):
-   for mode,distance,tactical in (('near',32.,0),('mid',300.,0),('distant',900.,0),('map',900.,1)):
+   for mode,distance,tactical in (('near',32.,0),('mid',300.,0),('distant',2000.,0),('map',900.,1)):
     expected=(C.c_float*16)();assert world.ground_support(expected,role,64,5750,5200,math.pi/2)==0
     contact=(C.c_float*16)();assert world.ground_contact(contact,role,64,5750,5200,math.pi/2,expected[1],expected[2])==0
     expected[0]=max(expected[0],contact[0])
-    put('sim_players',struct.pack('<5f',5750,expected[0]+8,5200-distance,0,-.05));put('yaw',struct.pack('<f',0));put('pitch',struct.pack('<f',-.05));put('tactical',struct.pack('<I',tactical));put('sim_count',struct.pack('<I',0));background,_,_=capture(f'{role}-{mode}-background')
+    # Exercise a true distant marker beyond both hull thresholds at640x360;
+    # a900m low hull can have subpixel height despite its longer bounding span.
+    # Keep this transform oracle above the ridge and off the crosshair.
+    camera_x=5630 if mode=='distant' else 5750
+    camera_y=expected[0]+(80 if mode=='distant' else 8)
+    put('sim_players',struct.pack('<5f',camera_x,camera_y,5200-distance,0,-.05));put('yaw',struct.pack('<f',0));put('pitch',struct.pack('<f',-.05));put('tactical',struct.pack('<I',tactical));put('sim_count',struct.pack('<I',0));background,_,_=capture(f'{role}-{mode}-background')
     put('sim_count',struct.pack('<I',1));put('sim_entities',struct.pack('<2f6I',5750,5200,400 if role==1 else 160,0,role,0,0xffffffff,1));put('sim_ground_motion',struct.pack('<5f3I',math.pi/2,0,0,0,0,1,role,1));authority=tuple(get(name,size) for name,size in (('sim_entities',1048576),('sim_ground_motion',1048576),('sim_players',256)))
     pixels,path,pose=capture(f'{role}-{mode}');assert pose[0]==5750 and pose[2]==5200 and pose[14]==role
     assert abs(pose[1]-expected[0])<1e-5 and abs(pose[7]-expected[1])<1e-6 and abs(pose[11]-expected[2])<1e-6 and pose[15]==1,(role,mode,pose,tuple(expected))
     assert authority==tuple(get(name,size) for name,size in (('sim_entities',1048576),('sim_ground_motion',1048576),('sim_players',256))) and ticks==u32('local_sim_ticks'),'render changed authority'
-    changed=sum(max(abs(pixels[i+k]-background[i+k]) for k in range(3))>20 for i in range(0,len(pixels),3));assert changed>(25 if mode=='near' else 0),(role,mode,changed)
+    changed=sum(max(abs(pixels[i+k]-background[i+k]) for k in range(3))>20 for i in range(0,len(pixels),3));assert changed>(25 if mode=='near' else 0),(role,mode,changed,struct.unpack('<3f',get('camera',12)),tuple(u32(n)for n in ('mesh_high_instances','mesh_low_instances','mesh_marker_instances')))
     rows.append({'role':role,'mode':mode,'changed_source_pixels':changed,'pose_y_pitch_bank':(pose[1],pose[7],pose[11]),'screenshot':path})
   # Actual renderer spring after a changed authoritative hull axis at fixed XZ.
   # This is a stopped-clock observer fixture, not a claim about natural motion.

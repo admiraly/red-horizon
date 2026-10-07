@@ -1,0 +1,30 @@
+{
+  "graphics_job": "23a083501bad",
+  "exact_runtime_and_test_inputs": {
+    "src/render/meshes.asm": {
+      "current": "a8286f0eb2e82f0580327dd6785fd5512391a818722c3f9d4bb5fe7a1cde29e3",
+      "frozen": "a8286f0eb2e82f0580327dd6785fd5512391a818722c3f9d4bb5fe7a1cde29e3"
+    },
+    "src/render/battle_metrics.asm": {
+      "current": "fe3575df9b3d8f89ccd2774ca4ae435bc75494590afa804a0b3fc3380191e76c",
+      "frozen": "fe3575df9b3d8f89ccd2774ca4ae435bc75494590afa804a0b3fc3380191e76c"
+    },
+    "tests/test_visibility_gl.py": {
+      "current": "9a7c3a0de4593f4ad0077fe3e5d7349dfa14aec54c5e93d17dea15050ed2c4c8",
+      "frozen": "9a7c3a0de4593f4ad0077fe3e5d7349dfa14aec54c5e93d17dea15050ed2c4c8"
+    },
+    "tests/test_dense_client.py": {
+      "current": "5bcdf53bc9e58bc40186a2b95f3440a6063d66cc004d91c0ebac5f4cd96dcc8b",
+      "frozen": "5bcdf53bc9e58bc40186a2b95f3440a6063d66cc004d91c0ebac5f4cd96dcc8b"
+    },
+    "tests/test_battle_metrics.py": {
+      "current": "76f35ece2c0a53b38e84e94a2f8f40c82402112bbb58255ff853d373bbabd372",
+      "frozen": "76f35ece2c0a53b38e84e94a2f8f40c82402112bbb58255ff853d373bbabd372"
+    },
+    "tools/dev.py": {
+      "current": "adb5c4b795c990787a9c7fdc61f7390d4a58ec70d6f119b54ef031a05dfd1b07",
+      "frozen": "adb5c4b795c990787a9c7fdc61f7390d4a58ec70d6f119b54ef031a05dfd1b07"
+    }
+  },
+  "excluded_change": "new projected GL test docstring and duplicate helper cleanup only; final focused rerun required for exact current test bytes"
+}

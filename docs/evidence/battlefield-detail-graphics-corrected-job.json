@@ -1,0 +1,18 @@
+{
+  "job_id": "23a083501bad",
+  "revision": "c937b752040727a67ada31aaf3cfba4a81dbef34-faa9751ff0cf59d3",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/23a083501bad/source",
+  "command": [
+    "test",
+    "--suite",
+    "graphics"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/23a083501bad/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/23a083501bad/result.json",
+  "pid": 2873741,
+  "exit_code": 1,
+  "seconds": 78.76789418100088,
+  "collected": true,
+  "failure": "test_client_aircraft private XOpenDisplay returned null immediately; bounded startup connection retry with Xvfb liveness and diagnostics added, physical/render assertions unchanged"
+}

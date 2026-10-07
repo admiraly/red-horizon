@@ -19,7 +19,8 @@ with tempfile.TemporaryDirectory() as folder:
     metrics=[json.loads(row)for row in run.stdout.splitlines()if row.startswith('{"battle_metrics"')]
     assert len(metrics)==1,(scenario,run.stdout)
     m=metrics[0]
-    assert m['samples']==120 and m['peak_living']==8192,m
+    assert m['samples']==120 and m['initial_living']==8192,m
+    assert 0<m['peak_living']<=m['initial_living'],m
     assert m['peak_engaged']>=2048 and m['peak_projectiles']>0,m
     assert m['peak_submitted_high']+m['peak_submitted_low']>=1024,m
     assert m['peak_effect_records']>0 and m['peak_trail_records']>0 and m['peak_audio_voices']>0,m

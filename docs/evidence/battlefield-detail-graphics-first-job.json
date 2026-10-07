@@ -1,0 +1,17 @@
+{
+  "job_id": "57ef97dfe618",
+  "revision": "c937b752040727a67ada31aaf3cfba4a81dbef34-5c4a7b40639cfa3f",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/57ef97dfe618/source",
+  "command": [
+    "test",
+    "--suite",
+    "graphics"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/57ef97dfe618/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/57ef97dfe618/result.json",
+  "pid": 2803698,
+  "exit_code": 1,
+  "seconds": 80.2270588149986,
+  "collected": true
+}

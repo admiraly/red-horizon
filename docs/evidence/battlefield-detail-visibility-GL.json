@@ -1,0 +1,226 @@
+{
+  "suite": "visibility-actual-gl",
+  "passed": true,
+  "cases": {
+    "three_classes": {
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "observed": [
+        1,
+        1,
+        1
+      ],
+      "expected_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "observed_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "authority_before": "6307cf0d1890fc6e",
+      "authority_after": "6307cf0d1890fc6e"
+    },
+    "normal_colour_changed_pixels": 56725,
+    "normal_colour_max_channel_error": 2,
+    "offscreen": {
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "observed": [
+        1,
+        1,
+        1
+      ],
+      "expected_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "observed_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "authority_before": "c2f73abd73a89f31",
+      "authority_after": "c2f73abd73a89f31"
+    },
+    "behind_camera": {
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "observed": [
+        1,
+        1,
+        1
+      ],
+      "expected_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "observed_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "authority_before": "8f482f1e1fa43639",
+      "authority_after": "8f482f1e1fa43639"
+    },
+    "below_terrain": {
+      "expected": [
+        1,
+        1,
+        1
+      ],
+      "observed": [
+        1,
+        1,
+        1
+      ],
+      "expected_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "observed_actor_classes": {
+        "0": [
+          1
+        ],
+        "1": [
+          2
+        ],
+        "2": [
+          3
+        ]
+      },
+      "authority_before": "d315aaff8aaace86",
+      "authority_after": "d315aaff8aaace86"
+    },
+    "prop_occluded": {
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "observed": [
+        0,
+        0,
+        0
+      ],
+      "expected_actor_classes": {},
+      "observed_actor_classes": {},
+      "authority_before": "7ea71fda15ea7fbd",
+      "authority_after": "7ea71fda15ea7fbd"
+    },
+    "actor_occluded": {
+      "expected": [
+        1,
+        0,
+        0
+      ],
+      "observed": [
+        1,
+        0,
+        0
+      ],
+      "expected_actor_classes": {
+        "0": [
+          1
+        ]
+      },
+      "observed_actor_classes": {
+        "0": [
+          1
+        ]
+      },
+      "authority_before": "3ffbc5a81b5c39b3",
+      "authority_after": "3ffbc5a81b5c39b3"
+    },
+    "no_army": {
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "observed": [
+        0,
+        0,
+        0
+      ],
+      "expected_actor_classes": {},
+      "observed_actor_classes": {},
+      "authority_before": "d1d7c72ac568fd41",
+      "authority_after": "d1d7c72ac568fd41"
+    },
+    "remote_human_no_army": {
+      "expected": [
+        0,
+        0,
+        0
+      ],
+      "observed": [
+        0,
+        0,
+        0
+      ],
+      "expected_actor_classes": {},
+      "observed_actor_classes": {},
+      "authority_before": "dc6a87a7c88531fc",
+      "authority_after": "dc6a87a7c88531fc"
+    }
+  },
+  "render_authority_unchanged": true,
+  "context": "Private Xvfb software OpenGL; frozen development-only poses; actual production source meshes, terrain, bunker and pixel readback. No performance or combat claim."
+}

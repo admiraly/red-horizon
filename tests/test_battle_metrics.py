@@ -60,6 +60,7 @@ with tempfile.TemporaryDirectory() as directory:
  subprocess.run(['gcc','-no-pie','-Wl,-z,noexecstack',str(p/'stub.o'),str(p/'metrics.o'),'-o',str(p/'probe')],check=True)
  rows=[json.loads(line) for line in subprocess.check_output([str(p/'probe')],text=True).splitlines()]
  a,b=rows
+ assert a['initial_living']==8192 and b['initial_living']==8096,(a,b)
  assert a['samples']==3 and a['simultaneous_projectiles_effects_audio_frames']==1,a
  expected={'peak_living':8192,'peak_engaged':3100,'peak_projectiles':12,'peak_submitted_high':252,'peak_submitted_low':1300,'peak_submitted_markers':6640,'peak_effect_records':9,'peak_trail_records':24,'peak_audio_voices':16}
  assert all(a[k]==v for k,v in expected.items()),a

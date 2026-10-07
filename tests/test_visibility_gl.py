@@ -7,6 +7,7 @@ Expected visible classes come from controlled geometry, not submitted counts or
 frustum estimates. No host desktop input is used. Every child is reconciled.
 """
 import json
+import errno
 import os
 import pathlib
 import select
@@ -53,9 +54,10 @@ def stopped(process):
     assert os.WIFSTOPPED(status)
 
 
-# x displacement, forward distance, absolute altitude. All are live fighters,
-# with genuine production LOD paths and unambiguous separation in image space.
-VISIBLE = [(-15., 60., 100.), (70., 350., 100.), (-350., 1100., 100.)]
+# x displacement, forward distance, absolute altitude. Near/mid fighters and
+# one distant infantry marker exercise all real classes without depending on
+# a fixed distance cutoff for large aircraft.
+VISIBLE = [(-15., 60., 100.), (70., 350., 100.), (-350., 1700., 100.)]
 CASES = {
     'three_classes': (VISIBLE, None, (1, 1, 1)),
     'offscreen': (VISIBLE + [(2000., 60., 100.)], None, (1, 1, 1)),
@@ -94,7 +96,18 @@ def run_fixture(env, folder, label, actors, obstacle, census=True):
 
         # Initial startup runs the authentic game; freeze before installing
         # fixtures. Let an already-entered fixed tick finish before recording.
-        wait_for(process, lambda: u32('frame_count') >= 4)
+        def startup_ready():
+            # Popen may return before exec maps the executable's fixed addresses.
+            # Retry only this startup read; later fixture reads remain strict.
+            try:
+                data = read('frame_count', 4)
+            except OSError as error:
+                if error.errno == errno.EIO:
+                    return False
+                raise
+            return len(data) == 4 and struct.unpack('<I', data)[0] >= 4
+
+        wait_for(process, startup_ready)
         stopped(process)
         write('maxdt', struct.pack('<d', 0.))
         write('thirty', struct.pack('<d', 1e30))
@@ -108,7 +121,8 @@ def run_fixture(env, folder, label, actors, obstacle, census=True):
         write('sim_entities', bytes(8192 * 32))
         write('sim_aircraft', bytes(8192 * 64))
         for index, (x, z, y) in enumerate(actors):
-            entity = struct.pack('<2f6I', 2000. + x, 3900. + z, 100, index & 1, 3, 0, 0, 100 + index)
+            kind=0 if index==2 and label in ('three_classes','offscreen','behind_camera','below_terrain') else 3
+            entity = struct.pack('<2f6I', 2000. + x, 3900. + z, 100, index & 1, kind, 0, 0, 100 + index)
             aircraft = struct.pack('<5f6I3f2I', y, 0., 0., 0., 7., 1, 0, 0, 0, 180, 100 + index, 0., 0., 7., 0, 1)
             os.pwrite(memory, entity, SYMBOLS['sim_entities'] + index * 32)
             os.pwrite(memory, aircraft, SYMBOLS['sim_aircraft'] + index * 64)

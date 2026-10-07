@@ -1,0 +1,44 @@
+{
+  "suite": "dense-client",
+  "passed": true,
+  "actual_GL": true,
+  "runtime_pose_or_damage_writes": false,
+  "frame_peaks": {
+    "scale-front": {
+      "battle_metrics": true,
+      "samples": 120,
+      "simultaneous_projectiles_effects_audio_frames": 120,
+      "peak_living": 8192,
+      "peak_engaged": 3339,
+      "peak_projectiles": 480,
+      "peak_submitted_high": 73,
+      "peak_submitted_low": 4079,
+      "peak_submitted_markers": 4049,
+      "peak_effect_records": 64,
+      "peak_trail_records": 128,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    },
+    "scale-hotspot": {
+      "battle_metrics": true,
+      "samples": 120,
+      "simultaneous_projectiles_effects_audio_frames": 119,
+      "peak_living": 8192,
+      "peak_engaged": 4514,
+      "peak_projectiles": 480,
+      "peak_submitted_high": 89,
+      "peak_submitted_low": 5037,
+      "peak_submitted_markers": 3078,
+      "peak_effect_records": 64,
+      "peak_trail_records": 128,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    }
+  },
+  "pixel_visible_actor_count": "unmeasured",
+  "audio_device": "null; waveform routing only"
+}

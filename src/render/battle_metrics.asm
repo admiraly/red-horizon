@@ -10,8 +10,9 @@ battle_metrics_last: resd 9
 battle_metrics_peak: resd 9
 battle_metrics_samples: resq 1
 battle_metrics_simultaneous: resq 1
+battle_metrics_initial_living: resd 1
 section .rodata
-format: db '{"battle_metrics":true,"samples":%lu,"simultaneous_projectiles_effects_audio_frames":%lu,"peak_living":%u,"peak_engaged":%u,"peak_projectiles":%u,"peak_submitted_high":%u,"peak_submitted_low":%u,"peak_submitted_markers":%u,"peak_effect_records":%u,"peak_trail_records":%u,"peak_audio_voices":%u,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}',10,0
+format: db '{"battle_metrics":true,"samples":%lu,"simultaneous_projectiles_effects_audio_frames":%lu,"peak_living":%u,"peak_engaged":%u,"peak_projectiles":%u,"peak_submitted_high":%u,"peak_submitted_low":%u,"peak_submitted_markers":%u,"peak_effect_records":%u,"peak_trail_records":%u,"peak_audio_voices":%u,"initial_living":%u,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}',10,0
 section .text
 global battle_metrics_reset,battle_metrics_capture,battle_metrics_report
 battle_metrics_reset:
@@ -19,6 +20,9 @@ battle_metrics_reset:
  xor eax,eax
  mov ecx,22
  rep stosd
+ mov eax,[sim_alive]
+ add eax,[sim_alive+4]
+ mov [battle_metrics_initial_living],eax
  ret
 ; Called after cosmetic updates and draws, before the CPU frame timer ends.
 battle_metrics_capture:
@@ -67,7 +71,7 @@ battle_metrics_capture:
  add rsp,8
  ret
 battle_metrics_report:
- sub rsp,56
+ sub rsp,72
  lea rdi,[format]
  mov rsi,[battle_metrics_samples]
  mov rdx,[battle_metrics_simultaneous]
@@ -80,8 +84,10 @@ battle_metrics_report:
  mov [rsp+i*8],rax
  %assign i i+1
  %endrep
+ mov eax,[battle_metrics_initial_living]
+ mov [rsp+48],rax
  xor eax,eax
  call printf
- add rsp,56
+ add rsp,72
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits

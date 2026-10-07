@@ -1,0 +1,18 @@
+{
+  "job_id": "ad40f14e739a",
+  "revision": "c937b752040727a67ada31aaf3cfba4a81dbef34-2c02c65d6de586dd",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/ad40f14e739a/source",
+  "command": [
+    "test",
+    "--suite",
+    "graphics"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/ad40f14e739a/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/ad40f14e739a/result.json",
+  "pid": 2890053,
+  "exit_code": 1,
+  "seconds": 115.22672267300368,
+  "collected": true,
+  "failure": "ground-support distant fixture assumed bright marker at900m; actor now sourced low hull with subpixel height at640x360. Retain failed report; true distant marker fixture moved to2000m and clear observer camera. Support/contact/authority/pixel thresholds unchanged."
+}

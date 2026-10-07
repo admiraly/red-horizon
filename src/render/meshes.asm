@@ -28,7 +28,7 @@ extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUn
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
  global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame,mesh_infantry_pose
- global mesh_wreck_instances,mesh_wreck_pose,mesh_counts_complete
+ global mesh_wreck_instances,mesh_wreck_pose,mesh_counts_complete,mesh_actor_detail_ranges2
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
 section .rodata
@@ -55,10 +55,13 @@ dt_min: dd 0.001
 run_speed: dd 6.0
 high_range2: dd 22500.0
 medium_range2: dd 640000.0
+minimum_actor_pixels: dd 1.5
+maximum_actor_distance: dd 8000.0
 air_height: dd 90.0
 align 16
 tree_positions: dd 1900.,3720.,2100.,3740.,1800.,4150.,2250.,4100.,3450.,3500.,3550.,3530.,3650.,3520.,4500.,3700.,4600.,3730.,5500.,1300.,5520.,1330.,5500.,6500.,3000.,6100.,3020.,6120.,3300.,1700.,3370.,1730.
 section .bss
+mesh_actor_detail_ranges2: resd 9 ; projected authored span per visual role
 mesh_counts_complete: resd 1 ; derived completed-pass telemetry, outside authority
 mesh_wreck_instances: resd 1
 mesh_wreck_pose: resd 16
@@ -304,6 +307,7 @@ meshes_draw:
 .company_store:
  mov [view_company],eax
 .company_ready:
+ call .detail_ranges
  mov dword [mesh_high_instances],0
  mov dword [mesh_low_instances],0
  mov dword [mesh_marker_instances],0
@@ -481,6 +485,47 @@ meshes_draw:
  pop rbp
  ret
 
+.detail_ranges:
+ ; Only presentation changes. Preserve real aircraft/hull silhouettes while
+ ; their authored largest span projects to1.5pixels, with retained800m
+ ; near-battle floor and8000m cap. Fixed9roles.
+ lea rdi,[mesh_actor_detail_ranges2]
+ mov eax,0x491c4000 ; fallback800m squared for a missing authored role
+ mov ecx,9
+ rep stosd
+ movss xmm2,[view_projection]
+ mulss xmm2,[view_half_size]
+ movss xmm3,[view_projection+4]
+ mulss xmm3,[view_half_size+4]
+ maxss xmm2,xmm3
+ divss xmm2,[minimum_actor_pixels]
+ mov rdx,[mesh_asset_descriptors]
+ mov ecx,[mesh_asset_count]
+.detail_descriptor:
+ test ecx,ecx
+ jz .detail_return
+ mov eax,[rdx]
+ cmp eax,8
+ ja .detail_next
+ movss xmm0,[rdx+40]
+ maxss xmm0,[rdx+44]
+ maxss xmm0,[rdx+48]
+ mulss xmm0,[rdx+32]
+ mulss xmm0,xmm2
+ minss xmm0,[maximum_actor_distance]
+ maxss xmm0,[zero]
+ mulss xmm0,xmm0
+ lea rdi,[mesh_actor_detail_ranges2]
+ ; High and low descriptors may have slightly different extremities; keep
+ ; their selection threshold identical by retaining the larger authored span.
+ maxss xmm0,[rdi+rax*4]
+ movss [rdi+rax*4],xmm0
+.detail_next:
+ add rdx,64
+ dec ecx
+ jmp .detail_descriptor
+.detail_return:ret
+
 .update_motion:
  push rbp
  xor r14d,r14d
@@ -601,7 +646,9 @@ meshes_draw:
  cmp r14d,[view_vehicle]
  je .armynext
  call .distance
- comiss xmm0,[medium_range2]
+ mov eax,[r12]
+ lea rdx,[mesh_actor_detail_ranges2]
+ comiss xmm0,[rdx+rax*4]
  ja .armynext
  cmp dword [draw_lod],0
  jne .low
@@ -984,7 +1031,7 @@ meshes_draw:
  subss xmm1,[view_camera+8]
  mulss xmm1,xmm1
  addss xmm0,xmm1
- comiss xmm0,[medium_range2]
+ comiss xmm0,[mesh_actor_detail_ranges2]
  ja .humannext
  cmp dword [draw_lod],0
  jne .humanlow
@@ -1279,7 +1326,9 @@ meshes_draw:
  cmp dword [view_tactical],0
  jne .appendmarker
  call .distance
- comiss xmm0,[medium_range2]
+ call .visual_role
+ lea rdx,[mesh_actor_detail_ranges2]
+ comiss xmm0,[rdx+rax*4]
  jbe .markernext
 .appendmarker:
  mov eax,r15d
@@ -1351,7 +1400,7 @@ meshes_draw:
  subss xmm1,[view_camera+8]
  mulss xmm1,xmm1
  addss xmm0,xmm1
- comiss xmm0,[medium_range2]
+ comiss xmm0,[mesh_actor_detail_ranges2]
  jbe .nextmarkerhuman
 .appendhumanmarker:
  mov eax,r15d

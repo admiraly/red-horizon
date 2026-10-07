@@ -573,6 +573,7 @@ def main():
             execute([sys.executable,'tests/test_dense_client.py',str(client)])
             if (ROOT/'tests/test_visibility_gl.py').exists():execute([sys.executable,'tests/test_visibility_gl.py',str(client)])
             if (ROOT/'tests/test_client_aircraft.py').exists(): execute([sys.executable,'tests/test_client_aircraft.py',str(client)])
+            execute([sys.executable,'tests/test_projected_detail_gl.py',str(client)])
             execute([sys.executable,'tests/test_ground_gl.py',str(client)])
             execute([sys.executable,'tests/test_road_gl.py',str(client)])
             execute([sys.executable,'tests/test_relief_gl.py',str(client)])

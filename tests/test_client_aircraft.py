@@ -46,7 +46,14 @@ try:
         os.close(read_fd); read_fd = None
         env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
         env.pop('WAYLAND_DISPLAY', None)
-        display = X.XOpenDisplay(env['DISPLAY'].encode()); assert display
+        deadline = time.monotonic() + 5
+        while not display and time.monotonic() < deadline:
+            assert server.poll() is None, 'private Xvfb exited during startup'
+            display = X.XOpenDisplay(env['DISPLAY'].encode())
+            if not display: time.sleep(.01)
+        if not display:
+            server_log.seek(0)
+            raise AssertionError('private Xvfb connection timed out: ' + server_log.read().decode(errors='replace'))
         process = subprocess.Popen([str(EXE)], cwd=EXE.parent, env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
         def title(win):

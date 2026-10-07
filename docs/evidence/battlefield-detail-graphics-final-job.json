@@ -1,0 +1,18 @@
+{
+  "job_id": "839a7df1fa7d",
+  "revision": "c937b752040727a67ada31aaf3cfba4a81dbef34-de61d51716dcb68e",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/839a7df1fa7d/source",
+  "command": [
+    "test",
+    "--suite",
+    "graphics"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/839a7df1fa7d/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/839a7df1fa7d/result.json",
+  "pid": 2839386,
+  "exit_code": 1,
+  "seconds": 54.016260060991044,
+  "collected": true,
+  "failure": "visibility fixture startup read EIO before executable mapping; retry bounded initial read only; all later fixture memory errors remain fatal"
+}
