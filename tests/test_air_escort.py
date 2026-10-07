@@ -28,9 +28,10 @@ with tempfile.TemporaryDirectory(prefix='rh-air-escort-') as name:
  def follow_run():
   reset();plane(15,3400,4000,0,0);plane(31,2700,4000,0,1);initial=math.dist((E[15].x,E[15].z),(E[31].x,E[31].z));closest=initial;travel=0.;banks=0;samples=[]
   for tick in range(1,301):
-   old=[(E[i].x,A[i].y,E[i].z,A[i].heading) for i in (15,31)];lib.sim_tick()
+   old=[(E[i].x,A[i].y,E[i].z,A[i].heading,A[i].speed) for i in (15,31)];lib.sim_tick()
    for j,i in enumerate((15,31)):
-    moved=math.dist(old[j][:3],(E[i].x,A[i].y,E[i].z));assert abs(moved-(5,7)[j])<.001
+    moved=math.dist(old[j][:3],(E[i].x,A[i].y,E[i].z));assert abs(moved-A[i].speed)<.001
+    assert 5<=A[i].speed<=7 and -(.009002,.012002)[j]<=A[i].speed-old[j][4]<=(.006002,.010002)[j]
     yaw=(A[i].heading-old[j][3]+math.pi)%(2*math.pi)-math.pi;assert abs(yaw)<=(.02501,.04001)[j]
     assert A[i].ammo==(8,180)[j] and E[i].hp==200
     travel+=moved

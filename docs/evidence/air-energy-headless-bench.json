@@ -1,0 +1,90 @@
+{
+  "scope": "Single-thread CPU-only i7-14700K, uncontrolled concurrent tests, no client GPU/native-thread/sustained or isolated causal cost acceptance",
+  "runs": [
+    {
+      "label": "previous-load",
+      "command": [
+        "/mnt/titan_nv3/projects/red-horizon/build/revisions/ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128/red-horizon-server",
+        "--scenario",
+        "scale-hotspot",
+        "--units",
+        "8192",
+        "--ticks",
+        "300",
+        "--seed",
+        "1"
+      ],
+      "executable_sha256": "fabad8b5c6925d0866b14254e7e4a5f78a7ebbe8af2ca5ebe8574cd49bd473c7",
+      "exit_code": 0,
+      "output": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2988,2799],\"engaged\":522,\"checksum\":\"916880fcb0b36e49\",\"tick_mean_ms\":15.772416,\"tick_p95_ms\":20.980160,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":411,\"projectile_peak\":452,\"projectile_dropped\":104002,\"navigation\":{\"pending\":24,\"completed\":2392,\"overflow\":448054,\"cache_hits\":176598,\"stuck_replans\":0,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":18,\"bomb_impacts\":18,\"gun_bursts\":194,\"aircraft_destroyed\":1,\"overwritten_unobserved\":13156},\"hazards\":{\"predictions\":53591,\"tile_overflow\":48043,\"acquired\":10723,\"dispersions\":10723,\"shelters\":0,\"los_calls\":28492,\"budget_skipped\":0,\"active_goals\":876},\"ordnance_admission\":[{\"submitted\":56836,\"admitted\":1142,\"capacity_denied\":55694,\"invalidated\":0},{\"submitted\":6299,\"admitted\":655,\"capacity_denied\":5644,\"invalidated\":0},{\"submitted\":41034,\"admitted\":1116,\"capacity_denied\":39918,\"invalidated\":0},{\"submitted\":3217,\"admitted\":471,\"capacity_denied\":2746,\"invalidated\":0}],\"air_admission\":[{\"submitted\":10,\"admitted\":10,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":149,\"admitted\":149,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":45,\"admitted\":45,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1905351,\"move_queries\":2177012,\"inspected_neighbors\":20613681,\"corrected_endpoints\":202792,\"yielded_moves\":56423,\"overlap_recoveries\":8050,\"truncated_queries\":0,\"maximum_inspected_per_query\":51}}\n"
+    },
+    {
+      "label": "energy",
+      "command": [
+        "/mnt/titan_nv3/projects/red-horizon-workers/air-energy/build/revisions/7e262d6c0629cf53e9ad46032b98d6204c16da8c-e6f247baf2ae65ac/red-horizon-server",
+        "--scenario",
+        "scale-hotspot",
+        "--units",
+        "8192",
+        "--ticks",
+        "300",
+        "--seed",
+        "1"
+      ],
+      "executable_sha256": "a81437161a564c2e00e7397ba3de661480580d85ad7231eff48ecfbeb34c890f",
+      "exit_code": 0,
+      "output": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2935,2804],\"engaged\":711,\"checksum\":\"b52e49127af37aad\",\"tick_mean_ms\":15.709650,\"tick_p95_ms\":20.890478,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":403,\"projectile_peak\":452,\"projectile_dropped\":107588,\"navigation\":{\"pending\":35,\"completed\":2392,\"overflow\":444644,\"cache_hits\":176297,\"stuck_replans\":0,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":18,\"bomb_impacts\":18,\"gun_bursts\":195,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13183},\"hazards\":{\"predictions\":53931,\"tile_overflow\":48947,\"acquired\":11273,\"dispersions\":11273,\"shelters\":0,\"los_calls\":28924,\"budget_skipped\":0,\"active_goals\":938},\"ordnance_admission\":[{\"submitted\":57481,\"admitted\":1074,\"capacity_denied\":56407,\"invalidated\":0},{\"submitted\":6293,\"admitted\":648,\"capacity_denied\":5645,\"invalidated\":0},{\"submitted\":43276,\"admitted\":1042,\"capacity_denied\":42234,\"invalidated\":0},{\"submitted\":3802,\"admitted\":500,\"capacity_denied\":3302,\"invalidated\":0}],\"air_admission\":[{\"submitted\":10,\"admitted\":10,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":141,\"admitted\":141,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":54,\"admitted\":54,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1900588,\"move_queries\":2175826,\"inspected_neighbors\":20556687,\"corrected_endpoints\":199063,\"yielded_moves\":54516,\"overlap_recoveries\":8121,\"truncated_queries\":0,\"maximum_inspected_per_query\":48}}\n"
+    },
+    {
+      "label": "previous-load",
+      "command": [
+        "/mnt/titan_nv3/projects/red-horizon/build/revisions/ca93f8965729e95128b69378f2bc17004dc80403-d183d945056a4128/red-horizon-server",
+        "--scenario",
+        "scale-hotspot",
+        "--units",
+        "8192",
+        "--ticks",
+        "300",
+        "--seed",
+        "1"
+      ],
+      "executable_sha256": "fabad8b5c6925d0866b14254e7e4a5f78a7ebbe8af2ca5ebe8574cd49bd473c7",
+      "exit_code": 0,
+      "output": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2988,2799],\"engaged\":522,\"checksum\":\"916880fcb0b36e49\",\"tick_mean_ms\":15.833057,\"tick_p95_ms\":21.097501,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":411,\"projectile_peak\":452,\"projectile_dropped\":104002,\"navigation\":{\"pending\":24,\"completed\":2392,\"overflow\":448054,\"cache_hits\":176598,\"stuck_replans\":0,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":18,\"bomb_impacts\":18,\"gun_bursts\":194,\"aircraft_destroyed\":1,\"overwritten_unobserved\":13156},\"hazards\":{\"predictions\":53591,\"tile_overflow\":48043,\"acquired\":10723,\"dispersions\":10723,\"shelters\":0,\"los_calls\":28492,\"budget_skipped\":0,\"active_goals\":876},\"ordnance_admission\":[{\"submitted\":56836,\"admitted\":1142,\"capacity_denied\":55694,\"invalidated\":0},{\"submitted\":6299,\"admitted\":655,\"capacity_denied\":5644,\"invalidated\":0},{\"submitted\":41034,\"admitted\":1116,\"capacity_denied\":39918,\"invalidated\":0},{\"submitted\":3217,\"admitted\":471,\"capacity_denied\":2746,\"invalidated\":0}],\"air_admission\":[{\"submitted\":10,\"admitted\":10,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":149,\"admitted\":149,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":45,\"admitted\":45,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1905351,\"move_queries\":2177012,\"inspected_neighbors\":20613681,\"corrected_endpoints\":202792,\"yielded_moves\":56423,\"overlap_recoveries\":8050,\"truncated_queries\":0,\"maximum_inspected_per_query\":51}}\n"
+    },
+    {
+      "label": "energy",
+      "command": [
+        "/mnt/titan_nv3/projects/red-horizon-workers/air-energy/build/revisions/7e262d6c0629cf53e9ad46032b98d6204c16da8c-e6f247baf2ae65ac/red-horizon-server",
+        "--scenario",
+        "scale-hotspot",
+        "--units",
+        "8192",
+        "--ticks",
+        "300",
+        "--seed",
+        "1"
+      ],
+      "executable_sha256": "a81437161a564c2e00e7397ba3de661480580d85ad7231eff48ecfbeb34c890f",
+      "exit_code": 0,
+      "output": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2935,2804],\"engaged\":711,\"checksum\":\"b52e49127af37aad\",\"tick_mean_ms\":15.703590,\"tick_p95_ms\":20.805452,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":403,\"projectile_peak\":452,\"projectile_dropped\":107588,\"navigation\":{\"pending\":35,\"completed\":2392,\"overflow\":444644,\"cache_hits\":176297,\"stuck_replans\":0,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":18,\"bomb_impacts\":18,\"gun_bursts\":195,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13183},\"hazards\":{\"predictions\":53931,\"tile_overflow\":48947,\"acquired\":11273,\"dispersions\":11273,\"shelters\":0,\"los_calls\":28924,\"budget_skipped\":0,\"active_goals\":938},\"ordnance_admission\":[{\"submitted\":57481,\"admitted\":1074,\"capacity_denied\":56407,\"invalidated\":0},{\"submitted\":6293,\"admitted\":648,\"capacity_denied\":5645,\"invalidated\":0},{\"submitted\":43276,\"admitted\":1042,\"capacity_denied\":42234,\"invalidated\":0},{\"submitted\":3802,\"admitted\":500,\"capacity_denied\":3302,\"invalidated\":0}],\"air_admission\":[{\"submitted\":10,\"admitted\":10,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":141,\"admitted\":141,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":54,\"admitted\":54,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1900588,\"move_queries\":2175826,\"inspected_neighbors\":20556687,\"corrected_endpoints\":199063,\"yielded_moves\":54516,\"overlap_recoveries\":8121,\"truncated_queries\":0,\"maximum_inspected_per_query\":48}}\n"
+    },
+    {
+      "label": "energy-stretch",
+      "command": [
+        "/mnt/titan_nv3/projects/red-horizon-workers/air-energy/build/revisions/7e262d6c0629cf53e9ad46032b98d6204c16da8c-e6f247baf2ae65ac/red-horizon-server",
+        "--scenario",
+        "scale-hotspot",
+        "--units",
+        "16384",
+        "--ticks",
+        "300",
+        "--seed",
+        "1"
+      ],
+      "executable_sha256": "a81437161a564c2e00e7397ba3de661480580d85ad7231eff48ecfbeb34c890f",
+      "exit_code": 0,
+      "output": "{\"units\":16384,\"ticks\":300,\"seed\":1,\"alive\":[7038,6786],\"engaged\":1418,\"checksum\":\"43a7074cc5caa80d\",\"tick_mean_ms\":30.219739,\"tick_p95_ms\":38.291259,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":407,\"projectile_peak\":477,\"projectile_dropped\":248829,\"navigation\":{\"pending\":512,\"completed\":2392,\"overflow\":2156083,\"cache_hits\":250357,\"stuck_replans\":2,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":39,\"bomb_impacts\":37,\"gun_bursts\":305,\"aircraft_destroyed\":2,\"overwritten_unobserved\":21273},\"hazards\":{\"predictions\":61587,\"tile_overflow\":48100,\"acquired\":17021,\"dispersions\":17018,\"shelters\":3,\"los_calls\":39309,\"budget_skipped\":0,\"active_goals\":1919},\"ordnance_admission\":[{\"submitted\":121036,\"admitted\":698,\"capacity_denied\":120338,\"invalidated\":0},{\"submitted\":43000,\"admitted\":688,\"capacity_denied\":42312,\"invalidated\":0},{\"submitted\":76461,\"admitted\":699,\"capacity_denied\":75762,\"invalidated\":0},{\"submitted\":10958,\"admitted\":543,\"capacity_denied\":10415,\"invalidated\":0}],\"air_admission\":[{\"submitted\":22,\"admitted\":22,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":196,\"admitted\":196,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":17,\"admitted\":17,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":111,\"admitted\":109,\"capacity_denied\":2,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":4177665,\"move_queries\":4849994,\"inspected_neighbors\":43484898,\"corrected_endpoints\":476727,\"yielded_moves\":63912,\"overlap_recoveries\":30358,\"truncated_queries\":0,\"maximum_inspected_per_query\":51}}\n"
+    }
+  ]
+}

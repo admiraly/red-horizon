@@ -81,11 +81,12 @@ with tempfile.TemporaryDirectory(prefix='rh-air-world-control-') as folder:
  def flight(state,x,y,z=5200,ticks=150):
   reset(state,x,y,z);q,en,air=state;travel=0.;maximum_y=0.;last=(x,y,z);death=None
   for t in range(ticks):
-   old=last;oldvy=air[31].vy;oldbank=air[31].bank;q.sim_tick();last=(en[31].x,air[31].y,en[31].z);step=math.dist(old,last);travel+=step;maximum_y=max(maximum_y,last[1]);assert step<=7.001
+   old=last;oldvy=air[31].vy;oldbank=air[31].bank;oldspeed=air[31].speed;q.sim_tick();last=(en[31].x,air[31].y,en[31].z);step=math.dist(old,last);travel+=step;maximum_y=max(maximum_y,last[1]);assert step<=7.001
    assert abs(air[31].vy-oldvy)<=.024002 and abs(air[31].bank-oldbank)<=.100002
    assert air[31].ammo==180 and en[31].gen==1
    if en[31].hp==0:death=t+1;break
-   assert abs(step-7)<.001
+   assert abs(step-air[31].speed)<.001
+   assert 5<=air[31].speed<=7 and -.012002<=air[31].speed-oldspeed<=.010002
   return {'death_tick':death,'last_xyz':last,'travel':travel,'maximum_y':maximum_y,'hp':en[31].hp,'ammo':air[31].ammo,'alive':(C.c_uint*2).in_dll(q,'sim_alive')[0],'crashes':C.c_uint.in_dll(q,'sim_air_crash_count').value,'events':C.c_uint.in_dll(q,'sim_event_sequence').value}
  # Late unavoidable wall entry creates one actual casualty/event/wreck, at first hull contact.
  wall=flight((l,e,a),3980,46,1300,ticks=1);wall_control=flight(controls['no_contact'],3980,46,1300,ticks=1)

@@ -61,7 +61,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
   for side in (0,1):
    reset(l,e,a);plane(e,a,31,4000,side,200,0,role);closest=2000.;travel=0.
    for tick in range(1200):
-    old=(e[31].x,a[31].y,e[31].z);l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-(5,7)[role])<.001;travel+=step
+    old=(e[31].x,a[31].y,e[31].z);oldspeed=a[31].speed;l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-a[31].speed)<.001;assert 5<=a[31].speed<=7 and -(.009002,.012002)[role]<=a[31].speed-oldspeed<=(.006002,.010002)[role];travel+=step
     assert a[31].ammo==0 and e[31].hp==200 and a[31].target==-1 and a[31].mode==3
     assert 0<=e[31].x<=8000 and 0<=e[31].z<=8000
     closest=min(closest,math.dist((e[31].x,e[31].z),((2800,5200)[side],4000)))
@@ -105,7 +105,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
     holding=(C.c_uint*(32768*2)).in_dll(l,'sim_air_holding');arrival=None;closest=math.inf;radial=[];turn_total=0.;last_theta=None;max_speed_error=0.;max_roll=0.;last_bank=a[31].bank;trace=[]
     for tick in range(1,3001):
      old=(e[31].x,a[31].y,e[31].z);l.sim_tick();gap=math.dist((e[31].x,e[31].z),((2800,5200)[side],4000));closest=min(closest,gap)
-     max_speed_error=max(max_speed_error,abs(math.dist(old,(e[31].x,a[31].y,e[31].z))-(5,7)[role]))
+     max_speed_error=max(max_speed_error,abs(math.dist(old,(e[31].x,a[31].y,e[31].z))-a[31].speed))
      max_roll=max(max_roll,abs(a[31].bank-last_bank));last_bank=a[31].bank
      assert e[31].hp==200 and a[31].ammo==0 and a[31].mode==3 and a[31].target==-1
      assert 600<=e[31].x<=7400 and 600<=e[31].z<=7400,(role,side,tick,e[31].x,e[31].z,gap,holding[62],holding[63])

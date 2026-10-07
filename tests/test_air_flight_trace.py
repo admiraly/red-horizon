@@ -17,9 +17,10 @@ def run():
   i=15+j*8;role=j%2;speed=(5,7)[role];E[i]=Entity(x,z,200,0,3,0,-1,1);A[i]=Air(lib.terrain_height(x,z)+(110,140)[role],heading,0,0,speed,role,0,-1,0,(8,180)[role],1,speed*math.sin(heading),0,speed*math.cos(heading),0,1)
  checks=0;maximum_error=0;minimum_edge=8000;hashes=[]
  for tick in range(1,2001):
-  previous={15+j*8:(E[15+j*8].x,E[15+j*8].z,A[15+j*8].heading,A[15+j*8].bank,A[15+j*8].y,A[15+j*8].vy) for j in range(8)};lib.sim_tick()
+  previous={15+j*8:(E[15+j*8].x,E[15+j*8].z,A[15+j*8].heading,A[15+j*8].bank,A[15+j*8].y,A[15+j*8].vy,A[15+j*8].speed) for j in range(8)};lib.sim_tick()
   for j in range(8):
-   i=15+j*8;old=previous[i];role=j%2;speed=(5,7)[role]
+   i=15+j*8;old=previous[i];role=j%2;speed=A[i].speed
+   assert 5<=speed<=7 and -(.009002,.012002)[role]<=speed-old[6]<=(.006002,.010002)[role]
    assert E[i].hp==200 and A[i].ammo==(8,180)[role]
    assert 0<=E[i].x<=8000 and 0<=E[i].z<=8000,(tick,i,E[i].x,E[i].z)
    assert abs(math.dist((old[0],old[4],old[1]),(E[i].x,A[i].y,E[i].z))-speed)<.001

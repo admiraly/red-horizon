@@ -13,7 +13,8 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  td=pathlib.Path(temporary);probe=td/'probe.o'
  subprocess.run([nasm,'-f','elf64',str(root/'tests/probe_air_strike.asm'),'-o',str(probe)],check=True)
  objects=[root/'build'/(str(p.relative_to(root)).replace('/','_')+'.o') for folder in ('sim','nav','ai','game') for p in sorted((root/'src'/folder).glob('*.asm'))]
- so=td/'strike.so';subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(so),*map(str,objects),str(root/'build/terrain_probe.o'),str(probe),'-lm'],check=True)
+ terrain_probe=td/'terrain_probe.o';subprocess.run([nasm,'-f','elf64','-I',str(root)+'/',str(root/'tests/terrain_probe.asm'),'-o',str(terrain_probe)],check=True)
+ so=td/'strike.so';subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(so),*map(str,objects),str(terrain_probe),str(probe),'-lm'],check=True)
  lib=C.CDLL(str(so));lib.sim_checksum.restype=C.c_uint64;lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float];lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.probe_air_strike_goal.argtypes=[C.c_uint,C.c_void_p,C.c_void_p]
  E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Strike*32768).in_dll(lib,'sim_air_strikes');clock=C.c_uint.in_dll(lib,'sim_tick_count')
  assert lib.sim_init(64,42)==0
@@ -38,7 +39,7 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  rc,ingress=goal(15);assert rc==1 and abs(ingress[0]-2500)<.001 and abs(ingress[1]-4000)<.001
  hashes=[];travel=0.
  for tick in range(90):
-  old=(E[15].x,A[15].y,E[15].z);lib.sim_tick();travel+=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(A[15].pitch-math.atan2(A[15].vy,math.hypot(A[15].vx,A[15].vz)))<1e-6
+  old=(E[15].x,A[15].y,E[15].z);oldspeed=A[15].speed;lib.sim_tick();travel+=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(A[15].pitch-math.atan2(A[15].vy,math.hypot(A[15].vx,A[15].vz)))<1e-6
   if tick%10==0:hashes.append(f'{lib.sim_checksum():016x}')
  assert abs(travel-450)<.01 and E[15].hp==176 and A[15].ammo==8
  defensive_travel=travel
@@ -56,7 +57,7 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  asm=td/'no_recall.asm';obj=td/'no_recall.o';bad_so=td/'no_recall.so';asm.write_text(control)
  subprocess.run([nasm,'-f','elf64','-I',str(root)+'/',str(asm),'-o',str(obj)],check=True)
  replacements=[obj if p.name=='src_ai_aircraft.asm.o' else p for p in objects]
- subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(bad_so),*map(str,replacements),str(root/'build/terrain_probe.o'),'-lm'],check=True)
+ subprocess.run(['gcc','-shared','-Wl,-Bsymbolic','-o',str(bad_so),*map(str,replacements),str(terrain_probe),'-lm'],check=True)
  good_lib=lib;retry=[]
  for tag,current in [('no_recall',C.CDLL(str(bad_so))),('recall',good_lib)]:
   lib=current;lib.terrain_height.argtypes=[C.c_float]*2;lib.terrain_height.restype=C.c_float;lib.sim_waypoint.argtypes=[C.c_uint,C.c_uint,C.c_float,C.c_float]
@@ -75,10 +76,10 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
    E[i]=Entity(x,z,200,side,3,0,-1,1);speed=(5,7)[role];A[i]=Air(lib.terrain_height(x,z)+born_altitude,heading,0,0,speed,role,0,-1,0,4 if i==95 else (8,180)[role],1,speed*math.sin(heading),0,speed*math.cos(heading),0,1)
   E[32]=Entity(4300,4000,100,1,0,0,-1,1);release=None;death=None;seen=set();travel=0.;at600=None;tail_launches=0;previous_ammo={i:A[i].ammo for i in (15,31,63,95)}
   for tick in range(1,1501):
-   old=(E[15].x,A[15].y,E[15].z);lib.sim_tick()
+   old=(E[15].x,A[15].y,E[15].z);oldspeed=A[15].speed;lib.sim_tick()
    for i in previous_ammo:
     assert A[i].ammo<=previous_ammo[i];previous_ammo[i]=A[i].ammo
-   moved=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(moved-5)<.001;travel+=moved
+   moved=math.dist(old,(E[15].x,A[15].y,E[15].z));assert abs(moved-A[15].speed)<.001;assert 5<=A[15].speed<=7 and -.009002<=A[15].speed-oldspeed<=.006002;travel+=moved
    pool=bytes((C.c_ubyte*(512*64)).in_dll(lib,'sim_projectiles'))
    for slot in range(512):
     kind,source_id,generation,active=struct.unpack_from('<I8x3I',pool,slot*64+32)

@@ -34,10 +34,11 @@ with tempfile.TemporaryDirectory(prefix='rh-air-pursuit-flight-') as folder:
    seen=stale=0;rounds={31:180,63:180};samples=[];births=set();mission_error=[];max_move_error=max_yaw=max_vertical_change=0
    events=(C.c_uint*(256*8)).in_dll(l,'sim_events')
    for step in range(360):
-    old={i:(e[i].x,a[i].y,e[i].z,a[i].heading,a[i].vy)for i in rounds};l.sim_tick()
+    old={i:(e[i].x,a[i].y,e[i].z,a[i].heading,a[i].vy,a[i].speed)for i in rounds};l.sim_tick()
     for i in rounds:
      if e[i].hp:
-      max_move_error=max(max_move_error,abs(math.dist(old[i][:3],(e[i].x,a[i].y,e[i].z))-7));yaw=abs(math.atan2(math.sin(a[i].heading-old[i][3]),math.cos(a[i].heading-old[i][3])));max_yaw=max(max_yaw,yaw);max_vertical_change=max(max_vertical_change,abs(a[i].vy-old[i][4]))
+      assert 5<=a[i].speed<=7 and -.012002<=a[i].speed-old[i][5]<=.010002
+      max_move_error=max(max_move_error,abs(math.dist(old[i][:3],(e[i].x,a[i].y,e[i].z))-a[i].speed));yaw=abs(math.atan2(math.sin(a[i].heading-old[i][3]),math.cos(a[i].heading-old[i][3])));max_yaw=max(max_yaw,yaw);max_vertical_change=max(max_vertical_change,abs(a[i].vy-old[i][4]))
      assert a[i].ammo<=rounds[i];rounds[i]=a[i].ammo
      if o[i].known:
       age=now.value-o[i].tick

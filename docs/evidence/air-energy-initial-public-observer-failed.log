@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-energy/tests/test_air_energy.py", line 76, in <module>
+    assert pair[0]['hash']!=pair[1]['hash']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

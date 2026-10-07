@@ -14,11 +14,16 @@ with tempfile.TemporaryDirectory(prefix='rh-air-speed-')as d:
  def link(path,objs):subprocess.run(['cc','-shared','-Wl,-Bsymbolic','-o',str(path),*map(str,objs),'-lm'],check=True,capture_output=True)
  candidate=folder/'candidate.so';link(candidate,objects)
  variants={}
- for name,label,needle,body in [('no_actuator','air_speed.asm','air_speed_step:\n','movaps xmm0,xmm1\n xorps xmm1,xmm1\n xor eax,eax\n ret\n'),('instant_speed','air_speed.asm','air_speed_step:\n','subss xmm1,xmm0\n xor eax,eax\n ret\n'),('stale_preview','air_final_clear.asm',' call air_speed_step\n',' xor eax,eax\n movss xmm0,[rsp+12]\n')]:
+ for name,label,needle,body in [('no_actuator','air_speed.asm','air_speed_step:\n','movaps xmm0,xmm1\n xorps xmm1,xmm1\n xor eax,eax\n ret\n'),('instant_speed','air_speed.asm','air_speed_step:\n','subss xmm1,xmm0\n xor eax,eax\n ret\n'),('stale_preview','air_final_clear.asm',' call air_energy_step\n',' xor eax,eax\n movss xmm0,[rsp+12]\n')]:
   source=(ROOT/'src/ai'/label).read_text();assert source.count(needle)==1
   changed=source.replace(needle,needle+body,1)if label=='air_speed.asm'else source.replace(needle,body,1)
   asm=folder/(name+'.asm');asm.write_text(changed);obj=folder/(name+'.o');subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(asm),'-o',str(obj)],check=True,capture_output=True)
-  path=folder/(name+'.so');link(path,[obj if o.name==label+'.o'else o for o in objects]);variants[name]=path
+  path=folder/(name+'.so');replaced=[obj if o.name==label+'.o'else o for o in objects]
+  if name=='no_actuator':
+   energy=(ROOT/'src/ai/air_energy.asm').read_text().replace('air_energy_step:\n','air_energy_step:\n movaps xmm0,xmm1\n xorps xmm1,xmm1\n xor eax,eax\n ret\n',1)
+   ep=folder/'no_energy.asm';ep.write_text(energy);eo=folder/'no_energy.o';subprocess.run([NASM,'-f','elf64','-I',str(ROOT)+'/',str(ep),'-o',str(eo)],check=True,capture_output=True)
+   replaced=[eo if o.name=='air_energy.asm.o'else o for o in replaced]
+  link(path,replaced);variants[name]=path
  def bind(path):
   l=C.CDLL(str(path));l.probe_air_speed.argtypes=[C.c_uint,C.c_float,C.c_float,C.c_void_p,C.c_void_p]
   l.sim_checksum.restype=C.c_uint64;l.terrain_height.argtypes=[C.c_float]*2;l.terrain_height.restype=C.c_float

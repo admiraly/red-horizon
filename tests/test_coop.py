@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 47, 0xc961bc72, 0x00ce458d
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 48, 0xa2e3770f, 0xcb5d496b
 HEADER = struct.Struct('<10I')
 
 
@@ -297,7 +297,7 @@ def verify_adapter(server, library):
             assert entity[4]==3 and entity[7]==generation
             y,heading,pitch,bank,speed,role,mode=struct.unpack_from('<5fII',air_bytes,index*64)
             assert all(map(math.isfinite,(y,heading,pitch,bank,speed)))
-            assert speed in (5.,7.) and role<=1 and mode<=4
+            assert 5<=speed<=7 and role<=1 and mode<=4
             replicated_air += 1
         assert replicated_air>0, 'assembly adapter never applied actual aircraft sidecars'
         stdout, stderr = process.communicate(timeout=3)
@@ -534,7 +534,7 @@ def main():
     # Compatibility includes assets, canonical roads and resolved hull policy.
     # Reconstruct it independently of the build-time fingerprint tool.
     definitions = dict(re.findall(r'^%define ([A-Z_]+) ([-+A-Za-z0-9_.]+)$',
-        (root/'schemas/infantry_aim.inc').read_text()+'\n'+(root/'schemas/player_blast.inc').read_text()+'\n'+(root/'schemas/player_ammunition.inc').read_text()+'\n'+(root/'schemas/infantry_supply_route.inc').read_text()+'\n'+(root/'schemas/depot_supply.inc').read_text()+'\n'+(root/'schemas/company_supply.inc').read_text()+'\n'+(root/'schemas/depot_ammunition.inc').read_text()+'\n'+(root/'schemas/infantry_weapon.inc').read_text()+'\n'+(root/'schemas/company_transfer.inc').read_text()+'\n'+(root/'schemas/company_remote.inc').read_text()+'\n'+(root/'schemas/company_control.inc').read_text()+'\n'+(root/'schemas/air_separation.inc').read_text()+'\n'+(root/'schemas/air_crash.inc').read_text()+'\n'+(root/'schemas/air_recovery.inc').read_text()+'\n'+(root/'schemas/air_approach.inc').read_text()+'\n'+(root/'schemas/air_traffic.inc').read_text()+'\n'+(root/'schemas/air_observation.inc').read_text()+'\n'+(root/'schemas/air_evasion.inc').read_text()+'\n'+(root/'schemas/air_flight.inc').read_text()+'\n'+(root/'schemas/air_speed.inc').read_text()+'\n'+(root/'schemas/air_load.inc').read_text()+'\n'+(root/'schemas/air_escort.inc').read_text()+'\n'+(root/'schemas/acquisition.inc').read_text()+'\n'+(root/'schemas/company_assault.inc').read_text()+'\n'+(root / 'schemas/player.inc').read_text() + '\n' + (root / 'schemas/world_body.inc').read_text() + '\n' + (root / 'schemas/wreck_nav.inc').read_text() + '\n' + (root / 'schemas/projectile_remote.inc').read_text() + '\n' + (root / 'schemas/aircraft.inc').read_text() + '\n' + (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
+        (root/'schemas/infantry_aim.inc').read_text()+'\n'+(root/'schemas/player_blast.inc').read_text()+'\n'+(root/'schemas/player_ammunition.inc').read_text()+'\n'+(root/'schemas/infantry_supply_route.inc').read_text()+'\n'+(root/'schemas/depot_supply.inc').read_text()+'\n'+(root/'schemas/company_supply.inc').read_text()+'\n'+(root/'schemas/depot_ammunition.inc').read_text()+'\n'+(root/'schemas/infantry_weapon.inc').read_text()+'\n'+(root/'schemas/company_transfer.inc').read_text()+'\n'+(root/'schemas/company_remote.inc').read_text()+'\n'+(root/'schemas/company_control.inc').read_text()+'\n'+(root/'schemas/air_separation.inc').read_text()+'\n'+(root/'schemas/air_crash.inc').read_text()+'\n'+(root/'schemas/air_recovery.inc').read_text()+'\n'+(root/'schemas/air_approach.inc').read_text()+'\n'+(root/'schemas/air_traffic.inc').read_text()+'\n'+(root/'schemas/air_observation.inc').read_text()+'\n'+(root/'schemas/air_evasion.inc').read_text()+'\n'+(root/'schemas/air_flight.inc').read_text()+'\n'+(root/'schemas/air_speed.inc').read_text()+'\n'+(root/'schemas/air_energy.inc').read_text()+'\n'+(root/'schemas/air_load.inc').read_text()+'\n'+(root/'schemas/air_escort.inc').read_text()+'\n'+(root/'schemas/acquisition.inc').read_text()+'\n'+(root/'schemas/company_assault.inc').read_text()+'\n'+(root / 'schemas/player.inc').read_text() + '\n' + (root / 'schemas/world_body.inc').read_text() + '\n' + (root / 'schemas/wreck_nav.inc').read_text() + '\n' + (root / 'schemas/projectile_remote.inc').read_text() + '\n' + (root / 'schemas/aircraft.inc').read_text() + '\n' + (root / 'schemas/ground_surfaces.inc').read_text() + '\n' +
         (root / 'schemas/terrain_body.inc').read_text() + '\n' +
         (root / 'schemas/terrain_grade.inc').read_text() + '\n' +
         (root / 'schemas/ground_support.inc').read_text() + '\n' +
@@ -558,7 +558,7 @@ def main():
             (root / 'content/asset-manifest.json').read_bytes()).hexdigest()[:8],
         'terrain_surface_abi': 1,
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
-        'air_load': {name: definitions[name] for name in ('AIR_LOAD_VERSION','AIR_LOAD_BOMBER_STALL_SPEED','AIR_LOAD_FIGHTER_STALL_SPEED','AIR_LOAD_BOMBER_STRUCTURAL','AIR_LOAD_FIGHTER_STRUCTURAL','AIR_LOAD_BOMBER_EMERGENCY','AIR_LOAD_FIGHTER_EMERGENCY','AIR_LOAD_LIFT_RESERVE','AIR_LOAD_TURN_GUARD')}, 'air_speed': {name: definitions[name] for name in ('AIR_SPEED_VERSION','AIR_SPEED_BOMBER_ACCEL','AIR_SPEED_FIGHTER_ACCEL','AIR_SPEED_BOMBER_BRAKE','AIR_SPEED_FIGHTER_BRAKE','AIR_SPEED_FINAL_TARGET')}, 'air_traffic': {name:definitions[name] for name in ('AIR_TRAFFIC_VERSION','AIR_TRAFFIC_STRIDE','AIR_TRAFFIC_LEASE_TICKS')},
+        'air_energy': {name: definitions[name] for name in ('AIR_ENERGY_VERSION','AIR_ENERGY_BOMBER_INDUCED','AIR_ENERGY_FIGHTER_INDUCED','AIR_ENERGY_BOMBER_COAST','AIR_ENERGY_FIGHTER_COAST','AIR_ENERGY_MAX_BANK')}, 'air_load': {name: definitions[name] for name in ('AIR_LOAD_VERSION','AIR_LOAD_BOMBER_STALL_SPEED','AIR_LOAD_FIGHTER_STALL_SPEED','AIR_LOAD_BOMBER_STRUCTURAL','AIR_LOAD_FIGHTER_STRUCTURAL','AIR_LOAD_BOMBER_EMERGENCY','AIR_LOAD_FIGHTER_EMERGENCY','AIR_LOAD_LIFT_RESERVE','AIR_LOAD_TURN_GUARD')}, 'air_speed': {name: definitions[name] for name in ('AIR_SPEED_VERSION','AIR_SPEED_BOMBER_ACCEL','AIR_SPEED_FIGHTER_ACCEL','AIR_SPEED_BOMBER_BRAKE','AIR_SPEED_FIGHTER_BRAKE','AIR_SPEED_FINAL_TARGET')}, 'air_traffic': {name:definitions[name] for name in ('AIR_TRAFFIC_VERSION','AIR_TRAFFIC_STRIDE','AIR_TRAFFIC_LEASE_TICKS')},
         'air_approach': {name:definitions[name] for name in ('AIR_APPROACH_VERSION', 'AIR_APPROACH_STRIDE', 'AIR_APPROACH_ENTRY', 'AIR_APPROACH_CROSSWIND', 'AIR_APPROACH_POINT_RADIUS_SQ', 'AIR_APPROACH_ALIGNMENT', 'AIR_APPROACH_CORRIDOR', 'AIR_APPROACH_FINAL_NEAR', 'AIR_APPROACH_FINAL_FAR', 'AIR_APPROACH_FINAL_EXIT', 'AIR_APPROACH_LOOKAHEAD', 'AIR_APPROACH_CLEARANCE', 'AIR_APPROACH_SLOPE', 'AIR_APPROACH_RADIAL_GAIN', 'AIR_APPROACH_HEIGHT_GAIN', 'AIR_APPROACH_PREVIEW_TICKS')},
         'air_bases': json.loads((root / 'content/terrain/airbases.json').read_text()),
         'tracked_policy': policy,

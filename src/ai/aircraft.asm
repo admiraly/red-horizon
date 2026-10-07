@@ -12,7 +12,7 @@ extern air_holding_init,air_holding_goal,air_holding_hash,sim_air_holding
 extern air_approach_init,air_approach_goal,air_approach_hash,sim_air_approaches
 extern air_traffic_init,air_traffic_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
-extern air_speed_step,air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
+extern air_energy_step,air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_separation_init,air_separation_build,air_separation_step,air_separation_hash,sim_air_separation
 extern air_threats_reset,air_threats_build,air_threat_query
@@ -639,6 +639,7 @@ air_tick:
  call air_fuel_status
  cmp eax,2
  je .powerless_speed
+ mov esi,1
  mov eax,[rbp+AIR_ROLE]
  lea rcx,[speeds]
  movss xmm0,[rcx+rax*4]
@@ -654,13 +655,16 @@ air_tick:
  movss xmm0,[final_speed]
  jmp .speed_ready
 .powerless_speed:
- ; Empty-fuel flight retains existing powerless-glide energy approximation;
- ; it must not gain speed through a synthetic powered go-around throttle.
+ xor esi,esi
+ ; Empty-fuel flight receives no throttle work. Gravity may still recover
+ ; kinetic energy during its real bounded descent.
  movss xmm0,[rbp+AIR_SPEED]
 .speed_ready:
  mov edi,[rbp+AIR_ROLE]
  movss xmm1,[rbp+AIR_SPEED]
- call air_speed_step
+ movss xmm2,[rbp+AIR_BANK]
+ movss xmm3,[rbp+AIR_VY]
+ call air_energy_step
  test eax,eax
  jnz .contact_error
  movss [rbp+AIR_SPEED],xmm0
