@@ -1,0 +1,74 @@
+{
+  "suite": "graphics",
+  "revision": "370919c5b6b42238e9dc326388d28e029d2d48e6-e55a11ba3961afb8",
+  "software_rendered": true,
+  "display_isolated": true,
+  "resolution": [
+    1280,
+    720
+  ],
+  "runs": [
+    {
+      "mode": "first-person",
+      "exit_code": 0,
+      "seconds": 7.7615523129934445,
+      "screenshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-traffic/runs/jobs/62962d6314e9/source/runs/headless-graphics-460cbd6222/first-person.ppm",
+      "telemetry": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_presentation\":true,\"hidden\":0,\"swap_interval_requested\":1,\"viewport_width\":1280,\"viewport_height\":720,\"framebuffer_width\":1280,\"framebuffer_height\":720}\nclient_render_device=llvmpipe (LLVM 22.1.8, 256 bits)\n{\"client_metrics\":true,\"cpu_samples\":30,\"gpu_samples\":22,\"cpu_frame_mean_ms\":250.624843,\"cpu_frame_p95_ms\":278.948284,\"cpu_frame_p99_ms\":283.871483,\"gpu_draw_mean_ms\":181.387153,\"gpu_draw_p95_ms\":202.139116,\"gpu_draw_p99_ms\":211.757079}\n{\"client_phase_metrics\":true,\"phase\":\"simulation\",\"samples\":30,\"mean_ms\":67.430836,\"p95_ms\":74.661848,\"p99_ms\":78.159243,\"clock_errors\":0}\n{\"client_phase_metrics\":true,\"phase\":\"render_routes\",\"samples\":30,\"mean_ms\":176.398526,\"p95_ms\":197.777937,\"p99_ms\":206.334679,\"clock_errors\":0}\n{\"client_phase_metrics\":true,\"phase\":\"audio_pump\",\"samples\":30,\"mean_ms\":0.198513,\"p95_ms\":0.228764,\"p99_ms\":0.266052,\"clock_errors\":0}\n{\"client_pacing\":true,\"frame_cap_requested\":0,\"waits\":0,\"late_rebases\":0,\"clock_errors\":0,\"work_metrics_exclude_cap_wait\":true}\n{\"battle_metrics\":true,\"samples\":30,\"simultaneous_projectiles_effects_audio_frames\":30,\"peak_living\":8192,\"peak_engaged\":1072,\"peak_projectiles\":441,\"peak_submitted_high\":84,\"peak_submitted_low\":3728,\"peak_submitted_markers\":4396,\"peak_effect_records\":64,\"peak_trail_records\":128,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=79 low=3634 markers=4230 source_triangles=473985 animation_frame=24\nclient frames=30 submitted_entities=8192 screenshot=/mnt/titan_nv3/projects/red-horizon-workers/air-traffic/runs/jobs/62962d6314e9/source/runs/headless-graphics-460cbd6222/first-person.ppm\ncamera_x=3780.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=178 supply=600 waypoint_orders=0\nselected_goal_x=-20000.000 selected_goal_z=-20000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n",
+      "timing": [
+        {
+          "client_metrics": true,
+          "cpu_samples": 30,
+          "gpu_samples": 22,
+          "cpu_frame_mean_ms": 250.624843,
+          "cpu_frame_p95_ms": 278.948284,
+          "cpu_frame_p99_ms": 283.871483,
+          "gpu_draw_mean_ms": 181.387153,
+          "gpu_draw_p95_ms": 202.139116,
+          "gpu_draw_p99_ms": 211.757079
+        }
+      ]
+    },
+    {
+      "mode": "tactical",
+      "exit_code": 0,
+      "seconds": 2.4482718179933727,
+      "screenshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-traffic/runs/jobs/62962d6314e9/source/runs/headless-graphics-460cbd6222/tactical.ppm",
+      "telemetry": "binding forward=W\nbinding back=S\nbinding left=A\nbinding right=D\nbinding sprint=LSHIFT\nbinding crouch=LCTRL\nbinding jump=SPACE\nbinding reload=R\nbinding enter_vehicle=E\nbinding exit_vehicle=Q\nbinding fire=LMB\nbinding tactical_map=TAB\nbinding command_wheel=MMB\nbinding command_cancel=RMB\nbinding quit=ESC\nbinding advance=1\nbinding hold=2\nbinding retreat=3\nbinding follow=4\nbinding front_1=F1\nbinding front_2=F2\nbinding front_3=F3\nbinding weather=F4\nbinding exchange_0=F5\nbinding exchange_1=F6\nbinding exchange_2=F7\nbinding exchange_3=F8\nbinding exchange_accept=F9\nbinding exchange_decline=F10\nbinding exchange_cancel=F11\nbinding defend=5\n4.6 (Core Profile) Mesa 26.2.3\n{\"client_presentation\":true,\"hidden\":0,\"swap_interval_requested\":1,\"viewport_width\":1280,\"viewport_height\":720,\"framebuffer_width\":1280,\"framebuffer_height\":720}\nclient_render_device=llvmpipe (LLVM 22.1.8, 256 bits)\n{\"client_metrics\":true,\"cpu_samples\":30,\"gpu_samples\":22,\"cpu_frame_mean_ms\":75.865842,\"cpu_frame_p95_ms\":124.408316,\"cpu_frame_p99_ms\":126.513745,\"gpu_draw_mean_ms\":38.132051,\"gpu_draw_p95_ms\":53.239003,\"gpu_draw_p99_ms\":53.880683}\n{\"client_phase_metrics\":true,\"phase\":\"simulation\",\"samples\":30,\"mean_ms\":37.875595,\"p95_ms\":70.475610,\"p99_ms\":70.856264,\"clock_errors\":0}\n{\"client_phase_metrics\":true,\"phase\":\"render_routes\",\"samples\":30,\"mean_ms\":35.476851,\"p95_ms\":52.937535,\"p99_ms\":53.761617,\"clock_errors\":0}\n{\"client_phase_metrics\":true,\"phase\":\"audio_pump\",\"samples\":30,\"mean_ms\":0.189664,\"p95_ms\":0.228532,\"p99_ms\":0.244677,\"clock_errors\":0}\n{\"client_pacing\":true,\"frame_cap_requested\":0,\"waits\":0,\"late_rebases\":0,\"clock_errors\":0,\"work_metrics_exclude_cap_wait\":true}\n{\"battle_metrics\":true,\"samples\":30,\"simultaneous_projectiles_effects_audio_frames\":30,\"peak_living\":8192,\"peak_engaged\":1130,\"peak_projectiles\":439,\"peak_submitted_high\":0,\"peak_submitted_low\":0,\"peak_submitted_markers\":8193,\"peak_effect_records\":64,\"peak_trail_records\":128,\"peak_audio_voices\":128,\"initial_living\":8192,\"visible_individual_count\":\"unmeasured\",\"scope\":\"frame samples; independent peaks need not coincide; submitted models are not pixel visibility\"}\nmeshes loaded=18 high=0 low=0 markers=8014 source_triangles=10736 animation_frame=0\nclient frames=30 submitted_entities=8192 screenshot=/mnt/titan_nv3/projects/red-horizon-workers/air-traffic/runs/jobs/62962d6314e9/source/runs/headless-graphics-460cbd6222/tactical.ppm\ncamera_x=3780.00 camera_z=3900.00 shots=0 hits=0 last_order=0\nweapon ammo=30 reloads=0 front=1\noperation state=0 req=178 supply=600 waypoint_orders=0\nselected_goal_x=-20000.000 selected_goal_z=-20000.000\nplayer id=0 hp=100 suppression=0 respawn=0 generation=1\nstart_player_x=3780.000 start_player_z=3900.000\n",
+      "timing": [
+        {
+          "client_metrics": true,
+          "cpu_samples": 30,
+          "gpu_samples": 22,
+          "cpu_frame_mean_ms": 75.865842,
+          "cpu_frame_p95_ms": 124.408316,
+          "cpu_frame_p99_ms": 126.513745,
+          "gpu_draw_mean_ms": 38.132051,
+          "gpu_draw_p95_ms": 53.239003,
+          "gpu_draw_p99_ms": 53.880683
+        }
+      ]
+    }
+  ],
+  "context": "name of display: :1\ndisplay: :1  screen: 0\ndirect rendering: Yes\nExtended renderer info (GLX_MESA_query_renderer):\n    Vendor: Mesa (0xffffffff)\n    Device: llvmpipe (LLVM 22.1.8, 256 bits) (0xffffffff)\n    Version: 26.2.3\n    Accelerated: no\n    Video memory: 47909MB\n    Unified memory: yes\n    Preferred profile: core (0x1)\n    Max core profile version: 4.6\n    Max compat profile version: 4.6\n    Max GLES1 profile version: 1.1\n    Max GLES[23] profile version: 3.2\nMemory info (GL_ATI_meminfo):\n    VBO free memory - total: 0 MB, largest block: 0 MB\n    VBO free aux. memory - total: 32645 MB, largest block: 32645 MB\n    Texture free memory - total: 0 MB, largest block: 0 MB\n    Texture free aux. memory - total: 32645 MB, largest block: 32645 MB\n    Renderbuffer free memory - total: 0 MB, largest block: 0 MB\n    Renderbuffer free aux. memory - total: 32645 MB, largest block: 32645 MB\nMemory info (GL_NVX_gpu_memory_info):\n    Dedicated video memory: 0 MB\n    Total available memory: 47909 MB\n    Currently available dedicated video memory: 0 MB\nOpenGL vendor string: Mesa\nOpenGL renderer string: llvmpipe (LLVM 22.1.8, 256 bits)\nOpenGL core profile version string: 4.6 (Core Profile) Mesa 26.2.3\nOpenGL core profile shading language version string: 4.60\nOpenGL core profile context flags: (none)\nOpenGL core profile profile mask: core profile\n\nOpenGL version string: 4.6 (Compatibility Profile) Mesa 26.2.3\nOpenGL shading language version string: 4.60\nOpenGL context flags: (none)\nOpenGL profile mask: compatibility profile\n\nOpenGL ES profile version string: OpenGL ES 3.2 Mesa 26.2.3\nOpenGL ES profile shading language version string: OpenGL ES GLSL ES 3.20\n\n",
+  "controls": {
+    "suite": "controls",
+    "passed": true,
+    "shots": 33,
+    "ammo": 27,
+    "reloads": 1,
+    "front": 1,
+    "waypoint_orders": 1,
+    "goal": [
+      4994.375,
+      3904.444
+    ],
+    "first_title": "RED HORIZON | 8192 units | rifle 30/30 TACTICAL | R90 | front 1 order 0 | REQ 100 SUP 600 | OPERATION ACTIVE | HP 100 SUPPRESS 0 REDEPLOY 0 | ON FOOT | E BOARD Q EXIT | TACTICAL MAP / RELOAD | COMPANY 285 | COMPANY READY | WEATHER clear (F4 CYCLE)",
+    "last_title": "RED HORIZON | 8192 units | rifle 27/30 FIRST PERSON | R60 | front 1 order 0 | REQ 407 SUP 600 | OPERATION ACTIVE | HP 100 SUPPRESS 0 REDEPLOY 0 | ON FOOT | E BOARD Q EXIT | TACTICAL MAP / RELOAD | COMPANY 285 | ORDER DENIED: INVALID POINT OR INSUFFICIENT REQUISITION | WEATHER clear (F4 CYCLE)",
+    "fixture": "initial player relocation to allied base; full army retained; generation unchanged",
+    "actual_W_displacement": [
+      0.0,
+      1.3330078125
+    ]
+  },
+  "passed": true
+}
