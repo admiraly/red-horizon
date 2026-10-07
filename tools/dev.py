@@ -396,6 +396,7 @@ def main():
             execute([sys.executable,'tests/test_air_fuel.py'])
             execute([sys.executable,'tests/test_air_recovery.py'])
             execute([sys.executable,'tests/test_air_bases.py'])
+            execute([sys.executable,'tests/test_air_approach.py'])
             execute([sys.executable,'tests/test_air_holding.py'])
             execute([sys.executable,'tests/test_air_separation.py'])
             execute([sys.executable,'tests/test_air_crash.py'])

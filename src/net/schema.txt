@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v41
-little-endian u32 header[10]: magic=0x52484332 version=42 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v43
+little-endian u32 header[10]: magic=0x52484332 version=43 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -101,3 +101,5 @@ infantry_aim_pose_v1: type118 cosmetic payload count:u32 plus at most32 pose36 r
 Version40 adds air_crashes=119: payload100*n without count prefix, 1..11 records, max1140bytes including header. Each slot:u32(0..127)+air_crash96. XYZ/VXYZ/heading/pitch/bank:f32, role/side/entity/generation/birth/sequence/state:u32, reserved:u32[8]=0. Role0bomber1fighter, side0..1, entity<32768, generation/sequence>0; finite XZ0..8000,Yabs<=1000,Vabs<=32,anglesabs<=16. State1falling2landed0expired; birth not future, active age<1800, expired age>=1800. Landed velocities/pitch/bank are canonical zero. Bounded global fair per-peer cursor repeats all used slots including tombstones, 11 per snapshot, complete128-slot sweep in12 opportunities absent loss. Whole packet validates before cache mutation. Modular source-tick/sequence guards discard stale history; same sequence fixes role/faction/entity/generation/birth, equal tick repeats exact pose/state, landed geometry cannot move or resume flight. Latest accepted source tick expires remote records; disconnect/reset clears session history. Clients draw accepted snapshots only, with no local physics/extrapolation; packet loss may visibly hold/step falling poses. No reliable completion barrier, collision/cover or crash blast implied.
 
 recovery policy3: authored six terrain-conforming runways and own connected healthy uncontested facility selection; public aircraft/wire layouts unchanged; no landing/refill.
+
+Protocol43: private generation/base/circuit-final recovery guidance and bounded70m-clearance descent/go-around. Public AIR_RETURN unchanged, no wire/record size or landing service change; content policy includes all approach fields.

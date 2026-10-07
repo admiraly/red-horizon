@@ -67,7 +67,10 @@ def main():
     p=createProgram();attach(p,stage(0x8b31,vertex));attach(p,stage(0x8b30,fragment));link(p);ok=I();getProgram(p,0x8b82,C.byref(ok));log=C.create_string_buffer(16000);programLog(p,16000,None,log);assert ok.value,log.value;return p
    caster=program(sources['mesh_vertex_source'],'#version 450 core\nvoid main(){}')
    l.probe_sun_shadows_apply.argtypes=[U,P];assert l.probe_sun_shadows_apply(caster,observations)!=-99 and list(observations)==list(range(0x123401,0x123407))
-   receivers={name:program(lights.VERTEX.replace('vec2(0,20)','vec2(.58,.09)'),sources[name+'_fragment_source'])for name in('mesh','battle')}
+   # Original equal-albedo shadow fixture stays on unpaved terrain; a separate
+   # dark-asphalt fixture below verifies relative directional attenuation.
+   receiver_vertex=lights.VERTEX.replace('vec2(0,20)','vec2(.58,.09)').replace('uniform int fixtureMode;', 'uniform float fixtureZ;uniform int fixtureMode;').replace('2000.+q.y*4.', 'fixtureZ+q.y*4.')
+   receivers={name:program(receiver_vertex,sources[name+'_fragment_source'])for name in('mesh','battle')}
    vao=generate('glGenVertexArrays');bind('glBindVertexArray',[U])(vao)
    buffer=generate('glGenBuffers');bindBuffer=bind('glBindBuffer',[U,U]);bindBuffer(0x90d2,buffer);bind('glBindBufferBase',[U,U,U])(0x90d2,3,buffer)
    vertices=[]
@@ -79,22 +82,22 @@ def main():
    bind('glDrawBuffers',[I,C.POINTER(U)])(2,(U*2)(0x8ce0,0x8ce1));assert bind('glCheckFramebufferStatus',[U],U)(0x8d40)==0x8cd5
    active(0x84c0);tex=generate('glGenTextures');bindTexture(0x8c1a,tex);data=(F*12)(*([.3,.35,.4]*4));bind('glTexImage3D',[U,I,I,I,I,I,I,U,U,P])(0x8c1a,0,0x8814,1,1,4,0,0x1907,0x1406,data);parameter=bind('glTexParameteri',[U,U,I]);parameter(0x8c1a,0x2801,0x2600);parameter(0x8c1a,0x2800,0x2600)
    uniformI=bind('glUniform1i',[I,I]);uniformF=bind('glUniform1f',[I,F]);uniform2I=bind('glUniform2i',[I,I,I]);uniform3=bind('glUniform3f',[I,F,F,F]);uniform4=bind('glUniform4f',[I,F,F,F,F]);attrib=bind('glVertexAttrib4f',[U,F,F,F,F]);draw=bind('glDrawArrays',[U,I,I]);readPixels=bind('glReadPixels',[I,I,I,I,U,U,P]);readBuffer=bind('glReadBuffer',[U]);draws=0
-   def make_map(x=2000,y=104):
+   def make_map(x=2000,y=104,z=2256):
     nonlocal draws
     enable(0xb71);bind('glDepthMask',[C.c_ubyte])(1);viewport(3,5,320,240);active(0x84c2);use(caster);bindFbo(0x8ca8,0)
-    assert l.sun_shadows_begin(0,2000,100,2000)==1 and pass_.value==1 and ready.value==0 and rect()==(0,0,2048,2048)
+    assert l.sun_shadows_begin(0,2000,100,z)==1 and pass_.value==1 and ready.value==0 and rect()==(0,0,2048,2048)
     assert integer('sun_shadow_budget').value==1024 and integer('sun_shadow_casters').value==0
     l.sun_shadows_apply(caster);assert state(0x8b8d)==caster and state(0x84e0)==0x84c2 and state(0x85b5)==vao
     uniformI(location(caster,b'meshMode'),0);uniform2I(location(caster,b'meshGeometry'),0,3);uniformF(location(caster,b'meshScale'),1)
-    attrib(0,x,y,2000,0);attrib(1,0,0,0,0);attrib(2,1,1,1,0);attrib(3,0,0,3,1);draw(4,0,3);draws+=1
+    attrib(0,x,y,z,0);attrib(1,0,0,0,0);attrib(2,1,1,1,0);attrib(3,0,0,3,1);draw(4,0,3);draws+=1
     depth=F();readPixels(1024,1024,1,1,0x1902,0x1406,C.byref(depth));l.sun_shadows_end()
     assert ready.value==1 and pass_.value==0 and state(0x8ca6)==target and state(0x8caa)==0 and rect()==(3,5,320,240)
     return depth.value
-   def sample(name,mode=0,hdr_output=1,on=True):
+   def sample(name,mode=0,hdr_output=1,on=True,z=2256):
     nonlocal draws
     disable(0xb71);bindFbo(0x8d40,target);viewport(0,0,320,240);p=receivers[name];use(p);ready.value=int(on);l.sun_shadows_apply(p)
     for key,value in(('meshMode',mode),('fixtureMode',mode),('hdrOutput',hdr_output),('terrainTextures',0)):uniformI(location(p,key.encode()),value)
-    uniformF(location(p,b'fixtureNormal'),1);uniform3(location(p,b'camera'),2000,110,2000);uniform4(location(p,b'weather'),0,0,0,0)
+    uniformF(location(p,b'fixtureZ'),z);uniformF(location(p,b'fixtureNormal'),1);uniform3(location(p,b'camera'),2000,110,2000);uniform4(location(p,b'weather'),0,0,0,0)
     draw(4,0,3);draws+=1;rgba=(F*4)();actor=U();readBuffer(0x8ce0);readPixels(160,120,1,1,0x1908,0x1406,rgba);readBuffer(0x8ce1);readPixels(160,120,1,1,0x8d94,0x1405,C.byref(actor));assert rgba[3]==1 and actor.value==(65544 if name=='mesh'else 0)and getError()==0;return tuple(rgba)[:3]
    delta=lambda a,b:max(abs(x-y)for x,y in zip(a,b))
    depth=make_map();assert depth<.5 and frames.value==1,depth
@@ -112,6 +115,12 @@ def main():
    for name,mode in(('mesh',0),('battle',1)):assert delta(sample(name,mode),results[name]['lit'])<1e-4,'coplanar terrain self-shadows'
    make_map(y=96)
    for name,mode in(('mesh',0),('battle',1)):assert delta(sample(name,mode),results[name]['lit'])<1e-6,'geometry behind receiver casts toward light'
+   make_map(z=2000)
+   asphalt_lit=sample('battle',1,on=False,z=2000);asphalt_shadow=sample('battle',1,z=2000)
+   asphalt_ratio=[b/a for a,b in zip(asphalt_lit,asphalt_shadow)]
+   assert all(.25<r<.55 for r in asphalt_ratio),(asphalt_lit,asphalt_shadow,asphalt_ratio)
+   assert delta(sample('battle',1,hdr_output=0,z=2000),sample('battle',1,hdr_output=0,on=False,z=2000))<1e-6
+   results['runway_asphalt']={'lit':asphalt_lit,'shadow':asphalt_shadow,'channel_ratios':asphalt_ratio,'scope':'Dark authored runway material; relative shadow attenuation, not equal-albedo absolute-delta fixture.'}
    for control in('tactical','disabled','HDR off','invalid'):
     enabled.value=0 if control=='disabled'else 1;hdr.value=0 if control=='HDR off'else 1
     before=(state(0x8ca6),rect(),frames.value);result=l.sun_shadows_begin(int(control=='tactical'),float('nan')if control=='invalid'else 2000,100,2000)

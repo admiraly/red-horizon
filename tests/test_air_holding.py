@@ -24,6 +24,10 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
  l,e,a=bind(so)
  def reset(l,e,a):
   assert l.sim_init(64,42)==0
+  # Initial unavailable-facility fixture preserves original home-holding gates.
+  # Usable-base approaches are independently covered by test_air_approach.py.
+  sites=((C.c_uint*8)*12).in_dll(l,'sim_sites')
+  for site in (0,4,8,3,7,11):sites[site][6]=0
   for i in range(64):e[i].hp=0
   for side in (0,1):
    for front in range(3):assert l.sim_order(side,front,1)==0
@@ -121,4 +125,4 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
    assert report['late_turn_radians']>2*math.pi and report['max_speed_error_m']<.001
    assert report['max_roll_step']<(.06001,.10001)[role]
    reports.append(report)
- print(json.dumps(dict(suite='air-holding',passed=True,independent_holding_views=holding_views,invalid_holding_cases=invalid_holding,flights=reports,library_sha256=hashlib.sha256(so.read_bytes()).hexdigest(),scope='Initial births only; real public tick2400 twice per role/faction, arrival plus sustained physical orbit, no live HP/ammo/pose/gen/clock renewal. No landing/repair/refill or traffic guarantee.')))
+ print(json.dumps(dict(suite='air-holding',passed=True,independent_holding_views=holding_views,invalid_holding_cases=invalid_holding,flights=reports,library_sha256=hashlib.sha256(so.read_bytes()).hexdigest(),scope='Initial births and unavailable-facility fixture only; real public tick2400 twice per role/faction, arrival plus sustained physical orbit, no live HP/ammo/pose/gen/clock renewal. No landing/repair/refill or traffic guarantee.')))

@@ -3,10 +3,12 @@
 %include "schemas/aircraft.inc"
 %include "schemas/air_escort.inc"
 %include "schemas/air_flight.inc"
+%include "schemas/air_approach.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_fuel_init,air_fuel_step,air_fuel_status,air_fuel_hash
 extern air_holding_init,air_holding_goal,air_holding_hash
+extern air_approach_init,air_approach_goal,air_approach_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
 extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
@@ -47,6 +49,7 @@ minus_climb: dd -AIR_FLIGHT_VERTICAL_LIMIT
 corner_margin: dd AIR_FLIGHT_CORNER_MARGIN
 corner_edge: dd 6800.0 ; fixed8000m map minus policy1200m corner margin
 pitch_scale: dd 0.15
+approach_height_gain: dd AIR_APPROACH_HEIGHT_GAIN
 half: dd 0.5
 scale: dd 0.004
 margin: dd AIR_FLIGHT_CORNER_MARGIN
@@ -127,6 +130,7 @@ air_init:
  sub rsp,8
  call air_fuel_init
  call air_holding_init
+ call air_approach_init
  call air_separation_init
  call air_observation_init
  call air_threats_reset
@@ -310,6 +314,7 @@ air_tick:
 .world_clear:
  mov [rsp+44],eax
  mov dword [rsp+52],0 ; no vertical emergency override
+ mov dword [rsp+120],0 ; approach altitude inactive
  mov dword [rsp+56],0 ; no current-frame fighter intercept point yet
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8+4],0
@@ -365,9 +370,18 @@ air_tick:
  jmp .boundary
 .recovery_goal:
  mov edi,r12d
+ call air_approach_goal
+ test eax,eax
+ jz .holding_goal
+ movss [rsp+124],xmm2
+ mov dword [rsp+120],1
+ jmp .return_goal
+.holding_goal:
+ mov edi,r12d
  call air_holding_goal
  test eax,eax
  jz .egress_goal
+.return_goal:
  mov dword [rbp+AIR_MODE],AIR_RETURN
  mov dword [rbp+AIR_TARGET],-1
  mov dword [rbx+ENTITY_TARGET],-1
@@ -644,10 +658,20 @@ air_tick:
  addss xmm0,[rbp+AIR_Y]
  jmp .height
 .height:
+ cmp dword [rsp+120],0
+ je .ordinary_recovery_height
+ cmp dword [rsp+48],0
+ jne .cancel_approach_height
+ movss xmm0,[rsp+124]
+ jmp .ordinary_recovery_height
+.cancel_approach_height:
+ mov dword [rsp+120],0
+.ordinary_recovery_height:
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8],0
  je .height_delta
  mov dword [rsp+52],1
+ mov dword [rsp+120],0
  ; Physical climb at the existing half-metre/tick vertical limit.
  movss xmm0,[rbp+AIR_Y]
  addss xmm0,[climb]
@@ -664,6 +688,10 @@ air_tick:
  jmp .vertical_ready
 .ordinary_height:
  subss xmm0,[rbp+AIR_Y]
+ cmp dword [rsp+120],0
+ je .height_error_ready
+ mulss xmm0,[approach_height_gain]
+.height_error_ready:
  minss xmm0,[climb]
  maxss xmm0,[minus_climb]
  cmp dword [rsp+52],0
@@ -1328,6 +1356,7 @@ air_hash:
  sub rsp,8
  call air_fuel_hash
  call air_holding_hash
+ call air_approach_hash
  call air_separation_hash
  call air_observation_hash
  call air_escort_hash

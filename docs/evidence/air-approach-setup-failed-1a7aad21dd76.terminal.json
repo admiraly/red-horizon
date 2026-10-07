@@ -1,0 +1,9 @@
+{
+  "job_id": "1a7aad21dd76",
+  "exit_code": 1,
+  "revision": "b1eb63c8c53e8f2e001d67bf6545112dc461e623-2478a229ffd1d024",
+  "seconds": 0.0002052769996225834,
+  "status": "failed",
+  "stage": "worker_setup",
+  "error": "NASM missing: install NASM 2.16.03 or set RED_HORIZON_NASM to its executable"
+}

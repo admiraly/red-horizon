@@ -1,0 +1,1 @@
+{"target": "client", "revision": "b1eb63c8c53e8f2e001d67bf6545112dc461e623-0d8a3eae233c2140", "assembled": 2, "assembled_sources": ["src/platform/linux/listen_host.asm", "src/net/client.asm"], "seconds": 0.511992531013675, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-approach/build/revisions/b1eb63c8c53e8f2e001d67bf6545112dc461e623-0d8a3eae233c2140/red-horizon"}

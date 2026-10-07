@@ -24,6 +24,10 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
  l,e,a=bind(so)
  def reset(l,e,a):
   assert l.sim_init(64,42)==0
+  # Initial unavailable-facility fixture preserves original home-holding gates.
+  # Usable-base approaches are independently covered by test_air_approach.py.
+  sites=((C.c_uint*8)*12).in_dll(l,'sim_sites')
+  for site in (0,4,8,3,7,11):sites[site][6]=0
   for i in range(64):e[i].hp=0
   for side in (0,1):
    for front in range(3):assert l.sim_order(side,front,1)==0

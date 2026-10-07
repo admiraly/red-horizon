@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-approach/tests/test_air_recovery.py", line 64, in <module>
+    assert closest<150,(role,side,closest)
+           ^^^^^^^^^^^
+AssertionError: (0, 0, 921.2128742007272)

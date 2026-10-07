@@ -1,0 +1,32 @@
+
+This GDB supports auto-downloading debuginfo from the following URLs:
+  <ima:enforcing>
+  <https://debuginfod.fedoraproject.org/>
+  <ima:ignore>
+Enable debuginfod for this session? (y or [n]) [answered N; input not from terminal]
+Debuginfod has been disabled.
+To make this setting permanent, add 'set debuginfod enabled off' to .gdbinit.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffff7751399 in __memmove_avx_unaligned_erms () from /lib64/libc.so.6
+#0  0x00007ffff7751399 in __memmove_avx_unaligned_erms () from /lib64/libc.so.6
+#1  0x00007fffe91f8056 in ffi_call_unix64 () from /lib64/libffi.so.8
+#2  0x00007fffe91f405c in ffi_call_int.lto_priv () from /lib64/libffi.so.8
+#3  0x00007fffe91f6d8e in ffi_call () from /lib64/libffi.so.8
+#4  0x00007ffff74e011d in _ctypes_callproc () from /usr/lib64/python3.14/lib-dynload/_ctypes.cpython-314-x86_64-linux-gnu.so
+#5  0x00007ffff74dcf2d in PyCFuncPtr_call () from /usr/lib64/python3.14/lib-dynload/_ctypes.cpython-314-x86_64-linux-gnu.so
+#6  0x00007ffff79840eb in _PyObject_MakeTpCall.constprop.0 () from /lib64/libpython3.14.so.1.0
+#7  0x00007ffff7829637 in _PyEval_EvalFrameDefault.cold () from /lib64/libpython3.14.so.1.0
+#8  0x00007ffff7996732 in _PyEval_Vector.constprop.0 () from /lib64/libpython3.14.so.1.0
+#9  0x00007ffff7a9cd2d in PyEval_EvalCode () from /lib64/libpython3.14.so.1.0
+#10 0x00007ffff7ae51d5 in run_mod.lto_priv () from /lib64/libpython3.14.so.1.0
+#11 0x00007ffff7ae448d in _PyRun_File.lto_priv.0 () from /lib64/libpython3.14.so.1.0
+#12 0x00007ffff7ae4144 in _PyRun_SimpleFile () from /lib64/libpython3.14.so.1.0
+#13 0x00007ffff7ae3f55 in _PyRun_AnyFile () from /lib64/libpython3.14.so.1.0
+#14 0x00007ffff7a89bb5 in Py_RunMain () from /lib64/libpython3.14.so.1.0
+#15 0x00007ffff7a8319c in Py_BytesMain () from /lib64/libpython3.14.so.1.0
+#16 0x00007ffff760a681 in __libc_start_call_main () from /lib64/libc.so.6
+#17 0x00007ffff760a798 in __libc_start_main_impl () from /lib64/libc.so.6
+#18 0x00005555555543d5 in _start ()

@@ -50,12 +50,12 @@ for cap in [0,15]:
  out=C.create_string_buffer(b'Z'*16,16);assert l.air_world_sweep(out,cap,1000,200,1000,1100,200,1000)==-1 and out.raw==b'Z'*16;cases+=1
 assert l.air_world_sweep(None,16,1000,200,1000,1100,200,1000)==-1;cases+=1
 # Corrupted static records reject atomically even when another source already hits.
-libc=C.CDLL(None);libc.mprotect.argtypes=[C.c_void_p,C.c_size_t,C.c_int];page=os.sysconf('SC_PAGE_SIZE');addr=C.addressof(boxes);start=addr//page*page;assert libc.mprotect(start,page,3)==0
+libc=C.CDLL(None);libc.mprotect.argtypes=[C.c_void_p,C.c_size_t,C.c_int];page=os.sysconf('SC_PAGE_SIZE');addr=C.addressof(boxes);start=addr//page*page;span=((addr+C.sizeof(boxes)+page-1)//page)*page-start;assert libc.mprotect(start,span,3)==0
 original=bytes(boxes)
 try:
  for offset,value in [(4,math.nan),(2,boxes[0]-1),(5,-1)]:
   boxes[offset]=value;out=C.create_string_buffer(b'Z'*16,16);assert l.air_world_sweep(out,16,2000,0,2000,2010,0,2000)==-2 and out.raw==b'Z'*16;C.memmove(addr,original,len(original));cases+=1
-finally:C.memmove(addr,original,len(original));assert libc.mprotect(start,page,1)==0
+finally:C.memmove(addr,original,len(original));assert libc.mprotect(start,span,1)==0
 with tempfile.TemporaryDirectory(prefix='rh-air-world-control-') as folder:
  td=pathlib.Path(folder);sources=[p for f in ('sim','nav','ai','game')for p in (R/'src'/f).glob('*.asm')]
  objects=[]

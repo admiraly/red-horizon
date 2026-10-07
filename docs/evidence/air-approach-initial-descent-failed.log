@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-approach/tests/test_air_approach.py", line 73, in <module>
+    assert 68<low<78,(side,role,low)
+           ^^^^^^^^^
+AssertionError: (0, 0, 67.8871202468872)

@@ -1,0 +1,13 @@
+{"terrain_roads": 19, "checked": true}
+{"airbases": 6, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0x9037b3f4", "canonical_sha256": "9037b3f4971fa272da1c104a9a9cfd4c9faee381d7601ddf0588a6d682d28900", "checked": true}
+/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm:20: error: label or instruction expected at start of line
+/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm:21: error: label or instruction expected at start of line
+/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm:115: error: invalid size specification in effective address
+/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm:115: error: expression syntax error
+/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm:117: error: invalid size specification in effective address
+/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm:117: error: expression syntax error
+ERROR: Command '['/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm', '-f', 'elf64', '-g', '-F', 'dwarf', '-I', '/mnt/titan_nv3/projects/red-horizon-workers/air-approach/', '/mnt/titan_nv3/projects/red-horizon-workers/air-approach/src/ai/air_approach.asm', '-o', '/mnt/titan_nv3/projects/red-horizon-workers/air-approach/build/src_ai_air_approach.asm.new']' returned non-zero exit status 1.
