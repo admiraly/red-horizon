@@ -1,0 +1,37 @@
+{
+  "jobs": [
+    {
+      "job_id": "8be7d1ebca2c",
+      "revision": "dcb84c355a452a5ffdf6d9f217331395964c31dc-f6a7e4293f9ab1e2",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8be7d1ebca2c/source",
+      "command": [
+        "test",
+        "--suite",
+        "all"
+      ],
+      "status": "failed",
+      "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8be7d1ebca2c/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8be7d1ebca2c/result.json",
+      "pid": 3953974,
+      "exit_code": 1,
+      "seconds": 488.9087075809948
+    },
+    {
+      "job_id": "6be2d24bedd6",
+      "revision": "935e31a393e00a7815f81834ac04e7e9da0c70cd-9f48571eff30d410",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-evasion/runs/jobs/6be2d24bedd6/source",
+      "command": [
+        "test",
+        "--suite",
+        "fast"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-evasion/runs/jobs/6be2d24bedd6/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-evasion/runs/jobs/6be2d24bedd6/result.json",
+      "pid": 3973597,
+      "exit_code": 0,
+      "seconds": 383.50603933399543
+    }
+  ],
+  "failure": "8be7d1ebca2c stops before UDP at obsolete test_coop CONTENT0x7abe6425 plus missing three vertical policy fields. Runtime content0xeaf01908 is correctly canonical; main incoming-fire content0x2a371472 additionally requires independent air_evasion policy."
+}
