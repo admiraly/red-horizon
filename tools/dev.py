@@ -403,6 +403,7 @@ def main():
             execute([sys.executable,'tests/test_air_approach.py'])
             execute([sys.executable,'tests/test_air_traffic.py'])
             execute([sys.executable,'tests/test_air_final_clear.py'])
+            execute([sys.executable,'tests/test_air_rollout.py'])
             execute([sys.executable,'tests/test_air_holding.py'])
             execute([sys.executable,'tests/test_air_separation.py'])
             execute([sys.executable,'tests/test_air_crash.py'])

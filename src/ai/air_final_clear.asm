@@ -7,7 +7,7 @@
 default rel
 extern sim_entities,sim_aircraft,sim_count
 extern air_base_goal,terrain_height,air_energy_step,air_bank_step,air_lift_step,air_world_sweep
-extern atan2f,sinf,cosf
+extern atan2f,sinf,cosf,air_rollout_clear
 section .rodata
 one: dd 1.0
 negative: dd -1.0
@@ -91,7 +91,19 @@ air_final_clear:
  and eax,0x7fffffff
  cmp eax,__float32__(AIR_FLIGHT_VERTICAL_LIMIT)
  ja .invalid
+ ; Admit only a runway whose prospective wheel-braked path is clear.
+ mov edi,ebx
+ mov esi,r12d
+ movss xmm0,[final_speed]
+ call air_rollout_clear
+ cmp eax,1
+ jne .rollout_failed
  mov r13d,AIR_APPROACH_PREVIEW_TICKS
+ jmp .tick
+.rollout_failed:
+ test eax,eax
+ js .invalid
+ jmp .contact
 .tick:
  ; Stop at the existing go-around boundary: no descent is commanded beyond it.
  movss xmm0,[rsp]

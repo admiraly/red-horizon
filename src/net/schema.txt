@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v49
-little-endian u32 header[10]: magic=0x52484332 version=49 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v50
+little-endian u32 header[10]: magic=0x52484332 version=50 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -122,3 +122,5 @@ Retained strike axis components must be finite within+/-1, squared length0.999..
 air-energy1: powered net throttle/brake work, previous-bank induced drag proportional tan(bank)^2, previous vertical gravity work and unpowered coast loss; same authoritative and final-preview actuator, current5..7 cruise/delta safeguards retained. Public E32/A64/modes unchanged; incompatible policy peers rebuild/restart.
 
 Aircraft low-speed lift policy: flight8/speed2/load2/energy2/lift1. Airborne total speed1..7; recovery circuit target5/admitted final target3; below level-lift support bank demand zero; actual and read-only final forecast constrain vertical response by (speed/stall_reference)^2*cos(bank), with downward gravity deficit and existing role acceleration/terminal sink limits. Remembered bombing-axis ingress retains1800m staging/600m lookahead and aligns toward its own remembered aim point inside positive1200m upstream distance; actual release still requires fresh LOS and unchanged physical ballistic tolerances. No wire record or mode layout changes. All peers rebuild/restart; no live migration.
+
+UDP50 requires air_rollout v1: selected runway admission forecasts a wheel-braked prospective ground path at final target speed3.0, roles0/1 brakes0.012/0.018, maximum speed3.2, signed grade bound0.02 and gravity0.0109. One-metre forward grade samples; at most300 semi-implicit steps, center ground+4.3m, five-metre runway edge inset, actual terrain/solid swept hull. Unsafe or malformed forecasts go around and release final admission. No grounded lifecycle modes are added.

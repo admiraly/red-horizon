@@ -1,0 +1,9 @@
+; Prospective wheel-braked runway roll; metres/tick at fixed30Hz.
+%define AIR_ROLLOUT_VERSION 1
+%define AIR_ROLLOUT_MAX_SPEED 3.2
+%define AIR_ROLLOUT_MAX_GRADE 0.02
+%define AIR_ROLLOUT_BOMBER_BRAKE 0.012
+%define AIR_ROLLOUT_FIGHTER_BRAKE 0.018
+%define AIR_ROLLOUT_CENTER_HEIGHT 4.3
+%define AIR_ROLLOUT_EDGE_MARGIN 5.0
+%define AIR_ROLLOUT_MAX_TICKS 300
