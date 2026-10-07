@@ -1,0 +1,25 @@
+{
+  "integrated_feature": "f56ffbd3d384c52aff40e5c8c39a294683b9e117",
+  "main_player_and_actual_listen_tests_passed": true,
+  "all512_authored_inputs_match_worker_and_final_full": true,
+  "final_network": "153f2be57709_passed",
+  "prior_squad_full": "023ea46c931f_passed_excludes_blast_and_procfs_fix",
+  "final_full": {
+    "job_id": "0a256c31584c",
+    "revision": "d3d7438c9209c288d46bd850852e6e2540488049-0addee14d2867a17",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/0a256c31584c/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/0a256c31584c/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/deployment-blast/runs/jobs/0a256c31584c/result.json",
+    "pid": 2009906
+  },
+  "final_full_process_state": "S",
+  "all_current_foreground_sessions_terminal": true,
+  "timestamp_utc": "2026-10-07T09:40:13.141408+00:00"
+}
