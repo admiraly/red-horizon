@@ -1,0 +1,8 @@
+{
+  "job_id": "944f025bb774",
+  "exit_code": 1,
+  "revision": "605b53351efbfa9b02708900f5ec368e7d0cc909-c39fe8a3014bc546",
+  "seconds": 1867.4747986470175,
+  "status": "failed",
+  "failure": "test_projected_detail_gl.py181: expected low instance near role boundary, observed(0,0,0); exact frozen rerun in progress, no root cause yet established."
+}
