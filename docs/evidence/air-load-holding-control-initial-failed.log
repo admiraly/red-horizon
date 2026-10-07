@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-load/tests/test_air_load.py", line 92, in <module>
+    if role==0:assert pair[1]['late_out_of_band_frames']>10,pair
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'policy': 'holding-maneuver-reserve', 'arrival_tick': 212, 'closest_gap_m': 5.707121010870157, 'late_radial_range_m': [919.5487937163748, 919.6025304634064], 'late_out_of_band_frames': 0, 'trace_sha256': '6758bd50fde06d19eb5640c15c73a0f7b24953630f0395972a5e490c3c9a023c', 'checksum': '07882f5fc4e3bc6e'}, {'policy': 'omitted-holding-reserve', 'arrival_tick': 212, 'closest_gap_m': 4.980237415401417, 'late_radial_range_m': [919.5489634711028, 919.634161508287], 'late_out_of_band_frames': 0, 'trace_sha256': 'df509f20164e585ab991468a494f01604b34f941d0f2536043790368048cbec9', 'checksum': 'ab08e43ea13f67ad'}]

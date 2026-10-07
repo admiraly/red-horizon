@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v46
-little-endian u32 header[10]: magic=0x52484332 version=46 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v47
+little-endian u32 header[10]: magic=0x52484332 version=47 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -109,3 +109,12 @@ Protocol44: private6x16 generation-aware exclusive final approach leases, sixty-
 Protocol45: approach policy3 previews120 uninterrupted descending final ticks with production bank/vertical actuators and4m terrain/solid hull sweeps; contact/source error releases admission for go-around. Public/wire layouts unchanged; no landing/service mode.
 
 Protocol46: role-bounded longitudinal airborne acceleration/braking, admitted powered finals request5m/tick and go-arounds regain role cruise speed. Pure trajectory preview uses the same speed actuator. Flight6/approach4, record layouts/modes unchanged; no touchdown/service or low-speed flight domain.
+
+Protocol47: speed-dependent coordinated-turn lift envelope, reserved lift margin and role structural limits. Normal bomber3g/fighter6g and emergency4.5g/8g maxima, stall references2.2/2.3m per tick and90percent lift reserve; actual max load also falls with airspeed squared. Existing bounded roll may require several ticks to unload an already over-limit supplied pose. Flight7/load1; public records and modes unchanged. Low-speed/stall/landing domain remains unimplemented.
+Load policy recovery4: unavailable-facility holding radii900m bomber/950m fighter, fallback centres X2800/5200 and front Z clamped2800..5200. Wider circles remain compatible with normal3g/6g turns and map margins. Facility/runway coordinates and supplied-base final guidance remain unchanged; no landing or service.
+Acquired unavailable-base holding orbit uses the role maneuver reserve for capture; ordinary mission and supplied-base final guidance retain normal limits. Actual holding bank/yaw and speed remain physically actuated and lift-limited.
+Fallback holding radial correction gain3 improves enlarged-circle capture; all guidance remains bounded and physically actuated.
+Remembered bombing ingress follows the retained observed strike axis with bounded600m lookahead/cross-track correction; target/axis expire and no hidden live target pose is read.
+A living stocked bomber may use its maneuver reserve during a finite valid own remembered bombing mission. Matching owner generation, stage, expiry and finite retained target coordinates are required; return/glide/ordinary waypoint flight do not gain this grant. No hidden live enemy state is read.
+Finite real defensive commitments and physically acquired fighter intercepts may also use role maneuver reserve; hidden enemy positions are not a grant. Cruise and unobstructed supplied-base finals retain normal limits.
+Retained strike axis components must be finite within+/-1, squared length0.999..1.001; malformed memory rejects the pure mission query before guiding an aircraft.

@@ -1,0 +1,9 @@
+/mnt/titan_nv3/projects/red-horizon-workers/air-load/src/ai/air_recovery.asm:14: error: comma expected after operand, got `-'
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-load/tests/test_air_holding.py", line 15, in <module>
+    obj=td/(source.name+'.o');subprocess.run([nasm,'-f','elf64','-I',str(R)+'/',str(source),'-o',str(obj)],check=True);objects.append(obj)
+                              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm', '-f', 'elf64', '-I', '/mnt/titan_nv3/projects/red-horizon-workers/air-load/', '/mnt/titan_nv3/projects/red-horizon-workers/air-load/src/ai/air_recovery.asm', '-o', '/home/levy/optane-tmp/rh-air-recovery-aznk3hgt/air_recovery.asm.o']' returned non-zero exit status 1.

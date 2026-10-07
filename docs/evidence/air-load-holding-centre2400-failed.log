@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-load/tests/test_air_holding.py", line 114, in <module>
+    assert 1200<=e[31].x<=6800 and 1200<=e[31].z<=6800,(role,side,tick,e[31].x,e[31].z,gap,holding[62],holding[63],a[31].bank)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: (0, 0, 1401, 941.539306640625, 3988.95556640625, 1458.5025106552664, 1, 1, -1.346703052520752)

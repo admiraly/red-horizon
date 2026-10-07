@@ -1,0 +1,97 @@
+[
+  {
+    "label": "previous",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon/build/revisions/63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "a2dc770e4398103882a880c0fd665719dd00115c5a37bb0b542fe858c212d350",
+    "exit_code": 0,
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2992,2766],\"engaged\":525,\"checksum\":\"c479d388c79ee272\",\"tick_mean_ms\":17.290511,\"tick_p95_ms\":23.029045,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":408,\"projectile_peak\":452,\"projectile_dropped\":104041,\"navigation\":{\"pending\":31,\"completed\":2392,\"overflow\":446363,\"cache_hits\":176794,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":20,\"bomb_impacts\":19,\"gun_bursts\":201,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13011},\"hazards\":{\"predictions\":53506,\"tile_overflow\":48981,\"acquired\":10479,\"dispersions\":10479,\"shelters\":0,\"los_calls\":28098,\"budget_skipped\":0,\"active_goals\":863},\"ordnance_admission\":[{\"submitted\":56814,\"admitted\":1095,\"capacity_denied\":55719,\"invalidated\":0},{\"submitted\":5925,\"admitted\":651,\"capacity_denied\":5274,\"invalidated\":0},{\"submitted\":41191,\"admitted\":1060,\"capacity_denied\":40131,\"invalidated\":0},{\"submitted\":3386,\"admitted\":469,\"capacity_denied\":2917,\"invalidated\":0}],\"air_admission\":[{\"submitted\":12,\"admitted\":12,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":146,\"admitted\":146,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":55,\"admitted\":55,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1892156,\"move_queries\":2165639,\"inspected_neighbors\":20335262,\"corrected_endpoints\":199769,\"yielded_moves\":54839,\"overlap_recoveries\":8136,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "stderr": "",
+    "scope": "Actual headless300-tick seed1 hotspot; i7-14700K, uncontrolled concurrent jobs. No isolated cost, client GPU, native-thread or sustained-performance acceptance."
+  },
+  {
+    "label": "candidate",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon-workers/air-load/build/revisions/f613784e58388f948bfdebc93a6814e49dded33b-25c0841cb1307992/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "28aed244b5e28a34ddcb38cbfef962200b73bd20820282ed11bf72e2b789633a",
+    "exit_code": 0,
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2961,2839],\"engaged\":449,\"checksum\":\"eb58cc8472f552f5\",\"tick_mean_ms\":19.117506,\"tick_p95_ms\":23.763386,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":405,\"projectile_peak\":452,\"projectile_dropped\":103525,\"navigation\":{\"pending\":36,\"completed\":2392,\"overflow\":451198,\"cache_hits\":178216,\"stuck_replans\":0,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":24,\"bomb_impacts\":23,\"gun_bursts\":174,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13146},\"hazards\":{\"predictions\":54024,\"tile_overflow\":47121,\"acquired\":10277,\"dispersions\":10277,\"shelters\":0,\"los_calls\":27688,\"budget_skipped\":0,\"active_goals\":668},\"ordnance_admission\":[{\"submitted\":53963,\"admitted\":1082,\"capacity_denied\":52881,\"invalidated\":0},{\"submitted\":6072,\"admitted\":622,\"capacity_denied\":5450,\"invalidated\":0},{\"submitted\":42955,\"admitted\":1042,\"capacity_denied\":41913,\"invalidated\":0},{\"submitted\":3776,\"admitted\":495,\"capacity_denied\":3281,\"invalidated\":0}],\"air_admission\":[{\"submitted\":16,\"admitted\":16,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":135,\"admitted\":135,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":39,\"admitted\":39,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1900610,\"move_queries\":2173618,\"inspected_neighbors\":20486733,\"corrected_endpoints\":204191,\"yielded_moves\":56129,\"overlap_recoveries\":8108,\"truncated_queries\":0,\"maximum_inspected_per_query\":48}}\n",
+    "stderr": "",
+    "scope": "Actual headless300-tick seed1 hotspot; i7-14700K, uncontrolled concurrent jobs. No isolated cost, client GPU, native-thread or sustained-performance acceptance."
+  },
+  {
+    "label": "previous",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon/build/revisions/63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "a2dc770e4398103882a880c0fd665719dd00115c5a37bb0b542fe858c212d350",
+    "exit_code": 0,
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2992,2766],\"engaged\":525,\"checksum\":\"c479d388c79ee272\",\"tick_mean_ms\":19.376078,\"tick_p95_ms\":23.270944,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":408,\"projectile_peak\":452,\"projectile_dropped\":104041,\"navigation\":{\"pending\":31,\"completed\":2392,\"overflow\":446363,\"cache_hits\":176794,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":20,\"bomb_impacts\":19,\"gun_bursts\":201,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13011},\"hazards\":{\"predictions\":53506,\"tile_overflow\":48981,\"acquired\":10479,\"dispersions\":10479,\"shelters\":0,\"los_calls\":28098,\"budget_skipped\":0,\"active_goals\":863},\"ordnance_admission\":[{\"submitted\":56814,\"admitted\":1095,\"capacity_denied\":55719,\"invalidated\":0},{\"submitted\":5925,\"admitted\":651,\"capacity_denied\":5274,\"invalidated\":0},{\"submitted\":41191,\"admitted\":1060,\"capacity_denied\":40131,\"invalidated\":0},{\"submitted\":3386,\"admitted\":469,\"capacity_denied\":2917,\"invalidated\":0}],\"air_admission\":[{\"submitted\":12,\"admitted\":12,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":146,\"admitted\":146,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":55,\"admitted\":55,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1892156,\"move_queries\":2165639,\"inspected_neighbors\":20335262,\"corrected_endpoints\":199769,\"yielded_moves\":54839,\"overlap_recoveries\":8136,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "stderr": "",
+    "scope": "Actual headless300-tick seed1 hotspot; i7-14700K, uncontrolled concurrent jobs. No isolated cost, client GPU, native-thread or sustained-performance acceptance."
+  },
+  {
+    "label": "candidate",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon-workers/air-load/build/revisions/f613784e58388f948bfdebc93a6814e49dded33b-25c0841cb1307992/red-horizon-server",
+      "--units",
+      "8192",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "28aed244b5e28a34ddcb38cbfef962200b73bd20820282ed11bf72e2b789633a",
+    "exit_code": 0,
+    "stdout": "{\"units\":8192,\"ticks\":300,\"seed\":1,\"alive\":[2961,2839],\"engaged\":449,\"checksum\":\"eb58cc8472f552f5\",\"tick_mean_ms\":19.629280,\"tick_p95_ms\":23.643203,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":405,\"projectile_peak\":452,\"projectile_dropped\":103525,\"navigation\":{\"pending\":36,\"completed\":2392,\"overflow\":451198,\"cache_hits\":178216,\"stuck_replans\":0,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":24,\"bomb_impacts\":23,\"gun_bursts\":174,\"aircraft_destroyed\":0,\"overwritten_unobserved\":13146},\"hazards\":{\"predictions\":54024,\"tile_overflow\":47121,\"acquired\":10277,\"dispersions\":10277,\"shelters\":0,\"los_calls\":27688,\"budget_skipped\":0,\"active_goals\":668},\"ordnance_admission\":[{\"submitted\":53963,\"admitted\":1082,\"capacity_denied\":52881,\"invalidated\":0},{\"submitted\":6072,\"admitted\":622,\"capacity_denied\":5450,\"invalidated\":0},{\"submitted\":42955,\"admitted\":1042,\"capacity_denied\":41913,\"invalidated\":0},{\"submitted\":3776,\"admitted\":495,\"capacity_denied\":3281,\"invalidated\":0}],\"air_admission\":[{\"submitted\":16,\"admitted\":16,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":135,\"admitted\":135,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":8,\"admitted\":8,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":39,\"admitted\":39,\"capacity_denied\":0,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":1900610,\"move_queries\":2173618,\"inspected_neighbors\":20486733,\"corrected_endpoints\":204191,\"yielded_moves\":56129,\"overlap_recoveries\":8108,\"truncated_queries\":0,\"maximum_inspected_per_query\":48}}\n",
+    "stderr": "",
+    "scope": "Actual headless300-tick seed1 hotspot; i7-14700K, uncontrolled concurrent jobs. No isolated cost, client GPU, native-thread or sustained-performance acceptance."
+  },
+  {
+    "label": "candidate-stretch",
+    "command": [
+      "/mnt/titan_nv3/projects/red-horizon-workers/air-load/build/revisions/f613784e58388f948bfdebc93a6814e49dded33b-25c0841cb1307992/red-horizon-server",
+      "--units",
+      "16384",
+      "--ticks",
+      "300",
+      "--seed",
+      "1",
+      "--scenario",
+      "scale-hotspot"
+    ],
+    "executable_sha256": "28aed244b5e28a34ddcb38cbfef962200b73bd20820282ed11bf72e2b789633a",
+    "exit_code": 0,
+    "stdout": "{\"units\":16384,\"ticks\":300,\"seed\":1,\"alive\":[7012,6802],\"engaged\":1356,\"checksum\":\"c5a23a7c33a74e6b\",\"tick_mean_ms\":32.933079,\"tick_p95_ms\":41.388081,\"operation_state\":0,\"requisition\":[490,280],\"supply\":[600,600],\"projectiles\":410,\"projectile_peak\":477,\"projectile_dropped\":251564,\"navigation\":{\"pending\":512,\"completed\":2392,\"overflow\":2161476,\"cache_hits\":249458,\"stuck_replans\":1,\"cover_choices\":0,\"processed_last_tick\":8,\"processed_max\":8},\"air_events\":{\"bomb_launches\":35,\"bomb_impacts\":34,\"gun_bursts\":286,\"aircraft_destroyed\":1,\"overwritten_unobserved\":21349},\"hazards\":{\"predictions\":61358,\"tile_overflow\":47693,\"acquired\":16762,\"dispersions\":16762,\"shelters\":0,\"los_calls\":39629,\"budget_skipped\":0,\"active_goals\":1793},\"ordnance_admission\":[{\"submitted\":122710,\"admitted\":714,\"capacity_denied\":121996,\"invalidated\":0},{\"submitted\":43940,\"admitted\":696,\"capacity_denied\":43244,\"invalidated\":0},{\"submitted\":77311,\"admitted\":701,\"capacity_denied\":76610,\"invalidated\":0},{\"submitted\":10263,\"admitted\":551,\"capacity_denied\":9712,\"invalidated\":0}],\"air_admission\":[{\"submitted\":21,\"admitted\":21,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":202,\"admitted\":202,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":14,\"admitted\":14,\"capacity_denied\":0,\"invalidated\":0},{\"submitted\":86,\"admitted\":84,\"capacity_denied\":2,\"invalidated\":0}],\"crowd\":{\"snapshot_actors\":4173398,\"move_queries\":4847058,\"inspected_neighbors\":43364896,\"corrected_endpoints\":474422,\"yielded_moves\":63395,\"overlap_recoveries\":30649,\"truncated_queries\":0,\"maximum_inspected_per_query\":52}}\n",
+    "stderr": "",
+    "scope": "Actual headless300-tick seed1 hotspot; i7-14700K, uncontrolled concurrent jobs. No isolated cost, client GPU, native-thread or sustained-performance acceptance."
+  }
+]

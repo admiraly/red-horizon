@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-load/tests/test_air_load.py", line 48, in <module>
+    maximum_error=max(maximum_error,abs(norm-air.speed),abs(step-air.speed));assert maximum_error<.001,(side,role,label,tick,old,(e[31].x,air.y,e[31].z),norm,step,air.speed,air.bank)
+                                                                                    ^^^^^^^^^^^^^^^^^^
+AssertionError: (0, 1, 'lift-envelope', 179, (6808.50048828125, 167.88449096679688, 7999.20263671875), (6808.50048828125, 167.88449096679688, 7999.20263671875), 7.00000058139513, 0.0, 7.0, 1.4454683065414429)

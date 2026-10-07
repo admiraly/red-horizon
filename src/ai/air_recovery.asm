@@ -80,6 +80,11 @@ air_recovery_goal:
  inc eax
  cvtsi2ss xmm1,eax
  mulss xmm1,[front_spacing]
+ ; Keep the larger load-limited holding circle clear of both map axes.
+ maxss xmm1,[home]
+ movss xmm2,[world_edge]
+ subss xmm2,[home]
+ minss xmm1,xmm2
  .base_goal:
  mov eax,1
  ret

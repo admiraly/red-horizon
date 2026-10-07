@@ -1,6 +1,7 @@
 ; Bank is about local +Z: positive raises local +X wing, so positive bank
 ; turns heading negative. yaw = -g_per_tick_squared*tan(bank)/speed_per_tick.
 %include "schemas/air_flight.inc"
+%include "schemas/air_load.inc"
 default rel
 extern atan2f,sinf,cosf
 section .rodata
@@ -10,6 +11,12 @@ minimum_speed: dd AIR_FLIGHT_MIN_SPEED
 maximum_speed: dd AIR_FLIGHT_MAX_SPEED
 maximum_bank: dd AIR_FLIGHT_FIGHTER_EMERGENCY_BANK
 gravity: dd AIR_FLIGHT_GRAVITY
+one: dd 1.0
+lift_reserve: dd AIR_LOAD_LIFT_RESERVE
+turn_guard: dd AIR_LOAD_TURN_GUARD
+level_stall_speed: dd AIR_LOAD_BOMBER_STALL_SPEED,AIR_LOAD_FIGHTER_STALL_SPEED
+structural_load: dd AIR_LOAD_BOMBER_STRUCTURAL,AIR_LOAD_FIGHTER_STRUCTURAL
+emergency_load: dd AIR_LOAD_BOMBER_EMERGENCY,AIR_LOAD_FIGHTER_EMERGENCY
 negative: dd -1.0
 gain: dd AIR_FLIGHT_HEADING_GAIN
 normal_bank: dd AIR_FLIGHT_BOMBER_BANK,AIR_FLIGHT_FIGHTER_BANK
@@ -54,6 +61,28 @@ air_bank_step:
  mulss xmm1,[negative]
  maxss xmm0,xmm1
  mulss xmm0,[rsp+4]
+ ; Desired signed yaw*speed is bounded by available lift before atan2.
+ ; n=1/cos(bank), tan(bank)=sqrt(n*n-1). Reserve keeps lift headroom.
+ ; The existing role/emergency angular cap and bounded roll remain below.
+ movss xmm2,[rsp+4]
+ lea rcx,[level_stall_speed]
+ divss xmm2,[rcx+rdi*4]
+ mulss xmm2,xmm2
+ mulss xmm2,[lift_reserve]
+ lea rcx,[structural_load]
+ cmp dword [rsp+16],0
+ je .load_limit
+ lea rcx,[emergency_load]
+.load_limit:
+ minss xmm2,[rcx+rdi*4]
+ mulss xmm2,xmm2
+ subss xmm2,[one]
+ sqrtss xmm2,xmm2
+ mulss xmm2,[turn_guard] ; conservative final-angle float rounding
+ mulss xmm2,[gravity]
+ minss xmm0,xmm2
+ mulss xmm2,[negative]
+ maxss xmm0,xmm2
  movss xmm1,[gravity]
  call atan2f wrt ..plt
  mulss xmm0,[negative]

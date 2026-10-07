@@ -50,7 +50,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
     for hp in range(1,201):
      e[31].hp=hp
      for ammo in (0,1,8,180):
-      a[31].ammo=ammo;expected=(1,((2000.,6000.)[side],2000.*(front+1)))if hp<=60 or ammo==0 else(0,(81.,-17.));assert query(hash_sample=cases%128==0)==expected;cases+=1
+      a[31].ammo=ammo;expected=(1,((2800.,5200.)[side],max(2800.,min(5200.,2000.*(front+1)))))if hp<=60 or ammo==0 else(0,(81.,-17.));assert query(hash_sample=cases%128==0)==expected;cases+=1
  guards=[]
  for owner,field,bad in [(e[31],'hp',0),(e[31],'kind',0),(e[31],'side',2),(e[31],'front',3),(e[31],'gen',0),(a[31],'gen',2),(a[31],'flags',0),(a[31],'role',2)]:
   reset(l,e,a);plane(e,a,31,4000,0,60,180);old=getattr(owner,field);setattr(owner,field,bad);assert query()==(0,(81.,-17.));setattr(owner,field,old);guards.append(field)
@@ -64,7 +64,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
     old=(e[31].x,a[31].y,e[31].z);l.sim_tick();step=math.dist(old,(e[31].x,a[31].y,e[31].z));assert abs(step-a[31].speed)<.001;travel+=step
     assert a[31].ammo==0 and e[31].hp==200 and a[31].target==-1 and a[31].mode==3
     assert 0<=e[31].x<=8000 and 0<=e[31].z<=8000
-    closest=min(closest,math.dist((e[31].x,e[31].z),((2000,6000)[side],4000)))
+    closest=min(closest,math.dist((e[31].x,e[31].z),((2800,5200)[side],4000)))
    assert closest<150,(role,side,closest)
    empty.append({'role':role,'side':side,'ticks':1200,'closest_recovery_gap_m':closest,'travel_m':travel,'remaining_rounds':a[31].ammo,'hp':e[31].hp,'checksum':hex(l.sim_checksum())})
  reports=[]
@@ -82,12 +82,12 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
      if ee[i].hp:max_step_error=max(max_step_error,abs(math.dist(old[i],(ee[i].x,aa[i].y,ee[i].z))-aa[i].speed))
      assert aa[i].ammo<=ammo[i];ammo[i]=aa[i].ammo
     if ee[31].hp<=60 and critical_tick is None:critical_tick=tick
-    if aa[31].mode==3 and return_tick is None:return_tick=tick;initial_return_gap=math.dist((ee[31].x,ee[31].z),(2000,4000))
-    closest_gap=min(closest_gap,math.dist((ee[31].x,ee[31].z),(2000,4000)))
+    if aa[31].mode==3 and return_tick is None:return_tick=tick;initial_return_gap=math.dist((ee[31].x,ee[31].z),(2800,4000))
+    closest_gap=min(closest_gap,math.dist((ee[31].x,ee[31].z),(2800,4000)))
     if tick%100==0:samples.append([tick,ee[31].x,ee[31].z,ee[31].hp,aa[31].mode,aa[31].ammo])
     for j in range(256):
      if events[j*8+3]==8 and events[j*8+7]:shots.add(events[j*8+7])
-   repeats.append({'critical_tick':critical_tick,'return_tick':return_tick,'initial_return_gap':initial_return_gap,'closest_gap_m':closest_gap,'final_gap_m':math.dist((ee[31].x,ee[31].z),(2000,4000)),'hp':ee[31].hp,'ammo':ammo,'maximum_step_error_m':max_step_error,'samples':samples,'retained_gun_births':len(shots),'checksum':hex(ll.sim_checksum())})
+   repeats.append({'critical_tick':critical_tick,'return_tick':return_tick,'initial_return_gap':initial_return_gap,'closest_gap_m':closest_gap,'final_gap_m':math.dist((ee[31].x,ee[31].z),(2800,4000)),'hp':ee[31].hp,'ammo':ammo,'maximum_step_error_m':max_step_error,'samples':samples,'retained_gun_births':len(shots),'checksum':hex(ll.sim_checksum())})
   assert repeats[0]==repeats[1]
   reports.append({'policy':tag,**repeats[0]})
  good,bad=reports
@@ -97,5 +97,5 @@ with tempfile.TemporaryDirectory(prefix='rh-air-recovery-') as folder:
  assert good['retained_gun_births']==6
  assert bad['retained_gun_births']==6+180-bad['ammo'][31]
  assert good['maximum_step_error_m']<.001 and bad['maximum_step_error_m']<.001
- assert good['closest_gap_m']<150 and bad['final_gap_m']>3000
+ assert good['closest_gap_m']<150 and bad['final_gap_m']>3000 and bad['closest_gap_m']>800,(good,bad)
  print(json.dumps({'suite':'air-recovery','passed':True,'policy_cases':cases,'physical_records_readonly_every_query':True,'full_checksum_readonly_samples':75,'empty_store_public_flight':empty,'invalid_metadata_cases':len(guards)+3,'ABI_readonly_and_hidden_enemy_independence':True,'public_traces':reports,'control_source_sha256':hashlib.sha256(control_source.encode()).hexdigest(),'library_sha256':hashlib.sha256(so.read_bytes()).hexdigest(),'limits':['Six initial genuine producer rounds do not debit FSM stores; subsequent public stores monotone, no in-flight HP/pose/ammo/generation/clock writes.','Recovery arrival measured by closest gap; later holding is checked separately. Not landing, rearming, safe survival or universal tactics.']}))

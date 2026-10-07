@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-load/tests/test_air_bank.py", line 77, in <module>
+    assert actual<=allowed+2e-6 and abs(yaw+.0109*math.tan(bank)/speed)<2e-7
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

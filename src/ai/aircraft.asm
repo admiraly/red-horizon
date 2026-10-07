@@ -8,7 +8,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_fuel_init,air_fuel_step,air_fuel_status,air_fuel_hash
-extern air_holding_init,air_holding_goal,air_holding_hash
+extern air_holding_init,air_holding_goal,air_holding_hash,sim_air_holding
 extern air_approach_init,air_approach_goal,air_approach_hash,sim_air_approaches
 extern air_traffic_init,air_traffic_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
@@ -69,6 +69,9 @@ two: dd 2.0
 round_speed2: dd 784.0
 world_edge: dd 8000.0
 strike_approach: dd AIR_FLIGHT_STRIKE_APPROACH
+strike_lookahead: dd AIR_FLIGHT_STRIKE_LOOKAHEAD
+strike_axis_min: dd AIR_FLIGHT_STRIKE_AXIS_MIN_SQ
+strike_axis_max: dd AIR_FLIGHT_STRIKE_AXIS_MAX_SQ
 strike_reached: dd AIR_FLIGHT_STRIKE_REACHED_SQ
 strike_passed: dd -100.0
 escort_weight: dd AIR_ESCORT_THREAT_WEIGHT
@@ -449,11 +452,37 @@ air_tick:
  mulss xmm3,[rcx+28]
  addss xmm2,xmm3
  comiss xmm2,[strike_passed]
- jae .boundary
+ jae .strike_line
  mov dword [rcx+32],0
 .strike_recall:
  mov edi,r12d
  call air_strike_goal
+ jmp .boundary
+.strike_line:
+ ; Follow the remembered physical strike axis, rather than orbiting a point.
+ ; Cross-track correction is bounded to one lookahead: at most45deg intercept.
+ movss xmm2,[rbx+ENTITY_X]
+ subss xmm2,xmm0
+ mulss xmm2,[rcx+28]
+ movss xmm3,[rbx+ENTITY_Z]
+ subss xmm3,xmm1
+ mulss xmm3,[rcx+24]
+ subss xmm2,xmm3
+ minss xmm2,[strike_lookahead]
+ movss xmm3,[strike_lookahead]
+ mulss xmm3,[negative]
+ maxss xmm2,xmm3
+ movss xmm0,[rcx+24]
+ mulss xmm0,[strike_lookahead]
+ addss xmm0,[rbx+ENTITY_X]
+ movaps xmm3,xmm2
+ mulss xmm3,[rcx+28]
+ subss xmm0,xmm3
+ movss xmm1,[rcx+28]
+ mulss xmm1,[strike_lookahead]
+ addss xmm1,[rbx+ENTITY_Z]
+ mulss xmm2,[rcx+24]
+ addss xmm1,xmm2
  jmp .boundary
 .escort_goal:
  mov edi,r12d
@@ -635,9 +664,69 @@ air_tick:
  test eax,eax
  jnz .contact_error
  movss [rbp+AIR_SPEED],xmm0
+ mov dword [rsp+136],0
+ ; A real finite defensive commitment or physically observed fighter intercept
+ ; may spend maneuver reserve; cruise and supplied-base final do not.
+ lea rcx,[air_defense]
+ cmp dword [rcx+r12*8],0
+ jne .combat_bank_reserve
+ cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
+ jne .bomber_bank_check
+ cmp dword [rsp+56],0
+ je .strike_bank_ready
+.combat_bank_reserve:
+ mov dword [rsp+136],1
+ jmp .strike_bank_ready
+.bomber_bank_check:
+ ; A finite own remembered bombing mission may use the bounded maneuver
+ ; reserve to set up/retry ingress. No live enemy position is queried here.
+ cmp dword [rbp+AIR_ROLE],AIR_BOMBER
+ jne .strike_bank_ready
+ cmp dword [rbp+AIR_MODE],AIR_RETURN
+ jae .strike_bank_ready
+ cmp dword [rbp+AIR_AMMO],0
+ je .strike_bank_ready
+ imul eax,r12d,AIR_FLIGHT_STRIKE_STRIDE
+ lea rcx,[sim_air_strikes]
+ add rcx,rax
+ mov edx,[rbx+ENTITY_GENERATION]
+ cmp [rcx+16],edx
+ jne .strike_bank_ready
+ mov edx,[rcx+20]
+ sub edx,[sim_tick_count]
+ jle .strike_bank_ready
+ cmp edx,AIR_FLIGHT_STRIKE_MEMORY
+ ja .strike_bank_ready
+ cmp dword [rcx+32],1
+ ja .strike_bank_ready
+ mov edx,[rcx]
+ cmp edx,__float32__(8000.0)
+ ja .strike_bank_ready
+ mov edx,[rcx+4]
+ cmp edx,__float32__(8000.0)
+ ja .strike_bank_ready
+ mov dword [rsp+136],1
+.strike_bank_ready:
  movss xmm0,[rsp+132]
  mov edi,[rbp+AIR_ROLE]
  mov esi,[rsp+48]
+ or esi,[rsp+136]
+ test esi,esi
+ jnz .bank_policy_ready
+ ; Acquired fallback holding uses the bounded maneuver reserve while capturing
+ ; its orbit. Ordinary runway final/mission steering retains normal load limits.
+ cmp dword [rsp+120],0
+ jne .bank_policy_ready
+ cmp dword [rbp+AIR_MODE],AIR_RETURN
+ jne .bank_policy_ready
+ lea rcx,[sim_air_holding]
+ mov edx,[rbx+ENTITY_GENERATION]
+ cmp [rcx+r12*8],edx
+ jne .bank_policy_ready
+ cmp dword [rcx+r12*8+4],1
+ jne .bank_policy_ready
+ mov esi,1
+.bank_policy_ready:
  movss xmm1,[rbp+AIR_SPEED]
  movss xmm2,[rbp+AIR_BANK]
  call air_bank_step
@@ -1296,6 +1385,24 @@ air_strike_goal:
  jp .invalid
  jb .invalid
  ucomiss xmm3,[world_edge]
+ ja .invalid
+ ; Both staging and line ingress consume the retained physical unit axis.
+ mov edx,[rcx+24]
+ and edx,0x7fffffff
+ cmp edx,__float32__(1.0)
+ ja .invalid
+ mov edx,[rcx+28]
+ and edx,0x7fffffff
+ cmp edx,__float32__(1.0)
+ ja .invalid
+ movss xmm2,[rcx+24]
+ mulss xmm2,xmm2
+ movss xmm3,[rcx+28]
+ mulss xmm3,xmm3
+ addss xmm2,xmm3
+ ucomiss xmm2,[strike_axis_min]
+ jb .invalid
+ ucomiss xmm2,[strike_axis_max]
  ja .invalid
  movss xmm0,[rcx]
  movss xmm1,[rcx+4]

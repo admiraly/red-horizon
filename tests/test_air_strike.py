@@ -48,7 +48,7 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
  assert goal(15)==first
  C.memmove(C.addressof(E[32]),saved,len(saved))
  guards=[]
- for owner,field,bad in [(E[15],'hp',0),(E[15],'kind',0),(E[15],'generation',2),(A[15],'generation',2),(A[15],'role',1),(A[15],'ammo',0),(A[15],'flags',0),(M[15],'owner_generation',2),(M[15],'until',clock.value),(M[15],'until',clock.value+2401),(M[15],'x',math.nan),(M[15],'z',math.inf),(M[15],'x',-1),(M[15],'z',8001)]:
+ for owner,field,bad in [(E[15],'hp',0),(E[15],'kind',0),(E[15],'generation',2),(A[15],'generation',2),(A[15],'role',1),(A[15],'ammo',0),(A[15],'flags',0),(M[15],'owner_generation',2),(M[15],'until',clock.value),(M[15],'until',clock.value+2401),(M[15],'x',math.nan),(M[15],'z',math.inf),(M[15],'x',-1),(M[15],'z',8001),(M[15],'dx',math.nan),(M[15],'dz',math.inf),(M[15],'dx',1.01),(M[15],'dx',0)]:
   old=getattr(owner,field);setattr(owner,field,bad);assert goal(15)[0]==0,(field,bad);setattr(owner,field,old);guards.append(field)
  for i in (64,32768,0xffffffff):assert goal(i)[0]==0
  # Assembled causal control, same births/physics/stores/ticks, only recall disabled.

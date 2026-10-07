@@ -388,6 +388,7 @@ def main():
             execute([sys.executable,'tests/test_air_gun_intercept.py'])
             execute([sys.executable,'tests/test_air_gunnery.py'])
             execute([sys.executable,'tests/test_air_bank.py'])
+            execute([sys.executable,'tests/test_air_load.py'])
             execute([sys.executable,'tests/test_air_vertical.py'])
             execute([sys.executable,'tests/test_air_speed.py'])
             execute([sys.executable,'tests/test_air_threats.py'])
