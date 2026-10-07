@@ -1,6 +1,7 @@
 # Task graph and ready queue — current integration
 | Task | Owner | Dependency | State / acceptance evidence |
 |---|---|---|---|
+| Confidence-weighted fighter pursuit | integrator | visible enemy memory/own mission | integrated85d1e31;10k native cases, causal public flight, original8k/16k bounds, complete aircraft/network/actual GL pass; full checkpoint pending; flight/tactics/art acceptance open |
 | Fighter visible enemy memory | integrator | aircraft perception/LOS | integrated c135e6e; native view/occlusion/expiry/hidden-body controls, original scale aircraft, ordinary network and actual GL pass; full checkpoint pending; broader tactics open |
 | Canonical spec, ABI, isolated worktrees | integrator | repository | committed |
 | Pinned incremental toolchain / frozen async jobs | integrator | ABI | tested cold/no-op/one-file invalidation, frozen job survives invalid source edit |
