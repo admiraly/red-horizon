@@ -2,6 +2,7 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/air_recovery.inc"
+%include "schemas/air_flight.inc"
 default rel
 extern air_fuel_status,air_base_goal
 extern sim_entities,sim_aircraft,sim_count
@@ -124,7 +125,7 @@ air_holding_goal:
 %macro hold_velocity 1
  mov edx,[r9+%1]
  and edx,0x7fffffff
- cmp edx,__float32__(7.0)
+ cmp edx,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .none
  movss xmm6,[r9+%1]
  mulss xmm6,xmm6
@@ -134,11 +135,11 @@ air_holding_goal:
  hold_velocity AIR_VY
  hold_velocity AIR_VZ
 %unmacro hold_velocity 1
- mov edx,__float32__(24.9)
+ mov edx,__float32__(AIR_FLIGHT_MIN_SPEED_SQ)
  movd xmm6,edx
  ucomiss xmm7,xmm6
  jb .none
- mov edx,__float32__(49.1)
+ mov edx,__float32__(AIR_FLIGHT_MAX_SPEED_SQ)
  movd xmm6,edx
  ucomiss xmm7,xmm6
  ja .none
@@ -178,7 +179,7 @@ air_holding_goal:
  ucomiss xmm4,[one]
  jp .none
  jb .none
- mov edx,__float32__(49.1)
+ mov edx,__float32__(AIR_FLIGHT_MAX_SPEED_SQ)
  movd xmm5,edx
  ucomiss xmm4,xmm5
  ja .none

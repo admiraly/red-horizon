@@ -3,6 +3,7 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/air_observation.inc"
+%include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count,world_los
 section .bss align=64
@@ -13,10 +14,10 @@ zero: dd 0.0
 one: dd 1.0
 maximum: dd 8000.0
 max_y: dd 1000.0
-min_speed: dd 5.0
-max_speed: dd 7.0
-min_speed_sq: dd 24.9
-max_speed_sq: dd 49.1
+min_speed: dd AIR_FLIGHT_MIN_SPEED
+max_speed: dd AIR_FLIGHT_MAX_SPEED
+min_speed_sq: dd AIR_FLIGHT_MIN_SPEED_SQ
+max_speed_sq: dd AIR_FLIGHT_MAX_SPEED_SQ
 range_sq: dd AIR_OBSERVATION_RANGE_SQ
 rear_cos_sq: dd AIR_OBSERVATION_REAR_COS_SQ
 memory_ticks: dd AIR_OBSERVATION_MAX_AGE

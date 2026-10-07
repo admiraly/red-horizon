@@ -5,6 +5,7 @@
 %include "schemas/air_evasion.inc"
 %define SEARCH_WIDTH (AIR_EVADE_CELL_RADIUS*2+1)
 %define SEARCH_CELLS (SEARCH_WIDTH*SEARCH_WIDTH)
+%include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count,sim_projectiles,world_los
 section .bss align=64
@@ -24,10 +25,10 @@ max_y: dd 1000.0
 max_velocity: dd 32.0
 round_min_sq: dd 783.9
 round_max_sq: dd 784.1
-minimum_speed: dd 5.0
-maximum_speed: dd 7.0
-own_min_sq: dd 24.9
-own_max_sq: dd 49.1
+minimum_speed: dd AIR_FLIGHT_MIN_SPEED
+maximum_speed: dd AIR_FLIGHT_MAX_SPEED
+own_min_sq: dd AIR_FLIGHT_MIN_SPEED_SQ
+own_max_sq: dd AIR_FLIGHT_MAX_SPEED_SQ
 range_sq: dd AIR_EVADE_RANGE_SQ
 view_sq: dd AIR_EVADE_VIEW_COS_SQ
 predict_ticks: dd AIR_EVADE_PREDICT_TICKS

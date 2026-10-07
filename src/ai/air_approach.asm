@@ -2,6 +2,7 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/air_approach.inc"
+%include "schemas/air_flight.inc"
 default rel
 extern air_recovery_goal,air_base_goal,air_fuel_status,terrain_height
 extern air_traffic_request,air_traffic_release,air_final_clear
@@ -74,23 +75,23 @@ air_approach_goal:
  cmp edx,__float32__(12000.0)
  ja .failure
  mov edx,[rbp+AIR_SPEED]
- cmp edx,__float32__(5.0)
+ cmp edx,__float32__(AIR_FLIGHT_MIN_SPEED)
  jb .failure
- cmp edx,__float32__(7.0)
+ cmp edx,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .failure
  mov edx,[rbp+AIR_VX]
  and edx,0x7fffffff
- cmp edx,__float32__(7.0)
+ cmp edx,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .failure
  mov edx,[rbp+AIR_VZ]
  and edx,0x7fffffff
- cmp edx,__float32__(7.0)
+ cmp edx,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .failure
  xorps xmm4,xmm4
 %macro approach_velocity 1
  mov edx,[rbp+%1]
  and edx,0x7fffffff
- cmp edx,__float32__(7.0)
+ cmp edx,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .failure
  movss xmm5,[rbp+%1]
  mulss xmm5,xmm5
@@ -100,11 +101,11 @@ air_approach_goal:
  approach_velocity AIR_VY
  approach_velocity AIR_VZ
 %unmacro approach_velocity 1
- mov edx,__float32__(24.9)
+ mov edx,__float32__(AIR_FLIGHT_MIN_SPEED_SQ)
  movd xmm5,edx
  ucomiss xmm4,xmm5
  jb .failure
- mov edx,__float32__(49.1)
+ mov edx,__float32__(AIR_FLIGHT_MAX_SPEED_SQ)
  movd xmm5,edx
  ucomiss xmm4,xmm5
  ja .failure

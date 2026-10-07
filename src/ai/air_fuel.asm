@@ -100,9 +100,9 @@ air_fuel_step:
  test eax,eax
  js .done
  mov eax,[r9+AIR_SPEED]
- cmp eax,__float32__(5.0)
+ cmp eax,__float32__(AIR_FLIGHT_MIN_SPEED)
  jb .bad
- cmp eax,__float32__(7.0)
+ cmp eax,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .bad
  mov eax,[r9+AIR_BANK]
  and eax,0x7fffffff

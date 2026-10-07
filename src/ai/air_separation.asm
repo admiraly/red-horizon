@@ -2,6 +2,7 @@
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/air_separation.inc"
+%include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count
 section .bss align=64
@@ -20,8 +21,8 @@ miss2: dd AIR_SEPARATION_MISS_SQ
 horizon: dd AIR_SEPARATION_PREDICT_TICKS
 scale: dd 0.004
 negative: dd -1.0
-min_speed2: dd 24.9
-max_speed2: dd 49.1
+min_speed2: dd AIR_FLIGHT_MIN_SPEED_SQ
+max_speed2: dd AIR_FLIGHT_MAX_SPEED_SQ
 section .text
 global air_separation_init,air_separation_build,air_separation_query,air_separation_step,air_separation_hash
 air_separation_init:
@@ -78,7 +79,7 @@ valid:
 %macro velocity 1
  mov eax,[r9+%1]
  and eax,0x7fffffff
- cmp eax,__float32__(7.0)
+ cmp eax,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .bad
  movss xmm0,[r9+%1]
  mulss xmm0,xmm0

@@ -4,6 +4,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/air_escort.inc"
 %include "schemas/air_recovery.inc"
+%include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count
 extern air_fuel_status
@@ -44,7 +45,7 @@ global air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_esc
  je %3
  cmp dword [%2+AIR_SPEED],0
  jbe %3
- cmp dword [%2+AIR_SPEED],__float32__(7.0)
+ cmp dword [%2+AIR_SPEED],__float32__(AIR_FLIGHT_MAX_SPEED)
  ja %3
  cmp dword [%1+ENTITY_X],__float32__(8000.0)
  ja %3

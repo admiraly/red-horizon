@@ -269,11 +269,11 @@ air_world_warning:
  ja .clear_leaf
  mov eax,[rcx+AIR_VX]
  and eax,0x7fffffff
- cmp eax,__float32__(7.0)
+ cmp eax,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .clear_leaf
  mov eax,[rcx+AIR_VZ]
  and eax,0x7fffffff
- cmp eax,__float32__(7.0)
+ cmp eax,__float32__(AIR_FLIGHT_MAX_SPEED)
  ja .clear_leaf
  mov eax,[rcx+AIR_VY]
  and eax,0x7fffffff

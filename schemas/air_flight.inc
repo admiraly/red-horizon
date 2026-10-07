@@ -3,6 +3,9 @@
 %define AIR_FLIGHT_GRAVITY 0.0109
 %define AIR_FLIGHT_MIN_SPEED 5.0
 %define AIR_FLIGHT_MAX_SPEED 7.0
+; Squared velocity guards include the existing0.1 floating-point allowance.
+%define AIR_FLIGHT_MIN_SPEED_SQ 24.9
+%define AIR_FLIGHT_MAX_SPEED_SQ 49.1
 %define AIR_FLIGHT_VERTICAL_LIMIT 0.5
 %define AIR_FLIGHT_BOMBER_VERTICAL_ACCEL 0.012
 %define AIR_FLIGHT_FIGHTER_VERTICAL_ACCEL 0.024
