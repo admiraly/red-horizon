@@ -1,0 +1,12 @@
+/mnt/titan_nv3/projects/red-horizon-workers/air-holding/runs/jobs/e092137fb4cc/source/src/ai/air_recovery.asm:14: error: symbol `AIR_RECOVERY_ARRIVAL_SQ' not defined
+/mnt/titan_nv3/projects/red-horizon-workers/air-holding/runs/jobs/e092137fb4cc/source/src/ai/air_recovery.asm:15: error: symbol `AIR_RECOVERY_BOMBER_HOLD_RADIUS' not defined
+/mnt/titan_nv3/projects/red-horizon-workers/air-holding/runs/jobs/e092137fb4cc/source/src/ai/air_recovery.asm:16: error: symbol `AIR_RECOVERY_HOLD_LOOKAHEAD' not defined
+/mnt/titan_nv3/projects/red-horizon-workers/air-holding/runs/jobs/e092137fb4cc/source/src/ai/air_recovery.asm:17: error: symbol `AIR_RECOVERY_HOLD_RADIAL_GAIN' not defined
+Traceback (most recent call last):
+  File "/tmp/rh-holding-fronts.py", line 15, in <module>
+    obj=td/(source.name+'.o');subprocess.run([nasm,'-f','elf64','-I',str(R)+'/',str(source),'-o',str(obj)],check=True);objects.append(obj)
+                              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm', '-f', 'elf64', '-I', '/mnt/titan_nv3/projects/red-horizon-workers/air-holding/runs/jobs/e092137fb4cc/source/', '/mnt/titan_nv3/projects/red-horizon-workers/air-holding/runs/jobs/e092137fb4cc/source/src/ai/air_recovery.asm', '-o', '/home/levy/optane-tmp/rh-air-recovery-a8ynco0a/air_recovery.asm.o']' returned non-zero exit status 1.

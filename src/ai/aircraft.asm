@@ -5,6 +5,7 @@
 %include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
+extern air_holding_init,air_holding_goal,air_holding_hash
 extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_separation_init,air_separation_build,air_separation_step,air_separation_hash,sim_air_separation
@@ -117,6 +118,7 @@ air_init:
  mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
  rep stosd
  sub rsp,8
+ call air_holding_init
  call air_separation_init
  call air_observation_init
  call air_threats_reset
@@ -314,7 +316,7 @@ air_tick:
  jmp .boundary
 .recovery_goal:
  mov edi,r12d
- call air_recovery_goal
+ call air_holding_goal
  test eax,eax
  jz .egress_goal
  mov dword [rbp+AIR_MODE],AIR_RETURN
@@ -1178,6 +1180,7 @@ air_hash:
  jnz .strike_bytes
 .missions:
  sub rsp,8
+ call air_holding_hash
  call air_separation_hash
  call air_observation_hash
  call air_escort_hash
