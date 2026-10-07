@@ -1,0 +1,137 @@
+{
+  "scenario": "scale-hotspot",
+  "revision": "2cbb4a9c42d362473e93d711f55d03c2ddc5c32a-562ee9dcb015aafb",
+  "seed": 1,
+  "wall_seconds": 8.947224065981572,
+  "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+  "cpu_model": "Intel(R) Core(TM) i7-14700K",
+  "realtime": false,
+  "runtime": {
+    "units": 16384,
+    "ticks": 300,
+    "seed": 1,
+    "alive": [
+      7023,
+      6677
+    ],
+    "engaged": 1459,
+    "checksum": "4648b11dc192ec49",
+    "tick_mean_ms": 29.762702,
+    "tick_p95_ms": 37.027978,
+    "operation_state": 0,
+    "requisition": [
+      490,
+      280
+    ],
+    "supply": [
+      600,
+      600
+    ],
+    "projectiles": 411,
+    "projectile_peak": 477,
+    "projectile_dropped": 244667,
+    "navigation": {
+      "pending": 512,
+      "completed": 2392,
+      "overflow": 2149401,
+      "cache_hits": 249456,
+      "stuck_replans": 1,
+      "cover_choices": 0,
+      "processed_last_tick": 8,
+      "processed_max": 8
+    },
+    "air_events": {
+      "bomb_launches": 36,
+      "bomb_impacts": 35,
+      "gun_bursts": 314,
+      "aircraft_destroyed": 2,
+      "overwritten_unobserved": 20635
+    },
+    "hazards": {
+      "predictions": 61617,
+      "tile_overflow": 49437,
+      "acquired": 17064,
+      "dispersions": 17064,
+      "shelters": 0,
+      "los_calls": 41160,
+      "budget_skipped": 0,
+      "active_goals": 1658
+    },
+    "ordnance_admission": [
+      {
+        "submitted": 120326,
+        "admitted": 720,
+        "capacity_denied": 119606,
+        "invalidated": 0
+      },
+      {
+        "submitted": 41847,
+        "admitted": 717,
+        "capacity_denied": 41130,
+        "invalidated": 0
+      },
+      {
+        "submitted": 74877,
+        "admitted": 707,
+        "capacity_denied": 74170,
+        "invalidated": 0
+      },
+      {
+        "submitted": 10320,
+        "admitted": 561,
+        "capacity_denied": 9759,
+        "invalidated": 0
+      }
+    ],
+    "air_admission": [
+      {
+        "submitted": 23,
+        "admitted": 23,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 178,
+        "admitted": 178,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 13,
+        "admitted": 13,
+        "capacity_denied": 0,
+        "invalidated": 0
+      },
+      {
+        "submitted": 138,
+        "admitted": 136,
+        "capacity_denied": 2,
+        "invalidated": 0
+      }
+    ],
+    "crowd": {
+      "snapshot_actors": 4178827,
+      "move_queries": 4849158,
+      "inspected_neighbors": 43506051,
+      "corrected_endpoints": 476322,
+      "yielded_moves": 62701,
+      "overlap_recoveries": 30406,
+      "truncated_queries": 0,
+      "maximum_inspected_per_query": 54
+    }
+  },
+  "coverage": {
+    "replicated": 0,
+    "visible": 0,
+    "gpu": "unmeasured",
+    "audio": "unmeasured",
+    "threads": 1,
+    "peak_runtime_rss_kib": 38256,
+    "allocation_counts": {
+      "sim_tick_heap": 0,
+      "basis": "source audit of static assembly simulation; process total unmeasured"
+    },
+    "navigation_backlog": 512,
+    "network_bandwidth": "unmeasured in CPU-only headless benchmark"
+  }
+}

@@ -4,7 +4,7 @@
 %include "schemas/air_approach.inc"
 default rel
 extern air_recovery_goal,air_base_goal,air_fuel_status,terrain_height
-extern air_traffic_request,air_traffic_release
+extern air_traffic_request,air_traffic_release,air_final_clear
 extern sim_entities,sim_aircraft,sim_count,air_bases
 section .bss align=64
 global sim_air_approaches
@@ -240,6 +240,15 @@ air_approach_goal:
  andps xmm5,[abs_mask]
  ucomiss xmm5,[crosswind]
  ja .go_around
+ ; Forecast the descending final with actual bank/vertical actuators before
+ ; retaining admission. Any contact or malformed world source aborts it.
+ call .preview
+ cmp eax,1
+ jne .go_around
+ movss xmm4,[r12+ENTITY_X]
+ subss xmm4,[rsp+12]
+ mulss xmm4,[rsp+20]
+ mulss xmm4,[negative]
  movss xmm0,[rsp+20]
  mulss xmm0,[lookahead]
  addss xmm0,[r12+ENTITY_X]
@@ -323,6 +332,17 @@ air_approach_goal:
  mov edi,eax
  sub rsp,8
  call air_traffic_release
+ add rsp,8
+ ret
+.preview:
+ lea rdi,[sim_entities]
+ mov rax,r12
+ sub rax,rdi
+ shr eax,5
+ mov edi,eax
+ mov esi,r13d
+ sub rsp,8
+ call air_final_clear
  add rsp,8
  ret
 air_approach_hash:

@@ -1,0 +1,3 @@
+{"command": ["/mnt/titan_nv3/projects/red-horizon-workers/air-final-clearance/build/revisions/2cbb4a9c42d362473e93d711f55d03c2ddc5c32a-562ee9dcb015aafb/red-horizon", "--listen", "--scenario", "air-battle", "--units", "8192", "--hidden", "--frames", "120", "--width", "1280", "--height", "720", "--cap", "60", "--phase-metrics", "--visibility-census"], "scope": "Native hardware120-frame smoke only, ALSA null, uncontrolled concurrent load"}
+Client context/shader creation failed.
+{"listen_host":true,"port":0,"child_pid":0,"child_exited":0,"startup_failed":0}

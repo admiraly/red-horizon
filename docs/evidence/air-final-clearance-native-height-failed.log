@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-final-clearance/tests/test_air_final_clear.py", line 98, in <module>
+    assert pair[0]['first20_minimum_y']>pair[1]['first20_minimum_y']+1.5,pair
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'policy': 'candidate', 'minimum_y': 103.99189758300781, 'first20_minimum_y': 125.4403305053711, 'first20_final_frames': 0, 'final_xyz': (2757.03515625, 103.99189758300781, 4058.65966796875), 'final_frames': 85, 'trace_sha256': '546df3efe916b3633851c11031263cb0f1d5ad2cdf180dc1e85fef8d94cee0ea'}, {'policy': 'omitted-final-preview', 'minimum_y': 125.0527572631836, 'first20_minimum_y': 125.0527572631836, 'first20_final_frames': 20, 'final_xyz': (2818.53759765625, 167.00685119628906, 4208.5419921875), 'final_frames': 120, 'trace_sha256': '18e92ab712f7cd33c4058cabfb5295d2fc19296ff7b6e41e8ab270ec2b7b9287'}]

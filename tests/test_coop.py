@@ -16,7 +16,7 @@ import struct
 import subprocess
 import time
 
-MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 44, 0x0bf88488, 0x0238d9f7
+MAGIC, VERSION, SCHEMA, CONTENT = 0x52484332, 45, 0xfbb518e4, 0xd01a1822
 HEADER = struct.Struct('<10I')
 
 
@@ -559,7 +559,7 @@ def main():
         'terrain_surface_abi': 1,
         'roads': json.loads((root / 'content/terrain/roads.json').read_text()),
         'air_traffic': {name:definitions[name] for name in ('AIR_TRAFFIC_VERSION','AIR_TRAFFIC_STRIDE','AIR_TRAFFIC_LEASE_TICKS')},
-        'air_approach': {name:definitions[name] for name in ('AIR_APPROACH_VERSION', 'AIR_APPROACH_STRIDE', 'AIR_APPROACH_ENTRY', 'AIR_APPROACH_CROSSWIND', 'AIR_APPROACH_POINT_RADIUS_SQ', 'AIR_APPROACH_ALIGNMENT', 'AIR_APPROACH_CORRIDOR', 'AIR_APPROACH_FINAL_NEAR', 'AIR_APPROACH_FINAL_FAR', 'AIR_APPROACH_FINAL_EXIT', 'AIR_APPROACH_LOOKAHEAD', 'AIR_APPROACH_CLEARANCE', 'AIR_APPROACH_SLOPE', 'AIR_APPROACH_RADIAL_GAIN', 'AIR_APPROACH_HEIGHT_GAIN')},
+        'air_approach': {name:definitions[name] for name in ('AIR_APPROACH_VERSION', 'AIR_APPROACH_STRIDE', 'AIR_APPROACH_ENTRY', 'AIR_APPROACH_CROSSWIND', 'AIR_APPROACH_POINT_RADIUS_SQ', 'AIR_APPROACH_ALIGNMENT', 'AIR_APPROACH_CORRIDOR', 'AIR_APPROACH_FINAL_NEAR', 'AIR_APPROACH_FINAL_FAR', 'AIR_APPROACH_FINAL_EXIT', 'AIR_APPROACH_LOOKAHEAD', 'AIR_APPROACH_CLEARANCE', 'AIR_APPROACH_SLOPE', 'AIR_APPROACH_RADIAL_GAIN', 'AIR_APPROACH_HEIGHT_GAIN', 'AIR_APPROACH_PREVIEW_TICKS')},
         'air_bases': json.loads((root / 'content/terrain/airbases.json').read_text()),
         'tracked_policy': policy,
     }

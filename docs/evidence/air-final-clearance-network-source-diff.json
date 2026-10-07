@@ -1,0 +1,7 @@
+{
+  "network_job": "e7c76f262445",
+  "final_source_differences": [
+    "tests/test_air_final_clear.py"
+  ],
+  "scope": "Only new physical observer lateral threshold1m vs0.5m; runtime, canonical schemas, wire oracle and all network-consumed sources exactly match."
+}
