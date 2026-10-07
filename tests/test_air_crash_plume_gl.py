@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual embedded plume shader: independent ballistic trail, cap and expiry."""
+from xvfb_display import read_display_number
 import importlib.util,json,math,os,pathlib,select,struct,subprocess,sys,tempfile,hashlib
 R=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief',R/'tests/test_relief_gl.py');helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
@@ -9,7 +10,7 @@ cases=[(state,identity,1,map,age)for state in (1,2)for identity in (1,4294967295
 read,write=os.pipe();server=None
 try:
  with tempfile.TemporaryDirectory(prefix='rh-plume-gl-')as d:
-  td=pathlib.Path(d);server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(write);write=-1;assert select.select([read],[],[],10)[0];display=os.read(read,32).decode().strip();os.close(read);read=-1
+  td=pathlib.Path(d);server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(write);write=-1;display=read_display_number(read,10);os.close(read);read=-1
   (td/'driver.c').write_text(DRIVER);subprocess.run([os.environ['RED_HORIZON_NASM'],'-f','elf64','-I',str(R)+'/',str(R/'src/render/shaders.asm'),'-o',str(td/'shader.o')],cwd=R,check=True);subprocess.run(['cc','-O2',str(td/'driver.c'),str(td/'shader.o'),'-lGL','-lX11','-o',str(td/'driver')],check=True)
   env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
   run=subprocess.run([str(td/'driver')],input=(str(len(cases))+'\n'+'\n'.join(' '.join(map(str,c))for c in cases)+'\n').encode(),env=env,capture_output=True,timeout=30);assert run.returncode==0,run.stderr.decode();assert len(run.stdout)==len(cases)*120*40

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Real GL dense fixture smoke; submitted instances never imply pixel visibility."""
+from xvfb_display import read_display_number
 import json,os,pathlib,select,subprocess,sys,tempfile
 exe=pathlib.Path(sys.argv[1]).resolve()
 with tempfile.TemporaryDirectory() as folder:
@@ -8,8 +9,8 @@ with tempfile.TemporaryDirectory() as folder:
   with (root/'xvfb.log').open('w') as log:
    server=subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0','1280x720x24','-nolisten','tcp'],pass_fds=(write_fd,),stdout=subprocess.DEVNULL,stderr=log)
    os.close(write_fd);write_fd=None
-   assert select.select([read_fd],[],[],10)[0],'Xvfb startup timeout'
-   number=os.read(read_fd,32).decode().strip();assert number.isdigit()
+
+   number=read_display_number(read_fd,10);assert number.isdigit()
    env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
    results={}
    for scenario in ('scale-front','scale-hotspot'):

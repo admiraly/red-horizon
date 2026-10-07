@@ -2,6 +2,7 @@
 """Actual local and UDP graphical driver's terrain-supported eye observer.
 Initial positions only are fixtures. Frozen network preview is labelled cosmetic.
 """
+from xvfb_display import read_display_number
 import ctypes as C,ctypes.util,json,math,os,pathlib,select,signal,struct,subprocess,sys,tempfile,time
 CLIENT,SERVER=(pathlib.Path(x).resolve() for x in sys.argv[1:3]);ROOT=pathlib.Path(__file__).resolve().parents[1]
 X=C.CDLL(ctypes.util.find_library('X11'));XT=C.CDLL(ctypes.util.find_library('Xtst'));D,W=C.c_void_p,C.c_ulong
@@ -69,7 +70,7 @@ with tempfile.TemporaryDirectory(prefix='rh-eye-client-') as td:
   return (e,g,p,want,error)
  try:
   xvfb=subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0','1280x720x24','-nolisten','tcp'],pass_fds=(write_fd,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);processes.append(xvfb)
-  os.close(write_fd);write_fd=None;assert select.select([read_fd],[],[],10)[0];number=os.read(read_fd,32).decode().strip();os.close(read_fd);read_fd=None
+  os.close(write_fd);write_fd=None;number=read_display_number(read_fd,10);os.close(read_fd);read_fd=None
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None);display=X.XOpenDisplay(env['DISPLAY'].encode());assert display
   sym=syms(CLIENT);local=subprocess.Popen([str(CLIENT)],cwd=CLIENT.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True);processes.append(local)
   win=wait(window);focus(win);mem=os.open(f'/proc/{local.pid}/mem',os.O_RDWR);memories.append(mem);armor=birth(local,mem,sym,8192)

@@ -1,0 +1,375 @@
+{
+  "integration_commit": "0608b5afa69beb768287e97f045e2d21a4a1f6a6",
+  "native": {
+    "suite": "air-escort-fuel",
+    "passed": true,
+    "cases": 30,
+    "queries_preserve_authority_GPR_XMM_stack": true,
+    "own_record_only": true,
+    "causal_public_flight": [
+      {
+        "side": 0,
+        "depleted": 15,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3560,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3560,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "side": 0,
+        "depleted": 31,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3561,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3561,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "side": 1,
+        "depleted": 15,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3564,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3511,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3564,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3511,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "side": 1,
+        "depleted": 31,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3580,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 60,
+                "units": 3524,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3580,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3524,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "library_sha256": "0b552a18d279cdbd280b523bfb029dfb2588bf1e763d65429b010babddb15528",
+    "negative_control_source_sha256": "43e20e50668c373fc68a610f17bf348c9f814ef81c93631f929a8f85f26b9d34",
+    "scope": "Native production NASM wing planner/getters and real sim_tick, both sides/roles. One-time staging, constant role speed and actual reserve crossing, no live renewal. No landing/refill/traffic/full operation/GPU/UDP/performance acceptance."
+  },
+  "builds": {
+    "client": {
+      "target": "client",
+      "revision": "0608b5afa69beb768287e97f045e2d21a4a1f6a6-358fb19eb6159a95",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/ai/air_escort.asm"
+      ],
+      "seconds": 0.5757999079942238,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/0608b5afa69beb768287e97f045e2d21a4a1f6a6-358fb19eb6159a95/red-horizon",
+      "sha256": "fa4a6a177523f1e5c37b5e95e682fbab5445591eb8201b72b0ecf5204a3d5882"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "0608b5afa69beb768287e97f045e2d21a4a1f6a6-358fb19eb6159a95",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.42914723698049784,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/0608b5afa69beb768287e97f045e2d21a4a1f6a6-358fb19eb6159a95/red-horizon-server",
+      "sha256": "2aae5005fdf7e7d4a834d99c2e6e525088ce74ceb79605bbdb089a96ce9a830f"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "0608b5afa69beb768287e97f045e2d21a4a1f6a6-358fb19eb6159a95",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.46443839400308207,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/0608b5afa69beb768287e97f045e2d21a4a1f6a6-358fb19eb6159a95/red-horizon-coop-server",
+      "sha256": "f6a3722b7308256d1cc4bc5f4356520a7b3fcca60b32d867bb32706f4e93e086"
+    }
+  },
+  "remote_sha": "0608b5afa69beb768287e97f045e2d21a4a1f6a6"
+}

@@ -2,6 +2,7 @@
 """Development-only authoritative client input/feedback test on a private X server.
 The client, terrain and player simulation are the real assembled executable.
 """
+from xvfb_display import read_display_number
 import ctypes as C
 import ctypes.util
 import json
@@ -46,8 +47,8 @@ try:
     with tempfile.TemporaryFile() as server_log:
         server = subprocess.Popen(['Xvfb', '-displayfd', str(write_fd), '-screen', '0', '1280x720x24', '-nolisten', 'tcp'], pass_fds=(write_fd,), stdout=subprocess.DEVNULL, stderr=server_log)
         os.close(write_fd); write_fd = None
-        assert select.select([read_fd], [], [], 10)[0], 'Xvfb startup timed out'
-        number = os.read(read_fd, 32).decode().strip(); assert number.isdigit(), number
+
+        number = read_display_number(read_fd,10); assert number.isdigit(), number
         os.close(read_fd); read_fd = None
         env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
         env.pop('WAYLAND_DISPLAY', None)

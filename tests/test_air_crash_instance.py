@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """NASM readonly airframe-instance packing and actual shader vertices."""
+from xvfb_display import read_display_number
 import ctypes as C,hashlib,importlib.util,json,math,os,pathlib,random,select,struct,subprocess,tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[1];NASM=os.environ.get('RED_HORIZON_NASM','/mnt/titan_nv3/projects/red-horizon/.tools/nasm/nasm')
 spec=importlib.util.spec_from_file_location('glprobe',ROOT/'tests/test_support_gl.py');gl=importlib.util.module_from_spec(spec);spec.loader.exec_module(gl)
@@ -62,7 +63,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air_crash-instance-') as name:
  cases=[(w,data,descriptors[3 if w.role==0 else 8]) for w,data in poses[:32]]
  read,write=os.pipe();server=None
  try:
-  server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(write);write=-1;assert select.select([read],[],[],10)[0];display=os.read(read,32).decode().strip();os.close(read);read=-1
+  server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(write);write=-1;display=read_display_number(read,10);os.close(read);read=-1
   env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
   payload=str(len(cases))+'\n'+''.join(str(desc[0])+' '+' '.join(map(str,struct.unpack('<16f',data)))+'\n' for w,data,desc in cases)
   run=subprocess.run([str(td/'driver'),str(ROOT/'content/models/battle.rham'),str(td)],input=payload,text=True,capture_output=True,env=env,timeout=45);assert run.returncode==0,(run.returncode,run.stderr)

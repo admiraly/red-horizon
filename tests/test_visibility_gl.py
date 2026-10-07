@@ -6,6 +6,7 @@ writes. These are rendering fixtures, not evidence of units produced by combat.
 Expected visible classes come from controlled geometry, not submitted counts or
 frustum estimates. No host desktop input is used. Every child is reconciled.
 """
+from xvfb_display import read_display_number
 import json
 import errno
 import os
@@ -210,8 +211,8 @@ try:
                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     os.close(write_fd)
     write_fd = None
-    assert select.select([read_fd], [], [], 10)[0], 'private X server startup timeout'
-    number = os.read(read_fd, 32).decode().strip()
+
+    number = read_display_number(read_fd,10)
     assert number.isdigit(), number
     env = dict(os.environ, DISPLAY=':' + number, LIBGL_ALWAYS_SOFTWARE='1', RH_AUDIO_DEVICE='null')
     env.pop('WAYLAND_DISPLAY', None)

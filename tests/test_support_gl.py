@@ -3,6 +3,7 @@
 Uses four-corner CPU support frame as shader input, with independent source-vertex
 placement/lighting observations. Client instance hooks are verified separately.
 """
+from xvfb_display import read_display_number
 import ctypes as C,hashlib,importlib.util,json,math,os,pathlib,select,struct,subprocess,sys,tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief_gl',ROOT/'tests/test_relief_gl.py');helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
@@ -54,7 +55,7 @@ def main():
         with tempfile.TemporaryDirectory(prefix='rh-support-gl-') as tmp:
             folder=pathlib.Path(tmp)
             with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-            os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+            os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
             env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
             (folder/'driver.c').write_text(DRIVER);nasm=os.environ.get('RED_HORIZON_NASM',str(ROOT/'.tools/nasm/nasm'))
             subprocess.run([nasm,'-f','elf64','src/render/mesh_shaders.asm','-o',str(folder/'shader.o')],cwd=ROOT,check=True,capture_output=True)

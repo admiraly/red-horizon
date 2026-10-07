@@ -2,6 +2,7 @@
 """Actual embedded production fragments + NASM DSA upload; declared surface fixture.
 Private GL4.5 context, RGBA32F/integer readback. Development only, no game runtime.
 """
+from xvfb_display import read_display_number
 import ctypes as C, hashlib, importlib.util, json, os, pathlib, select, subprocess, sys, tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief',ROOT/'tests/test_relief_gl.py');h=importlib.util.module_from_spec(spec);spec.loader.exec_module(h)
@@ -25,7 +26,7 @@ def main():
    if hardware:assert os.environ.get('DISPLAY');os.environ.pop('LIBGL_ALWAYS_SOFTWARE',None)
    else:
     with(folder/'xvfb.log').open('wb')as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-    os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+    os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
     os.environ['DISPLAY']=':'+number;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
    # Only effect storage is a declared fixture; tested lighting code is production.
    (folder/'records.asm').write_text('section .bss\nglobal effects_records\neffects_records: resb 2048\nsection .note.GNU-stack noalloc noexec nowrite progbits\n')

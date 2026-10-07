@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual assembly client support instances/GL pixels; private frozen fixtures."""
+from xvfb_display import read_display_number
 import ctypes as C,ctypes.util,hashlib,json,math,os,pathlib,select,signal,struct,subprocess,sys,tempfile,time
 EXE=pathlib.Path(sys.argv[1]).resolve();LIB=pathlib.Path(sys.argv[2]).resolve();ROOT=pathlib.Path(__file__).resolve().parents[1]
 world=C.CDLL(str(LIB));world.ground_support.argtypes=[C.c_void_p,C.c_uint,C.c_uint,C.c_float,C.c_float,C.c_float];world.ground_support.restype=C.c_int
@@ -16,7 +17,7 @@ read,write=os.pipe();server=process=display=memory=None
 try:
  with tempfile.TemporaryFile() as log:
   server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x360x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1
-  assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+  number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
   display=X.XOpenDisplay(env['DISPLAY'].encode());assert display
   process=subprocess.Popen([str(EXE),'--width','640','--height','360'],cwd=EXE.parent,env=env,stdout=log,stderr=log)

@@ -1,0 +1,353 @@
+{
+  "observed_utc": "2026-10-07T13:18:37.599676+00:00",
+  "reader_callers": 41,
+  "startup_deadline_seconds": 10,
+  "CPU_runtime_changed": false,
+  "inference": "Failure log reports DISPLAY :1 then Xvfb fatal cannot-write-display-number. Single read/early close can truncate the line and close the pipe; fragmented producer control deterministically reproduces BrokenPipeError. Actual byte framing of the failed Xvfb process was not recorded.",
+  "tests": {
+    "display-unit": {
+      "suite": "xvfb-displayfd",
+      "passed": true,
+      "fragmented": [
+        {
+          "chunks": [
+            "1",
+            "23",
+            "\n"
+          ],
+          "display": "123"
+        },
+        {
+          "chunks": [
+            "7",
+            "\n"
+          ],
+          "display": "7"
+        },
+        {
+          "chunks": [
+            "456\n"
+          ],
+          "display": "456"
+        }
+      ],
+      "malformed_or_incomplete": 6,
+      "bounded_timeout": true,
+      "old_control_BrokenPipe": true,
+      "scope": "Development pipe framing only; no game or graphics assertions bypassed."
+    },
+    "air-crash-corrected": {
+      "suite": "air-crash-client-draw",
+      "passed": true,
+      "network_transport": false,
+      "client_sha256": "762f4b510a9fe32a3dd8ccab6c7d51560d927233e8adf2e90b3228b5d4e86009",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 746,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-death.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 828,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-falling.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 805,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-landed.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-0-expired.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 644,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-death.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 573,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-falling.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 180,
+          "changed_pixels": 595,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-landed.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-local-1-expired.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Actual client GL draw of genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    "air-crash-udp-corrected": {
+      "suite": "air-crash-client-draw",
+      "passed": true,
+      "network_transport": true,
+      "client_sha256": "762f4b510a9fe32a3dd8ccab6c7d51560d927233e8adf2e90b3228b5d4e86009",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 762,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-death.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 849,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-falling.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 833,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-landed.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-0-expired.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 2005,
+          "changed_pixels": 670,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-death.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 2035,
+          "changed_pixels": 652,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-falling.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 2180,
+          "changed_pixels": 639,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-landed.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 3805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-udp-1-expired.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Actual client GL draw of genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    },
+    "air-plume-corrected": {
+      "suite": "air-crash-attached-plume-client",
+      "passed": true,
+      "network_transport": false,
+      "client_sha256": "762f4b510a9fe32a3dd8ccab6c7d51560d927233e8adf2e90b3228b5d4e86009",
+      "cases": [
+        {
+          "role": 0,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 296,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-death-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 298,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-falling-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "landed",
+          "source_tick": 186,
+          "changed_pixels": 290,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-landed-plume.ppm"
+        },
+        {
+          "role": 0,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-0-expired-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "death",
+          "source_tick": 5,
+          "changed_pixels": 323,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-death-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "falling",
+          "source_tick": 35,
+          "changed_pixels": 308,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-falling-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "landed",
+          "source_tick": 180,
+          "changed_pixels": 330,
+          "instances": 1,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-landed-plume.ppm"
+        },
+        {
+          "role": 1,
+          "phase": "expired",
+          "source_tick": 1805,
+          "changed_pixels": 0,
+          "instances": 0,
+          "screenshot": "/home/levy/optane-tmp/red-horizon-air-crash-plume-local-1-expired-plume.ppm"
+        }
+      ],
+      "living_instance_counts_unchanged": true,
+      "source_unchanged": true,
+      "scope": "Paired actual client GL effect toggle at identical genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic source-clock fixture and effect-only paired toggle; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance."
+    }
+  },
+  "jobs": {
+    "50cfabc971b5": {
+      "job_id": "50cfabc971b5",
+      "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/result.json",
+      "pid": 2408697,
+      "exit_code": 0,
+      "seconds": 2347.504245767981
+    },
+    "752d1c232b9a": {
+      "job_id": "752d1c232b9a",
+      "revision": "b41717875c7d3fdc78e872c06f8121340a1452b6-776321c75d873d2e",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "failed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/result.json",
+      "pid": 2412153,
+      "exit_code": 1,
+      "seconds": 2060.3691972600063
+    },
+    "cba0c56929d9": {
+      "job_id": "cba0c56929d9",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/cba0c56929d9/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/cba0c56929d9/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/cba0c56929d9/result.json",
+      "pid": 2472630,
+      "process_observation": "PID STAT     ELAPSED\n2472630 Ss         10:49"
+    },
+    "aaade54660b3": {
+      "job_id": "aaade54660b3",
+      "revision": "0608b5afa69beb768287e97f045e2d21a4a1f6a6-616eacb598919cf1",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/aaade54660b3/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/aaade54660b3/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/aaade54660b3/result.json",
+      "pid": 2502090,
+      "process_observation": "PID STAT     ELAPSED\n2502090 Ss         01:29"
+    },
+    "92fb194b4ee7": {
+      "job_id": "92fb194b4ee7",
+      "revision": "9ff9c4d15941d3800972c2fefb33a2ca2f986e4b-8b2f5f8e3f8e81e9",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/result.json",
+      "pid": 2450082,
+      "process_observation": "PID STAT     ELAPSED\n2450082 Ss         23:36"
+    }
+  },
+  "authored_inputs": 532,
+  "final_frozen_source_match": true,
+  "foreground_sessions_terminal": true,
+  "scope": "Development displayfd framing at41 callers, syntax checked. Exact failed frozen client passes unchanged local and UDP crash draw plus attached local plume. Other complete graphical fixtures and final extended532-source checkpoint pending; failed older checkpoint remains failed. No CPU runtime or deadlines/gameplay/resolution/scale gates changed."
+}

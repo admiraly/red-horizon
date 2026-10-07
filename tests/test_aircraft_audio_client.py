@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual local/8192-authority UDP client ALSA output with engine-only toggle."""
+from xvfb_display import read_display_number
 import array,hashlib,json,os,pathlib,select,signal,struct,subprocess,sys,tempfile,time
 EXE=pathlib.Path(sys.argv[1]).resolve();SERVER=pathlib.Path(sys.argv[2]).resolve()
 symbols={p[2]:int(p[0],16) for line in subprocess.check_output(['nm','-n',str(EXE)],text=True).splitlines() if len(p:=line.split())==3}
@@ -11,7 +12,7 @@ for network in (False,True):
   try:
    with (w/'client.log').open('w+') as log:
     xserver=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x360x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1
-    assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+    number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
     extra=[]
     if network:
      authority=subprocess.Popen([str(SERVER),'--port','0','--ticks','600','--units','8192'],cwd=SERVER.parent,stdout=subprocess.PIPE,stderr=log,text=True)

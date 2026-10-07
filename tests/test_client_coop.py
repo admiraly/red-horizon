@@ -2,6 +2,7 @@
 """Real two-render-client co-op on private Xvfb and a dedicated assembly server.
 Development fixtures position an encounter on the authoritative server only.
 """
+from xvfb_display import read_display_number
 import ctypes as C
 import ctypes.util
 import json
@@ -59,8 +60,8 @@ try:
     with tempfile.TemporaryFile() as xlog:
         xvfb=subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0','1280x720x24','-nolisten','tcp'],pass_fds=(write_fd,),stdout=subprocess.DEVNULL,stderr=xlog)
         processes.append(xvfb);os.close(write_fd);write_fd=None
-        assert select.select([read_fd],[],[],10)[0]
-        number=os.read(read_fd,32).decode().strip();assert number.isdigit(),number
+
+        number=read_display_number(read_fd,10);assert number.isdigit(),number
         os.close(read_fd);read_fd=None
         env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
         def connect_private_display():

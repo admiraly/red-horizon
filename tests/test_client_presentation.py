@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Development private-X presentation flags, actual mapping/framebuffer and render."""
+from xvfb_display import read_display_number
 import ctypes as C,ctypes.util,json,os,pathlib,select,subprocess,sys,tempfile,time
 exe=pathlib.Path(sys.argv[1]).resolve();root=pathlib.Path(__file__).resolve().parents[1]
 class Attributes(C.Structure):
@@ -16,7 +17,7 @@ try:
  with tempfile.TemporaryDirectory(prefix='rh-presentation-') as temp:
   folder=pathlib.Path(temp)
   with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-  os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+  os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
   env.update(DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1');display=x.XOpenDisplay(env['DISPLAY'].encode());assert display
   rows=[]
   for hidden,no_vsync,cap in [(1,1,60),(0,0,0),(0,1,0)]:

@@ -587,6 +587,7 @@ def main():
         if suite in ('all','headless','tools'):
             execute([sys.executable,'tests/test_dense_driver.py'])
             if (ROOT/'tests/test_tools.py').exists(): execute([sys.executable,'tests/test_tools.py','--nasm',nasm()])
+            execute([sys.executable,'tests/test_xvfb_display.py'])
         if suite in ('all','headless','fast'):
             execute([sys.executable,'tools/assets.py'])
             if (ROOT/'tools/audio_assets.py').exists(): execute([sys.executable,'tools/audio_assets.py'])

@@ -5,6 +5,7 @@ Actual projectile_launch/projectile_tick/hazard_tick create the threat. The test
 never writes a hazard record or a warning flag. A private Xvfb prevents desktop
 interaction. Rendering is compared with an otherwise identical friendly shell.
 """
+from xvfb_display import read_display_number
 import argparse,hashlib,json,os,pathlib,select,shutil,signal,subprocess,sys,tempfile
 parser=argparse.ArgumentParser();parser.add_argument('executable');parser.add_argument('--artifacts',type=pathlib.Path);args=parser.parse_args()
 EXE=pathlib.Path(args.executable).resolve()
@@ -115,8 +116,8 @@ try:
  server=subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0','1280x720x24','-nolisten','tcp'],
   pass_fds=(write_fd,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
  os.close(write_fd);write_fd=None
- assert select.select([read_fd],[],[],10)[0],'private Xvfb timed out'
- number=os.read(read_fd,32).decode().strip();assert number.isdigit()
+
+ number=read_display_number(read_fd,10);assert number.isdigit()
  with tempfile.TemporaryDirectory(prefix='rh-warning-gl-') as directory:
   folder=pathlib.Path(directory)
   names=['frame_count','maxdt','thirty','accum','sim_init','sim_entities','sim_alive','terrain_height','sim_players','camera','yaw','pitch','last_hp','last_shots','last_hits','damage_flash','recoil','hit_flash','shot_flash','environment_weather','mesh_clock','terrain_obstacle_count','projectile_launch','projectile_tick','hazard_tick','sim_checksum','frame_limit','hazard_warning_uniform','hazards','sim_tick_count','local_sim_ticks','effects_records','air_trails_records']

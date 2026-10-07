@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual embedded GPU particle motion/bounds/seed oracle; dev C/GLX only."""
+from xvfb_display import read_display_number
 import importlib.util,json,math,os,pathlib,select,struct,subprocess,sys,tempfile,hashlib
 R=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief',R/'tests/test_relief_gl.py');helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
@@ -29,7 +30,7 @@ cases += [(8,3,7,0,5),(9,3,7,0,2),(8,3,1,1,5),(9,3,1,1,2)]
 read,write=os.pipe();server=None
 try:
  with tempfile.TemporaryDirectory(prefix='rh-air-burst-gl-') as tmp:
-  t=pathlib.Path(tmp);log=(t/'xvfb.log').open('wb');server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();os.close(read);read=-1;assert number.isdigit()
+  t=pathlib.Path(tmp);log=(t/'xvfb.log').open('wb');server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1;number=read_display_number(read,10);os.close(read);read=-1;assert number.isdigit()
   (t/'driver.c').write_text(DRIVER);subprocess.run([os.environ['RED_HORIZON_NASM'],'-f','elf64','-I',str(R)+'/',str(R/'src/render/shaders.asm'),'-o',str(t/'shader.o')],cwd=R,check=True)
   subprocess.run(['cc','-O2',str(t/'driver.c'),str(t/'shader.o'),'-lGL','-lX11','-o',str(t/'driver')],check=True)
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)

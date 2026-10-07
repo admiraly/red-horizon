@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual native listen lifecycle and cooperative join, in private software X."""
+from xvfb_display import read_display_number
 import json,os,pathlib,select,shutil,subprocess,sys,tempfile,time
 from test_coop import VERSION
 exe=pathlib.Path(sys.argv[1]).resolve(); processes=[]; evidence=[]
@@ -55,7 +56,7 @@ def port_of(pid):
 read,write=os.pipe();x=None
 try:
  x=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(write,),stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);os.close(write);write=-1
- assert select.select([read],[],[],10)[0];display=os.read(read,32).decode().strip();os.close(read);read=-1
+ display=read_display_number(read,10);os.close(read);read=-1
  env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
  for args in (['--listen','--listen'],['--listen','--connect','127.0.0.1'],['--connect','127.0.0.1','--listen'],['--connect','127.0.0.1','--scenario','scale-hotspot'],['--listen','--port','7777'],['--port','7777','--listen']):
   r=run(args,env,expected=1);assert not rows(r.stdout) or rows(r.stdout)[0]['child_pid']==0,'invalid args spawned authority'

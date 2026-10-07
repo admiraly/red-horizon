@@ -2,6 +2,7 @@
 """Production NASM depth map and actual embedded caster/receiver shaders.
 Synthetic source triangle and texture/albedo controls declared; not gameplay art.
 """
+from xvfb_display import read_display_number
 import ctypes as C,hashlib,importlib.util,json,math,os,pathlib,select,subprocess,sys,tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief',ROOT/'tests/test_relief_gl.py');h=importlib.util.module_from_spec(spec);spec.loader.exec_module(h)
@@ -19,7 +20,7 @@ def main():
    if hardware:assert os.environ.get('DISPLAY');os.environ.pop('LIBGL_ALWAYS_SOFTWARE',None)
    else:
     with(folder/'xvfb.log').open('wb')as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','320x240x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-    os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+    os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
     os.environ['DISPLAY']=':'+number;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
    (folder/'host.asm').write_text('section .data\nglobal hdr_enabled\nhdr_enabled: dd 1\nsection .note.GNU-stack noalloc noexec nowrite progbits\n')
    objects=[]

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual GLFW client: press/release queued within one event batch must quit."""
+from xvfb_display import read_display_number
 import ctypes as C,ctypes.util,json,os,pathlib,select,signal,subprocess,sys,tempfile,time,struct,hashlib
 exe=pathlib.Path(sys.argv[1]).resolve();negative='--expect-missed' in sys.argv
 X=C.CDLL(ctypes.util.find_library('X11'));XT=C.CDLL(ctypes.util.find_library('Xtst'));D=C.c_void_p;W=C.c_ulong
@@ -12,7 +13,7 @@ read,write=os.pipe();xvfb=process=display=memory=None
 try:
  with tempfile.TemporaryFile() as log:
   xvfb=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x360x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1
-  assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();os.close(read);read=-1
+  number=read_display_number(read,10);os.close(read);read=-1
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
   display=X.XOpenDisplay(env['DISPLAY'].encode());assert display
   process=subprocess.Popen([str(exe),'--tactical','--width','640','--height','360'],cwd=exe.parent,env=env,stdout=log,stderr=log)

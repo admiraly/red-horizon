@@ -1,0 +1,17 @@
+{
+  "job_id": "752d1c232b9a",
+  "revision": "b41717875c7d3fdc78e872c06f8121340a1452b6-776321c75d873d2e",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/result.json",
+  "pid": 2412153,
+  "exit_code": 1,
+  "seconds": 2060.3691972600063
+}

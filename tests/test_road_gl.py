@@ -6,6 +6,7 @@ the production NASM shader object and renders deterministic flat terrain/texture
 to isolate road geometry from camera perspective, lighting and texture detail.
 Optional client argument checks its embedded fragment against this tested source.
 """
+from xvfb_display import read_display_number
 import hashlib
 import json
 import math
@@ -141,8 +142,8 @@ def main():
             with (folder/'xvfb.log').open('wb') as log:
                 server=subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0','512x512x24','-nolisten','tcp'],pass_fds=(write_fd,),stdout=log,stderr=log)
             os.close(write_fd);write_fd=-1
-            assert select.select([read_fd],[],[],10)[0], 'private Xvfb startup timed out'
-            display=os.read(read_fd,32).decode().strip();assert display.isdigit()
+
+            display=read_display_number(read_fd,10);assert display.isdigit()
             os.close(read_fd);read_fd=-1
             env=dict(os.environ,DISPLAY=':'+display,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
             (folder/'driver.c').write_text(DRIVER)

@@ -4,6 +4,7 @@ Temporary C/GLX tooling is not project runtime. GPU transform feedback reads bot
 embedded production vertex shaders; the geometry shader only remaps the terrain
 patch into a diagnostic viewport, leaving real vertex heights/triangles intact.
 """
+from xvfb_display import read_display_number
 import array
 import ctypes as C
 import ctypes.util
@@ -157,8 +158,8 @@ def main():
         with tempfile.TemporaryDirectory(prefix='rh-relief-gl-') as temp:
             folder=pathlib.Path(temp)
             with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write_fd),'-screen','0','1000x1750x24','-nolisten','tcp'],pass_fds=(write_fd,),stdout=log,stderr=log)
-            os.close(write_fd);write_fd=-1;assert select.select([read_fd],[],[],10)[0]
-            number=os.read(read_fd,32).decode().strip();assert number.isdigit();os.close(read_fd);read_fd=-1
+            os.close(write_fd);write_fd=-1;
+            number=read_display_number(read_fd,10);assert number.isdigit();os.close(read_fd);read_fd=-1
             env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
             (folder/'driver.c').write_text(DRIVER)
             nasm=os.environ.get('RED_HORIZON_NASM','nasm')

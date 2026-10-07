@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Actual local/UDP client wreck draw hooks; stopped-clock geometry fixtures."""
 import socket
+from xvfb_display import read_display_number
 from test_coop import HEADER,MAGIC,VERSION,SCHEMA,CONTENT
 import ctypes as C,ctypes.util,hashlib,json,math,os,pathlib,select,signal,struct,subprocess,sys,tempfile,time
 EXE=pathlib.Path(sys.argv[1]).resolve();LIB=pathlib.Path(sys.argv[2]).resolve();ROOT=pathlib.Path(__file__).resolve().parents[1]
@@ -20,7 +21,7 @@ read,write=os.pipe();server=process=display=memory=None
 try:
  with tempfile.TemporaryFile() as log:
   server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x360x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log);os.close(write);write=-1
-  assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+  number=read_display_number(read,10);os.close(read);read=-1
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
   # A display number does not prove this process opened an Xlib connection.
   # Bound connection retries before any game/graphics assertions.

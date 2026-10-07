@@ -3,6 +3,7 @@
 Uses production fragment sources embedded in the actual linked client; artificial
 input radiance and fullscreen fragment fixtures are declared, not gameplay.
 """
+from xvfb_display import read_display_number
 import ctypes as C, hashlib, importlib.util, json, math, os, pathlib, select, subprocess, sys, tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief_gl',ROOT/'tests/test_relief_gl.py');helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
@@ -19,7 +20,7 @@ def main():
     os.environ.pop('LIBGL_ALWAYS_SOFTWARE',None)
    else:
     with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','640x480x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-    os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+    os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
     os.environ['DISPLAY']=':'+number;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
    nasm=os.environ['RED_HORIZON_NASM'];objects=[]
    for name,source in [('hdr','src/render/hdr.asm'),('bloom','src/render/bloom.asm'),('census','src/render/visibility_census.asm'),('probe','tests/probe_visibility_reduce.asm')]:

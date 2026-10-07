@@ -1,0 +1,1 @@
+{"suite": "xvfb-displayfd", "passed": true, "fragmented": [{"chunks": ["1", "23", "\n"], "display": "123"}, {"chunks": ["7", "\n"], "display": "7"}, {"chunks": ["456\n"], "display": "456"}], "malformed_or_incomplete": 6, "bounded_timeout": true, "old_control_BrokenPipe": true, "scope": "Development pipe framing only; no game or graphics assertions bypassed."}

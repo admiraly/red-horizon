@@ -4,6 +4,7 @@ Camera/weather paired controls and rotated-normal invariance exercise material
 response without changing gameplay. The previous fragment is a negative control.
 This is a software-rendered diagnostic, not HDR, target GPU or artistic acceptance.
 """
+from xvfb_display import read_display_number
 import hashlib, importlib.util, json, math, os, pathlib, select, subprocess, sys, tempfile
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('relief_gl',ROOT/'tests/test_relief_gl.py')
@@ -73,7 +74,7 @@ def main():
         with tempfile.TemporaryDirectory(prefix='rh-material-gl-') as tmp:
             folder=pathlib.Path(tmp)
             with (folder/'xvfb.log').open('wb') as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-            os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+            os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
             env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
             (folder/'driver.c').write_text(DRIVER)
             subprocess.run([os.environ['RED_HORIZON_NASM'],'-f','elf64','src/render/mesh_shaders.asm','-o',str(folder/'shaders.o')],cwd=ROOT,check=True,capture_output=True)

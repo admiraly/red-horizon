@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Actual embedded GL shader: fixed legs, independently aimed authored upper body."""
+from xvfb_display import read_display_number
 import hashlib,json,math,os,pathlib,select,struct,subprocess,sys,tempfile
 from test_support_gl import DRIVER,helper,ROOT
 shader=helper.compose(ROOT/'shaders/mesh.vert');exe=pathlib.Path(sys.argv[1]).resolve();assert helper.embedded(exe,'mesh_vertex_source')==shader
@@ -24,7 +25,7 @@ try:
  with tempfile.TemporaryDirectory(prefix='rh-aim-gl-')as directory:
   td=pathlib.Path(directory)
   with (td/'xvfb.log').open('wb')as log:server=subprocess.Popen(['Xvfb','-displayfd',str(write),'-screen','0','64x64x24','-nolisten','tcp'],pass_fds=(write,),stdout=log,stderr=log)
-  os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
+  os.close(write);write=-1;number=read_display_number(read,10);assert number.isdigit();os.close(read);read=-1
   env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1');env.pop('WAYLAND_DISPLAY',None)
   (td/'driver.c').write_text(driver);nasm=os.environ.get('RED_HORIZON_NASM',str(ROOT/'.tools/nasm/nasm'))
   subprocess.run([nasm,'-f','elf64','src/render/mesh_shaders.asm','-o',str(td/'shader.o')],cwd=ROOT,check=True,capture_output=True)
