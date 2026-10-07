@@ -531,3 +531,10 @@ Projected battlefield model detail: integrator, feature/battlefield-detail, sour
 Infantry torso heading seam: isolated feature/infantry-turn-seam short-path yaw before weight application;60 real shader cases and old-shader negative control pass, actual8192 client check passes2059paired pixels before integration. Body-turn/anatomy/IK remains separate future work.
 
 Current renderer batches integrated on main894a53c: projected actor detail57bb6e6, torso heading seamf4aecce and proof/co-op observer correction894a53c. Actual rebuilt-main GL shader/1200m aircraft/boundary/map/8192 finite NPC aiming pass. Six diagnosed graphics failures have focused corrections; corrected whole graphics1664f219f098 and full7dc8436c715c remain live/pending with exact source scope in main-job evidence. Earlier aiming fullb26bbca67339 passed/collected. Next ready scope: anatomical turning/bone/socket/muzzle fidelity, broader coordinated perception/AI/air spectacle and sustained operation/performance/Windows; full base-game goal remains active.
+
+Aircraft physical cannon batch: fixed forwardXYZ rounds and shared full3D lead
+plus bounded pitch guidance implemented; focused actual native/GL and frozen
+fast pass. Original8k/16k finite continuous flight checks pass. Broader perception
+cache/FOV, cannon aim effectiveness, squad/wingman coordination, air collision,
+aerodynamics/fuel/landing/rearm, visual spectacle and full game acceptance remain
+open. Evidence and checkpoint state: docs/status.md and air-gun-nose-*.json.

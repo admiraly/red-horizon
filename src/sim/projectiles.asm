@@ -543,8 +543,240 @@ section .note.GNU-stack noalloc noexec nowrite progbits
 section .rodata
 airgun_step: dd 28.0
 airgun_radius: dd 1.0
+airgun_cone: dd 0.985
+airgun_flight_speed2_max: dd 64.0
+airgun_distance2_max: dd 192000000.0
+airgun_speed_min: dd 5.0
+airgun_speed_max: dd 7.0
+airgun_step2: dd 784.0
+airgun_time_max: dd 40.0
 section .text
-global projectile_air_launch
+global projectile_air_launch,projectile_air_gun_ready,air_gun_intercept
+; XMM0..2 relative XYZ, XMM3..5 observed target velocity XYZ.
+; EAX0/-1; XMM0..2 intercept relative XYZ, XMM3 travel ticks (0,40].
+; Pure bounded constant-velocity prediction, not future target ground truth.
+air_gun_intercept:
+ movaps xmm8,xmm0
+ movaps xmm9,xmm1
+ movaps xmm10,xmm2
+ movaps xmm11,xmm3
+ movaps xmm12,xmm4
+ movaps xmm13,xmm5
+ mulss xmm0,xmm0
+ mulss xmm1,xmm1
+ mulss xmm2,xmm2
+ addss xmm0,xmm1
+ addss xmm0,xmm2 ; |r| squared
+ ucomiss xmm0,[zero]
+ jp .invalid
+ jbe .invalid
+ ucomiss xmm0,[airgun_distance2_max]
+ ja .invalid
+ mulss xmm3,xmm3
+ mulss xmm4,xmm4
+ mulss xmm5,xmm5
+ addss xmm3,xmm4
+ addss xmm3,xmm5 ; |v| squared
+ ucomiss xmm3,[airgun_flight_speed2_max]
+ jp .invalid
+ ja .invalid
+ movss xmm6,[airgun_step2]
+ subss xmm6,xmm3 ; s squared - |v| squared
+ mulss xmm0,xmm6
+ movaps xmm7,xmm8
+ mulss xmm7,xmm11
+ movaps xmm1,xmm9
+ mulss xmm1,xmm12
+ addss xmm7,xmm1
+ movaps xmm1,xmm10
+ mulss xmm1,xmm13
+ addss xmm7,xmm1 ; r dot v
+ movaps xmm1,xmm7
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ sqrtss xmm0,xmm0
+ addss xmm0,xmm7
+ divss xmm0,xmm6
+ ucomiss xmm0,[zero]
+ jp .invalid
+ jbe .invalid
+ ucomiss xmm0,[airgun_time_max]
+ ja .invalid
+ movaps xmm3,xmm0
+ mulss xmm11,xmm0
+ mulss xmm12,xmm0
+ mulss xmm13,xmm0
+ movaps xmm0,xmm8
+ movaps xmm1,xmm9
+ movaps xmm2,xmm10
+ addss xmm0,xmm11
+ addss xmm1,xmm12
+ addss xmm2,xmm13
+ xor eax,eax
+ ret
+.invalid:mov eax,-1
+ ret
+; EDI living fighter -> EAX0/-1, XMM0/1/2 unit flight nose XYZ.
+; Read-only, no heap allocations. Caller supplies actual observed target/LOS.
+; Launch repeats this predicate before any pool/cursor/event mutation.
+projectile_air_gun_ready:
+ cmp edi,[sim_count]
+ jae .invalid
+ cmp edi,ENTITY_CAPACITY
+ jae .invalid
+ mov eax,edi
+ shl eax,5
+ lea r11,[sim_entities]
+ add r11,rax
+ cmp dword [r11+ENTITY_HP],0
+ je .invalid
+ cmp dword [r11+ENTITY_KIND],3
+ jne .invalid
+ mov eax,edi
+ shl eax,6
+ lea r9,[sim_aircraft]
+ add r9,rax
+ test dword [r9+AIR_FLAGS],AIR_ACTIVE
+ jz .invalid
+ mov eax,[r11+ENTITY_GENERATION]
+ test eax,eax
+ jz .invalid
+ cmp eax,[r9+AIR_GENERATION]
+ jne .invalid
+ cmp dword [r9+AIR_ROLE],AIR_FIGHTER
+ jne .invalid
+ cmp dword [r9+AIR_AMMO],0
+ je .invalid
+ cmp dword [r9+AIR_AMMO],180
+ ja .invalid
+ cmp dword [r9+AIR_COOLDOWN],0
+ jne .invalid
+ mov eax,[r9+AIR_TARGET]
+ cmp eax,[sim_count]
+ jae .invalid
+ cmp eax,ENTITY_CAPACITY
+ jae .invalid
+ mov edx,eax
+ shl edx,5
+ lea r8,[sim_entities]
+ add r8,rdx
+ cmp dword [r8+ENTITY_HP],0
+ je .invalid
+ cmp dword [r8+ENTITY_KIND],3
+ jne .invalid
+ mov edx,[r8+ENTITY_SIDE]
+ cmp edx,1
+ ja .invalid
+ cmp dword [r11+ENTITY_SIDE],1
+ ja .invalid
+ cmp edx,[r11+ENTITY_SIDE]
+ je .invalid
+ shl eax,6
+ lea r10,[sim_aircraft]
+ add r10,rax
+ test dword [r10+AIR_FLAGS],AIR_ACTIVE
+ jz .invalid
+ mov eax,[r8+ENTITY_GENERATION]
+ test eax,eax
+ jz .invalid
+ cmp eax,[r10+AIR_GENERATION]
+ jne .invalid
+ cmp dword [r10+AIR_ROLE],AIR_FIGHTER
+ ja .invalid
+%macro gun_coordinate 3
+ movss xmm0,[%1+%2]
+ ucomiss xmm0,[%3]
+ jp .invalid
+ ja .invalid
+%endmacro
+%macro gun_xz 2
+ gun_coordinate %1,%2,max_coord
+ ucomiss xmm0,[zero]
+ jb .invalid
+%endmacro
+ gun_xz r11,ENTITY_X
+ gun_xz r11,ENTITY_Z
+ gun_xz r8,ENTITY_X
+ gun_xz r8,ENTITY_Z
+ gun_coordinate r9,AIR_Y,max_y
+ ucomiss xmm0,[min_y]
+ jb .invalid
+ gun_coordinate r10,AIR_Y,max_y
+ ucomiss xmm0,[min_y]
+ jb .invalid
+%unmacro gun_coordinate 3
+%unmacro gun_xz 2
+ movss xmm0,[r9+AIR_SPEED]
+ ucomiss xmm0,[airgun_speed_min]
+ jp .invalid
+ jb .invalid
+ ucomiss xmm0,[airgun_speed_max]
+ ja .invalid
+ movss xmm0,[r9+AIR_VX]
+ movss xmm1,[r9+AIR_VY]
+ movss xmm2,[r9+AIR_VZ]
+ movaps xmm3,xmm0
+ mulss xmm3,xmm3
+ movaps xmm4,xmm1
+ mulss xmm4,xmm4
+ addss xmm3,xmm4
+ movaps xmm4,xmm2
+ mulss xmm4,xmm4
+ addss xmm3,xmm4
+ ucomiss xmm3,[zero]
+ jp .invalid
+ jbe .invalid
+ ucomiss xmm3,[airgun_flight_speed2_max]
+ ja .invalid
+ sqrtss xmm3,xmm3
+ divss xmm0,xmm3
+ divss xmm1,xmm3
+ divss xmm2,xmm3
+ sub rsp,24
+ movss [rsp],xmm0
+ movss [rsp+4],xmm1
+ movss [rsp+8],xmm2
+ movss xmm0,[r8+ENTITY_X]
+ subss xmm0,[r11+ENTITY_X]
+ movss xmm1,[r10+AIR_Y]
+ subss xmm1,[r9+AIR_Y]
+ movss xmm2,[r8+ENTITY_Z]
+ subss xmm2,[r11+ENTITY_Z]
+ movss xmm3,[r10+AIR_VX]
+ movss xmm4,[r10+AIR_VY]
+ movss xmm5,[r10+AIR_VZ]
+ call air_gun_intercept
+ test eax,eax
+ jnz .invalid_stack
+ movaps xmm6,xmm0
+ mulss xmm6,xmm6
+ movaps xmm7,xmm1
+ mulss xmm7,xmm7
+ addss xmm6,xmm7
+ movaps xmm7,xmm2
+ mulss xmm7,xmm7
+ addss xmm6,xmm7
+ sqrtss xmm6,xmm6
+ mulss xmm6,[airgun_cone]
+ mulss xmm0,[rsp]
+ mulss xmm1,[rsp+4]
+ mulss xmm2,[rsp+8]
+ addss xmm0,xmm1
+ addss xmm0,xmm2
+ ucomiss xmm0,xmm6
+ jp .invalid_stack
+ jb .invalid_stack
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
+ movss xmm2,[rsp+8]
+ add rsp,24
+ xor eax,eax
+ ret
+.invalid_stack:
+ add rsp,24
+.invalid:
+ mov eax,-1
+ ret
 ; EDI verified aircraft index, ESI bomb3/gun4. Finite stores owned by air FSM.
 projectile_air_launch:
  cmp edi,[sim_count]
@@ -602,6 +834,16 @@ projectile_air_launch:
  mov eax,[rdx+ENTITY_SIDE]
  cmp eax,[rbp+ENTITY_SIDE]
  je .failed
+ mov edi,r12d
+ call projectile_air_gun_ready
+ test eax,eax
+ jnz .failed
+ mulss xmm0,[airgun_step]
+ mulss xmm1,[airgun_step]
+ mulss xmm2,[airgun_step]
+ movss [rsp+12],xmm0
+ movss [rsp+16],xmm1
+ movss [rsp+20],xmm2
 .validated:
  cmp dword [sim_projectile_count],PROJECTILE_CAPACITY-32
  jb .capacity_ok
@@ -637,40 +879,10 @@ projectile_air_launch:
  movss xmm2,[rcx+AIR_VZ]
  cmp r13d,PROJECTILE_BOMB
  je .velocity
- ; Forward rounds follow aircraft's nose; aim alignment is checked by FSM.
- divss xmm0,[rcx+AIR_SPEED]
- divss xmm2,[rcx+AIR_SPEED]
- mulss xmm0,[airgun_step]
- mulss xmm2,[airgun_step]
- mov edi,[rcx+AIR_TARGET]
- mov eax,edi
- shl eax,5
- lea rcx,[sim_entities]
- add rax,rcx
- movss xmm1,[rax+ENTITY_X]
- subss xmm1,[rbp+ENTITY_X]
- mulss xmm1,xmm1
- movss xmm3,[rax+ENTITY_Z]
- subss xmm3,[rbp+ENTITY_Z]
- mulss xmm3,xmm3
- addss xmm1,xmm3
- sqrtss xmm1,xmm1
- maxss xmm1,[one]
- movss [rsp],xmm1
- mov [rsp+24],rdx
- movss [rsp+12],xmm0
- movss [rsp+16],xmm2
- call sim_entity_height
- mov eax,r12d
- shl eax,6
- lea rcx,[sim_aircraft]
- subss xmm0,[rcx+rax+AIR_Y]
- divss xmm0,[rsp]
- mulss xmm0,[airgun_step]
- movaps xmm1,xmm0
+ ; Constant total round speed along the complete physical flight nose.
  movss xmm0,[rsp+12]
- movss xmm2,[rsp+16]
- mov rdx,[rsp+24]
+ movss xmm1,[rsp+16]
+ movss xmm2,[rsp+20]
 .velocity:
  movss [rdx+PROJECTILE_VX],xmm0
  movss [rdx+PROJECTILE_VY],xmm1

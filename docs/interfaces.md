@@ -416,3 +416,22 @@ UDPv39/schema0x212cb081/content0x7abe6425: NET_INFANTRY_AIM118 = countu32 plus a
 
 Actor visual detail v1: renderer caches9 role thresholds from max source descriptor dimension*source scale*max(projection.x*halfwidth,projection.y*halfheight)/1.5pixels, with800m floor and8000m cap; both authored LOD extents share the larger threshold. Model and marker passes select the same validated visual role (fighter8/bomber3 via live matching sidecar); high-detail150m/cap unchanged. Cosmetic only; arrays/bodies/authority contracts unchanged. battle_metrics.initial_living snapshots actual sim_alive sum at diagnostic reset before first simulation frame, independently of real post-tick frame peaks. It is not an individually visible count or authoritative remote army census.
 Infantry aiming shader: scale.w is the difference between generation-valid observed aim heading and locomotion body heading; both headings are bounded to[-pi,pi], hence difference[-2pi,2pi]. Wrap the difference to[-pi,pi] before multiplying authored reference-mask weights, preserving short rotation across the heading seam. This is derived presentation and does not impose an authoritative firing cone or anatomical clamp.
+
+## Physical aircraft cannon prediction
+
+`air_gun_intercept(XMM0..2=relativeXYZ, XMM3..5=observedTargetVelocityXYZ)`
+returns EAX0/-1; success yields predicted relativeXYZ inXMM0..2 and travel
+ticks inXMM3. Read-only SSE2 positive root of|r+v*t|=28*t, finite distance
+squared in(0,192000000], target velocity squared<=64, travel ticks(0,40].
+Rejects nonfinite/zero/distant/overspeed inputs. No allocation or future-state reads.
+
+`projectile_air_gun_ready(EDI=livingFighterID)` returns EAX0/-1 and successful
+normalized actual flightXYZ nose inXMM0..2. Guards live opposing current
+positive generations, active roles, finite bounded coordinates/heights, original
+1..180stores and ready cooldown, source speed5..7, actual finite velocity norm
+(0,8], and dot(nose,predictedIntercept)>=0.985*length(predictedIntercept).
+Caller owns actual target perception/LOS. No state writes; producer repeats the
+predicate before slot/event/cursor/drop changes, emits28*nose, and leaves
+finite store debit to the air FSM. Bomb velocity/gravity path is unchanged.
+SysV preserved registers/alignment and authority are independently checked.
+Public entity32/player64 and existing UDPv39/schema/content remain unchanged.

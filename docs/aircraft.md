@@ -20,8 +20,12 @@ with inherited aircraft velocity; gravity, swept walls/ground/actor contact and
 36 m enemy-only LOS blast apply later. After a release they egress for 210 ticks.
 Fighters use a separate linear-built air index, at most 72 candidates per local
 query, physically observe opposing aircraft within 750 m in 3D, prioritize fighters,
-steer with short lead,
-and fire only inside the forward cone and altitude tolerance. Their real moving
+steer toward a shared3D constant-velocity intercept point, including bounded
+vertical pitch guidance, and fire only when the complete physical flight nose
+aligns within the forward cone of that predicted point. Cannon rounds travel
+at28m/tick along the normalized actualXYZ flight vector; target altitude never
+steers an emitted round. Launch repeats the read-only current-generation,
+finite-store/velocity/position and3D alignment predicate before pool mutation. Their real moving
 rounds sweep contacts and damage the contacted opposing actor without a blast.
 Automatic infantry, tanks and artillery do not target aircraft. Explicit cannon
 and player rifle APIs still use actual airborne height for valid aimed shots.
@@ -50,3 +54,19 @@ formation escorts, aerodynamic stalls or runway operations
 are claimed.
 
 The2026-10-05 continuation adds actual surviving-damage fighter jink/climb and bomber abort/egress. Commitments are finite and repeated hits cannot renew them; map safety retains priority. Production gun contact, generation reset, invalid/zero damage, checksum replay and reacquisition are verified. Direction is deterministic by actor index, without shooter-direction or incoming-projectile perception. Latest900tick seed42 counts are68/62/4950/168 at8192 and58/48/9691/352 at16384. See [air defense evidence](verification/air-defense.md) and docs/evidence/air-spectacle-session.json for the superseding integration.
+
+Physical cannon update: native2000-case independent3D root/ABI oracle passes
+(max error0.0000371m/tick-time units),15heading/climb velocity fixtures match
+physical nose within0.00000131m/tick,3target-height changes preserve level rounds,
+4crossing intercepts pass,4inside/6outside cone cases and44malformed atomic
+rejections pass. A120public-tick sparse dogfight verifies actual new round
+generations against the emitting flight vector and real damage, with no live
+pose/HP/store/clock writes. Original8192/900tick observed retained bomb-launch/
+impact/gun-launch/destruction events are7/7/3687/4; lower destruction count than
+the prior vertical auto-aim is not a spectacle/tactics acceptance result.
+Full180-round escort births retain causal threat-priority damage and successful
+first bombing pass. Separate identical finite four-round level-tail ambush births
+produce actual bomberHP128, abort the first pass, and prove remembered-target
+return against a no-recall control (release1146, ground death1296).
+Focused actual GL gun/bomb/destruction encounters pass; inspected effects remain
+sparse. Exact records and limitations: evidence/air-gun-nose-focused.json.

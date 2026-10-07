@@ -49,7 +49,8 @@ with tempfile.TemporaryDirectory(prefix='rh-projectile-type-') as folder:
   lib.projectile_init();entities=(C.c_byte*256).in_dll(lib,'sim_entities');air=(C.c_byte*512).in_dll(lib,'sim_aircraft');C.memset(C.addressof(entities),0,256);C.memset(C.addressof(air),0,512)
   for index,side,gen in ((0,0,42),(3,1,79)):C.memmove(C.addressof(entities)+index*32,struct.pack('<ff4IiI',1000+index*20,1000,1000,side,3,0,-1,gen),32)
   # Declared initial fighter sidecar; production launch owns the projectile.
-  record=struct.pack('<5f6I3f2I',100,0,0,0,2,1,0,3,0,1,42,2,0,0,0,1);C.memmove(C.addressof(air),record,64)
+  record=struct.pack('<5f6I3f2I',100,1.5707963,0,0,7,1,0,3,0,1,42,7,0,0,0,1);C.memmove(C.addressof(air),record,64)
+  target=struct.pack('<5f6I3f2I',100,-1.5707963,0,0,7,1,0,-1&0xffffffff,0,1,79,-7,0,0,0,1);C.memmove(C.addressof(air)+3*64,target,64)
   out=(C.c_byte*24).in_dll(lib,'contact_result');C.memmove(C.addressof(out),struct.pack('<f5I',.5,kind,3,generation,0,0),24);C.c_int.in_dll(lib,'contact_status').value=status;C.c_uint.in_dll(lib,'damage_calls').value=0
   assert lib.projectile_air_launch(0,4)==0
   before=bytes(entities);lib.projectile_tick();assert bytes(entities)==before

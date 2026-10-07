@@ -1,0 +1,24 @@
+{
+  "job_id": "9dee7c618714",
+  "revision": "c0caf6bf61afd3bf0370e4dcb2f8cf10afc2ecc1-4524fbb6182e73d4",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/9dee7c618714/result.json",
+  "pid": 3191267,
+  "state": "pending; no pass claim",
+  "runtime_source_matches": {
+    "src/ai/aircraft.asm": true,
+    "src/sim/projectiles.asm": true
+  },
+  "post_freeze_focused_test_changes": [
+    "tests/test_air_gun_nose.py adds separately passed120tick real dogfight birth vector observer",
+    "tests/test_client_infantry.py clear fixed initial lateral observer, separately passed against exact old failed and new candidate binaries"
+  ]
+}

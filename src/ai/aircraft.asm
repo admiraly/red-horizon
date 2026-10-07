@@ -7,6 +7,7 @@ default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_bank_step
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
+extern projectile_air_gun_ready,air_gun_intercept
 extern air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
 extern air_admission_init,air_admission_begin,air_admission_request
 extern air_admission_flush,air_admission_hash,air_admission_enabled
@@ -225,6 +226,7 @@ air_tick:
  addss xmm0,[rcx+rax*4]
  movss [rbp+AIR_Y],xmm0
 .ready:
+ mov dword [rsp+56],0 ; no current-frame fighter intercept point yet
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8+4],0
  je .cooldown
@@ -328,40 +330,32 @@ air_tick:
  mov eax,[rbp+AIR_TARGET]
  shl eax,6
  lea rcx,[sim_aircraft]
- ; Intercept the perceived target at the projectile travel time, rather
- ; than a fixed eight ticks. Solve |r+v*t| = round_speed*t in the XZ plane.
- movaps xmm3,xmm0
- subss xmm3,[rbx+ENTITY_X]
- movaps xmm4,xmm1
- subss xmm4,[rbx+ENTITY_Z]
- movss xmm5,[rcx+rax+AIR_VX]
- movss xmm6,[rcx+rax+AIR_VZ]
- movaps xmm2,xmm3
- mulss xmm2,xmm5
- movaps xmm7,xmm4
- mulss xmm7,xmm6
- addss xmm2,xmm7 ; r dot v
- mulss xmm3,xmm3
- mulss xmm4,xmm4
- addss xmm3,xmm4 ; |r| squared
- movaps xmm4,xmm5
- mulss xmm4,xmm4
- movaps xmm7,xmm6
- mulss xmm7,xmm7
- addss xmm4,xmm7
- movss xmm7,[round_speed2]
- subss xmm7,xmm4 ; s squared - |v| squared, positive for aircraft
- mulss xmm3,xmm7
- movaps xmm4,xmm2
- mulss xmm4,xmm4
- addss xmm3,xmm4
- sqrtss xmm3,xmm3
- addss xmm3,xmm2
- divss xmm3,xmm7
- mulss xmm5,xmm3
- mulss xmm6,xmm3
- addss xmm0,xmm5
- addss xmm1,xmm6
+ ; Share the full3D round intercept with the firing predicate.
+ movss [rsp],xmm0
+ movss [rsp+4],xmm1
+ movaps xmm2,xmm1
+ subss xmm0,[rbx+ENTITY_X]
+ subss xmm2,[rbx+ENTITY_Z]
+ movss xmm1,[rcx+rax+AIR_Y]
+ subss xmm1,[rbp+AIR_Y]
+ movss xmm3,[rcx+rax+AIR_VX]
+ movss xmm4,[rcx+rax+AIR_VY]
+ movss xmm5,[rcx+rax+AIR_VZ]
+ call air_gun_intercept
+ test eax,eax
+ jnz .intercept_fallback
+ addss xmm0,[rbx+ENTITY_X]
+ addss xmm1,[rbp+AIR_Y]
+ addss xmm2,[rbx+ENTITY_Z]
+ movss [rsp],xmm0
+ movss [rsp+8],xmm1
+ movss [rsp+4],xmm2
+ movaps xmm1,xmm2
+ mov dword [rsp+56],1
+ jmp .boundary
+.intercept_fallback:
+ movss xmm0,[rsp]
+ movss xmm1,[rsp+4]
 .boundary:
  mov dword [rsp+48],0
  lea rcx,[air_boundary]
@@ -488,6 +482,27 @@ air_tick:
  mov edi,[rbp+AIR_TARGET]
  cmp edi,[sim_count]
  jae .height
+ cmp dword [rsp+56],0
+ je .target_height
+ ; Pitch the flight nose toward the same lead point used by horizontal
+ ; steering, including the target's current vertical motion. A fixed climb
+ ; to its present altitude cannot aim a physically forward-firing cannon.
+ movss xmm1,[rsp]
+ subss xmm1,[rbx+ENTITY_X]
+ mulss xmm1,xmm1
+ movss xmm2,[rsp+4]
+ subss xmm2,[rbx+ENTITY_Z]
+ mulss xmm2,xmm2
+ addss xmm1,xmm2
+ sqrtss xmm1,xmm1
+ maxss xmm1,[one]
+ movss xmm0,[rsp+8]
+ subss xmm0,[rbp+AIR_Y]
+ mulss xmm0,[rbp+AIR_SPEED]
+ divss xmm0,xmm1
+ addss xmm0,[rbp+AIR_Y]
+ jmp .height
+.target_height:
  call sim_entity_height
 .height:
  lea rcx,[air_defense]
@@ -828,20 +843,12 @@ air_combat_tick:
  mov esi,PROJECTILE_BOMB
  jmp .launch
 .gun:
- mulss xmm0,xmm0
- mulss xmm1,xmm1
- addss xmm0,xmm1
- sqrtss xmm0,xmm0
- maxss xmm0,[one]
- divss xmm2,xmm0
- comiss xmm2,[cone]
- jb .next
- mov edi,r13d
- call sim_entity_height
- subss xmm0,[rbp+AIR_Y]
- andps xmm0,[abs_mask]
- comiss xmm0,[bomb_cross]
- ja .next
+ ; Common producer predicate compares the full current flight nose against
+ ; the physically acquired target. Never aim the round vertically for it.
+ mov edi,r12d
+ call projectile_air_gun_ready
+ test eax,eax
+ jnz .next
  mov esi,PROJECTILE_AIR_GUN
 .launch:
  cmp dword [air_admission_enabled],0

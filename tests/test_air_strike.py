@@ -64,22 +64,32 @@ with tempfile.TemporaryDirectory(prefix='rh-strike-oracle-') as temporary:
   for side in (0,1):
    for front in range(3):assert lib.sim_order(side,front,1)==0
   assert lib.sim_waypoint(0,0,7000.,4000.)==0 and lib.sim_waypoint(1,0,1000.,4000.)==0
-  for i,x,z,side,role,heading in [(15,3400,4000,0,0,math.pi/2),(31,3000,4000,0,1,math.pi/2),(63,3500,4000,1,1,-math.pi/2),(95,2600,4000,1,1,math.pi/2)]:
-   E[i]=Entity(x,z,200,side,3,0,-1,1);speed=(5,7)[role];A[i]=Air(lib.terrain_height(x,z)+(110,140)[role],heading,0,0,speed,role,0,-1,0,(8,180)[role],1,speed*math.sin(heading),0,speed*math.cos(heading),0,1)
-  E[32]=Entity(4300,4000,100,1,0,0,-1,1);release=None;death=None;seen=set();travel=0.;at600=None
+  # A level tail attacker can physically hit the bomber before its first
+  # release; the approaching escort then occupies the hostile fighters.
+  # Tail attacker starts with four remaining rounds; this finite ambush is
+  # distinct from the full180-round pressure scenario in test_air_escort.
+  # All poses/stores are declared births, identical in both causal variants.
+  for i,x,z,side,role,heading,born_altitude in [(15,3400,4000,0,0,math.pi/2,110),(31,4500,4000,0,1,-math.pi/2,140),(63,3500,4000,1,1,-math.pi/2,140),(95,3300,4000,1,1,math.pi/2,110)]:
+   E[i]=Entity(x,z,200,side,3,0,-1,1);speed=(5,7)[role];A[i]=Air(lib.terrain_height(x,z)+born_altitude,heading,0,0,speed,role,0,-1,0,4 if i==95 else (8,180)[role],1,speed*math.sin(heading),0,speed*math.cos(heading),0,1)
+  E[32]=Entity(4300,4000,100,1,0,0,-1,1);release=None;death=None;seen=set();travel=0.;at600=None;tail_launches=0;previous_ammo={i:A[i].ammo for i in (15,31,63,95)}
   for tick in range(1,1501):
-   old=(E[15].x,E[15].z);lib.sim_tick();moved=math.dist(old,(E[15].x,E[15].z));assert abs(moved-5)<.001;travel+=moved
+   old=(E[15].x,E[15].z);lib.sim_tick()
+   for i in previous_ammo:
+    assert A[i].ammo<=previous_ammo[i];previous_ammo[i]=A[i].ammo
+   moved=math.dist(old,(E[15].x,E[15].z));assert abs(moved-5)<.001;travel+=moved
    pool=bytes((C.c_ubyte*(512*64)).in_dll(lib,'sim_projectiles'))
    for slot in range(512):
     kind,source_id,generation,active=struct.unpack_from('<I8x3I',pool,slot*64+32)
     if active and (slot,generation) not in seen:
      seen.add((slot,generation))
+     if kind==4 and source_id==95:tail_launches+=1
      if kind==3 and source_id==15 and release is None:release=tick;assert E[32].hp==100
    if not E[32].hp and death is None:death=tick
-   if tick==600:at600=[E[15].hp,A[15].ammo,E[32].hp];assert at600[0]<200 and at600[1:]==[8,100] and release is None
+   if tick==600:at600=[E[15].hp,A[15].ammo,E[32].hp];assert at600[0]<200 and at600[1:]==[8,100] and release is None,(tag,at600,release,[(i,E[i].hp,A[i].ammo)for i in (31,63,95)])
   if tag=='no_recall':assert release is None and death is None and A[15].ammo==8
   else:assert release and death and 600<release<death<=1500 and A[15].ammo==7
-  retry.append({'policy':tag,'tick600_bomber_hp_stores_ground_hp':at600,'bomb_release_tick':release,'ground_death_tick':death,'travel_m':travel,'bomber_hp':E[15].hp,'remaining_stores':A[15].ammo})
+  assert tail_launches==4 and A[95].ammo==0,(tag,tail_launches,A[95].ammo)
+  retry.append({'policy':tag,'tail_initial_rounds':4,'actual_tail_rounds':tail_launches,'tail_remaining_rounds':A[95].ammo,'tick600_bomber_hp_stores_ground_hp':at600,'bomb_release_tick':release,'ground_death_tick':death,'travel_m':travel,'bomber_hp':E[15].hp,'remaining_stores':A[15].ammo})
  lib=good_lib;E=(Entity*32768).in_dll(lib,'sim_entities');A=(Air*32768).in_dll(lib,'sim_aircraft');M=(Strike*32768).in_dll(lib,'sim_air_strikes')
  # Actual new generation clears the entire old sidecar and remembered mission.
  E[15].generation+=1;E[15].target=-1;E[32].hp=0;lib.sim_tick();assert bytes(M[15])==bytes(40)

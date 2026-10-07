@@ -1,0 +1,17 @@
+{
+  "job_id": "289c45615468",
+  "revision": "c0caf6bf61afd3bf0370e4dcb2f8cf10afc2ecc1-1ddabe34c01f4f2e",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/289c45615468/source",
+  "command": [
+    "test",
+    "--suite",
+    "fast"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/289c45615468/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/runs/jobs/289c45615468/result.json",
+  "pid": 3185021,
+  "exit_code": 0,
+  "seconds": 314.77651310901274,
+  "collected": true
+}
