@@ -63,7 +63,14 @@ try:
         number=os.read(read_fd,32).decode().strip();assert number.isdigit(),number
         os.close(read_fd);read_fd=None
         env=dict(os.environ,DISPLAY=':'+number,LIBGL_ALWAYS_SOFTWARE='1',RH_AUDIO_DEVICE='null');env.pop('WAYLAND_DISPLAY',None)
-        display=until(lambda:X.XOpenDisplay(env['DISPLAY'].encode()),5)
+        def connect_private_display():
+            # At this stage processes contains only the private X server.
+            # Preserve its fatal startup log instead of mislabelling a game exit.
+            if xvfb.poll() is not None:
+                xlog.seek(0)
+                raise AssertionError(('private Xvfb exited during startup',xvfb.returncode,xlog.read().decode(errors='replace')))
+            return X.XOpenDisplay(env['DISPLAY'].encode())
+        display=until(connect_private_display,5)
         host=subprocess.Popen([str(SERVER),'--port','0','--ticks','0'],cwd=SERVER.parent,env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
         processes.append(host);assert select.select([host.stdout],[],[],10)[0]
         ready=json.loads(host.stdout.readline());port=ready['port'];assert port>0,ready
