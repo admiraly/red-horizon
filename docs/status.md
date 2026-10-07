@@ -1,3 +1,48 @@
+Finite actual NPC rifle source presentation verified in b394c8d,UDPv38/schema0xe1d5f2bb/
+contentabc84d82. Successful infantry_weapon_shot emits one kind10 source event
+after actual conserved debit/cooldown start. Stock-only debit publishes none.
+Empty/reload/corrupt/wall-blocked gameplay produces no event. Event source eye
+and0.25m radius are finite and generation/source validated. Events remain
+cosmetic, without target identity, trajectories or damage claims.
+
+Source events route recorded bank0 through shared128voices and produce one
+0.065s/0.25m flash in existing64record pool, with actual event age/frame dedup
+and no explosive smoke/debris. Rifle flashes are hidden on tactical map.
+Native actual80tick traces verify10 actual shots→10 nonzero PCM/brief flashes
+while both consumers preserve authority. Real original8192 GL matched source
+flash control changes4pixels with full authority unchanged. Original tracer/
+actual shell impact/vehicle controls still pass. Four real UDP endpoints retain
+8192 bodies and untouched HP/kind/gen/stock/events; production adapter receives
+three actual source events for three conserved rounds.
+
+Frozen fastf3ac32c23e10 PASSED/collected298.582133s and complete corrected UDP
+086e1dcc50b7 PASSED/collected213.429823s. Failed earlier e9b9f200d636 and
+b5617b1c80af are retained: old audio/wire fixtures treated new valid kind10
+as unknown. Unknown-kind control moved to11, positive10/dedup added, original
+47 malformed packet gates and explosion/backlog/128voice/replay guards kept.
+Both focused corrections and complete reruns pass; no failed run relabelled.
+
+Paired sparse physical traces/hashes unchanged vs actual v37 core. Two paired
+original8192/400tick scale-front native runs also match authority hashes/
+casualties exactly. Candidate mean13.753528/13.502486ms,p9516.240875/15.832530ms;
+baseline13.904143/13.867606ms,p9516.362788/16.385008ms amid frozen jobs, no speed
+claim. Actual accelerated ArcA770/Mesa26.2.3/1080p180frame hotspot sample:
+CPU p9514.597427ms/GPU draw p951.996250ms;179 frames sample simultaneous
+projectiles/effects/audio. Peak engaged4538; final tick37 opaque census1419
+actors (61high,815low,543markers),876 individually detailed,0invalid codes.
+Warmup included/short sample/final census; no long-operation or1024 detailed
+actor/hardware acceptance claim. Exact reports in evidence/infantry-presentation-
+session.json,infantry-presentation-benchmark.json and infantry-presentation-
+A770-hotspot.json. Screenshot visually inspected; final art quality remains
+prototype. Physical listening remains unverified, audio surrogate limits kept.
+
+This is approximate body-eye muzzle presentation; weapon/upper-body aiming,
+human target pose replication and actual rifle trajectories remain open.
+256-event/64effect/128voice bounded recycling can discard cosmetics under
+saturation. Whole spec goal active/incomplete. Older full8a7e9b89d92e still
+running at its immutable v37 epoch; a fresh integrated v38 full checkpoint
+will be frozen after integration.
+
 Target-selection incremental tools check PASSED/collected, including exact
 16 headless player-include consumers,8 client consumers, full real-core fast
 child, unchanged authored inputs, terminal setup failures, failed assembly

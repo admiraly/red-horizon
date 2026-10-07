@@ -1,5 +1,5 @@
 {
-  "stage": "Verified focused candidate; frozen core/network reconciliation pending",
+  "stage": "Verified coherent NPC rifle audiovisual batch",
   "base_commit": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb",
   "source_inputs": {
     "src/ai/air_bank.asm": "f3eb09e73b07e1a34dc7c8098a7a99f82d5d28da9e5703b026753bb163599f72",
@@ -602,7 +602,8 @@
     "Actual source-body eye approximates rifle muzzle; weapon pose/aim direction/target metadata and trajectories remain pending.",
     "256-event ring,64effect slots,128audio voices retain bounded recycling; saturation can discard cosmetics.",
     "Software GL paired4pixel visibility and PCM routing do not establish art quality, target hardware frame rate or physical audio quality.",
-    "Whole specification remains active/incomplete; frozen full checkpoints separate."
+    "Whole specification remains active/incomplete; frozen full checkpoints separate.",
+    "Short180frame A770/1080p hotspot sample has1419 visible opaque actors (876 detailed,543 markers),warmup included and source_tick37; no long-duration engagement, final art, audible quality or whole-operation performance acceptance."
   ],
   "fast_failed": {
     "job_id": "e9b9f200d636",
@@ -622,21 +623,7 @@
   },
   "fast_failure_diagnosis": "Prior audio battle fixture treated kind10 as unknown. Preserved original explosion/air6/256backlog/128voice/stale/future/frame/reset assertions; unknown moved to11 and separate valid rifle routing/dedup asserted. Focused exact modules pass; frozen corrected fast pending.",
   "benchmark": "infantry-presentation-benchmark.json",
-  "pending_fast": {
-    "job_id": "f3ac32c23e10",
-    "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-92900027ce3a8b20",
-    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/source",
-    "command": [
-      "test",
-      "--suite",
-      "fast"
-    ],
-    "status": "running",
-    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/job.log",
-    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/result.json",
-    "pid": 2438266
-  },
-  "pending_network": {
+  "network_passed": {
     "job_id": "086e1dcc50b7",
     "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-41a7fd4d31809f9a",
     "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/086e1dcc50b7/source",
@@ -645,9 +632,30 @@
       "--suite",
       "network"
     ],
-    "status": "running",
+    "status": "passed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/086e1dcc50b7/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/086e1dcc50b7/result.json",
-    "pid": 2411385
+    "pid": 2411385,
+    "exit_code": 0,
+    "seconds": 213.4298227019899,
+    "explicit_pass_reports": 27
+  },
+  "hardware_GPU": "infantry-presentation-A770-hotspot.json",
+  "fast_passed": {
+    "job_id": "f3ac32c23e10",
+    "revision": "b8c0453c3e612b64b544308ba7d4dd3728a4c4cb-92900027ce3a8b20",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/source",
+    "command": [
+      "test",
+      "--suite",
+      "fast"
+    ],
+    "status": "passed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-presentation/runs/jobs/f3ac32c23e10/result.json",
+    "pid": 2438266,
+    "exit_code": 0,
+    "seconds": 298.58213320600044,
+    "explicit_pass_reports": 87
   }
 }
