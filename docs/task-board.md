@@ -2,7 +2,7 @@
 | Task | Owner | Dependency | State / acceptance evidence |
 |---|---|---|---|
 | Physical falling airframes and remote lifecycle | integrator | genuine aircraft casualty/mesh/UDP | integrated0a1eb12; bounded128registry, role-correct read-only meshes, UDP40 snapshots/late join/real-time expiry. Complete aircraft/network, actual local/UDP GL,8k16k bounds pass; full40b03f364420 pending; no drag/cover/blast or spectacle acceptance |
-| Aircraft critical-damage/empty recovery | integrator | physical flight/own condition | integratedef3be5c; real projectile-triggered withdrawal and four empty-store flights, native policy/core/aircraft/8k16k bounds/network/actual GL pass; full checkpoint pending, landing/rearm/safe-base tactics open |
+| Aircraft critical-damage/empty recovery | integrator | physical flight/own condition | integratedef3be5c; real projectile-triggered withdrawal and four empty-store flights, native policy/core/aircraft/8k16k bounds/network/actual GL pass; full7c089c36ca91 passed1932.590514s, landing/rearm/safe-base tactics open |
 | Confidence-weighted fighter pursuit | integrator | visible enemy memory/own mission | integrated85d1e31;10k native cases, causal public flight, original8k/16k bounds, complete aircraft/network/actual GL pass; full17efd869fb1b passed1911.905768s; flight/tactics/art acceptance open |
 | Fighter visible enemy memory | integrator | aircraft perception/LOS | integrated c135e6e; native view/occlusion/expiry/hidden-body controls, original scale aircraft, ordinary network and actual GL pass; full8c64c8e62bd1 passed1946.258357s; broader tactics open |
 | Canonical spec, ABI, isolated worktrees | integrator | repository | committed |
