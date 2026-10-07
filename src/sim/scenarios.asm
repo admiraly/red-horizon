@@ -3,6 +3,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/player.inc"
 default rel
+extern player_deployment_set
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count,sim_players,terrain_height
 section .bss
 global scenario_air_selected,scenario_ground_selected
@@ -23,6 +24,7 @@ row_step: dd 50.0
 minus: dd -1.0
 player_x: dd 3500.0
 player_z: dd 2000.0
+deployment_air_z: dd 2300.0
 eye: dd 1.8
 dense_x: dd 3200.0
 ; Front: 64x20 broad lines; hotspot: 64x30 compact lines.
@@ -183,6 +185,20 @@ sim_scenario:
  add rbx,ENTITY_STRIDE
  cmp r12d,[sim_count]
  jb .loop
+ ; Authored deployment anchor is authority configuration, not camera state.
+ ; Connected-site/allied-formation/physical/threat gates remain in spawn_player.
+ movss xmm0,[player_x]
+ movss xmm1,[deployment_air_z]
+ mov eax,[scenario_mode]
+ cmp eax,1
+ je .deployment
+ sub eax,2
+ lea rdx,[dense_player_x]
+ movss xmm0,[rdx+rax*4]
+ lea rdx,[dense_player_z]
+ movss xmm1,[rdx+rax*4]
+.deployment:
+ call player_deployment_set
  ; Connected local players start behind the allied cohort. No HP/ammo changes.
  lea rbx,[sim_players]
  mov r12d,PLAYER_CAPACITY

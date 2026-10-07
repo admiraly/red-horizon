@@ -22,6 +22,9 @@ player_motion: resb PLAYER_CAPACITY*32
 player_deaths: resd 1
 player_respawns: resd 1
 ; Single authoritative thread scratch; never used by callbacks.
+; Authored birth configuration; reset on every world init, never a camera override.
+deployment_enabled: resd 1
+deployment_anchor: resd 2
 candidate_x: resd 1
 candidate_z: resd 1
 candidate_y: resd 1
@@ -68,6 +71,8 @@ spawn_offsets: dd 0.0,0.0,-80.0,0.0,0.0,80.0,0.0,-80.0,-150.0,0.0,-150.0,80.0,-1
 section .text
 global player_init,player_join,player_leave,player_input,player_tick,player_hash
 player_init:
+ mov dword [deployment_enabled],0
+ mov qword [deployment_anchor],0
  lea rdi,[sim_players]
  xor eax,eax
  mov ecx,(PLAYER_CAPACITY*PLAYER_STRIDE+PLAYER_CAPACITY*64+8)/4
@@ -520,6 +525,14 @@ motion_vertical:
  movss [rbx+PLAYER_Y],xmm0
  add rsp,24
  ret
+; Trusted one-time scenario birth configuration. XMM0=x, XMM1=z.
+; World initialization clears this; all joins still use the full safety policy.
+global player_deployment_set
+player_deployment_set:
+ movss [deployment_anchor],xmm0
+ movss [deployment_anchor+4],xmm1
+ mov dword [deployment_enabled],1
+ ret
 ; Choose nearby squad deployment only while that front has a connected site,
 ; otherwise a connected owned site. Candidate clearance uses actual LOS.
 spawn_player:
@@ -546,12 +559,20 @@ spawn_player:
 .offset:
  lea rax,[spawn_offsets]
  movss xmm0,[nearfield_x]
+ cmp dword [deployment_enabled],0
+ je .legacy_x
+ movss xmm0,[deployment_anchor]
+.legacy_x:
  addss xmm0,[rax+r12*8]
  movss [candidate_x],xmm0
  mov eax,[rbx+PLAYER_FRONT]
  shl eax,7
  lea rdx,[sim_sites]
  movss xmm1,[rdx+rax+4]
+ cmp dword [deployment_enabled],0
+ je .legacy_z
+ movss xmm1,[deployment_anchor+4]
+.legacy_z:
  lea rax,[spawn_offsets]
  addss xmm1,[rax+r12*8+4]
  movss [candidate_z],xmm1
@@ -565,6 +586,11 @@ spawn_player:
  je .friend_next
  cmp dword [r14+ENTITY_SIDE],0
  jne .friend_next
+ cmp dword [deployment_enabled],0
+ je .friend_ground_ready
+ cmp dword [r14+ENTITY_KIND],3
+ je .friend_next
+.friend_ground_ready:
  mov eax,[rbx+PLAYER_FRONT]
  cmp [r14+ENTITY_FRONT],eax
  jne .friend_next
@@ -832,5 +858,17 @@ player_hash:
  inc rsi
  dec ecx
  jnz .loop
+ cmp dword [deployment_enabled],0
+ je .ammunition
+ lea rsi,[deployment_enabled]
+ mov ecx,12
+.deployment:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .deployment
+.ammunition:
  jmp player_ammunition_hash
 section .note.GNU-stack noalloc noexec nowrite progbits

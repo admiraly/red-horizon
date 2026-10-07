@@ -30,6 +30,8 @@ for mode in (2,3):
   assert all(s['units']==8192 for s in snapshots)
   assert all(s['players'][i][11]==1 for i,s in enumerate(snapshots))
   assert all(all(s['players'][i][15]>0 for i in range(4)) for s in snapshots)
+  deployment=[snapshots[i]['players'][i] for i in range(4)]
+  assert all(p[5]>0 and 2900<p[0]<4000 and 1750<p[2]<2600 for p in deployment), ('four peers missed safe authored deployment',deployment)
   # Remain real clients long enough for fair interest updates and actual aircraft.
   minimum=max(s['tick'] for s in snapshots)+30;deadline=time.monotonic()+5
   while time.monotonic()<deadline and not all(p.state and p.state['tick']>=minimum for p in peers):
@@ -39,7 +41,7 @@ for mode in (2,3):
   known=[len(p.entities) for p in peers];max_packet=max(p.max_packet for p in peers)
   out,err=process.communicate(timeout=20);assert process.returncode==0,(out,err);terminal=json.loads(out)
   assert terminal['ticks']==240 and terminal['simulated']==8192 and terminal['entity_records']>0 and terminal['aircraft_records']>0
-  reports.append({'scenario':scenarios[mode],'four_real_UDP_peers':True,'known_actor_counts':known,'packet_max_bytes':max_packet,'actual_server':terminal,'scope':'Default threat-checked join positions, regional interest; not four graphical fronts/dense visibility/fault stress.'})
+  reports.append({'scenario':scenarios[mode],'four_real_UDP_peers':True,'deployment_positions':[[p[0],p[1],p[2]] for p in deployment],'known_actor_counts':known,'packet_max_bytes':max_packet,'actual_server':terminal,'scope':'Authored anchor with unchanged threat-checked joining, regional interest; not four graphical fronts/dense visibility/fault stress.'})
  finally:
   for p in peers:p.socket.close()
   if process.poll() is None:process.terminate();process.communicate(timeout=5)
