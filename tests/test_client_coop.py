@@ -672,10 +672,28 @@ try:
         os.pwrite(host_memory,struct.pack('<I',saved_req[0]),server_symbols['sim_requisition'])
         # Actual server enemy attack drives death, replicated to both clients.
         player_address=server_symbols['sim_players']
-        os.pwrite(host_memory,struct.pack('<fff',2000.,17.8,3900.),player_address)
-        os.pwrite(host_memory,struct.pack('<ff6I',2040.,3900.,400,1,1,0,0xffffffff,1),server_symbols['sim_entities']+4096*32)
-        os.pwrite(host_memory,struct.pack('<I',1),server_symbols['orders']+3*4)
-        os.pwrite(host_memory,struct.pack('<I',1),server_symbols['ai_fronts']+3*64+24) # documented manual front
+        # Use a surviving actual rifleman and his remaining finite magazine.
+        # The previous fixture rewrote a tank's HP/kind/generation and expected
+        # the obsolete universal human-damage path to behave as a rifle.
+        os.kill(host.pid,signal.SIGSTOP)
+        _,stopped=os.waitpid(host.pid,os.WUNTRACED);assert os.WIFSTOPPED(stopped)
+        try:
+            army=os.pread(host_memory,8192*32,server_symbols['sim_entities'])
+            stocks=os.pread(host_memory,8192*32,server_symbols['infantry_weapons'])
+            attacker=next(i for i in range(8192) if
+                struct.unpack_from('<3I',army,i*32+8)[0]>0 and
+                struct.unpack_from('<2I',army,i*32+12)==(1,0) and
+                struct.unpack_from('<I',stocks,i*32+4)[0]>=10)
+            body_before=army[attacker*32+8:(attacker+1)*32]
+            stock_before=stocks[attacker*32:(attacker+1)*32]
+            front=struct.unpack_from('<I',army,attacker*32+20)[0]
+            os.pwrite(host_memory,struct.pack('<fff',2000.,17.8,3900.),player_address)
+            os.pwrite(host_memory,struct.pack('<ff',2006.,3900.),server_symbols['sim_entities']+attacker*32)
+            os.pwrite(host_memory,struct.pack('<I',1),server_symbols['orders']+(3+front)*4)
+            os.pwrite(host_memory,struct.pack('<I',1),server_symbols['ai_fronts']+(3+front)*64+24)
+            assert os.pread(host_memory,24,server_symbols['sim_entities']+attacker*32+8)==body_before
+            assert os.pread(host_memory,32,server_symbols['infantry_weapons']+attacker*32)==stock_before
+        finally:os.kill(host.pid,signal.SIGCONT)
         until(lambda:server_player(0)['hp']<100,3)
         until(lambda:server_player(0)['hp']==0,9)
         dead=server_player(0)

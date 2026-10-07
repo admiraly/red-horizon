@@ -1,0 +1,1056 @@
+{
+  "passed": true,
+  "baseline": {
+    "suite": "joint-visible-infantry-human-targets",
+    "passed": true,
+    "closer_human": {
+      "name": "closer-human",
+      "shots": [
+        [
+          7,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        20,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 8,
+      "checksum": "deea922aacb69905"
+    },
+    "closer_army": {
+      "name": "closer-army",
+      "shots": [
+        [
+          7,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          71,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          79,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 70,
+      "human_hp": [
+        100,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 10,
+      "checksum": "a452d50f1596da57"
+    },
+    "army_exact_tie": {
+      "name": "army-wins-exact-tie",
+      "shots": [
+        [
+          7,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          71,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          79,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 70,
+      "human_hp": [
+        100,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 10,
+      "checksum": "5cb239a16cbc6d49"
+    },
+    "fair_human_ties": {
+      "name": "fair-human-distance-ties",
+      "shots": [
+        [
+          7,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          23,
+          0,
+          0,
+          0,
+          0,
+          10
+        ],
+        [
+          31,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          55,
+          0,
+          0,
+          0,
+          0,
+          10
+        ],
+        [
+          63,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        80,
+        80,
+        80,
+        80
+      ],
+      "actual_spent": 8,
+      "checksum": "1dea8aa0409709e4"
+    },
+    "closer_hidden_visible_fallback": {
+      "name": "nearer-hidden-human",
+      "shots": [
+        [
+          7,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          23,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          55,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          0,
+          10,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        100,
+        20,
+        0,
+        0
+      ],
+      "actual_spent": 8,
+      "checksum": "be4cd4739382eca3"
+    },
+    "same_rifle_range": {
+      "name": "same240m-rifle-range",
+      "shots": [
+        [
+          7,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        20,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 8,
+      "checksum": "472d20e150332dfa"
+    },
+    "outside_range": {
+      "name": "beyond-rifle-range",
+      "shots": [],
+      "army_hp": 100,
+      "human_hp": [
+        100,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 0,
+      "checksum": "6cc1bb887e703201"
+    },
+    "genuine_boarded_hull_shields": true,
+    "invalid_gates_atomic": true,
+    "same_build_replay": true,
+    "core_sha256": "c806c4594336a3a9ef05693a246ed0a64bc0e6d9d2dd5e08dc65e661c18e8a90",
+    "limits": [
+      "Sparse declared initial poses/dead nonparticipants/prior allied exhaustion; real finite shots, LOS and ticks thereafter, no live renewal.",
+      "Static API malformed-clock gate separated from physical encounters.",
+      "Visible nearest-target arbitration, not strategic knowledge/aim orientation/full capsule/graphics/UDP/scale acceptance."
+    ]
+  },
+  "candidate": {
+    "suite": "joint-visible-infantry-human-targets",
+    "passed": true,
+    "closer_human": {
+      "name": "closer-human",
+      "shots": [
+        [
+          7,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        20,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 8,
+      "checksum": "deea922aacb69905"
+    },
+    "closer_army": {
+      "name": "closer-army",
+      "shots": [
+        [
+          7,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          71,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          79,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 70,
+      "human_hp": [
+        100,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 10,
+      "checksum": "a452d50f1596da57"
+    },
+    "army_exact_tie": {
+      "name": "army-wins-exact-tie",
+      "shots": [
+        [
+          7,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          71,
+          3,
+          0,
+          0,
+          0,
+          0
+        ],
+        [
+          79,
+          3,
+          0,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 70,
+      "human_hp": [
+        100,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 10,
+      "checksum": "5cb239a16cbc6d49"
+    },
+    "fair_human_ties": {
+      "name": "fair-human-distance-ties",
+      "shots": [
+        [
+          7,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          23,
+          0,
+          0,
+          0,
+          0,
+          10
+        ],
+        [
+          31,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          0,
+          0,
+          10,
+          0
+        ],
+        [
+          55,
+          0,
+          0,
+          0,
+          0,
+          10
+        ],
+        [
+          63,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        80,
+        80,
+        80,
+        80
+      ],
+      "actual_spent": 8,
+      "checksum": "1dea8aa0409709e4"
+    },
+    "closer_hidden_visible_fallback": {
+      "name": "nearer-hidden-human",
+      "shots": [
+        [
+          7,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          23,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          55,
+          0,
+          0,
+          10,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          0,
+          10,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        100,
+        20,
+        0,
+        0
+      ],
+      "actual_spent": 8,
+      "checksum": "be4cd4739382eca3"
+    },
+    "same_rifle_range": {
+      "name": "same240m-rifle-range",
+      "shots": [
+        [
+          7,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          23,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          31,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          39,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          47,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          55,
+          0,
+          10,
+          0,
+          0,
+          0
+        ],
+        [
+          63,
+          0,
+          10,
+          0,
+          0,
+          0
+        ]
+      ],
+      "army_hp": 100,
+      "human_hp": [
+        20,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 8,
+      "checksum": "472d20e150332dfa"
+    },
+    "outside_range": {
+      "name": "beyond-rifle-range",
+      "shots": [],
+      "army_hp": 100,
+      "human_hp": [
+        100,
+        0,
+        0,
+        0
+      ],
+      "actual_spent": 0,
+      "checksum": "6cc1bb887e703201"
+    },
+    "genuine_boarded_hull_shields": true,
+    "invalid_gates_atomic": true,
+    "same_build_replay": true,
+    "core_sha256": "5e254ec4556c8b0082cb5d7d62298b1078364ca736832d4f7d369bdb9ebce774",
+    "limits": [
+      "Sparse declared initial poses/dead nonparticipants/prior allied exhaustion; real finite shots, LOS and ticks thereafter, no live renewal.",
+      "Static API malformed-clock gate separated from physical encounters.",
+      "Visible nearest-target arbitration, not strategic knowledge/aim orientation/full capsule/graphics/UDP/scale acceptance."
+    ]
+  },
+  "actual_damage_debit_traces_and_checksums_identical": true
+}

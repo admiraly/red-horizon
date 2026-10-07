@@ -1,0 +1,7 @@
+{
+  "job_id": "b26bbca67339",
+  "revision": "69a33334bd957d9ece984874261563e41b321c10-77efe574aaecbbd2",
+  "checked_inputs": 428,
+  "different_runtime_content_tools_tests_inputs": [],
+  "state": "Full extended job pending; runtime/content/runner/test inputs exactly frozen."
+}

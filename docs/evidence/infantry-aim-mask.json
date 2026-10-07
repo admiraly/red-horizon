@@ -1,0 +1,10 @@
+{
+  "suite": "model-aim-static-mask",
+  "passed": true,
+  "lower_vertices_unrotated": 663,
+  "upper_vertices": 2010,
+  "all_geometry_normals_xyz_materials_unchanged": true,
+  "weights_static_across_all_frames": true,
+  "pack_sha256": "0f5aa5489497cba29a1c626dae558fd5f07ece2019aa2fe321470e0e38980ebf",
+  "method": "Authored shoot-reference height weights; no original bone weights or IK."
+}

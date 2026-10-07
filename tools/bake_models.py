@@ -265,8 +265,13 @@ def main():
     header=struct.pack('<4s11I',b'RHAM',1,total,len(mesh_records),len(clip_records),vec4_count,mesh_offset,clip_offset,data_offset,0,0,0)
     blob=b''.join([header,*mesh_records,*clip_records,*payload])
     assert len(blob)==total
+    sys.path.insert(0,str(pathlib.Path(__file__).resolve().parent))
+    from model_aim_mask import apply as apply_aim_mask
+    source_pack_sha256=hashlib.sha256(blob).hexdigest()
+    blob,aim_masks=apply_aim_mask(blob)
     args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_bytes(blob)
     report=dict(format='RHAM',version=1,total_bytes=total,sha256=hashlib.sha256(blob).hexdigest(),
+                aim_mask=dict(version=1,method='Static authored firing-reference height mask in unused normal.w; no original skin weights/IK',source_pack_sha256=source_pack_sha256,meshes=aim_masks),
                 sample_fps=12,frame_limit_per_mesh=64,low_lod_triangle_budget=96,
                 low_lod_policy='collapse original skinned triangles, then drop smallest disconnected fittings if necessary',
                 grounding='single common offset across clips; specific rootbone translation removed',

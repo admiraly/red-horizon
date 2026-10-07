@@ -1,6 +1,7 @@
 ; Bounded source-mesh rendering and source-clip interpolation; no gameplay writes.
 default rel
 %include "schemas/entity.inc"
+%include "schemas/infantry_aim.inc"
 %include "schemas/player.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
@@ -14,9 +15,10 @@ extern environment_apply
 extern mesh_asset_load,mesh_asset_count,mesh_asset_descriptors,mesh_asset_clips
 extern mesh_asset_vertices,mesh_asset_vec4_count,mesh_role_lookup
 extern mesh_vertex_source,mesh_fragment_source
+extern infantry_aim_pose,net_server_tick
 extern sim_ground_motion,ground_visual
 extern company_for_player,net_company_for_player,network_mode
-extern sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
+extern sim_tick_count,sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glUseProgram
@@ -25,7 +27,7 @@ extern glEnableVertexAttribArray,glVertexAttribPointer,glVertexAttribDivisor
 extern glGetUniformLocation,glUniform3f,glUniform2f,glUniform2i,glUniform1i,glUniform1f
 extern glDrawArraysInstanced,atan2f,puts
  global meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances
- global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame
+ global mesh_aircraft_pose,mesh_ground_pose,mesh_ground_cache,mesh_frame,mesh_infantry_pose
  global mesh_wreck_instances,mesh_wreck_pose,mesh_counts_complete
  global mesh_source_triangles,mesh_animation_sample,mesh_clock,mesh_selected_frames,mesh_selected_lerp
 %define CACHE_COUNT 32772
@@ -34,6 +36,7 @@ projection_name: db 'projection',0
 viewport_name: db 'halfViewport',0
 camera_name: db 'camera',0
 angle_name: db 'angle',0
+aim_name: db 'meshAimClip',0
 geometry_name: db 'meshGeometry',0
 scale_name: db 'meshScale',0
 mode_name: db 'meshMode',0
@@ -60,6 +63,7 @@ mesh_counts_complete: resd 1 ; derived completed-pass telemetry, outside authori
 mesh_wreck_instances: resd 1
 mesh_wreck_pose: resd 16
 mesh_ground_pose: resd 16 ; last actual ground instance, development diagnostics
+mesh_infantry_pose: resd 16 ; last observed active upper-body instance
 mesh_aircraft_pose: resd 16 ; last actual aircraft instance, development diagnostics
 mesh_program: resd 1
 mesh_vao: resd 1
@@ -69,6 +73,7 @@ projection_loc: resd 1
 viewport_loc: resd 1
 camera_loc: resd 1
 angle_loc: resd 1
+aim_loc: resd 1
 geometry_loc: resd 1
 scale_loc: resd 1
 mode_loc: resd 1
@@ -160,6 +165,7 @@ meshes_init:
  LOCATION viewport_name,viewport_loc
  LOCATION camera_name,camera_loc
  LOCATION angle_name,angle_loc
+ LOCATION aim_name,aim_loc
  LOCATION geometry_name,geometry_loc
  LOCATION scale_name,scale_loc
  LOCATION mode_name,mode_loc
@@ -649,6 +655,7 @@ meshes_draw:
  call .ground_pose
  call .air_pose
  call .owned_company
+ call .infantry_pose
  inc r15d
 .armynext:
  add rbx,32
@@ -673,6 +680,44 @@ meshes_draw:
  mov [rdi+40],eax
  mov dword [rdi+44],0
  ret
+; Independent upper-body pose; leg/source locomotion frames stay unchanged.
+.infantry_pose:
+ cmp dword [rbx+ENTITY_KIND],0
+ jne .infantry_done
+ push rdi
+ mov edi,r14d
+ mov esi,[sim_tick_count]
+ mov edx,INFANTRY_AIM_MAX_AGE
+ cmp dword [network_mode],0
+ je .infantry_clock
+ mov esi,[net_server_tick]
+ mov edx,INFANTRY_AIM_REMOTE_MAX_AGE
+.infantry_clock:
+ call infantry_aim_pose
+ pop rdi
+ test eax,eax
+ jz .infantry_done
+ movss [rdi+28],xmm1
+ subss xmm0,[rdi+12]
+ movss [rdi+44],xmm0
+ and eax,INFANTRY_AIM_SHOT
+ shl eax,1
+ or eax,4
+ shl edx,4
+ or eax,edx
+ cvttss2si ecx,[rdi+60]
+ or eax,ecx
+ cvtsi2ss xmm0,eax
+ movss [rdi+60],xmm0
+ movups xmm0,[rdi]
+ movups [mesh_infantry_pose],xmm0
+ movups xmm0,[rdi+16]
+ movups [mesh_infantry_pose+16],xmm0
+ movups xmm0,[rdi+32]
+ movups [mesh_infantry_pose+32],xmm0
+ movups xmm0,[rdi+48]
+ movups [mesh_infantry_pose+48],xmm0
+.infantry_done:ret
 ; Map the entity kind to a distinct source role only for a live matching sidecar.
 .visual_role:
  mov eax,[rbx+ENTITY_KIND]
@@ -1002,6 +1047,31 @@ meshes_draw:
  inc esi
 .censusdetail:
  call glUniform1i wrt ..plt
+ ; Validated authored shooting clip supplies upper-body geometry only.
+ xor esi,esi
+ xor edx,edx
+ cmp dword [current_mode],0
+ jne .aim_uniform
+ mov rax,[current_descriptor]
+ cmp dword [rax],0
+ jne .aim_uniform
+ mov ecx,[rax+24]
+ mov r8d,[rax+20]
+ shl r8d,4
+ add r8,[mesh_asset_clips]
+.aim_clip:
+ cmp dword [r8+12],3
+ je .aim_found
+ add r8,16
+ dec ecx
+ jnz .aim_clip
+ jmp .aim_uniform
+.aim_found:
+ mov esi,[r8]
+ mov edx,[r8+4]
+.aim_uniform:
+ mov edi,[aim_loc]
+ call glUniform2i wrt ..plt
  mov edi,[geometry_loc]
  xor esi,esi
  xor edx,edx

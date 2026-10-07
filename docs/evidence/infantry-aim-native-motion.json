@@ -1,0 +1,51 @@
+{
+  "suite": "actual-moving-infantry-human-aim",
+  "passed": true,
+  "trace": [
+    {
+      "tick": 7,
+      "source": [
+        2050.288818359375,
+        3900.78955078125
+      ],
+      "observed_human": [
+        2000.999755859375,
+        17.801000595092773,
+        3900.0
+      ],
+      "heading": -1.5868136882781982,
+      "spent": 1
+    },
+    {
+      "tick": 15,
+      "source": [
+        2050.618896484375,
+        3901.69189453125
+      ],
+      "observed_human": [
+        2002.332763671875,
+        17.795673370361328,
+        3900.0
+      ],
+      "heading": -1.605820894241333,
+      "spent": 2
+    },
+    {
+      "tick": 23,
+      "source": [
+        2050.948974609375,
+        3902.59423828125
+      ],
+      "observed_human": [
+        2003.665771484375,
+        17.79034996032715,
+        3900.0
+      ],
+      "heading": -1.6256073713302612,
+      "spent": 3
+    }
+  ],
+  "body_movement_and_point_observation_real_ticks": true,
+  "no_live_pose_HP_generation_stores_clock_writes": true,
+  "library_sha256": "5e254ec4556c8b0082cb5d7d62298b1078364ca736832d4f7d369bdb9ebce774"
+}

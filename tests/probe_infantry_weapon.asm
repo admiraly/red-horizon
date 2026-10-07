@@ -1,4 +1,5 @@
 default rel
+extern infantry_aim_mark,infantry_aim_shot,infantry_aim_pose
 extern infantry_human_fire,infantry_weapon_shot,infantry_weapon_init,infantry_weapon_tick,infantry_weapon_fire,infantry_weapon_resupply,infantry_weapon_resupply_tick
 section .text
 global probe_infantry_weapon
@@ -32,8 +33,31 @@ probe_infantry_weapon:
  je .shot
  cmp dword [rsp],6
  je .human
+ cmp dword [rsp],7
+ je .aimmark
+ cmp dword [rsp],8
+ je .aimshot
+ cmp dword [rsp],9
+ je .aimpose
  mov edi,[rsp+4]
  call infantry_weapon_fire
+ jmp .output
+.aimmark:
+ mov edi,[rsp+4]
+ xor esi,esi
+ mov edx,1
+ call infantry_aim_mark
+ jmp .output
+.aimshot:
+ mov edi,[rsp+4]
+ call infantry_aim_shot
+ xor eax,eax
+ jmp .output
+.aimpose:
+ mov edi,[rsp+4]
+ mov esi,7
+ mov edx,8
+ call infantry_aim_pose
  jmp .output
 .human:
  mov edi,[rsp+4]

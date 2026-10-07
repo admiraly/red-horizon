@@ -1,0 +1,21 @@
+%ifndef INFANTRY_AIM_INC
+%define INFANTRY_AIM_INC
+; Cosmetic last physically observed firing decision; never drives authority.
+%define INFANTRY_AIM_VERSION 1
+%define INFANTRY_AIM_STRIDE 32
+%define INFANTRY_AIM_MAX_AGE 8
+%define INFANTRY_AIM_REMOTE_MAX_AGE 12
+%define INFANTRY_AIM_GENERATION 0
+%define INFANTRY_AIM_TICK 4
+%define INFANTRY_AIM_HEADING 8
+%define INFANTRY_AIM_PITCH 12
+%define INFANTRY_AIM_X 16
+%define INFANTRY_AIM_Y 20
+%define INFANTRY_AIM_Z 24
+%define INFANTRY_AIM_FLAGS 28
+%define INFANTRY_AIM_ACTIVE 1
+%define INFANTRY_AIM_HUMAN 2
+%define INFANTRY_AIM_SHOT 4
+%define INFANTRY_AIM_WIRE_STRIDE 36
+%define INFANTRY_AIM_WIRE_MAX 32
+%endif

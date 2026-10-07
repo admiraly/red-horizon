@@ -1,0 +1,24 @@
+{
+  "job_id": "d154dbb30f1a",
+  "revision": "69a33334bd957d9ece984874261563e41b321c10-265b709eaa13a128",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/d154dbb30f1a/source",
+  "command": [
+    "bench",
+    "--scenario",
+    "scale-hotspot",
+    "--client",
+    "--frames",
+    "180",
+    "--width",
+    "1920",
+    "--height",
+    "1080",
+    "--census"
+  ],
+  "status": "failed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/d154dbb30f1a/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/d154dbb30f1a/result.json",
+  "pid": 2662941,
+  "exit_code": 1,
+  "seconds": 0.10163222400296945
+}

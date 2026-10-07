@@ -1,0 +1,27 @@
+{
+  "passed": true,
+  "cases": [
+    {
+      "count": 8192,
+      "ticks": 400,
+      "all_actor_hp_equal": true,
+      "alive": [
+        3950,
+        3696
+      ],
+      "health_sha256": "767e900408bc59d841f1f4156ae3d332ccec5698a47f2d66072ff045c3cdb35f"
+    },
+    {
+      "count": 16384,
+      "ticks": 400,
+      "all_actor_hp_equal": true,
+      "alive": [
+        7827,
+        7463
+      ],
+      "health_sha256": "676e070583209446df4a7e9ada69ae07b8a5d06b20aeb6b31b0e8a589d4e40ff"
+    }
+  ],
+  "library_sha256": "5e254ec4556c8b0082cb5d7d62298b1078364ca736832d4f7d369bdb9ebce774",
+  "limits": "Initial grounded-role label-swap control only; no live body/HP/stores/clock renewal. Aircraft physical flight is verified separately."
+}

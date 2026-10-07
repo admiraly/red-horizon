@@ -1,0 +1,9 @@
+{
+  "suite": "infantry-aim-production-parser",
+  "passed": true,
+  "malformed_atomic_batches": 19,
+  "maximum_packet_bytes": 1196,
+  "body_never_published_by_pose": true,
+  "generations_ordering_expiry_tombstones_lifecycle": true,
+  "adapter_sha256": "ceaa1f3b0549026b479d800b55c013166f3cbfa2df5a4c74d5994e68c0ba5088"
+}

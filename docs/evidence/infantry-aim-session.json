@@ -1,0 +1,103 @@
+{
+  "goal": "active; entire docs/spec.txt still required",
+  "base_commit": "69a33334bd957d9ece984874261563e41b321c10",
+  "current_branch": "feature/infantry-aim",
+  "jobs": {
+    "fast-final": {
+      "job_id": "4f487d18789e",
+      "revision": "69a33334bd957d9ece984874261563e41b321c10-30c0d31ff673588d",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/4f487d18789e/source",
+      "command": [
+        "test",
+        "--suite",
+        "fast"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/4f487d18789e/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/4f487d18789e/result.json",
+      "pid": 2688812,
+      "exit_code": 0,
+      "seconds": 303.3239708159963
+    },
+    "network": {
+      "job_id": "4c783b47e3d3",
+      "revision": "69a33334bd957d9ece984874261563e41b321c10-27f8f32ca4dd03af",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/4c783b47e3d3/source",
+      "command": [
+        "test",
+        "--suite",
+        "network"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/4c783b47e3d3/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/4c783b47e3d3/result.json",
+      "pid": 2649699,
+      "exit_code": 0,
+      "seconds": 218.4865422649891
+    },
+    "full": {
+      "job_id": "b26bbca67339",
+      "revision": "69a33334bd957d9ece984874261563e41b321c10-77efe574aaecbbd2",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b26bbca67339/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b26bbca67339/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b26bbca67339/result.json",
+      "pid": 2706330,
+      "continuation": "Frozen source matching all runtime/content/tools/tests inputs; retain pending until real terminal collection."
+    },
+    "GPU-current": {
+      "job_id": "b61800871ac4",
+      "revision": "69a33334bd957d9ece984874261563e41b321c10-30c0d31ff673588d",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b61800871ac4/source",
+      "command": [
+        "bench",
+        "--scenario",
+        "scale-hotspot",
+        "--seed",
+        "42",
+        "--client",
+        "--frames",
+        "180",
+        "--width",
+        "1920",
+        "--height",
+        "1080",
+        "--census"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b61800871ac4/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-aim/runs/jobs/b61800871ac4/result.json",
+      "pid": 2688823,
+      "exit_code": 0,
+      "seconds": 2.7913080689904746
+    }
+  },
+  "focused_evidence_prefix": "docs/evidence/infantry-aim-",
+  "protocol": {
+    "version": 39,
+    "schema": "0x212cb081",
+    "content": "0x7abe6425",
+    "source_pose_wire_max": 32,
+    "max_packet_bytes": 1196
+  },
+  "limits": [
+    "Upper reference-space mask is approximate; not original bone IK.",
+    "No new FOV/knowledge/perception/firing cone or anatomical torso/body turn bounds.",
+    "Source point locally observed only; remote packet sends no target XYZ.",
+    "Actual GL/co-op/finite stores/symmetry verified; full operation/art/Windows and full 1024-detail density acceptance remain unverified.",
+    "Frozen extended integration checkpoint pending; all earlier failed jobs retained as failed."
+  ],
+  "corrected_failures": [
+    "Two uncommitted adapter crashes from reset helper emitted outside executable text; fixed and current production parser/UDP passed.",
+    "Old universal tank-as-rifle co-op fixture; exact failed v37 plus v38/current real graphical co-op now pass finite surviving-rifleman fixture.",
+    "60ms reload tap missed in frozen v38 software GL; real key acknowledgment preserves full120 shots/finite reserves and both exact failed/current executable HUD passes.",
+    "Zero-mask-weight upper branch changed lower GPU output; bypass fixed before strict bit-identical lower shader proof.",
+    "First hardware sample missingrequired seed42 failed, collected, corrected real samples passed."
+  ]
+}

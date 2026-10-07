@@ -1,0 +1,470 @@
+{
+  "passed": true,
+  "rows": [
+    {
+      "repeat": 0,
+      "baseline": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.535932,
+        "tick_p95_ms": 16.015945,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 5943
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      },
+      "candidate": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.685926,
+        "tick_p95_ms": 16.093946,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 5943
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      }
+    },
+    {
+      "repeat": 1,
+      "baseline": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.781518,
+        "tick_p95_ms": 16.341853,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 5943
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      },
+      "candidate": {
+        "units": 8192,
+        "ticks": 400,
+        "seed": 42,
+        "alive": [
+          2971,
+          2967
+        ],
+        "engaged": 648,
+        "checksum": "89c5f044b3ec0412",
+        "tick_mean_ms": 13.726932,
+        "tick_p95_ms": 16.398695,
+        "operation_state": 0,
+        "requisition": [
+          607,
+          334
+        ],
+        "supply": [
+          600,
+          600
+        ],
+        "projectiles": 413,
+        "projectile_peak": 480,
+        "projectile_dropped": 126802,
+        "navigation": {
+          "pending": 14,
+          "completed": 3118,
+          "overflow": 474987,
+          "cache_hits": 369803,
+          "stuck_replans": 0,
+          "cover_choices": 0,
+          "processed_last_tick": 8,
+          "processed_max": 8
+        },
+        "air_events": {
+          "bomb_launches": 6,
+          "bomb_impacts": 6,
+          "gun_bursts": 1605,
+          "aircraft_destroyed": 0,
+          "overwritten_unobserved": 5943
+        },
+        "hazards": {
+          "predictions": 54663,
+          "tile_overflow": 33779,
+          "acquired": 9229,
+          "dispersions": 9229,
+          "shelters": 0,
+          "los_calls": 23038,
+          "budget_skipped": 0,
+          "active_goals": 536
+        },
+        "ordnance_admission": [
+          {
+            "submitted": 63763,
+            "admitted": 855,
+            "capacity_denied": 62908,
+            "invalidated": 0
+          },
+          {
+            "submitted": 9626,
+            "admitted": 650,
+            "capacity_denied": 8976,
+            "invalidated": 0
+          },
+          {
+            "submitted": 50077,
+            "admitted": 846,
+            "capacity_denied": 49231,
+            "invalidated": 0
+          },
+          {
+            "submitted": 4299,
+            "admitted": 460,
+            "capacity_denied": 3839,
+            "invalidated": 0
+          }
+        ],
+        "air_admission": [
+          {
+            "submitted": 4,
+            "admitted": 4,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1805,
+            "admitted": 813,
+            "capacity_denied": 992,
+            "invalidated": 0
+          },
+          {
+            "submitted": 2,
+            "admitted": 2,
+            "capacity_denied": 0,
+            "invalidated": 0
+          },
+          {
+            "submitted": 1648,
+            "admitted": 792,
+            "capacity_denied": 856,
+            "invalidated": 0
+          }
+        ],
+        "crowd": {
+          "snapshot_actors": 2566204,
+          "move_queries": 3018524,
+          "inspected_neighbors": 20386222,
+          "corrected_endpoints": 184561,
+          "yielded_moves": 7654,
+          "overlap_recoveries": 4770,
+          "truncated_queries": 0,
+          "maximum_inspected_per_query": 33
+        }
+      }
+    }
+  ],
+  "baseline_sha256": "28ebb3ec291a0547807d91cd928d84fce3eb6d7664b10c9b9cabf2e6b06af77d",
+  "candidate_sha256": "0094af618befc06df1e50efbce1fcb939629aa3828683615c850c185d2873a49",
+  "limits": "Original8192,400tick matched scenario; unthrottled alongside background verification. Exact authority comparison, no isolated performance improvement claim."
+}

@@ -9,6 +9,7 @@ uniform vec4 weather;
 uniform vec2 angle;
 uniform vec2 projection;
 uniform vec2 halfViewport;
+uniform ivec2 meshAimClip; // first authored shooting frame,count
 uniform ivec2 meshGeometry; // base vec4 offset,vertices per source frame
 uniform float meshScale;
 uniform int meshMode; // 0 source mesh,1 distant/map glyph,2 real first-person weapon
@@ -29,7 +30,8 @@ void main(){
   actorCode=(uint(censusDetail)<<16)|(uint(identity.x)+1u);
  vec3 local=vec3(0),normal=vec3(0,1,0),material=vec3(.5);
  vec3 team=identity.y==3?vec3(.55,.57,.5):(identity.y==2?vec3(.2,.85,.8):(identity.y==0?vec3(.16,.55,.85):vec3(.9,.25,.12)));
- bool owned=(identity.w==2.||identity.w==3.)&&identity.y==0.;
+ int poseFlags=int(identity.w);
+ bool owned=((poseFlags&3)==2||(poseFlags&3)==3)&&identity.y==0.;
  if(owned)team=vec3(.45,1.,.3);
  if(meshMode!=1){
   int a=meshGeometry.x+(int(animation.x)*meshGeometry.y+gl_VertexID)*3;
@@ -38,17 +40,37 @@ void main(){
   normal=normalize(mix(sourceVertex[a+1].xyz,sourceVertex[b+1].xyz,animation.z)/max(scale.xyz,vec3(.0001)));
   material=mix(sourceVertex[a+2].rgb,sourceVertex[b+2].rgb,animation.z);
  }
+ // Aim is published by the actual visible decision, never chosen here.
+ bool infantryAim=meshMode==0&&identity.z==0.&&identity.y<=1.&&(poseFlags&4)!=0&&meshAimClip.y>0;
+ if(infantryAim){
+  float phase=(poseFlags&8)!=0?min(float(poseFlags>>4)*float(meshAimClip.y)/8.,float(meshAimClip.y-1)):0.;
+  int first=meshAimClip.x+int(phase),second=min(first+1,meshAimClip.x+meshAimClip.y-1);
+  int aa=meshGeometry.x+(first*meshGeometry.y+gl_VertexID)*3;
+  int ab=meshGeometry.x+(second*meshGeometry.y+gl_VertexID)*3;
+  int walk=meshGeometry.x+(int(animation.x)*meshGeometry.y+gl_VertexID)*3;
+  float weight=clamp(sourceVertex[walk+1].w,0.,1.);
+  vec3 upper=mix(sourceVertex[aa].xyz,sourceVertex[ab].xyz,fract(phase))*scale.xyz*meshScale;
+  vec3 upperNormal=normalize(mix(sourceVertex[aa+1].xyz,sourceVertex[ab+1].xyz,fract(phase))/max(scale.xyz,vec3(.0001)));
+  if(weight>0.){
+  local=mix(local,upper,weight);normal=normalize(mix(normal,upperNormal,weight));
+  float yaw=scale.w*weight,pitch=animation.w*weight;
+  float c=cos(pitch),s=sin(pitch);mat3 lift=mat3(1,0,0,0,c,-s,0,s,c);
+  local=lift*(local-vec3(0,1.35,0))+vec3(0,1.35,0);normal=lift*normal;
+  c=cos(yaw);s=sin(yaw);mat3 turn=mat3(c,0,-s,0,1,0,s,0,c);
+  local=turn*(local-vec3(0,.85,0))+vec3(0,.85,0);normal=turn*normal;
+  }
+ }
  // Bank about authored forward +Z, then nose-up pitch, then heading.
  // Nonair instances keep these fields zero, preserving their source clips.
  float cb=cos(scale.w),sb=sin(scale.w),cpAir=cos(animation.w),spAir=sin(animation.w);
  mat3 bank=mat3(cb,sb,0,-sb,cb,0,0,0,1);
  mat3 pitchAir=mat3(1,0,0,0,cpAir,-spAir,0,spAir,cpAir);
- local=pitchAir*bank*local;normal=pitchAir*bank*normal;
+ if(!infantryAim){local=pitchAir*bank*local;normal=pitchAir*bank*normal;}
  if(identity.z==4.)team=mix(team,vec3(.8,.86,.9),.22);
  float cy=cos(pose.w),sy=sin(pose.w);
  vec3 world=vec3(cy*local.x+sy*local.z,local.y,-sy*local.x+cy*local.z)+pose.xyz;
  normal=vec3(cy*normal.x+sy*normal.z,normal.y,-sy*normal.x+cy*normal.z);
- if(identity.w==0.||identity.w==2.)world.y+=height(pose.xz);
+ if((poseFlags&1)==0)world.y+=height(pose.xz);
  float light=mix(.35,.58,weather.y)+mix(.65,.22,weather.y)*max(0.,dot(normal,normalize(vec3(.35,.85,-.2))));
  colour=mix(material,team,.22)*light;
  if(identity.y==3. && (identity.z==1. || identity.z==2.))colour*=vec3(.35,.32,.29);

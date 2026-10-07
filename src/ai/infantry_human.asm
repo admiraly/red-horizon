@@ -4,7 +4,7 @@
 %include "schemas/infantry_weapon.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_players,sim_player_vehicle
-extern sim_entity_height,world_los,infantry_weapon_shot,player_apply_damage
+extern sim_entity_height,world_los,infantry_weapon_shot,player_apply_damage,infantry_aim_mark
 section .rodata
 zero: dd 0.0
 maximum: dd 8000.0
@@ -160,6 +160,10 @@ infantry_human_fire:
  jb .scan
  cmp r14d,-1
  je .none
+ mov edi,r12d
+ mov esi,r14d
+ mov edx,1
+ call infantry_aim_mark
  mov edi,r12d
  call infantry_weapon_shot
  test eax,eax

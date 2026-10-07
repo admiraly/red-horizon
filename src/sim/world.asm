@@ -4,7 +4,7 @@
 %include "schemas/aircraft.inc"
 %include "schemas/acquisition.inc"
 default rel
-extern infantry_human_fire
+extern infantry_human_fire,infantry_aim_init,infantry_aim_mark
 extern company_transfer_tick
 extern operation_init, operation_tick, operation_hash
 extern terrain_move, terrain_height, world_los, terrain_blocked
@@ -154,6 +154,7 @@ sim_init:
  call nav_init
  call projectile_init
  call infantry_weapon_init
+ call infantry_aim_init
  call ordnance_init
  call vehicle_init
  call ground_init
@@ -704,6 +705,12 @@ sim_tick:
  mov dword [rsp+84],1
  test eax,eax
  jnz .attack_next
+ mov edi,r12d
+ mov esi,r15d
+ xor edx,edx
+ sub rsp,8
+ call infantry_aim_mark
+ add rsp,8
  mov edi,r12d
  sub rsp,8
  call infantry_weapon_shot

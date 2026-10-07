@@ -3,7 +3,7 @@
 %include "schemas/infantry_weapon.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_sites
-extern depot_ammunition_take,terrain_height,world_los,infantry_rifle_event
+extern depot_ammunition_take,terrain_height,world_los,infantry_rifle_event,infantry_aim_shot
 section .bss align=64
 global infantry_weapons
 infantry_weapons: resb ENTITY_CAPACITY*INFANTRY_WEAPON_STRIDE
@@ -212,6 +212,7 @@ infantry_weapon_shot:
  test eax,eax
  jnz .done
  mov dword [rbx],INFANTRY_SHOT_TICKS
+ call infantry_aim_shot
  call infantry_rifle_event
  xor eax,eax ; cosmetic rejection cannot revoke the actual conserved shot
 .done:

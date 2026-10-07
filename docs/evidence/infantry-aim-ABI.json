@@ -1,0 +1,12 @@
+{
+  "suite": "infantry-weapon-ABI",
+  "passed": true,
+  "entry_points": 10,
+  "invalid_atomic_calls": 21,
+  "six_nonvolatile_registers_preserved": true,
+  "aligned_call_frames": true,
+  "library_sha256": "6cc873d522481be36090c8ae25e2c799c965b32484d98f70b1beb815b1ad6052",
+  "limits": [
+    "Isolated CPU ABI and public gate proof; physical reload/combat verified separately."
+  ]
+}

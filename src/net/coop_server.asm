@@ -1,5 +1,6 @@
 default rel
 %include "schemas/player.inc"
+%include "schemas/infantry_aim.inc"
 %include "schemas/player_ammunition.inc"
 %include "schemas/entity.inc"
 %include "schemas/aircraft.inc"
@@ -806,6 +807,9 @@ snapshots:
  mov edi,r12d
  mov rsi,r13
  call send_ground
+ mov edi,r12d
+ mov rsi,r13
+ call send_infantry_aim
  mov edi,r12d
  mov rsi,r13
  call send_projectiles
@@ -1618,3 +1622,158 @@ send_player_ammunition:
  pop rbx
  ret
 section .note.GNU-stack noalloc noexec nowrite progbits
+
+section .bss align=16
+aim_ids: resd INFANTRY_AIM_WIRE_MAX
+aim_distances: resd INFANTRY_AIM_WIRE_MAX
+section .text
+extern infantry_aims,infantry_aim_pose,sim_entity_height,world_los
+; At most32 nearest currently observed poses,1196-byte packet. No target XYZ/IDs.
+; Source visibility uses the same actual player eye and physical LOS as interest.
+send_infantry_aim:
+ push rbp
+ push rbx
+ push r12
+ push r13
+ push r14
+ push r15
+ sub rsp,24
+ mov r12d,edi
+ mov r13,rsi
+ mov eax,edi
+ shl eax,6
+ lea rbx,[sim_players]
+ add rbx,rax
+ xor r14d,r14d
+ xor r15d,r15d
+.scan:
+ cmp r15d,[sim_count]
+ jae .packet
+ mov eax,r15d
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_KIND],0
+ jne .next
+ cmp dword [rdx+ENTITY_HP],0
+ je .next
+ movss xmm0,[rdx+ENTITY_X]
+ subss xmm0,[rbx+PLAYER_X]
+ mulss xmm0,xmm0
+ movss xmm1,[rdx+ENTITY_Z]
+ subss xmm1,[rbx+PLAYER_Z]
+ mulss xmm1,xmm1
+ addss xmm0,xmm1
+ ucomiss xmm0,[interest2]
+ jp .next
+ ja .next
+ movss [rsp],xmm0
+ cmp r14d,INFANTRY_AIM_WIRE_MAX
+ jb .eligible
+ lea rax,[aim_distances]
+ comiss xmm0,[rax+(INFANTRY_AIM_WIRE_MAX-1)*4]
+ jae .next
+.eligible:
+ mov edi,r15d
+ mov esi,[sim_tick_count]
+ mov edx,INFANTRY_AIM_MAX_AGE
+ call infantry_aim_pose
+ test eax,eax
+ jz .next
+ mov eax,r15d
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ cmp dword [rdx+ENTITY_SIDE],1
+ jne .insert
+ mov edi,r15d
+ call sim_entity_height
+ movaps xmm4,xmm0
+ mov eax,r15d
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ movss xmm3,[rdx+ENTITY_X]
+ movss xmm5,[rdx+ENTITY_Z]
+ movss xmm0,[rbx+PLAYER_X]
+ movss xmm1,[rbx+PLAYER_Y]
+ movss xmm2,[rbx+PLAYER_Z]
+ call world_los
+ test eax,eax
+ jz .next
+.insert:
+ mov ecx,r14d
+ cmp ecx,INFANTRY_AIM_WIRE_MAX
+ jb .new_slot
+ dec ecx
+ jmp .rank
+.new_slot:inc r14d
+.rank:
+ lea r8,[aim_ids]
+ lea r9,[aim_distances]
+ movss xmm0,[rsp]
+.bubble:
+ test ecx,ecx
+ jz .place
+ mov edx,ecx
+ dec edx
+ comiss xmm0,[r9+rdx*4]
+ jae .place
+ mov eax,[r9+rdx*4]
+ mov [r9+rcx*4],eax
+ mov eax,[r8+rdx*4]
+ mov [r8+rcx*4],eax
+ dec ecx
+ jmp .bubble
+.place:
+ mov [r8+rcx*4],r15d
+ movss [r9+rcx*4],xmm0
+.next:
+ inc r15d
+ jmp .scan
+.packet:
+ test r14d,r14d
+ jz .done
+ mov edi,NET_INFANTRY_AIM
+ mov esi,r12d
+ mov edx,4
+ call header
+ mov [output+40],r14d
+ xor r15d,r15d
+.copy:
+ lea rdx,[aim_ids]
+ mov eax,[rdx+r15*4]
+ imul edi,r15d,INFANTRY_AIM_WIRE_STRIDE
+ lea rdx,[output+44]
+ add rdi,rdx
+ stosd
+ shl eax,5
+ lea rsi,[infantry_aims]
+ add rsi,rax
+ mov ecx,4
+ rep movsd ; generation,observed tick,heading,pitch
+ xor eax,eax
+ stosd
+ stosd
+ stosd ; reserved zero: no target position leaked
+ mov eax,[rsi+12]
+ stosd ; original flags at+28,RSI now+16
+ inc r15d
+ cmp r15d,r14d
+ jb .copy
+ imul esi,r14d,INFANTRY_AIM_WIRE_STRIDE
+ add esi,NET_HEADER+4
+ mov eax,esi
+ sub eax,NET_HEADER
+ mov [output+32],eax
+ mov rdi,r13
+ call send_packet
+.done:
+ add rsp,24
+ pop r15
+ pop r14
+ pop r13
+ pop r12
+ pop rbx
+ pop rbp
+ ret

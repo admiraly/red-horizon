@@ -1,0 +1,7 @@
+{
+  "original_pack_sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
+  "derived_pack_sha256": "0f5aa5489497cba29a1c626dae558fd5f07ece2019aa2fe321470e0e38980ebf",
+  "only_modified_lanes": "role0 normal.w",
+  "allowed_lanes": 137448,
+  "all_other_bytes_identical": true
+}

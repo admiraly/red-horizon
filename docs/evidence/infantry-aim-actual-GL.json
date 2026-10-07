@@ -1,0 +1,43 @@
+{
+  "suite": "actual-NPC-aim-GL",
+  "passed": true,
+  "army": 8192,
+  "source": 4096,
+  "actual_pose": [
+    1,
+    8,
+    -2.356194496154785,
+    -0.013787686824798584,
+    1990.0,
+    17.80500030517578,
+    3990.0,
+    7
+  ],
+  "render_instance": [
+    2000.0,
+    0.0,
+    4000.0,
+    -1.3400973081588745,
+    38.0,
+    39.0,
+    0.61767578125,
+    -0.013787686824798584,
+    1.0,
+    1.0,
+    1.0,
+    -1.0160971879959106,
+    4096.0,
+    1.0,
+    0.0,
+    12.0
+  ],
+  "paired_changed_pixels": 1948,
+  "paired_authority_unchanged": true,
+  "locomotion_frames_blend_unchanged": true,
+  "no_HP_kind_generation_stock_event_writes": true,
+  "screenshot": "/tmp/red-horizon-NPC-aim.ppm",
+  "limits": [
+    "One initial position/order fixture, actual finite AI aiming/firing; paired control freezes only development authority and animation clocks and hides/restores only actual aim metadata.",
+    "Software GL visibility proof, not target GPU performance or audiovisual quality acceptance."
+  ]
+}

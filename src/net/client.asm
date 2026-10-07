@@ -1,6 +1,8 @@
 ; Actual gameplay network adapter. SysV x86-64; fixed bounded buffers.
 default rel
 %include "schemas/player.inc"
+%include "schemas/entity.inc"
+%include "schemas/infantry_aim.inc"
 %include "schemas/aircraft.inc"
 %include "schemas/ground_motion.inc"
 %include "schemas/combat.inc"
@@ -14,6 +16,7 @@ extern net_supply_reset,net_supply_receive
 extern net_company_reset,net_company_receive
 extern wreck_receive,wreck_remote_reset,wreck_remote_expire
 %include "src/net/protocol.inc"
+extern infantry_aims
 extern sim_ground_motion
 extern sim_aircraft
 extern inet_pton, sim_init, player_init, reset_event_ring
@@ -64,6 +67,7 @@ clock_now: resq 2
 last_send: resq 1
 last_receive: resq 1
 state_tick: resd 1
+aim_tick: resd 32768
 entity_tick: resd 32768
 air_tick: resd 32768
 ground_tick: resd 32768
@@ -124,6 +128,10 @@ net_client_open:
  mov dword [rdi],0
  add rdi,32
  loop .zero
+ lea rdi,[aim_tick]
+ xor eax,eax
+ mov ecx,32768
+ rep stosd
  lea rdi,[entity_tick]
  xor eax,eax
  mov ecx,32768
@@ -137,6 +145,7 @@ net_client_open:
  call net_depot_reset
  call net_player_ammunition_reset
  call reset_ground
+ call reset_aim
  lea rdi,[sim_aircraft]
  mov ecx,32768*AIR_STRIDE/8
  rep stosq
@@ -346,6 +355,8 @@ net_client_poll:
  je .entities
  cmp dword [incoming+16],NET_WRECKS
  je .wrecks
+ cmp dword [incoming+16],NET_INFANTRY_AIM
+ je .infantry_aim
  cmp dword [incoming+16],NET_GROUND
  je .ground
  cmp dword [incoming+16],NET_AIRCRAFT
@@ -674,6 +685,99 @@ net_client_poll:
  add r15,36
  dec r14d
  jmp .records
+; Pose-only generation-tagged records never publish/renew body HP or position.
+.infantry_aim:
+ cmp dword [incoming+32],4
+ jb .next
+ mov r14d,[incoming+40]
+ cmp r14d,INFANTRY_AIM_WIRE_MAX
+ ja .next
+ imul eax,r14d,INFANTRY_AIM_WIRE_STRIDE
+ add eax,4
+ cmp eax,[incoming+32]
+ jne .next
+ lea r15,[incoming+44]
+.validateaim:
+ test r14d,r14d
+ jz .aimvalid
+ mov eax,[r15]
+ cmp eax,[sim_count]
+ jae .next
+ lea rsi,[incoming+44]
+.aimduplicates:
+ cmp rsi,r15
+ jae .aimunique
+ cmp eax,[rsi]
+ je .next
+ add rsi,INFANTRY_AIM_WIRE_STRIDE
+ jmp .aimduplicates
+.aimunique:
+ cmp dword [r15+4],0
+ je .next
+ mov eax,[incoming+28]
+ sub eax,[r15+8]
+ cmp eax,INFANTRY_AIM_MAX_AGE
+ jae .next
+ cmp dword [r15+32],7
+ ja .next
+ test dword [r15+32],INFANTRY_AIM_ACTIVE
+ jz .next
+ cmp dword [r15+20],0
+ jne .next
+ cmp dword [r15+24],0
+ jne .next
+ cmp dword [r15+28],0
+ jne .next
+ mov eax,[r15+12]
+ and eax,0x7fffffff
+ cmp eax,0x40490fdf ; finite heading <=pi rounded upward
+ ja .next
+ mov eax,[r15+16]
+ and eax,0x7fffffff
+ cmp eax,0x3fc90fe0 ; finite pitch <=pi/2 rounded upward
+ ja .next
+ add r15,INFANTRY_AIM_WIRE_STRIDE
+ dec r14d
+ jmp .validateaim
+.aimvalid:
+ mov r14d,[incoming+40]
+ lea r15,[incoming+44]
+.publishaim:
+ test r14d,r14d
+ jz .accepted
+ mov eax,[r15]
+ mov r9d,eax
+ shl eax,5
+ lea rdx,[sim_entities]
+ add rdx,rax
+ mov ecx,[r15+4]
+ cmp ecx,[rdx+ENTITY_GENERATION]
+ jb .aimnext
+ lea r10,[infantry_aims]
+ add r10,rax
+ cmp ecx,[r10+INFANTRY_AIM_GENERATION]
+ jb .aimnext
+ ja .aimcopy
+ lea rdx,[aim_tick]
+ mov ecx,[incoming+28]
+ cmp ecx,[rdx+r9*4]
+ jb .aimnext
+ mov ecx,[r15+8]
+ cmp ecx,[r10+INFANTRY_AIM_TICK]
+ jb .aimnext
+.aimcopy:
+ mov rdi,r10
+ lea rsi,[r15+4]
+ mov ecx,4
+ rep movsq
+ lea rdx,[aim_tick]
+ mov eax,[incoming+28]
+ mov [rdx+r9*4],eax
+.aimnext:
+ add r15,INFANTRY_AIM_WIRE_STRIDE
+ dec r14d
+ jmp .publishaim
+
 ; Self-contained ground64: validate the complete batch before any mutation.
 .wrecks:
  lea rdi,[incoming+NET_HEADER]
@@ -1273,6 +1377,7 @@ net_client_poll:
  call net_depot_reset
  call net_player_ammunition_reset
  call reset_ground
+ call reset_aim
 .retry:
  cmp dword [pending_len],0
  je .expire
@@ -1335,6 +1440,7 @@ net_client_close:
  call net_depot_reset
  call net_player_ammunition_reset
  call reset_ground
+ call reset_aim
  call reset_projectiles
  mov rdi,[fd]
  test rdi,rdi
@@ -1465,6 +1571,17 @@ reset_ground:
  rep stosd
  lea rdi,[sim_ground_motion]
  mov ecx,32768*GROUND_STRIDE/8
+ rep stosq
+ ret
+
+; Bounded cosmetic cache lifecycle; no authority body writes.
+reset_aim:
+ lea rdi,[infantry_aims]
+ xor eax,eax
+ mov ecx,32768*INFANTRY_AIM_STRIDE/8
+ rep stosq
+ lea rdi,[aim_tick]
+ mov ecx,32768/2
  rep stosq
  ret
 

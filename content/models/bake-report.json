@@ -2,7 +2,7 @@
   "format": "RHAM",
   "version": 1,
   "total_bytes": 11684304,
-  "sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
+  "sha256": "0f5aa5489497cba29a1c626dae558fd5f07ece2019aa2fe321470e0e38980ebf",
   "sample_fps": 12,
   "frame_limit_per_mesh": 64,
   "low_lod_triangle_budget": 96,
@@ -759,5 +759,30 @@
         }
       ]
     }
-  ]
+  ],
+  "aim_mask": {
+    "version": 1,
+    "method": "Static authored firing-reference height mask in unused normal.w; no original skin weights/IK",
+    "source_pack_sha256": "1ffff4417fbac3f42af83b3450a32048f45162ac35c93b55ca3384ce5be3d4a9",
+    "meshes": [
+      {
+        "role": 0,
+        "lod": 0,
+        "reference_frame": 41,
+        "vertices": 2709,
+        "lower_vertices": 602,
+        "upper_vertices": 1819,
+        "blend_vertices": 288
+      },
+      {
+        "role": 0,
+        "lod": 1,
+        "reference_frame": 41,
+        "vertices": 279,
+        "lower_vertices": 61,
+        "upper_vertices": 191,
+        "blend_vertices": 27
+      }
+    ]
+  }
 }

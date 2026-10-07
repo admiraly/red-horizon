@@ -94,10 +94,18 @@ try:
             values = struct.unpack('<5f11I', os.pread(memory, 64, player_address))
             return dict(zip(('x','y','z','yaw','pitch','hp','ammo','reload','cooldown','respawn','front','connected','shots','hits','suppression','generation'), values))
 
-        def key(symbol, hold=.12):
+        def key(symbol, hold=.12, observed=None):
             code = X.XKeysymToKeycode(display, symbol); assert code
-            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display); time.sleep(hold)
-            XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display); time.sleep(.10)
+            XT.XTestFakeKeyEvent(display, code, 1, 0); X.XFlush(display)
+            try:
+                if symbol==ord('r'):
+                    # Hold real input until this client observes it; a fixed60ms
+                    # tap can fall entirely between slow software GL frames.
+                    until(observed or (lambda:struct.unpack('<I',os.pread(memory,4,symbols['intent_buttons']))[0]&2),3)
+                else:time.sleep(hold)
+            finally:
+                XT.XTestFakeKeyEvent(display, code, 0, 0); X.XFlush(display)
+            time.sleep(.10)
 
         def button(down):
             XT.XTestFakeButtonEvent(display, 1, int(down), 0); X.XFlush(display)
@@ -139,7 +147,7 @@ try:
             trace.append([p['shots'],p['ammo'],s[1],s[2]])
             if magazine<3:
                 feedback('RIFLE EMPTY R'+str(s[1])+' RELOAD')
-                key(ord('r'),.06);until(lambda:player()['reload']>0,2)
+                key(ord('r'),.06,lambda:player()['reload']>0)
                 until(lambda:player()['ammo']==30 and player()['reload']==0,4)
                 assert stock()[1]==90-(magazine+1)*30,(magazine,player(),stock(),trace,title(window))
                 until(lambda:'R'+str(stock()[1]) in title(window),2)
