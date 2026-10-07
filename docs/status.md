@@ -1,3 +1,20 @@
+Target-selection incremental tools check PASSED/collected, including exact
+16 headless player-include consumers,8 client consumers, full real-core fast
+child, unchanged authored inputs, terminal setup failures, failed assembly
+preserves prior objects, immutable background source and exact revision.
+Main client/headless/co-op full links passed; exact paths/hashes recorded in
+evidence/infantry-targets-session.json. All launched foreground checks and
+fast/network jobs are terminal/collected. Only frozen full8a7e9b89d92e remains
+pending, at its immutable d92fe449-a3f38041ef150d2e snapshot. Goal active; next
+ready implementation is actual finite NPC rifle audiovisual feedback.
+
+Integrated target-selection frozen full8a7e9b89d92e RUNNING,
+d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e,PID2343898.
+Metadata: evidence/infantry-targets-full-pending.json. This is the sole pending
+full checkpoint; previous4c0ad8c85882 failed and was collected. Main client,
+headless and co-op executables rebuilt for compatible policy5/UDPv37 runtime.
+Independent tooling check subsequently passed (above). No full pass inferred.
+
 Joint visible infantry army/human arbitration verified in feature/infantry-targets
 (runtime dc73e28), policy5,UDPv37/schemaf7443ce4/contentabc84d82.
 One actor8tick decision compares its already acquired visible army target with
@@ -30,8 +47,8 @@ Exact reports/scopes/failed setup attempts: evidence/infantry-targets-session.js
 infantry-targets-focused.json and infantry-targets-causal.json. No hardware
 performance/full-operation/whole-spec completion claim. Public army target IDs
 still exclude humans; NPC human aim/tracer/target presentation and strategic
-knowledge remain pending. Incremental tooling test is still running; full
-extended integration checkpoint will be frozen after integration. Goal active.
+knowledge remain pending. Incremental tooling test subsequently passed; full extended integration
+checkpoint8a7e9b89d92e is running. Goal active.
 
 Frozen full4c0ad8c85882 FAILED/collected,exit1,665.702721s.
 The extended UDP death fixture still chose a tank as a rifle attacker. Actual

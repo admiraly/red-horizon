@@ -355,8 +355,7 @@
   "limits": [
     "Full specification and hardware-performance acceptance remain incomplete.",
     "Human NPC aim/tracer/target metadata, shaped body contacts and broader strategic observed knowledge remain pending.",
-    "Frozen full extended integration checkpoint is separate; earlier full failures remain failed.",
-    "Independent incremental tooling test still running at this evidence stage."
+    "Frozen full extended integration checkpoint is separate; earlier full failures remain failed."
   ],
   "focused_evidence": "infantry-targets-focused.json",
   "failures_retained": [
@@ -497,5 +496,80 @@
     "exit_code": 0,
     "seconds": 300.81846337899333,
     "explicit_pass_reports": 86
+  },
+  "tooling": {
+    "exit_code": 0,
+    "report": {
+      "suite": "tools",
+      "passed": true,
+      "checks": [
+        "cold/incremental",
+        "single module invalidation",
+        "shader isolation",
+        "transitive includes",
+        "source preservation",
+        "failed build preserves previous objects",
+        "fast real-core suite",
+        "immutable background source",
+        "revision identity",
+        "failed assembly reported",
+        "job collection",
+        "terminal missing-NASM worker setup"
+      ]
+    }
+  },
+  "integrated_commit": "d92fe44977d25dfb0680b4db4f6e71965b577b08",
+  "main_builds": {
+    "client": {
+      "target": "client",
+      "revision": "d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e",
+      "assembled": 6,
+      "assembled_sources": [
+        "src/sim/infantry_weapon.asm",
+        "src/sim/world.asm",
+        "src/ai/infantry_human.asm",
+        "src/ai/company_supply.asm",
+        "src/game/player.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.4578998770011822,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e/red-horizon",
+      "sha256": "65e74983e08abd2d00a98adc528a0453a568f733499db096e9cc40b58e1cb8bd"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.35071966399846133,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e/red-horizon-server",
+      "sha256": "9e2dc494b5dd3908400ca1963d9fc5cb6bc4393ede8c2eb586c182f3f22a85b8"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.4057534809981007,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e/red-horizon-coop-server",
+      "sha256": "1359cdb647d4c14ace128bc486454cdd9252a37fcf40807343a99b3d78b9e331"
+    }
+  },
+  "full_checkpoint": {
+    "job_id": "8a7e9b89d92e",
+    "revision": "d92fe44977d25dfb0680b4db4f6e71965b577b08-a3f38041ef150d2e",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8a7e9b89d92e/result.json",
+    "pid": 2343898
   }
 }
