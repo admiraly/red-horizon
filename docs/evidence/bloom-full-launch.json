@@ -1,0 +1,15 @@
+{
+  "job_id": "25b26901562a",
+  "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/result.json",
+  "pid": 2132593
+}

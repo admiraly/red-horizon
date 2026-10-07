@@ -4,6 +4,8 @@
 ; external colour texture, ESI tactical) draws to the default framebuffer. The
 ; caller restores its program/VAO before HUD. Init/shutdown are idempotent.
 default rel
+extern bloom_init,bloom_render,bloom_shutdown,bloom_strength
+extern glViewport
 extern view_width,view_height
 extern glGenFramebuffers,glBindFramebuffer,glDeleteFramebuffers,glCheckFramebufferStatus
 extern glGenTextures,glBindTexture,glTexStorage2D,glTexParameteri,glDeleteTextures,glFramebufferTexture2D
@@ -21,6 +23,9 @@ hdr_fragment_source: incbin "shaders/present.frag"
 db 0
 scene_name: db 'scene',0
 exposure_name: db 'exposure',0
+bloom_name: db 'bloomImage',0
+bloom_strength_name: db 'bloomStrength',0
+zero: dd 0.0
 passthrough_name: db 'passthrough',0
 clear_linear: dd 0.09463,0.14732,0.17887,1.0 ; approximate decoded legacy clear
 clear_display: dd 0.34,0.42,0.46,1.0
@@ -48,6 +53,8 @@ status: resd 1
 scene_loc: resd 1
 exposure_loc: resd 1
 passthrough_loc: resd 1
+bloom_loc: resd 1
+bloom_strength_loc: resd 1
 log: resb 4096
 section .text
 global hdr_init,hdr_begin,hdr_present,hdr_shutdown
@@ -107,6 +114,14 @@ hdr_init:
  lea rsi,[passthrough_name]
  call glGetUniformLocation wrt ..plt
  mov [passthrough_loc],eax
+ mov edi,[program]
+ lea rsi,[bloom_name]
+ call glGetUniformLocation wrt ..plt
+ mov [bloom_loc],eax
+ mov edi,[program]
+ lea rsi,[bloom_strength_name]
+ call glGetUniformLocation wrt ..plt
+ mov [bloom_strength_loc],eax
  mov edi,1
  lea rsi,[vao]
  call glGenVertexArrays wrt ..plt
@@ -173,6 +188,11 @@ hdr_init:
  mov edi,0x8d41
  xor esi,esi
  call glBindRenderbuffer wrt ..plt
+ mov edi,[hdr_width]
+ mov esi,[hdr_height]
+ call bloom_init
+ test eax,eax
+ jnz .cleanup
  mov dword [ready],1
 .success:
  xor eax,eax
@@ -192,6 +212,7 @@ hdr_init:
  mov eax,-1
  pop rbx
  ret
+global hdr_compile
 hdr_compile:
  push rbx
  sub rsp,16
@@ -269,6 +290,19 @@ hdr_present:
  jnz .texture
  mov r12d,[hdr_scene_texture]
 .texture:
+ mov edi,0xb71
+ call glDisable wrt ..plt
+ mov edi,0xbe2
+ call glDisable wrt ..plt
+ mov edi,0x8db9 ; FRAMEBUFFER_SRGB: encode explicitly for the current display
+ call glDisable wrt ..plt
+ xor ebx,ebx
+ test r13d,r13d
+ jnz .no_bloom
+ mov edi,r12d
+ call bloom_render
+ mov ebx,eax
+.no_bloom:
  mov edi,0x8d40
  xor esi,esi
  call glBindFramebuffer wrt ..plt
@@ -276,12 +310,17 @@ hdr_present:
  call glDrawBuffer wrt ..plt
  mov edi,0x405
  call glReadBuffer wrt ..plt
- mov edi,0xb71
- call glDisable wrt ..plt
- mov edi,0xbe2
- call glDisable wrt ..plt
- mov edi,0x8db9 ; FRAMEBUFFER_SRGB: encode explicitly for the current display
- call glDisable wrt ..plt
+ xor edi,edi
+ xor esi,esi
+ mov edx,[hdr_width]
+ mov ecx,[hdr_height]
+ call glViewport wrt ..plt
+ ; Fragment texture unit15 is reserved for bloom; material units are unchanged.
+ mov edi,0x84cf
+ call glActiveTexture wrt ..plt
+ mov edi,0xde1
+ mov esi,ebx
+ call glBindTexture wrt ..plt
  mov edi,0x84c0
  call glActiveTexture wrt ..plt
  mov edi,0xde1
@@ -295,6 +334,16 @@ hdr_present:
  mov edi,[exposure_loc]
  movss xmm0,[hdr_exposure]
  call glUniform1f wrt ..plt
+ mov edi,[bloom_loc]
+ mov esi,15
+ call glUniform1i wrt ..plt
+ mov edi,[bloom_strength_loc]
+ movss xmm0,[zero]
+ test ebx,ebx
+ jz .strength
+ movss xmm0,[bloom_strength]
+.strength:
+ call glUniform1f wrt ..plt
  mov edi,[passthrough_loc]
  mov esi,r13d
  call glUniform1i wrt ..plt
@@ -304,6 +353,13 @@ hdr_present:
  xor esi,esi
  mov edx,3
  call glDrawArrays wrt ..plt
+ mov edi,0x84cf
+ call glActiveTexture wrt ..plt
+ mov edi,0xde1
+ xor esi,esi
+ call glBindTexture wrt ..plt
+ mov edi,0x84c0
+ call glActiveTexture wrt ..plt
  mov edi,0xde1
  xor esi,esi
  call glBindTexture wrt ..plt
@@ -320,6 +376,7 @@ hdr_present:
  ret
 hdr_shutdown:
  sub rsp,8
+ call bloom_shutdown
  xor edi,edi
  call glUseProgram wrt ..plt
  mov edi,0x8d40

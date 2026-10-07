@@ -9,7 +9,7 @@ spec=importlib.util.spec_from_file_location('relief_gl',ROOT/'tests/test_relief_
 
 def main():
  exe=pathlib.Path(sys.argv[1]).resolve();hardware='--hardware' in sys.argv
- for name,file in [('hdr_vertex_source','present.vert'),('hdr_fragment_source','present.frag')]:assert helper.embedded(exe,name)==(ROOT/'shaders'/file).read_bytes()
+ for name,file in [('hdr_vertex_source','present.vert'),('hdr_fragment_source','present.frag'),('bloom_fragment_source','bloom.frag')]:assert helper.embedded(exe,name)==(ROOT/'shaders'/file).read_bytes()
  read,write=os.pipe();server=None;fw=None;win=None
  try:
   with tempfile.TemporaryDirectory(prefix='rh-hdr-gl-') as temp:
@@ -22,7 +22,7 @@ def main():
     os.close(write);write=-1;assert select.select([read],[],[],10)[0];number=os.read(read,32).decode().strip();assert number.isdigit();os.close(read);read=-1
     os.environ['DISPLAY']=':'+number;os.environ['LIBGL_ALWAYS_SOFTWARE']='1'
    nasm=os.environ['RED_HORIZON_NASM'];objects=[]
-   for name,source in [('hdr','src/render/hdr.asm'),('census','src/render/visibility_census.asm'),('probe','tests/probe_visibility_reduce.asm')]:
+   for name,source in [('hdr','src/render/hdr.asm'),('bloom','src/render/bloom.asm'),('census','src/render/visibility_census.asm'),('probe','tests/probe_visibility_reduce.asm')]:
     obj=folder/(name+'.o');subprocess.run([nasm,'-f','elf64','-I',str(ROOT)+'/',str(ROOT/source),'-o',str(obj)],cwd=ROOT,check=True,capture_output=True);objects.append(str(obj))
    libpath=folder/'libhdr.so';subprocess.run(['cc','-shared','-Wl,-Bsymbolic','-o',str(libpath),*objects,'-lGL'],check=True,capture_output=True)
    lib=C.CDLL(str(libpath));gl=C.CDLL('libGL.so.1');fw=C.CDLL('libglfw.so.3')
@@ -43,6 +43,7 @@ def main():
    def pixel():
     a=(F*4)();readPixels(160,120,1,1,0x1908,0x1406,a);return tuple(a)
    def integer(name):return U.in_dll(lib,name)
+   integer('bloom_enabled').value=0 # isolate the original tone-map oracle
    enabled=integer('hdr_enabled');linear=integer('hdr_world_linear');count=integer('hdr_present_count')
    lib.hdr_begin.argtypes=[U];lib.hdr_present.argtypes=[U,U]
    lib.hdr_begin(0);lib.hdr_present(0,0);assert linear.value==count.value==0
@@ -67,6 +68,43 @@ def main():
    exposure=F.in_dll(lib,'hdr_exposure');exposure.value=.5;lib.hdr_begin(0);clear(0x1800,0,(F*4)(1,1,1,1));lib.hdr_present(0,0);assert max(abs(a-b) for a,b in zip(pixel()[:3],expected((1,1,1),.5)))<.0041;exposure.value=1
    lib.hdr_begin(1);assert linear.value==0;clear(0x1800,0,(F*4)(.17,.52,.81,1));lib.hdr_present(0,1);assert max(abs(a-b) for a,b in zip(pixel()[:3],(.17,.52,.81)))<.0041
    old=count.value;enabled.value=0;lib.hdr_begin(0);lib.hdr_present(0,0);assert state(0x8ca6)==0 and count.value==old and linear.value==0;enabled.value=1
+   # Actual three-pass bloom with independent sparse spatial pixel controls.
+   bloom=integer('bloom_enabled');passes=integer('bloom_pass_count');frames=integer('bloom_frame_count')
+   textures=(U*2).in_dll(lib,'bloom_textures');bloom_ids=list(textures)
+   assert integer('bloom_width').value==160 and integer('bloom_height').value==120
+   for tex in textures:
+    bindTexture(0xde1,tex);fmt=I();getLevel(0xde1,0,0x1003,C.byref(fmt));assert fmt.value==0x881a
+   upload=bind('glTexSubImage2D',[U,I,I,I,I,I,U,U,P])
+   def bloom_frame(on,bright=False,tactical=0,uniform_value=None):
+    bloom.value=on;lib.hdr_begin(tactical)
+    data=(F*(320*240*4))()
+    for y in range(240):
+     for x in range(320):
+      v=uniform_value if uniform_value is not None else (8 if bright and 158<=x<162 and 118<=y<122 else .05)
+      i=(y*320+x)*4;data[i:i+4]=[v,v,v,1]
+    bindTexture(0xde1,texture);upload(0xde1,0,0,0,320,240,0x1908,0x1406,data)
+    before_pass=passes.value;before_frame=frames.value
+    lib.hdr_present(0,tactical)
+    assert passes.value-before_pass==(3 if on and not tactical else 0)
+    assert frames.value-before_frame==(1 if on and not tactical else 0)
+    viewport=(I*4)();getState(0xba2,viewport);assert list(viewport)==[0,0,320,240]
+    rgba=(F*(320*240*4))();readPixels(0,0,320,240,0x1908,0x1406,rgba)
+    assert getError()==0
+    return list(rgba)
+   dark_off=bloom_frame(0);dark_on=bloom_frame(1)
+   dark_error=max(abs(a-b) for a,b in zip(dark_off,dark_on));assert dark_error<.0041
+   pulse_off=bloom_frame(0,True);pulse_on=bloom_frame(1,True)
+   at=lambda pixels,x,y:pixels[(y*320+x)*4]
+   halo_delta=at(pulse_on,153,120)-at(pulse_off,153,120);assert halo_delta>.005
+   assert abs(at(pulse_on,140,120)-at(pulse_off,140,120))<.0041
+   halo_pixels=sum(pulse_on[i]-pulse_off[i]>.0041 for i in range(0,len(pulse_on),4)
+                   if not (158<=((i//4)%320)<162 and 118<=((i//4)//320)<122))
+   assert 25<halo_pixels<2000,('bloom must extend a bounded halo beyond source',halo_pixels)
+   constant=bloom_frame(1,uniform_value=2)
+   constant_error=abs(at(constant,160,120)-expected((2.12,2.12,2.12))[0]);assert constant_error<.0041
+   tactical_off=bloom_frame(0,True,1);tactical_on=bloom_frame(1,True,1)
+   assert tactical_off==tactical_on, 'tactical view changed by bloom'
+   bloom.value=0
    # Production battle fragment receives artificial fullscreen effect inputs.
    createShader=bind('glCreateShader',[U],U);shaderSource=bind('glShaderSource',[U,I,C.POINTER(C.c_char_p),C.POINTER(I)]);compileShader=bind('glCompileShader',[U]);getShader=bind('glGetShaderiv',[U,U,C.POINTER(I)])
    createProgram=bind('glCreateProgram',[],U);attach=bind('glAttachShader',[U,U]);link=bind('glLinkProgram',[U]);getProgram=bind('glGetProgramiv',[U,U,C.POINTER(I)])
@@ -103,13 +141,28 @@ void main(){const vec2 p[3]=vec2[3](vec2(-1,-1),vec2(3,-1),vec2(-1,3));gl_Positi
    pixels=(U*(320*240)).in_dll(lib,'visibility_pixels');assert set(pixels)=={0x10001};assert state(0x8ca6)==0 and getError()==0
    lib.visibility_begin();clear(0x1800,0,(F*4)(.3,.4,.5,1));lib.visibility_world_end();assert lib.visibility_finish()==0;assert max(abs(a-b) for a,b in zip(pixel()[:3],(.3,.4,.5)))<.0041
    lib.visibility_shutdown();lib.hdr_shutdown();lib.hdr_shutdown();assert getError()==0
+   assert all(not bind('glIsTexture',[U],C.c_ubyte)(t) for t in bloom_ids)
    assert not bind('glIsTexture',[U],C.c_ubyte)(texture) and not bind('glIsFramebuffer',[U],C.c_ubyte)(fbo)
+   # Odd dimensions round upward; a bright edge must not wrap to the other side.
+   fw.glfwSetWindowSize.argtypes=[P,I,I];fw.glfwGetFramebufferSize.argtypes=[P,C.POINTER(I),C.POINTER(I)]
+   fw.glfwSetWindowSize(win,321,241);fw.glfwPollEvents();actual_w=I();actual_h=I();fw.glfwGetFramebufferSize(win,C.byref(actual_w),C.byref(actual_h));assert (actual_w.value,actual_h.value)==(321,241)
+   integer('view_width').value=321;integer('view_height').value=241;bloom.value=1
+   assert lib.hdr_init()==0 and (integer('bloom_width').value,integer('bloom_height').value)==(161,121)
+   lib.hdr_begin(0);edge=(F*(321*241*4))()
+   for y in range(241):
+    for x in range(321):
+     v=8 if x==320 and 120<=y<122 else 0;i=(y*321+x)*4;edge[i:i+4]=[v,v,v,1]
+   bindTexture(0xde1,integer('hdr_scene_texture').value);upload(0xde1,0,0,0,321,241,0x1908,0x1406,edge);lib.hdr_present(0,0)
+   left=(F*4)();near_edge=(F*4)();readPixels(0,120,1,1,0x1908,0x1406,left);readPixels(315,120,1,1,0x1908,0x1406,near_edge)
+   assert max(left[:3])<.0041 and min(near_edge[:3])>.01,(list(left),list(near_edge))
+   odd_bloom={'scene_dimensions':[321,241],'bloom_dimensions':[161,121],'opposite_edge_rgb':list(left[:3]),'near_edge_rgb':list(near_edge[:3])}
+   lib.hdr_shutdown();assert getError()==0;bloom.value=0
    width=integer('view_width');height=integer('view_height')
    for bad in (0,319,3841,0xffffffff):width.value=bad;assert lib.hdr_init()==-1
    width.value=320
    for bad in (0,239,2161,0xffffffff):height.value=bad;assert lib.hdr_init()==-1
    height.value=240;assert lib.hdr_init()==0;lib.hdr_begin(0);lib.hdr_present(0,0);lib.hdr_shutdown();assert getError()==0
-   print(json.dumps({'suite':'hdr-production-core-gl','passed':True,'context':context,'native_hidden_context':hardware,'scene_format':'RGBA16F','dimensions':[320,240],'radiance_cases':len(radiance_cases),'display_max_error':maximum,'emission_samples':emission,'additive_fire_scene_rgba':summed,'tactical_passthrough':True,'disabled_passthrough':True,'census_integer_ids_preserved':True,'census_readback_keeps_display_hud':True,'legacy_census_blit':True,'lifecycle_and_invalid_dimensions':True,'present_count':count.value,'client_sha256':hashlib.sha256(exe.read_bytes()).hexdigest(),'fragment_sha256':hashlib.sha256(fs).hexdigest(),'scope':'Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance.'}))
+   print(json.dumps({'suite':'hdr-production-core-gl','passed':True,'context':context,'native_hidden_context':hardware,'scene_format':'RGBA16F','dimensions':[320,240],'radiance_cases':len(radiance_cases),'display_max_error':maximum,'emission_samples':emission,'bloom':{'passes_per_world_frame':3,'half_resolution':[160,120],'dark_max_error':dark_error,'halo_delta':halo_delta,'halo_pixels_outside_source':halo_pixels,'uniform_bright_display_error':constant_error,'tactical_identical':True,'texture_ids':bloom_ids,'odd_clamped_edge':odd_bloom},'additive_fire_scene_rgba':summed,'tactical_passthrough':True,'disabled_passthrough':True,'census_integer_ids_preserved':True,'census_readback_keeps_display_hud':True,'legacy_census_blit':True,'lifecycle_and_invalid_dimensions':True,'present_count':count.value,'client_sha256':hashlib.sha256(exe.read_bytes()).hexdigest(),'fragment_sha256':hashlib.sha256(fs).hexdigest(),'scope':'Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance.'}))
  finally:
   if win:fw.glfwDestroyWindow(win)
   if fw:fw.glfwTerminate()

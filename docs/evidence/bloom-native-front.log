@@ -1,0 +1,64 @@
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xb2e14d6f", "canonical_sha256": "b2e14d6fe6133220e88f3a90d8bd1eb0bbb472aae0a2a0faaea8a329038d9ff3", "checked": true}
+{"terrain_roads": 19, "checked": true}
+{"terrain_relief_fields": 1, "checked": true}
+{"terrain_grade_facets": 9, "checked": true}
+{"terrain_world_checked": true, "patch": {"x": [5375, 5875], "z": [4750, 5625], "spacing": 5, "max_height_error": 0.027, "route_margin": 6, "node_limit": 27}, "interior_height_bound": 0.025009375, "seam_correction_bound": 0.0009765625, "roundoff_allowance": 0.0001}
+{"ground_content": "0xb2e14d6f", "canonical_sha256": "b2e14d6fe6133220e88f3a90d8bd1eb0bbb472aae0a2a0faaea8a329038d9ff3", "checked": true}
+{"target": "client", "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4", "assembled": 0, "assembled_sources": [], "seconds": 0.6000919550133403, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/build/revisions/235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4/red-horizon"}
+{"target": "coop", "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4", "assembled": 0, "assembled_sources": [], "seconds": 0.5333466280135326, "executable": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/build/revisions/235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4/red-horizon-coop-server"}
+binding forward=W
+binding back=S
+binding left=A
+binding right=D
+binding sprint=LSHIFT
+binding crouch=LCTRL
+binding jump=SPACE
+binding reload=R
+binding enter_vehicle=E
+binding exit_vehicle=Q
+binding fire=LMB
+binding tactical_map=TAB
+binding command_wheel=MMB
+binding command_cancel=RMB
+binding quit=ESC
+binding advance=1
+binding hold=2
+binding retreat=3
+binding follow=4
+binding front_1=F1
+binding front_2=F2
+binding front_3=F3
+binding weather=F4
+binding exchange_0=F5
+binding exchange_1=F6
+binding exchange_2=F7
+binding exchange_3=F8
+binding exchange_accept=F9
+binding exchange_decline=F10
+binding exchange_cancel=F11
+binding defend=5
+{"listen_ready":true,"port":48471,"child_pid":2131303,"units":8192,"scenario":2}
+4.6 (Core Profile) Mesa 26.2.3
+{"client_presentation":true,"hidden":1,"swap_interval_requested":0,"viewport_width":1920,"viewport_height":1080,"framebuffer_width":1920,"framebuffer_height":1080}
+client_render_device=Mesa Intel(R) Arc(tm) A770 Graphics (DG2)
+{"client_metrics":true,"cpu_samples":600,"gpu_samples":592,"cpu_frame_mean_ms":1.895130,"cpu_frame_p95_ms":3.263513,"cpu_frame_p99_ms":5.902860,"gpu_draw_mean_ms":1.236170,"gpu_draw_p95_ms":1.554166,"gpu_draw_p99_ms":1.589479}
+{"client_phase_metrics":true,"phase":"simulation","samples":600,"mean_ms":0.030968,"p95_ms":0.094860,"p99_ms":0.117222,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"render_routes","samples":600,"mean_ms":1.061092,"p95_ms":1.655016,"p99_ms":2.760109,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"audio_pump","samples":600,"mean_ms":0.202868,"p95_ms":0.227819,"p99_ms":0.244674,"clock_errors":0}
+{"client_pacing":true,"frame_cap_requested":60,"waits":599,"late_rebases":0,"clock_errors":0,"work_metrics_exclude_cap_wait":true}
+{"visibility_census":true,"visible_actors":426,"visible_high":37,"visible_low":389,"visible_markers":0,"individually_detailed_actors":426,"width":1920,"height":1080,"source_tick":304,"invalid_codes":0,"readback_reduce_ms":9.591213,"scope":"opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included","authority_readonly":true,"authority_before":"99a830c58dbd9e31","authority_after":"99a830c58dbd9e31"}
+{"battle_metrics":true,"samples":600,"simultaneous_projectiles_effects_audio_frames":0,"peak_living":8192,"peak_engaged":0,"peak_projectiles":0,"peak_submitted_high":60,"peak_submitted_low":3047,"peak_submitted_markers":0,"peak_effect_records":59,"peak_trail_records":0,"peak_audio_voices":128,"initial_living":8192,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}
+meshes loaded=18 high=40 low=2312 markers=0 source_triangles=563256 animation_frame=1
+client frames=600 submitted_entities=8192 screenshot=(none)
+camera_x=3435.00 camera_z=2280.00 shots=0 hits=0 last_order=0
+weapon ammo=30 reloads=0 front=0
+operation state=0 req=490 supply=600 waypoint_orders=0
+selected_goal_x=-20000.000 selected_goal_z=-20000.000
+player id=0 hp=100 suppression=0 respawn=0 generation=1
+start_player_x=3435.000 start_player_z=2280.000
+network connected=1 player=0 front=0 server_tick=304 known_living=2352 local_sim_ticks=0
+{"listen_host":true,"port":48471,"child_pid":2131303,"child_exited":1,"startup_failed":0}

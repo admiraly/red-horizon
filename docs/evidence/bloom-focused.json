@@ -1,0 +1,385 @@
+{
+  "runtime_language": "NASM x86-64",
+  "gpu_language": "GLSL 450",
+  "source_sha256": {
+    "src/render/bloom.asm": "8d15b16718ca76afeb3e23ecdd64b1b499673b6a9a1ab888cbaf55c79d53275a",
+    "src/render/hdr.asm": "d380103a3cf9302e4b095cb2f0ed84e201ad84c088e3e4f620a8057dfc07a945",
+    "shaders/bloom.frag": "2905a6845c5b141d46fba60da9508e5390c9230de8afefda393082727b22f6c5",
+    "shaders/present.frag": "5acfc506b8231473a8d64bdb321f0266ed4c7184788e526d8e05c687db9ba221",
+    "tests/test_hdr_gl.py": "66e49d0831cfa7d56063d97aa95d1f379c90ca69c1e69f6105703fa7db7f1878"
+  },
+  "pixel_reports": {
+    "software": {
+      "suite": "hdr-production-core-gl",
+      "passed": true,
+      "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Core Profile) Mesa 26.2.3",
+      "native_hidden_context": false,
+      "scene_format": "RGBA16F",
+      "dimensions": [
+        320,
+        240
+      ],
+      "radiance_cases": 14,
+      "display_max_error": 0.0019533316748445717,
+      "emission_samples": [
+        {
+          "effect_kind": 2,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 2,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 1,
+          "scene_rgba": [
+            3.0,
+            0.51171875,
+            0.021575927734375,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 1,
+          "scene_rgba": [
+            4.0,
+            0.68212890625,
+            0.0287628173828125,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 0,
+          "scene_rgba": [
+            0.81591796875,
+            0.3671875,
+            0.06524658203125,
+            0.300048828125
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 1,
+          "scene_rgba": [
+            0.81591796875,
+            0.13916015625,
+            0.005870819091796875,
+            0.300048828125
+          ]
+        }
+      ],
+      "bloom": {
+        "passes_per_world_frame": 3,
+        "half_resolution": [
+          160,
+          120
+        ],
+        "dark_max_error": 0.0,
+        "halo_delta": 0.06666666269302368,
+        "halo_pixels_outside_source": 308,
+        "uniform_bright_display_error": 0.0007009873349258511,
+        "tactical_identical": true,
+        "texture_ids": [
+          2,
+          3
+        ],
+        "odd_clamped_edge": {
+          "scene_dimensions": [
+            321,
+            241
+          ],
+          "bloom_dimensions": [
+            161,
+            121
+          ],
+          "opposite_edge_rgb": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "near_edge_rgb": [
+            0.1882353127002716,
+            0.1882353127002716,
+            0.1882353127002716
+          ]
+        }
+      },
+      "additive_fire_scene_rgba": [
+        16.0,
+        2.728515625,
+        0.11505126953125,
+        1.0
+      ],
+      "tactical_passthrough": true,
+      "disabled_passthrough": true,
+      "census_integer_ids_preserved": true,
+      "census_readback_keeps_display_hud": true,
+      "legacy_census_blit": true,
+      "lifecycle_and_invalid_dimensions": true,
+      "present_count": 27,
+      "client_sha256": "6823e2a34f80778bc5bfa87c060c0776301fb2ef49fec796163f0fd75f107d2b",
+      "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+      "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance."
+    },
+    "native": {
+      "suite": "hdr-production-core-gl",
+      "passed": true,
+      "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+      "native_hidden_context": true,
+      "scene_format": "RGBA16F",
+      "dimensions": [
+        320,
+        240
+      ],
+      "radiance_cases": 14,
+      "display_max_error": 0.001968296323507479,
+      "emission_samples": [
+        {
+          "effect_kind": 2,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 2,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 10,
+          "hdr_output": 1,
+          "scene_rgba": [
+            8.0,
+            1.3642578125,
+            0.057525634765625,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 1,
+          "hdr_output": 1,
+          "scene_rgba": [
+            3.0,
+            0.51171875,
+            0.021575927734375,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 0,
+          "scene_rgba": [
+            1.0,
+            0.449951171875,
+            0.0799560546875,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 9,
+          "hdr_output": 1,
+          "scene_rgba": [
+            4.0,
+            0.68212890625,
+            0.0287628173828125,
+            0.5
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 0,
+          "scene_rgba": [
+            0.81591796875,
+            0.3671875,
+            0.06524658203125,
+            0.300048828125
+          ]
+        },
+        {
+          "effect_kind": 3,
+          "hdr_output": 1,
+          "scene_rgba": [
+            0.81591796875,
+            0.13916015625,
+            0.005870819091796875,
+            0.300048828125
+          ]
+        }
+      ],
+      "bloom": {
+        "passes_per_world_frame": 3,
+        "half_resolution": [
+          160,
+          120
+        ],
+        "dark_max_error": 0.0,
+        "halo_delta": 0.06666667759418488,
+        "halo_pixels_outside_source": 308,
+        "uniform_bright_display_error": 0.0007010469395706265,
+        "tactical_identical": true,
+        "texture_ids": [
+          2,
+          3
+        ],
+        "odd_clamped_edge": {
+          "scene_dimensions": [
+            321,
+            241
+          ],
+          "bloom_dimensions": [
+            161,
+            121
+          ],
+          "opposite_edge_rgb": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "near_edge_rgb": [
+            0.1882352977991104,
+            0.1882352977991104,
+            0.1882352977991104
+          ]
+        }
+      },
+      "additive_fire_scene_rgba": [
+        16.0,
+        2.728515625,
+        0.11505126953125,
+        1.0
+      ],
+      "tactical_passthrough": true,
+      "disabled_passthrough": true,
+      "census_integer_ids_preserved": true,
+      "census_readback_keeps_display_hud": true,
+      "legacy_census_blit": true,
+      "lifecycle_and_invalid_dimensions": true,
+      "present_count": 27,
+      "client_sha256": "6823e2a34f80778bc5bfa87c060c0776301fb2ef49fec796163f0fd75f107d2b",
+      "fragment_sha256": "2571794c088db410da2f6ff20e01660915c94bc6931bc02b5f83114b22db91e5",
+      "scope": "Real GL4.5 core and assembled renderer, artificial radiance and production fragment inputs; isolated GL-only census stub. Native flag tests a hidden hardware context only, not army scene/GPU performance/art acceptance."
+    }
+  },
+  "native_runs": {
+    "front": {
+      "exit_code": 0,
+      "frames": 600,
+      "server_tick": 304,
+      "visible_detailed": 426,
+      "cpu_work_p95_ms": 3.263513,
+      "gpu_draw_p95_ms": 1.554166
+    },
+    "hotspot": {
+      "exit_code": 0,
+      "frames": 600,
+      "server_tick": 303,
+      "visible_detailed": 508,
+      "cpu_work_p95_ms": 2.349025,
+      "gpu_draw_p95_ms": 1.721718
+    }
+  },
+  "limitations": [
+    "Controlled pixel fixtures are artificial radiance, not gameplay renewal.",
+    "Native runs are hidden windows, ALSA null and uncontrolled background CPU load.",
+    "No matched bloom cost, full-frame latency, sustained1024-visible, physical audio, spectacle or whole-game acceptance."
+  ],
+  "full_checkpoint": {
+    "job_id": "25b26901562a",
+    "revision": "235a78f79cfb2fd0047118db52be1b6e6182893c-9b8ee4856c2403e4",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/bloom/runs/jobs/25b26901562a/result.json",
+    "pid": 2132593
+  }
+}
