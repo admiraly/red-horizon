@@ -1,0 +1,15 @@
+{
+  "job_id": "5e7a56204eb3",
+  "revision": "d24fa57d380a9e0e881af8a3d7581c077d2c5148-b399a177871ff325",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/5e7a56204eb3/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/5e7a56204eb3/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/5e7a56204eb3/result.json",
+  "pid": 2237649
+}

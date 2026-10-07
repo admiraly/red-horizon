@@ -1,0 +1,233 @@
+{
+  "main_feature_commit": "831fe0c15b44c9bedddb11948aa3b352e24364c7",
+  "builds": {
+    "client": {
+      "target": "client",
+      "revision": "831fe0c15b44c9bedddb11948aa3b352e24364c7-c6cd254747c551c8",
+      "assembled": 5,
+      "assembled_sources": [
+        "src/render/shaders.asm",
+        "src/render/event_lights.asm",
+        "src/render/mesh_shaders.asm",
+        "src/render/meshes.asm",
+        "src/platform/linux/client.asm"
+      ],
+      "seconds": 0.4856839500134811,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/831fe0c15b44c9bedddb11948aa3b352e24364c7-c6cd254747c551c8/red-horizon",
+      "sha256": "8a00a901a15872c84026249f2c2cc849a2c339f055878e5c39e8e976719cfac6"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "831fe0c15b44c9bedddb11948aa3b352e24364c7-c6cd254747c551c8",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.35087983700213954,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/831fe0c15b44c9bedddb11948aa3b352e24364c7-c6cd254747c551c8/red-horizon-server",
+      "sha256": "c9f64c0254dae3cd4f1de886dd42a4eb57a0f0e9f5154bedf263c9ab96482911"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "831fe0c15b44c9bedddb11948aa3b352e24364c7-c6cd254747c551c8",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.3632222570013255,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/831fe0c15b44c9bedddb11948aa3b352e24364c7-c6cd254747c551c8/red-horizon-coop-server",
+      "sha256": "95de2f89b36120e63f258f5ca68e21fb18aeab62123d4c89efc1df506a6b05df"
+    }
+  },
+  "reports": {
+    "native": {
+      "suite": "event-lights-native",
+      "passed": true,
+      "cases": 50,
+      "cap": 8,
+      "producer": "production combat_event and effects_update",
+      "expiry_late_receipt": true,
+      "nearest_stable": true,
+      "invalid_records_and_controls": true,
+      "authority_and_source_unchanged": true,
+      "register_stack_abi": true,
+      "scope": "NASM selection and lifecycle; synthetic pool fixtures declared separately from real event producer. No GPU or artistic acceptance."
+    },
+    "software_gl": {
+      "suite": "event-lights-production-gl",
+      "passed": true,
+      "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Core Profile) Mesa 26.2.3",
+      "hardware": false,
+      "draws": 36,
+      "outcomes": {
+        "mesh-0": {
+          "near_delta": 0.49070990085601807,
+          "half_life_ratio": 0.2499999392669226,
+          "far_delta": 0.0
+        },
+        "mesh-2": {
+          "near_delta": 0.49070990085601807,
+          "half_life_ratio": 0.25,
+          "far_delta": 0.0
+        },
+        "battle-1": {
+          "near_delta": 0.4907098561525345,
+          "half_life_ratio": 0.24999999240836462,
+          "far_delta": 0.0
+        }
+      },
+      "actual_mesh_marker_weapon_deltas": [
+        0.16596802700000002,
+        0.0,
+        0.1959369182
+      ],
+      "actual_weapon_camera_angle": [
+        0.7,
+        0.3
+      ],
+      "source_sha256": {
+        "mesh_fragment_source": "856528984d8e2b30d233eaa5f908097864e3be53bec32f914b89e4ab0c39a4c5",
+        "battle_fragment_source": "921ece1a330678ca87e41dc6392b4a78c0c5d0a421eaec7fff3ecafaaa9a5bfb",
+        "mesh_vertex_source": "a085397dfe6e4c735254c91434c0166caaea8a22c707b54b8b673ec280437659",
+        "battle_vertex_source": "282787806cfbe027e060df39300fb44c75ad87dcbfe2a9bd62e1cfbc9050c3d3"
+      },
+      "production_nasm_upload": true,
+      "bindings_and_integer_ids_preserved": true,
+      "register_stack_abi": true,
+      "scope": "Production embedded fragments and NASM upload; synthetic surface positions/albedo/terrain texture fixture. Additional paired actual production mesh vertex/fragment draws cover models, map markers and rotated-camera weapon. No shadows/occlusion/artistic/full-frame performance acceptance."
+    },
+    "hardware_gl": {
+      "suite": "event-lights-production-gl",
+      "passed": true,
+      "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+      "hardware": true,
+      "draws": 36,
+      "outcomes": {
+        "mesh-0": {
+          "near_delta": 0.4907098412513733,
+          "half_life_ratio": 0.2499999696334576,
+          "far_delta": 0.0
+        },
+        "mesh-2": {
+          "near_delta": 0.49070990085601807,
+          "half_life_ratio": 0.25,
+          "far_delta": 0.0
+        },
+        "battle-1": {
+          "near_delta": 0.4907098636031151,
+          "half_life_ratio": 0.2500000037958176,
+          "far_delta": 0.0
+        }
+      },
+      "actual_mesh_marker_weapon_deltas": [
+        0.1659678104,
+        0.0,
+        0.1959356072
+      ],
+      "actual_weapon_camera_angle": [
+        0.7,
+        0.3
+      ],
+      "source_sha256": {
+        "mesh_fragment_source": "856528984d8e2b30d233eaa5f908097864e3be53bec32f914b89e4ab0c39a4c5",
+        "battle_fragment_source": "921ece1a330678ca87e41dc6392b4a78c0c5d0a421eaec7fff3ecafaaa9a5bfb",
+        "mesh_vertex_source": "a085397dfe6e4c735254c91434c0166caaea8a22c707b54b8b673ec280437659",
+        "battle_vertex_source": "282787806cfbe027e060df39300fb44c75ad87dcbfe2a9bd62e1cfbc9050c3d3"
+      },
+      "production_nasm_upload": true,
+      "bindings_and_integer_ids_preserved": true,
+      "register_stack_abi": true,
+      "scope": "Production embedded fragments and NASM upload; synthetic surface positions/albedo/terrain texture fixture. Additional paired actual production mesh vertex/fragment draws cover models, map markers and rotated-camera weapon. No shadows/occlusion/artistic/full-frame performance acceptance."
+    },
+    "client": {
+      "suite": "event-lights-whole-client",
+      "passed": true,
+      "changed_surface_pixels": 9740,
+      "repeat_delta_pixels": 0,
+      "tactical_delta_pixels": 0,
+      "original_army_count": 8192,
+      "authority_sha256": "da9e5fe502337a90c542e583112435f0da4311e68028a605c1c0bedb7f7e962d",
+      "authority_and_effect_records_unchanged": true,
+      "actual_flash": [
+        3696.00048828125,
+        27.273237228393555,
+        2000.0,
+        0.28333330154418945,
+        12.0,
+        0,
+        0,
+        2
+      ],
+      "client_sha256": "8a00a901a15872c84026249f2c2cc849a2c339f055878e5c39e8e976719cfac6",
+      "screenshot": "/tmp/rh-event-lights-main-client.ppm",
+      "scope": "Actual full-client terrain/model/effect/HDR/bloom/HUD pipeline. Frozen development clock and camera fixture; genuine separate real cannon-impact effects copied unchanged. Paired only event_lights_enabled. No live synchronisation/shadow/target-GPU performance or artistic acceptance."
+    }
+  },
+  "exact_frozen_authored_match": true,
+  "authored_count": 521,
+  "graphics_job": "985636007b0c",
+  "final_full_job": "22e8255e8a7c",
+  "pre_cull_full_job": "5e7a56204eb3",
+  "foreground_sessions_terminal": true,
+  "whole_game_complete": false,
+  "main_screenshot_visually_inspected": true,
+  "selector_budget_evidence": "event-lights-native-budget.json",
+  "feature_push": {
+    "exit_code": 0,
+    "remote_sha": "831fe0c15b44c9bedddb11948aa3b352e24364c7",
+    "remote": "origin/main",
+    "force": false
+  },
+  "checkpoints_at_reconciliation": {
+    "graphics": {
+      "job_id": "985636007b0c",
+      "revision": "d24fa57d380a9e0e881af8a3d7581c077d2c5148-c6cd254747c551c8",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/985636007b0c/source",
+      "command": [
+        "test",
+        "--suite",
+        "graphics"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/985636007b0c/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/985636007b0c/result.json",
+      "pid": 2266001,
+      "exit_code": 0,
+      "seconds": 454.76847862199065
+    },
+    "final_full": {
+      "job_id": "22e8255e8a7c",
+      "revision": "d24fa57d380a9e0e881af8a3d7581c077d2c5148-c6cd254747c551c8",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/22e8255e8a7c/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/22e8255e8a7c/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/22e8255e8a7c/result.json",
+      "pid": 2266011
+    },
+    "pre_cull_full": {
+      "job_id": "5e7a56204eb3",
+      "revision": "d24fa57d380a9e0e881af8a3d7581c077d2c5148-b399a177871ff325",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/5e7a56204eb3/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/5e7a56204eb3/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/event-lights/runs/jobs/5e7a56204eb3/result.json",
+      "pid": 2237649
+    }
+  },
+  "live_pending_processes": [
+    "2266011 Ss         08:56 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/event-lights/tools/dev.py _worker 22e8255e8a7c test --suite all --extended",
+    "2237649 Ss         18:44 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/event-lights/tools/dev.py _worker 5e7a56204eb3 test --suite all --extended"
+  ],
+  "sole_pending_jobs": [
+    "22e8255e8a7c",
+    "5e7a56204eb3"
+  ]
+}

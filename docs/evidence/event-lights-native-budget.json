@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "calls_per_case": 11000,
+  "observed": {
+    "disabled": {
+      "mean_ns": 503.3688,
+      "p95_ns": 518,
+      "p99_ns": 545,
+      "selected": 0
+    },
+    "empty": {
+      "mean_ns": 525.8149,
+      "p95_ns": 546,
+      "p99_ns": 561,
+      "selected": 0
+    },
+    "64_ascending": {
+      "mean_ns": 910.0465,
+      "p95_ns": 938,
+      "p99_ns": 955,
+      "selected": 8
+    },
+    "64_descending": {
+      "mean_ns": 927.3368,
+      "p95_ns": 965,
+      "p99_ns": 994,
+      "selected": 8
+    },
+    "64_equal": {
+      "mean_ns": 917.0534,
+      "p95_ns": 941,
+      "p99_ns": 957,
+      "selected": 8
+    }
+  },
+  "source_and_authority_unchanged": true,
+  "library_sha256": "9354f6d669b4339d6effffc15b379292d1177e2e999f9c06f850925979b1951e",
+  "scope": "Production NASM selector only, declared synthetic pool fixtures, Python ctypes and clock overhead included, uncontrolled concurrent host load. Not GL upload/shader/full-frame/sustained hardware acceptance."
+}
