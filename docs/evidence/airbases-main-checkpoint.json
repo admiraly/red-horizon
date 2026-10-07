@@ -1,0 +1,32 @@
+{
+  "main_commit": "97997cb65809693ce5ce82c903569ef0df255665",
+  "source_inventory_matches": true,
+  "authored_files": 542,
+  "builds": [
+    {
+      "target": "client",
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/97997cb65809693ce5ce82c903569ef0df255665-0f7f7315a1cd3520/red-horizon",
+      "sha256": "a62f2248d1416cc497a9f05da763fe077dd41446f2d333b7bc4ce778ac69f50b",
+      "revision": "97997cb65809693ce5ce82c903569ef0df255665-0f7f7315a1cd3520"
+    },
+    {
+      "target": "coop",
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/97997cb65809693ce5ce82c903569ef0df255665-0f7f7315a1cd3520/red-horizon-coop-server",
+      "sha256": "d40fa1553e239d505ba69e375cb3372b3be67961e7827ff4c3543013a37c1cf4",
+      "revision": "97997cb65809693ce5ce82c903569ef0df255665-0f7f7315a1cd3520"
+    },
+    {
+      "target": "headless",
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/97997cb65809693ce5ce82c903569ef0df255665-0f7f7315a1cd3520/red-horizon-server",
+      "sha256": "bb56f2690325c3361cf7cacd2448946bec60e7d792c9a90ab8c3810b0035500e",
+      "revision": "97997cb65809693ce5ce82c903569ef0df255665-0f7f7315a1cd3520"
+    }
+  ],
+  "native_and_software_hardware_gl_passed": true,
+  "background_process_observation": "    PID STAT     ELAPSED COMMAND\n2548743 Ss         14:53 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/airbases/tools/dev.py _worker f254f6f3e42c test --suite all --extended\n2502090 Ss         36:43 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/tools/dev.py _worker aaade54660b3 test --suite all --extended\n",
+  "pending_jobs": {
+    "f254f6f3e42c": "airbases all extended",
+    "aaade54660b3": "prior main escort/display all extended"
+  },
+  "scope": "Exact rebuilt-main assembled implementation and rendering checks; existing frozen fast/aircraft/network and public traction/listen verification match all542 authored inputs. No full extended pass claimed."
+}
