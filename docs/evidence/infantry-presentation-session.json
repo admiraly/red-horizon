@@ -657,5 +657,69 @@
     "exit_code": 0,
     "seconds": 298.58213320600044,
     "explicit_pass_reports": 87
+  },
+  "integrated_commit": "4c2026f",
+  "main_builds": {
+    "client": {
+      "target": "client",
+      "revision": "4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20",
+      "assembled": 13,
+      "assembled_sources": [
+        "src/sim/infantry_weapon.asm",
+        "src/sim/infantry_event.asm",
+        "src/sim/projectiles.asm",
+        "src/nav/crowd.asm",
+        "src/ai/hazards.asm",
+        "src/ai/company_assault.asm",
+        "src/game/ground_motion.asm",
+        "src/game/vehicles.asm",
+        "src/render/shaders.asm",
+        "src/render/effects.asm",
+        "src/audio/emitters.asm",
+        "src/platform/linux/client.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.5686378069949569,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20/red-horizon",
+      "sha256": "e0d86f995ceb790bb9bf7b2221e1dec2706a23664ae2bd662308e7d079503d63"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.3645476129895542,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20/red-horizon-coop-server",
+      "sha256": "55246caea5295b6980b594154b5b33835584fa3fd8bc2859f5f9481be24d867b"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/platform/linux/headless.asm"
+      ],
+      "seconds": 0.3820502000016859,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20/red-horizon-server",
+      "sha256": "59e89f2f9a824999f35e1be6e53964df78db6d10d67fd8072e58ed50361ef383"
+    }
+  },
+  "integrated_runtime_exact_matches_frozen_fast_network_and_final_GL_inputs": true,
+  "full_checkpoint": {
+    "job_id": "20ea89c062f4",
+    "revision": "4c2026fb1234f3443a60f7c8a8b2b36da4a9bbfd-92900027ce3a8b20",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/20ea89c062f4/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/20ea89c062f4/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/20ea89c062f4/result.json",
+    "pid": 2481494
   }
 }
