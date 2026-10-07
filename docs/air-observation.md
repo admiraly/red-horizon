@@ -13,8 +13,8 @@ owner and stored data and never looks up the enemy body, current HP, pose or
 generation. An unseen dead/reused target can therefore leave a historical point
 until it expires; this is uncertainty, not live target knowledge. Memory expires
 at90ticks (three seconds); constant-velocity prediction stops after30ticks.
-Predicted points are clamped to the map/height bounds. Linear confidence is
-returned but is not currently a steering weight or sensor fusion system.
+Predicted points are clamped to the map/height bounds. Linear confidence now weights mission/pursuit heading and vertical guidance;
+see air-pursuit.md. It is not a sensor fusion system.
 
 Horizontal and pitch guidance use this observation estimate and the existing
 cannon intercept calculation. Without valid memory the fighter returns to its
@@ -25,7 +25,7 @@ simulation checksum. Bombers retain their existing independently owned strike
 memory; initial mission guidance no longer reads a live ground target first.
 No HP, ammunition, body generations or clocks are renewed.
 
-Content fingerprint0xd98a95bc includes the six observation policy fields. Both
+Current content fingerprint0x5d86b7ad (observation policy version2) includes the six observation policy fields. Both
 the build canonicalizer and independent co-op oracle include them. UDP39,
 schema0x212cb081 and public entity32/aircraft64/player64 records are unchanged.
 Mixed-policy peers need a matching client/server restart.
@@ -51,5 +51,5 @@ matching its straight ingress. None refresh actors during flight.
 
 This is bounded visual memory, not complete intelligent AI, coordinated wing
 communications, manoeuvre prediction, radar, fuel/energy/stall/landing physics
-or spectacular art acceptance. Confidence-weighted pursuit and broader tactical
-coordination remain open, as does full-game specification acceptance.
+or spectacular art acceptance. Broader tactical
+coordination remains open, as does full-game specification acceptance.

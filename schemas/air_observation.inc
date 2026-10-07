@@ -1,5 +1,5 @@
 ; Private last physically visible enemy aircraft, not network ground truth.
-%define AIR_OBSERVATION_VERSION 1
+%define AIR_OBSERVATION_VERSION 2
 %define AIR_OBSERVATION_STRIDE 64
 %define AIR_OBSERVATION_RANGE_SQ 562500.0
 %define AIR_OBSERVATION_REAR_COS_SQ 0.25

@@ -18,7 +18,11 @@ with tempfile.TemporaryDirectory(prefix='rh-air-observation-')as folder:
  # self-contained for source archives and shallow CI checkouts (no git history).
  original=(R/'src/ai/aircraft.asm').read_text()
  gate=' mov edi,r12d\n call air_observation_goal\n'
- replacement=''' mov edi,[rbp+AIR_TARGET]
+ replacement=''' mov edi,r12d
+ call air_observation_goal
+ test eax,eax
+ jz .no_observation
+ mov edi,[rbp+AIR_TARGET]
  cmp edi,[sim_count]
  jae .no_observation
  mov eax,edi
@@ -105,7 +109,7 @@ with tempfile.TemporaryDirectory(prefix='rh-air-observation-')as folder:
  metamorphic=[]
  for path in (so,control):
   ll,ee,aa,oo,tt=bind(path);poses=[]
-  for x,y in ((3990,198),(4010,202)):
+  for x,y in ((3990,190),(4010,210)):
    setup(ll,ee,aa,oo);ee[63].z=4200;assert ll.air_observation_capture(31,63)==1
    # Twenty-tick last sight; owner has flown140m, unseen target has passed
    # behind with two bounded lateral/climb alternatives. Getter fixtures only.

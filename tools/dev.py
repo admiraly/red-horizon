@@ -360,6 +360,8 @@ def main():
             execute([sys.executable,'tests/test_air_vertical.py'])
             execute([sys.executable,'tests/test_air_threats.py'])
             execute([sys.executable,'tests/test_air_observation.py'])
+            execute([sys.executable,'tests/test_air_pursuit.py'])
+            execute([sys.executable,'tests/test_air_pursuit_flight.py'])
             execute([sys.executable,'tests/test_air_flight_trace.py',str(library)])
             if suite in ('all','headless') and getattr(args,'extended',False):execute([sys.executable,'tests/test_air_world_bounds.py',str(library)])
             execute([sys.executable,'tests/test_air_strike.py',str(library)])

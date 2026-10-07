@@ -5,7 +5,7 @@
 %include "schemas/air_flight.inc"
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
-extern air_bank_step,air_vertical_step
+extern air_bank_step,air_vertical_step,air_pursuit_blend
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
 extern air_threats_reset,air_threats_build,air_threat_query
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
@@ -252,6 +252,7 @@ air_tick:
  addss xmm0,[rcx+rax*4]
  movss [rbp+AIR_Y],xmm0
 .ready:
+ mov dword [rsp+52],0 ; no vertical emergency override
  mov dword [rsp+56],0 ; no current-frame fighter intercept point yet
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8+4],0
@@ -357,7 +358,9 @@ air_tick:
  mov edi,r12d
  call air_escort_goal
  jmp .boundary
- .fighter_goal:
+.fighter_goal:
+ mov edi,r12d
+ call air_escort_goal ; own friendly mission, never hidden enemy ground truth
  ; Enemy guidance uses only our last fresh visual snapshot, not its live body.
  movss [rsp+32],xmm0
  movss [rsp+36],xmm1
@@ -365,6 +368,7 @@ air_tick:
  call air_observation_goal
  test eax,eax
  jz .no_observation
+ movss [rsp+60],xmm6
  movss [rsp],xmm0
  movss [rsp+8],xmm1
  movss [rsp+4],xmm2
@@ -439,6 +443,21 @@ air_tick:
  subss xmm0,[rbx+ENTITY_X]
  subss xmm1,[rbx+ENTITY_Z]
  call atan2f wrt ..plt
+ cmp dword [rsp+48],0
+ jne .heading_ready
+ cmp dword [rsp+56],0
+ je .heading_ready
+ movss [rsp+16],xmm0
+ movss xmm0,[rsp+32]
+ subss xmm0,[rbx+ENTITY_X]
+ movss xmm1,[rsp+36]
+ subss xmm1,[rbx+ENTITY_Z]
+ call atan2f wrt ..plt
+ movss xmm1,[rsp+16]
+ movss xmm2,[rsp+60]
+ xor edi,edi
+ call air_pursuit_blend
+.heading_ready:
  subss xmm0,[rbp+AIR_HEADING]
  comiss xmm0,[pi]
  jbe .low_angle
@@ -506,6 +525,7 @@ air_tick:
  mov eax,[rbp+AIR_ROLE]
  lea rcx,[altitude]
  addss xmm0,[rcx+rax*4]
+ movss [rsp+24],xmm0 ; own terrain-clearance altitude
  ; Fighters climb toward physically acquired opposing aircraft.
  cmp eax,AIR_FIGHTER
  jne .height
@@ -533,6 +553,7 @@ air_tick:
  lea rcx,[air_defense]
  cmp dword [rcx+r12*8],0
  je .height_delta
+ mov dword [rsp+52],1
  ; Physical climb at the existing half-metre/tick vertical limit.
  movss xmm0,[rbp+AIR_Y]
  addss xmm0,[climb]
@@ -546,6 +567,19 @@ air_tick:
  subss xmm0,[rbp+AIR_Y]
  minss xmm0,[climb]
  maxss xmm0,[minus_climb]
+ cmp dword [rsp+52],0
+ jne .vertical_ready
+ cmp dword [rsp+56],0
+ je .vertical_ready
+ movaps xmm1,xmm0
+ movss xmm0,[rsp+24]
+ subss xmm0,[rbp+AIR_Y]
+ minss xmm0,[climb]
+ maxss xmm0,[minus_climb]
+ movss xmm2,[rsp+60]
+ mov edi,1
+ call air_pursuit_blend
+.vertical_ready:
  mov edi,[rbp+AIR_ROLE]
  movss xmm1,[rbp+AIR_SPEED]
  movss xmm2,[rbp+AIR_VY]
