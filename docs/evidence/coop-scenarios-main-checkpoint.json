@@ -1,0 +1,14 @@
+{
+  "integrated_commit": "1fdb5f2",
+  "authored_file_count": 507,
+  "main_worker_full_snapshot_identical": true,
+  "full_job": "1da72fd3a018",
+  "full_status": "running_not_passed",
+  "main_build_and_focused_logs": [
+    "coop-main-client-build.json",
+    "coop-main-coop-build.json",
+    "coop-main-headless-build.json",
+    "coop-main-listen.log",
+    "coop-main-visibility.log"
+  ]
+}
