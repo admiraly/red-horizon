@@ -1,0 +1,1257 @@
+{
+  "observed_utc": "2026-10-07T12:58:51.765827+00:00",
+  "integration_commit": "9ff9c4d15941d3800972c2fefb33a2ca2f986e4b",
+  "native": {
+    "suite": "air-fuel-native",
+    "passed": true,
+    "cases": 56,
+    "ABI": true,
+    "birth_only_refill": true,
+    "duplicate_tick_no_burn": true,
+    "saturating_consumption": true,
+    "query_readonly_hash": true,
+    "causal_public_outcomes": [
+      {
+        "condition": "bomber-reserve",
+        "paired": [
+          {
+            "label": "candidate",
+            "hp": 200,
+            "mode": 3,
+            "death_tick": null,
+            "fuel": 3086,
+            "ammo": 8,
+            "trace": [
+              [
+                20,
+                200,
+                3,
+                38.525001525878906,
+                0.23999996483325958,
+                3566
+              ],
+              [
+                40,
+                200,
+                3,
+                45.84499740600586,
+                0.4799998700618744,
+                3506
+              ],
+              [
+                60,
+                200,
+                3,
+                55.836997985839844,
+                0.5,
+                3446
+              ],
+              [
+                80,
+                200,
+                3,
+                65.83699798583984,
+                0.5,
+                3386
+              ],
+              [
+                100,
+                200,
+                3,
+                75.83699798583984,
+                0.5,
+                3326
+              ],
+              [
+                120,
+                200,
+                3,
+                85.83699798583984,
+                0.5,
+                3266
+              ],
+              [
+                140,
+                200,
+                3,
+                95.83699798583984,
+                0.5,
+                3206
+              ],
+              [
+                160,
+                200,
+                3,
+                105.83699798583984,
+                0.5,
+                3146
+              ],
+              [
+                180,
+                200,
+                3,
+                115.83699798583984,
+                0.5,
+                3086
+              ]
+            ]
+          },
+          {
+            "label": "omitted-policy",
+            "hp": 200,
+            "mode": 0,
+            "death_tick": null,
+            "fuel": 3249,
+            "ammo": 8,
+            "trace": [
+              [
+                20,
+                200,
+                0,
+                38.525001525878906,
+                0.23999996483325958,
+                3569
+              ],
+              [
+                40,
+                200,
+                0,
+                45.84499740600586,
+                0.4799998700618744,
+                3529
+              ],
+              [
+                60,
+                200,
+                0,
+                55.836997985839844,
+                0.5,
+                3489
+              ],
+              [
+                80,
+                200,
+                0,
+                65.83699798583984,
+                0.5,
+                3449
+              ],
+              [
+                100,
+                200,
+                0,
+                75.83699798583984,
+                0.5,
+                3409
+              ],
+              [
+                120,
+                200,
+                0,
+                85.83699798583984,
+                0.5,
+                3369
+              ],
+              [
+                140,
+                200,
+                0,
+                95.83699798583984,
+                0.5,
+                3329
+              ],
+              [
+                160,
+                200,
+                0,
+                105.83699798583984,
+                0.5,
+                3289
+              ],
+              [
+                180,
+                200,
+                0,
+                115.83699798583984,
+                0.5,
+                3249
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "condition": "fighter-reserve",
+        "paired": [
+          {
+            "label": "candidate",
+            "hp": 200,
+            "mode": 3,
+            "death_tick": null,
+            "fuel": 3075,
+            "ammo": 180,
+            "trace": [
+              [
+                20,
+                200,
+                3,
+                41.04499816894531,
+                0.47999992966651917,
+                3555
+              ],
+              [
+                40,
+                200,
+                3,
+                51.04499816894531,
+                0.5,
+                3495
+              ],
+              [
+                60,
+                200,
+                3,
+                61.04499816894531,
+                0.5,
+                3435
+              ],
+              [
+                80,
+                200,
+                3,
+                71.04499816894531,
+                0.5,
+                3375
+              ],
+              [
+                100,
+                200,
+                3,
+                81.04499816894531,
+                0.5,
+                3315
+              ],
+              [
+                120,
+                200,
+                3,
+                91.04499816894531,
+                0.5,
+                3255
+              ],
+              [
+                140,
+                200,
+                3,
+                101.04499816894531,
+                0.5,
+                3195
+              ],
+              [
+                160,
+                200,
+                3,
+                111.04499816894531,
+                0.5,
+                3135
+              ],
+              [
+                180,
+                200,
+                3,
+                121.04499816894531,
+                0.5,
+                3075
+              ]
+            ]
+          },
+          {
+            "label": "omitted-policy",
+            "hp": 200,
+            "mode": 0,
+            "death_tick": null,
+            "fuel": 3245,
+            "ammo": 180,
+            "trace": [
+              [
+                20,
+                200,
+                0,
+                41.04499816894531,
+                0.47999992966651917,
+                3565
+              ],
+              [
+                40,
+                200,
+                0,
+                51.04499816894531,
+                0.5,
+                3525
+              ],
+              [
+                60,
+                200,
+                0,
+                61.04499816894531,
+                0.5,
+                3485
+              ],
+              [
+                80,
+                200,
+                0,
+                71.04499816894531,
+                0.5,
+                3445
+              ],
+              [
+                100,
+                200,
+                0,
+                81.04499816894531,
+                0.5,
+                3405
+              ],
+              [
+                120,
+                200,
+                0,
+                91.04499816894531,
+                0.5,
+                3365
+              ],
+              [
+                140,
+                200,
+                0,
+                101.04499816894531,
+                0.5,
+                3325
+              ],
+              [
+                160,
+                200,
+                0,
+                111.04499816894531,
+                0.5,
+                3285
+              ],
+              [
+                180,
+                200,
+                0,
+                121.04499816894531,
+                0.5,
+                3245
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "condition": "bomber-empty",
+        "paired": [
+          {
+            "label": "candidate",
+            "hp": 0,
+            "mode": 4,
+            "death_tick": 55,
+            "fuel": 0,
+            "ammo": 8,
+            "trace": [
+              [
+                20,
+                200,
+                4,
+                33.48500061035156,
+                -0.23999996483325958,
+                0
+              ],
+              [
+                40,
+                200,
+                4,
+                26.16500473022461,
+                -0.4799998700618744,
+                0
+              ]
+            ]
+          },
+          {
+            "label": "omitted-policy",
+            "hp": 200,
+            "mode": 0,
+            "death_tick": null,
+            "fuel": 0,
+            "ammo": 8,
+            "trace": [
+              [
+                20,
+                200,
+                0,
+                38.525001525878906,
+                0.23999996483325958,
+                0
+              ],
+              [
+                40,
+                200,
+                0,
+                45.84499740600586,
+                0.4799998700618744,
+                0
+              ],
+              [
+                60,
+                200,
+                0,
+                55.836997985839844,
+                0.5,
+                0
+              ],
+              [
+                80,
+                200,
+                0,
+                65.83699798583984,
+                0.5,
+                0
+              ],
+              [
+                100,
+                200,
+                0,
+                75.83699798583984,
+                0.5,
+                0
+              ],
+              [
+                120,
+                200,
+                0,
+                85.83699798583984,
+                0.5,
+                0
+              ],
+              [
+                140,
+                200,
+                0,
+                95.83699798583984,
+                0.5,
+                0
+              ],
+              [
+                160,
+                200,
+                0,
+                105.83699798583984,
+                0.5,
+                0
+              ],
+              [
+                180,
+                200,
+                0,
+                115.83699798583984,
+                0.5,
+                0
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "condition": "fighter-empty",
+        "paired": [
+          {
+            "label": "candidate",
+            "hp": 0,
+            "mode": 4,
+            "death_tick": 44,
+            "fuel": 0,
+            "ammo": 180,
+            "trace": [
+              [
+                20,
+                200,
+                4,
+                30.96500587463379,
+                -0.47999992966651917,
+                0
+              ],
+              [
+                40,
+                200,
+                4,
+                20.96500587463379,
+                -0.5,
+                0
+              ]
+            ]
+          },
+          {
+            "label": "omitted-policy",
+            "hp": 200,
+            "mode": 0,
+            "death_tick": null,
+            "fuel": 0,
+            "ammo": 180,
+            "trace": [
+              [
+                20,
+                200,
+                0,
+                41.04499816894531,
+                0.47999992966651917,
+                0
+              ],
+              [
+                40,
+                200,
+                0,
+                51.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                60,
+                200,
+                0,
+                61.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                80,
+                200,
+                0,
+                71.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                100,
+                200,
+                0,
+                81.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                120,
+                200,
+                0,
+                91.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                140,
+                200,
+                0,
+                101.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                160,
+                200,
+                0,
+                111.04499816894531,
+                0.5,
+                0
+              ],
+              [
+                180,
+                200,
+                0,
+                121.04499816894531,
+                0.5,
+                0
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "library_sha256": "ede6bb08c203f3ea8d65c5c143d8a6604e7873ba5c32416e25c8182b6f754495",
+    "scope": "Production NASM and real sim_tick; one-time plane/fuel staging declared, no live HP/fuel/clock renewal. Reserve withdrawal and powerless bounded glide/static contact vs omitted-policy control, not landing/rearm/full aerodynamics/audio/GPU/operation acceptance."
+  },
+  "audio": {
+    "suite": "aircraft-recorded-audio",
+    "passed": true,
+    "recorded_frames_verified": 96800,
+    "invalid_source_cases": 6,
+    "pool_limit": 128,
+    "nearest_source_limit": 8,
+    "public_flight_ticks": 60,
+    "public_loop_starts": 1,
+    "powerless_glide_engine_silence": true,
+    "public_channel_energy": [
+      [
+        310852,
+        6032
+      ],
+      [
+        310921,
+        6165
+      ],
+      [
+        299799,
+        6125
+      ],
+      [
+        309268,
+        6567
+      ],
+      [
+        303731,
+        6650
+      ],
+      [
+        257225,
+        5641
+      ],
+      [
+        341485,
+        7697
+      ],
+      [
+        331150,
+        7783
+      ],
+      [
+        347614,
+        8520
+      ],
+      [
+        333547,
+        8377
+      ],
+      [
+        386683,
+        9940
+      ],
+      [
+        426243,
+        11321
+      ],
+      [
+        403719,
+        11216
+      ],
+      [
+        437988,
+        12527
+      ],
+      [
+        424604,
+        12563
+      ],
+      [
+        392642,
+        11960
+      ],
+      [
+        446943,
+        14268
+      ],
+      [
+        475296,
+        15698
+      ],
+      [
+        505102,
+        17365
+      ],
+      [
+        438119,
+        15542
+      ],
+      [
+        564570,
+        20966
+      ],
+      [
+        505759,
+        19748
+      ],
+      [
+        484066,
+        19665
+      ],
+      [
+        423648,
+        17871
+      ],
+      [
+        494281,
+        21794
+      ],
+      [
+        478975,
+        22229
+      ],
+      [
+        492956,
+        23836
+      ],
+      [
+        439245,
+        22121
+      ],
+      [
+        365473,
+        19265
+      ],
+      [
+        396073,
+        22009
+      ],
+      [
+        514927,
+        29894
+      ],
+      [
+        430406,
+        26111
+      ],
+      [
+        270420,
+        17252
+      ],
+      [
+        440002,
+        29553
+      ],
+      [
+        393013,
+        27677
+      ],
+      [
+        345037,
+        25525
+      ],
+      [
+        414858,
+        32226
+      ],
+      [
+        297430,
+        24474
+      ],
+      [
+        333292,
+        28896
+      ],
+      [
+        280814,
+        25601
+      ],
+      [
+        316818,
+        30612
+      ],
+      [
+        259076,
+        26617
+      ],
+      [
+        307829,
+        33557
+      ],
+      [
+        279910,
+        32470
+      ],
+      [
+        269108,
+        33111
+      ],
+      [
+        278588,
+        36591
+      ],
+      [
+        357138,
+        50098
+      ],
+      [
+        385193,
+        57670
+      ],
+      [
+        286377,
+        45748
+      ],
+      [
+        387372,
+        66412
+      ],
+      [
+        469369,
+        86080
+      ],
+      [
+        475433,
+        93316
+      ],
+      [
+        446816,
+        93921
+      ],
+      [
+        448066,
+        101026
+      ],
+      [
+        484050,
+        117022
+      ],
+      [
+        508327,
+        131619
+      ],
+      [
+        525572,
+        145774
+      ],
+      [
+        381371,
+        113406
+      ],
+      [
+        414254,
+        131889
+      ],
+      [
+        476445,
+        162263
+      ]
+    ],
+    "source_sha256": "a24331b5b9ac98fb746bff47f935400b3a8f3e57d474cf57c49429ef29cd3966",
+    "library_sha256": "8b160dffaa35b7ee1dad8bf3fb059274beb68fcca1a862f73ac143c534cd2596",
+    "scope": "Actual native looping/moving panning and distance gain; initial live aircraft only, authority readonly. Fixed-rate recorded field excerpt; no Doppler/delay/occlusion or audible hardware quality acceptance."
+  },
+  "wire": {
+    "suite": "network-events",
+    "passed": true,
+    "malformed_cases": 47,
+    "whole_packet_validation": true,
+    "deduplication": true,
+    "pool_wrap": true,
+    "vehicle_state_validation": true,
+    "aircraft_whole_packet_validation": true,
+    "aircraft_generation_and_reordering": true,
+    "aircraft_independent_warmup_and_xz": true,
+    "fixtures": "wire payloads; real assembly adapter"
+  },
+  "udp": {
+    "suite": "air-fuel-actual-UDP",
+    "passed": true,
+    "original_army_count": 8192,
+    "source": 31,
+    "preserved_source": {
+      "hp": 200,
+      "generation": 1,
+      "ammo": 180,
+      "role": 1
+    },
+    "received_powerless_glide": [
+      {
+        "y": 110.0,
+        "pitch": 0.0,
+        "mode": 4,
+        "hp": 200,
+        "generation": 1
+      },
+      {
+        "y": 109.85600280761719,
+        "pitch": -0.010285895317792892,
+        "mode": 4,
+        "hp": 200,
+        "generation": 1
+      },
+      {
+        "y": 109.49600219726562,
+        "pitch": -0.020572882145643234,
+        "mode": 4,
+        "hp": 200,
+        "generation": 1
+      }
+    ],
+    "server_tick": 10,
+    "scope": "Actual separate8192 authority sim_tick and full type103 UDP adapter. One-time own player/plane/fuel staging, no HP/gen/ammo or live clock/fuel renewal. Confirms decreasing-height glide replication, not multiplayer operation/GPU/audio/performance/landing acceptance."
+  },
+  "corrected_listen": {
+    "suite": "actual-listen-host",
+    "passed": true,
+    "cases": [
+      {
+        "case": "actual host plus independent peer",
+        "host": {
+          "listen_host": true,
+          "port": 36368,
+          "child_pid": 2448134,
+          "child_exited": 1,
+          "startup_failed": 0
+        },
+        "peer_player": 1,
+        "authority_initial": 8192,
+        "host_and_peer_local_sim_ticks": 0,
+        "owned_child_reaped": true
+      },
+      {
+        "case": "actual listen authored air-battle",
+        "scenario": 1,
+        "host": {
+          "listen_host": true,
+          "port": 53680,
+          "child_pid": 2448666,
+          "child_exited": 1,
+          "startup_failed": 0
+        },
+        "source_clock_from_real_server": true
+      },
+      {
+        "case": "actual listen authored scale-front",
+        "scenario": 2,
+        "host": {
+          "listen_host": true,
+          "port": 52775,
+          "child_pid": 2448707,
+          "child_exited": 1,
+          "startup_failed": 0
+        },
+        "source_clock_from_real_server": true
+      },
+      {
+        "case": "actual listen authored scale-hotspot",
+        "scenario": 3,
+        "host": {
+          "listen_host": true,
+          "port": 57361,
+          "child_pid": 2448794,
+          "child_exited": 1,
+          "startup_failed": 0
+        },
+        "source_clock_from_real_server": true
+      },
+      {
+        "case": "GL failure cleanup",
+        "host": {
+          "listen_host": true,
+          "port": 37604,
+          "child_pid": 2448847,
+          "child_exited": 1,
+          "startup_failed": 0
+        }
+      },
+      {
+        "case": "server death propagated",
+        "child_reaped": true
+      },
+      {
+        "case": "abrupt parent death",
+        "server_state": "Z",
+        "scope": "Kernel terminates child; init owns orphan reaping after parent SIGKILL."
+      },
+      {
+        "case": "missing sibling exec",
+        "host": {
+          "listen_host": true,
+          "port": 0,
+          "child_pid": 2448890,
+          "child_exited": 1,
+          "startup_failed": 1
+        }
+      },
+      {
+        "case": "invalid development readiness protocol",
+        "reaped": true,
+        "wall_seconds": 0.021773393993498757
+      },
+      {
+        "case": "invalid development readiness units",
+        "reaped": true,
+        "wall_seconds": 0.021879969019209966
+      },
+      {
+        "case": "invalid development readiness port",
+        "reaped": true,
+        "wall_seconds": 0.02192721000756137
+      },
+      {
+        "case": "invalid development readiness scenario",
+        "reaped": true,
+        "wall_seconds": 0.022137377003673464
+      },
+      {
+        "case": "invalid development readiness timeout",
+        "reaped": true,
+        "wall_seconds": 5.010144609987037
+      }
+    ],
+    "invalid_combinations": 6,
+    "scope": "Linux NASM host and real8192 UDP authority/graphical peer, private llvmpipe; no dense/four-client/frame-quality or Windows acceptance."
+  },
+  "final_main_udp": {
+    "suite": "air-fuel-actual-UDP",
+    "passed": true,
+    "original_army_count": 8192,
+    "source": 31,
+    "preserved_source": {
+      "hp": 200,
+      "generation": 1,
+      "ammo": 180,
+      "role": 1
+    },
+    "received_powerless_glide": [
+      {
+        "y": 110.0,
+        "pitch": 0.0,
+        "mode": 4,
+        "hp": 200,
+        "generation": 1
+      },
+      {
+        "y": 109.85600280761719,
+        "pitch": -0.010285895317792892,
+        "mode": 4,
+        "hp": 200,
+        "generation": 1
+      },
+      {
+        "y": 109.49600219726562,
+        "pitch": -0.020572882145643234,
+        "mode": 4,
+        "hp": 200,
+        "generation": 1
+      }
+    ],
+    "server_tick": 9,
+    "scope": "Actual separate8192 authority sim_tick and full type103 UDP adapter. One-time own player/plane/fuel staging, no HP/gen/ammo or live clock/fuel renewal. Confirms decreasing-height glide replication, not multiplayer operation/GPU/audio/performance/landing acceptance."
+  },
+  "final_native_main_rows": [
+    {
+      "listen_ready": true,
+      "port": 35995,
+      "child_pid": 2451680,
+      "units": 8192,
+      "scenario": 1
+    },
+    {
+      "client_presentation": true,
+      "hidden": 1,
+      "swap_interval_requested": 0,
+      "viewport_width": 1920,
+      "viewport_height": 1080,
+      "framebuffer_width": 1920,
+      "framebuffer_height": 1080
+    },
+    {
+      "client_metrics": true,
+      "cpu_samples": 120,
+      "gpu_samples": 112,
+      "cpu_frame_mean_ms": 0.829626,
+      "cpu_frame_p95_ms": 0.849261,
+      "cpu_frame_p99_ms": 7.853968,
+      "gpu_draw_mean_ms": 1.307636,
+      "gpu_draw_p95_ms": 1.419791,
+      "gpu_draw_p99_ms": 1.617656
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "simulation",
+      "samples": 120,
+      "mean_ms": 0.00539,
+      "p95_ms": 0.014743,
+      "p99_ms": 0.027754,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "render_routes",
+      "samples": 120,
+      "mean_ms": 0.465875,
+      "p95_ms": 0.474844,
+      "p99_ms": 6.68744,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "audio_pump",
+      "samples": 120,
+      "mean_ms": 0.208037,
+      "p95_ms": 0.266963,
+      "p99_ms": 0.286557,
+      "clock_errors": 0
+    },
+    {
+      "client_pacing": true,
+      "frame_cap_requested": 60,
+      "waits": 119,
+      "late_rebases": 0,
+      "clock_errors": 0,
+      "work_metrics_exclude_cap_wait": true
+    },
+    {
+      "visibility_census": true,
+      "visible_actors": 310,
+      "visible_high": 0,
+      "visible_low": 291,
+      "visible_markers": 19,
+      "individually_detailed_actors": 291,
+      "width": 1920,
+      "height": 1080,
+      "source_tick": 63,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 6.871044,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "e05b9793efedec35",
+      "authority_after": "e05b9793efedec35"
+    },
+    {
+      "battle_metrics": true,
+      "samples": 120,
+      "simultaneous_projectiles_effects_audio_frames": 0,
+      "peak_living": 8192,
+      "peak_engaged": 0,
+      "peak_projectiles": 0,
+      "peak_submitted_high": 10,
+      "peak_submitted_low": 1321,
+      "peak_submitted_markers": 69,
+      "peak_effect_records": 44,
+      "peak_trail_records": 0,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    },
+    {
+      "listen_host": true,
+      "port": 35995,
+      "child_pid": 2451680,
+      "child_exited": 1,
+      "startup_failed": 0
+    }
+  ],
+  "executables": {
+    "red-horizon-coop-server": "77624f83e2057c85832cbe2bd1ba6c5915b245e2dae82bf65753557853d4f274",
+    "red-horizon-server": "c63d12c3426ddc29e03e57305af097375172dd2db4e5230a4e1a348e864a832d",
+    "red-horizon": "70bac3e16b7e95d215ba7f5e5c621690ff6e1a598f3f292fe29f3e6436bf8b7e"
+  },
+  "actual_main_adapter_sha256": "91bf40d0c465eea5b53348ac4365a4d429e1dcd2b4f44b1ac2fc6d707295d3bd",
+  "final_authored_inputs_count": 529,
+  "verified_worker_corrected_frozen_inputs_match": true,
+  "jobs": {
+    "7c05a85313d8": {
+      "job_id": "7c05a85313d8",
+      "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-cff058d576048c3b",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/7c05a85313d8/source",
+      "command": [
+        "test",
+        "--suite",
+        "aircraft"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/7c05a85313d8/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/7c05a85313d8/result.json",
+      "pid": 2399142,
+      "exit_code": 0,
+      "seconds": 177.60734692699043,
+      "scope": "Pre-protocol-bump focused aircraft; identical flight runtime"
+    },
+    "2644ff013743": {
+      "job_id": "2644ff013743",
+      "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-cff058d576048c3b",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/2644ff013743/source",
+      "command": [
+        "test",
+        "--suite",
+        "network"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/2644ff013743/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/2644ff013743/result.json",
+      "pid": 2399156,
+      "exit_code": 0,
+      "seconds": 268.54115993800224,
+      "scope": "Pre-protocol-bump ordinary network"
+    },
+    "134809a6c313": {
+      "job_id": "134809a6c313",
+      "revision": "b41717875c7d3fdc78e872c06f8121340a1452b6-776321c75d873d2e",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/134809a6c313/source",
+      "command": [
+        "test",
+        "--suite",
+        "network"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/134809a6c313/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/134809a6c313/result.json",
+      "pid": 2412132,
+      "exit_code": 0,
+      "seconds": 268.67693948801025,
+      "scope": "Final protocol41 ordinary network, before corrected listen fixture"
+    },
+    "50cfabc971b5": {
+      "job_id": "50cfabc971b5",
+      "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/result.json",
+      "pid": 2408697,
+      "scope": "Pre-protocol41 extended",
+      "process_observation": "2408697 Ss         24:49"
+    },
+    "752d1c232b9a": {
+      "job_id": "752d1c232b9a",
+      "revision": "b41717875c7d3fdc78e872c06f8121340a1452b6-776321c75d873d2e",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/result.json",
+      "pid": 2412153,
+      "scope": "Protocol41 extended before independent corrected listen fixture",
+      "process_observation": "2412153 Ss         22:03"
+    },
+    "92fb194b4ee7": {
+      "job_id": "92fb194b4ee7",
+      "revision": "9ff9c4d15941d3800972c2fefb33a2ca2f986e4b-8b2f5f8e3f8e81e9",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/result.json",
+      "pid": 2450082,
+      "scope": "Final529 corrected-source extended",
+      "process_observation": "2450082 Ss         03:50"
+    }
+  },
+  "independent_origin_main_sha": "9ff9c4d15941d3800972c2fefb33a2ca2f986e4b",
+  "foreground_sessions_terminal": true,
+  "scope": "Main native56/PCM/glide silence, realUDP original8192 and malformed atomic adapter controls; corrected actual listen/peer/startup/owned-child lifecycle on unchanged flight runtime, final-main client/headless/co-op link and native1080p120-frame listen smoke. Same529 inputs as corrected frozen checkpoint; pending extended jobs not passes. No complete aerodynamic/landing/four-front/art/operation acceptance."
+}

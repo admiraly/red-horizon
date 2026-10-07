@@ -1,0 +1,1 @@
+{"suite": "network-events", "passed": true, "malformed_cases": 47, "whole_packet_validation": true, "deduplication": true, "pool_wrap": true, "vehicle_state_validation": true, "aircraft_whole_packet_validation": true, "aircraft_generation_and_reordering": true, "aircraft_independent_warmup_and_xz": true, "fixtures": "wire payloads; real assembly adapter"}
