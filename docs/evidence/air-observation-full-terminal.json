@@ -1,0 +1,1113 @@
+{
+  "job": {
+    "job_id": "8c64c8e62bd1",
+    "revision": "53e2d802819ca25771c0b24ea67c03c214df4510-97161861c8c38375",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8c64c8e62bd1/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8c64c8e62bd1/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon/runs/jobs/8c64c8e62bd1/result.json",
+    "pid": 256094
+  },
+  "result": {
+    "job_id": "8c64c8e62bd1",
+    "exit_code": 0,
+    "revision": "53e2d802819ca25771c0b24ea67c03c214df4510-97161861c8c38375",
+    "seconds": 1946.2583574349992,
+    "status": "passed"
+  },
+  "suite_report_count": 217,
+  "reports": [
+    {
+      "suite": "fast-combat",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-battle-scenario",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "dense-scenarios",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "dense-scenarios",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "tracked-retreat-orders",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-hold-faction-label-symmetry",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-hold-faction-label-symmetry",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "bomb-inherited-velocity-release",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-swept-movement",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "navigation",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "tactics-default-motion",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "vehicles",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-gun-physical-nose",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-gun-intercept",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-gunnery",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-bank",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-vertical-motion",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-visible-incoming-fire",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-observed-enemy-memory",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-flight-trace",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-world-bounds",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-strike-memory",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-escort",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-public-assault",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-exclusive-control",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-consented-transfer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-follow-physical",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-defend-physical",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-supply-report-prerequisite",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "depot-supply-remote",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "depot-supply-report",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "command-wheel-targeting",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "input-bindings-file",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "input-frame-events",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "finite-player-ammunition",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-producer-and-remote-cache",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-ABI",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-threat-finite-infantry-ammunition",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-shared-actual-shot-cadence",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "joint-visible-infantry-human-targets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-visible-infantry-aim",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-moving-infantry-human-aim",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "model-aim-static-mask",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-infantry-rifle-events",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-physical-hostile-blast",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-physical-hostile-artillery",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-physical-production-bomb",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-blast-atomic-lifecycle-gates",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-blast-ABI",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "derived-completed-tick-publication",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-finite-ammunition",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "depot-finite-store-prerequisite",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-finite-depot-resupply",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-rounds-query-prerequisite",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-supply-routes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "supply-route-hazard-and-wall-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-weapon-ABI",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-acquisition",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-target-selection",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "exterior-site-deployment",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-public-detour-arrival",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-nav-fifo-contract",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "production-shell-first-entry",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "typed-world-contact-arbitration",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-world-los-contract",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-world-los-geometry",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "production-wreck-cover-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-blast-visibility-batch",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "projectile-contact-damage-type",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "production-world-contact-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-world-body-contract",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-world-body-geometry",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-public-movement",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-client-wreck-foot-preview",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-world-body-manual-step",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-ground-continuous-contact",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-solid-first-contact",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-eye-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-lifecycle",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-remote-lifecycle",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-segment-box",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "segment-sphere-first-entry",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-spatial-query",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "prepared-wreck-body-query",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-explicit-query-context",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-casualty-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-mass-casualties",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-visual",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-relief-component",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-grade",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-height-integration",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-grade-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-surface",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-surface-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-motion-actuator",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-motion-production-collision",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-motion-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-motion-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ordnance-admission",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ordnance-fairness",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ordnance-fairness",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-admission",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-admission-fairness",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-admission-fairness",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "crowd",
+      "passed": true,
+      "status": "passed"
+    },
+    {
+      "suite": "crowd-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "crowd-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "controller-crowd-outcomes",
+      "passed": true,
+      "status": "PASS"
+    },
+    {
+      "suite": "controller-crowd-outcomes",
+      "passed": true,
+      "status": "PASS"
+    },
+    {
+      "suite": "controller-crowd-bench",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-body",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-body-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-body-outcomes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "hazards",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "hazard-steering",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "hazard_outcomes",
+      "passed": null,
+      "status": null
+    },
+    {
+      "suite": "hazard-warning",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "hazard-budget",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "effects-frame-independence",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-burst-event-consumer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-trails",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "reload",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "audio",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "audio-emitters",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "audio-battle",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "footsteps",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "owned-projectile-priority",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "network",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "fourth-player-company-adapter",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "cooperative-world",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-exclusive-actual-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-remote-parser",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-remote-actual-four-player",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-supply-udp-parser",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-supply-production-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-transfer-actual-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-follow-actual-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "company-defend-actual-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-ammunition-original-four-endpoint-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-resupply-staged-four-endpoint-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "physical-supply-route-four-peer-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-original-four-endpoint-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "physical-human-blast-four-endpoint-UDP",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-NPC-rifle-production-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-aim-production-parser",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-infantry-aim-production-udp",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-real-udp-parser-faults",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "co-op-player-movement",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "network-projectiles",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "network-events",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "co-op-combat",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-network-parser",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-network-server",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-network-parser",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-network-server",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "dense_driver",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "tools",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "baked-model-assets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "baked-terrain-assets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "audio-assets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "footstep-assets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "mesh-assets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "texture-assets",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "battle-metrics",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "visibility_reduce",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "visibility_framebuffer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphics",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-instance-kernel-shader",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "hazard-warning-actual-gl",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "census_cli",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "view-projection-actual-gl",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "dense-client",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "visibility-actual-gl",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "rendered-aircraft",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "air-burst-embedded-GL",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "projected-role-detail-actual-GL",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "rendered-ground-heading",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "canonical-road-material-gl",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "terrain-relief-geometry-gl",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-support-actual-gl",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "infantry-aim-actual-shader-GL",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-support-client",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-client-draw",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "wreck-client-draw",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "ground-eye-client",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "client-environment",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "animated-source-meshes",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "rendered-shell-lifecycle",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "rendered-tracer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-NPC-rifle-GL",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-NPC-aim-GL",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-infantry-presentation",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "authoritative-client-gameplay",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-GL-player-physical-shell-death",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-real-solo-hud",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-real-solo-hud",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "input-between-frame-tap",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-solo-company-command",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-client-quit-event",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-solo-command-wheel",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-small-command-wheel",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "actual-remapped-client-input",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-solo-company-supply",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "input-bindings-cli",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-coop",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-company-timeout",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-real-coop-hud",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "player-ammunition-real-coop-hud",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-coop-company-supply",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-coop-company-supply",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-company-retreat-intent",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-company-follow",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-network-command-wheel",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "status": null
+    },
+    {
+      "suite": "graphical-consented-company-transfer",
+      "passed": true,
+      "status": null
+    }
+  ],
+  "scope": "Integrated fighter visual memory plus prior VFX/vertical/evasion. Excludes later confidence guidance, critical/empty recovery and isolated falling-airframe work. Exact launch input matches in air-observation-main-checkpoint.json."
+}
