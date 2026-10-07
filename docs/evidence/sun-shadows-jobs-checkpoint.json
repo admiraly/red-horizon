@@ -26,12 +26,13 @@
       "all",
       "--extended"
     ],
-    "status": "running",
+    "status": "failed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/12a029c6b870/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/12a029c6b870/result.json",
     "pid": 2324762,
-    "scope": "Before receiver-plane correction and early CPU culling; extended",
-    "process_observation": "2324762 Ss         28:13"
+    "exit_code": 1,
+    "seconds": 1771.2293044529797,
+    "scope": "Before receiver-plane correction and early CPU culling; extended"
   },
   "9fa596fcc927": {
     "job_id": "9fa596fcc927",
@@ -65,7 +66,7 @@
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/result.json",
     "pid": 2347273,
     "scope": "Corrected receiver plane, before early CPU culling; extended",
-    "process_observation": "2347273 Ss         16:00"
+    "process_observation": "2347273 Ss         19:29"
   },
   "d96dfcf3fca6": {
     "job_id": "d96dfcf3fca6",
@@ -76,12 +77,13 @@
       "--suite",
       "graphics"
     ],
-    "status": "running",
+    "status": "passed",
     "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/d96dfcf3fca6/job.log",
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/d96dfcf3fca6/result.json",
     "pid": 2360392,
-    "scope": "Final 525 authored inputs, early CPU culling; LP_NUM_THREADS=16 graphics",
-    "process_observation": "2360392 Ss         06:41"
+    "exit_code": 0,
+    "seconds": 505.5835533920035,
+    "scope": "Final 525 authored inputs, early CPU culling; LP_NUM_THREADS=16 graphics"
   },
   "354c2384bafc": {
     "job_id": "354c2384bafc",
@@ -98,6 +100,6 @@
     "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/result.json",
     "pid": 2360400,
     "scope": "Final 525 authored inputs, early CPU culling; LP_NUM_THREADS=16 extended",
-    "process_observation": "2360400 Ss         06:41"
+    "process_observation": "2360400 Ss         10:11"
   }
 }
