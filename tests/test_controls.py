@@ -65,10 +65,16 @@ try:
             assert process.poll() is None,'client exited during input test'
             time.sleep(.05)
         raise AssertionError('input state timed out: '+title(window))
-    key(0xff09);key(0xff09) # FPS then back to map
+    def map_mode(expected):
+        # Acknowledge each logical toggle and its release before the next one;
+        # multiple same-action presses within a frame intentionally coalesce.
+        key(0xff09)
+        until(lambda t:struct.unpack('<I',os.pread(memory,4,symbols['tactical']))[0]==expected)
+        until(lambda t:struct.unpack('<I',os.pread(memory,4,symbols['tab_down']))[0]==0)
+    map_mode(0);map_mode(1) # FPS then back to map
     key(0xffbf) # F2 -> front1
     click(788,368);click(0,0) # valid waypoint, then outside world
-    key(0xff09) # return to FPS
+    map_mode(0) # return to FPS
     before_w=struct.unpack('<fff',os.pread(memory,12,player))
     key(ord('w'),.25)
     after_w=struct.unpack('<fff',os.pread(memory,12,player))

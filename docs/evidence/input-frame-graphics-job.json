@@ -7,8 +7,12 @@
     "--suite",
     "graphics"
   ],
-  "status": "running",
+  "status": "failed",
   "log": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/3d52c831f664/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/3d52c831f664/result.json",
-  "pid": 3609224
+  "pid": 3609224,
+  "exit_code": 1,
+  "seconds": 29.133434092989773,
+  "collected": true,
+  "failure": "test_controls.py:76 expected magazine0 but client remained tactical with rifle27 after unacknowledged map toggles. Separate corrected test awaits each actual map transition/release; proof pending."
 }

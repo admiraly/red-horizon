@@ -1,0 +1,14 @@
+{
+  "job_id": "09ff269dfe2d",
+  "revision": "3ddf81ed6bd6150ca1a666abcf9f57c5dfa493fe-1ec3835d3bd1aa40",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/09ff269dfe2d/source",
+  "command": [
+    "test",
+    "--suite",
+    "graphics"
+  ],
+  "status": "running",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/09ff269dfe2d/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/09ff269dfe2d/result.json",
+  "pid": 3634881
+}

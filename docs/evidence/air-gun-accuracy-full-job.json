@@ -8,7 +8,7 @@
     "all",
     "--extended"
   ],
-  "status": "running",
+  "status": "passed",
   "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-accuracy/runs/jobs/ffefa501153e/result.json",
   "pid": 3359210,
@@ -16,5 +16,8 @@
     "src/ai/air_gunnery.asm": true,
     "src/ai/aircraft.asm": true
   },
-  "post_freeze_observer_addition": "tests/test_simulation.py permanent16384ground-hold health symmetry extension, focused passed separately"
+  "post_freeze_observer_addition": "tests/test_simulation.py permanent16384ground-hold health symmetry extension, focused passed separately",
+  "exit_code": 0,
+  "seconds": 1823.0469890990062,
+  "collected": true
 }
