@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/native-render-bench/tests/test_client_presentation.py", line 52, in <module>
+    if cap:assert pacing[0]['waits']>0,pacing
+                  ^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'client_pacing': True, 'frame_cap_requested': 60, 'waits': 0, 'late_rebases': 79, 'clock_errors': 0, 'work_metrics_exclude_cap_wait': True}]

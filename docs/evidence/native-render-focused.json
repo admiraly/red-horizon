@@ -1,0 +1,330 @@
+{
+  "reports": {
+    "unpaced": {
+      "scale-open": {
+        "report": "docs/evidence/native-render-unpaced-scale-open.json",
+        "binary_sha256": "d33812a143c68f55b100f79735bd46b89ec77cd140814a22380746632973c6dc",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-37d9954fd23af85f",
+        "wall_seconds": 1.4112709100008942,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 1.824723,
+          "cpu_frame_p95_ms": 13.873264,
+          "cpu_frame_p99_ms": 15.34366,
+          "gpu_draw_mean_ms": 0.782221,
+          "gpu_draw_p95_ms": 1.008281,
+          "gpu_draw_p99_ms": 1.072291
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 572,
+          "visible_high": 17,
+          "visible_low": 442,
+          "visible_markers": 113,
+          "individually_detailed_actors": 459,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 33,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 7.219183,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "854e52ffb1133889",
+          "authority_after": "854e52ffb1133889"
+        }
+      },
+      "scale-front": {
+        "report": "docs/evidence/native-render-unpaced-scale-front.json",
+        "binary_sha256": "d33812a143c68f55b100f79735bd46b89ec77cd140814a22380746632973c6dc",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-37d9954fd23af85f",
+        "wall_seconds": 1.1860069289978128,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 1.740692,
+          "cpu_frame_p95_ms": 12.851914,
+          "cpu_frame_p99_ms": 14.528341,
+          "gpu_draw_mean_ms": 0.826158,
+          "gpu_draw_p95_ms": 1.046875,
+          "gpu_draw_p99_ms": 1.121666
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 1739,
+          "visible_high": 42,
+          "visible_low": 1376,
+          "visible_markers": 321,
+          "individually_detailed_actors": 1418,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 31,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 6.46137,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "4287884eb33e7cda",
+          "authority_after": "4287884eb33e7cda"
+        }
+      },
+      "scale-hotspot": {
+        "report": "docs/evidence/native-render-unpaced-scale-hotspot.json",
+        "binary_sha256": "d33812a143c68f55b100f79735bd46b89ec77cd140814a22380746632973c6dc",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-37d9954fd23af85f",
+        "wall_seconds": 1.0866062279965263,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 1.594418,
+          "cpu_frame_p95_ms": 4.042386,
+          "cpu_frame_p99_ms": 13.795476,
+          "gpu_draw_mean_ms": 0.793649,
+          "gpu_draw_p95_ms": 1.003645,
+          "gpu_draw_p99_ms": 1.129218
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 1430,
+          "visible_high": 67,
+          "visible_low": 1162,
+          "visible_markers": 201,
+          "individually_detailed_actors": 1229,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 28,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 5.731407,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "936e16528593f831",
+          "authority_after": "936e16528593f831"
+        }
+      }
+    },
+    "paced": {
+      "scale-open": {
+        "report": "docs/evidence/native-render-paced-scale-open.json",
+        "binary_sha256": "ce0a840e9fecc558dbd98c9f37e3c8769df0eca9dd1549cfa3f79572d6b43bfe",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-97c19f950b1e1458",
+        "wall_seconds": 10.152405775996158,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 8.335029,
+          "cpu_frame_p95_ms": 16.895245,
+          "cpu_frame_p99_ms": 18.213167,
+          "gpu_draw_mean_ms": 1.087096,
+          "gpu_draw_p95_ms": 1.276093,
+          "gpu_draw_p99_ms": 1.297708
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 484,
+          "visible_high": 23,
+          "visible_low": 444,
+          "visible_markers": 17,
+          "individually_detailed_actors": 467,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 299,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 7.17259,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "50e514bbd2bb2792",
+          "authority_after": "50e514bbd2bb2792"
+        }
+      },
+      "scale-front": {
+        "report": "docs/evidence/native-render-paced-scale-front.json",
+        "binary_sha256": "ce0a840e9fecc558dbd98c9f37e3c8769df0eca9dd1549cfa3f79572d6b43bfe",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-97c19f950b1e1458",
+        "wall_seconds": 10.116791701992042,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 7.637995,
+          "cpu_frame_p95_ms": 16.295058,
+          "cpu_frame_p99_ms": 17.504743,
+          "gpu_draw_mean_ms": 1.011075,
+          "gpu_draw_p95_ms": 1.437343,
+          "gpu_draw_p99_ms": 1.509062
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 960,
+          "visible_high": 0,
+          "visible_low": 196,
+          "visible_markers": 764,
+          "individually_detailed_actors": 196,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 299,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 7.168065,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "ddb19a478dbf28c9",
+          "authority_after": "ddb19a478dbf28c9"
+        }
+      },
+      "scale-hotspot": {
+        "report": "docs/evidence/native-render-paced-scale-hotspot.json",
+        "binary_sha256": "ce0a840e9fecc558dbd98c9f37e3c8769df0eca9dd1549cfa3f79572d6b43bfe",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-97c19f950b1e1458",
+        "wall_seconds": 10.150502672011498,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 9.479423,
+          "cpu_frame_p95_ms": 22.75887,
+          "cpu_frame_p99_ms": 24.124728,
+          "gpu_draw_mean_ms": 1.31804,
+          "gpu_draw_p95_ms": 1.828489,
+          "gpu_draw_p99_ms": 2.245677
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 826,
+          "visible_high": 58,
+          "visible_low": 681,
+          "visible_markers": 87,
+          "individually_detailed_actors": 739,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 300,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 6.926841,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "e5391b6ffc9b5ade",
+          "authority_after": "e5391b6ffc9b5ade"
+        }
+      }
+    },
+    "profiled": {
+      "scale-open": {
+        "report": "docs/evidence/native-render-profiled-scale-open.json",
+        "binary_sha256": "30de910100d61116dffa3e4c1091a3adced2216e8a4280260ae0aa226b8721b5",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-a5f6f97e9fb157e6",
+        "wall_seconds": 10.194296383007895,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 8.384244,
+          "cpu_frame_p95_ms": 17.032554,
+          "cpu_frame_p99_ms": 20.605866,
+          "gpu_draw_mean_ms": 1.090328,
+          "gpu_draw_p95_ms": 1.27802,
+          "gpu_draw_p99_ms": 1.29802
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 480,
+          "visible_high": 23,
+          "visible_low": 443,
+          "visible_markers": 14,
+          "individually_detailed_actors": 466,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 301,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 7.809138,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "1d237f54b4a400bc",
+          "authority_after": "1d237f54b4a400bc"
+        }
+      },
+      "scale-front": {
+        "report": "docs/evidence/native-render-profiled-scale-front.json",
+        "binary_sha256": "30de910100d61116dffa3e4c1091a3adced2216e8a4280260ae0aa226b8721b5",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-a5f6f97e9fb157e6",
+        "wall_seconds": 10.135683594999136,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 7.598748,
+          "cpu_frame_p95_ms": 16.085413,
+          "cpu_frame_p99_ms": 17.088323,
+          "gpu_draw_mean_ms": 0.981886,
+          "gpu_draw_p95_ms": 1.322968,
+          "gpu_draw_p99_ms": 1.337656
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 960,
+          "visible_high": 0,
+          "visible_low": 196,
+          "visible_markers": 764,
+          "individually_detailed_actors": 196,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 299,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 7.363554,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "ddb19a478dbf28c9",
+          "authority_after": "ddb19a478dbf28c9"
+        }
+      },
+      "scale-hotspot": {
+        "report": "docs/evidence/native-render-profiled-scale-hotspot.json",
+        "binary_sha256": "30de910100d61116dffa3e4c1091a3adced2216e8a4280260ae0aa226b8721b5",
+        "revision": "0a071a0b3e0e99fe65275f16057494d1d8c32313-a5f6f97e9fb157e6",
+        "wall_seconds": 10.155922741018003,
+        "metrics": {
+          "client_metrics": true,
+          "cpu_samples": 600,
+          "gpu_samples": 592,
+          "cpu_frame_mean_ms": 9.364712,
+          "cpu_frame_p95_ms": 22.903887,
+          "cpu_frame_p99_ms": 24.063864,
+          "gpu_draw_mean_ms": 1.289343,
+          "gpu_draw_p95_ms": 1.491718,
+          "gpu_draw_p99_ms": 1.907187
+        },
+        "visibility": {
+          "visibility_census": true,
+          "visible_actors": 827,
+          "visible_high": 58,
+          "visible_low": 682,
+          "visible_markers": 87,
+          "individually_detailed_actors": 740,
+          "width": 1920,
+          "height": 1080,
+          "source_tick": 300,
+          "invalid_codes": 0,
+          "readback_reduce_ms": 11.363865,
+          "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+          "authority_readonly": true,
+          "authority_before": "e5391b6ffc9b5ade",
+          "authority_after": "e5391b6ffc9b5ade"
+        }
+      }
+    }
+  },
+  "final_authored_inputs": {
+    "src/platform/linux/client.asm": "262b3925596f4409c69449734b97e9399109d9fe5b0725dfd60c35df16ccbc20",
+    "src/platform/linux/frame_pacing.asm": "cc43541bb5037feb6c531492796e5bcb5d668b4e2f1cc59437a14df8b1e5e407",
+    "src/render/phase_metrics.asm": "a85a318bc0d49c60347816e540a3e058481f594c608c09524678f6cdc3411325",
+    "tests/test_frame_pacing.py": "acdeffca9fba3442576e34ef2fff6d776433318dfec06227ebd9129427edbb72",
+    "tests/probe_frame_pacing.asm": "c4ac658e190637dd32b26ec5a03be5acc34024f93fb8bfd2d1a8a9957f16ca6a",
+    "tests/test_client_presentation.py": "24ed8bec25d97b274aae95c514e32e560f2de47dcb71a668be187368590d0c46",
+    "tools/dev.py": "9e39cd45991210ed71660b605eb29e4bde8ad7d9c19f781e5ddcffa2d99b54f2"
+  },
+  "scope": "Final profiled benchmark source matches current authored runtime. Earlier unpaced and paced pre-profile reports retain pinned immutable executables and stage-specific revision fingerprints, not final-source coverage. All runs genuine local solo8192 seed42, actual Arc A7701920x1080FOV70, ALSA null. Hidden 600frame60Hz samples are about10seconds and do not establish whole-operation performance.",
+  "failure": "Initial softwareGL cap test required waits>0, but80real overloaded frames had0waits/79late rebases/errors0. Test now accepts real rebase outcome; independent no-graphics kernel proves actual waits/no-spin/deadlines/EINTR. No pacing rate/clock changed to satisfy test.",
+  "budget_gaps": "Final profiled p95CPU17.032554/16.085413/22.903887ms open/front/hotspot. Baseline16.7ms fails open; dense final readback827 actors/740detailed cannot establish sustained1024-visible hotspot. GPU1.278020/1.322968/1.491718ms not bottleneck here.",
+  "next_work": "Separate local simulation and render scheduling while preserving full authoritative updates and finite stores; measure actual dedicated-client envelope. No AI/physics budgets or scale reduced.",
+  "foregound_sessions": "All builds/options/kernel/paced benchmarks/native phase/client regression sessions terminal exit0 after scoped fixture correction; initial failed test retained."
+}

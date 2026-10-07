@@ -56,7 +56,7 @@ def build_locked(target,objects_only=False):
     elif target=='coop':
         sources += [ROOT/'src/net/coop_server.asm']; libs=['-lm']; executable_name='red-horizon-coop-server'
     elif target=='client':
-        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm',ROOT/'src/platform/linux/input_bindings.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
+        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm',ROOT/'src/platform/linux/input_bindings.asm',ROOT/'src/platform/linux/frame_pacing.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
     else: raise RuntimeError('Unsupported target')
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
@@ -120,8 +120,9 @@ def run_headless(args,benchmark=False):
     result={'scenario':scenario,'revision':exe.parent.name,'seed':args.seed,'wall_seconds':time.perf_counter()-start,'hardware':platform.platform(),'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),'realtime':args.realtime,'runtime':metrics,'coverage':{'replicated':0,'visible':0,'gpu':'unmeasured','audio':'unmeasured','threads':1,'peak_runtime_rss_kib':peak_memory,'allocation_counts':{'sim_tick_heap':0,'basis':'source audit of static assembly simulation; process total unmeasured'},'navigation_backlog':metrics.get('navigation',{}).get('pending','unmeasured'),'network_bandwidth':'unmeasured in CPU-only headless benchmark'}}
     path=RUNS/('bench-'+uuid.uuid4().hex[:10]+'.json'); atomic(path,result); print(json.dumps(result,indent=2)); print('Report: '+str(path))
 def client_view_args(args):
-    return [value for name in ('width','height','fov','sensitivity','bindings') if getattr(args,name,None) is not None
-            for value in ('--'+name,str(pathlib.Path(args.bindings).resolve()) if name=='bindings' else str(getattr(args,name)))]
+    view=[value for name in ('width','height','fov','sensitivity','bindings','frame_cap') if getattr(args,name,None) is not None
+          for value in ('--'+name.replace('_','-'),str(pathlib.Path(args.bindings).resolve()) if name=='bindings' else str(getattr(args,name)))]
+    return view+(['--hidden'] if getattr(args,'hidden',False) else [])+(['--no-vsync'] if getattr(args,'no_vsync',False) else [])
 def client_scenario_args(args):
     if args.scenario not in CLIENT_SCENARIOS:
         raise RuntimeError('Client scenarios implemented only for '+', '.join(CLIENT_SCENARIOS))
@@ -190,6 +191,8 @@ def visibility_report(stdout,args):
     return row
 def gpu_benchmark(args):
     validate_census_request(args,benchmark=True)
+    if getattr(args,'frame_cap',None) is not None and not 30<=args.frame_cap<=240:
+        raise RuntimeError('--frame-cap must be30..240Hz')
     if not os.environ.get('DISPLAY'):
         raise RuntimeError('Hardware GPU benchmark requires an accessible X11/XWayland DISPLAY')
     if args.connect:
@@ -218,15 +221,34 @@ def gpu_benchmark(args):
     metrics=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_metrics"')]
     if len(metrics)!=1 or metrics[0]['gpu_samples']==0:
         raise RuntimeError('Client did not report completed GPU timer samples')
+    phases=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_phase_metrics"')]
+    if {r.get('phase') for r in phases}!={'simulation','render_routes','audio_pump'} or len(phases)!=3:
+        raise RuntimeError('Client CPU phase telemetry missing')
+    if any(r.get('clock_errors')!=0 or r.get('samples')!=frames for r in phases):
+        raise RuntimeError('Client CPU phase clock or sample count failed')
+    presentation=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_presentation"')]
+    if len(presentation)!=1: raise RuntimeError('Client must report one actual presentation-settings row')
+    presented=presentation[0]
+    expected=(int(getattr(args,'hidden',False)),int(not getattr(args,'no_vsync',False)),args.width or 1280,args.height or 720)
+    if tuple(presented.get(k) for k in ('hidden','swap_interval_requested','viewport_width','viewport_height'))!=expected:
+        raise RuntimeError('Client presentation settings disagree with requested benchmark')
+    if (presented.get('framebuffer_width'),presented.get('framebuffer_height'))!=expected[2:]:
+        raise RuntimeError('Actual framebuffer disagrees with the fixed render viewport')
+    pacing=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"client_pacing"')]
+    if len(pacing)!=1 or pacing[0].get('frame_cap_requested')!=(getattr(args,'frame_cap',None) or 0) or pacing[0].get('clock_errors')!=0:
+        raise RuntimeError('Client frame pacing request or monotonic clock failed')
+    renderers=[line.split('=',1)[1] for line in run.stdout.splitlines() if line.startswith('client_render_device=')]
+    if len(renderers)!=1 or any(name in renderers[0].lower() for name in ('llvmpipe','softpipe','software rasterizer','swiftshader')):
+        raise RuntimeError('Actual client renderer is missing or software-rendered')
     battle_metrics=[json.loads(line) for line in run.stdout.splitlines() if line.startswith('{"battle_metrics"')]
     if len(battle_metrics)>1:
         raise RuntimeError('Client reported multiple battle_metrics rows')
     result={'scenario':('local-solo-'+args.scenario if args.scenario in LOCAL_SCENARIOS else 'local-solo-initial-view'),'revision':exe.parent.name,'cpu_model':next((line.split(':',1)[1].strip() for line in pathlib.Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),'unknown'),
             'hardware':platform.platform(),'context':context,'resolution':[args.width or 1280,args.height or 720],'seed':42,
             'vertical_fov_degrees':args.fov if args.fov is not None else 'legacy projection1.05/1.87','mouse_sensitivity':args.sensitivity if args.sensitivity is not None else .002,'units_at_start':8192,'view':'tactical' if args.tactical else 'first-person','weather':args.weather or 'clear',
-            'requested_frames':frames,'wall_seconds':time.perf_counter()-started,'metrics':metrics[0],
+            'requested_frames':frames,'phase_metrics':phases,'presentation':presented,'frame_pacing':pacing[0],'client_renderer':renderers[0],'wall_seconds':time.perf_counter()-started,'metrics':metrics[0],
             'screenshot':str(screenshot),'screenshot_sha256':hashlib.sha256(screenshot.read_bytes()).hexdigest(),
-            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','audio_playback':'physical output and listening unverified','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','threads':1,'vsync':True,'warmup_excluded':False,'resolution_limit':'Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('initial authored '+args.scenario+' view; density acceptance requires measured engagement and visible actors' if args.scenario in LOCAL_SCENARIOS else 'initial idle view only; not dense hotspot/front coverage')}}
+            'telemetry':run.stdout,'coverage':{'replicated':0,'audio_device':'ALSA null','audio_playback':'physical output and listening unverified','visible_individual_count':'unmeasured','detailed_counts':'final mesh telemetry only','simulation_threads':1,'graphics_driver_threads':'unmeasured','work_timing_scope':'events/simulation/render/swap; explicit cap waits excluded','vsync_requested':bool(presented['swap_interval_requested']),'window_hidden':bool(presented['hidden']),'swap_pacing_enforced':'unmeasured; requested interval is reported','warmup_excluded':False,'resolution_limit':'Actual configured framebuffer; this scene alone does not establish dense-hotspot1080p acceptance','gpu_timing_scope':'draws; excludes presentation; last8 pending queries may be omitted','camera':('player-following camera, initially authored '+args.scenario+' view; combat/redeployment can change view and density' if args.scenario in LOCAL_SCENARIOS else 'player-following initial deployment view; combat/redeployment can change view; not dense hotspot/front coverage')}}
     if battle_metrics: result['battle_metrics']=battle_metrics[0]
     if census_requested(args):
         census=visibility_report(run.stdout,args)
@@ -300,7 +322,7 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--bindings'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--hidden',action='store_true'); q.add_argument('--no-vsync',action='store_true'); q.add_argument('--frame-cap',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--bindings'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','ground-surfaces','terrain-body','terrain-grade','ground-support','wrecks','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
@@ -310,7 +332,7 @@ def main():
     if args.command in ('doctor','configure'): doctor()
     elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
-        if (args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity/--bindings require --client')
+        if (args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity/--bindings/--hidden/--no-vsync/--frame-cap require --client')
         if args.command=='bench' and args.client:
             gpu_benchmark(args)
         elif args.client:
@@ -584,6 +606,8 @@ def main():
             execute([sys.executable,'tests/test_visibility_framebuffer.py',str(census_library)])
             client=build('client')
             execute([sys.executable,'tests/test_graphics.py',str(client)])
+            execute([sys.executable,'tests/test_client_presentation.py',str(client)])
+            execute([sys.executable,'tests/test_frame_pacing.py'])
             execute([sys.executable,'tests/test_mesh_material_gl.py',str(client)])
             execute([sys.executable,'tests/test_hdr_gl.py',str(client)])
             execute([sys.executable,'tests/test_wreck_instance.py'])

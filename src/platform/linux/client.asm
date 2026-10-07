@@ -24,6 +24,7 @@ extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
 extern mesh_asset_count
 extern battle_metrics_reset,battle_metrics_capture,battle_metrics_report
+extern metrics_phase_begin,metrics_phase_end,metrics_phases_report
 extern metrics_init,metrics_frame_begin,metrics_gpu_begin,metrics_gpu_end,metrics_frame_end,metrics_report
 extern audio_footsteps_update,audio_footsteps_reset
 extern audio_aircraft_update
@@ -48,6 +49,8 @@ extern command_hud_draw_at
 extern command_hud_init,command_hud_begin,command_hud_draw
 extern command_wheel_select,command_terrain_point,command_wheel_hud_init,command_wheel_hud_draw
 extern glfwInitHint,glfwInit,glfwTerminate,glfwWindowHint,glfwCreateWindow,glfwDestroyWindow
+extern client_pacing_init,client_frame_pace,client_pacing_report
+extern glfwGetFramebufferSize
 extern glfwMakeContextCurrent,glfwSwapInterval,glfwSwapBuffers,glfwPollEvents
 extern glfwWindowShouldClose,glfwGetKey,glfwGetMouseButton,glfwGetCursorPos
 extern glfwSetCursorPos,glfwSetInputMode,glfwSetWindowTitle,glfwGetTime,glfwSetKeyCallback,glfwSetMouseButtonCallback
@@ -97,6 +100,9 @@ scale_hotspot_name: db 'scale-hotspot',0
 scale_open_name: db 'scale-open',0
 frames_opt: db '--frames',0
 shot_opt: db '--screenshot',0
+frame_cap_opt: db '--frame-cap',0
+hidden_opt: db '--hidden',0
+no_vsync_opt: db '--no-vsync',0
 census_opt: db '--census',0
 census_map_opt: db '--census-map',0
 map_opt: db '--tactical',0
@@ -106,7 +112,9 @@ bindings_opt: db '--bindings',0
 bindings_failure: db 'Invalid bindings file: use one regular file up to4096 bytes, known action=KEY entries, no duplicate actions or conflicting physical inputs.',0
 bindings_line_fmt: db 'Binding failure at or after line %u (0 means file access/type/size).',10,0
 help_opt: db '--help',0
-help_text: db 'RED HORIZON: [--bindings FILE] [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'DEFAULTS: WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+presentation_fmt: db '{"client_presentation":true,"hidden":%u,"swap_interval_requested":%u,"viewport_width":%u,"viewport_height":%u,"framebuffer_width":%u,"framebuffer_height":%u}',10,0
+render_device_fmt: db 'client_render_device=%s',10,0
+help_text: db 'RED HORIZON: [--hidden --frames 1..10000] [--no-vsync] [--frame-cap 30..240] [--bindings FILE] [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'DEFAULTS: WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 transfer_none: db '%s/%s/%s/%s: EXCHANGE P0-P3 | %s: CANCEL',0
 transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | %s ACCEPT | %s DECLINE | %s CANCEL',0
 transfer_changed: db 'COMPANY ASSIGNMENT UPDATED',0
@@ -267,6 +275,12 @@ local_player: resd 1
 connect_address: resq 1
 global network_mode
 network_mode: resd 1
+global client_hidden,client_no_vsync,client_frame_cap
+client_frame_cap: resd 1
+client_hidden: resd 1
+client_no_vsync: resd 1
+framebuffer_width: resd 1
+framebuffer_height: resd 1
 global census_requested
 census_requested: resd 1
 census_map_path: resq 1
@@ -414,12 +428,51 @@ main:
  lea rsi,[shot_opt]
  call strcmp
  test eax,eax
- jnz .censusarg
+ jnz .framecaparg
  inc ebx
  cmp ebx,r12d
  jge .fail
  mov rax,[r13+rbx*8]
  mov [shot_path],rax
+ jmp .nextarg
+.framecaparg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[frame_cap_opt]
+ call strcmp
+ test eax,eax
+ jnz .hiddenarg
+ cmp dword [client_frame_cap],0
+ jne .fail
+ inc ebx
+ cmp ebx,r12d
+ jge .fail
+ mov rdi,[r13+rbx*8]
+ call parse_frame_limit
+ cmp eax,30
+ jl .fail
+ cmp eax,240
+ ja .fail
+ mov [client_frame_cap],eax
+ jmp .nextarg
+.hiddenarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[hidden_opt]
+ call strcmp
+ test eax,eax
+ jnz .vsyncarg
+ cmp dword [client_hidden],0
+ jne .fail
+ mov dword [client_hidden],1
+ jmp .nextarg
+.vsyncarg:
+ mov rdi,[r13+rbx*8]
+ lea rsi,[no_vsync_opt]
+ call strcmp
+ test eax,eax
+ jnz .censusarg
+ cmp dword [client_no_vsync],0
+ jne .fail
+ mov dword [client_no_vsync],1
  jmp .nextarg
 .censusarg:
  mov rdi,[r13+rbx*8]
@@ -572,6 +625,13 @@ main:
  inc ebx
  jmp .args
 .init:
+ cmp dword [client_hidden],0
+ je .presentationready
+ cmp dword [frame_limit],1
+ jb .fail
+ cmp dword [frame_limit],10000
+ ja .fail
+.presentationready:
  cmp dword [census_requested],0
  jne .validatecensus
  cmp qword [census_map_path],0
@@ -649,6 +709,10 @@ main:
  mov edi,0x20003 ; nonresizable: fixed screenshot/viewport dimensions
  xor esi,esi
  call glfwWindowHint
+ mov edi,0x20004 ; GLFW_VISIBLE, hidden benchmarking remains bounded by frames
+ mov esi,1
+ sub esi,[client_hidden]
+ call glfwWindowHint
  mov edi,[view_width]
  mov esi,[view_height]
  lea rdx,[title]
@@ -666,7 +730,12 @@ main:
  call glfwSetMouseButtonCallback
  mov rdi,[window]
  call glfwMakeContextCurrent
+ mov rdi,[window]
+ lea rsi,[framebuffer_width]
+ lea rdx,[framebuffer_height]
+ call glfwGetFramebufferSize
  mov edi,1
+ sub edi,[client_no_vsync]
  call glfwSwapInterval
  mov rdi,[window]
  mov esi,0x33001
@@ -810,9 +879,14 @@ main:
  call audio_footsteps_reset
  call metrics_init
  call battle_metrics_reset
+ call client_pacing_init
 .loop:
  call metrics_frame_begin
+ mov edi,2
+ call metrics_phase_begin
  call audio_update
+ mov edi,2
+ call metrics_phase_end
  call glfwPollEvents
  call bindings_frame_begin
  cmp dword [network_mode],0
@@ -831,6 +905,8 @@ main:
  movss [frame_delta],xmm2
  addsd xmm0,[accum]
  movsd [accum],xmm0
+ xor edi,edi
+ call metrics_phase_begin
 .tick:
  movsd xmm0,[accum]
  comisd xmm0,[thirty]
@@ -846,6 +922,10 @@ main:
  call network_tick
  jmp .tick
 .render:
+ xor edi,edi
+ call metrics_phase_end
+ mov edi,1
+ call metrics_phase_begin
  ; Decay the preceding frame before admitting fresh authoritative feedback.
  call update_visual
  call sync_player
@@ -1218,6 +1298,8 @@ main:
 .nohud:
  call metrics_gpu_end
  call battle_metrics_capture
+ mov edi,1
+ call metrics_phase_end
  inc dword [frame_count]
  mov eax,[frame_limit]
  test eax,eax
@@ -1252,6 +1334,7 @@ main:
  mov rdi,[window]
  call glfwSwapBuffers
  call metrics_frame_end
+ call client_frame_pace
  mov rdi,[window]
  call glfwWindowShouldClose
  test eax,eax
@@ -1266,7 +1349,28 @@ main:
  jne .frameended
  call metrics_frame_end
 .frameended:
+ sub rsp,16
+ mov eax,[framebuffer_height]
+ mov [rsp],rax
+ lea rdi,[presentation_fmt]
+ mov esi,[client_hidden]
+ mov edx,1
+ sub edx,[client_no_vsync]
+ mov ecx,[view_width]
+ mov r8d,[view_height]
+ mov r9d,[framebuffer_width]
+ xor eax,eax
+ call printf
+ add rsp,16
+ mov edi,0x1f01 ; actual client GL_RENDERER, independent from glxinfo probe
+ call glGetString
+ mov rsi,rax
+ lea rdi,[render_device_fmt]
+ xor eax,eax
+ call printf
  call metrics_report
+ call metrics_phases_report
+ call client_pacing_report
  cmp dword [census_finished],0
  je .nocensusreport
  call visibility_report
