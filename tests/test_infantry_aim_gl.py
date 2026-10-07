@@ -12,9 +12,13 @@ for index in range(h[3]):
  shoot,length=next(struct.unpack_from('<2I',pack,co+c*16)for c in range(first,first+count)if struct.unpack_from('<I',pack,co+c*16+12)[0]==3)
  for frame in (0,27):
   for age in (0,3,7):
-   control=len(queries);queries.append((index,frame,100.,30.,100.,.4,0.,0.,1))
-   active=len(queries);queries.append((index,frame,100.,30.,100.,.4,.15,-1.2,13+(age<<4)))
-   cases.append((control,active,lod,n,base,frame,shoot,length,age))
+   for raw_yaw in (-1.2,2*math.pi-.08,-2*math.pi+.08,2*math.pi-.7,-2*math.pi+.7):
+    heading=(-math.pi+.04 if raw_yaw>math.pi else math.pi-.04 if raw_yaw< -math.pi else .4)
+    assert abs(heading+raw_yaw)<=math.pi
+    control=len(queries);queries.append((index,frame,100.,30.,100.,heading,0.,0.,1))
+    active=len(queries);queries.append((index,frame,100.,30.,100.,heading,.15,raw_yaw,13+(age<<4)))
+    equivalent=len(queries);queries.append((index,frame,100.,30.,100.,heading,.15,math.atan2(math.sin(raw_yaw),math.cos(raw_yaw)),13+(age<<4)))
+    cases.append((control,active,equivalent,lod,n,base,frame,shoot,length,age,raw_yaw,heading))
 read,write=os.pipe();server=None
 try:
  with tempfile.TemporaryDirectory(prefix='rh-aim-gl-')as directory:
@@ -26,9 +30,14 @@ try:
   subprocess.run([nasm,'-f','elf64','src/render/mesh_shaders.asm','-o',str(td/'shader.o')],cwd=ROOT,check=True,capture_output=True)
   subprocess.run(['cc','-O2',str(td/'driver.c'),str(td/'shader.o'),'-lGL','-lX11','-o',str(td/'driver')],check=True,capture_output=True)
   run=subprocess.run([str(td/'driver'),str(ROOT/'content/models/battle.rham'),str(td)],input=str(len(queries))+'\n'+''.join(' '.join(map(str,q))+'\n'for q in queries),text=True,capture_output=True,env=env,timeout=45);assert run.returncode==0,(run.returncode,run.stderr)
-  lower=upper=0;error=0.
-  for control,active,lod,n,base,frame,shoot,length,age in cases:
+  lower=upper=0;error=0.;equivalent_error=0.;seam_cases=0;unwrapped_error=0.
+  for control,active,equivalent,lod,n,base,frame,shoot,length,age,raw_yaw,heading in cases:
    baseline=list(struct.iter_unpack('<7f',(td/f'{control}.bin').read_bytes()));aimed=list(struct.iter_unpack('<7f',(td/f'{active}.bin').read_bytes()))
+   reference=list(struct.iter_unpack('<7f',(td/f'{equivalent}.bin').read_bytes()))
+   if abs(raw_yaw)>math.pi:
+    seam_cases+=1
+    equivalent_error=max(equivalent_error,max(abs(x-y)for a,b in zip(aimed,reference)for x,y in zip(a,b)))
+   yaw=math.atan2(math.sin(raw_yaw),math.cos(raw_yaw))
    phase=min(age*length/8.,length-1);a=shoot+int(phase);b=min(a+1,shoot+length-1);f=phase-int(phase)
    for v,(old,new)in enumerate(zip(baseline,aimed)):
     offset=vo+base*16+(frame*n+v)*48;local=struct.unpack_from('<3f',pack,offset);weight=struct.unpack_from('<f',pack,offset+28)[0]
@@ -36,11 +45,16 @@ try:
     pointA=struct.unpack_from('<3f',pack,vo+base*16+(a*n+v)*48);pointB=struct.unpack_from('<3f',pack,vo+base*16+(b*n+v)*48)
     p=[local[k]*(1-weight)+(pointA[k]*(1-f)+pointB[k]*f)*weight for k in range(3)]
     c,s=math.cos(.15*weight),math.sin(.15*weight);y,z=p[1]-1.35,p[2];p[1],p[2]=c*y+s*z+1.35,-s*y+c*z
-    c,s=math.cos(-1.2*weight),math.sin(-1.2*weight);x,z=p[0],p[2];p[0],p[2]=c*x+s*z,-s*x+c*z
-    c,s=math.cos(.4),math.sin(.4);expected=(100+c*p[0]+s*p[2],30+p[1],100-s*p[0]+c*p[2]);actual=(new[0],new[1],new[3]);error=max(error,max(abs(a-b)for a,b in zip(expected,actual)))
+    x,z=p[0],p[2]
+    c,s=math.cos(yaw*weight),math.sin(yaw*weight);p[0],p[2]=c*x+s*z,-s*x+c*z
+    if abs(raw_yaw)>math.pi and 0<weight<1:
+     c,s=math.cos(raw_yaw*weight),math.sin(raw_yaw*weight)
+     unwrapped_error=max(unwrapped_error,abs(c*x+s*z-p[0]),abs(-s*x+c*z-p[2]))
+    c,s=math.cos(heading),math.sin(heading);expected=(100+c*p[0]+s*p[2],30+p[1],100-s*p[0]+c*p[2]);actual=(new[0],new[1],new[3]);error=max(error,max(abs(a-b)for a,b in zip(expected,actual)))
     if weight==1 and old!=new:upper+=1
   assert error<.0001 and upper and lower,(error,upper,lower)
-  print(json.dumps({'suite':'infantry-aim-actual-shader-GL','passed':True,'cases':len(cases),'lower_vertices_bit_identical':lower,'upper_vertices_changed':upper,'maximum_position_error_metres':error,'shader_sha256':hashlib.sha256(shader).hexdigest(),'context':run.stderr.strip(),'scope':'Actual embedded shader, both infantry LODs, idle/walk lower clips and three actual shoot ages. Fixed lower vertex positions/lighting and independent upper yaw/pitch; reference mask, not bone IK.'}))
+  assert seam_cases==48 and equivalent_error<.0001 and unwrapped_error>.1,(seam_cases,equivalent_error,unwrapped_error)
+  print(json.dumps({'suite':'infantry-aim-actual-shader-GL','passed':True,'cases':len(cases),'lower_vertices_bit_identical':lower,'upper_vertices_changed':upper,'maximum_position_error_metres':error,'heading_seam_cases':seam_cases,'equivalent_wrapped_pose_error':equivalent_error,'unwrapped_partial_vertex_error_metres':unwrapped_error,'shader_sha256':hashlib.sha256(shader).hexdigest(),'context':run.stderr.strip(),'scope':'Actual embedded shader, both infantry LODs, idle/walk lower clips and three actual shoot ages. Fixed lower vertex positions/lighting and independent upper yaw/pitch; reference mask, not bone IK.'}))
 finally:
  if read>=0:os.close(read)
  if write>=0:os.close(write)

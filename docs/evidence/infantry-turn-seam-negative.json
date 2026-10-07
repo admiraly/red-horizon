@@ -1,0 +1,8 @@
+{
+  "expected_failure": true,
+  "actual_old_embedded_shader": true,
+  "executable": "/mnt/titan_nv3/projects/red-horizon-workers/infantry-turn-seam/build/revisions/c937b752040727a67ada31aaf3cfba4a81dbef34-f186c069d4a53e4f/red-horizon",
+  "exit_code": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"/mnt/titan_nv3/projects/red-horizon-workers/infantry-turn-seam/tests/test_infantry_aim_gl.py\", line 53, in <module>\n    assert error<.0001 and upper and lower,(error,upper,lower)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: (1.2202904999228394, 60300, 19890)\n",
+  "limitation": "Private software GL with identical independent vertex oracle; no gameplay change."
+}

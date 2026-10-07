@@ -53,7 +53,12 @@ void main(){
   vec3 upperNormal=normalize(mix(sourceVertex[aa+1].xyz,sourceVertex[ab+1].xyz,fract(phase))/max(scale.xyz,vec3(.0001)));
   if(weight>0.){
   local=mix(local,upper,weight);normal=normalize(mix(normal,upperNormal,weight));
-  float yaw=scale.w*weight,pitch=animation.w*weight;
+  // Body and observed aim headings straddle +/-pi. Wrap their difference
+  // before weighting; weighting a nearly full revolution twists waist vertices.
+  float aimYaw=scale.w;
+  if(aimYaw>3.14159265359)aimYaw-=6.28318530718;
+  if(aimYaw< -3.14159265359)aimYaw+=6.28318530718;
+  float yaw=aimYaw*weight,pitch=animation.w*weight;
   float c=cos(pitch),s=sin(pitch);mat3 lift=mat3(1,0,0,0,c,-s,0,s,c);
   local=lift*(local-vec3(0,1.35,0))+vec3(0,1.35,0);normal=lift*normal;
   c=cos(yaw);s=sin(yaw);mat3 turn=mat3(c,0,-s,0,1,0,s,0,c);

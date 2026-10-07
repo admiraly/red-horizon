@@ -1,0 +1,15 @@
+{
+  "suite": "infantry-aim-actual-shader-GL",
+  "passed": true,
+  "cases": 60,
+  "lower_vertices_bit_identical": 19890,
+  "upper_vertices_changed": 60300,
+  "maximum_position_error_metres": 7.609830660726402e-06,
+  "heading_seam_cases": 48,
+  "equivalent_wrapped_pose_error": 7.62939453125e-06,
+  "unwrapped_partial_vertex_error_metres": 1.2000514934684716,
+  "shader_sha256": "fb459df32bb1a0cb87833d5e5199a0fad16ca8c38097a1b9db62ad8b0370dbee",
+  "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Compatibility Profile) Mesa 26.2.3",
+  "scope": "Actual embedded shader, both infantry LODs, idle/walk lower clips and three actual shoot ages. Fixed lower vertex positions/lighting and independent upper yaw/pitch; reference mask, not bone IK.",
+  "test_sha256": "92a266129513ca792e5525781cd4938c3460ec475cf1325baf539a2776831f20"
+}
