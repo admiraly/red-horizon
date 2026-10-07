@@ -33,13 +33,41 @@ vec3 eventIrradiance(vec3 p,vec3 n){
  }
  return energy;
 }
+uniform int sunShadowPass;
+uniform int sunShadowReady;
+uniform mat4 sunShadowMatrix;
+layout(binding=14) uniform sampler2DShadow sunShadowMap;
+float sunVisibility(vec3 p,vec3 n){
+ if(sunShadowReady==0)return 1.;
+ vec3 q=(sunShadowMatrix*vec4(p,1)).xyz;
+ vec3 uv=q*.5+.5;
+ // Receiver-plane depth correction keeps filtered coplanar terrain fully lit.
+ vec3 dx=dFdx(uv),dy=dFdy(uv);
+ float determinant=dx.x*dy.y-dx.y*dy.x;
+ vec2 gradient=vec2(0);
+ if(abs(determinant)>1e-20)
+  gradient=clamp(vec2(dx.z*dy.y-dy.z*dx.y,dy.z*dx.x-dx.z*dy.x)/determinant,vec2(-4),vec2(4));
+ if(any(greaterThanEqual(abs(q),vec3(1))))return 1.;
+ float bias=max(.000025,.00015*(1.-max(0.,dot(n,normalize(vec3(.35,.85,-.2))))));
+ // Account for the hardware comparison's half-texel footprint as well.
+ bias+=dot(abs(gradient),vec2(.5/2048.));
+ float visibility=0.;
+ for(int y=-1;y<=1;++y)for(int x=-1;x<=1;++x){
+  vec2 offset=vec2(x,y)/2048.;
+  visibility+=texture(sunShadowMap,vec3(uv.xy+offset,uv.z+dot(gradient,offset)-bias));
+ }
+ float edge=smoothstep(.85,1.,max(abs(q.x),abs(q.y)));
+ return mix(visibility/9.,1.,edge);
+}
 void main(){
+ if(sunShadowPass!=0){outputColour=vec4(0);outputActorCode=0u;return;}
  outputActorCode=actorCode;
  vec3 surface=hdrOutput!=0?decodeDisplay(colour):colour;
  if(meshMode==0){
   vec3 n=normalize(surfaceNormal),sun=normalize(vec3(.35,.85,-.2));
   float clouds=clamp(weather.y,0.,1.),rain=clamp(weather.z,0.,1.);
   float direct=max(0.,dot(n,sun));
+  if(hdrOutput!=0)direct*=sunVisibility(surfacePosition,n);
   vec3 ambient=mix(vec3(.55,.49,.42),vec3(.82,.91,1.),clamp(n.y*.5+.5,0.,1.));
   vec3 albedo=hdrOutput!=0?decodeDisplay(surfaceAlbedo):surfaceAlbedo;
   surface=albedo*(ambient*mix(.35,.58,clouds)+vec3(1.,.94,.82)*mix(.65,.22,clouds)*direct);

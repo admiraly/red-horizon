@@ -4,6 +4,8 @@ layout(location=1) in vec4 animation; // source frameA,frameB,blend,aircraft pit
 layout(location=2) in vec4 scale; // instance scale xyz,aircraft bank
 layout(location=3) in vec4 identity; // actor ID,side(2 human),role,height/ownership flags:0 relative,1 absolute,2 relative-owned,3 absolute-owned
 layout(std430,binding=3) readonly buffer BakedSourceVertices { vec4 sourceVertex[]; };
+uniform int sunShadowPass;
+uniform mat4 sunShadowMatrix;
 uniform vec3 camera;
 uniform vec4 weather;
 uniform vec2 angle;
@@ -93,6 +95,7 @@ void main(){
  surfaceResponse=(identity.z==0. || (identity.z>=5. && identity.z<=7.))?vec2(.88,.025):vec2(.58,.09);
  if(identity.z==3. || identity.z==8.)surfaceResponse=vec2(.38,.16);
  if(identity.y==3. && (identity.z==1. || identity.z==2. || identity.z==3. || identity.z==8.)){surfaceAlbedo*=vec3(.35,.32,.29);surfaceResponse=vec2(.96,0.);}
+ if(sunShadowPass!=0){gl_Position=sunShadowMatrix*vec4(world,1);distanceFog=0;actorCode=0u;return;}
  if(meshMode==1)colour=team;
  if(meshMode==2){
   vec3 q=local*.8+vec3(.24,-.42,.95);

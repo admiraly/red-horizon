@@ -630,6 +630,8 @@ def main():
             execute([sys.executable,'tests/test_mesh_material_gl.py',str(client)])
             execute([sys.executable,'tests/test_hdr_gl.py',str(client)])
             execute([sys.executable,'tests/test_event_lights_gl.py',str(client)])
+            execute([sys.executable,'tests/test_sun_shadows_native.py'])
+            execute([sys.executable,'tests/test_sun_shadows_gl.py',str(client)])
             execute([sys.executable,'tests/test_wreck_instance.py'])
             execute([sys.executable,'tests/test_air_crash_instance.py'])
             execute([sys.executable,'tests/test_air_crash_plume.py'])

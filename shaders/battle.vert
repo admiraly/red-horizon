@@ -3,6 +3,8 @@ layout(location=0) in vec4 entity;
 layout(location=1) in vec4 roles;
 layout(location=2) in vec4 metadata;
 layout(location=3) in vec4 lifecycle; // projectile generation/active/source-generation/reserved @48
+uniform int sunShadowPass;
+uniform mat4 sunShadowMatrix;
 uniform vec3 camera;
 uniform vec4 weather;
 out vec3 worldPosition;
@@ -234,6 +236,7 @@ void main(){
  else {world=vec3(0,-10000,0);colour=vec3(0);}
 
  worldPosition=world;
+ if(sunShadowPass!=0){gl_Position=sunShadowMatrix*vec4(world,1);distanceFog=0;return;}
  vec3 p=world-camera;
  if(tactical!=0){gl_Position=vec4((world.x-4000)/4300,(world.z-4000)/4300,-world.y/1000,1); distanceFog=0;}
  else {float cy=cos(angle.x),sy=sin(angle.x),cp=cos(angle.y),sp=sin(angle.y); vec3 q=vec3(cy*p.x-sy*p.z,p.y,sy*p.x+cy*p.z); q=vec3(q.x,cp*q.y-sp*q.z,sp*q.y+cp*q.z); gl_Position=vec4(q.x*projection.x,q.y*projection.y,q.z*1.00002-.2,q.z); distanceFog=length(p);}

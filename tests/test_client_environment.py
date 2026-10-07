@@ -98,10 +98,11 @@ try:
             XT.XTestFakeButtonEvent(display, 1, int(down), 0); X.XFlush(display)
 
         # Real source textures and presets exercised by actual rendered clients.
+        capture_folder=pathlib.Path(tempfile.mkdtemp(prefix='rh-weather-captures-'))
         captures={}
         for preset in ('clear','overcast','rain','fog'):
-            path=pathlib.Path('/tmp/rh-weather-'+preset+'.ppm')
-            run=subprocess.run([str(EXE),'--weather',preset,'--frames','20','--screenshot',str(path)],cwd=EXE.parent,env=env,capture_output=True,text=True,timeout=30)
+            path=capture_folder/(preset+'.ppm')
+            run=subprocess.run([str(EXE),'--hidden','--weather',preset,'--frames','20','--screenshot',str(path)],cwd=EXE.parent,env=env,capture_output=True,text=True,timeout=30)
             assert run.returncode==0,(preset,run.stdout,run.stderr)
             data=path.read_bytes().split(b'\n',3)[3];assert len(data)==1280*720*3
             captures[preset]=data
@@ -166,7 +167,7 @@ try:
                     pixel=X.XGetPixel(image,x,y)
                     rgb.extend(((pixel>>16)&255,(pixel>>8)&255,pixel&255))
             X.XDestroyImage(image)
-            pathlib.Path('/tmp/rh-weather-'+label+'.ppm').write_bytes(b'P6\n1280 720\n255\n'+rgb)
+            (capture_folder/(label+'.ppm')).write_bytes(b'P6\n1280 720\n255\n'+rgb)
             assert u32('local_sim_ticks')==frozen_ticks,'authority tick advanced in render fixture'
             os.kill(process.pid,signal.SIGCONT)
             return rgb
@@ -192,7 +193,7 @@ try:
             moved=len(masks[0]^masks[1]);assert moved>20,('precipitation did not move',label,moved)
             rain_masks.append({'view':label,'visible_pixels':[len(m) for m in masks],'moved_pixels':moved})
         key(0xff1b);stdout,stderr=process.communicate(timeout=5);assert process.returncode==0,(stdout,stderr)
-        print(json.dumps({'suite':'client-environment','passed':True,'preset_sky_rgb':sky,'preset_ground_rgb':ground,'source_ground_range':[min(values),max(values)],'actual_F4_all_presets':True,'player_authority_unchanged':True,'frozen_fixture_rain_motion':rain_masks,'off_corridor_grass':'/tmp/rh-weather-off-corridor-grass.ppm','screenshots':['/tmp/rh-weather-'+name+'.ppm' for name in captures]}))
+        print(json.dumps({'suite':'client-environment','passed':True,'preset_sky_rgb':sky,'preset_ground_rgb':ground,'source_ground_range':[min(values),max(values)],'actual_F4_all_presets':True,'player_authority_unchanged':True,'frozen_fixture_rain_motion':rain_masks,'off_corridor_grass':str(capture_folder/'off-corridor-grass.ppm'),'screenshots':[str(capture_folder/(name+'.ppm')) for name in captures],'preset_clients_hidden':True,'per_run_screenshot_paths':True}))
 
 finally:
     if process is not None and process.poll() is None:

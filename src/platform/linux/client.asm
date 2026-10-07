@@ -21,6 +21,7 @@ extern net_projectiles,net_projectiles_update
 extern air_trails_update,air_trails_records,air_trails_active
 extern sim_tick_count
 extern air_crash_plumes_update,air_crash_plume_records,air_crash_plume_count
+extern sun_shadows_init,sun_shadows_shutdown,sun_shadows_begin,sun_shadows_end,sun_shadows_apply,meshes_shadow_draw
 extern event_lights_update,event_lights_apply
 extern effects_update,effects_records,effects_tracers,effects_active
 extern meshes_init,meshes_draw,mesh_high_instances,mesh_low_instances,mesh_marker_instances,mesh_source_triangles,mesh_animation_sample
@@ -890,6 +891,9 @@ main:
  call hdr_init
  test eax,eax
  jnz .destroyfail
+ call sun_shadows_init
+ test eax,eax
+ jnz .destroyfail
  call environment_init
  test eax,eax
  jnz .destroyfail
@@ -1053,6 +1057,55 @@ main:
  call glClearColor
  mov edi,0x4100
  call glClear
+ ; Current-frame sunlight depth, before any colour receiver or actor census.
+ mov edi,0xb71
+ call glEnable
+ mov edi,1
+ call glDepthMask
+ mov edi,[tactical]
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ call sun_shadows_begin
+ cmp eax,1
+ jne .sun_shadow_skip
+ mov edi,[program]
+ call sun_shadows_apply
+ mov edi,[terrain_loc]
+ mov esi,1
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,98304
+ call glDrawArrays
+ mov edi,[terrain_loc]
+ mov esi,11
+ call glUniform1i
+ mov edi,4
+ xor esi,esi
+ mov edx,105000
+ call glDrawArrays
+ xor edi,edi
+ mov esi,[local_player]
+ movss xmm0,[camera]
+ movss xmm1,[camera+4]
+ movss xmm2,[camera+8]
+ movss xmm3,[yaw]
+ movss xmm4,[pitch]
+ addss xmm4,[recoil]
+ movss xmm5,[frame_delta]
+ movss xmm6,[recoil]
+ movss xmm7,[reload_progress]
+ call meshes_shadow_draw
+ call sun_shadows_end
+ mov edi,[program]
+ call glUseProgram
+ mov edi,[vao]
+ call glBindVertexArray
+ mov edi,0x8892
+ mov esi,[vbo]
+ call glBindBuffer
+.sun_shadow_skip:
  mov edi,[tactical]
  call hdr_begin
  mov dword [census_frame],0
@@ -1075,6 +1128,8 @@ main:
  call environment_apply
  mov edi,[program]
  call event_lights_apply
+ mov edi,[program]
+ call sun_shadows_apply
  mov edi,[cam_loc]
  movss xmm0,[camera]
  movss xmm1,[camera+4]
@@ -1511,6 +1566,7 @@ main:
  add rsp,16
 .nonetreport:
  call visibility_shutdown
+ call sun_shadows_shutdown
  call hdr_shutdown
  mov rdi,[window]
  call glfwDestroyWindow
@@ -1527,6 +1583,7 @@ main:
  call puts
 .destroyfail:
  call visibility_shutdown
+ call sun_shadows_shutdown
  call hdr_shutdown
  mov rdi,[window]
  call glfwDestroyWindow

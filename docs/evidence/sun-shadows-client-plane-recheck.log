@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/docs/evidence/sun-shadows-client-observer.py", line 99, in <module>
+    off=capture(0);on=capture(1);repeat=capture(1);map_off=capture(0,1);map_on=capture(1,1)
+                      ~~~~~~~^^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/docs/evidence/sun-shadows-client-observer.py", line 87, in capture
+    else:raise AssertionError('completed colour frame not observed')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: completed colour frame not observed

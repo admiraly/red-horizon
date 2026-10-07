@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/docs/evidence/sun-shadows-client-observer.py", line 117, in <module>
+    path=pathlib.Path(sys.argv[2]);path.write_bytes(b'P6\n640 360\n255\n'+on)
+                      ~~~~~~~~^^^
+IndexError: list index out of range

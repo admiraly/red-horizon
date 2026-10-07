@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/tests/test_sun_shadows_gl.py", line 128, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/tests/test_sun_shadows_gl.py", line 111, in main
+    for name,mode in(('mesh',0),('battle',1)):assert delta(sample(name,mode),results[name]['lit'])<1e-4,'coplanar terrain self-shadows'
+                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: coplanar terrain self-shadows

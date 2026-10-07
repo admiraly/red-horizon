@@ -1,0 +1,103 @@
+{
+  "82d816efb300": {
+    "job_id": "82d816efb300",
+    "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-655db005927314b3",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/82d816efb300/source",
+    "command": [
+      "test",
+      "--suite",
+      "graphics"
+    ],
+    "status": "failed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/82d816efb300/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/82d816efb300/result.json",
+    "pid": 2324752,
+    "exit_code": 1,
+    "seconds": 290.15599248799845,
+    "scope": "Before receiver-plane correction and early CPU culling; failed weather fixture"
+  },
+  "12a029c6b870": {
+    "job_id": "12a029c6b870",
+    "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-655db005927314b3",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/12a029c6b870/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/12a029c6b870/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/12a029c6b870/result.json",
+    "pid": 2324762,
+    "scope": "Before receiver-plane correction and early CPU culling; extended",
+    "process_observation": "2324762 Ss         23:03"
+  },
+  "9fa596fcc927": {
+    "job_id": "9fa596fcc927",
+    "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-8bc63a0ca18eb8bc",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/9fa596fcc927/source",
+    "command": [
+      "test",
+      "--suite",
+      "graphics"
+    ],
+    "status": "failed",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/9fa596fcc927/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/9fa596fcc927/result.json",
+    "pid": 2347264,
+    "exit_code": 1,
+    "seconds": 295.3352989870182,
+    "scope": "Corrected receiver plane and isolated weather fixture, before early CPU culling; failed timed HUD"
+  },
+  "daf700cd9e12": {
+    "job_id": "daf700cd9e12",
+    "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-8bc63a0ca18eb8bc",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/daf700cd9e12/result.json",
+    "pid": 2347273,
+    "scope": "Corrected receiver plane, before early CPU culling; extended",
+    "process_observation": "2347273 Ss         10:50"
+  },
+  "d96dfcf3fca6": {
+    "job_id": "d96dfcf3fca6",
+    "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-a7b019f016b075aa",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/d96dfcf3fca6/source",
+    "command": [
+      "test",
+      "--suite",
+      "graphics"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/d96dfcf3fca6/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/d96dfcf3fca6/result.json",
+    "pid": 2360392,
+    "scope": "Final 525 authored inputs, early CPU culling; LP_NUM_THREADS=16 graphics",
+    "process_observation": "2360392 Ss         01:32"
+  },
+  "354c2384bafc": {
+    "job_id": "354c2384bafc",
+    "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-a7b019f016b075aa",
+    "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/source",
+    "command": [
+      "test",
+      "--suite",
+      "all",
+      "--extended"
+    ],
+    "status": "running",
+    "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/job.log",
+    "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/result.json",
+    "pid": 2360400,
+    "scope": "Final 525 authored inputs, early CPU culling; LP_NUM_THREADS=16 extended",
+    "process_observation": "2360400 Ss         01:31"
+  }
+}

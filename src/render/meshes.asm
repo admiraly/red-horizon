@@ -23,6 +23,7 @@ extern company_for_player,net_company_for_player,network_mode
 extern sim_tick_count,sim_count,sim_entities,sim_players,sim_player_vehicle,sim_sites,sim_aircraft
 extern terrain_obstacles,terrain_obstacle_count
 extern glCreateShader,glShaderSource,glCompileShader,glGetShaderiv,glGetShaderInfoLog
+extern sun_shadows_apply,sun_shadows_filter,sun_shadow_budget
 extern event_lights_apply
 extern glCreateProgram,glAttachShader,glLinkProgram,glGetProgramiv,glUseProgram
 extern glGenVertexArrays,glBindVertexArray,glGenBuffers,glBindBuffer,glBufferData,glBindBufferBase
@@ -56,6 +57,7 @@ phase_seed: dd 0.137
 motion_hold: dd 0.12
 motion_epsilon: dd 0.00001
 dt_min: dd 0.001
+shadow_range2: dd 409600.0
 run_speed: dd 6.0
 high_range2: dd 22500.0
 medium_range2: dd 640000.0
@@ -110,6 +112,9 @@ mesh_source_triangles: resd 1
 mesh_animation_sample: resd 1
 current_descriptor: resq 1
 current_mode: resd 1
+draw_shadow: resd 1
+shadow_prepared: resd 1
+reuse_motion: resd 1
 draw_lod: resd 1
 side_budget: resd 2
 alignb 16
@@ -272,6 +277,10 @@ meshes_init:
  ret
 
 ; EDI tactical,ESI local player; XMM0..4 cameraXYZ/yaw/pitch,XMM5 render dt.
+global meshes_shadow_draw
+meshes_shadow_draw:
+ mov dword [draw_shadow],1
+ jmp meshes_draw
 meshes_draw:
  mov dword [mesh_counts_complete],0
  push rbp
@@ -291,6 +300,15 @@ meshes_draw:
  movss [view_camera+8],xmm2
  movss [view_angle],xmm3
  movss [view_angle+4],xmm4
+ mov dword [reuse_motion],0
+ cmp dword [draw_shadow],0
+ jne .advance_clock
+ cmp dword [shadow_prepared],1
+ jne .advance_clock
+ mov dword [shadow_prepared],0
+ mov dword [reuse_motion],1
+ jmp .clock_done
+.advance_clock:
  maxss xmm5,[dt_min]
  inc dword [mesh_frame]
  jnz .frame_ok
@@ -299,6 +317,7 @@ meshes_draw:
  movss [view_dt],xmm5
  addss xmm5,[mesh_clock]
  movss [mesh_clock],xmm5
+.clock_done:
  lea rax,[sim_player_vehicle]
  mov eax,[rax+rsi*4]
  mov [view_vehicle],eax
@@ -332,13 +351,18 @@ meshes_draw:
  xor eax,eax
  mov ecx,4096
  rep stosq
+ cmp dword [reuse_motion],1
+ je .motion_ready
  call .update_motion
+.motion_ready:
  mov edi,[mesh_program]
  call glUseProgram wrt ..plt
  mov edi,[mesh_program]
  call environment_apply
  mov edi,[mesh_program]
  call event_lights_apply
+ mov edi,[mesh_program]
+ call sun_shadows_apply
  mov edi,[mesh_vao]
  call glBindVertexArray wrt ..plt
  mov edi,0x8892
@@ -371,6 +395,9 @@ meshes_draw:
  cmp dword [view_tactical],0
  jne .markers
  mov dword [draw_lod],0
+ cmp dword [draw_shadow],0
+ je .lodpass
+ mov dword [draw_lod],1
 .lodpass:
  xor r13d,r13d
 .descriptor:
@@ -404,11 +431,20 @@ meshes_draw:
  cmp dword [draw_lod],2
  jb .lodpass
  call .props
+ cmp dword [draw_shadow],0
+ jne .markers
  call .weapon
 .markers:
  call .wrecks
+ cmp dword [draw_shadow],0
+ jne .shadow_done
  call .marker_batch
  mov dword [mesh_counts_complete],1
+ jmp .draw_return
+.shadow_done:
+ mov dword [shadow_prepared],1
+ mov dword [draw_shadow],0
+.draw_return:
  add rsp,8
  pop r15
  pop r14
@@ -732,6 +768,13 @@ meshes_draw:
  xor r14d,r14d
  lea rbx,[sim_entities]
 .armyloop:
+ cmp dword [draw_shadow],0
+ je .army_capacity
+ cmp r15d,128
+ jae .armydone
+ cmp r15d,[sun_shadow_budget]
+ jae .armydone
+.army_capacity:
  cmp r14d,[sim_count]
  jae .armydone
  cmp dword [rbx+ENTITY_HP],0
@@ -742,6 +785,12 @@ meshes_draw:
  cmp r14d,[view_vehicle]
  je .armynext
  call .distance
+ cmp dword [draw_shadow],0
+ je .army_range
+ ucomiss xmm0,[shadow_range2]
+ jp .armynext
+ ja .armynext
+.army_range:
  mov eax,[r12]
  lea rdx,[mesh_actor_detail_ranges2]
  comiss xmm0,[rdx+rax*4]
@@ -1172,6 +1221,16 @@ meshes_draw:
  ret
 .upload_draw:
  push rbp
+ cmp dword [draw_shadow],0
+ je .upload_ready
+ lea rdi,[instances]
+ mov esi,r15d
+ mov edx,32772
+ call sun_shadows_filter
+ test eax,eax
+ js .drawdone
+ mov r15d,eax
+.upload_ready:
  test r15d,r15d
  jz .drawdone
  mov edi,[mode_loc]
