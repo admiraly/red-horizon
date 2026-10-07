@@ -6,6 +6,7 @@
 default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_bank_step,air_vertical_step
+extern air_threats_reset,air_threats_build,air_threat_query
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
 extern air_gun_solution_ready,air_gun_intercept
 extern air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_escort_hash
@@ -16,6 +17,7 @@ global sim_aircraft
 sim_aircraft: resb ENTITY_CAPACITY*AIR_STRIDE
 ; Private fixed state: remaining maneuver and refractory ticks, indexed by stable ID.
 air_defense: resd ENTITY_CAPACITY*2
+air_break_direction: resd ENTITY_CAPACITY
 air_boundary: resd ENTITY_CAPACITY
 ; Last physically observed strike position; no enemy reads during recall.
 global sim_air_strikes
@@ -104,6 +106,9 @@ air_init:
  lea rdi,[air_defense]
  mov ecx,ENTITY_CAPACITY*2
  rep stosd
+ lea rdi,[air_break_direction]
+ mov ecx,ENTITY_CAPACITY
+ rep stosd
  lea rdi,[air_boundary]
  mov ecx,ENTITY_CAPACITY
  rep stosd
@@ -111,6 +116,7 @@ air_init:
  mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
  rep stosd
  sub rsp,8
+ call air_threats_reset
  call air_escort_init
  add rsp,8
  jmp air_admission_init
@@ -150,6 +156,13 @@ air_hit:
 .commit:
  mov [rdx+rdi*8],eax
  mov [rdx+rdi*8+4],esi
+ lea rdx,[air_break_direction]
+ mov eax,__float32__(1.0)
+ test edi,1
+ jz .direction
+ mov eax,__float32__(-1.0)
+.direction:
+ mov [rdx+rdi*4],eax
  imul eax,edi,AIR_FLIGHT_STRIKE_STRIDE
  lea rdx,[sim_air_strikes]
  mov dword [rdx+rax+32],0 ; defensive abort requires a fresh straight approach
@@ -164,6 +177,7 @@ air_tick:
  push rbp
  push r12
  sub rsp,64
+ call air_threats_build
  xor r12d,r12d
  lea rbx,[sim_entities]
  lea rbp,[sim_aircraft]
@@ -186,6 +200,8 @@ air_tick:
  movups [rbp+48],xmm0
  lea rcx,[air_defense]
  mov qword [rcx+r12*8],0
+ lea rcx,[air_break_direction]
+ mov dword [rcx+r12*4],0
  lea rcx,[air_boundary]
  mov dword [rcx+r12*4],0
  imul edx,r12d,AIR_FLIGHT_STRIKE_STRIDE
@@ -231,7 +247,22 @@ air_tick:
  cmp dword [rcx+r12*8+4],0
  je .cooldown
  dec dword [rcx+r12*8+4]
-.cooldown:
+ .cooldown:
+ lea rcx,[air_defense]
+ cmp dword [rcx+r12*8+4],0
+ jne .weapon_cooldown
+ cmp dword [rcx+r12*8],0
+ jne .weapon_cooldown
+ mov edi,r12d
+ call air_threat_query
+ cmp eax,-1
+ je .weapon_cooldown
+ ; Query observes the round, not its shooter's hidden pose or intended target.
+ mov edi,r12d
+ call air_hit
+ lea rcx,[air_break_direction]
+ movss [rcx+r12*4],xmm0
+.weapon_cooldown:
  cmp dword [rbp+AIR_COOLDOWN],0
  je .goal
  dec dword [rbp+AIR_COOLDOWN]
@@ -424,10 +455,8 @@ air_tick:
  mov eax,[rcx+r12*8]
  test eax,eax
  jz .turn_limit
- movss xmm0,[one]
- test r12d,1
- jz .defense_direction
- mulss xmm0,[negative]
+ lea rcx,[air_break_direction]
+ movss xmm0,[rcx+r12*4]
 .defense_direction:
  cmp dword [rbp+AIR_ROLE],AIR_FIGHTER
  jne .bomber_break
@@ -1043,6 +1072,19 @@ air_hash:
  dec ecx
  jnz .boundary_bytes
 .strikes:
+ lea rsi,[air_break_direction]
+ mov ecx,[sim_count]
+ shl ecx,2
+ test ecx,ecx
+ jz .strike_memory
+.direction_bytes:
+ movzx edx,byte [rsi]
+ xor rax,rdx
+ imul rax,r8
+ inc rsi
+ dec ecx
+ jnz .direction_bytes
+.strike_memory:
  lea rsi,[sim_air_strikes]
  imul ecx,[sim_count],AIR_FLIGHT_STRIKE_STRIDE
  test ecx,ecx

@@ -1,0 +1,184 @@
+{
+  "warning": {
+    "suite": "air-visible-incoming-fire",
+    "passed": true,
+    "geometry_cases": 815,
+    "accepted": 207,
+    "invalid_metadata_cases": 11,
+    "ABI_and_authority_unchanged": true,
+    "dead_shooter_round_retained": true,
+    "encounters": [
+      {
+        "control": false,
+        "first_tick": [
+          1,
+          200,
+          2,
+          0.0,
+          200.0240020751953
+        ],
+        "first_damage_tick": 17,
+        "final_hp": 152,
+        "rounds": {
+          "31": 180,
+          "63": 174
+        },
+        "checksum": "0xb58752888f4115f3"
+      },
+      {
+        "control": true,
+        "first_tick": [
+          1,
+          200,
+          1,
+          0.0,
+          200.0
+        ],
+        "first_damage_tick": 17,
+        "final_hp": 32,
+        "rounds": {
+          "31": 174,
+          "63": 174
+        },
+        "checksum": "0x41070ee680aa2a1f"
+      },
+      {
+        "control": false,
+        "first_tick": [
+          1,
+          200,
+          2,
+          0.0,
+          200.0240020751953
+        ],
+        "first_damage_tick": 17,
+        "final_hp": 152,
+        "rounds": {
+          "31": 180,
+          "63": 174
+        },
+        "checksum": "0xb58752888f4115f3"
+      },
+      {
+        "control": true,
+        "first_tick": [
+          1,
+          200,
+          1,
+          0.0,
+          200.0
+        ],
+        "first_damage_tick": 17,
+        "final_hp": 32,
+        "rounds": {
+          "31": 174,
+          "63": 174
+        },
+        "checksum": "0x41070ee680aa2a1f"
+      }
+    ],
+    "dense_query_metrics": [
+      512,
+      127,
+      1,
+      8,
+      64,
+      2,
+      1,
+      1
+    ],
+    "terrain_occlusion_and_label_mirror": true,
+    "library_sha256": "5ebd973b2e6e9073e908f02b5bc1423dc07a4f27b850e4e7ba796784b20098f6",
+    "limits": [
+      "Controlled initial encounter and isolated geometry fixtures; no graphics, global optimal threat selection, full gameplay scale budget or spectacle acceptance.",
+      "Initial producer round does not debit FSM stores; subsequent public-tick firing stores remain finite and monotone."
+    ]
+  },
+  "GL": {
+    "suite": "rendered-aircraft",
+    "passed": true,
+    "fixture": "development-only initial cohorts/poses; production flight/weapons/events and GL; paired cosmetic controls preserve authority",
+    "bomber_pixels": 8908,
+    "normalized_silhouette_iou": 0.6224,
+    "bank_changed_pixels": 12052,
+    "trail_changed_pixels": 24,
+    "trail_authority_unchanged": true,
+    "bomb_pixels": 2196,
+    "air_round_pixels": 1196,
+    "actual_bomb_launch": [
+      2175.0,
+      127.33111572265625,
+      1999.7552490234375,
+      6,
+      0,
+      35,
+      36.0,
+      1
+    ],
+    "actual_bomb_impact": [
+      2886.19384765625,
+      15.2479887008667,
+      1997.2896728515625,
+      7,
+      0,
+      177,
+      36.0,
+      2
+    ],
+    "actual_air_gun": [
+      2443.0,
+      155.54925537109375,
+      2499.9990234375,
+      8,
+      1,
+      1,
+      0.0,
+      1
+    ],
+    "actual_air_destroyed": [
+      2359.034912109375,
+      157.682373046875,
+      2500.36083984375,
+      9,
+      1,
+      13,
+      2.0,
+      3
+    ],
+    "actual_impact_effect_pixels": 2986,
+    "actual_destroy_effect_pixels": 95,
+    "mid_distant_map_absolute_y": true,
+    "stale_generation_fallback": true,
+    "screenshots": [
+      "/home/levy/optane-tmp/red-horizon-aircraft-damage-smoke-and-exhaust.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-background.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-level-bomber.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-banked.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-pitch-heading.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-fighter.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-raised.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-falling-bomb.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-air-round.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-bomb-impact.ppm",
+      "/home/levy/optane-tmp/red-horizon-aircraft-actual-aircraft-destruction.ppm"
+    ]
+  },
+  "aircraft_suite": {
+    "exit_code": 0,
+    "log": "/tmp/rh-air-evasion-aircraft-first.log",
+    "sha256": "aced699ee4b44a26cd6e47bb600d89460baf7f41f6d5f8c40bff966b971b8773",
+    "natural8192_events": {
+      "bomb_birth": 16,
+      "bomb_impact": 16,
+      "cannon_birth": 550,
+      "aircraft_destroyed": 3
+    },
+    "living_steps": 460278,
+    "minimum_edge_clearance": 316.2308044433594
+  },
+  "runtime_sources": {
+    "src/ai/air_threats.asm": "15a714a81c34e6a26b0d9cd0a799288ec45a5f8d0299b57752e694c600c88af3",
+    "src/ai/aircraft.asm": "067ce6033d37e9f56efc42bc960280f9da4696860373acd4a255f478983ec3bf",
+    "schemas/air_evasion.inc": "5de98ba8643eb5efdf5c6650395a45054f4b4668c2953336b446280a7864b1a3"
+  }
+}
