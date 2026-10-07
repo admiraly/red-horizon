@@ -1,0 +1,45 @@
+{
+  "reports": [
+    {
+      "suite": "actual-NPC-rifle-GL",
+      "passed": true,
+      "army": 8192,
+      "source": 4096,
+      "source_flash_slots": [
+        20
+      ],
+      "paired_changed_pixels": 11,
+      "paired_authority_unchanged": true,
+      "no_HP_kind_generation_stock_event_writes": true,
+      "screenshot": "/tmp/red-horizon-NPC-rifle.ppm",
+      "limits": [
+        "One initial position/order fixture, actual finite AI firing; paired control freezes only development clock and hides/restores actual acquired cosmetics.",
+        "Software GL visibility proof, not target GPU performance or audiovisual quality acceptance."
+      ]
+    },
+    {
+      "suite": "actual-NPC-rifle-GL",
+      "passed": true,
+      "army": 8192,
+      "source": 4096,
+      "source_flash_slots": [
+        18
+      ],
+      "paired_changed_pixels": 9,
+      "paired_authority_unchanged": true,
+      "no_HP_kind_generation_stock_event_writes": true,
+      "screenshot": "/tmp/red-horizon-NPC-rifle.ppm",
+      "limits": [
+        "One initial position/order fixture, actual finite AI firing; paired control freezes only development clock and hides/restores actual acquired cosmetics.",
+        "Software GL visibility proof, not target GPU performance or audiovisual quality acceptance."
+      ]
+    }
+  ],
+  "binaries": {
+    "/mnt/titan_nv3/projects/red-horizon-workers/battlefield-detail/runs/jobs/7dc8436c715c/source/build/revisions/ce8d786974ac5d11cc623aceeb020b096adff036-04c0761baf181e10/red-horizon": "bc7f5ed3e31a5652545522e6409efe702b4de19ce838248412f07065d970d67b",
+    "/mnt/titan_nv3/projects/red-horizon-workers/air-gun-nose/build/revisions/77d6cf930ea5ca27ff393455881508728415f0fa-4524fbb6182e73d4/red-horizon": "f071c36d89aed5a46cfb85c0e612f2eb9475cbb70dd3d0d12d252a1683bf42c8"
+  },
+  "original_full_failure_preserved": "7dc8436c715c failed tests/test_client_infantry.py:130 zero paired source flash pixels; no relabel/restart",
+  "change": "Fixed declared initial observerX1980 instead of collinear2000. Source2000/4000 and target2000/3980, original finite stores/HP/kinds/generations/events unchanged. Real target may occlude small flash from collinear camera.",
+  "scope": "Exact failed old bundled binary and new cannon candidate bundled binary pass strict paired GL gate with11/9pixels; no full-checkpoint pass or general visibility/spectacle claim."
+}

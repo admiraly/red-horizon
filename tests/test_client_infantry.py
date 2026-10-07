@@ -99,7 +99,11 @@ try:
         for i in range(count):
             side=struct.unpack_from('<I',army,i*32+12)[0];struct.pack_into('<ff',army,i*32,1000. if side==0 else 7000.,7000.)
         struct.pack_into('<ff',army,source*32,2000.,4000.);struct.pack_into('<ff',army,target*32,2000.,3980.)
-        os.pwrite(memory,army,symbols['sim_entities']);os.pwrite(memory,struct.pack('<fff',2000.,17.805,3900.),player_address)
+        # Observe from a declared20m lateral offset. A collinear camera puts the
+        # actual target body20m in front of the source flash and can fully occlude
+        # its small pixels as authored torso animation changes. Keep both actors,
+        # real finite firing and strict paired authority/visibility gates.
+        os.pwrite(memory,army,symbols['sim_entities']);os.pwrite(memory,struct.pack('<fff',1980.,17.805,3900.),player_address)
         for slot in range(6):
             os.pwrite(memory,struct.pack('<I',1),symbols['orders']+slot*4);os.pwrite(memory,struct.pack('<I',1),symbols['ai_fronts']+slot*64+24)
         old=u32('effects_rifle_flashes');os.kill(process.pid,signal.SIGCONT)
