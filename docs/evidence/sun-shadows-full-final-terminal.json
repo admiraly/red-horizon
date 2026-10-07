@@ -1,0 +1,17 @@
+{
+  "job_id": "354c2384bafc",
+  "revision": "312db5896766d957e748a2d98f5077d4c6cf9ddc-a7b019f016b075aa",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/source",
+  "command": [
+    "test",
+    "--suite",
+    "all",
+    "--extended"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/sun-shadows/runs/jobs/354c2384bafc/result.json",
+  "pid": 2360400,
+  "exit_code": 0,
+  "seconds": 2281.8053922280087
+}
