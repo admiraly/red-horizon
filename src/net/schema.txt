@@ -1,5 +1,5 @@
-RED HORIZON gameplay UDP schema v43
-little-endian u32 header[10]: magic=0x52484332 version=43 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
+RED HORIZON gameplay UDP schema v44
+little-endian u32 header[10]: magic=0x52484332 version=44 schema_hash content_hash type player_id sequence server_tick payload_bytes session_generation
 join=1 payload0 id=0xffffffff sequence1 generation0
 ack=2 payload16 status:u32 front:u32 simulated_units:u32 requisition:u32
 input=3 payload20 buttons:u32(FIRE1 RELOAD2 SPRINT4 ENTER8 EXIT16 CROUCH32 JUMP64) wishx:f32 wishz:f32 yaw:f32 pitch:f32
@@ -103,3 +103,5 @@ Version40 adds air_crashes=119: payload100*n without count prefix, 1..11 records
 recovery policy3: authored six terrain-conforming runways and own connected healthy uncontested facility selection; public aircraft/wire layouts unchanged; no landing/refill.
 
 Protocol43: private generation/base/circuit-final recovery guidance and bounded70m-clearance descent/go-around. Public AIR_RETURN unchanged, no wire/record size or landing service change; content policy includes all approach fields.
+
+Protocol44: private6x16 generation-aware exclusive final approach leases, sixty-tick absence expiry and explicit release/go-around. Approach policy2, public/wire records unchanged; no landing/service mode.

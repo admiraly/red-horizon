@@ -4,6 +4,7 @@
 %include "schemas/air_approach.inc"
 default rel
 extern air_recovery_goal,air_base_goal,air_fuel_status,terrain_height
+extern air_traffic_request,air_traffic_release
 extern sim_entities,sim_aircraft,sim_count,air_bases
 section .bss align=64
 global sim_air_approaches
@@ -125,6 +126,9 @@ air_approach_goal:
  cmp [rbx+4],r13d
  je .same
 .reset:
+ mov [rsp+36],edx
+ call .release
+ mov edx,[rsp+36]
  mov [rbx],edx
  mov [rbx+4],r13d
  mov qword [rbx+8],0
@@ -155,6 +159,9 @@ air_approach_goal:
  mulss xmm6,[alignment]
  ucomiss xmm5,xmm6
  jb .staging
+ call .request
+ cmp eax,1
+ jne .staging
  mov dword [rbx+8],2
  jmp .final
 .staging:
@@ -219,6 +226,9 @@ air_approach_goal:
  addss xmm1,[r12+ENTITY_Z]
  jmp .cruise_height
 .final:
+ call .request
+ cmp eax,1
+ jne .go_around
  movss xmm4,[r12+ENTITY_X]
  subss xmm4,[rsp+12]
  mulss xmm4,[rsp+20]
@@ -246,6 +256,7 @@ air_approach_goal:
  movss [rsp+24],xmm4
  jmp .height
 .go_around:
+ call .release
  mov dword [rbx+8],0
  jmp .staging
 .cruise_height:
@@ -266,6 +277,8 @@ air_approach_goal:
  mov eax,1
  jmp .done
 .clear:
+ mov edi,ebx
+ call air_traffic_release
  ; Bounded own slot reset when genuine recovery/base/fuel eligibility clears.
  cmp ebx,[sim_count]
  jae .failure
@@ -289,6 +302,28 @@ air_approach_goal:
  pop r12
  pop rbp
  pop rbx
+ ret
+; Internal helpers derive only the already-validated own physical ID.
+.request:
+ lea rdi,[sim_entities]
+ mov rax,r12
+ sub rax,rdi
+ shr eax,5
+ mov edi,eax
+ mov esi,r13d
+ sub rsp,8
+ call air_traffic_request
+ add rsp,8
+ ret
+.release:
+ lea rdi,[sim_entities]
+ mov rax,r12
+ sub rax,rdi
+ shr eax,5
+ mov edi,eax
+ sub rsp,8
+ call air_traffic_release
+ add rsp,8
  ret
 air_approach_hash:
  lea rsi,[sim_air_approaches]

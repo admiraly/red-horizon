@@ -9,6 +9,7 @@ extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_
 extern air_fuel_init,air_fuel_step,air_fuel_status,air_fuel_hash
 extern air_holding_init,air_holding_goal,air_holding_hash
 extern air_approach_init,air_approach_goal,air_approach_hash
+extern air_traffic_init,air_traffic_hash
 extern air_world_sweep,air_world_warning,sim_air_damage
 extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
@@ -131,6 +132,7 @@ air_init:
  call air_fuel_init
  call air_holding_init
  call air_approach_init
+ call air_traffic_init
  call air_separation_init
  call air_observation_init
  call air_threats_reset
@@ -1357,6 +1359,7 @@ air_hash:
  call air_fuel_hash
  call air_holding_hash
  call air_approach_hash
+ call air_traffic_hash
  call air_separation_hash
  call air_observation_hash
  call air_escort_hash
