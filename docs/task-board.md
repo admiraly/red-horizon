@@ -1,6 +1,7 @@
 # Task graph and ready queue — current integration
 | Task | Owner | Dependency | State / acceptance evidence |
 |---|---|---|---|
+| Attached aircraft wreck smoke/fire | integrator | authoritative falling registry/source-clock | integrated from4907e97; bounded32emitters/640quads, native/embeddedGL/local+UDP paired controls and original real aircraft regression pass; full443028e6200e pending, billboard craft/HDR/lights/hardware acceptance open |
 | Physical falling airframes and remote lifecycle | integrator | genuine aircraft casualty/mesh/UDP | integrated0a1eb12; bounded128registry, role-correct read-only meshes, UDP40 snapshots/late join/real-time expiry. Complete aircraft/network, actual local/UDP GL,8k16k bounds pass; full40b03f364420 pending; no drag/cover/blast or spectacle acceptance |
 | Aircraft critical-damage/empty recovery | integrator | physical flight/own condition | integratedef3be5c; real projectile-triggered withdrawal and four empty-store flights, native policy/core/aircraft/8k16k bounds/network/actual GL pass; full7c089c36ca91 passed1932.590514s, landing/rearm/safe-base tactics open |
 | Confidence-weighted fighter pursuit | integrator | visible enemy memory/own mission | integrated85d1e31;10k native cases, causal public flight, original8k/16k bounds, complete aircraft/network/actual GL pass; full17efd869fb1b passed1911.905768s; flight/tactics/art acceptance open |
