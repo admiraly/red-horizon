@@ -54,7 +54,7 @@ Latest accepted server ticks expire records; close/timeout/reset clears history.
 Clients draw accepted snapshots only: no local physics/extrapolation, so loss
 can visibly hold/step motion. There is no reliable completion barrier.
 
-Native53cache calls cover26malformed atomic packets, four-policy lifecycle and
+Native53cache calls cover26malformed atomic packets, lifecycle and
 wrap guards, ABI and three assembled negative controls. Unchanged production
 sender over real UDP recovers all128slots for each of four peers in12snapshot
 opportunities; max packet1140bytes, source readonly, virgin silence and tombstone
@@ -68,7 +68,9 @@ are the only process writes. First peer sees falling state, second joins after
 casualty and recovers it, both see landed state. Genuine packets replay through
 actual client adapter under drops/reordering/duplicates. Ordinary run proves
 falling/landed and source-byte matches; real-time1800tick expiry is claimed only
-when the extended focused run passes.
+when the extended focused run passes. That run now PASSED:978authentic
+packets,815exact source matches, actual falling/landed/expired phases, late join
+and1140byte maximum retained, genuine FSM store debit. No real-time clock writes.
 
 Actual client GL local and UDP fixtures display both genuine public-cannon
 casualty roles at death,30ticks later and terrain contact, then draw no mesh at
@@ -79,7 +81,7 @@ server/client synchronisation or spectacle acceptance. Paired backgrounds clear
 presentation cache; UDP then receives through actual parser before completed
 draw. Independent role fixtures relocate only birth/sequence in the transport.
 
-Three setup failures are retained in evidence: first producer fixture omitted
+Four setup failures are retained in evidence: first producer fixture omitted
 its required target; UDP cosmetic fixture set sim_count0 despite the existing
 client replica loop requiring nonzero admitted count and exited with SIGSEGV;
 fixture now uses one dead actor as the pre-existing wreck observer does. A

@@ -73,5 +73,85 @@
     "src/net/protocol.inc": "bc13c13467c21217636f24973861a560da57adcb91cf842dfe9d03368ea74cc7",
     "src/net/schema.txt": "7e866d36c57f0781d273ce30bc24f146d1e96984ab2a7489f96f97240555cd18"
   },
-  "limits": "Ballistic centre-contact/flat settling; no cover/collision/blast/drag, packet snapshot stepping, existing source meshes. GL frozen samples/paired cosmetics, not live sync or spectacle. Genuine real-time expiry and world-bounds foreground results pending."
+  "limits": "Ballistic centre-contact/flat settling; no cover/collision/blast/drag, packet snapshot stepping, existing source meshes. GL frozen samples/paired cosmetics, not live sync or spectacle. Actual real-time expiry and original8192/16384 world-bounds now pass; full suite still pending.",
+  "real_time_extended_casualty_TTL": [
+    {
+      "suite": "air-crash-network-parser",
+      "passed": true,
+      "malformed_packets_rejected": 12,
+      "whole_batch_atomic": true,
+      "remote_only_warmup": true,
+      "authority_unchanged": true,
+      "clock_expiry_disconnect_timeout": true
+    },
+    {
+      "suite": "air-crash-network-server",
+      "passed": true,
+      "units": 8192,
+      "declared_births": 2,
+      "genuine_casualty_identity": [
+        0,
+        1
+      ],
+      "actual_wire_authority_matches": 815,
+      "authentic_packets": 978,
+      "late_join_recovered": true,
+      "phases": [
+        0,
+        1,
+        2
+      ],
+      "actual_world_expiry_tombstone": true,
+      "max_packet": 1140,
+      "authentic_replay_drop_reorder_duplicate": true,
+      "finite_FSM_ammunition": true,
+      "scope": "Real authoritative FSM casualty/global crash stream/two peers/adapter; two initial births only, no later body/HP/ammo/gen/clock writes. TTL only covered with extended; visible client separately tested."
+    }
+  ],
+  "world_bounds": {
+    "suite": "air-world-bounds",
+    "passed": true,
+    "reports": [
+      {
+        "units": 8192,
+        "scenario": 3,
+        "ticks": 900,
+        "every_living_aircraft_steps": 459594,
+        "minimum_map_clearance_m": 334.5958251953125,
+        "hash_samples": [
+          "de9bb1a8829781a5",
+          "2bcb9cfee80028d1",
+          "b734253cb641aebb",
+          "565656b41e741704",
+          "332f1a26e6098f63",
+          "fa5319634caf0485",
+          "3f0cb8a9bd48be8d",
+          "952150adaecb8293",
+          "65636775f683dbb6"
+        ]
+      },
+      {
+        "units": 16384,
+        "scenario": 0,
+        "ticks": 900,
+        "every_living_aircraft_steps": 920556,
+        "minimum_map_clearance_m": 334.4221496582031,
+        "hash_samples": [
+          "bbf9c8e8f63f36d0",
+          "52167b85e86279dd",
+          "a5a3c29da5c4d809",
+          "5fa65603b26d9cd0",
+          "27a8381f85b0eac0",
+          "c5d227d51d08c3c6",
+          "291e83825d783eaa",
+          "5fa70c755670908c",
+          "f109692fb944334a"
+        ]
+      }
+    ],
+    "library_sha256": "cb08dce75f130f7a819e14a86a82f01f840a6bfa68f179549c1f9cb20bbd30cd",
+    "limits": [
+      "Actual full army and finite air stores/physical motion; CPU timing, GL/network, separation and unsafe artificial births not established."
+    ]
+  }
 }
