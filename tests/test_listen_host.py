@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Actual native listen lifecycle and cooperative join, in private software X."""
 import json,os,pathlib,select,shutil,subprocess,sys,tempfile,time
+from test_coop import VERSION
 exe=pathlib.Path(sys.argv[1]).resolve(); processes=[]; evidence=[]
 symbols={parts[2]:int(parts[0],16) for line in subprocess.check_output(['nm','-n',str(exe)],text=True).splitlines() if len(parts:=line.split())==3}
 def await_host_join(p):
@@ -97,7 +98,7 @@ try:
   evidence.append({'case':'missing sibling exec','host':record})
   companion=pathlib.Path(temp)/'red-horizon-coop-server'
   # Deliberately invalid development startup producers; not gameplay evidence.
-  for name,line in [('protocol', '{"port":7777,"protocol":0,"units":8192,"scenario":0}'),('units','{"port":7777,"protocol":40,"units":2,"scenario":0}'),('port','{"port":0,"protocol":40,"units":8192,"scenario":0}'),('scenario','{"port":7777,"protocol":40,"units":8192,"scenario":1}'),('timeout',None)]:
+  for name,line in [('protocol', '{"port":7777,"protocol":0,"units":8192,"scenario":0}'),('units',json.dumps(dict(port=7777,protocol=VERSION,units=2,scenario=0),separators=(',',':'))),('port',json.dumps(dict(port=0,protocol=VERSION,units=8192,scenario=0),separators=(',',':'))),('scenario',json.dumps(dict(port=7777,protocol=VERSION,units=8192,scenario=1),separators=(',',':'))),('timeout',None)]:
    body='import time\n'+('print('+repr(line)+',flush=True)\n' if line else '')+'time.sleep(20)\n'
    companion.write_text('#!'+sys.executable+'\n'+body);companion.chmod(0o755)
    start=time.monotonic();r=subprocess.run([str(copied),'--listen','--frames','1','--hidden'],cwd=temp,env=env,capture_output=True,text=True,timeout=8);elapsed=time.monotonic()-start
