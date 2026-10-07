@@ -1,0 +1,18 @@
+{
+  "job_id": "6437273bedaf",
+  "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+  "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/6437273bedaf/source",
+  "command": [
+    "test",
+    "--suite",
+    "aircraft"
+  ],
+  "status": "passed",
+  "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/6437273bedaf/job.log",
+  "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/6437273bedaf/result.json",
+  "pid": 2472622,
+  "exit_code": 0,
+  "seconds": 189.42541507899296,
+  "process_observation": "PID STAT     ELAPSED",
+  "exact_authored_inputs_match": true
+}

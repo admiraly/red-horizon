@@ -1,0 +1,907 @@
+{
+  "observed_utc": "2026-10-07T13:11:03.439861+00:00",
+  "base_commit": "8c8d27049e659f503cd345d15ac0243ccc64b58c",
+  "authored_inputs": 530,
+  "native": {
+    "suite": "air-escort-fuel",
+    "passed": true,
+    "cases": 30,
+    "queries_preserve_authority_GPR_XMM_stack": true,
+    "own_record_only": true,
+    "causal_public_flight": [
+      {
+        "side": 0,
+        "depleted": 15,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3560,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3560,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "side": 0,
+        "depleted": 31,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3561,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3561,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3477,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "side": 1,
+        "depleted": 15,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3564,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3511,
+                "leader": 47,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3599,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3564,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3511,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "side": 1,
+        "depleted": 31,
+        "paired": [
+          {
+            "policy": "candidate",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 30,
+                "units": 3580,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              },
+              {
+                "tick": 60,
+                "units": 3524,
+                "leader": 0,
+                "committed": 0,
+                "own_mode": 3,
+                "query": 0
+              }
+            ]
+          },
+          {
+            "policy": "omitted-wing-fuel-guard",
+            "crossed_reserve_tick": 10,
+            "trace": [
+              {
+                "tick": 1,
+                "units": 3609,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 0,
+                "query": 1
+              },
+              {
+                "tick": 10,
+                "units": 3600,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 30,
+                "units": 3580,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              },
+              {
+                "tick": 60,
+                "units": 3524,
+                "leader": 15,
+                "committed": 1,
+                "own_mode": 3,
+                "query": 1
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "library_sha256": "98645800bc321019964e25037471a09a1977a27d6e482af17f86176410b91f69",
+    "negative_control_source_sha256": "43e20e50668c373fc68a610f17bf348c9f814ef81c93631f929a8f85f26b9d34",
+    "scope": "Native production NASM wing planner/getters and real sim_tick, both sides/roles. One-time staging, constant role speed and actual reserve crossing, no live renewal. No landing/refill/traffic/full operation/GPU/UDP/performance acceptance."
+  },
+  "builds": {
+    "client": {
+      "target": "client",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "assembled": 102,
+      "assembled_sources": [
+        "src/sim/infantry_aim.asm",
+        "src/sim/air_crash.asm",
+        "src/sim/operation.asm",
+        "src/sim/world_contact.asm",
+        "src/sim/air_crash_remote.asm",
+        "src/sim/depot_ammunition.asm",
+        "src/sim/ordnance_admission.asm",
+        "src/sim/scenarios.asm",
+        "src/sim/company_remote.asm",
+        "src/sim/infantry_weapon.asm",
+        "src/sim/depot_supply_remote.asm",
+        "src/sim/wrecks.asm",
+        "src/sim/infantry_event.asm",
+        "src/sim/world.asm",
+        "src/sim/company_supply_remote.asm",
+        "src/sim/player_ammunition_remote.asm",
+        "src/sim/air_admission.asm",
+        "src/sim/projectiles.asm",
+        "src/sim/wreck_remote.asm",
+        "src/nav/segment_box.asm",
+        "src/nav/world_los.asm",
+        "src/nav/terrain_ground_query.asm",
+        "src/nav/ground_eye.asm",
+        "src/nav/crowd.asm",
+        "src/nav/terrain_surface.asm",
+        "src/nav/squads.asm",
+        "src/nav/terrain_relief.asm",
+        "src/nav/terrain_body.asm",
+        "src/nav/wreck_query.asm",
+        "src/nav/segment_sphere.asm",
+        "src/nav/wreck_nav.asm",
+        "src/nav/terrain.asm",
+        "src/nav/world_body.asm",
+        "src/nav/ground_contact.asm",
+        "src/nav/terrain_solid_query.asm",
+        "src/nav/terrain_grade.asm",
+        "src/nav/ground_support.asm",
+        "src/ai/air_recovery.asm",
+        "src/ai/company_defend.asm",
+        "src/ai/air_observation.asm",
+        "src/ai/air_escort.asm",
+        "src/ai/air_threats.asm",
+        "src/ai/hazards.asm",
+        "src/ai/air_fuel.asm",
+        "src/ai/company_control.asm",
+        "src/ai/air_bank.asm",
+        "src/ai/infantry_human.asm",
+        "src/ai/company_follow.asm",
+        "src/ai/hazard_steering.asm",
+        "src/ai/company_assault.asm",
+        "src/ai/air_vertical.asm",
+        "src/ai/bomb_fall.asm",
+        "src/ai/air_gunnery.asm",
+        "src/ai/air_world.asm",
+        "src/ai/aircraft.asm",
+        "src/ai/company_supply.asm",
+        "src/ai/company_transfer.asm",
+        "src/ai/infantry_supply_route.asm",
+        "src/ai/depot_supply.asm",
+        "src/ai/air_pursuit.asm",
+        "src/ai/tactics.asm",
+        "src/ai/air_separation.asm",
+        "src/game/player_blast.asm",
+        "src/game/player.asm",
+        "src/game/ground_motion.asm",
+        "src/game/command_wheel.asm",
+        "src/game/vehicles.asm",
+        "src/game/deployment_blast.asm",
+        "src/game/player_ammunition.asm",
+        "src/render/shaders.asm",
+        "src/render/event_lights.asm",
+        "src/render/mesh_shaders.asm",
+        "src/render/wreck_instance.asm",
+        "src/render/sun_shadows.asm",
+        "src/render/ground_visual.asm",
+        "src/render/air_crash_instance.asm",
+        "src/render/suspension.asm",
+        "src/render/effects.asm",
+        "src/render/view_settings.asm",
+        "src/render/command_wheel.asm",
+        "src/render/command_hud.asm",
+        "src/render/mesh_assets.asm",
+        "src/render/air_crash_plume.asm",
+        "src/render/phase_metrics.asm",
+        "src/render/battle_metrics.asm",
+        "src/render/air_trails.asm",
+        "src/render/visibility_census.asm",
+        "src/render/meshes.asm",
+        "src/render/environment.asm",
+        "src/render/hazard_warning.asm",
+        "src/render/hdr.asm",
+        "src/render/bloom.asm",
+        "src/render/metrics.asm",
+        "src/audio/audio.asm",
+        "src/audio/emitters.asm",
+        "src/audio/footsteps.asm",
+        "src/audio/aircraft.asm",
+        "src/platform/linux/client.asm",
+        "src/platform/linux/input_bindings.asm",
+        "src/platform/linux/frame_pacing.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.8929444579989649,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/build/revisions/8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95/red-horizon",
+      "sha256": "2b933ef154aff41e700d7fd488e9c1a07f942e6ca777e8cf2b8fb6d39833e00b"
+    },
+    "coop": {
+      "target": "coop",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.4472986370092258,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/build/revisions/8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95/red-horizon-coop-server",
+      "sha256": "780f63e9638b22ef231ddef8d363026ee04c6d735a08a2eb7ae3ab39aad3f18f"
+    },
+    "headless": {
+      "target": "headless",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/platform/linux/headless.asm"
+      ],
+      "seconds": 0.4377586389891803,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/build/revisions/8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95/red-horizon-server",
+      "sha256": "ee2f5bcd69ca210021c2bb860e1279a61de6d686235c89a060d446027a39d21c"
+    }
+  },
+  "hotspot": {
+    "scenario": "scale-hotspot",
+    "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+    "seed": 42,
+    "wall_seconds": 4.997469002992148,
+    "hardware": "Linux-7.2.3-200.nobara.fc44.x86_64-x86_64-with-glibc2.43",
+    "cpu_model": "Intel(R) Core(TM) i7-14700K",
+    "realtime": false,
+    "runtime": {
+      "units": 8192,
+      "ticks": 300,
+      "seed": 42,
+      "alive": [
+        2945,
+        2811
+      ],
+      "engaged": 657,
+      "checksum": "f29b4c8c0647c671",
+      "tick_mean_ms": 16.609933,
+      "tick_p95_ms": 22.610126,
+      "operation_state": 0,
+      "requisition": [
+        490,
+        280
+      ],
+      "supply": [
+        600,
+        600
+      ],
+      "projectiles": 408,
+      "projectile_peak": 447,
+      "projectile_dropped": 98814,
+      "navigation": {
+        "pending": 35,
+        "completed": 2392,
+        "overflow": 441050,
+        "cache_hits": 177061,
+        "stuck_replans": 0,
+        "cover_choices": 0,
+        "processed_last_tick": 8,
+        "processed_max": 8
+      },
+      "air_events": {
+        "bomb_launches": 15,
+        "bomb_impacts": 14,
+        "gun_bursts": 175,
+        "aircraft_destroyed": 1,
+        "overwritten_unobserved": 12844
+      },
+      "hazards": {
+        "predictions": 50938,
+        "tile_overflow": 44877,
+        "acquired": 10808,
+        "dispersions": 10808,
+        "shelters": 0,
+        "los_calls": 29118,
+        "budget_skipped": 0,
+        "active_goals": 795
+      },
+      "ordnance_admission": [
+        {
+          "submitted": 53684,
+          "admitted": 1144,
+          "capacity_denied": 52540,
+          "invalidated": 0
+        },
+        {
+          "submitted": 6636,
+          "admitted": 650,
+          "capacity_denied": 5986,
+          "invalidated": 0
+        },
+        {
+          "submitted": 38470,
+          "admitted": 1102,
+          "capacity_denied": 37368,
+          "invalidated": 0
+        },
+        {
+          "submitted": 3353,
+          "admitted": 433,
+          "capacity_denied": 2920,
+          "invalidated": 0
+        }
+      ],
+      "air_admission": [
+        {
+          "submitted": 5,
+          "admitted": 5,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 101,
+          "admitted": 101,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 10,
+          "admitted": 10,
+          "capacity_denied": 0,
+          "invalidated": 0
+        },
+        {
+          "submitted": 74,
+          "admitted": 74,
+          "capacity_denied": 0,
+          "invalidated": 0
+        }
+      ],
+      "crowd": {
+        "snapshot_actors": 1905111,
+        "move_queries": 2181036,
+        "inspected_neighbors": 20535478,
+        "corrected_endpoints": 201031,
+        "yielded_moves": 53383,
+        "overlap_recoveries": 7582,
+        "truncated_queries": 0,
+        "maximum_inspected_per_query": 51
+      }
+    },
+    "coverage": {
+      "replicated": 0,
+      "visible": 0,
+      "gpu": "unmeasured",
+      "audio": "unmeasured",
+      "threads": 1,
+      "peak_runtime_rss_kib": 37608,
+      "allocation_counts": {
+        "sim_tick_heap": 0,
+        "basis": "source audit of static assembly simulation; process total unmeasured"
+      },
+      "navigation_backlog": 35,
+      "network_bandwidth": "unmeasured in CPU-only headless benchmark"
+    }
+  },
+  "client_native_smoke": [
+    {
+      "terrain_roads": 19,
+      "checked": true
+    },
+    {
+      "terrain_relief_fields": 1,
+      "checked": true
+    },
+    {
+      "terrain_grade_facets": 9,
+      "checked": true
+    },
+    {
+      "terrain_world_checked": true,
+      "patch": {
+        "x": [
+          5375,
+          5875
+        ],
+        "z": [
+          4750,
+          5625
+        ],
+        "spacing": 5,
+        "max_height_error": 0.027,
+        "route_margin": 6,
+        "node_limit": 27
+      },
+      "interior_height_bound": 0.025009375,
+      "seam_correction_bound": 0.0009765625,
+      "roundoff_allowance": 0.0001
+    },
+    {
+      "ground_content": "0x397df36d",
+      "canonical_sha256": "397df36d783694bc6b84a974e9dec9a5d7baf850dea1042e3fbf33d82e4d41c5",
+      "checked": true
+    },
+    {
+      "terrain_roads": 19,
+      "checked": true
+    },
+    {
+      "terrain_relief_fields": 1,
+      "checked": true
+    },
+    {
+      "terrain_grade_facets": 9,
+      "checked": true
+    },
+    {
+      "terrain_world_checked": true,
+      "patch": {
+        "x": [
+          5375,
+          5875
+        ],
+        "z": [
+          4750,
+          5625
+        ],
+        "spacing": 5,
+        "max_height_error": 0.027,
+        "route_margin": 6,
+        "node_limit": 27
+      },
+      "interior_height_bound": 0.025009375,
+      "seam_correction_bound": 0.0009765625,
+      "roundoff_allowance": 0.0001
+    },
+    {
+      "ground_content": "0x397df36d",
+      "canonical_sha256": "397df36d783694bc6b84a974e9dec9a5d7baf850dea1042e3fbf33d82e4d41c5",
+      "checked": true
+    },
+    {
+      "target": "client",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.39816878002602607,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/build/revisions/8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95/red-horizon"
+    },
+    {
+      "target": "coop",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.37603587401099503,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/build/revisions/8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95/red-horizon-coop-server"
+    },
+    {
+      "listen_ready": true,
+      "port": 35847,
+      "child_pid": 2477053,
+      "units": 8192,
+      "scenario": 1
+    },
+    {
+      "client_presentation": true,
+      "hidden": 1,
+      "swap_interval_requested": 0,
+      "viewport_width": 1920,
+      "viewport_height": 1080,
+      "framebuffer_width": 1920,
+      "framebuffer_height": 1080
+    },
+    {
+      "client_metrics": true,
+      "cpu_samples": 120,
+      "gpu_samples": 112,
+      "cpu_frame_mean_ms": 1.393902,
+      "cpu_frame_p95_ms": 1.701629,
+      "cpu_frame_p99_ms": 6.664856,
+      "gpu_draw_mean_ms": 1.285309,
+      "gpu_draw_p95_ms": 1.405312,
+      "gpu_draw_p99_ms": 1.586041
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "simulation",
+      "samples": 120,
+      "mean_ms": 0.012167,
+      "p95_ms": 0.040862,
+      "p99_ms": 0.051357,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "render_routes",
+      "samples": 120,
+      "mean_ms": 0.800307,
+      "p95_ms": 0.950204,
+      "p99_ms": 5.077754,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "audio_pump",
+      "samples": 120,
+      "mean_ms": 0.197934,
+      "p95_ms": 0.22767,
+      "p99_ms": 0.273205,
+      "clock_errors": 0
+    },
+    {
+      "client_pacing": true,
+      "frame_cap_requested": 60,
+      "waits": 119,
+      "late_rebases": 0,
+      "clock_errors": 0,
+      "work_metrics_exclude_cap_wait": true
+    },
+    {
+      "visibility_census": true,
+      "visible_actors": 310,
+      "visible_high": 0,
+      "visible_low": 291,
+      "visible_markers": 19,
+      "individually_detailed_actors": 291,
+      "width": 1920,
+      "height": 1080,
+      "source_tick": 63,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 11.719391,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "e05b9793efedec35",
+      "authority_after": "e05b9793efedec35"
+    },
+    {
+      "battle_metrics": true,
+      "samples": 120,
+      "simultaneous_projectiles_effects_audio_frames": 0,
+      "peak_living": 8192,
+      "peak_engaged": 0,
+      "peak_projectiles": 0,
+      "peak_submitted_high": 10,
+      "peak_submitted_low": 1321,
+      "peak_submitted_markers": 69,
+      "peak_effect_records": 44,
+      "peak_trail_records": 0,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    },
+    {
+      "listen_host": true,
+      "port": 35847,
+      "child_pid": 2477053,
+      "child_exited": 1,
+      "startup_failed": 0
+    }
+  ],
+  "client_scope": "Arc A770/Mesa26.2.3 1080p120 hidden frames owned8192 listen air-battle, ALSA null. Zero local ticks/read-only census/child absent; no reserve exhaustion capture, sustained dense/performance/audio/art/four-front acceptance.",
+  "fuel_eligibility_scope": "The native own_record_only field refers to friendly fuel eligibility. The pre-existing threat predicate reads its caller-provided enemy candidate; normal pilot perception/LOS gating remains in aircraft.asm.",
+  "protocol": "UDP41/E32/A64/wire64 and fingerprints unchanged; fix integrates existing reserve policy into wing planning.",
+  "jobs": {
+    "6437273bedaf": {
+      "job_id": "6437273bedaf",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/6437273bedaf/source",
+      "command": [
+        "test",
+        "--suite",
+        "aircraft"
+      ],
+      "status": "passed",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/6437273bedaf/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/6437273bedaf/result.json",
+      "pid": 2472622,
+      "exit_code": 0,
+      "seconds": 189.42541507899296,
+      "process_observation": "PID STAT     ELAPSED",
+      "exact_authored_inputs_match": true
+    },
+    "cba0c56929d9": {
+      "job_id": "cba0c56929d9",
+      "revision": "8c8d27049e659f503cd345d15ac0243ccc64b58c-358fb19eb6159a95",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/cba0c56929d9/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/cba0c56929d9/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-escort-fuel/runs/jobs/cba0c56929d9/result.json",
+      "pid": 2472630,
+      "process_observation": "PID STAT     ELAPSED\n2472630 Ss         03:14",
+      "exact_authored_inputs_match": true
+    },
+    "50cfabc971b5": {
+      "job_id": "50cfabc971b5",
+      "revision": "9d7d439e48fc3af729b3d0634bb4e372dbe16239-f5a62d7d34c946ed",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/50cfabc971b5/result.json",
+      "pid": 2408697,
+      "process_observation": "PID STAT     ELAPSED\n2408697 Ss         37:00"
+    },
+    "752d1c232b9a": {
+      "job_id": "752d1c232b9a",
+      "revision": "b41717875c7d3fdc78e872c06f8121340a1452b6-776321c75d873d2e",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/752d1c232b9a/result.json",
+      "pid": 2412153,
+      "process_observation": "PID STAT     ELAPSED\n2412153 Ss         34:14"
+    },
+    "92fb194b4ee7": {
+      "job_id": "92fb194b4ee7",
+      "revision": "9ff9c4d15941d3800972c2fefb33a2ca2f986e4b-8b2f5f8e3f8e81e9",
+      "source_snapshot": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/source",
+      "command": [
+        "test",
+        "--suite",
+        "all",
+        "--extended"
+      ],
+      "status": "running",
+      "log": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/job.log",
+      "result": "/mnt/titan_nv3/projects/red-horizon-workers/air-fuel/runs/jobs/92fb194b4ee7/result.json",
+      "pid": 2450082,
+      "process_observation": "PID STAT     ELAPSED\n2450082 Ss         16:02"
+    }
+  },
+  "foreground_sessions_terminal": true,
+  "limits": [
+    "No landing/refuel/repair/rearm/air traffic or full flight aerodynamics.",
+    "Hotspot uncontrolled concurrent load; no matched speedup or full game/performance acceptance.",
+    "Pending extended jobs not passes; older fuel jobs exclude this fix."
+  ]
+}

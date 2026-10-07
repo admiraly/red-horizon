@@ -6,6 +6,7 @@
 %include "schemas/air_recovery.inc"
 default rel
 extern sim_entities,sim_aircraft,sim_count,sim_tick_count
+extern air_fuel_status
 section .bss align=64
 global sim_air_escorts
 sim_air_escorts: resb ENTITY_CAPACITY*AIR_ESCORT_STRIDE
@@ -49,6 +50,11 @@ global air_escort_init,air_escort_tick,air_escort_goal,air_escort_threat,air_esc
  ja %3
  cmp dword [%1+ENTITY_Z],__float32__(8000.0)
  ja %3
+ ; Recovery reserve, empty or malformed fuel cannot accept a wing mission.
+ mov rax,%1
+ call air_escort_init.fuel
+ test eax,eax
+ jnz %3
 %endmacro
 air_escort_init:
  lea rdi,[sim_air_escorts]
@@ -56,9 +62,12 @@ air_escort_init:
  mov ecx,ENTITY_CAPACITY*AIR_ESCORT_STRIDE/4
  rep stosd
  ret
-; Leaf validation preserves XMM0/1 (caller's fallback goal). EAX leader or-1.
+; Validation preserves XMM0/1 (caller's fallback goal). EAX leader or-1.
 ; R11 leader entity/RCX leader aircraft on success; all scratch is caller-saved.
 .validate:
+ sub rsp,8
+ cmp dword [sim_count],ENTITY_CAPACITY
+ ja .invalid
  cmp edi,[sim_count]
  jae .invalid
  cmp edi,ENTITY_CAPACITY
@@ -118,9 +127,34 @@ air_escort_init:
  comiss xmm2,[break_range]
  ja .invalid
  mov eax,[r10+AIR_ESCORT_LEADER]
+ add rsp,8
  ret
 .invalid:
  mov eax,-1
+ add rsp,8
+ ret
+; RAX own entity pointer. Preserve the validator's friendly record addresses
+; and owner ID across the shared read-only fuel query; XMM untouched.
+.fuel:
+ push rdi
+ push rcx
+ push rdx
+ push r8
+ push r9
+ push r10
+ push r11
+ mov rdi,rax
+ lea rax,[sim_entities]
+ sub rdi,rax
+ shr rdi,5
+ call air_fuel_status
+ pop r11
+ pop r10
+ pop r9
+ pop r8
+ pop rdx
+ pop rcx
+ pop rdi
  ret
 air_escort_tick:
  mov eax,[sim_count]

@@ -403,6 +403,7 @@ def main():
             if suite in ('all','headless') and getattr(args,'extended',False):execute([sys.executable,'tests/test_air_world_bounds.py',str(library)])
             execute([sys.executable,'tests/test_air_strike.py',str(library)])
             execute([sys.executable,'tests/test_air_escort.py',str(library)])
+            execute([sys.executable,'tests/test_air_escort_fuel.py'])
         if suite in ('all','headless','fast','simulation','tactics'):
             execute([sys.executable,'tests/test_company_assault.py',str(library)])
             execute([sys.executable,'tests/test_company_control.py'])
