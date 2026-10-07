@@ -1,0 +1,2 @@
+{"port":43063,"protocol":40,"units":8192}
+{"ticks":400,"simulated":8192,"bytes_in":18020,"bytes_out":1095720,"entity_records":6528,"rejected":0,"disconnects":0,"distinct_client_entity_pairs":2737,"nearby_interest":0,"unseen_interest":0,"aircraft_records":1836}

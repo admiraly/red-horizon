@@ -1,0 +1,146 @@
+{
+  "command": [
+    "/mnt/titan_nv3/projects/red-horizon/build/revisions/4ec390e2965a836a1bca1afcaa0313f4522fb18b-a5f6f97e9fb157e6/red-horizon",
+    "--connect",
+    "127.0.0.1",
+    "--port",
+    "43063",
+    "--frames",
+    "600",
+    "--hidden",
+    "--no-vsync",
+    "--frame-cap",
+    "60",
+    "--width",
+    "1920",
+    "--height",
+    "1080",
+    "--fov",
+    "70",
+    "--census",
+    "--screenshot",
+    "/mnt/titan_nv3/projects/red-horizon/runs/native-dedicated-profile/final.ppm"
+  ],
+  "server_command": [
+    "/mnt/titan_nv3/projects/red-horizon/build/revisions/4ec390e2965a836a1bca1afcaa0313f4522fb18b-a5f6f97e9fb157e6/red-horizon-coop-server",
+    "--port",
+    "0",
+    "--ticks",
+    "400",
+    "--units",
+    "8192"
+  ],
+  "client_wall_seconds": 10.178057306009578,
+  "client_reports": [
+    {
+      "client_presentation": true,
+      "hidden": 1,
+      "swap_interval_requested": 0,
+      "viewport_width": 1920,
+      "viewport_height": 1080,
+      "framebuffer_width": 1920,
+      "framebuffer_height": 1080
+    },
+    {
+      "client_metrics": true,
+      "cpu_samples": 600,
+      "gpu_samples": 592,
+      "cpu_frame_mean_ms": 0.977666,
+      "cpu_frame_p95_ms": 1.268175,
+      "cpu_frame_p99_ms": 1.710855,
+      "gpu_draw_mean_ms": 0.941012,
+      "gpu_draw_p95_ms": 1.139479,
+      "gpu_draw_p99_ms": 1.162656
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "simulation",
+      "samples": 600,
+      "mean_ms": 0.007436,
+      "p95_ms": 0.021504,
+      "p99_ms": 0.035465,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "render_routes",
+      "samples": 600,
+      "mean_ms": 0.576057,
+      "p95_ms": 0.73788,
+      "p99_ms": 1.018825,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "audio_pump",
+      "samples": 600,
+      "mean_ms": 0.193029,
+      "p95_ms": 0.221706,
+      "p99_ms": 0.243503,
+      "clock_errors": 0
+    },
+    {
+      "client_pacing": true,
+      "frame_cap_requested": 60,
+      "waits": 599,
+      "late_rebases": 0,
+      "clock_errors": 0,
+      "work_metrics_exclude_cap_wait": true
+    },
+    {
+      "visibility_census": true,
+      "visible_actors": 408,
+      "visible_high": 18,
+      "visible_low": 389,
+      "visible_markers": 1,
+      "individually_detailed_actors": 407,
+      "width": 1920,
+      "height": 1080,
+      "source_tick": 303,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 9.552279,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "9172f684b4a6590b",
+      "authority_after": "9172f684b4a6590b"
+    },
+    {
+      "battle_metrics": true,
+      "samples": 600,
+      "simultaneous_projectiles_effects_audio_frames": 0,
+      "peak_living": 8192,
+      "peak_engaged": 0,
+      "peak_projectiles": 0,
+      "peak_submitted_high": 102,
+      "peak_submitted_low": 2579,
+      "peak_submitted_markers": 0,
+      "peak_effect_records": 60,
+      "peak_trail_records": 0,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    }
+  ],
+  "network_lines": [
+    "network connected=1 player=0 front=0 server_tick=303 known_living=2548 local_sim_ticks=0"
+  ],
+  "scope": "Actual loopback UDP native hidden1920x1080 client,8192authority; default server scenario, not equivalent solo hotspot/dense view, null audio, concurrent full test CPU load uncontrolled.",
+  "server_report": {
+    "ticks": 400,
+    "simulated": 8192,
+    "bytes_in": 18020,
+    "bytes_out": 1095720,
+    "entity_records": 6528,
+    "rejected": 0,
+    "disconnects": 0,
+    "distinct_client_entity_pairs": 2737,
+    "nearby_interest": 0,
+    "unseen_interest": 0,
+    "aircraft_records": 1836
+  },
+  "client_renderer": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2)",
+  "client_executable_sha256": "2529dcaf697e44b46efac9bf573155acf7bdbaf79529d868c8a34584a3524e74",
+  "server_executable_sha256": "4a2559d23589330b668e46bc40f0dbda14f94d0151ce3d23ece69bd350c02d08",
+  "initial_cli_failure": "Colon-appended IPv4 rejected; used supported separate --connect IPv4 --port N. First client/server terminated and reconciled, no runtime change. Retained initial client log."
+}

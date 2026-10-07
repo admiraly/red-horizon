@@ -71,3 +71,15 @@ performance by reducing AI decisions or replacing real actors with counters.
 
 Exact stage reports, pinned executable hashes, failures and final source hashes
 are in `docs/evidence/native-render-focused.json` and its referenced JSON/logs.
+
+A separate existing dedicated-authority probe completed400 server ticks with8192
+units and an actual loopback UDP600-frame client on the same native Arc context.
+At1080p the client CPU-work p95/p99 was1.268/1.711ms, GPU p951.139ms,
+network-tick phase p95.0215ms, and local_sim_ticks0. Server reported6528entity
+records,1836aircraft records, no rejected packets/disconnects; final client
+server_tick303,2548known living and408pixel-visible actors. Both processes exited0.
+This demonstrates the existing scheduling separation path, not a matched dense
+comparison: server uses its default scenario and final view has408visible actors,
+physical audio is null and concurrent full-checkpoint CPU load is uncontrolled.
+No automatic solo-host integration, network interpolation or whole-operation
+performance acceptance is inferred. Evidence native-dedicated-profile.json.
