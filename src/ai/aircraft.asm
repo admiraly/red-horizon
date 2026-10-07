@@ -7,6 +7,7 @@ default rel
 extern sim_entities,sim_count,sim_tick_count,sim_waypoints,terrain_height,world_los
 extern air_bank_step,air_vertical_step,air_pursuit_blend,air_recovery_goal
 extern air_observation_init,air_observation_capture,air_observation_goal,air_observation_hash,sim_air_observations
+extern air_separation_init,air_separation_build,air_separation_step,air_separation_hash,sim_air_separation
 extern air_threats_reset,air_threats_build,air_threat_query
 extern sinf,cosf,atan2f,projectile_air_launch,air_bomb_fall_time
 extern air_gun_solution_ready,air_gun_intercept
@@ -116,6 +117,7 @@ air_init:
  mov ecx,ENTITY_CAPACITY*AIR_FLIGHT_STRIKE_STRIDE/4
  rep stosd
  sub rsp,8
+ call air_separation_init
  call air_observation_init
  call air_threats_reset
  call air_escort_init
@@ -178,6 +180,7 @@ air_tick:
  push rbp
  push r12
  sub rsp,64
+ call air_separation_build
  call air_threats_build
  xor r12d,r12d
  lea rbx,[sim_entities]
@@ -207,6 +210,11 @@ air_tick:
  movups [rcx+16],xmm0
  movups [rcx+32],xmm0
  movups [rcx+48],xmm0
+ mov eax,r12d
+ shl eax,4
+ lea rcx,[sim_air_separation]
+ mov qword [rcx+rax],0
+ mov qword [rcx+rax+8],0
  lea rcx,[air_defense]
  mov qword [rcx+r12*8],0
  lea rcx,[air_break_direction]
@@ -220,6 +228,7 @@ air_tick:
  mov qword [rcx+rdx+16],0
  mov qword [rcx+rdx+24],0
  mov qword [rcx+rdx+32],0
+ mov eax,[rbx+ENTITY_GENERATION]
  mov [rbp+AIR_GENERATION],eax
  mov dword [rbp+AIR_FLAGS],AIR_ACTIVE
  mov eax,r12d
@@ -273,6 +282,10 @@ air_tick:
  lea rcx,[air_break_direction]
  movss [rcx+r12*4],xmm0
 .weapon_cooldown:
+ lea rcx,[air_defense]
+ mov esi,[rcx+r12*8]
+ mov edi,r12d
+ call air_separation_step
  cmp dword [rbp+AIR_COOLDOWN],0
  je .goal
  dec dword [rbp+AIR_COOLDOWN]
@@ -286,6 +299,20 @@ air_tick:
  lea rcx,[sim_waypoints]
  movss xmm0,[rcx+rax*8]
  movss xmm1,[rcx+rax*8+4]
+ mov eax,r12d
+ shl eax,4
+ lea rcx,[sim_air_separation]
+ cmp dword [rcx+rax+4],0
+ je .recovery_goal
+ mov dword [rbp+AIR_MODE],AIR_EGRESS
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbp+AIR_PASS_TICKS],0
+ imul eax,r12d,AIR_FLIGHT_STRIKE_STRIDE
+ lea rcx,[sim_air_strikes]
+ mov dword [rcx+rax+32],0
+ jmp .boundary
+.recovery_goal:
  mov edi,r12d
  call air_recovery_goal
  test eax,eax
@@ -478,7 +505,7 @@ air_tick:
  lea rcx,[air_defense]
  mov eax,[rcx+r12*8]
  test eax,eax
- jz .turn_limit
+ jz .separation_turn
  lea rcx,[air_break_direction]
  movss xmm0,[rcx+r12*4]
 .defense_direction:
@@ -493,6 +520,14 @@ air_tick:
  cmp eax,45
  ja .turn_limit
  xorps xmm0,xmm0 ; sustain the new egress heading after the initial break
+ jmp .turn_limit
+.separation_turn:
+ mov eax,r12d
+ shl eax,4
+ lea rcx,[sim_air_separation]
+ cmp dword [rcx+rax+4],0
+ je .turn_limit
+ movss xmm0,[one] ; same local right-turn rule for converging friendly pilots
 .turn_limit:
  mov edi,[rbp+AIR_ROLE]
  mov esi,[rsp+48]
@@ -676,6 +711,16 @@ air_combat_tick:
  mov dword [rbp+AIR_MODE],AIR_EGRESS
  jmp .next
 .combat_ready:
+ mov eax,r12d
+ shl eax,4
+ lea rcx,[sim_air_separation]
+ cmp dword [rcx+rax+4],0
+ je .separation_clear
+ mov dword [rbp+AIR_TARGET],-1
+ mov dword [rbx+ENTITY_TARGET],-1
+ mov dword [rbp+AIR_MODE],AIR_EGRESS
+ jmp .next
+.separation_clear:
  mov edi,r12d
  call air_recovery_goal
  test eax,eax
@@ -1133,6 +1178,7 @@ air_hash:
  jnz .strike_bytes
 .missions:
  sub rsp,8
+ call air_separation_hash
  call air_observation_hash
  call air_escort_hash
  add rsp,8

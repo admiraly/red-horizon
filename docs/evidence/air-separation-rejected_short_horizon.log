@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/air-separation/tests/test_air_separation.py", line 102, in <module>
+    assert results['candidate']['minimum_separation_m']>results['control']['minimum_separation_m']+10,(roles,results)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ((0, 0), {'candidate': {'minimum_separation_m': 10.08923588486048, 'first_commit': [12, 40, 40], 'checksum': '0xf63fe86df32362ae'}, 'control': {'minimum_separation_m': 0.638916015625, 'first_commit': [], 'checksum': '0x41b31bbdfb6de469'}})
