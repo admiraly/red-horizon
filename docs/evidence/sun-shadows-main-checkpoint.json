@@ -1,0 +1,203 @@
+{
+  "filter": {
+    "suite": "sun-shadows-native-filter",
+    "passed": true,
+    "cases": 24,
+    "global_cap": 1024,
+    "batch_cap": 128,
+    "saturated_batches": 8,
+    "stable_complete_records": true,
+    "invalid_inputs_and_budget_atomic": true,
+    "canaries_and_register_stack_ABI": true,
+    "scope": "Production NASM in-place compaction of private renderer scratch, declared synthetic poses, no GL context/gameplay simulation. No whole-client/shader/performance acceptance."
+  },
+  "gl": {
+    "suite": "sun-shadows-production-gl",
+    "passed": true,
+    "hardware": false,
+    "context": "llvmpipe (LLVM 22.1.8, 256 bits) / 4.6 (Core Profile) Mesa 26.2.3",
+    "draws": 24,
+    "depth": 0.4978962242603302,
+    "receivers": {
+      "mesh": {
+        "lit": [
+          0.07307296991348267,
+          0.09597314894199371,
+          0.11790440231561661
+        ],
+        "shadow": [
+          0.02101958356797695,
+          0.03200336545705795,
+          0.04650391638278961
+        ],
+        "delta": 0.071400485932827
+      },
+      "battle": {
+        "lit": [
+          0.06864695250988007,
+          0.09418139606714249,
+          0.12453765422105789
+        ],
+        "shadow": [
+          0.025633638724684715,
+          0.035168521106243134,
+          0.046503931283950806
+        ],
+        "delta": 0.07803372293710709
+      }
+    },
+    "dimensions_format": [
+      2048,
+      2048,
+      33190
+    ],
+    "matrix_snapping_invalid_inputs": true,
+    "moving_and_behind_caster_controls": true,
+    "coplanar_receiver_lit": true,
+    "separate_read_draw_framebuffers_preserved": true,
+    "HDR_map_marker_weapon_sky_bypass": true,
+    "lifecycle_and_bindings": true,
+    "integer_ids_preserved": true,
+    "register_stack_ABI": true,
+    "source_sha256": {
+      "mesh_vertex_source": "5606c28c26a42738791e7f0759f6df236dd9ee91a32b23c86c4b0bb346ed85eb",
+      "mesh_fragment_source": "206e430fbef1d6728427f110be5099b2ffb67e0cafccfec59f1472a91abfd469",
+      "battle_fragment_source": "4463f1101cb89a7fed1e960fd3b738a6ac7dfe2085a92d58d9a9872245097c86"
+    },
+    "scope": "Actual production NASM resource/frame/matrix/DSA and embedded mesh caster vertex + mesh/terrain receiver fragments. Declared synthetic source triangle/albedo/texture/surface positions. Whole-client casters, budget/authority/animation and artistic/performance acceptance separate."
+  },
+  "native-gl": {
+    "suite": "sun-shadows-production-gl",
+    "passed": true,
+    "hardware": true,
+    "context": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2) / 4.6 (Core Profile) Mesa 26.2.3",
+    "draws": 24,
+    "depth": 0.4978962242603302,
+    "receivers": {
+      "mesh": {
+        "lit": [
+          0.07307291030883789,
+          0.09597308933734894,
+          0.11790435761213303
+        ],
+        "shadow": [
+          0.02101958356797695,
+          0.03200336545705795,
+          0.04650392010807991
+        ],
+        "delta": 0.07140043750405312
+      },
+      "battle": {
+        "lit": [
+          0.06864695250988007,
+          0.09418141841888428,
+          0.1245376244187355
+        ],
+        "shadow": [
+          0.025633638724684715,
+          0.03516853228211403,
+          0.04650392010807991
+        ],
+        "delta": 0.0780337043106556
+      }
+    },
+    "dimensions_format": [
+      2048,
+      2048,
+      33190
+    ],
+    "matrix_snapping_invalid_inputs": true,
+    "moving_and_behind_caster_controls": true,
+    "coplanar_receiver_lit": true,
+    "separate_read_draw_framebuffers_preserved": true,
+    "HDR_map_marker_weapon_sky_bypass": true,
+    "lifecycle_and_bindings": true,
+    "integer_ids_preserved": true,
+    "register_stack_ABI": true,
+    "source_sha256": {
+      "mesh_vertex_source": "5606c28c26a42738791e7f0759f6df236dd9ee91a32b23c86c4b0bb346ed85eb",
+      "mesh_fragment_source": "206e430fbef1d6728427f110be5099b2ffb67e0cafccfec59f1472a91abfd469",
+      "battle_fragment_source": "4463f1101cb89a7fed1e960fd3b738a6ac7dfe2085a92d58d9a9872245097c86"
+    },
+    "scope": "Actual production NASM resource/frame/matrix/DSA and embedded mesh caster vertex + mesh/terrain receiver fragments. Declared synthetic source triangle/albedo/texture/surface positions. Whole-client casters, budget/authority/animation and artistic/performance acceptance separate."
+  },
+  "feedback": {
+    "suite": "actual-client-fresh-feedback",
+    "passed": true,
+    "legacy_negative_control": false,
+    "client_sha256": "b572cd38ef6253a874acee5c8c0988bbfdde9981f39380d657a09243458d0d3e",
+    "hitch_wall_clock_ms_per_glfw_time_query": 100,
+    "actual_HUD_uniform_samples": [
+      {
+        "hit_sequence": 1,
+        "hit_flash_sent_to_HUD": 1,
+        "shot_flash_sent_to_HUD": 1
+      }
+    ],
+    "underlying_gameplay_test_exit": 0,
+    "shim_authority_writes": false,
+    "scope": "Actual8192 assembled client, genuine finite rifle damage and HUD uniform; delayed real wall clock, development-only initial gameplay staging. Fresh-hit amplitude proof, not perceptual quality, rendered-pixel persistence or physical-device timing."
+  },
+  "client": {
+    "suite": "sun-shadows-whole-client",
+    "passed": true,
+    "shadow_changed_pixels": 18981,
+    "repeat_delta_pixels": 0,
+    "tactical_delta_pixels": 0,
+    "original_army_count": 8192,
+    "camera_source_actor": 3037,
+    "observed": [
+      {
+        "enabled": 0,
+        "tactical": 0,
+        "casters": 0,
+        "frame": 12,
+        "mesh_frame": 12
+      },
+      {
+        "enabled": 1,
+        "tactical": 0,
+        "casters": 533,
+        "frame": 17,
+        "mesh_frame": 17
+      },
+      {
+        "enabled": 1,
+        "tactical": 0,
+        "casters": 533,
+        "frame": 22,
+        "mesh_frame": 22
+      },
+      {
+        "enabled": 0,
+        "tactical": 1,
+        "casters": 0,
+        "frame": 27,
+        "mesh_frame": 27
+      },
+      {
+        "enabled": 1,
+        "tactical": 1,
+        "casters": 0,
+        "frame": 32,
+        "mesh_frame": 32
+      }
+    ],
+    "full_authority_checksum_samples": 17,
+    "shadow_pass_full_hash_unchanged": true,
+    "authority_sha256": "4b755e1f42c071c296c7eafbbfcf542806248f3d8e0b80caedaa59f4892a9f5a",
+    "client_sha256": "b572cd38ef6253a874acee5c8c0988bbfdde9981f39380d657a09243458d0d3e",
+    "screenshot": "/tmp/rh-sun-shadows-main-client.ppm",
+    "scope": "Actual whole-client current-frame terrain and animated source casters, HDR/bloom/HUD. Frozen development camera/simulation/cosmetic clocks after settling, actual8192 army unchanged; full production checksum observed before/after depth via dev GL shim. Budget and one animation advance proved. No target-GPU performance/final art/cascade/all-body casting acceptance."
+  },
+  "executables": {
+    "red-horizon-coop-server": "95de2f89b36120e63f258f5ca68e21fb18aeab62123d4c89efc1df506a6b05df",
+    "red-horizon-server": "c9f64c0254dae3cd4f1de886dd42a4eb57a0f0e9f5154bedf263c9ab96482911",
+    "red-horizon": "b572cd38ef6253a874acee5c8c0988bbfdde9981f39380d657a09243458d0d3e"
+  },
+  "integration_commit": "62bc780c02b0319c9863c87f389900ef17bba3ab",
+  "authored_inputs_count": 525,
+  "verified_worker_and_final_frozen_inputs_match": true,
+  "origin_main_independent_ls_remote": "62bc780c02b0319c9863c87f389900ef17bba3ab",
+  "scope": "Focused rebuilt-main production filter/ABI/resources/GL shaders on software and Arc; whole8192 client paused presentation and exact full authority checksum; original100ms hitch HUD gate LP_NUM_THREADS=16. Whole graphics and extended checkpoints pending at this integration record; source matches final frozen snapshots. No full-spec/performance/art acceptance."
+}

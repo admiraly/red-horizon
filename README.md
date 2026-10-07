@@ -38,6 +38,8 @@ python3 tools/dev.py coop --port 7777
 python3 tools/dev.py run --client --connect 127.0.0.1 --port 7777
 ```
 
+The HDR battlefield now includes restrained bloom, short-lived impact lighting and nearby current-frame sunlight shadows from terrain and animated units. Shadows use a bounded caster budget; crowded/distant coverage and final art quality remain unfinished. See [shadow behavior and verified limits](docs/sun-shadows.md). On the reference development host, the original software-GL timed input checks pass with `LP_NUM_THREADS=16`; this setting controls llvmpipe test workers and is not a hardware frame-rate result.
+
 Army infantry now carries finite rifle magazines and reserves, reloads over time, and stops firing when exhausted. [Ammunition behavior and remaining logistics work](docs/infantry-ammunition.md) explains the current limits.
 
 Company identity, command acknowledgement, exchange offers and connection loss now render inside the game view. Retreat markers show the actual home destination; returning to advance preserves the accepted waypoint. Default F5–F8 requests an exchange, F9 accepts, F10 declines and F11 cancels. Narrow windows currently clip long status lines.
