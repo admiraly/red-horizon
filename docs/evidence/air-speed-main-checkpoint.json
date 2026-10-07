@@ -1,0 +1,145 @@
+{
+  "main_commit": "63eafd9fbf6dd020fab520fa357ab382db282f97",
+  "authored_files": 558,
+  "exact_final_snapshot_matches": true,
+  "frozen_revision": "dbf02261cad93a0f19be8c589ca9a5e0f004d8bd-d9a852b71916babb",
+  "builds": [
+    {
+      "target": "client",
+      "revision": "63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb",
+      "assembled": 12,
+      "assembled_sources": [
+        "src/sim/air_crash.asm",
+        "src/ai/air_speed.asm",
+        "src/ai/air_approach.asm",
+        "src/ai/air_fuel.asm",
+        "src/ai/air_bank.asm",
+        "src/ai/air_vertical.asm",
+        "src/ai/air_final_clear.asm",
+        "src/ai/air_world.asm",
+        "src/ai/aircraft.asm",
+        "src/ai/air_pursuit.asm",
+        "src/platform/linux/listen_host.asm",
+        "src/net/client.asm"
+      ],
+      "seconds": 0.6375296550104395,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb/red-horizon",
+      "sha256": "d2496448be3ea95c75b832178d7e9f28d1469b892b32af06e2f7963b274b66be"
+    },
+    {
+      "target": "coop",
+      "revision": "63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb",
+      "assembled": 1,
+      "assembled_sources": [
+        "src/net/coop_server.asm"
+      ],
+      "seconds": 0.4755921420000959,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb/red-horizon-coop-server",
+      "sha256": "c2db452e987db2428dd8f81f65403a6fd0a49bf0fb23bf01d4b10e9282c093c0"
+    },
+    {
+      "target": "headless",
+      "revision": "63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.4571136049926281,
+      "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/63eafd9fbf6dd020fab520fa357ab382db282f97-d9a852b71916babb/red-horizon-server",
+      "sha256": "a2dc770e4398103882a880c0fd665719dd00115c5a37bb0b542fe858c212d350"
+    }
+  ],
+  "main_native_speed_pass": true,
+  "native_arc_120frame_8192_listen": {
+    "host": {
+      "listen_host": true,
+      "port": 37699,
+      "child_pid": 2757180,
+      "child_exited": 1,
+      "startup_failed": 0
+    },
+    "census": {
+      "visibility_census": true,
+      "visible_actors": 281,
+      "visible_high": 0,
+      "visible_low": 224,
+      "visible_markers": 57,
+      "individually_detailed_actors": 224,
+      "width": 1280,
+      "height": 720,
+      "source_tick": 63,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 6.147651,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "310d9daab5919d35",
+      "authority_after": "310d9daab5919d35"
+    }
+  },
+  "full_army_900tick_motion_checks": {
+    "suite": "air-world-bounds",
+    "passed": true,
+    "reports": [
+      {
+        "units": 8192,
+        "scenario": 3,
+        "ticks": 900,
+        "every_living_aircraft_steps": 459966,
+        "minimum_map_clearance_m": 264.806396484375,
+        "hash_samples": [
+          "0bd0b12b98a76507",
+          "82f993eb426ca133",
+          "83fa68212cb28ff1",
+          "b8dca050a7a9fa8e",
+          "c2ad0a1461ddc154",
+          "20c7f93035ed885f",
+          "b7a4ee38038666b8",
+          "91ff0817aab9c762",
+          "f298e0ca8ded1b1e"
+        ]
+      },
+      {
+        "units": 16384,
+        "scenario": 0,
+        "ticks": 900,
+        "every_living_aircraft_steps": 920587,
+        "minimum_map_clearance_m": 358.7476501464844,
+        "hash_samples": [
+          "0cf53afa41d6c41a",
+          "e6b6bb6691e69798",
+          "87c93368fb65b1b1",
+          "60fdc7de0ca0e42b",
+          "5f31916d4a1c6c5c",
+          "fc980cf4ca6393cc",
+          "aa9d4a52a4515e59",
+          "5bfb0518e9864633",
+          "230fc7c31cad27ce"
+        ]
+      }
+    ],
+    "library_sha256": "c385ab378eca7f718741c4945eeb4e6e35aed495b4f2ce7023aca5c426dc2fd1",
+    "limits": [
+      "Actual full army and finite air stores/physical motion; CPU timing, GL/network, separation and unsafe artificial births not established."
+    ]
+  },
+  "foreground_sessions_terminal": [
+    19328,
+    72446,
+    64489,
+    69253,
+    75308,
+    68106,
+    75093,
+    65893,
+    39504,
+    51142,
+    23286,
+    20879,
+    48120
+  ],
+  "pending": {
+    "6778cf25a62a": "prior clearance extended, excludes speed",
+    "548b1fee6b82": "exact final speed fast",
+    "b82b7b791ea1": "exact final speed extended"
+  },
+  "process_observation": "    PID S     ELAPSED COMMAND\n2681097 S       34:06 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-final-clearance/tools/dev.py _worker 6778cf25a62a test --suite all --extended\n2741207 S       07:50 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-speed/tools/dev.py _worker 548b1fee6b82 test --suite fast\n2741256 S       07:50 /usr/bin/python3 /mnt/titan_nv3/projects/red-horizon-workers/air-speed/tools/dev.py _worker b82b7b791ea1 test --suite all --extended\n",
+  "scope": "Bounded longitudinal airborne5..7 changes only; no low-speed/energy/stall/landing/service/full-game acceptance."
+}
