@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/listen-host/tests/test_listen_host.py", line 52, in <module>
+    assert 'network connected=1 player=1 ' in peer.stdout and 'local_sim_ticks=0' in peer.stdout,peer.stdout[-2000:]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: esa 26.2.3
+{"client_presentation":true,"hidden":1,"swap_interval_requested":0,"viewport_width":320,"viewport_height":240,"framebuffer_width":320,"framebuffer_height":240}
+client_render_device=llvmpipe (LLVM 22.1.8, 256 bits)
+{"client_metrics":true,"cpu_samples":60,"gpu_samples":52,"cpu_frame_mean_ms":21.324597,"cpu_frame_p95_ms":25.759878,"cpu_frame_p99_ms":31.231463,"gpu_draw_mean_ms":20.279320,"gpu_draw_p95_ms":25.375676,"gpu_draw_p99_ms":30.754480}
+{"client_phase_metrics":true,"phase":"simulation","samples":60,"mean_ms":0.011712,"p95_ms":0.039872,"p99_ms":0.051190,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"render_routes","samples":60,"mean_ms":20.819523,"p95_ms":24.972915,"p99_ms":30.835161,"clock_errors":0}
+{"client_phase_metrics":true,"phase":"audio_pump","samples":60,"mean_ms":0.161733,"p95_ms":0.199685,"p99_ms":0.234001,"clock_errors":0}
+{"client_pacing":true,"frame_cap_requested":60,"waits":0,"late_rebases":14,"clock_errors":0,"work_metrics_exclude_cap_wait":true}
+{"battle_metrics":true,"samples":60,"simultaneous_projectiles_effects_audio_frames":0,"peak_living":8192,"peak_engaged":0,"peak_projectiles":0,"peak_submitted_high":79,"peak_submitted_low":949,"peak_submitted_markers":1,"peak_effect_records":31,"peak_trail_records":0,"peak_audio_voices":128,"initial_living":8192,"visible_individual_count":"unmeasured","scope":"frame samples; independent peaks need not coincide; submitted models are not pixel visibility"}
+meshes loaded=18 high=79 low=949 markers=1 source_triangles=212357 animation_frame=16
+client frames=60 submitted_entities=8192 screenshot=(none)
+camera_x=3780.00 camera_z=1300.00 shots=0 hits=0 last_order=0
+weapon ammo=30 reloads=0 front=0
+operation state=0 req=139 supply=600 waypoint_orders=0
+selected_goal_x=-20000.000 selected_goal_z=-20000.000
+player id=0 hp=100 suppression=0 respawn=0 generation=1
+start_player_x=3780.000 start_player_z=1300.000
+network connected=1 player=0 front=0 server_tick=40 known_living=1028 local_sim_ticks=0
+

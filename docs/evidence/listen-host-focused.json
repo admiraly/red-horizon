@@ -1,0 +1,235 @@
+{
+  "runtime": "Linux NASM owned child and genuine UDP authority; no shell",
+  "client_build": {
+    "target": "client",
+    "revision": "a782a26c0c7eaf80e0af192e190c650f7841a5e3-0ca225eecf20677c",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.3643235409981571,
+    "executable": "/mnt/titan_nv3/projects/red-horizon-workers/listen-host/build/revisions/a782a26c0c7eaf80e0af192e190c650f7841a5e3-0ca225eecf20677c/red-horizon"
+  },
+  "server_build": {
+    "target": "coop",
+    "revision": "a782a26c0c7eaf80e0af192e190c650f7841a5e3-0ca225eecf20677c",
+    "assembled": 0,
+    "assembled_sources": [],
+    "seconds": 0.3167794570035767,
+    "executable": "/mnt/titan_nv3/projects/red-horizon-workers/listen-host/build/revisions/a782a26c0c7eaf80e0af192e190c650f7841a5e3-0ca225eecf20677c/red-horizon-coop-server"
+  },
+  "client_sha256": "6ac31220a1f90e4c907ef09f7d7b249db7ef1cba6cbc71c64b52fbbc7f24aae1",
+  "server_sha256": "15f87caad26824e208ff20a0093f3ee041cfce02aedc419239c3237595ac74d1",
+  "final_lifecycle": {
+    "suite": "actual-listen-host",
+    "passed": true,
+    "cases": [
+      {
+        "case": "actual host plus independent peer",
+        "host": {
+          "listen_host": true,
+          "port": 43158,
+          "child_pid": 1755494,
+          "child_exited": 1,
+          "startup_failed": 0
+        },
+        "peer_player": 1,
+        "authority_initial": 8192,
+        "host_and_peer_local_sim_ticks": 0,
+        "owned_child_reaped": true
+      },
+      {
+        "case": "GL failure cleanup",
+        "host": {
+          "listen_host": true,
+          "port": 51581,
+          "child_pid": 1755665,
+          "child_exited": 1,
+          "startup_failed": 0
+        }
+      },
+      {
+        "case": "server death propagated",
+        "child_reaped": true
+      },
+      {
+        "case": "abrupt parent death",
+        "server_state": "Z",
+        "scope": "Kernel terminates child; init owns orphan reaping after parent SIGKILL."
+      },
+      {
+        "case": "missing sibling exec",
+        "host": {
+          "listen_host": true,
+          "port": 0,
+          "child_pid": 1755718,
+          "child_exited": 1,
+          "startup_failed": 1
+        }
+      },
+      {
+        "case": "invalid development readiness protocol",
+        "reaped": true,
+        "wall_seconds": 0.022253120987443253
+      },
+      {
+        "case": "invalid development readiness units",
+        "reaped": true,
+        "wall_seconds": 0.022564724000403658
+      },
+      {
+        "case": "invalid development readiness port",
+        "reaped": true,
+        "wall_seconds": 0.023393774987198412
+      },
+      {
+        "case": "invalid development readiness timeout",
+        "reaped": true,
+        "wall_seconds": 5.008704163978109
+      }
+    ],
+    "invalid_combinations": 6,
+    "scope": "Linux NASM host and real8192 UDP authority/graphical peer, private llvmpipe; no dense/four-client/frame-quality or Windows acceptance."
+  },
+  "native_cli_reports": [
+    {
+      "target": "client",
+      "revision": "a782a26c0c7eaf80e0af192e190c650f7841a5e3-7dad1e248511ff4d",
+      "assembled": 2,
+      "assembled_sources": [
+        "src/platform/linux/client.asm",
+        "src/platform/linux/listen_host.asm"
+      ],
+      "seconds": 0.47322761800023727,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/listen-host/build/revisions/a782a26c0c7eaf80e0af192e190c650f7841a5e3-7dad1e248511ff4d/red-horizon"
+    },
+    {
+      "target": "coop",
+      "revision": "a782a26c0c7eaf80e0af192e190c650f7841a5e3-7dad1e248511ff4d",
+      "assembled": 0,
+      "assembled_sources": [],
+      "seconds": 0.3659242860157974,
+      "executable": "/mnt/titan_nv3/projects/red-horizon-workers/listen-host/build/revisions/a782a26c0c7eaf80e0af192e190c650f7841a5e3-7dad1e248511ff4d/red-horizon-coop-server"
+    },
+    {
+      "listen_ready": true,
+      "port": 60082,
+      "child_pid": 1752368,
+      "units": 8192
+    },
+    {
+      "client_presentation": true,
+      "hidden": 1,
+      "swap_interval_requested": 0,
+      "viewport_width": 1920,
+      "viewport_height": 1080,
+      "framebuffer_width": 1920,
+      "framebuffer_height": 1080
+    },
+    {
+      "client_metrics": true,
+      "cpu_samples": 600,
+      "gpu_samples": 592,
+      "cpu_frame_mean_ms": 1.028979,
+      "cpu_frame_p95_ms": 1.298963,
+      "cpu_frame_p99_ms": 1.581085,
+      "gpu_draw_mean_ms": 0.942775,
+      "gpu_draw_p95_ms": 1.144895,
+      "gpu_draw_p99_ms": 1.165208
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "simulation",
+      "samples": 600,
+      "mean_ms": 0.01141,
+      "p95_ms": 0.033794,
+      "p99_ms": 0.047686,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "render_routes",
+      "samples": 600,
+      "mean_ms": 0.596331,
+      "p95_ms": 0.758494,
+      "p99_ms": 0.92396,
+      "clock_errors": 0
+    },
+    {
+      "client_phase_metrics": true,
+      "phase": "audio_pump",
+      "samples": 600,
+      "mean_ms": 0.201905,
+      "p95_ms": 0.227678,
+      "p99_ms": 0.25033,
+      "clock_errors": 0
+    },
+    {
+      "client_pacing": true,
+      "frame_cap_requested": 60,
+      "waits": 599,
+      "late_rebases": 0,
+      "clock_errors": 0,
+      "work_metrics_exclude_cap_wait": true
+    },
+    {
+      "visibility_census": true,
+      "visible_actors": 410,
+      "visible_high": 18,
+      "visible_low": 391,
+      "visible_markers": 1,
+      "individually_detailed_actors": 409,
+      "width": 1920,
+      "height": 1080,
+      "source_tick": 303,
+      "invalid_codes": 0,
+      "readback_reduce_ms": 9.524123,
+      "scope": "opaque world depth before translucent cosmetics and HUD; opaque weapon occlusion included",
+      "authority_readonly": true,
+      "authority_before": "9172f684b4a6590b",
+      "authority_after": "9172f684b4a6590b"
+    },
+    {
+      "battle_metrics": true,
+      "samples": 600,
+      "simultaneous_projectiles_effects_audio_frames": 0,
+      "peak_living": 8192,
+      "peak_engaged": 0,
+      "peak_projectiles": 0,
+      "peak_submitted_high": 102,
+      "peak_submitted_low": 2579,
+      "peak_submitted_markers": 0,
+      "peak_effect_records": 60,
+      "peak_trail_records": 0,
+      "peak_audio_voices": 128,
+      "initial_living": 8192,
+      "visible_individual_count": "unmeasured",
+      "scope": "frame samples; independent peaks need not coincide; submitted models are not pixel visibility"
+    },
+    {
+      "listen_host": true,
+      "port": 60082,
+      "child_pid": 1752368,
+      "child_exited": 1,
+      "startup_failed": 0
+    }
+  ],
+  "actual_renderer": "Mesa Intel(R) Arc(tm) A770 Graphics (DG2)",
+  "regression_scope": "Earlier linked candidate2de24cdaaa8d684b398b268c1748c01a7e489a700f2bba203b82f2c9215d9515 passed host/presentation/real8192graphics/controlled100msfeedback. Final candidate adds explicit missing-companion diagnostic and repeated-start rejection; final lifecycle and native CLI pass. Exact hashes/logs preserved; main rebuild checks required.",
+  "failures": [
+    "Initial assembly referenced nonexistent main.finish; corrected existing main.done, no gate waiver.",
+    "First repeated guest test raced host startup and guest correctly became player0; observer now waits accepted host join using readonly process-memory net state before launching player1. Original failure retained."
+  ],
+  "limitations": [
+    "Explicit listen opt-in; default synchronous solo unchanged",
+    "Default server scene only; no1024-visible dense stress proven",
+    "Two graphical clients, not full1-4playeroperation",
+    "Null audio and hidden native window, full-frame latency/operation soak unmeasured",
+    "SIGKILL parent terminates child through kernel; orphan reaping belongs to init, zombie observed",
+    "No Windows host, host/join menu, saved authority continuation or new interpolation/prediction"
+  ],
+  "changed_source_hashes": {
+    "src/platform/linux/listen_host.asm": "313c2365892c0eadf4f9ad076284600d981cd847a68bfc20ba12b3ba43ad1d41",
+    "src/platform/linux/client.asm": "c5ff1160e9639b8a5bb326742cc4e401a23abf262a7ac7a6ea9e702ef2414ba8",
+    "tools/dev.py": "bd55140e24aa953fa633c8ad33687ac9a295601ca8afaef2fbb192becd11dfe7",
+    "tests/test_listen_host.py": "a0863b50f6bcbe1559a1b2658d1a0a799c30226d596ddd2983dce7e97b9f4cd3"
+  }
+}

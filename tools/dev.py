@@ -56,7 +56,7 @@ def build_locked(target,objects_only=False):
     elif target=='coop':
         sources += [ROOT/'src/net/coop_server.asm']; libs=['-lm']; executable_name='red-horizon-coop-server'
     elif target=='client':
-        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm',ROOT/'src/platform/linux/input_bindings.asm',ROOT/'src/platform/linux/frame_pacing.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
+        sources += list((ROOT/'src/render').glob('*.asm'))+list((ROOT/'src/audio').glob('*.asm'))+[ROOT/'src/platform/linux/client.asm',ROOT/'src/platform/linux/input_bindings.asm',ROOT/'src/platform/linux/frame_pacing.asm',ROOT/'src/platform/linux/listen_host.asm']+([ROOT/'src/net/client.asm'] if (ROOT/'src/net/client.asm').exists() else []); libs=['-Wl,-l:libglfw.so.3','-lGL','-lm','-lasound']; executable_name='red-horizon'
     else: raise RuntimeError('Unsupported target')
     if not sources or any(not s.exists() for s in sources): raise RuntimeError(f'{target} sources not integrated yet')
     objects=[]; assembled=0
@@ -195,7 +195,7 @@ def gpu_benchmark(args):
         raise RuntimeError('--frame-cap must be30..240Hz')
     if not os.environ.get('DISPLAY'):
         raise RuntimeError('Hardware GPU benchmark requires an accessible X11/XWayland DISPLAY')
-    if args.connect:
+    if args.connect or getattr(args,'listen',False):
         raise RuntimeError('Hardware GPU benchmark currently measures local solo only')
     scenario_args=client_scenario_args(args)
     if args.units not in (None,8192) or args.seed!=42:
@@ -322,7 +322,7 @@ def main():
     q=sub.add_parser('collect'); q.add_argument('job_id')
     q=sub.add_parser('build'); q.add_argument('--target',choices=['headless','client','coop'],default='headless'); q.add_argument('--changed',action='store_true'); q.add_argument('--objects-only',action='store_true'); q.add_argument('--background',action='store_true')
     for name in ('run','server','bench'):
-        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--hidden',action='store_true'); q.add_argument('--no-vsync',action='store_true'); q.add_argument('--frame-cap',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--bindings'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
+        q=sub.add_parser(name); q.add_argument('--scenario',choices=list(SCENARIOS),default='scale-open'); q.add_argument('--units',type=int); q.add_argument('--ticks',type=int,default=300); q.add_argument('--seed',type=int,default=1); q.add_argument('--realtime',action='store_true'); q.add_argument('--headless',action='store_true'); q.add_argument('--client',action='store_true'); q.add_argument('--frames',type=int); q.add_argument('--hidden',action='store_true'); q.add_argument('--no-vsync',action='store_true'); q.add_argument('--frame-cap',type=int); q.add_argument('--census',action='store_true'); q.add_argument('--census-map'); q.add_argument('--screenshot'); q.add_argument('--tactical',action='store_true'); q.add_argument('--weather',choices=['clear','overcast','rain','fog']); q.add_argument('--width',type=int); q.add_argument('--height',type=int); q.add_argument('--fov',type=float); q.add_argument('--sensitivity',type=float); q.add_argument('--bindings'); q.add_argument('--listen',action='store_true'); q.add_argument('--connect'); q.add_argument('--port',type=int,default=7777); q.add_argument('--background',action='store_true')
     q=sub.add_parser('coop'); q.add_argument('--port',type=int,default=7777); q.add_argument('--ticks',type=int,default=0); q.add_argument('--units',type=int,default=8192); q.add_argument('--background',action='store_true')
     q=sub.add_parser('test'); q.add_argument('--suite',choices=['all','fast','simulation','operation','waypoints','terrain','navigation','aircraft','player','tactics','combat','vehicles','effects','hazards','ordnance','air-admission','crowd','controller-crowd','ground-motion','ground-surfaces','terrain-body','terrain-grade','ground-support','wrecks','reload','audio','network','tools','graphics','headless'],default='all'); q.add_argument('--extended',action='store_true'); q.add_argument('--background',action='store_true')
     q=sub.add_parser('reload'); q.add_argument('--background',action='store_true')
@@ -332,12 +332,16 @@ def main():
     if args.command in ('doctor','configure'): doctor()
     elif args.command=='build': build(args.target,args.objects_only)
     elif args.command in ('run','server','bench'):
-        if (args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity/--bindings/--hidden/--no-vsync/--frame-cap require --client')
+        if (args.listen or args.weather or client_view_args(args)) and not args.client: raise RuntimeError('--weather/--width/--height/--fov/--sensitivity/--bindings/--hidden/--no-vsync/--frame-cap/--listen require --client')
         if args.command=='bench' and args.client:
             gpu_benchmark(args)
         elif args.client:
             scenario_args=client_scenario_args(args)
-            exe=build('client'); cmd=[str(exe),*client_view_args(args)];
+            exe=build('client');
+            if args.listen:
+                if args.connect or args.scenario!='scale-open': raise RuntimeError('--listen requires scale-open and no --connect')
+                build('coop')
+            cmd=[str(exe),*client_view_args(args),*(['--listen'] if args.listen else [])];
             if args.frames: cmd+=['--frames',str(args.frames)]
             if census_requested(args): cmd.append('--census')
             if args.census_map: cmd+=['--census-map',str(pathlib.Path(args.census_map).resolve())]
@@ -610,6 +614,8 @@ def main():
             execute([sys.executable,'tests/test_graphics.py',str(client)])
             execute([sys.executable,'tests/test_client_presentation.py',str(client)])
             execute([sys.executable,'tests/test_frame_pacing.py'])
+            build('coop')
+            execute([sys.executable,'tests/test_listen_host.py',str(client)])
             execute([sys.executable,'tests/test_mesh_material_gl.py',str(client)])
             execute([sys.executable,'tests/test_hdr_gl.py',str(client)])
             execute([sys.executable,'tests/test_wreck_instance.py'])

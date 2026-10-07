@@ -1,4 +1,5 @@
 ; Linux SysV client. GLFW provides only OS window/context/input services.
+extern listen_host_start,listen_host_check,listen_host_stop,listen_host_report,listen_host_port
 default rel
 %include "schemas/player.inc"
 %include "schemas/player_ammunition.inc"
@@ -106,6 +107,9 @@ no_vsync_opt: db '--no-vsync',0
 census_opt: db '--census',0
 census_map_opt: db '--census-map',0
 map_opt: db '--tactical',0
+listen_failure_text: db 'Listen authority startup failed: keep red-horizon-coop-server beside the client.',0
+listen_opt: db '--listen',0
+loopback_address: db '127.0.0.1',0
 connect_opt: db '--connect',0
 port_opt: db '--port',0
 bindings_opt: db '--bindings',0
@@ -114,7 +118,7 @@ bindings_line_fmt: db 'Binding failure at or after line %u (0 means file access/
 help_opt: db '--help',0
 presentation_fmt: db '{"client_presentation":true,"hidden":%u,"swap_interval_requested":%u,"viewport_width":%u,"viewport_height":%u,"framebuffer_width":%u,"framebuffer_height":%u}',10,0
 render_device_fmt: db 'client_render_device=%s',10,0
-help_text: db 'RED HORIZON: [--hidden --frames 1..10000] [--no-vsync] [--frame-cap 30..240] [--bindings FILE] [--connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'DEFAULTS: WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
+help_text: db 'RED HORIZON: [--hidden --frames 1..10000] [--no-vsync] [--frame-cap 30..240] [--bindings FILE] [--listen | --connect IPv4 --port 7777] [--weather clear|overcast|rain|fog] [--scenario scale-open|air-battle|scale-front|scale-hotspot] [--width 320..3840 --height 240..2160 --fov 35..110 --sensitivity 0.00001..0.05] [--tactical] [--frames N --screenshot PATH.ppm] [--census --census-map PATH.r32ui]',10,'DEFAULTS: WASD move; Shift sprint; Ctrl crouch; Space jump; E board armor / Q exit; mouse aim / held left rifle; R reload; Tab map; F1-F3 front; 1/2/3/4 advance/hold/retreat/follow; hold middle mouse command wheel; map left-click waypoint; F4 weather; Escape quit.',10,'Health green / suppression amber / redeploy red. Co-op commands require your assigned company front; snapshots cover your current region.',0
 transfer_none: db '%s/%s/%s/%s: EXCHANGE P0-P3 | %s: CANCEL',0
 transfer_offer_fmt: db 'P%u OFFERS COMPANY EXCHANGE | %s ACCEPT | %s DECLINE | %s CANCEL',0
 transfer_changed: db 'COMPANY ASSIGNMENT UPDATED',0
@@ -275,6 +279,9 @@ local_player: resd 1
 connect_address: resq 1
 global network_mode
 network_mode: resd 1
+listen_mode: resd 1
+listen_failed: resd 1
+port_option_seen: resd 1
 global client_hidden,client_no_vsync,client_frame_cap
 client_frame_cap: resd 1
 client_hidden: resd 1
@@ -510,10 +517,23 @@ main:
  jmp .nextarg
 .connectarg:
  mov rdi,[r13+rbx*8]
+ lea rsi,[listen_opt]
+ call strcmp
+ test eax,eax
+ jnz .remoteconnectarg
+ cmp dword [network_mode],0
+ jne .fail
+ mov dword [network_mode],1
+ mov dword [listen_mode],1
+ jmp .nextarg
+.remoteconnectarg:
+ mov rdi,[r13+rbx*8]
  lea rsi,[connect_opt]
  call strcmp
  test eax,eax
  jnz .portarg
+ cmp dword [listen_mode],0
+ jne .fail
  inc ebx
  cmp ebx,r12d
  jge .fail
@@ -527,6 +547,7 @@ main:
  call strcmp
  test eax,eax
  jnz .weatherarg
+ mov dword [port_option_seen],1
  inc ebx
  cmp ebx,r12d
  jge .fail
@@ -675,6 +696,23 @@ main:
 .networkinit:
  cmp dword [scenario_mode],0
  jne .fail
+ cmp dword [listen_mode],0
+ je .openremote
+ cmp dword [port_option_seen],0
+ jne .fail
+ call listen_host_start
+ test eax,eax
+ jz .listenstarted
+ lea rdi,[listen_failure_text]
+ call puts
+ mov eax,1
+ jmp .exit
+.listenstarted:
+ lea rax,[loopback_address]
+ mov [connect_address],rax
+ mov eax,[listen_host_port]
+ mov [server_port],eax
+.openremote:
  mov rdi,[connect_address]
  mov esi,[server_port]
  call net_client_open
@@ -887,6 +925,14 @@ main:
  call audio_update
  mov edi,2
  call metrics_phase_end
+ cmp dword [listen_mode],0
+ je .listenalive
+ call listen_host_check
+ test eax,eax
+ jz .listenalive
+ mov dword [listen_failed],1
+ jmp .done
+.listenalive:
  call glfwPollEvents
  call bindings_frame_begin
  cmp dword [network_mode],0
@@ -1487,6 +1533,15 @@ main:
  je .closed
  call net_client_close
 .closed:
+ cmp dword [listen_mode],0
+ je .hostclosed
+ call listen_host_stop
+ call listen_host_report
+.hostclosed:
+ cmp dword [listen_failed],0
+ je .hoststatus
+ mov ebx,1
+.hoststatus:
  mov eax,ebx
  add rsp,8
  pop r15
