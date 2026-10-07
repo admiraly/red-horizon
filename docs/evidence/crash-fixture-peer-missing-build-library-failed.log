@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/mnt/titan_nv3/projects/red-horizon-workers/crash-fixture-peer/tests/test_air_crash_client.py", line 8, in <module>
+    world=C.CDLL(str(LIB));world.ground_support.argtypes=[C.c_void_p,C.c_uint,C.c_uint,C.c_float,C.c_float,C.c_float];world.ground_support.restype=C.c_int
+  File "/usr/lib64/python3.14/ctypes/__init__.py", line 433, in __init__
+    self._handle = self._load_library(name, mode, handle, winmode)
+                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.14/ctypes/__init__.py", line 475, in _load_library
+    return _dlopen(name, mode)
+OSError: /mnt/titan_nv3/projects/red-horizon/runs/jobs/7c5eabd30950/source/build/libcoopclient.so: cannot open shared object file: No such file or directory

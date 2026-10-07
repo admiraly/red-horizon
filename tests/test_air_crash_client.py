@@ -43,14 +43,24 @@ try:
   def u32(name):
    try:return struct.unpack('<I',get(name,4))[0]
    except (OSError,struct.error):return 0
+  peer_packets=0;peer_last_send=0.
+  def keep_peer_alive(force=False):
+   global peer_packets,peer_last_send
+   if network and (force or time.monotonic()-peer_last_send>=.5):
+    # The synthetic authority must stay live while pixel readback/replay work
+    # pauses rendering. Empty real event batches retain the observed clock;
+    # no pose, HP, wreck, generation or future server tick is manufactured.
+    send(struct.pack('<I',0),u32('net_server_tick'),102)
+    peer_packets+=1;peer_last_send=time.monotonic()
   def until(predicate):
    deadline=time.monotonic()+15
    while time.monotonic()<deadline:
+    keep_peer_alive()
     if predicate():return
     if process.poll() is not None:
      log.seek(0);raise AssertionError(dict(client_exit=process.returncode,client_log=log.read().decode(errors='replace')))
     time.sleep(.02)
-   raise AssertionError('client frame timeout')
+   raise AssertionError({'client_frame_timeout':True,'connected':u32('net_connected'),'frames':u32('frame_count'),'server_tick':u32('net_server_tick'),'last_receive_ms':struct.unpack('<Q',get('last_receive',8))[0],'monotonic_ms':time.monotonic()*1000})
   def stop():os.kill(process.pid,signal.SIGSTOP);_,status=os.waitpid(process.pid,os.WUNTRACED);assert os.WIFSTOPPED(status)
   def put(name,bytes):os.pwrite(memory,bytes,symbols[name])
   until(lambda:u32('frame_count')>=4);stop();put('thirty',struct.pack('<d',1e30));put('accum',struct.pack('<d',0));frame=u32('frame_count');os.kill(process.pid,signal.SIGCONT);until(lambda:u32('frame_count')>=frame+3);stop()
@@ -70,6 +80,7 @@ try:
   def capture(label,source_record=None,instances=0,instance_bytes=None):
    deadline=time.monotonic()+15
    while True:
+    keep_peer_alive(force=True)
     os.kill(process.pid,signal.SIGCONT)
     if network and source_record is not None:
      until(lambda:get('net_air_crashes',96)==source_record)
@@ -127,7 +138,7 @@ try:
     assert changed>25 if active else changed==0,(role,label,changed)
     assert ticks==u32('local_sim_ticks')
     rows.append(dict(role=role,phase=label,source_tick=tick,changed_pixels=changed,instances=active,screenshot=path))
-  print(json.dumps(dict(suite='air-crash-client-draw',passed=True,network_transport=network,client_sha256=hashlib.sha256(EXE.read_bytes()).hexdigest(),cases=rows,living_instance_counts_unchanged=True,source_unchanged=True,scope='Actual client GL draw of genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance.')))
+  print(json.dumps(dict(suite='air-crash-client-draw',passed=True,network_transport=network,synthetic_peer_keepalive_datagrams=peer_packets,client_sha256=hashlib.sha256(EXE.read_bytes()).hexdigest(),cases=rows,living_instance_counts_unchanged=True,source_unchanged=True,scope='Actual client GL draw of genuine separate public-cannon authority samples, two initial role fixtures, no replay-body renewal. Frozen cosmetic paired background clears presentation cache; UDP case then receives genuine pose through actual parser before completed draw, relocating birth/sequence only between independent role fixtures. Live authority/client synchronisation separate. Software GL, no spectacle/timing acceptance.')))
 
 finally:
  if relay:relay.close()
