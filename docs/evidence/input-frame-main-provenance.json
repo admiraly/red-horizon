@@ -1,0 +1,35 @@
+{
+  "build": {
+    "target": "client",
+    "revision": "b6af72be6a2d591bf572888989fd06ce223002e7-1ec3835d3bd1aa40",
+    "assembled": 2,
+    "assembled_sources": [
+      "src/platform/linux/client.asm",
+      "src/platform/linux/input_bindings.asm"
+    ],
+    "seconds": 0.9667286379990401,
+    "executable": "/mnt/titan_nv3/projects/red-horizon/build/revisions/b6af72be6a2d591bf572888989fd06ce223002e7-1ec3835d3bd1aa40/red-horizon"
+  },
+  "binary_sha256": "c60450815b05384be2f1e90049ca1262eb56c258a8a8e098706c007aa7b79080",
+  "actual_main_paused_tap": {
+    "suite": "input-between-frame-tap",
+    "passed": true,
+    "report": {
+      "physical_press_release_queued_between_frames": true,
+      "selected_front": 0,
+      "legacy_lost_tap": false,
+      "observer_memory_writes": false
+    }
+  },
+  "corrected_graphics_source_matches": {
+    "src/platform/linux/client.asm": true,
+    "src/platform/linux/input_bindings.asm": true,
+    "tests/test_input_frames.py": true,
+    "tests/probe_input_frames.asm": true,
+    "tests/test_controls.py": true,
+    "tests/test_client_company.py": true,
+    "tools/dev.py": true
+  },
+  "full_checkpoint": "9b146e52e046",
+  "scope": "Focused integrated main regression and exact source match; graphics/full remain running. Fast snapshot excludes later ABI and acknowledged-toggle test-only additions, separately passed."
+}

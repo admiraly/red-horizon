@@ -7,8 +7,11 @@
     "--suite",
     "fast"
   ],
-  "status": "running",
+  "status": "passed",
   "log": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/17e20870f134/job.log",
   "result": "/mnt/titan_nv3/projects/red-horizon-workers/input-taps/runs/jobs/17e20870f134/result.json",
-  "pid": 3607300
+  "pid": 3607300,
+  "exit_code": 0,
+  "seconds": 406.3877604580048,
+  "collected": true
 }
